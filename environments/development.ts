@@ -13,6 +13,7 @@ console.time("Environment deployed in");
 
 const series:Uint8Array[] = Array.from({length: 5}, () => ethers.utils.randomBytes(6));
 const ilks: string[] = ['DAI', 'USDC', 'USDT']
+const bases: string[] = ['DAI', 'USDC']
 
 const externalTestAccounts = [
     "0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7",
@@ -24,47 +25,27 @@ const fundExternalAccounts = async (assetList:Map<string, any>) => {
         externalTestAccounts.map((to:string)=> {
             /* add test Eth */
             ownerAcc.sendTransaction({to,value: ethers.utils.parseEther("100")})
-            /* add test asset[] values */
+            /* add test asset[] values (if not ETH) */
             assetList.forEach(async (value:any, key:any)=> {
-                await value.transfer(to, ethers.utils.parseEther("1000")); 
+                if (key !== '0x455448000000') await value.transfer(to, ethers.utils.parseEther("1000")); 
             })
         })
     )
     console.log('External accounts funded with 100ETH, and 1000 of each asset')
 };
 
-/* Update the available series based on Cauldron events */
-// const getDeployedSeries = async (cauldronAddress:string): Promise<string[]> => {
-//     const cauldron: Cauldron = (await ethers.getContractAt('Cauldron', cauldronAddress ) as unknown) as Cauldron; 
-//     /* get both serieAdded events */
-//     const seriesAddedEvents = await cauldron.queryFilter('SeriesAdded' as any);
-//     /* Get the seriesId */
-//     return Promise.all(
-//         seriesAddedEvents.map(async (x:any) : Promise<string> => {
-//             const { seriesId: id, baseId, fyToken } = cauldron.interface.parseLog(x).args;
-//              return fyToken;
-//             }
-//         )
-//     )
-// }
-
-// const linkPool = async (pool: Pool, ladleAddress: string) => {
-//     const [ ownerAcc ] = await ethers.getSigners();
-//     const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc);
-//     const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken()) as unknown) as FYToken;
-//     const seriesId = await fyToken.name()
-//     await ladle.addPool(seriesId, pool.address)
-// }
-
 const fixture = async () =>  {
     const [ ownerAcc ] = await ethers.getSigners();
+
+    // const maturity = now + THREE_MONTHS * count++
     
     const vaultEnv = await VaultEnvironment.setup(
         ownerAcc,
-        ilks.map((ilk:string) => ethers.utils.isAddress(ilk)? ilk : ethers.utils.formatBytes32String(ilk).slice(0, 14) ),
-        series.map((series:Uint8Array ) => ethers.utils.hexlify(series))
+        ilks,
+        bases, 
+        // maturities,
+        series.map((series:Uint8Array ) => ethers.utils.hexlify(series)),
     )
-
     return vaultEnv
 }
 
