@@ -284,7 +284,8 @@ export class VaultEnvironment {
     owner: SignerWithAddress,
     assetList: Array<string>,
     baseList: Array<string>,
-    maturities: Array<number>,
+    seriesIds: Array<string>,
+    //  maturities: Array<number>,
     // oracleMap: Map<string,string> = new Map([])
   ) {
     const ownerAdd = await owner.getAddress()
