@@ -1,5 +1,5 @@
 import { ethers, waffle } from 'hardhat'
-import {BigNumber} from 'ethers';
+import { BigNumber } from 'ethers';
 
 import { VaultEnvironment } from '../fixtures/vault'
 
