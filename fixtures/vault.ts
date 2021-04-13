@@ -3,16 +3,16 @@ import { BaseProvider } from '@ethersproject/providers'
 import { id } from '@yield-protocol/utils'
 import { DEC6, WAD, RAY, THREE_MONTHS } from '../shared/constants'
 
-import CauldronArtifact from '../artifacts/contracts/Cauldron.sol/Cauldron.json'
-import FYTokenArtifact from '../artifacts/contracts/FYToken.sol/FYToken.json'
+import CauldronArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
+import FYTokenArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/FYToken.sol/FYToken.json'
 
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
 import WETH9MockArtifact from '../artifacts/contracts/mocks/WETH9Mock.sol/WETH9Mock.json'
 
 import OracleMockArtifact from '../artifacts/contracts/mocks/OracleMock.sol/OracleMock.json'
-import JoinArtifact from '../artifacts/contracts/Join.sol/Join.json'
-import LadleArtifact from '../artifacts/contracts/Ladle.sol/Ladle.json'
-import WitchArtifact from '../artifacts/contracts/Witch.sol/Witch.json'
+import JoinArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
+import LadleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
+import WitchArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Witch.sol/Witch.json'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { FYToken } from '../typechain/FYToken'
@@ -34,7 +34,7 @@ import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 const { deployContract } = waffle
 
-export class YieldEnvironment {
+export class VaultEnvironment {
   owner: SignerWithAddress
   cauldron: Cauldron
   ladle: Ladle
@@ -368,6 +368,6 @@ export class YieldEnvironment {
       vaults.set(seriesId, seriesVaults)
     }
 
-    return new YieldEnvironment(owner, cauldron, ladle, witch, assets, oracles, series, pools, joins, vaults, poolRouter)
+    return new VaultEnvironment(owner, cauldron, ladle, witch, assets, oracles, series, pools, joins, vaults, poolRouter)
   }
 }
