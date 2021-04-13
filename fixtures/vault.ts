@@ -11,8 +11,6 @@ import WitchArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Witch
 import CauldronArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
 import FYTokenArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/FYToken.sol/FYToken.json'
 
-import ERC20Artifact from '../artifacts/@yield-protocol/utils/contracts/token/ERC20.sol/ERC20.json'
-
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
 import WETH9MockArtifact from '../artifacts/contracts/mocks/WETH9Mock.sol/WETH9Mock.json'
 import OracleMockArtifact from '../artifacts/contracts/mocks/OracleMock.sol/OracleMock.json'
@@ -284,9 +282,8 @@ export class VaultEnvironment {
     owner: SignerWithAddress,
     assetList: Array<string>,
     baseList: Array<string>,
-    seriesIds: Array<string>,
-    //  maturities: Array<number>,
-    // oracleMap: Map<string,string> = new Map([])
+    maturities: Array<number>,
+    buildVaults: boolean = true,
   ) {
     const ownerAdd = await owner.getAddress()
 
@@ -305,7 +302,6 @@ export class VaultEnvironment {
     await this.cauldronLadleAuth(owner, cauldron, ownerAdd)
     await this.ladleGovAuth(owner, ladle, ownerAdd)
     await this.ladleWitchAuth(owner, ladle, ownerAdd)
-
 
     // ==== Add assets and joins ====
     const assets: Map<string, ERC20|ERC20Mock> = new Map()
@@ -346,7 +342,7 @@ export class VaultEnvironment {
 
     for ( let baseSymbol of baseList ) {
 
-      // ==== Get Base contract, and Ilks  ===
+      // ==== Get Base contract, and Ilks  ====
       const baseId = ethers.utils.formatBytes32String(baseSymbol).slice(0, 14) // TODO add in check if base symbol is indeed part of the assetList
       // Get a list of the Ilks from the assets map, filtered by the id of the base
       const ilkIds =  Array.from(assets.keys()).filter((x:string) => x !== baseId )
@@ -372,14 +368,10 @@ export class VaultEnvironment {
 
       // ==== Add series and pools ====
       // For each series identifier we create a fyToken with the first asset as underlying.
-      // The maturities for the fyTokens are in three month intervals, starting three months from now
-      const provider: BaseProvider = await ethers.provider 
+      for (let maturity of maturities) {
 
-      const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
-      let count: number = 1
-      for (let seriesId of seriesIds) {
-        const maturity = now + THREE_MONTHS * count++
-        // const seriesId = `${baseId}${maturity}`.
+        const seriesId = ethers.utils.hexlify(ethers.utils.randomBytes(6))
+
         const fyToken = await this.addSeries(owner, cauldron, ladle, baseJoin, chiOracle, seriesId, baseId, ilkIds, maturity) as FYToken
         series.set(seriesId, fyToken)
         await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ownerAdd) // Only test environment
@@ -389,22 +381,20 @@ export class VaultEnvironment {
         const baseMap = pools.get(baseId) || new Map();
         const pool = await this.addPool(owner, ladle, baseContract, fyToken, seriesId, factory)
         pools.set(baseId, baseMap.set(seriesId, pool ))
-      }
 
-      // ==== Build some vaults ====
-      // For each series and ilk we create a vault - vaults[seriesId][ilkId] = vaultId
-      for (let seriesId of seriesIds) {
-        const seriesVaults: Map<string, string> = new Map()
-
-        for (let ilkId of ilkIds) {
-          await cauldron.build(ownerAdd, ethers.utils.hexlify(ethers.utils.randomBytes(12)), seriesId, ilkId)
-          const vaultEvents = (await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null)))
-          const vaultId = vaultEvents[vaultEvents.length - 1].args.vaultId
-          seriesVaults.set(ilkId, vaultId)
+      // ==== Finally, build some vaults (if requested ) ====
+        // For each series and ilk we create a vault - vaults[seriesId][ilkId] = vaultId
+        if ( buildVaults ) { 
+          const seriesVaults: Map<string, string> = new Map()
+          for (let ilkId of ilkIds) {
+            await cauldron.build(ownerAdd, ethers.utils.hexlify(ethers.utils.randomBytes(12)), seriesId, ilkId)
+            const vaultEvents = (await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null)))
+            const vaultId = vaultEvents[vaultEvents.length - 1].args.vaultId
+            seriesVaults.set(ilkId, vaultId)
+          }
+          vaults.set(seriesId, seriesVaults)
         }
-        vaults.set(seriesId, seriesVaults)
       }
-
   }
 
     return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults )
