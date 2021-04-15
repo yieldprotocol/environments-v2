@@ -49,8 +49,6 @@ export class VaultEnvironment {
   pools: Map<string, Pool| Map<string, Pool> >
   joins: Map<string, Join>
   vaults: Map<string, Map<string, string>>
-
-  funders: Map<string,string>
   
   constructor(
     owner: SignerWithAddress,
@@ -65,8 +63,6 @@ export class VaultEnvironment {
     pools: Map<string, Pool | Map<string, Pool> >,
     joins: Map<string, Join>,
     vaults: Map<string, Map<string, string>>,
-
-    funders: Map<string,string>
     
   ) {
     this.owner = owner
@@ -81,8 +77,6 @@ export class VaultEnvironment {
     this.pools = pools
     this.joins = joins
     this.vaults = vaults
-
-    this.funders = funders
   }
 
   public static async cauldronGovAuth(owner: SignerWithAddress, cauldron: Cauldron, receiver: string) {
@@ -426,6 +420,6 @@ export class VaultEnvironment {
       }
   }
 
-    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults, funders )
+    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults )
   }
 }

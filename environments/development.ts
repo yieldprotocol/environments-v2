@@ -2,6 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import { BaseProvider } from '@ethersproject/providers'
 import { VaultEnvironment } from '../fixtures/vault'
 import { THREE_MONTHS } from '../shared/constants';
+import { transferFromFunder } from '../shared/helpers';
 
 /**
  * 
@@ -50,6 +51,7 @@ const generateMaturities = async (n:number) => {
 }
 
 const fundExternalAccounts = async (assetList:Map<string, any>) => {
+
     const [ ownerAcc ] = await ethers.getSigners();
     await Promise.all(
         externalTestAccounts.map((to:string)=> {
@@ -57,7 +59,9 @@ const fundExternalAccounts = async (assetList:Map<string, any>) => {
             ownerAcc.sendTransaction({to,value: ethers.utils.parseEther("100")})
             /* add test asset[] values (if not ETH) */
             assetList.forEach(async (value:any, key:any)=> {
-                if (key !== '0x455448000000') await value.transfer(to, ethers.utils.parseEther("1000")); 
+                if (key !== '0x455448000000') {
+                    await value.transfer(to, ethers.utils.parseEther("1000"))
+                }
             })
         })
     )
@@ -104,9 +108,6 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
             console.log(`"${k}" : "${v.address}",`)
         })
     })
-
-    console.log('Funders/Whales:')
-    vaultEnv.funders.forEach((value:any, key:any)=>{ console.log(`"${key}" : "${value.address}",` ) })
 
     await fundExternalAccounts(vaultEnv.assets);
 
