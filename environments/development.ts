@@ -9,7 +9,7 @@ import { THREE_MONTHS } from '../shared/constants';
  * 
  * Change these parameters/lists:
  * 
- * ilks: symbol string OR address of predeployed token 
+ * ilks: symbol string OR address of predeployed token  AND a whale account for funding test tokens
  * bases: symbol string only 
  * maturities: leave blank for autogeneration 
  * externalTestAccounts: add any account to be funded with test ETH and tokens
@@ -17,12 +17,20 @@ import { THREE_MONTHS } from '../shared/constants';
  * numberOfMaturities: number of maturities to generate ( only applicable if maturities[] is empty )
  * 
  */
- const ilks: string[] = ['DAI', 'USDC', 'USDT']
- const bases: string[] = ['DAI', 'USDC']
+ const ilks: string[][] =  [ 
+     ['0x6b175474e89094c44da98b954eedeac495271d0f', '0x13aec50f5d3c011cd3fed44e2a30c515bd8a5a06' ],  // DAI + funderAcc
+     //['0xdac17f958d2ee523a2206206994597c13d831ec7', '0xb3f923eabaf178fc1bd8e13902fc5c61d3ddef5b'],  // USDT  + funderAcc
+     //['0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', '0x269d74be03b635e73c5f2454f6baa41ced16406e'], // WBTC + funderAcc
+     //['0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', '0xb045fa6893b26807298e93377cbb92d7f37b19eb'], // UNI + funderAcc
+     ['USDC',''],
+     ['USDT',''],
+     ['TST', ''], // mock token example ( tokens are minted, no funder needed)
+    ]
+ const bases: string[] = ['DAI']
  const maturities: number[] = []
  const externalTestAccounts = [ "0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7" ]
  const buildVaults = false
- const numberOfMaturities = 6
+ const numberOfMaturities = 5
  /**
  * 
  * run:
@@ -33,11 +41,11 @@ import { THREE_MONTHS } from '../shared/constants';
 const { loadFixture } = waffle
 console.time("Environment deployed in");
 
-const generateMaturities = async (num:number) => {
+const generateMaturities = async (n:number) => {
     const provider: BaseProvider = await ethers.provider 
     const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
     let count: number = 1
-    const maturities = Array.from({length: num}, () => now + THREE_MONTHS * count++ );
+    const maturities = Array.from({length: n}, () => now + THREE_MONTHS * count++ );
     return maturities;
 }
 
@@ -62,7 +70,7 @@ const fixture = async () =>  {
         ownerAcc,
         ilks,
         bases, 
-        maturities.length ? maturities : await generateMaturities(6), // if maturities list is empty, generate them
+        maturities.length ? maturities : await generateMaturities(numberOfMaturities), // if maturities list is empty, generate them
         buildVaults
     )
     return vaultEnv
@@ -96,6 +104,9 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
             console.log(`"${k}" : "${v.address}",`)
         })
     })
+
+    console.log('Funders/Whales:')
+    vaultEnv.funders.forEach((value:any, key:any)=>{ console.log(`"${key}" : "${value.address}",` ) })
 
     await fundExternalAccounts(vaultEnv.assets);
 
