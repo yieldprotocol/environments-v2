@@ -26,7 +26,7 @@ describe('FYToken', function () {
   let ladle: Ladle
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
-  let seriesId = '0xfb1109617c0e'
+  let seriesId = '0x2ebda99c37f3'
   let ilkId = '0x555344430000'
 
   it('test all', async () => {
@@ -40,8 +40,8 @@ describe('FYToken', function () {
     ladle = (await ethers.getContractAt('Ladle', '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512')) as Ladle
     base = (await ethers.getContractAt('ERC20Mock', '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1')) as ERC20Mock
     baseJoin = (await ethers.getContractAt('Join', '0x3Aa5ebB10DC797CAC828524e59A333d0A371443c')) as Join
-    fyToken = (await ethers.getContractAt('FYToken', '0x162A433068F51e18b7d13932F27e66a3f99E6890')) as FYToken
-    chiOracle = (await ethers.getContractAt('OracleMock', '0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575')) as OracleMock // chi oracle
+    fyToken = (await ethers.getContractAt('FYToken', '0x36b58F5C1969B7b6591D752ea6F5486D069010AB')) as FYToken
+    chiOracle = (await ethers.getContractAt('OracleMock', '0x1429859428C0aBc9C2C47C8Ee9FBaf82cFA0F20f')) as OracleMock // chi oracle
 
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
 
@@ -53,7 +53,6 @@ describe('FYToken', function () {
 
     await base.approve(baseJoin.address, WAD.mul(2))
     await baseJoin.join(owner, WAD.mul(2)) // This loads the base join to serve redemptions
-
 
     // it('does not allow to mature before maturity', async () => {
     await expect(fyToken.mature()).to.be.revertedWith('Only after maturity')
@@ -67,22 +66,19 @@ describe('FYToken', function () {
     // it('does not allow to mint after maturity', async () => {
     await expect(fyToken.mint(owner, WAD)).to.be.revertedWith('Only before maturity')
 
-
-    // it('does not allow to redeem before chi is recorded', async () => {
-    await expect(fyToken.redeem(owner, WAD)).to.be.revertedWith('No recorded spot')
-
     // it('matures by recording the chi value', async () => {
     const maturity = await fyToken.maturity()
-      expect(await fyToken.mature())
-        .to.emit(chiOracle, 'Recorded')
-        .withArgs(maturity, DEC6)
+
+    expect(await fyToken.mature())
+      .to.emit(fyToken, 'SeriesMatured')
+      .withArgs(WAD)
 
     // it('does not allow to mature more than once', async () => {
-    await expect(fyToken.mature()).to.be.revertedWith('Already recorded a value')
+    await expect(fyToken.mature()).to.be.revertedWith('Already matured')
     
 
     // describe('once matured', async () => {
-    const accrual = DEC6.mul(110).div(100) // accrual is 10%
+    const accrual = WAD.mul(110).div(100) // accrual is 10%
 
     // it('redeems fyToken for underlying according to the chi accrual', async () => {
     await chiOracle.set(accrual) // Since spot was 1 when recorded at maturity, accrual is equal to the current spot
@@ -91,9 +87,9 @@ describe('FYToken', function () {
     const baseJoinBefore = await base.balanceOf(baseJoin.address)
     await expect(fyToken.redeem(owner, WAD))
       .to.emit(fyToken, 'Redeemed')
-      .withArgs(owner, owner, WAD, WAD.mul(accrual).div(DEC6))
-    expect(await base.balanceOf(baseJoin.address)).to.equal(baseJoinBefore.sub(WAD.mul(accrual).div(DEC6)))
-    expect(await base.balanceOf(owner)).to.equal(baseOwnerBefore.add(WAD.mul(accrual).div(DEC6)))
+      .withArgs(owner, owner, WAD, WAD.mul(accrual).div(WAD))
+    expect(await base.balanceOf(baseJoin.address)).to.equal(baseJoinBefore.sub(WAD.mul(accrual).div(WAD)))
+    expect(await base.balanceOf(owner)).to.equal(baseOwnerBefore.add(WAD.mul(accrual).div(WAD)))
     expect(await fyToken.balanceOf(owner)).to.equal(0)
     
     await ethers.provider.send('evm_revert', [clean])

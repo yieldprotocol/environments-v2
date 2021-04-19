@@ -67,5 +67,7 @@ describe('Join', function () {
       .to.emit(token, 'Transfer')
       .withArgs(join.address, owner, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.sub(WAD))
+
+    await ethers.provider.send('evm_revert', [clean])
   })  
 })
