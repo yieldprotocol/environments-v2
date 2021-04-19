@@ -1,83 +1,82 @@
 import { ethers, waffle } from 'hardhat'
 import { BigNumber } from 'ethers';
-
+import { BaseProvider } from '@ethersproject/providers'
 import { VaultEnvironment } from '../fixtures/vault'
-
-import { Cauldron } from '../typechain/Cauldron'
-import { Pool } from '../typechain/Pool'
-import { FYToken } from '../typechain/FYToken'
-import { Ladle } from '../typechain/Ladle'
+import { THREE_MONTHS } from '../shared/constants';
 
 /**
  * 
- * README: 
+ * README
+ * 
+ * Change these parameters/lists:
+ * 
+ * ilks: symbol string OR address of predeployed token  AND a whale account for funding test tokens
+ * bases: symbol string only 
+ * maturities: leave blank for autogeneration 
+ * externalTestAccounts: add any account to be funded with test ETH and tokens
+ * buildVaults: whether or not to build test vault in owner account
+ * numberOfMaturities: number of maturities to generate ( only applicable if maturities[] is empty )
+ * 
+ */
+ const ilks: string[][] =  [ 
+     ['0x6b175474e89094c44da98b954eedeac495271d0f', '0x13aec50f5d3c011cd3fed44e2a30c515bd8a5a06' ],  // DAI + funderAcc
+     //['0xdac17f958d2ee523a2206206994597c13d831ec7', '0xb3f923eabaf178fc1bd8e13902fc5c61d3ddef5b'],  // USDT  + funderAcc
+     //['0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', '0x269d74be03b635e73c5f2454f6baa41ced16406e'], // WBTC + funderAcc
+     //['0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', '0xb045fa6893b26807298e93377cbb92d7f37b19eb'], // UNI + funderAcc
+     ['USDC',''],
+     ['USDT',''],
+     ['TST', ''], // mock token example ( tokens are minted, no funder needed)
+    ]
+ const bases: string[] = ['DAI']
+ const maturities: number[] = []
+ const externalTestAccounts = [ "0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7" ]
+ const buildVaults = false
+ const numberOfMaturities = 5
+ /**
+ * 
+ * run:
  * npx hardhat run ./environments/development.ts --network localhost
  *
  */
 
 const { loadFixture } = waffle
+console.time("Environment deployed in");
 
-const ilksRandom:Uint8Array[] = Array.from({length: 3}, () => ethers.utils.randomBytes(6));
-
-const series:Uint8Array[] = Array.from({length: 5}, () => ethers.utils.randomBytes(6));
-const ilks: string[] = ['DAI', 'USDC', 'USDT']
-
-const externalTestAccounts = [
-    "0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7",
-]
+const generateMaturities = async (n:number) => {
+    const provider: BaseProvider = await ethers.provider 
+    const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+    let count: number = 1
+    const maturities = Array.from({length: n}, () => now + THREE_MONTHS * count++ );
+    return maturities;
+}
 
 const fundExternalAccounts = async (assetList:Map<string, any>) => {
+
     const [ ownerAcc ] = await ethers.getSigners();
     await Promise.all(
         externalTestAccounts.map((to:string)=> {
             /* add test Eth */
             ownerAcc.sendTransaction({to,value: ethers.utils.parseEther("100")})
-            /* add test asset[] values */
+            /* add test asset[] values (if not ETH) */
             assetList.forEach(async (value:any, key:any)=> {
-                await value.transfer(to, ethers.utils.parseEther("1000")); 
+                if (key !== '0x455448000000') {
+                    await value.transfer(to, ethers.utils.parseEther("1000"))
+                }
             })
         })
     )
     console.log('External accounts funded with 100ETH, and 1000 of each asset')
 };
-
-/* Update the available series based on Cauldron events */
-const getDeployedSeries = async (cauldronAddress:string): Promise<string[]> => {
-    const cauldron: Cauldron = (await ethers.getContractAt('Cauldron', cauldronAddress ) as unknown) as Cauldron; 
-    /* get both serieAdded events */
-    const seriesAddedEvents = await cauldron.queryFilter('SeriesAdded' as any);
-    /* Get the seriesId */
-    return Promise.all(
-        seriesAddedEvents.map(async (x:any) : Promise<string> => {
-            const { seriesId: id, baseId, fyToken } = cauldron.interface.parseLog(x).args;
-             return fyToken;
-            }
-        )
-    )
-}
-
-/* Update the ilks info based on addresses */
-const getIlks = async (ilks:string[])  => {
-
-}
-
-const linkPool = async (pool: Pool, ladleAddress: string) => {
-    const [ ownerAcc ] = await ethers.getSigners();
-    const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc);
-    const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken()) as unknown) as FYToken;
-    const seriesId = await fyToken.name()
-    await ladle.addPool(seriesId, pool.address)
-}
-
+ 
 const fixture = async () =>  {
-    const [ ownerAcc ] = await ethers.getSigners();
-    
+    const [ ownerAcc ] = await ethers.getSigners();    
     const vaultEnv = await VaultEnvironment.setup(
         ownerAcc,
-        ilks.map((ilk:string) => ethers.utils.isAddress(ilk)? ilk : ethers.utils.formatBytes32String(ilk).slice(0, 14) ),
-        series.map((series:Uint8Array ) => ethers.utils.hexlify(series))
+        ilks,
+        bases, 
+        maturities.length ? maturities : await generateMaturities(numberOfMaturities), // if maturities list is empty, generate them
+        buildVaults
     )
-
     return vaultEnv
 }
 
@@ -100,8 +99,8 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
     console.log('Joins:')
     vaultEnv.joins.forEach((value:any, key:any)=>{ console.log(`"${key}" : "${value.address}",` ) })
 
-    console.log('Vaults:')
-    vaultEnv.vaults.forEach((value:any, key:any) => console.log(value))
+    buildVaults && console.log('Vaults:')
+    buildVaults && vaultEnv.vaults.forEach((value:any, key:any) => console.log(value))
 
     console.log('Pools:')
     vaultEnv.pools.forEach((value:any, key:any)=>{    
@@ -110,7 +109,10 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
         })
     })
 
-    fundExternalAccounts(vaultEnv.assets);
+    await fundExternalAccounts(vaultEnv.assets);
+
+    console.timeEnd("Environment deployed in")
+    return vaultEnv;
 
 }
 

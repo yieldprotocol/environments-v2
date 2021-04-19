@@ -23,10 +23,10 @@
     "@types/mocha": "^8.0.0",
     "@yield-protocol/utils": "^1.2.3",
     "@yield-protocol/utils-v2": "^2.0.2",
-    "@yield-protocol/vault-interfaces": "^2.0.14",
-    "@yield-protocol/vault-v2": "^0.0.4",
+    "@yield-protocol/vault-interfaces": "^2.0.18",
+    "@yield-protocol/vault-v2": "^0.2.1",
     "@yield-protocol/yieldspace-interfaces": "^2.0.10",
-    "@yield-protocol/yieldspace-v2": "^0.0.2",
+    "@yield-protocol/yieldspace-v2": "^0.2.1",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
@@ -55,5 +55,8 @@
     "url": "https://github.com/yieldprotocol/environments-v2/issues"
   },
   "license": "GPL-3.0-or-later",
-  "homepage": "https://github.com/yieldprotocol/environments-v2#readme"
+  "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
+  "dependencies": {
+    "latest": "^0.2.0"
+  }
 }
