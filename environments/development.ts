@@ -2,7 +2,6 @@ import { ethers, waffle } from 'hardhat'
 import { BaseProvider } from '@ethersproject/providers'
 import { VaultEnvironment } from '../fixtures/vault'
 import { THREE_MONTHS } from '../shared/constants';
-import { transferFromFunder } from '../shared/helpers';
 
 /**
  * 

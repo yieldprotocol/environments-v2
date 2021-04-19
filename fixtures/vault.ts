@@ -143,7 +143,7 @@ export class VaultEnvironment {
     let assetContract: ERC20 | ERC20Mock;
     let assetId: string;
 
-    // Handle if the provided asset is pre-deployed (asset is address), or if it requires a deploy (asset is a string)
+    // Handle if a pre-deployed Token (asset is address), or if it requires a deploy (asset is a string)
     if (ethers.utils.isAddress(asset)) {
       assetContract = await ethers.getContractAt('ERC20', asset, owner) as ERC20;
       const _assetSymbol = await assetContract.symbol()
@@ -276,8 +276,6 @@ export class VaultEnvironment {
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
 
     // Initialize pool with a million tokens of each
-    await fyToken.mint(pool.address, WAD.mul(1000000))
-    
     try {
       // try minting tokens (as the token owner for mock tokens)
       await base.mint(pool.address, WAD.mul(1000000))
@@ -285,6 +283,8 @@ export class VaultEnvironment {
       // if that doesn't work, try transfering tokens from a whale/funder account
       await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
     }
+    await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
+
     await pool.sync()
     await ladle.addPool(seriesId, pool.address)
     return pool
