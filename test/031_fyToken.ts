@@ -85,7 +85,7 @@ describe('FYToken', function () {
     const accrual = DEC6.mul(110).div(100) // accrual is 10%
 
     // it('redeems fyToken for underlying according to the chi accrual', async () => {
-    await chiOracle.setSpot(accrual) // Since spot was 1 when recorded at maturity, accrual is equal to the current spot
+    await chiOracle.set(accrual) // Since spot was 1 when recorded at maturity, accrual is equal to the current spot
     
     const baseOwnerBefore = await base.balanceOf(owner)
     const baseJoinBefore = await base.balanceOf(baseJoin.address)

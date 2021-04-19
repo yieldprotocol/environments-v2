@@ -32,7 +32,7 @@ describe('Oracle', function () {
   })
 
   it('sets and retrieves the spot price', async () => {
-    await oracle.setSpot(1)
+    await oracle.set(1)
     expect(await oracle.spot()).to.equal(1)
   })
 
@@ -40,7 +40,7 @@ describe('Oracle', function () {
     beforeEach(async () => {
       level1 = await ethers.provider.send('evm_snapshot', [])
       
-      await oracle.setSpot(1)
+      await oracle.set(1)
     })
 
     afterEach(async () => {
@@ -52,7 +52,7 @@ describe('Oracle', function () {
         .to.emit(oracle, 'Recorded')
         .withArgs(pastMaturity, 1)
 
-      await oracle.setSpot(2) // Just to be sure we are retrieving the recorded value
+      await oracle.set(2) // Just to be sure we are retrieving the recorded value
       expect(await oracle.recorded(pastMaturity)).to.equal(1)
     })
 
@@ -68,7 +68,7 @@ describe('Oracle', function () {
       })
 
       it('retrieves the spot price accrual', async () => {
-        await oracle.setSpot(2) // Just to be sure we are retrieving the recorded value
+        await oracle.set(2) // Just to be sure we are retrieving the recorded value
         expect(await oracle.accrual(pastMaturity)).to.equal(DEC6.mul(2))
       })
     })
