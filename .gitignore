@@ -4,3 +4,4 @@ typechain/
 abi/
 cache/
 artifacts/
+yarn-error.log
