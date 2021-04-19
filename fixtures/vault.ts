@@ -212,9 +212,13 @@ export class VaultEnvironment {
       seriesId,
       seriesId,
     ])) as FYToken
+
+    // Add fyToken/series to the Cauldron
+    console.log(`Series ${ seriesId } uses base ${ baseId }`)
     await cauldron.addSeries(seriesId, baseId, fyToken.address)
 
     // Add all ilks to each series
+    console.log(`Adding ilks ${ ilkIds } to series ${ seriesId }`)
     await cauldron.addIlks(seriesId, ilkIds)
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
     await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address)
