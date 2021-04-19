@@ -1,9 +1,11 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import { BaseProvider } from '@ethersproject/providers'
-import { ethers, waffle } from 'hardhat'
+import { ethers, waffle, network } from 'hardhat'
+import { BigNumber } from 'ethers'
 
 import { id } from '@yield-protocol/utils'
 import { DEC6, WAD, RAY, THREE_MONTHS } from '../shared/constants'
+
+import { transferFromFunder } from '../shared/helpers'
 
 import JoinArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 import LadleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
@@ -60,7 +62,7 @@ export class VaultEnvironment {
     series: Map<string, FYToken>,
     pools: Map<string, Pool | Map<string, Pool> >,
     joins: Map<string, Join>,
-    vaults: Map<string, Map<string, string>>
+    vaults: Map<string, Map<string, string>>,
     
   ) {
     this.owner = owner
@@ -136,25 +138,29 @@ export class VaultEnvironment {
     )
   }
 
-  public static async addAsset(owner: SignerWithAddress, cauldron: Cauldron, asset: string) {
+  public static async addAsset(owner: SignerWithAddress, cauldron: Cauldron, asset: string, funder:string) {
 
     let assetContract: ERC20 | ERC20Mock;
     let assetId: string;
 
-    // Handle if the provided asset is pre-deployed (asset is address), or if it requires a deploy (asset is a string)
+    // Handle if a pre-deployed Token (asset is address), or if it requires a deploy (asset is a string)
     if (ethers.utils.isAddress(asset)) {
       assetContract = await ethers.getContractAt('ERC20', asset, owner) as ERC20;
       const _assetSymbol = await assetContract.symbol()
       assetId = ethers.utils.formatBytes32String(_assetSymbol).slice(0, 14)
+      // Fund account by transfer from funder
+      await transferFromFunder(assetContract.address, await owner.getAddress(), WAD.mul(1000000), funder)
+
     } else {
       // const symbol = Buffer.from(asset.slice(2), 'hex').toString('utf8')
       assetId = ethers.utils.formatBytes32String(asset).slice(0, 14)
       assetContract = (await deployContract(owner, ERC20MockArtifact, [assetId, asset])) as ERC20Mock
+      // Fund the owner account ( through minting because token is mocked)
+      await assetContract.mint(await owner.getAddress(), WAD.mul(100000))
+      
     }
     // Add the asset to cauldron
     await cauldron.addAsset(assetId, assetContract.address)
-    // Fund the owner account
-    await assetContract.mint(await owner.getAddress(), WAD.mul(100000))
     return { assetId, assetContract }
   }
 
@@ -261,7 +267,8 @@ export class VaultEnvironment {
     base: ERC20Mock,
     fyToken: FYToken,
     seriesId: string,
-    factory: PoolFactory
+    factory: PoolFactory,
+    funder: string,
   ) {
     // deploy base/fyToken POOL
     const calculatedAddress = await factory.calculatePoolAddress(base.address, fyToken.address)
@@ -269,10 +276,16 @@ export class VaultEnvironment {
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
 
     // Initialize pool with a million tokens of each
-    await fyToken.mint(pool.address, WAD.mul(1000000))
-    await base.mint(pool.address, WAD.mul(1000000))
-    await pool.sync()
+    try {
+      // try minting tokens (as the token owner for mock tokens)
+      await base.mint(pool.address, WAD.mul(1000000))
+    } catch (e) { 
+      // if that doesn't work, try transfering tokens from a whale/funder account
+      await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
+    }
+    await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
 
+    await pool.sync()
     await ladle.addPool(seriesId, pool.address)
     return pool
   }
@@ -280,7 +293,7 @@ export class VaultEnvironment {
   // Set up a test environment. Provide at least one asset identifier.
   public static async setup(
     owner: SignerWithAddress,
-    assetList: Array<string>,
+    assetList: Array<Array<string>>, // [ [tokenaddress, funderAddress], ... ]
     baseList: Array<string>,
     maturities: Array<number>,
     buildVaults: boolean = true,
@@ -305,14 +318,16 @@ export class VaultEnvironment {
 
     // ==== Add assets and joins ====
     const assets: Map<string, ERC20|ERC20Mock> = new Map()
+    const funders: Map<string, string> = new Map()
     const joins: Map<string, Join> = new Map()
 
     // For each asset id passed as an argument, we create a Mock ERC20 which we register in cauldron, and its Join, that we register in Ladle.
     // We also give 100 tokens of that asset to the owner account, and approve with the owner for the join to take the asset.
     for (let asset of assetList) {
       // add the asset
-      const { assetId, assetContract } = await this.addAsset(owner, cauldron, asset) as {assetId:string, assetContract: ERC20|ERC20Mock }
+      const { assetId, assetContract } = await this.addAsset(owner, cauldron, asset[0], asset[1]) as {assetId:string, assetContract: ERC20|ERC20Mock }
       assets.set(assetId, assetContract)
+      funders.set(assetId, asset[1])
 
       // add join
       const join = await this.addJoin(owner, ladle, assetContract, assetId) as Join
@@ -379,7 +394,15 @@ export class VaultEnvironment {
         // Add a pool between the base and each series 
         // note: pools structure is Map<string, Map<string, Pool>>
         const baseMap = pools.get(baseId) || new Map();
-        const pool = await this.addPool(owner, ladle, baseContract, fyToken, seriesId, factory)
+        const pool = await this.addPool(
+          owner, 
+          ladle, 
+          baseContract, 
+          fyToken, 
+          seriesId, 
+          factory,
+          funders.get( baseId ) as string
+        )
         pools.set(baseId, baseMap.set(seriesId, pool ))
 
       // ==== Finally, build some vaults (if requested ) ====
