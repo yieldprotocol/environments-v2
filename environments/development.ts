@@ -84,7 +84,7 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
 
     console.log(`"Cauldron": "${vaultEnv.cauldron.address}",`)
     console.log(`"Ladle" : "${vaultEnv.ladle.address}",`)
-    console.log(`"Witch" : "${vaultEnv.witch.address}"`)
+    console.log(`"Witch" : "${vaultEnv.witch.address}",`)
     console.log(`"PoolRouter" : "${vaultEnv.poolRouter.address}"`)
     
     console.log('Assets:')

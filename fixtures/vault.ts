@@ -175,21 +175,21 @@ export class VaultEnvironment {
   public static async addSpotOracle(owner: SignerWithAddress, cauldron: Cauldron, baseId: string, ilkId: string) {
     const ratio = 1000000 //  1000000 == 100% collateralization ratio
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.set(DEC6.mul(2))
+    await oracle.set(WAD.mul(2))
     await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio)
     return oracle
   }
 
   public static async addRateOracle(owner: SignerWithAddress, cauldron: Cauldron, baseId: string) {
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.set(DEC6.mul(2))
+    await oracle.set(WAD.mul(2))
     await cauldron.setRateOracle(baseId, oracle.address)
     return oracle
   }
 
   public static async addChiOracle(owner: SignerWithAddress) { // This will be referenced by the fyToken, and needs no id
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.set(DEC6)
+    await oracle.set(WAD)
     return oracle
   }
 
