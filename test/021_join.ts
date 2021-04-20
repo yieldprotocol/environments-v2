@@ -27,7 +27,7 @@ describe('Join', function () {
 
   let env: VaultEnvironment
 
-  it('the test', async () => {
+  it('test all', async () => {
     env = await loadFixture(fixture);
 
     const signers = await ethers.getSigners()
