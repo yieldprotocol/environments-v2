@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { BaseProvider } from '@ethersproject/providers'
 import { VaultEnvironment } from '../fixtures/vault'
 import { THREE_MONTHS } from '../shared/constants';
+import { generateMaturities, fundExternalAccounts } from '../shared/helpers';
 
 /**
  * 
@@ -43,32 +44,6 @@ import { THREE_MONTHS } from '../shared/constants';
 const { loadFixture } = waffle
 
 console.time("Environment deployed in");
-
-const generateMaturities = async (n:number) => {
-    const provider: BaseProvider = await ethers.provider 
-    const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
-    let count: number = 1
-    const maturities = Array.from({length: n}, () => now + THREE_MONTHS * count++ );
-    return maturities;
-}
-
-const fundExternalAccounts = async (assetList:Map<string, any>) => {
-
-    const [ ownerAcc ] = await ethers.getSigners();
-    await Promise.all(
-        externalTestAccounts.map((to:string)=> {
-            /* add test Eth */
-            ownerAcc.sendTransaction({to,value: ethers.utils.parseEther("100")})
-            /* add test asset[] values (if not ETH) */
-            assetList.forEach(async (value:any, key:any)=> {
-                if (key !== '0x455448000000') {
-                    await value.transfer(to, ethers.utils.parseEther("1000"))
-                }
-            })
-        })
-    )
-    console.log('External accounts funded with 100ETH, and 1000 of each asset')
-};
  
 export const fixture = async () =>  {
     const [ ownerAcc ] = await ethers.getSigners();    
@@ -111,7 +86,7 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
         })
     })
 
-    await fundExternalAccounts(vaultEnv.assets);
+    await fundExternalAccounts(vaultEnv.assets, externalTestAccounts);
     console.timeEnd("Environment deployed in")
 
     return vaultEnv;

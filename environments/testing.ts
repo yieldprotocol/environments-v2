@@ -1,8 +1,6 @@
 import { ethers, waffle } from 'hardhat'
-import { BigNumber } from 'ethers';
-import { BaseProvider } from '@ethersproject/providers'
 import { VaultEnvironment } from '../fixtures/vault'
-import { THREE_MONTHS } from '../shared/constants';
+import { generateMaturities } from '../shared/helpers';
 
 /**
  * 
@@ -37,14 +35,6 @@ import { THREE_MONTHS } from '../shared/constants';
  */
 
 const { loadFixture } = waffle
-
-const generateMaturities = async (n:number) => {
-    const provider: BaseProvider = await ethers.provider 
-    const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
-    let count: number = 1
-    const maturities = Array.from({length: n}, () => now + THREE_MONTHS * count++ );
-    return maturities;
-}
 
 // exported fixture function
 export const fixture = async () =>  {
