@@ -83,12 +83,6 @@ describe('Ladle - serve and repay', function () {
     const inkRetrieved = WAD.div(4)
 
     await base.transfer(pool.address, debtRepaidInBase) // This would normally be part of a multicall, using ladle.transferToPool
-    console.log('Base reserves: ' + (await pool.getBaseTokenReserves()).toString())
-    console.log('Stored base: ' + (await pool.getStoredReserves())[0].toString())
-    console.log('FYToken reserves: ' + (await pool.getFYTokenReserves()).toString())
-    console.log('Stored fyToken: ' + (await pool.getStoredReserves())[1].toString())
-    console.log('Base token in: ' + debtRepaidInBase.toString())
-    console.log('SellBasePreview: ' + (await pool.sellBaseTokenPreview(debtRepaidInBase)).toString())
 
     await ladle.repay(vaultId, owner, inkRetrieved, 0)
 
