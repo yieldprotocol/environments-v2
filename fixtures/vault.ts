@@ -44,10 +44,14 @@ export class VaultEnvironment {
   witch: Witch
 
   assets: Map<string, ERC20 | ERC20Mock>
-  oracles: Map<string, OracleMock>
   series: Map<string, FYToken>
   pools: Map<string, Pool| Map<string, Pool> >
   joins: Map<string, Join>
+
+  // chiOracles: OracleMock
+  // rateOracles: OracleMock
+  oracles: Map<string, OracleMock>
+
   vaults: Map<string, Map<string, string>>
   
   constructor(
@@ -58,10 +62,14 @@ export class VaultEnvironment {
     witch: Witch,
 
     assets: Map<string, ERC20 | ERC20Mock>,
-    oracles: Map<string, OracleMock>,
     series: Map<string, FYToken>,
     pools: Map<string, Pool | Map<string, Pool> >,
     joins: Map<string, Join>,
+
+    // chiOracles: OracleMock,
+    // rateOracles: OracleMock,
+    oracles: Map<string, OracleMock>,
+
     vaults: Map<string, Map<string, string>>,
     
   ) {
@@ -72,10 +80,12 @@ export class VaultEnvironment {
     this.witch = witch
 
     this.assets = assets
-    this.oracles = oracles
     this.series = series
     this.pools = pools
     this.joins = joins
+
+    this.oracles = oracles
+    
     this.vaults = vaults
   }
 
@@ -424,6 +434,6 @@ export class VaultEnvironment {
       }
   }
 
-    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults )
+    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, series, pools, joins, oracles, vaults )
   }
 }
