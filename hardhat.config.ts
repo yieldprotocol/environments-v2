@@ -58,6 +58,13 @@ module.exports = {
       }
     }
   },
+  abiExporter: {
+    path: './abi/abis',
+    clear: true,
+    flat: true,
+    // only: [':ERC20$'],
+    spacing: 2
+  },
   typechain: {
     outDir: 'typechain',
     target: 'ethers-v5',

@@ -1,5 +1,7 @@
 import { ethers, network } from 'hardhat'
 import { BigNumber } from 'ethers'
+import { BaseProvider } from '@ethersproject/providers'
+import { THREE_MONTHS } from './constants';
 
 export const transferFromFunder = async ( 
     tokenAddress:string,
@@ -32,3 +34,29 @@ export const transferFromFunder = async (
           `Warning: Failed transferring ${tokenSymbol} from whale account. Some protocol features related to this token may not work`, e)
     }
 }
+
+export const generateMaturities = async (n:number) => {
+  const provider: BaseProvider = await ethers.provider 
+  const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+  let count: number = 1
+  const maturities = Array.from({length: n}, () => now + THREE_MONTHS * count++ );
+  return maturities;
+}
+
+export const fundExternalAccounts = async (assetList:Map<string, any>, accountList:Array<string>) => {
+  const [ ownerAcc ] = await ethers.getSigners();
+  await Promise.all(
+      accountList.map((to:string)=> {
+          /* add test Eth */
+          ownerAcc.sendTransaction({to,value: ethers.utils.parseEther("100")})
+          /* add test asset[] values (if not ETH) */
+          assetList.forEach(async (value:any, key:any)=> {
+              if (key !== '0x455448000000') {
+                  await value.transfer(to, ethers.utils.parseEther("1000"))
+              }
+          })
+      })
+  )
+  console.log('External accounts funded with 100ETH, and 1000 of each asset')
+};
+

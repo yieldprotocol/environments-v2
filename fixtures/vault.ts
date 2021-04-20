@@ -1,9 +1,8 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
-import { BigNumber } from 'ethers'
 
 import { id } from '@yield-protocol/utils'
-import { DEC6, WAD, RAY, THREE_MONTHS } from '../shared/constants'
+import { WAD, ETH } from '../shared/constants'
 
 import { transferFromFunder } from '../shared/helpers'
 
@@ -44,10 +43,14 @@ export class VaultEnvironment {
   witch: Witch
 
   assets: Map<string, ERC20 | ERC20Mock>
-  oracles: Map<string, OracleMock>
   series: Map<string, FYToken>
   pools: Map<string, Pool| Map<string, Pool> >
   joins: Map<string, Join>
+
+  // chiOracles: OracleMock
+  // rateOracles: OracleMock
+  oracles: Map<string, OracleMock>
+
   vaults: Map<string, Map<string, string>>
   
   constructor(
@@ -58,10 +61,14 @@ export class VaultEnvironment {
     witch: Witch,
 
     assets: Map<string, ERC20 | ERC20Mock>,
-    oracles: Map<string, OracleMock>,
     series: Map<string, FYToken>,
     pools: Map<string, Pool | Map<string, Pool> >,
     joins: Map<string, Join>,
+
+    // chiOracles: OracleMock,
+    // rateOracles: OracleMock,
+    oracles: Map<string, OracleMock>,
+
     vaults: Map<string, Map<string, string>>,
     
   ) {
@@ -72,10 +79,12 @@ export class VaultEnvironment {
     this.witch = witch
 
     this.assets = assets
-    this.oracles = oracles
     this.series = series
     this.pools = pools
     this.joins = joins
+
+    this.oracles = oracles
+    
     this.vaults = vaults
   }
 
@@ -175,21 +184,21 @@ export class VaultEnvironment {
   public static async addSpotOracle(owner: SignerWithAddress, cauldron: Cauldron, baseId: string, ilkId: string) {
     const ratio = 1000000 //  1000000 == 100% collateralization ratio
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.setSpot(DEC6.mul(2))
+    await oracle.set(WAD.mul(2))
     await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio)
     return oracle
   }
 
   public static async addRateOracle(owner: SignerWithAddress, cauldron: Cauldron, baseId: string) {
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.setSpot(DEC6.mul(2))
+    await oracle.set(WAD.mul(2))
     await cauldron.setRateOracle(baseId, oracle.address)
     return oracle
   }
 
   public static async addChiOracle(owner: SignerWithAddress) { // This will be referenced by the fyToken, and needs no id
     const oracle = (await deployContract(owner, OracleMockArtifact, [])) as OracleMock
-    await oracle.setSpot(DEC6)
+    await oracle.set(WAD)
     return oracle
   }
 
@@ -214,11 +223,9 @@ export class VaultEnvironment {
     ])) as FYToken
 
     // Add fyToken/series to the Cauldron
-    console.log(`Series ${ seriesId } uses base ${ baseId }`)
     await cauldron.addSeries(seriesId, baseId, fyToken.address)
 
     // Add all ilks to each series
-    console.log(`Adding ilks ${ ilkIds } to series ${ seriesId }`)
     await cauldron.addIlks(seriesId, ilkIds)
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
     await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address)
@@ -279,7 +286,7 @@ export class VaultEnvironment {
     await factory.createPool(base.address, fyToken.address)
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
 
-    // Initialize pool with a million tokens of each
+    // Supply pool with a million tokens of each for initialization
     try {
       // try minting tokens (as the token owner for mock tokens)
       await base.mint(pool.address, WAD.mul(1000000))
@@ -287,9 +294,13 @@ export class VaultEnvironment {
       // if that doesn't work, try transfering tokens from a whale/funder account
       await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
     }
-    await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
+    // Initialize pool, leaving the minted liquidity tokens in the pool as well
+    await pool.mint(pool.address, true, 0)
 
+    // Donate fyToken to the pool to skew it
+    await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
     await pool.sync()
+    
     await ladle.addPool(seriesId, pool.address)
     return pool
   }
@@ -340,13 +351,12 @@ export class VaultEnvironment {
     }
 
     // Add Ether as an asset, as well as WETH9 and the WETH9 Join
-    const ethId = ethers.utils.formatBytes32String('ETH').slice(0, 14)
     const weth = (await deployContract(owner, WETH9MockArtifact, [])) as WETH9Mock
-    await cauldron.addAsset(ethId, weth.address)
-    assets.set(ethId, weth)
+    await cauldron.addAsset(ETH, weth.address)
+    assets.set(ETH, weth)
 
-    const wethJoin = await this.addJoin(owner, ladle, weth as unknown as ERC20Mock, ethId) as Join
-    joins.set(ethId, wethJoin)
+    const wethJoin = await this.addJoin(owner, ladle, weth as unknown as ERC20Mock, ETH) as Join
+    joins.set(ETH, wethJoin)
 
     // FOR EACH of the Bases: 
     // 1. set debt limits, 
@@ -424,6 +434,6 @@ export class VaultEnvironment {
       }
   }
 
-    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults )
+    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, series, pools, joins, oracles, vaults )
   }
 }
