@@ -40,6 +40,7 @@ import { THREE_MONTHS } from '../shared/constants';
  */
 
 const { loadFixture } = waffle
+
 console.time("Environment deployed in");
 
 const generateMaturities = async (n:number) => {
@@ -68,7 +69,7 @@ const fundExternalAccounts = async (assetList:Map<string, any>) => {
     console.log('External accounts funded with 100ETH, and 1000 of each asset')
 };
  
-const fixture = async () =>  {
+export const fixture = async () =>  {
     const [ ownerAcc ] = await ethers.getSigners();    
     const vaultEnv = await VaultEnvironment.setup(
         ownerAcc,
@@ -110,8 +111,8 @@ loadFixture(fixture).then( async ( vaultEnv : VaultEnvironment )  => {
     })
 
     await fundExternalAccounts(vaultEnv.assets);
-
     console.timeEnd("Environment deployed in")
+
     return vaultEnv;
 
 }

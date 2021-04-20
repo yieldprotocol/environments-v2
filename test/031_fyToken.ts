@@ -9,12 +9,18 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 import { OracleMock } from '../typechain/OracleMock'
 import { Ladle } from '../typechain/Ladle'
 
-import { ethers } from 'hardhat'
+import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
+
+import { VaultEnvironment } from '../fixtures/vault'
+import { fixture } from '../environments/testing';
+const { loadFixture } = waffle
 
 describe('FYToken', function () {
   this.timeout(0)
   let clean: Number
+
+  let env: VaultEnvironment
 
   let ownerAcc: SignerWithAddress
   let owner: string
@@ -30,6 +36,7 @@ describe('FYToken', function () {
   let ilkId = '0x555344430000'
 
   it('test all', async () => {
+    env = await loadFixture(fixture);
     clean = await ethers.provider.send('evm_snapshot', [])
 
     const signers = await ethers.getSigners()

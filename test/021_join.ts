@@ -6,8 +6,13 @@ import { WAD } from '../shared/constants'
 import { Join } from '../typechain/Join'
 import { ERC20Mock } from '../typechain/ERC20Mock'
 
-import { ethers } from 'hardhat'
+import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
+
+import { VaultEnvironment } from '../fixtures/vault'
+import { fixture } from '../environments/testing';
+const { loadFixture } = waffle
+
 describe('Join', function () {
   this.timeout(0)
   let clean: Number
@@ -20,7 +25,10 @@ describe('Join', function () {
   let joinFromOther: Join
   let token: ERC20Mock
 
+  let env: VaultEnvironment
+
   it('the test', async () => {
+    env = await loadFixture(fixture);
     clean = await ethers.provider.send('evm_snapshot', [])
 
     const signers = await ethers.getSigners()

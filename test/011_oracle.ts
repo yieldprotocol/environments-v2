@@ -2,9 +2,12 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-wit
 import { DEC6 } from '../shared/constants'
 
 import { OracleMock as Oracle } from '../typechain/OracleMock'
-
-import { ethers } from 'hardhat'
+import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
+
+import { VaultEnvironment } from '../fixtures/vault'
+import { fixture } from '../environments/testing';
+const { loadFixture } = waffle
 
 describe('Oracle', function () {
   this.timeout(0)
@@ -12,6 +15,7 @@ describe('Oracle', function () {
   let level1: Number
   let level2: Number
 
+  let env: VaultEnvironment
   let ownerAcc: SignerWithAddress
   let owner: string
   let oracle: Oracle
@@ -19,11 +23,11 @@ describe('Oracle', function () {
   const pastMaturity = 1600000000
 
   before(async () => {
+    env = await loadFixture(fixture);
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
     owner = await ownerAcc.getAddress()
     oracle = (await ethers.getContractAt('OracleMock', '0x82e01223d51Eb87e16A03E24687EDF0F294da6f1')) as Oracle
-
     level0 = await ethers.provider.send('evm_snapshot', [])
   })
 
