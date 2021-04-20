@@ -46,10 +46,10 @@ describe('Ladle - serve and repay', function () {
     ilk = env.assets.get(ilkId) as ERC20Mock
     seriesId = env.series.keys().next().value as string
     fyToken = env.series.get(seriesId) as FYToken
-    pool = env.pools.get(seriesId) as Pool
+    pool = (env.pools.get(baseId) as Map<string, Pool>).get(seriesId) as Pool
 
     // it('borrows an amount of base', async () => {
-    const baseBalanceBefore = await base.balanceOf(other)
+    let baseBalanceBefore = await base.balanceOf(other)
     const ilkBalanceBefore = await ilk.balanceOf(owner)
     const baseBorrowed = WAD
     // const expectedDebtInFY = baseBorrowed.mul(105).div(100) // TODO: Import yieldspace.ts and get a proper estimation
@@ -70,27 +70,39 @@ describe('Ladle - serve and repay', function () {
     // expect((await cauldron.balances(vaultId)).art).to.equal(expectedDebtInFY)
     expect(await base.balanceOf(other)).to.equal(baseBalanceBefore.add(baseBorrowed))
     expect(await ilk.balanceOf(owner)).to.equal(ilkBalanceBefore.sub(inkPosted))
-  })
 
-  /*
-  it('repays debt with base', async () => {
+    
+    // it('repays debt with base', async () => {
+    await loadFixture(fixture);
+    await ladle.build(vaultId, seriesId, ilkId)
     await ladle.pour(vaultId, owner, WAD, WAD)
 
-    const baseBalanceBefore = await base.balanceOf(owner)
+    baseBalanceBefore = await base.balanceOf(owner)
     const debtRepaidInBase = WAD.div(2)
-    const debtRepaidInFY = debtRepaidInBase.mul(105).div(100)
+    // const debtRepaidInFY = debtRepaidInBase.mul(105).div(100) // TODO: Import yieldspace.ts and get a proper estimation
     const inkRetrieved = WAD.div(4)
 
     await base.transfer(pool.address, debtRepaidInBase) // This would normally be part of a multicall, using ladle.transferToPool
-    await expect(await ladle.repay(vaultId, owner, inkRetrieved, 0))
+    console.log('Base reserves: ' + (await pool.getBaseTokenReserves()).toString())
+    console.log('Stored base: ' + (await pool.getStoredReserves())[0].toString())
+    console.log('FYToken reserves: ' + (await pool.getFYTokenReserves()).toString())
+    console.log('Stored fyToken: ' + (await pool.getStoredReserves())[1].toString())
+    console.log('Base token in: ' + debtRepaidInBase.toString())
+    console.log('SellBasePreview: ' + (await pool.sellBaseTokenPreview(debtRepaidInBase)).toString())
+
+    await ladle.repay(vaultId, owner, inkRetrieved, 0)
+
+    /* await expect(await ladle.repay(vaultId, owner, inkRetrieved, 0))
       .to.emit(cauldron, 'VaultPoured')
       .withArgs(vaultId, seriesId, ilkId, inkRetrieved, debtRepaidInFY.mul(-1))
       .to.emit(pool, 'Trade')
-      .withArgs(await fyToken.maturity(), ladle.address, fyToken.address, debtRepaidInBase, debtRepaidInFY.mul(-1))
-    expect((await cauldron.balances(vaultId)).art).to.equal(WAD.sub(debtRepaidInFY))
+      .withArgs(await fyToken.maturity(), ladle.address, fyToken.address, debtRepaidInBase, debtRepaidInFY.mul(-1)) */
+    
+    // expect((await cauldron.balances(vaultId)).art).to.equal(WAD.sub(debtRepaidInFY))
     expect(await base.balanceOf(owner)).to.equal(baseBalanceBefore.sub(debtRepaidInBase))
   })
 
+  /*
   it('repays debt with base in a batch', async () => {
     await ladle.pour(vaultId, owner, WAD, WAD)
 
