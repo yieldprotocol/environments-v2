@@ -9,13 +9,13 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
 
+import { DAI } from '../shared/constants'
 import { VaultEnvironment } from '../fixtures/vault'
 import { fixture } from '../environments/testing';
 const { loadFixture } = waffle
 
 describe('Join', function () {
   this.timeout(0)
-  let clean: Number
 
   let ownerAcc: SignerWithAddress
   let owner: string
@@ -29,7 +29,6 @@ describe('Join', function () {
 
   it('the test', async () => {
     env = await loadFixture(fixture);
-    clean = await ethers.provider.send('evm_snapshot', [])
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
@@ -38,8 +37,8 @@ describe('Join', function () {
     otherAcc = signers[1]
     other = await otherAcc.getAddress()
 
-    token = (await ethers.getContractAt('ERC20Mock', '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1')) as ERC20Mock
-    join = (await ethers.getContractAt('Join', '0x3Aa5ebB10DC797CAC828524e59A333d0A371443c')) as Join
+    token = env.assets.get(DAI) as ERC20Mock
+    join = env.joins.get(DAI) as Join
     joinFromOther = join.connect(otherAcc)
 
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], owner)
@@ -75,7 +74,5 @@ describe('Join', function () {
       .to.emit(token, 'Transfer')
       .withArgs(join.address, owner, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.sub(WAD))
-
-    await ethers.provider.send('evm_revert', [clean])
   })  
 })

@@ -1,6 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils'
-import { WAD, DEC6 } from '../shared/constants'
+import { WAD, DAI, USDC } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Join } from '../typechain/Join'
@@ -18,7 +18,6 @@ const { loadFixture } = waffle
 
 describe('FYToken', function () {
   this.timeout(0)
-  let clean: Number
 
   let env: VaultEnvironment
 
@@ -32,23 +31,24 @@ describe('FYToken', function () {
   let ladle: Ladle
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
-  let seriesId = '0x2ebda99c37f3'
-  let ilkId = '0x555344430000'
+  let seriesId: string
+  let baseId = DAI
+  let ilkId = USDC
 
   it('test all', async () => {
     env = await loadFixture(fixture);
-    clean = await ethers.provider.send('evm_snapshot', [])
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
     owner = await ownerAcc.getAddress()
 
-    cauldron = (await ethers.getContractAt('Cauldron', '0x5FbDB2315678afecb367f032d93F642f64180aa3')) as Cauldron
-    ladle = (await ethers.getContractAt('Ladle', '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512')) as Ladle
-    base = (await ethers.getContractAt('ERC20Mock', '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1')) as ERC20Mock
-    baseJoin = (await ethers.getContractAt('Join', '0x3Aa5ebB10DC797CAC828524e59A333d0A371443c')) as Join
-    fyToken = (await ethers.getContractAt('FYToken', '0x36b58F5C1969B7b6591D752ea6F5486D069010AB')) as FYToken
-    chiOracle = (await ethers.getContractAt('OracleMock', '0x1429859428C0aBc9C2C47C8Ee9FBaf82cFA0F20f')) as OracleMock // chi oracle
+    cauldron = env.cauldron as Cauldron
+    ladle = env.ladle as Ladle
+    base = env.assets.get(baseId) as ERC20Mock
+    baseJoin = env.joins.get(baseId) as Join
+    seriesId = env.series.keys().next().value as string
+    fyToken = env.series.get(seriesId) as FYToken
+    chiOracle = env.oracles.get('chi') as OracleMock
 
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
 
@@ -98,7 +98,5 @@ describe('FYToken', function () {
     expect(await base.balanceOf(baseJoin.address)).to.equal(baseJoinBefore.sub(WAD.mul(accrual).div(WAD)))
     expect(await base.balanceOf(owner)).to.equal(baseOwnerBefore.add(WAD.mul(accrual).div(WAD)))
     expect(await fyToken.balanceOf(owner)).to.equal(0)
-    
-    await ethers.provider.send('evm_revert', [clean])
   })
 })
