@@ -1,8 +1,9 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
 
-import { id } from '@yield-protocol/utils'
+import { id } from '@yield-protocol/utils-v2'
 import { WAD, ETH } from '../shared/constants'
+import { LadleWrapper } from '../shared/ladleWrapper'
 
 import { transferFromFunder } from '../shared/helpers'
 
@@ -38,7 +39,7 @@ const { deployContract } = waffle
 export class VaultEnvironment {
   owner: SignerWithAddress
   cauldron: Cauldron
-  ladle: Ladle
+  ladle: LadleWrapper
   poolRouter: PoolRouter
   witch: Witch
 
@@ -56,7 +57,7 @@ export class VaultEnvironment {
   constructor(
     owner: SignerWithAddress,
     cauldron: Cauldron,
-    ladle: Ladle,
+    ladle: LadleWrapper,
     poolRouter: PoolRouter,
     witch: Witch,
 
@@ -128,7 +129,7 @@ export class VaultEnvironment {
     )
   }
 
-  public static async ladleGovAuth(owner: SignerWithAddress, ladle: Ladle, receiver: string) {
+  public static async ladleGovAuth(owner: SignerWithAddress, ladle: LadleWrapper, receiver: string) {
     await ladle.grantRoles(
       [
         id('addJoin(bytes6,address)'),
@@ -138,7 +139,7 @@ export class VaultEnvironment {
     )
   }
 
-  public static async ladleWitchAuth(owner: SignerWithAddress, ladle: Ladle, receiver: string) {
+  public static async ladleWitchAuth(owner: SignerWithAddress, ladle: LadleWrapper, receiver: string) {
     await ladle.grantRoles([
       id(
         'settle(bytes12,address,uint128,uint128)'
@@ -173,7 +174,7 @@ export class VaultEnvironment {
     return { assetId, assetContract }
   }
 
-  public static async addJoin(owner: SignerWithAddress, ladle: Ladle, asset: ERC20|ERC20Mock, assetId: string) {
+  public static async addJoin(owner: SignerWithAddress, ladle: LadleWrapper, asset: ERC20|ERC20Mock, assetId: string) {
     const join = (await deployContract(owner, JoinArtifact, [asset.address])) as Join
     await ladle.addJoin(assetId, join.address)
     await asset.approve(join.address, ethers.constants.MaxUint256) // Owner approves all joins to take from him. Only testing
@@ -205,7 +206,7 @@ export class VaultEnvironment {
   public static async addSeries(
     owner: SignerWithAddress,
     cauldron: Cauldron,
-    ladle: Ladle,
+    ladle: LadleWrapper,
     baseJoin: Join,
     chiOracle: OracleMock,
     seriesId: string,
@@ -274,7 +275,7 @@ export class VaultEnvironment {
 
   public static async addPool(
     owner: SignerWithAddress,
-    ladle: Ladle,
+    ladle: LadleWrapper,
     base: ERC20Mock,
     fyToken: FYToken,
     seriesId: string,
@@ -316,7 +317,8 @@ export class VaultEnvironment {
     const ownerAdd = await owner.getAddress()
 
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
-    const ladle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    const ladle = new LadleWrapper(innerLadle)
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
     const { router: poolRouter, factory }: { router:PoolRouter, factory: PoolFactory } = await this.deployPoolRouter();
 
