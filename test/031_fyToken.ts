@@ -29,7 +29,7 @@ describe('FYToken', function () {
   let base: ERC20Mock
   let baseJoin: Join
   let chiOracle: OracleMock
-  let ladle: LadleWrapper
+  let router: LadleWrapper
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
   let seriesId: string
@@ -44,7 +44,7 @@ describe('FYToken', function () {
     owner = await ownerAcc.getAddress()
 
     cauldron = env.cauldron as Cauldron
-    ladle = env.ladle as LadleWrapper
+    router = env.router as LadleWrapper
     base = env.assets.get(baseId) as ERC20Mock
     baseJoin = env.joins.get(baseId) as Join
     seriesId = env.series.keys().next().value as string
@@ -57,7 +57,7 @@ describe('FYToken', function () {
 
     await cauldron.build(owner, vaultId, seriesId, ilkId)
 
-    await ladle.pour(vaultId, owner, WAD, WAD) // This gives `owner` WAD fyToken
+    await router.pour(vaultId, owner, WAD, WAD) // This gives `owner` WAD fyToken
 
     await base.approve(baseJoin.address, WAD.mul(2))
     await baseJoin.join(owner, WAD.mul(2)) // This loads the base join to serve redemptions
