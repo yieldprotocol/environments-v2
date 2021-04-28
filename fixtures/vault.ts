@@ -315,6 +315,8 @@ export class VaultEnvironment {
   ) {
     const ownerAdd = await owner.getAddress()
 
+    console.log(await network.config.chainId)
+
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
     const ladle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
