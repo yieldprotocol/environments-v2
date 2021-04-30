@@ -85,10 +85,10 @@ module.exports = {
   },
   networks: {
     hardhat: {
-      chainId: 1
+      chainId: 31337
     },
     localhost: {
-      chainId: 1
+      chainId: 31337
     },
     kovan: {
       accounts,

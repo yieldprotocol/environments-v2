@@ -13,12 +13,14 @@ import CauldronArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ca
 import FYTokenArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/FYToken.sol/FYToken.json'
 
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
+import DaiMockArtifact from '../artifacts/contracts/mocks/DaiMock.sol/DaiMock.json'
 import WETH9MockArtifact from '../artifacts/contracts/mocks/WETH9Mock.sol/WETH9Mock.json'
 import OracleMockArtifact from '../artifacts/contracts/mocks/OracleMock.sol/OracleMock.json'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { FYToken } from '../typechain/FYToken'
 import { ERC20Mock } from '../typechain/ERC20Mock'
+import { DaiMock } from '../typechain/DaiMock'
 import { ERC20 } from '../typechain/ERC20'
 import { WETH9Mock } from '../typechain/WETH9Mock'
 import { OracleMock } from '../typechain/OracleMock'
@@ -149,7 +151,7 @@ export class VaultEnvironment {
 
   public static async addAsset(owner: SignerWithAddress, cauldron: Cauldron, asset: string, funder:string) {
 
-    let assetContract: ERC20 | ERC20Mock;
+    let assetContract: ERC20 | ERC20Mock | DaiMock;
     let assetId: string;
 
     // Handle if a pre-deployed Token (asset is address), or if it requires a deploy (asset is a string)
@@ -159,14 +161,16 @@ export class VaultEnvironment {
       assetId = ethers.utils.formatBytes32String(_assetSymbol).slice(0, 14)
       // Fund account by transfer from funder
       await transferFromFunder(assetContract.address, await owner.getAddress(), WAD.mul(1000000), funder)
-
     } else {
-      // const symbol = Buffer.from(asset.slice(2), 'hex').toString('utf8')
+
       assetId = ethers.utils.formatBytes32String(asset).slice(0, 14)
-      assetContract = (await deployContract(owner, ERC20MockArtifact, [assetId, asset])) as ERC20Mock
+      if (asset === 'DAI') { 
+        assetContract = (await deployContract(owner, DaiMockArtifact, [assetId, asset])) as DaiMock
+      } else {
+        assetContract = (await deployContract(owner, ERC20MockArtifact, [assetId, asset])) as ERC20Mock
+      }
       // Fund the owner account ( through minting because token is mocked)
       await assetContract.mint(await owner.getAddress(), WAD.mul(100000))
-      
     }
     // Add the asset to cauldron
     await cauldron.addAsset(assetId, assetContract.address)
@@ -242,10 +246,6 @@ export class VaultEnvironment {
     const WETH9Factory = await ethers.getContractFactory('WETH9Mock')
     const weth9 = ((await WETH9Factory.deploy()) as unknown) as unknown as ERC20
     await weth9.deployed()
-
-    const DaiFactory = await ethers.getContractFactory('DaiMock')
-    const dai = ((await DaiFactory.deploy('DAI', 'DAI')) as unknown) as unknown as ERC20
-    await dai.deployed()
 
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
     yieldMathLibrary = ((await YieldMathFactory.deploy()) as unknown) as YieldMath

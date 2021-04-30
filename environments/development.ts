@@ -20,15 +20,16 @@ import { generateMaturities, fundExternalAccounts } from '../shared/helpers';
  * 
  */
  const ilks: string[][] =  [ 
-     ['0x6b175474e89094c44da98b954eedeac495271d0f', '0xc2c5a77d9f434f424df3d39de9e90d95a0df5aca' ],  // DAI + funderAcc
+     //['0x6b175474e89094c44da98b954eedeac495271d0f', '0xc2c5a77d9f434f424df3d39de9e90d95a0df5aca' ],  // DAI + funderAcc
      //['0xdac17f958d2ee523a2206206994597c13d831ec7', '0xb3f923eabaf178fc1bd8e13902fc5c61d3ddef5b'],  // USDT  + funderAcc
      //['0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', '0x269d74be03b635e73c5f2454f6baa41ced16406e'], // WBTC + funderAcc
      //['0x1f9840a85d5af5bf1d1762f925bdaddc4201f984', '0xb045fa6893b26807298e93377cbb92d7f37b19eb'], // UNI + funderAcc
+     ['DAI',''],
      ['USDC',''],
      ['USDT',''],
      ['TST', ''], // mock token example ( tokens are minted, no funder needed)
     ]
- const bases: string[] = ['DAI']
+ const bases: string[] = ['DAI','USDC']
  const maturities: number[] = []
  const externalTestAccounts = [ "0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7" ]
  const buildVaults = false
