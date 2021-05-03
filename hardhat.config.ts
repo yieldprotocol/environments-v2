@@ -84,6 +84,12 @@ module.exports = {
     other: 2,
   },
   networks: {
+    hardhat: {
+      chainId: 31337
+    },
+    localhost: {
+      chainId: 31337
+    },
     kovan: {
       accounts,
       url: nodeUrl('kovan')
