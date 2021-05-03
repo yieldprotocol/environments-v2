@@ -1,8 +1,9 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
 
-import { id } from '@yield-protocol/utils'
+import { id } from '@yield-protocol/utils-v2'
 import { WAD, ETH } from '../shared/constants'
+import { LadleWrapper } from '../shared/ladleWrapper'
 
 import { transferFromFunder } from '../shared/helpers'
 
@@ -41,6 +42,7 @@ export class VaultEnvironment {
   owner: SignerWithAddress
   cauldron: Cauldron
   ladle: Ladle
+  router: LadleWrapper
   poolRouter: PoolRouter
   witch: Witch
 
@@ -59,6 +61,7 @@ export class VaultEnvironment {
     owner: SignerWithAddress,
     cauldron: Cauldron,
     ladle: Ladle,
+    router: LadleWrapper,
     poolRouter: PoolRouter,
     witch: Witch,
 
@@ -77,6 +80,7 @@ export class VaultEnvironment {
     this.owner = owner
     this.cauldron = cauldron
     this.ladle = ladle
+    this.router = router
     this.poolRouter = poolRouter
     this.witch = witch
 
@@ -319,6 +323,7 @@ export class VaultEnvironment {
 
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
     const ladle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    const router = new LadleWrapper(ladle)
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
     const { router: poolRouter, factory }: { router:PoolRouter, factory: PoolFactory } = await this.deployPoolRouter();
 
@@ -436,6 +441,6 @@ export class VaultEnvironment {
       }
   }
 
-    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, series, pools, joins, oracles, vaults )
+    return new VaultEnvironment(owner, cauldron, ladle, router, poolRouter, witch, assets, series, pools, joins, oracles, vaults )
   }
 }
