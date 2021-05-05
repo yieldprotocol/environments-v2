@@ -26,6 +26,7 @@ import { expect } from 'chai'
 import { VaultEnvironment } from '../fixtures/vault'
 import { fixture } from '../environments/testing';
 import { generateMaturities } from '../shared/helpers';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 const { deployContract, loadFixture } = waffle
 
@@ -34,8 +35,7 @@ describe('Governance', function () {
 
   let env: VaultEnvironment
 
-  let owner: string
-  let other: string
+  let owner: SignerWithAddress
 
   let cauldron: Cauldron
   let ladle: LadleWrapper
@@ -59,12 +59,10 @@ describe('Governance', function () {
   let baseId = ethers.utils.hexlify(ethers.utils.randomBytes(6))
   let ilkId = ethers.utils.hexlify(ethers.utils.randomBytes(6))
 
-  it('setup', async () => {
+  it('governance', async () => {
     env = await loadFixture(fixture);
 
-    const signers = await ethers.getSigners()
-    owner = await signers[0].getAddress()
-    other = await signers[1].getAddress()
+    owner = (await ethers.getSigners())[0]
 
     cauldron = env.cauldron as Cauldron
     ladle = env.ladle as LadleWrapper
@@ -81,9 +79,9 @@ describe('Governance', function () {
     await chiSource.set(WAD.mul(3))
 
     maturity = (await generateMaturities(1))[0]
-  })
+  // })
 
-  it('add an asset', async () => {
+  // it('add an asset', async () => {
     // 4b, 6c
     
     // Add asset in Cauldron
@@ -93,9 +91,9 @@ describe('Governance', function () {
     baseJoin = (await deployContract(owner, JoinArtifact, [base.address])) as Join
     await ladle.addJoin(baseId, baseJoin.address)
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address)
-  })
+  // })
 
-  it('make a base out of an asset', async () => {
+  // it('make a base out of an asset', async () => {
     // Asset, 4d
 
     // Add source to multioracle
@@ -103,9 +101,9 @@ describe('Governance', function () {
     
     // Add oracle for base in Cauldron
     await cauldron.setRateOracle(baseId, chiRateOracle.address)
-  })
+  // })
 
-  it('make a collateral out of an asset', async () => {
+  // it('make a collateral out of an asset', async () => {
     // Base, Asset, 4e, 4c 
     
     // Asset - Add asset in Cauldron
@@ -125,9 +123,9 @@ describe('Governance', function () {
 
     // 4c - Set max debt for the pair
     await cauldron.setMaxDebt(baseId, ilkId, WAD.mul(1000000))
-  })
+  // })
 
-  it('add a series', async () => {
+  // it('add a series', async () => {
     // Base, Collateral, 3a, 4f, 4g, 5a, 6d
 
     // 3a - Deploy fyToken
@@ -159,7 +157,7 @@ describe('Governance', function () {
 
     // Initialize pool
     await base.mint(pool.address, WAD.mul(1000000))
-    await pool.mint(owner, true, 0)
+    await pool.mint(await owner.getAddress(), true, 0)
 
     // 6d - Add pool to Ladle
     await ladle.addPool(seriesId, pool.address)
