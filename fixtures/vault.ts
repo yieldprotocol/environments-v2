@@ -55,6 +55,7 @@ export class VaultEnvironment {
   cauldron: Cauldron
   ladle: LadleWrapper
   poolRouter: PoolRouter
+  poolFactory: PoolFactory
   witch: Witch
 
   assets: Map<string, ERC20 | ERC20Mock>
@@ -71,6 +72,7 @@ export class VaultEnvironment {
     cauldron: Cauldron,
     ladle: LadleWrapper,
     poolRouter: PoolRouter,
+    poolFactory: PoolFactory,
     witch: Witch,
 
     assets: Map<string, ERC20 | ERC20Mock>,
@@ -86,6 +88,7 @@ export class VaultEnvironment {
     this.cauldron = cauldron
     this.ladle = ladle
     this.poolRouter = poolRouter
+    this.poolFactory = poolFactory
     this.witch = witch
     this.assets = assets
     this.oracles = oracles
@@ -261,7 +264,7 @@ export class VaultEnvironment {
     let router: PoolRouter
     let yieldMathLibrary: YieldMath
     let safeERC20NamerLibrary: SafeERC20Namer
-    let factory: PoolFactory
+    let poolFactory: PoolFactory
 
     const WETH9Factory = await ethers.getContractFactory('WETH9Mock')
     const weth9 = ((await WETH9Factory.deploy()) as unknown) as unknown as ERC20
@@ -281,14 +284,14 @@ export class VaultEnvironment {
         SafeERC20Namer: safeERC20NamerLibrary.address,
       },
     })
-    factory = ((await PoolFactoryFactory.deploy()) as unknown) as PoolFactory
-    await factory.deployed()
+    poolFactory = ((await PoolFactoryFactory.deploy()) as unknown) as PoolFactory
+    await poolFactory.deployed()
 
     const PoolRouterFactory = await ethers.getContractFactory('PoolRouter')
-    router = ((await PoolRouterFactory.deploy(factory.address, weth9.address)) as unknown) as PoolRouter
+    router = ((await PoolRouterFactory.deploy(poolFactory.address, weth9.address)) as unknown) as PoolRouter
     await router.deployed()
 
-    return { factory, router}
+    return { poolFactory, router}
 
   }
 
@@ -298,12 +301,12 @@ export class VaultEnvironment {
     base: ERC20Mock,
     fyToken: FYToken,
     seriesId: string,
-    factory: PoolFactory,
+    poolFactory: PoolFactory,
     funder: string,
   ) {
     // deploy base/fyToken POOL
-    const calculatedAddress = await factory.calculatePoolAddress(base.address, fyToken.address)
-    await factory.createPool(base.address, fyToken.address)
+    const calculatedAddress = await poolFactory.calculatePoolAddress(base.address, fyToken.address)
+    await poolFactory.createPool(base.address, fyToken.address)
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
 
     // Supply pool with a million tokens of each for initialization
@@ -339,7 +342,7 @@ export class VaultEnvironment {
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
     const ladle = new LadleWrapper(innerLadle)
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
-    const { router: poolRouter, factory }: { router:PoolRouter, factory: PoolFactory } = await this.deployPoolRouter();
+    const { router: poolRouter, poolFactory }: { router:PoolRouter, poolFactory: PoolFactory } = await this.deployPoolRouter();
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)
@@ -446,7 +449,7 @@ export class VaultEnvironment {
           baseContract, 
           fyToken, 
           seriesId, 
-          factory,
+          poolFactory,
           funders.get( baseId ) as string
         )
         pools.set(baseId, baseMap.set(seriesId, pool ))
@@ -466,6 +469,6 @@ export class VaultEnvironment {
       }
   }
 
-    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, witch, assets, oracles, series, pools, joins, vaults )
+    return new VaultEnvironment(owner, cauldron, ladle, poolRouter, poolFactory, witch, assets, oracles, series, pools, joins, vaults )
   }
 }

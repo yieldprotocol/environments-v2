@@ -23,7 +23,7 @@ describe('Ladle - serve and repay', function () {
 
   let cauldron: Cauldron
   let ladle: LadleWrapper
-    let base: ERC20Mock
+  let base: ERC20Mock
   let ilk: ERC20Mock
   let fyToken: FYToken
   let pool: Pool
