@@ -4,7 +4,6 @@ import { Cauldron } from '../typechain/Cauldron'
 import { FYToken } from '../typechain/FYToken'
 import { Pool } from '../typechain/Pool'
 import { ERC20Mock } from '../typechain/ERC20Mock'
-import { Ladle } from '../typechain/Ladle'
 import { LadleWrapper } from '../shared/ladleWrapper'
 
 import { ethers, waffle } from 'hardhat'
@@ -23,9 +22,8 @@ describe('Ladle - serve and repay', function () {
   let other: string
 
   let cauldron: Cauldron
-  let ladle: Ladle
-  let router: LadleWrapper
-  let base: ERC20Mock
+  let ladle: LadleWrapper
+    let base: ERC20Mock
   let ilk: ERC20Mock
   let fyToken: FYToken
   let pool: Pool
@@ -43,8 +41,7 @@ describe('Ladle - serve and repay', function () {
     other = await signers[1].getAddress()
 
     cauldron = env.cauldron as Cauldron
-    ladle = env.ladle as Ladle
-    router = env.router as LadleWrapper
+    ladle = env.ladle as LadleWrapper
     base = env.assets.get(baseId) as ERC20Mock
     ilk = env.assets.get(ilkId) as ERC20Mock
     seriesId = env.series.keys().next().value as string
@@ -58,13 +55,13 @@ describe('Ladle - serve and repay', function () {
     // const expectedDebtInFY = baseBorrowed.mul(105).div(100) // TODO: Import yieldspace.ts and get a proper estimation
     const inkPosted = WAD.mul(2)
 
-    await expect(router.build(vaultId, seriesId, ilkId))
+    await expect(ladle.build(vaultId, seriesId, ilkId))
     .to.emit(cauldron, 'VaultBuilt')
     .withArgs(vaultId, owner, seriesId, ilkId)
 
-    await router.serve(vaultId, other, inkPosted, baseBorrowed, MAX)
+    await ladle.serve(vaultId, other, inkPosted, baseBorrowed, MAX)
     
-    /* await expect(await router.serve(vaultId, other, inkPosted, baseBorrowed, MAX))
+    /* await expect(await ladle.serve(vaultId, other, inkPosted, baseBorrowed, MAX))
       .to.emit(cauldron, 'VaultPoured')
       .withArgs(vaultId, seriesId, ilkId, inkPosted, expectedDebtInFY)
       .to.emit(pool, 'Trade')
@@ -77,19 +74,19 @@ describe('Ladle - serve and repay', function () {
     
     // it('repays debt with base', async () => {
     await loadFixture(fixture);
-    await router.build(vaultId, seriesId, ilkId)
-    await router.pour(vaultId, owner, WAD, WAD)
+    await ladle.build(vaultId, seriesId, ilkId)
+    await ladle.pour(vaultId, owner, WAD, WAD)
 
     baseBalanceBefore = await base.balanceOf(owner)
     let debtRepaidInBase = WAD.div(2)
     // const debtRepaidInFY = debtRepaidInBase.mul(105).div(100) // TODO: Import yieldspace.ts and get a proper estimation
     let inkRetrieved = WAD.div(4)
 
-    await base.transfer(pool.address, debtRepaidInBase) // This would normally be part of a multicall, using router.transferToPool
+    await base.transfer(pool.address, debtRepaidInBase) // This would normally be part of a multicall, using ladle.transferToPool
 
-    await router.repay(vaultId, owner, inkRetrieved, 0)
+    await ladle.repay(vaultId, owner, inkRetrieved, 0)
 
-    /* await expect(await router.repay(vaultId, owner, inkRetrieved, 0))
+    /* await expect(await ladle.repay(vaultId, owner, inkRetrieved, 0))
       .to.emit(cauldron, 'VaultPoured')
       .withArgs(vaultId, seriesId, ilkId, inkRetrieved, debtRepaidInFY.mul(-1))
       .to.emit(pool, 'Trade')
@@ -100,21 +97,21 @@ describe('Ladle - serve and repay', function () {
 
   // it('repays debt with base in a batch', async () => {
     await loadFixture(fixture);
-    await router.build(vaultId, seriesId, ilkId)
-    await router.pour(vaultId, owner, WAD, WAD)
+    await ladle.build(vaultId, seriesId, ilkId)
+    await ladle.pour(vaultId, owner, WAD, WAD)
 
     baseBalanceBefore = await base.balanceOf(owner)
     debtRepaidInBase = WAD.div(2)
     // const debtRepaidInFY = debtRepaidInBase.mul(105).div(100)
     inkRetrieved = WAD.div(4)
 
-    await base.approve(ladle.address, debtRepaidInBase) // This would normally be part of a multicall, using router.forwardPermit
-    await router.batch(
+    await base.approve(ladle.address, debtRepaidInBase) // This would normally be part of a multicall, using ladle.forwardPermit
+    await ladle.batch(
       [
-        router.transferToPoolAction(seriesId, true, debtRepaidInBase),
-        router.repayAction(vaultId, owner, inkRetrieved, 0)
+        ladle.transferToPoolAction(seriesId, true, debtRepaidInBase),
+        ladle.repayAction(vaultId, owner, inkRetrieved, 0)
       ])
-    /* await expect(router.batch(vaultId, [OPS.TRANSFER_TO_POOL, OPS.REPAY], [transferToPoolData, repayData]))
+    /* await expect(ladle.batch(vaultId, [OPS.TRANSFER_TO_POOL, OPS.REPAY], [transferToPoolData, repayData]))
       .to.emit(cauldron, 'VaultPoured')
       .withArgs(vaultId, seriesId, ilkId, inkRetrieved, debtRepaidInFY.mul(-1))
       .to.emit(pool, 'Trade')
@@ -123,7 +120,7 @@ describe('Ladle - serve and repay', function () {
     expect(await base.balanceOf(owner)).to.equal(baseBalanceBefore.sub(debtRepaidInBase))
 
     // it('repays all debt of a vault with base', async () => {
-    await router.pour(vaultId, owner, WAD, WAD)
+    await ladle.pour(vaultId, owner, WAD, WAD)
 
     baseBalanceBefore = await base.balanceOf(owner)
     let baseOffered = WAD.mul(2)
@@ -131,9 +128,9 @@ describe('Ladle - serve and repay', function () {
     // const debtinBase = debtinFY.mul(100).div(105)
     inkRetrieved = WAD.div(4)
 
-    await base.transfer(pool.address, baseOffered) // This would normally be part of a multicall, using router.transferToPool
-    await router.repayVault(vaultId, owner, inkRetrieved, MAX)
-    /* await expect(await router.repayVault(vaultId, owner, inkRetrieved, MAX))
+    await base.transfer(pool.address, baseOffered) // This would normally be part of a multicall, using ladle.transferToPool
+    await ladle.repayVault(vaultId, owner, inkRetrieved, MAX)
+    /* await expect(await ladle.repayVault(vaultId, owner, inkRetrieved, MAX))
       .to.emit(cauldron, 'VaultPoured')
       .withArgs(vaultId, seriesId, ilkId, inkRetrieved, WAD.mul(-1))
       .to.emit(pool, 'Trade')
@@ -144,7 +141,7 @@ describe('Ladle - serve and repay', function () {
     // expect(await base.balanceOf(owner)).to.equal(baseBalanceBefore.sub(debtinBase))
 
   // it('repays all debt of a vault with base in a batch', async () => {
-    await router.pour(vaultId, owner, WAD, WAD)
+    await ladle.pour(vaultId, owner, WAD, WAD)
 
     baseBalanceBefore = await base.balanceOf(owner)
     baseOffered = WAD.mul(2)
@@ -152,15 +149,15 @@ describe('Ladle - serve and repay', function () {
     // const debtInBase = debtinFY.mul(100).div(105)
     inkRetrieved = WAD.div(4)
 
-    await base.approve(ladle.address, baseOffered) // This would normally be part of a multicall, using router.forwardPermit
-    await router.batch(
+    await base.approve(ladle.address, baseOffered) // This would normally be part of a multicall, using ladle.forwardPermit
+    await ladle.batch(
       [
-        router.transferToPoolAction(seriesId, true, baseOffered),
-        router.repayVaultAction(vaultId, owner, inkRetrieved, MAX)
+        ladle.transferToPoolAction(seriesId, true, baseOffered),
+        ladle.repayVaultAction(vaultId, owner, inkRetrieved, MAX)
       ]
     )
     /* await expect(
-      await router.batch(
+      await ladle.batch(
         [OPS.TRANSFER_TO_POOL, OPS.REPAY_VAULT],
         [transferToPoolData, repayVaultData]
       )
