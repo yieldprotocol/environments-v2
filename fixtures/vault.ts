@@ -314,8 +314,8 @@ export class VaultEnvironment {
       // if that doesn't work, try transfering tokens from a whale/funder account
       await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
     }
-    // Initialize pool, leaving the minted liquidity tokens in the pool as well
-    await pool.mint(pool.address, true, 0)
+    // Initialize pool
+    await pool.mint(await owner.getAddress(), true, 0)
 
     // Donate fyToken to the pool to skew it
     await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
