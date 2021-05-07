@@ -1,6 +1,6 @@
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import { id } from '@yield-protocol/utils'
+import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../shared/constants'
 
 import { Join } from '../typechain/Join'
