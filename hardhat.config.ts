@@ -59,7 +59,7 @@ module.exports = {
     }
   },
   abiExporter: {
-    path: './abi/abis',
+    path: './abis',
     clear: true,
     flat: true,
     // only: [':ERC20$'],
