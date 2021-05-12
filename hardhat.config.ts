@@ -92,6 +92,7 @@ module.exports = {
     },
     kovan: {
       accounts,
+      gasPrice: 1000000000,
       url: nodeUrl('kovan')
     },
     goerli: {
