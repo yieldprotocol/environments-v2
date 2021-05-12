@@ -47,6 +47,7 @@ import { PoolRouter } from '../typechain/PoolRouter'
 
 import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
+import { SourceLocation } from 'hardhat/internal/hardhat-network/stack-traces/model'
 
 const { deployContract } = waffle
 
@@ -110,7 +111,7 @@ export class VaultEnvironment {
         id('setSpotOracle(bytes6,bytes6,address,uint32)'),
       ],
       receiver
-    )
+    ); console.log(`cauldron.grantRoles(gov, ${receiver})`)
   }
 
   public static async cauldronLadleAuth(cauldron: Cauldron, receiver: string) {
@@ -126,7 +127,7 @@ export class VaultEnvironment {
         id('slurp(bytes12,uint128,uint128)'),
       ],
       receiver
-    )
+    ); console.log(`cauldron.grantRoles(ladle, ${receiver})`)
   }
 
   public static async cauldronWitchAuth(cauldron: Cauldron, receiver: string) {
@@ -136,7 +137,7 @@ export class VaultEnvironment {
         id('grab(bytes12,address)'),
       ],
       receiver
-    )
+    ); console.log(`cauldron.grantRoles(witch, ${receiver})`)
   }
 
   public static async ladleGovAuth(ladle: LadleWrapper, receiver: string) {
@@ -148,7 +149,7 @@ export class VaultEnvironment {
         id('setFee(uint256)'),
       ],
       receiver
-    )
+    ); console.log(`ladle.grantRoles(gov, ${receiver})`)
   }
 
   public static async ladleWitchAuth(ladle: LadleWrapper, receiver: string) {
@@ -157,7 +158,7 @@ export class VaultEnvironment {
         'settle(bytes12,address,uint128,uint128)'
       )],
       receiver
-    )
+    ); console.log(`ladle.grantRoles(witch, ${receiver})`)
   }
 
   public static async witchGovAuth(witch: Witch, receiver: string) {
@@ -167,7 +168,7 @@ export class VaultEnvironment {
         id('setInitialProportion(uint128)'),
       ],
       receiver
-    )
+    ); console.log(`witch.grantRoles(gov, ${receiver})`)
   }
 
   public static async addAsset(owner: SignerWithAddress, cauldron: Cauldron, asset: string, funder:string) {
@@ -183,49 +184,54 @@ export class VaultEnvironment {
       // Fund account by transfer from funder
       await transferFromFunder(assetContract.address, await owner.getAddress(), WAD.mul(1000000), funder)
     } else {
-
       assetId = ethers.utils.formatBytes32String(asset).slice(0, 14)
       if (asset === 'DAI') { 
         assetContract = (await deployContract(owner, DaiMockArtifact, [assetId, asset])) as DaiMock
       } else {
         assetContract = (await deployContract(owner, ERC20MockArtifact, [assetId, asset])) as ERC20Mock
       }
+      console.log(`Deployed ${asset} with id ${assetId} at ${assetContract.address}`)
+
       // Fund the owner account ( through minting because token is mocked)
-      await assetContract.mint(await owner.getAddress(), WAD.mul(100000))
+      await assetContract.mint(await owner.getAddress(), WAD.mul(100000)); console.log('asset.mint(owner)')
     }
     // Add the asset to cauldron
-    await cauldron.addAsset(assetId, assetContract.address)
+    await cauldron.addAsset(assetId, assetContract.address); console.log('cauldron.addAsset')
     return { assetId, assetContract }
   }
 
   public static async addJoin(owner: SignerWithAddress, ladle: LadleWrapper, asset: ERC20|ERC20Mock, assetId: string) {
     const join = (await deployContract(owner, JoinArtifact, [asset.address])) as Join
-    await ladle.addJoin(assetId, join.address)
-    await asset.approve(join.address, ethers.constants.MaxUint256) // Owner approves all joins to take from him. Only testing
-    await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address)
+    console.log(`Deployed Join for ${assetId} at ${join.address}`)
+    await ladle.addJoin(assetId, join.address); console.log('ladle.addJoin')
+    await asset.approve(join.address, ethers.constants.MaxUint256); console.log('asset.approve(owner -> join)') // Owner approves all joins to take from him. Only testing
+    await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address); console.log('join.grantRoles(ladle)')
     return join
   }
 
   public static async addSpotOracle(owner: SignerWithAddress, cauldron: Cauldron, oracle: ChainlinkMultiOracle, baseId: string, ilkId: string) {
     const ratio = 1000000 //  1000000 == 100% collateralization ratio
     const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, [])) as ChainlinkAggregatorV3Mock
-    await aggregator.set(WAD.mul(2))
-    await oracle.setSources([baseId], [ilkId], [aggregator.address])
-    await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio)
+    console.log(`Deployed spot source at ${aggregator.address}`)
+    await aggregator.set(WAD.mul(2)); console.log(`aggregator.set`)
+    await oracle.setSources([baseId], [ilkId], [aggregator.address]); console.log(`oracle.setSources`)
+    await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio); console.log(`cauldron.setSpotOracle`)
     return oracle
   }
 
   public static async addRateOracle(owner: SignerWithAddress, cauldron: Cauldron, oracle: CompoundMultiOracle, baseId: string) {
     const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, [])) as CTokenRateMock
-    await cTokenRate.set(WAD.mul(2))
-    await oracle.setSources([baseId], [RATE], [cTokenRate.address])
-    await cauldron.setRateOracle(baseId, oracle.address)
+    console.log(`Deployed rate source at ${cTokenRate.address}`)
+    await cTokenRate.set(WAD.mul(2)); console.log(`cTokenRate.set`)
+    await oracle.setSources([baseId], [RATE], [cTokenRate.address]); console.log(`oracle.setSources`)
+    await cauldron.setRateOracle(baseId, oracle.address); console.log(`cauldron.setRateOracle`)
   }
 
   public static async addChiOracle(owner: SignerWithAddress, oracle: CompoundMultiOracle, baseId: string) { // This will be referenced by the fyToken, and needs no id
     const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, [])) as CTokenChiMock
-    await cTokenChi.set(WAD)
-    await oracle.setSources([baseId], [CHI], [cTokenChi.address])
+    console.log(`Deployed chi source at ${cTokenChi.address}`)
+    await cTokenChi.set(WAD); console.log(`cTokenChi.set`)
+    await oracle.setSources([baseId], [CHI], [cTokenChi.address]); console.log(`oracle.setSources`)
   }
 
   public static async addSeries(
@@ -248,14 +254,16 @@ export class VaultEnvironment {
       seriesId,
       seriesId,
     ])) as FYToken
+    console.log(`Deployed ${seriesId} FYtoken at ${fyToken.address}`)
 
     // Add fyToken/series to the Cauldron
-    await cauldron.addSeries(seriesId, baseId, fyToken.address)
+    await cauldron.addSeries(seriesId, baseId, fyToken.address); console.log(`cauldron.addSeries(${seriesId}, ${baseId}, fyToken)`)
 
     // Add all ilks to each series
-    await cauldron.addIlks(seriesId, ilkIds)
-    await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
-    await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address)
+    await cauldron.addIlks(seriesId, ilkIds); console.log('cauldron.addIlks')
+    await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address); console.log('cauldron.grantRoles(fyToken)')
+    await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address); console.log('cauldron.grantRoles(ladle)')
+    console.log(`Deployed series ${seriesId} for ${baseId} and ${maturity} at ${fyToken.address}`)
     return fyToken
   }
 
@@ -269,14 +277,17 @@ export class VaultEnvironment {
     const WETH9Factory = await ethers.getContractFactory('WETH9Mock')
     const weth9 = ((await WETH9Factory.deploy()) as unknown) as unknown as ERC20
     await weth9.deployed()
+    console.log(`Deployed WETH9 at ${weth9.address}`) // TODO: Take as a parameter
 
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
     yieldMathLibrary = ((await YieldMathFactory.deploy()) as unknown) as YieldMath
     await yieldMathLibrary.deployed()
+    console.log(`Deployed YieldMath at ${yieldMathLibrary.address}`)
 
     const SafeERC20NamerFactory = await ethers.getContractFactory('SafeERC20Namer')
     safeERC20NamerLibrary = ((await SafeERC20NamerFactory.deploy()) as unknown) as SafeERC20Namer
     await safeERC20NamerLibrary.deployed()
+    console.log(`Deployed SafeERC20Namer at ${safeERC20NamerLibrary.address}`)
     
     const PoolFactoryFactory = await ethers.getContractFactory('PoolFactory', {
       libraries: {
@@ -286,10 +297,12 @@ export class VaultEnvironment {
     })
     poolFactory = ((await PoolFactoryFactory.deploy()) as unknown) as PoolFactory
     await poolFactory.deployed()
+    console.log(`Deployed Pool Factory at ${poolFactory.address}`)
 
     const PoolRouterFactory = await ethers.getContractFactory('PoolRouter')
     router = ((await PoolRouterFactory.deploy(poolFactory.address, weth9.address)) as unknown) as PoolRouter
     await router.deployed()
+    console.log(`Deployed Pool Router at ${router.address}`)
 
     return { poolFactory, router}
 
@@ -307,24 +320,26 @@ export class VaultEnvironment {
     // deploy base/fyToken POOL
     const calculatedAddress = await poolFactory.calculatePoolAddress(base.address, fyToken.address)
     await poolFactory.createPool(base.address, fyToken.address)
+    console.log(`Deployed Pool for ${base.address} and ${fyToken.address} at ${calculatedAddress}`)
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
 
     // Supply pool with a million tokens of each for initialization
     try {
       // try minting tokens (as the token owner for mock tokens)
-      await base.mint(pool.address, WAD.mul(1000000))
+      await base.mint(pool.address, WAD.mul(1000000)); console.log(`base.mint(pool.address)`)
     } catch (e) { 
       // if that doesn't work, try transfering tokens from a whale/funder account
       await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
     }
     // Initialize pool
-    await pool.mint(await owner.getAddress(), true, 0)
+    await pool.mint(await owner.getAddress(), true, 0); console.log(`pool.mint(owner)`)
 
     // Donate fyToken to the pool to skew it
-    await fyToken.mint(pool.address, WAD.mul(1000000).div(9))
-    await pool.sync()
+    await fyToken.mint(pool.address, WAD.mul(1000000).div(9)); console.log(`fyToken.mint(pool.address)`)
+    await pool.sync(); console.log(`pool.sync`)
     
-    await ladle.addPool(seriesId, pool.address)
+    await ladle.addPool(seriesId, pool.address); console.log(`ladle.addPool(${seriesId}, pool.address)`)
+    console.log(`Deployed Pool for series ${seriesId} at ${pool.address}`)
     return pool
   }
 
@@ -339,10 +354,14 @@ export class VaultEnvironment {
     const ownerAdd = await owner.getAddress()
 
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
+    console.log(`Deployed Cauldron at ${cauldron.address}`)
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    console.log(`Deployed Ladle at ${innerLadle.address}`)
     const ladle = new LadleWrapper(innerLadle)
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
+    console.log(`Deployed Witch at ${witch.address}`)
     const { router: poolRouter, poolFactory }: { router:PoolRouter, poolFactory: PoolFactory } = await this.deployPoolRouter();
+
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)
@@ -357,7 +376,7 @@ export class VaultEnvironment {
     await this.witchGovAuth(witch, ownerAdd)
 
     // ==== Set protection period for vaults in liquidation ====
-    await cauldron.setAuctionInterval(24 * 60 * 60)
+    await cauldron.setAuctionInterval(24 * 60 * 60); console.log('setAuctionInterval')
 
     // ==== Add assets and joins ====
     const assets: Map<string, ERC20|ERC20Mock> = new Map()
@@ -375,16 +394,16 @@ export class VaultEnvironment {
       // add join
       const join = await this.addJoin(owner, ladle, assetContract, assetId) as Join
       joins.set(assetId, join)
-      await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ownerAdd) // Only test environment
+      await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ownerAdd); console.log('join.grantRoles(owner)') // Only test environment
     }
 
     // Add Ether as an asset, as well as WETH9 and the WETH9 Join
-    const weth = (await deployContract(owner, WETH9MockArtifact, [])) as WETH9Mock
-    await cauldron.addAsset(ETH, weth.address)
+    /* const weth = (await deployContract(owner, WETH9MockArtifact, [])) as WETH9Mock
+    await cauldron.addAsset(ETH, weth.address); console.log('cauldron.addAsset(ETH, weth.address)')
     assets.set(ETH, weth)
 
     const wethJoin = await this.addJoin(owner, ladle, weth as unknown as ERC20Mock, ETH) as Join
-    joins.set(ETH, wethJoin)
+    joins.set(ETH, wethJoin) */
 
     // FOR EACH of the Bases: 
     // 1. set debt limits, 
@@ -410,17 +429,20 @@ export class VaultEnvironment {
 
       // ==== Set debt limits ====
       for (let ilkId of ilkIds) {
-        await cauldron.setMaxDebt(baseId, ilkId, WAD.mul(1000000))
+        await cauldron.setMaxDebt(baseId, ilkId, WAD.mul(1000000)); console.log(`cauldron.setMaxDebt(${baseId}, ${ilkId})`)
       }
 
       // ==== Add oracles ====
       const chiRateOracle = (await deployContract(owner, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
+      console.log(`Compound rate and chi oracle deployed at ${chiRateOracle.address}`)
       await this.addRateOracle(owner, cauldron, chiRateOracle, baseId)
       oracles.set(RATE, chiRateOracle as unknown as OracleMock)
       await this.addChiOracle(owner, chiRateOracle, baseId)
       oracles.set(CHI, chiRateOracle as unknown as OracleMock)
   
       const spotOracle = (await deployContract(owner, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
+      console.log(`Chainlink spot oracle deployed at ${spotOracle.address}`)
+
       // There is only one base, so the spot oracles we need are one for each ilk, against the only base.
       for (let ilkId of ilkIds) {
         oracles.set(ilkId, await this.addSpotOracle(owner, cauldron, spotOracle, baseId, ilkId) as unknown as OracleMock)
@@ -438,7 +460,7 @@ export class VaultEnvironment {
           id('mint(address,uint256)'),
           id('burn(address,uint256)'),
           id('setOracle(address)')],
-        ownerAdd) // Only test environment
+        ownerAdd); console.log('fyToken.grantRoles(owner)') // Only test environment
         
         // Add a pool between the base and each series 
         // note: pools structure is Map<string, Map<string, Pool>>
@@ -454,14 +476,13 @@ export class VaultEnvironment {
         )
         pools.set(baseId, baseMap.set(seriesId, pool ))
 
-      // ==== Finally, build some vaults (if requested ) ====
+        // ==== Finally, build some vaults (if requested ) ====
         // For each series and ilk we create a vault - vaults[seriesId][ilkId] = vaultId
         if ( buildVaults ) { 
           const seriesVaults: Map<string, string> = new Map()
           for (let ilkId of ilkIds) {
-            await cauldron.build(ownerAdd, ethers.utils.hexlify(ethers.utils.randomBytes(12)), seriesId, ilkId)
-            const vaultEvents = (await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null)))
-            const vaultId = vaultEvents[vaultEvents.length - 1].args.vaultId
+            const vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
+            await cauldron.build(ownerAdd, vaultId, seriesId, ilkId); console.log(`cauldron.build(owner, ${vaultId}, ${seriesId}, ${ilkId})`)
             seriesVaults.set(ilkId, vaultId)
           }
           vaults.set(seriesId, seriesVaults)
