@@ -18,28 +18,39 @@ export const YIELDSPACE_OPS = {
   FORWARD_DAI_PERMIT: 3,
   JOIN_ETHER: 4,
   EXIT_ETHER: 5
-  }
+}
+
+export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
+export const secondsInOneYear = BigNumber.from(31557600)
+export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
+export const k = ONE64.div(secondsInTenYears)
+
+export const g0 = ONE64 // No fees
+export const g1 = ONE64.mul(950).div(1000) // Sell base to the pool
+export const g2 = ONE64.mul(1000).div(950) // Sell fyToken to the pool
 
 export const VAULT_OPS = {
   BUILD:                0,
   TWEAK:                1,
   GIVE:                 2,
   DESTROY:              3,
-  STIR_TO:              4,
-  STIR_FROM:            5,
-  POUR:                 6,
-  SERVE:                7,
-  ROLL:                 8,
-  CLOSE:                9,
-  REPAY:                10,
-  REPAY_VAULT:          11,
-  FORWARD_PERMIT:       12,
-  FORWARD_DAI_PERMIT:   13,
-  JOIN_ETHER:           14,
-  EXIT_ETHER:           15,
-  TRANSFER_TO_POOL:     16,
-  ROUTE:                17,
-  TRANSFER_TO_FYTOKEN:  18,
-  REDEEM:               19,
-  }
+  STIR:                 4,
+  POUR:                 5,
+  SERVE:                6,
+  ROLL:                 7,
+  CLOSE:                8,
+  REPAY:                9,
+  REPAY_VAULT:          10,
+  FORWARD_PERMIT:       11,
+  FORWARD_DAI_PERMIT:   12,
+  JOIN_ETHER:           13,
+  EXIT_ETHER:           14,
+  TRANSFER_TO_POOL:     15,
+  ROUTE:                16,
+  TRANSFER_TO_FYTOKEN:  17,
+  REDEEM:               18,
+}
+
+export const CHI = ethers.utils.formatBytes32String('chi')
+export const RATE = ethers.utils.formatBytes32String('rate')
 

@@ -1,13 +1,13 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
-import { WAD, DAI, USDC } from '../shared/constants'
+import { CHI, WAD, DAI, USDC } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Join } from '../typechain/Join'
 import { FYToken } from '../typechain/FYToken'
 import { ERC20Mock } from '../typechain/ERC20Mock'
-import { OracleMock } from '../typechain/OracleMock'
-import { Ladle } from '../typechain/Ladle'
+import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
+import { SourceMock } from '../typechain/SourceMock'
 import { LadleWrapper } from '../shared/ladleWrapper'
 
 import { ethers, waffle } from 'hardhat'
@@ -28,8 +28,9 @@ describe('FYToken', function () {
   let fyToken: FYToken
   let base: ERC20Mock
   let baseJoin: Join
-  let chiOracle: OracleMock
-  let router: LadleWrapper
+  let chiOracle: CompoundMultiOracle
+  let chiSource: SourceMock
+  let ladle: LadleWrapper
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
   let seriesId: string
@@ -44,12 +45,13 @@ describe('FYToken', function () {
     owner = await ownerAcc.getAddress()
 
     cauldron = env.cauldron as Cauldron
-    router = env.router as LadleWrapper
+    ladle = env.ladle as LadleWrapper
     base = env.assets.get(baseId) as ERC20Mock
     baseJoin = env.joins.get(baseId) as Join
     seriesId = env.series.keys().next().value as string
     fyToken = env.series.get(seriesId) as FYToken
-    chiOracle = env.oracles.get('chi') as OracleMock
+    chiOracle = (env.oracles.get(CHI) as unknown) as CompoundMultiOracle
+    chiSource = (await ethers.getContractAt('SourceMock', await chiOracle.sources(baseId, CHI))) as SourceMock
 
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
 
@@ -57,7 +59,7 @@ describe('FYToken', function () {
 
     await cauldron.build(owner, vaultId, seriesId, ilkId)
 
-    await router.pour(vaultId, owner, WAD, WAD) // This gives `owner` WAD fyToken
+    await ladle.pour(vaultId, owner, WAD, WAD) // This gives `owner` WAD fyToken
 
     await base.approve(baseJoin.address, WAD.mul(2))
     await baseJoin.join(owner, WAD.mul(2)) // This loads the base join to serve redemptions
@@ -89,7 +91,7 @@ describe('FYToken', function () {
     const accrual = WAD.mul(110).div(100) // accrual is 10%
 
     // it('redeems fyToken for underlying according to the chi accrual', async () => {
-    await chiOracle.set(accrual) // Since spot was 1 when recorded at maturity, accrual is equal to the current spot
+    await chiSource.set(accrual) // Since spot was 1 when recorded at maturity, accrual is equal to the current spot
     
     const baseOwnerBefore = await base.balanceOf(owner)
     const baseJoinBefore = await base.balanceOf(baseJoin.address)

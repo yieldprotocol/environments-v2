@@ -1,7 +1,7 @@
 .vscode/
 node_modules
 typechain/
-abi/
+abis/
 cache/
 artifacts/
 yarn-error.log
