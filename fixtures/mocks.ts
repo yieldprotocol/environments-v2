@@ -109,6 +109,7 @@ export class Mocks {
       baseSources.set(CHI, await this.deployChiSource(owner, base))
 
       for (let ilkId of ilkIds) {
+        if (baseId === ilkId) continue
         const quote = bytesToString(ilkId)
 
         // For each base and asset pair, we add a mock spot oracle source

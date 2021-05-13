@@ -15,17 +15,17 @@ import { generateMaturities } from '../shared/helpers';
  * 
  * 
  */
-const cauldronAddress = '0x97fd63D049089cd70D9D139ccf9338c81372DE68'
-const ladleAddress = '0xC0BF43A4Ca27e0976195E6661b099742f10507e5'
-const poolFactoryAddress = '0x9d136eEa063eDE5418A6BC7bEafF009bBb6CFa70'
+const cauldronAddress = '0x5ff6B059f51e580D1da9924b98Ddc0A3Be5C7D0d'
+const ladleAddress = '0x074B7c78e96c60709733dc319738E3aD1b6E3E6a'
+const poolFactoryAddress = '0x1b91fAB74aCd3754aE82ef7dfBd5C630a83A55B4'
 
 const baseIds: string[] = [DAI, USDC]
 const ilkIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
 
-const chiOracleAddress = '0x85495222Fd7069B987Ca38C2142732EbBFb7175D'
+const chiOracleAddress = '0x27C98AC76D3bcC3b31EFd484678aE8B010b9379c'
 const chiSourceAddresses = new Map([
-    [DAI, '0xd30bF3219A0416602bE8D482E0396eF332b0494E'],
-    [USDC, '0x4DAf17c8142A483B2E2348f56ae0F2cFDAe22ceE'],
+    [DAI, '0x8a20a73DedF99c55B303Db8131A8eCf3C9fe22Cf'],
+    [USDC, '0xA0efc9539D30eF85C3b7700C4bB51eAEf92E530F'],
 ])
 
 const maturities: number[] = []

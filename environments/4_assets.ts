@@ -13,33 +13,33 @@ import { Ladle } from '../typechain/Ladle'
  * 
  */
 const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
-const cauldronAddress = '0x97fd63D049089cd70D9D139ccf9338c81372DE68'
-const ladleAddress = '0xC0BF43A4Ca27e0976195E6661b099742f10507e5'
+const cauldronAddress = '0x5ff6B059f51e580D1da9924b98Ddc0A3Be5C7D0d'
+const ladleAddress = '0x074B7c78e96c60709733dc319738E3aD1b6E3E6a'
 
 const assets: Array<[string, string]> =  [ 
-    [DAI,'0x627b9A657eac8c3463AD17009a424dFE3FDbd0b1'],
-    [USDC,'0x8E45C0936fa1a65bDaD3222bEFeC6a03C83372cE'],
-    [ETH,'0xC32609C91d6B6b51D48f2611308FEf121B02041f'],
-    [TST, '0x262e2b50219620226C5fB5956432A88fffd94Ba7'],
+    [DAI,'0x09338a0f228DA35Fc62aFedD2995C8c03937B3f5'],
+    [USDC,'0xD2d5499467eAD2c0595CC34ADa0E7E92f240CE04'],
+    [ETH,'0x833E4643B90FAcaeC9Aa8dF081eE361AA16EC3d6'],
+    [TST, '0x3eBBafCf9404551B0fDd4846ECCD0A917ec7d14C'],
 ]
-const baseIds: Array<string> = [DAI, USDC]
+const baseIds: Array<string> = [/*DAI, */USDC]
 
-const rateOracleAddress = '0x85495222Fd7069B987Ca38C2142732EbBFb7175D'
+const rateOracleAddress = '0x27C98AC76D3bcC3b31EFd484678aE8B010b9379c'
 const rateSourceAddresses = new Map([
-    [DAI, '0xd753c12650c280383Ce873Cc3a898F6f53973d16'],
-    [USDC, '0x3f9A1B67F3a3548e0ea5c9eaf43A402d12b6a273'],
+    [DAI, '0xe1d01C7AD86f4149bdf2f8530b6F44A97bCECb3D'],
+    [USDC, '0xe8DDCbC4C31D82d571dA3a8F42170dA95e1614c3'],
 ])
-const spotOracleAddress = '0x3abBB0D6ad848d64c8956edC9Bf6f18aC22E1485'
+const spotOracleAddress = '0x99dBE4AEa58E518C50a1c04aE9b48C9F6354612f'
 const spotSourceAddresses = new Map([
     [DAI, new Map([
-        [USDC, '0x4951A1C579039EbfCBA0BE33D2cd3A6D30b0f802'],
-        [ETH, '0xb007167714e2940013EC3bb551584130B7497E22'],
-        [TST, '0xeC827421505972a2AE9C320302d3573B42363C26'],
+        [USDC, '0xd3030DF3dfE48F3F1b6a0aa6f4505BaDB863f786'],
+        [ETH, '0x7c9cd57f0a2bEcb5326088145883EAdBAA8a9110'],
+        [TST, '0xe011B901F9385dD469769A3f88C9f4BC10F0F1c5'],
     ])],
     [USDC, new Map([
-        [DAI, '0x24d41dbc3d60d0784f8a937c59FBDe51440D5140'],
-        [ETH, '0x76cec9299B6Fa418dc71416FF353737AB7933A7D'],
-        [TST, '0x313F922BE1649cEc058EC0f076664500c78bdc0b'],
+        [DAI, '0xA7a2B2304c5FFA9c3c7063E6Bcd7D251b947Aa08'],
+        [ETH, '0x3d7b095c827765D4783960A6DD58574e73Cc9256'],
+        [TST, '0x320c2795Fd6A7c99907C6E89DeE9e965537Fb485'],
     ])],
 ])
 

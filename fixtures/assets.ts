@@ -36,8 +36,8 @@ export class Assets {
     const symbol = bytesToString(assetId)
     const join = (await deployContract(owner, JoinArtifact, [assetAddress])) as Join
     console.log(`Deployed Join for ${symbol} at ${join.address}`)
-    await ladle.addJoin(assetId, join.address); console.log('ladle.addJoin')
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address); console.log('join.grantRoles(ladle)')
+    await ladle.addJoin(assetId, join.address); console.log('ladle.addJoin')
     return join
   }
 

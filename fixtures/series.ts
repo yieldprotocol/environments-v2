@@ -56,26 +56,25 @@ export class Series {
     ilkIds: Array<string>,
     maturity: number,
   ) {
+    const symbol = bytesToString(seriesId)
 
     const fyToken = (await deployContract(owner, FYTokenArtifact, [
       baseId,
       chiOracle.address,
       baseJoin.address,
       maturity,
-      seriesId,
-      seriesId,
+      symbol,
+      symbol,
     ])) as FYToken
-    console.log(`Deployed ${bytesToString(seriesId)} FYtoken at ${fyToken.address}`)
+    console.log(`Deployed FYtoken ${symbol} at ${fyToken.address}`)
 
-    // Add fyToken/series to the Cauldron
-    await cauldron.addSeries(seriesId, baseId, fyToken.address); console.log(`cauldron.addSeries(${seriesId}, ${baseId}, fyToken)`)
-
-    // Add all ilks to each series
     if (ilkIds.includes(baseId)) ilkIds.splice(ilkIds.indexOf(baseId), 1) // Remove baseId from the ilkIds, if present
-    await cauldron.addIlks(seriesId, ilkIds); console.log('cauldron.addIlks')
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address); console.log('cauldron.grantRoles(fyToken)')
     await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address); console.log('cauldron.grantRoles(ladle)')
-    console.log(`Deployed series ${seriesId} for ${baseId} and ${maturity} at ${fyToken.address}`)
+
+    // Add fyToken/series to the Cauldron and all ilks to each series
+    await cauldron.addSeries(seriesId, baseId, fyToken.address); console.log(`cauldron.addSeries(${seriesId}, ${baseId}, fyToken)`)
+    await cauldron.addIlks(seriesId, ilkIds); console.log('cauldron.addIlks')
     return fyToken
   }
 
@@ -94,7 +93,6 @@ export class Series {
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
     
     await ladle.addPool(seriesId, pool.address); console.log(`ladle.addPool(${bytesToString(seriesId)}, pool.address)`)
-    console.log(`Deployed Pool for series ${bytesToString(seriesId)} at ${pool.address}`)
     return pool
   }
 
