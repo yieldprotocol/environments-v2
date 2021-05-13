@@ -17,6 +17,11 @@ import { SourceMock } from '../typechain/SourceMock'
 
 const { deployContract } = waffle
 
+
+function bytesToString(bytes: string): string {
+  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+}
+
 export class Mocks {
   owner: SignerWithAddress
   assets: Map<string, ERC20Mock | WETH9Mock>
@@ -32,14 +37,10 @@ export class Mocks {
     this.sources = sources
   }
 
-  public static bytesToString(bytes: string): string {
-    return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
-  }
-
   public static async deployAsset(owner: SignerWithAddress, assetId: string): Promise<ERC20Mock | WETH9Mock>{
     let asset: ERC20Mock | WETH9Mock;
 
-    const symbol = Mocks.bytesToString(assetId)
+    const symbol = bytesToString(assetId)
 
     if (assetId === DAI) { 
       asset = (await deployContract(owner, DaiMockArtifact, [symbol, symbol])) as unknown as ERC20Mock

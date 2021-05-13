@@ -10,7 +10,7 @@ import { Mocks } from '../fixtures/mocks'
  *
  */
 
-const assetIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST')]
+const assetIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
 const baseIds: string[] = [DAI, USDC]
 console.time("Mocks deployed in");
 
