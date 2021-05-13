@@ -13,9 +13,9 @@ import { Witch } from '../typechain/Witch'
  *
  */
 
-const cauldronAddress = '0xe70f935c32dA4dB13e7876795f1e175465e6458e'
-const ladleAddress = '0x3C15538ED063e688c8DF3d571Cb7a0062d2fB18D'
-const witchAddress = '0xccf1769D8713099172642EB55DDFFC0c5A444FE9'
+const cauldronAddress = '0x97fd63D049089cd70D9D139ccf9338c81372DE68'
+const ladleAddress = '0xC0BF43A4Ca27e0976195E6661b099742f10507e5'
+const witchAddress = '0x43cA9bAe8dF108684E5EAaA720C25e1b32B0A075'
 let governor = ''
 
 console.time("Assets deployed in");

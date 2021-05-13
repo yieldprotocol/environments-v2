@@ -82,32 +82,37 @@ export class Mocks {
 
   public static async setup(
     owner: SignerWithAddress,
-    assetIds: Array<string>,
     baseIds: Array<string>,
+    ilkIds: Array<string>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
     const sources: Map<string, Map<string, SourceMock>> = new Map()
 
-    for (let assetId of assetIds) {
-      const asset = await this.deployAsset(owner, assetId)
-      assets.set(assetId, asset)
+    for (let baseId of baseIds) {
+      const asset = await this.deployAsset(owner, baseId)
+      assets.set(baseId, asset)
     }
 
+    for (let ilkId of ilkIds) {
+      if (baseIds.includes(ilkId)) continue
+      const asset = await this.deployAsset(owner, ilkId)
+      assets.set(ilkId, asset)
+    }
+
+
     for (let baseId of baseIds) {
-      if (!assetIds.includes(baseId)) console.error('baseId not included in assetIds')
-      const base = Mocks.bytesToString(baseId)
+      const base = bytesToString(baseId)
 
       // For each base, we add mock chi and rate oracle sources
       const baseSources = new Map()
       baseSources.set(RATE, await this.deployRateSource(owner, base))
       baseSources.set(CHI, await this.deployChiSource(owner, base))
 
-      for (let assetId of assetIds) {
-        if (assetId === baseId) continue;
-        const quote = Mocks.bytesToString(assetId)
+      for (let ilkId of ilkIds) {
+        const quote = bytesToString(ilkId)
 
         // For each base and asset pair, we add a mock spot oracle source
-        baseSources.set(assetId, await this.deploySpotSource(owner, base, quote))
+        baseSources.set(ilkId, await this.deploySpotSource(owner, base, quote))
       }
       sources.set(baseId, baseSources)
     }

@@ -12,7 +12,6 @@ import { Ladle } from '../typechain/Ladle'
 
 const { deployContract } = waffle
 
-
 function bytesToString(bytes: string): string {
   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
 }
@@ -62,9 +61,9 @@ export class Assets {
     assets: Array<[string, string]>,              // [ [assetId, assetAddress], ... ]
     baseIds: Array<string>,
     rateOracle: IOracle,
-    rateSources: Map<string, string>,             // baseId => sourceAddress
+    rateSourceAddresses: Map<string, string>,             // baseId => sourceAddress
     spotOracle: IOracle,
-    spotSources: Map<string, Map<string, string>> // baseId,quoteId => sourceAddress
+    spotSourceAddresses: Map<string, Map<string, string>> // baseId,quoteId => sourceAddress
   ) {
     const joins: Map<string, Join> = new Map()
 
@@ -79,7 +78,7 @@ export class Assets {
 
     for (let baseId of baseIds) {
       // ==== Add the rate oracle for each base
-      await this.addRateOracle(cauldron, rateOracle, baseId, rateSources.get(baseId) as string)
+      await this.addRateOracle(cauldron, rateOracle, baseId, rateSourceAddresses.get(baseId) as string)
 
       for (let [assetId, ] of assets) {
         if (baseId === assetId) continue;
@@ -87,10 +86,10 @@ export class Assets {
         await cauldron.setMaxDebt(baseId, assetId, WAD.mul(1000000)); console.log(`cauldron.setMaxDebt(${baseId}, ${assetId})`)
         
         // ==== Add the spot oracle for each base/quote pair
-        await this.addSpotOracle(cauldron, spotOracle, baseId, assetId, (spotSources.get(baseId) as Map<string, string>).get(assetId) as string)
+        await this.addSpotOracle(cauldron, spotOracle, baseId, assetId, (spotSourceAddresses.get(baseId) as Map<string, string>).get(assetId) as string)
       }
     }
 
-    return new Assets(owner, joins )
+    return new Assets(owner, joins)
   }
 }

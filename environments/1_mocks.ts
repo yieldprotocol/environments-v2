@@ -10,12 +10,12 @@ import { Mocks } from '../fixtures/mocks'
  *
  */
 
-const assetIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
 const baseIds: string[] = [DAI, USDC]
+const ilkIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
 console.time("Mocks deployed in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();    
-    await Mocks.setup(ownerAcc, assetIds, baseIds)
+    await Mocks.setup(ownerAcc, baseIds, ilkIds)
     console.timeEnd("Mocks deployed in")
 })()
