@@ -14,7 +14,7 @@ const WETH9 = '0xb6E464A5FF2bC6117B569dc1EC9Fadd9F694A6dD'
 console.time("Protocol deployed in");
 
 (async () => {
-    const [ ownerAcc ] = await ethers.getSigners();    
+    const [ ownerAcc ] = await ethers.getSigners();
     await Protocol.setup(ownerAcc, WETH9)
     console.timeEnd("Protocol deployed in")
 })()

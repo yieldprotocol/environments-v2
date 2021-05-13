@@ -94,18 +94,6 @@ export class Protocol {
     ); console.log(`cauldron.grantRoles(witch, ${receiver})`)
   }
 
-  public static async ladleGovAuth(ladle: LadleWrapper, receiver: string) {
-    await ladle.grantRoles(
-      [
-        id('addJoin(bytes6,address)'),
-        id('addPool(bytes6,address)'),
-        id('setPoolRouter(address)'),
-        id('setFee(uint256)'),
-      ],
-      receiver
-    ); console.log(`ladle.grantRoles(gov, ${receiver})`)
-  }
-
   public static async ladleWitchAuth(ladle: LadleWrapper, receiver: string) {
     await ladle.grantRoles([
       id(
