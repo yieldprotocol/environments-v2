@@ -130,9 +130,7 @@ export class Series {
       let index = 1
       for (let maturity of maturities) {
 
-        const indexId = ethers.utils.formatBytes32String(index.toString()).slice(0, 2)
-        const seriesId = toBytes6(baseId.slice(0, 12) + indexId)
-        index++
+        const seriesId = ethers.utils.formatBytes32String(bytesToString(baseId) + index++).slice(0, 14) // baseId + index
 
         const fyToken = await this.addSeries(owner, cauldron, ladle, baseJoin, chiOracle, seriesId, baseId, ilkIds, maturity) as FYToken
         series.set(seriesId, fyToken)
