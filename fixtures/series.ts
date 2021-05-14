@@ -88,7 +88,7 @@ export class Series {
   ) {
     // deploy base/fyToken Pool
     const calculatedAddress = await poolFactory.calculatePoolAddress(base.address, fyToken.address)
-    await poolFactory.createPool(base.address, fyToken.address)
+    await poolFactory.createPool(base.address, fyToken.address) // TODO: Remember to hand ownership to governor
     console.log(`Deployed Pool for ${await base.symbol()} and ${await fyToken.symbol()} at ${calculatedAddress}`)
     const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
     
