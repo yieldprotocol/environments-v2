@@ -13,9 +13,9 @@ import { Witch } from '../typechain/Witch'
  *
  */
 
-const cauldronAddress = '0x5ff6B059f51e580D1da9924b98Ddc0A3Be5C7D0d'
-const ladleAddress = '0x074B7c78e96c60709733dc319738E3aD1b6E3E6a'
-const witchAddress = '0x701e2Be910ad2b060caa30431c004B25A84be6fC'
+const cauldronAddress = '0xeF7a4151c5899226C8C16AF98Fe43f756B449394'
+const ladleAddress = '0x109919afEF2c7d76d07093810a19adC9D99A876C'
+const witchAddress = '0xD25BC369EFB245Db5D65dc839e2c93f013157b90'
 let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce
 
 console.time("Assets deployed in");
@@ -25,7 +25,7 @@ console.time("Assets deployed in");
     const cauldron = await ethers.getContractAt('Cauldron', cauldronAddress, ownerAcc) as unknown as Cauldron
     const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc) as unknown as Ladle
     const witch = await ethers.getContractAt('Witch', witchAddress, ownerAcc) as unknown as Witch
-    // governor = await ownerAcc.getAddress()
+    governor = await ownerAcc.getAddress()
 
     await cauldron.grantRoles(
         [

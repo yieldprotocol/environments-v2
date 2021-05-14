@@ -1,5 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
+import { verify } from '../shared/helpers'
 
 import { id } from '@yield-protocol/utils-v2'
 import { LadleWrapper } from '../shared/ladleWrapper'
@@ -157,11 +158,14 @@ export class Protocol {
     const ownerAdd = await owner.getAddress()
 
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
+    verify(cauldron.address, [])
     console.log(`Deployed Cauldron at ${cauldron.address}`)
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    verify(innerLadle.address, [cauldron.address])
     console.log(`Deployed Ladle at ${innerLadle.address}`)
     const ladle = new LadleWrapper(innerLadle)
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
+    verify(witch.address, [cauldron.address, ladle.address])
     console.log(`Deployed Witch at ${witch.address}`)
     const { router: poolRouter, poolFactory }: { router:PoolRouter, poolFactory: PoolFactory } = await this.deployPoolRouter(weth9);
 
@@ -172,9 +176,11 @@ export class Protocol {
 
     // ==== Add oracles ====
     const compoundOracle = (await deployContract(owner, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
-    console.log(`Compound rate and chi oracle deployed at ${compoundOracle.address}`)
+    verify(compoundOracle.address, [])
+    console.log(`Deployed compound rate and chi oracle at ${compoundOracle.address}`)
     const chainlinkOracle = (await deployContract(owner, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
-    console.log(`Chainlink spot oracle deployed at ${chainlinkOracle.address}`)
+    verify(chainlinkOracle.address, [])
+    console.log(`Deployed chainlink spot oracle at ${chainlinkOracle.address}`)
   
     return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, poolRouter, poolFactory )
   }

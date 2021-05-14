@@ -1,4 +1,4 @@
-import { ethers, network } from 'hardhat'
+import { ethers, network, run } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS } from './constants';
@@ -60,3 +60,13 @@ export const fundExternalAccounts = async (assetList:Map<string, any>, accountLi
   console.log('External accounts funded with 100ETH, and 1000 of each asset')
 };
 
+export function bytesToString(bytes: string): string {
+  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+}
+
+export function verify(address: string, args: any) {
+  setTimeout(() => { run("verify:verify", {
+    address: address,
+    constructorArguments: args,
+  }) }, 60000)
+}

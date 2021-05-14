@@ -1,6 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
 import { WAD, CHI, RATE, ETH, DAI, USDC } from '../shared/constants'
+import { bytesToString, verify } from '../shared/helpers'
 
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
 import DaiMockArtifact from '../artifacts/contracts/mocks/DaiMock.sol/DaiMock.json'
@@ -16,11 +17,6 @@ import { SourceMock } from '../typechain/SourceMock'
 
 
 const { deployContract } = waffle
-
-
-function bytesToString(bytes: string): string {
-  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
-}
 
 export class Mocks {
   owner: SignerWithAddress
@@ -42,14 +38,22 @@ export class Mocks {
 
     const symbol = bytesToString(assetId)
 
-    if (assetId === DAI) { 
-      asset = (await deployContract(owner, DaiMockArtifact, [symbol, symbol])) as unknown as ERC20Mock
+    if (assetId === DAI) {
+      const args = [symbol, symbol]
+      asset = (await deployContract(owner, DaiMockArtifact, args)) as unknown as ERC20Mock
+      verify(asset.address, args)
     } else if (assetId === USDC) {
-      asset = (await deployContract(owner, USDCMockArtifact, [])) as unknown as ERC20Mock
+      const args: any = []
+      asset = (await deployContract(owner, USDCMockArtifact, args)) as unknown as ERC20Mock
+      verify(asset.address, args)
     } else if (assetId === ETH) {
-      asset = (await deployContract(owner, WETH9MockArtifact, [])) as unknown as WETH9Mock
+      const args: any = []
+      asset = (await deployContract(owner, WETH9MockArtifact, args)) as unknown as WETH9Mock
+      verify(asset.address, args)
     } else {
-      asset = (await deployContract(owner, ERC20MockArtifact, [symbol, symbol])) as unknown as ERC20Mock
+      const args = [symbol, symbol]
+      asset = (await deployContract(owner, ERC20MockArtifact, args)) as unknown as ERC20Mock
+      verify(asset.address, args)
     }
     console.log(`Deployed ${symbol} at ${asset.address}`)
 
@@ -60,21 +64,27 @@ export class Mocks {
   }
 
   public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<SourceMock> {
-    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, [])) as SourceMock
+    const args: any = []
+    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as SourceMock
+    verify(cTokenRate.address, args)
     console.log(`Deployed rate source for ${base} at ${cTokenRate.address}`)
     await cTokenRate.set(WAD.mul(2)); console.log(`cTokenRate.set`)
     return cTokenRate
   }
 
   public static async deployChiSource(owner: SignerWithAddress, base: string) {
-    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, [])) as SourceMock
+    const args: any = []
+    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as SourceMock
+    verify(cTokenChi.address, args)
     console.log(`Deployed chi source for ${base} at ${cTokenChi.address}`)
     await cTokenChi.set(WAD); console.log(`cTokenChi.set`)
     return cTokenChi
   }
 
   public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string) {
-    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, [])) as SourceMock
+    const args: any = []
+    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as SourceMock
+    verify(aggregator.address, args)
     console.log(`Deployed spot source for ${base}/${quote} at ${aggregator.address}`)
     await aggregator.set(WAD.mul(2)); console.log(`aggregator.set`)
     return aggregator

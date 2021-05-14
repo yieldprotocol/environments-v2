@@ -1,5 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
+import { bytesToString, verify } from '../shared/helpers'
 
 import { id } from '@yield-protocol/utils-v2'
 import { CHI } from '../shared/constants'
@@ -17,10 +18,6 @@ import { Pool } from '../typechain/Pool'
 import { PoolFactory } from '../typechain/PoolFactory'
 
 const { deployContract } = waffle
-
-function bytesToString(bytes: string): string {
-  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
-}
 
 function toBytes6(bytes: string): string {
   return bytes + '0'.repeat(14 - bytes.length)
@@ -58,14 +55,16 @@ export class Series {
   ) {
     const symbol = bytesToString(seriesId)
 
-    const fyToken = (await deployContract(owner, FYTokenArtifact, [
+    const args = [
       baseId,
       chiOracle.address,
       baseJoin.address,
       maturity,
       symbol,
       symbol,
-    ])) as FYToken
+    ]
+    const fyToken = (await deployContract(owner, FYTokenArtifact, args)) as FYToken
+    verify(fyToken.address, args)
     console.log(`Deployed FYtoken ${symbol} at ${fyToken.address}`)
 
     if (ilkIds.includes(baseId)) ilkIds.splice(ilkIds.indexOf(baseId), 1) // Remove baseId from the ilkIds, if present

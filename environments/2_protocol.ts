@@ -9,7 +9,7 @@ import { Protocol } from '../fixtures/protocol'
  *
  */
 
-const WETH9 = '0x833E4643B90FAcaeC9Aa8dF081eE361AA16EC3d6'
+const WETH9 = '0xbafe9ae56ea921f63CE949B738dE2e1Bc0DF19a6'
 
 console.time("Protocol deployed in");
 

@@ -1,5 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers, waffle, network } from 'hardhat'
+import { bytesToString, verify } from '../shared/helpers'
 
 import { id } from '@yield-protocol/utils-v2'
 import { WAD, RATE } from '../shared/constants'
@@ -11,10 +12,6 @@ import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
 
 const { deployContract } = waffle
-
-function bytesToString(bytes: string): string {
-  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
-}
 
 export class Assets {
   owner: SignerWithAddress
@@ -35,6 +32,7 @@ export class Assets {
   public static async addJoin(owner: SignerWithAddress, ladle: Ladle, assetId: string, assetAddress: string) {
     const symbol = bytesToString(assetId)
     const join = (await deployContract(owner, JoinArtifact, [assetAddress])) as Join
+    verify(join.address, [assetAddress])
     console.log(`Deployed Join for ${symbol} at ${join.address}`)
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address); console.log('join.grantRoles(ladle)')
     await ladle.addJoin(assetId, join.address); console.log('ladle.addJoin')
@@ -48,8 +46,8 @@ export class Assets {
 
   public static async addSpotOracle(cauldron: Cauldron, oracle: IOracle, baseId: string, ilkId: string, sourceAddress: string) {
     const ratio = 1000000 //  1000000 == 100% collateralization ratio
-    await oracle.setSources([baseId], [ilkId], [sourceAddress]); console.log(`oracle.setSources`)
-    await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio); console.log(`cauldron.setSpotOracle`)
+    await oracle.setSources([baseId], [ilkId], [sourceAddress]); console.log(`oracle.setSources(${baseId}, ${ilkId}), ${sourceAddress})`)
+    await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio); console.log(`cauldron.setSpotOracle(${baseId}, ${ilkId}), ${oracle.address})`)
     return oracle
   }
 
