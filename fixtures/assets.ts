@@ -61,12 +61,13 @@ export class Assets {
     }
 
     for (let [baseId, ilkId] of ilkIds) {
+      const baseSymbol = bytesToString(baseId)
       const ilkSymbol = bytesToString(ilkId)
       if (baseId === ilkId) continue;
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
       const maxDebt = WAD.mul(1000000)
       const spotSource = (spotSourceAddresses.get(baseId) as Map<string, string>).get(ilkId) as string
-      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource, ratio, maxDebt); console.log(`wand.makeIlk(${ilkSymbol})`)
+      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

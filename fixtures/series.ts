@@ -2,151 +2,58 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-wit
 import { ethers, waffle, network } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
 
-import { id } from '@yield-protocol/utils-v2'
-import { CHI } from '../shared/constants'
-import FYTokenArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/FYToken.sol/FYToken.json'
-
 import { ERC20Mock } from '../typechain/ERC20Mock'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { FYToken } from '../typechain/FYToken'
-import { IOracle } from '../typechain/IOracle'
-import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
-
+import { Wand } from '../typechain/Wand'
 import { Pool } from '../typechain/Pool'
-import { PoolFactory } from '../typechain/PoolFactory'
-
-const { deployContract } = waffle
-
-function toBytes6(bytes: string): string {
-  return bytes + '0'.repeat(14 - bytes.length)
-}
 
 export class Series {
   owner: SignerWithAddress
-  series: Map<string, FYToken>
+  fyTokens: Map<string, FYToken>
   pools: Map<string, Pool| Map<string, Pool> >
   
   constructor(
     owner: SignerWithAddress,
-    series: Map<string, FYToken>,
+    fyTokens: Map<string, FYToken>,
     pools: Map<string, Pool | Map<string, Pool> >,
   ) {
     this.owner = owner
-    this.series = series
+    this.fyTokens = fyTokens
     this.pools = pools
   }
 
-  public static async addChiOracle(oracle: IOracle, baseId: string, chiSourceAddress: string) {
-    await oracle.setSources([baseId], [CHI], [chiSourceAddress]); console.log(`oracle.setSources`)
-  }
-
-  public static async addSeries(
-    owner: SignerWithAddress,
-    cauldron: Cauldron,
-    ladle: Ladle,
-    baseJoin: Join,
-    chiOracle: IOracle,
-    seriesId: string,
-    baseId: string,
-    ilkIds: Array<string>,
-    maturity: number,
-  ) {
-    const symbol = bytesToString(seriesId)
-
-    const args = [
-      baseId,
-      chiOracle.address,
-      baseJoin.address,
-      maturity,
-      symbol,
-      symbol,
-    ]
-    const fyToken = (await deployContract(owner, FYTokenArtifact, args)) as FYToken
-    verify(fyToken.address, args)
-    console.log(`Deployed FYtoken ${symbol} at ${fyToken.address}`)
-
-    if (ilkIds.includes(baseId)) ilkIds.splice(ilkIds.indexOf(baseId), 1) // Remove baseId from the ilkIds, if present
-    await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address); console.log('cauldron.grantRoles(fyToken)')
-    await fyToken.grantRoles([id('mint(address,uint256)'), id('burn(address,uint256)')], ladle.address); console.log('cauldron.grantRoles(ladle)')
-
-    // Add fyToken/series to the Cauldron and all ilks to each series
-    await cauldron.addSeries(seriesId, baseId, fyToken.address); console.log(`cauldron.addSeries(${seriesId}, ${baseId}, fyToken)`)
-    await cauldron.addIlks(seriesId, ilkIds); console.log('cauldron.addIlks')
-    return fyToken
-  }
-
-  public static async addPool(
-    owner: SignerWithAddress,
-    ladle: Ladle,
-    base: ERC20Mock,
-    fyToken: FYToken,
-    seriesId: string,
-    poolFactory: PoolFactory,
-  ) {
-    // deploy base/fyToken Pool
-    const calculatedAddress = await poolFactory.calculatePoolAddress(base.address, fyToken.address)
-    await poolFactory.createPool(base.address, fyToken.address) // TODO: Remember to hand ownership to governor
-    console.log(`Deployed Pool for ${await base.symbol()} and ${await fyToken.symbol()} at ${calculatedAddress}`)
-    const pool = (await ethers.getContractAt('Pool', calculatedAddress, owner) as unknown) as Pool
-    
-    await ladle.addPool(seriesId, pool.address); console.log(`ladle.addPool(${bytesToString(seriesId)}, pool.address)`)
-    return pool
-  }
-
-  // Set up a test environment. Provide at least one asset identifier.
   public static async setup(
     owner: SignerWithAddress,
     cauldron: Cauldron,
     ladle: Ladle,
-    poolFactory: PoolFactory,
-    baseIds: Array<string>,
-    ilkIds: Array<string>,
-    chiOracle: IOracle,
-    chiSourceAddresses: Map<string, string>,             // baseId => sourceAddress
-    maturities: Array<number>,
+    wand: Wand,
+    series: Array<[string, number, Array<string>]>, // baseId, maturity, ilkIds, // { maturity1: [ilkId1, ... ] }
   ) {
     // ==== Add assets and joins ====
-    const series: Map<string, FYToken> = new Map()
+    const fyTokens: Map<string, FYToken> = new Map()
     const pools: Map<string, Pool> = new Map()
 
-    for ( let baseId of baseIds ) {
+    let index = 1 // For the seriesId and symbol, replace the maturity by its index in the array
+    for (let [baseId, maturity, ilkIds] of series) {
+      const seriesId = ethers.utils.formatBytes32String(bytesToString(baseId) + index++).slice(0, 14) // baseId + index
+      const symbol = bytesToString(seriesId)
 
-      // ==== Get Base contract, and Ilks  ====
+      await wand.addSeries(seriesId, baseId, maturity, ilkIds, symbol, symbol)
 
-      // Get the base and base join
       const base = await ethers.getContractAt('ERC20Mock', await cauldron.assets(baseId), owner) as ERC20Mock
-      const baseJoin = await ethers.getContractAt('Join', await ladle.joins(baseId), owner) as Join
+      const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, owner) as FYToken
+      console.log(`Deployed FYToken ${symbol} at ${fyToken.address}`)
 
-      // ==== Add oracles ====
-      await this.addChiOracle(chiOracle, baseId, chiSourceAddresses.get(baseId) as string)
+      const pool = await ethers.getContractAt('Pool', await ladle.pools(seriesId), owner) as Pool
+      console.log(`Deployed Pool for ${await base.symbol()} and ${await fyToken.symbol()} at ${pool.address}`)
 
-      // ==== Add series and pools ====
-      // For each series identifier we create a fyToken with the first asset as underlying.
-      let index = 1
-      for (let maturity of maturities) {
+      fyTokens.set(seriesId, fyToken)
+      pools.set(baseId, pool)
+    }
 
-        const seriesId = ethers.utils.formatBytes32String(bytesToString(baseId) + index++).slice(0, 14) // baseId + index
-
-        const fyToken = await this.addSeries(owner, cauldron, ladle, baseJoin, chiOracle, seriesId, baseId, ilkIds, maturity) as FYToken
-        series.set(seriesId, fyToken)
-        
-        // Add a pool between the base and each series 
-        // note: pools structure is Map<string, Map<string, Pool>>
-        const baseMap = pools.get(baseId) || new Map();
-        const pool = await this.addPool(
-          owner, 
-          ladle, 
-          base, 
-          fyToken, 
-          seriesId, 
-          poolFactory,
-        )
-        pools.set(baseId, baseMap.set(seriesId, pool ))
-      }
-  }
-
-    return new Series(owner, series, pools)
+    return new Series(owner, fyTokens, pools)
   }
 }
