@@ -8,8 +8,10 @@ import { LadleWrapper } from '../shared/ladleWrapper'
 import CauldronArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
 import LadleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
 import WitchArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Witch.sol/Witch.json'
-import ChainlinkMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
-import CompoundMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/CompoundMultiOracle.sol/CompoundMultiOracle.json'
+import JoinFactoryArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/JoinFactory.sol/JoinFactory.json'
+import WandArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Wand.sol/Wand.json'
+import ChainlinkMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
+import CompoundMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol/CompoundMultiOracle.json'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -19,6 +21,9 @@ import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 
 import { PoolFactory } from '../typechain/PoolFactory'
 import { PoolRouter } from '../typechain/PoolRouter'
+import { JoinFactory } from '../typechain/JoinFactory'
+import { Wand } from '../typechain/Wand'
+
 import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
@@ -33,6 +38,8 @@ export class Protocol {
   compoundOracle: CompoundMultiOracle
   poolRouter: PoolRouter
   poolFactory: PoolFactory
+  joinFactory: JoinFactory
+  wand: Wand
   
   constructor(
     owner: SignerWithAddress,
@@ -43,6 +50,8 @@ export class Protocol {
     compoundOracle: CompoundMultiOracle,
     poolRouter: PoolRouter,
     poolFactory: PoolFactory,
+    joinFactory: JoinFactory,
+    wand: Wand,
   ) {
     this.owner = owner
     this.cauldron = cauldron
@@ -52,6 +61,8 @@ export class Protocol {
     this.compoundOracle = compoundOracle
     this.poolRouter = poolRouter
     this.poolFactory = poolFactory
+    this.joinFactory = joinFactory
+    this.wand = wand
   }
 
   public static async cauldronGovAuth(cauldron: Cauldron, receiver: string) {
@@ -83,6 +94,31 @@ export class Protocol {
       ],
       receiver
     ); console.log(`cauldron.grantRoles(ladle, ${receiver})`)
+  }
+
+  public static async ladleGovAuth(ladle: LadleWrapper, receiver: string) {
+    await ladle.grantRoles(
+      [
+        id('addJoin(bytes6,address)'),
+        id('addPool(bytes6,address)'),
+        id('setModule(address,bool)'),
+        id('setFee(uint256)'),
+      ],
+      receiver
+    )
+  }
+
+  public static async wandAuth(wand: Wand, receiver: string) {
+    await wand.grantRoles(
+      [
+        id('addAsset(bytes6,address)'),
+        id('makeBase(bytes6,address,address,address)'),
+        id('makeIlk(bytes6,bytes6,address,address,uint32,uint128)'),
+        id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
+        id('addPool(bytes6,bytes6)'),
+      ],
+      receiver
+    )
   }
 
   public static async cauldronWitchAuth(cauldron: Cauldron, receiver: string) {
@@ -160,28 +196,47 @@ export class Protocol {
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
     verify(cauldron.address, [])
     console.log(`Deployed Cauldron at ${cauldron.address}`)
+
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
+    const ladle = new LadleWrapper(innerLadle)
     verify(innerLadle.address, [cauldron.address])
     console.log(`Deployed Ladle at ${innerLadle.address}`)
-    const ladle = new LadleWrapper(innerLadle)
+
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
     verify(witch.address, [cauldron.address, ladle.address])
     console.log(`Deployed Witch at ${witch.address}`)
+
+    const compoundOracle = (await deployContract(owner, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
+    verify(compoundOracle.address, [])
+    console.log(`Deployed Compound MultiOracle at ${compoundOracle.address}`)
+
+    const chainlinkOracle = (await deployContract(owner, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
+    verify(chainlinkOracle.address, [])
+    console.log(`Deployed Chainlink MultiOracle at ${chainlinkOracle.address}`)
+
+    const joinFactory = (await deployContract(owner, JoinFactoryArtifact, [])) as JoinFactory
+    console.log(`Deployed Join Factory at ${joinFactory.address}`)
+
     const { router: poolRouter, poolFactory }: { router:PoolRouter, poolFactory: PoolFactory } = await this.deployPoolRouter(weth9);
+    console.log(`Deployed Pool Router at ${poolRouter.address}`)
+    console.log(`Deployed Pool Factory at ${poolFactory.address}`)
+
+    const wand = (await deployContract(owner, WandArtifact, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])) as Wand
+    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])
+    console.log(`Deployed Wand at ${wand.address}`)
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)
     await this.cauldronWitchAuth(cauldron, witch.address)
     await this.ladleWitchAuth(ladle, witch.address)
-
-    // ==== Add oracles ====
-    const compoundOracle = (await deployContract(owner, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
-    verify(compoundOracle.address, [])
-    console.log(`Deployed compound rate and chi oracle at ${compoundOracle.address}`)
-    const chainlinkOracle = (await deployContract(owner, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
-    verify(chainlinkOracle.address, [])
-    console.log(`Deployed chainlink spot oracle at ${chainlinkOracle.address}`)
   
-    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, poolRouter, poolFactory )
+    await this.cauldronGovAuth(cauldron, wand.address)
+    await this.ladleGovAuth(ladle, wand.address)
+    await this.witchGovAuth(witch, wand.address)
+    await compoundOracle.transferOwnership(wand.address)
+    await chainlinkOracle.transferOwnership(wand.address)
+
+  
+    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, poolRouter, poolFactory, joinFactory, wand )
   }
 }

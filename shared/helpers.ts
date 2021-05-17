@@ -65,8 +65,11 @@ export function bytesToString(bytes: string): string {
 }
 
 export function verify(address: string, args: any) {
-  setTimeout(() => { run("verify:verify", {
-    address: address,
-    constructorArguments: args,
-  }) }, 60000)
+  if (network.name !== 'localhost') {
+    setTimeout(() => { run("verify:verify", {
+      address: address,
+      constructorArguments: args,
+    }) }, 60000)
+  }
+
 }
