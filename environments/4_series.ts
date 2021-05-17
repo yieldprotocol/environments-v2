@@ -12,19 +12,21 @@ import { Wand } from '../typechain/Wand'
  * 
  * 
  */
+
+const toBytes6 = (x: string) => {return ethers.utils.formatBytes32String(x).slice(0, 14)}
+
 const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
 
 const cauldronAddress = '0x09635F643e140090A9A8Dcd712eD6285858ceBef'
 const ladleAddress = '0xc5a5C42992dECbae36851359345FE25997F5C42d'
 const wandAddress = '0xf5059a5D33d5853360D16C683c16e67980206f36'
 
-const series: Array<[string, number, Array<string>]> = [ // baseId, maturity, ilkIds
-    [DAI, 1625093999, [USDC, ETH, TST]], // Jun21
-    [DAI, 1633042799, [USDC, ETH, TST]], // Sep21
-    [USDC, 1625093999, [DAI, ETH, TST]],
-    [USDC, 1633042799, [DAI, ETH, TST]]
+const series: Array<[string, string, number, Array<string>]> = [ // seriesId, baseId, maturity, ilkIds
+    [toBytes6('DAI1'), DAI, 1625093999, [USDC, ETH, TST]], // Jun21
+    [toBytes6('DAI2'), DAI, 1633042799, [USDC, ETH, TST]], // Sep21
+    [toBytes6('USDC1'), USDC, 1625093999, [DAI, ETH, TST]],
+    [toBytes6('USDC2'), USDC, 1633042799, [DAI, ETH, TST]]
 ]
-
 
  /**
  * 

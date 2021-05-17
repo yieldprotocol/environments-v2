@@ -30,15 +30,13 @@ export class Series {
     cauldron: Cauldron,
     ladle: Ladle,
     wand: Wand,
-    series: Array<[string, number, Array<string>]>, // baseId, maturity, ilkIds, // { maturity1: [ilkId1, ... ] }
+    series: Array<[string, string, number, Array<string>]>, // seriesId, baseId, maturity, ilkIds, // { maturity1: [ilkId1, ... ] }
   ) {
     // ==== Add assets and joins ====
     const fyTokens: Map<string, FYToken> = new Map()
     const pools: Map<string, Pool> = new Map()
 
-    let index = 1 // For the seriesId and symbol, replace the maturity by its index in the array
-    for (let [baseId, maturity, ilkIds] of series) {
-      const seriesId = ethers.utils.formatBytes32String(bytesToString(baseId) + index++).slice(0, 14) // baseId + index
+    for (let [seriesId, baseId, maturity, ilkIds] of series) {
       const symbol = bytesToString(seriesId)
 
       await wand.addSeries(seriesId, baseId, maturity, ilkIds, symbol, symbol)
