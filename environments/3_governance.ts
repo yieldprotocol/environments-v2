@@ -14,10 +14,10 @@ import { Wand } from '../typechain/Wand'
  *
  */
 
-const cauldronAddress = '0x09635F643e140090A9A8Dcd712eD6285858ceBef'
-const ladleAddress = '0xc5a5C42992dECbae36851359345FE25997F5C42d'
-const witchAddress = '0x67d269191c92Caf3cD7723F116c85e6E9bf55933'
-const wandAddress = '0xf5059a5D33d5853360D16C683c16e67980206f36'
+const cauldronAddress = '0xDa22cf5b3E21B55C1FCF4a7c3e2437d319Dd65e3'
+const ladleAddress = '0x2F4163FA3cb73AD2Be4C63191f34ecE2794b3c4f'
+const witchAddress = '0x557eFC5F41B1d565D9bB580948e0e0d5DA754095'
+const wandAddress = '0x74469D604633425b1708C0D557d94A40eEAe201f'
 let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce
 
 console.time("Governance set in");
@@ -30,8 +30,6 @@ console.time("Governance set in");
     const wand = await ethers.getContractAt('Wand', wandAddress, ownerAcc) as unknown as Wand
     governor = await ownerAcc.getAddress()
 
-    // All these governance roles are given now to the wand, so this is just like enabling god mode for someone
-    // TODO: A bunch of governance actions are not done thorugh Wand, and they should be given directly to the multisig.
     await cauldron.grantRoles(
         [
         id('setAuctionInterval(uint32)'),

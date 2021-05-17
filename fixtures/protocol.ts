@@ -215,11 +215,10 @@ export class Protocol {
     console.log(`Deployed Chainlink MultiOracle at ${chainlinkOracle.address}`)
 
     const joinFactory = (await deployContract(owner, JoinFactoryArtifact, [])) as JoinFactory
+    verify(joinFactory.address, [])
     console.log(`Deployed Join Factory at ${joinFactory.address}`)
 
     const { router: poolRouter, poolFactory }: { router:PoolRouter, poolFactory: PoolFactory } = await this.deployPoolRouter(weth9);
-    console.log(`Deployed Pool Router at ${poolRouter.address}`)
-    console.log(`Deployed Pool Factory at ${poolFactory.address}`)
 
     const wand = (await deployContract(owner, WandArtifact, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])) as Wand
     verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])

@@ -17,9 +17,9 @@ const toBytes6 = (x: string) => {return ethers.utils.formatBytes32String(x).slic
 
 const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
 
-const cauldronAddress = '0x09635F643e140090A9A8Dcd712eD6285858ceBef'
-const ladleAddress = '0xc5a5C42992dECbae36851359345FE25997F5C42d'
-const wandAddress = '0xf5059a5D33d5853360D16C683c16e67980206f36'
+const cauldronAddress = '0xDa22cf5b3E21B55C1FCF4a7c3e2437d319Dd65e3'
+const ladleAddress = '0x2F4163FA3cb73AD2Be4C63191f34ecE2794b3c4f'
+const wandAddress = '0x74469D604633425b1708C0D557d94A40eEAe201f'
 
 const series: Array<[string, string, number, Array<string>]> = [ // seriesId, baseId, maturity, ilkIds
     [toBytes6('DAI1'), DAI, 1625093999, [USDC, ETH, TST]], // Jun21
