@@ -5,7 +5,7 @@ const { WAD } = constants
 import { CHI, RATE, DAI } from '../shared/constants'
 
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
-import { SourceMock } from '../typechain/SourceMock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
@@ -25,7 +25,7 @@ describe('Oracle', function () {
   let ownerAcc: SignerWithAddress
   let owner: string
   let oracle: CompoundMultiOracle
-  let source: SourceMock
+  let source: ISourceMock
 
   before(async () => {
     env = await loadFixture(fixture);
@@ -33,7 +33,7 @@ describe('Oracle', function () {
     ownerAcc = signers[0]
     owner = await ownerAcc.getAddress()
     oracle = (env.oracles.get(RATE) as unknown) as CompoundMultiOracle
-    source = (await ethers.getContractAt('SourceMock', await oracle.sources(DAI, CHI))) as SourceMock
+    source = (await ethers.getContractAt('ISourceMock', await oracle.sources(DAI, CHI))) as ISourceMock
   })
 
   it('sets and retrieves the value at spot price', async () => {

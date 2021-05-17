@@ -13,7 +13,7 @@ import ChainlinkAggregatorV3MockArtifact from '../artifacts/contracts/mocks/Chai
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { WETH9Mock } from '../typechain/WETH9Mock'
-import { SourceMock } from '../typechain/SourceMock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 
 const { deployContract } = waffle
@@ -21,12 +21,12 @@ const { deployContract } = waffle
 export class Mocks {
   owner: SignerWithAddress
   assets: Map<string, ERC20Mock | WETH9Mock>
-  sources: Map<string, Map<string, SourceMock>>
+  sources: Map<string, Map<string, ISourceMock>>
   
   constructor(
     owner: SignerWithAddress,
     assets: Map<string, ERC20Mock | WETH9Mock>,
-    sources: Map<string, Map<string, SourceMock>>,
+    sources: Map<string, Map<string, ISourceMock>>,
   ) {
     this.owner = owner
     this.assets = assets
@@ -63,9 +63,9 @@ export class Mocks {
     return asset
   }
 
-  public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<SourceMock> {
+  public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<ISourceMock> {
     const args: any = []
-    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as SourceMock
+    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as ISourceMock
     verify(cTokenRate.address, args)
     console.log(`Deployed rate source for ${base} at ${cTokenRate.address}`)
     await cTokenRate.set(WAD.mul(2)); console.log(`cTokenRate.set`)
@@ -74,7 +74,7 @@ export class Mocks {
 
   public static async deployChiSource(owner: SignerWithAddress, base: string) {
     const args: any = []
-    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as SourceMock
+    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as ISourceMock
     verify(cTokenChi.address, args)
     console.log(`Deployed chi source for ${base} at ${cTokenChi.address}`)
     await cTokenChi.set(WAD); console.log(`cTokenChi.set`)
@@ -82,8 +82,8 @@ export class Mocks {
   }
 
   public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string) {
-    const args: any = []
-    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as SourceMock
+    const args: any = [18]
+    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
     verify(aggregator.address, args)
     console.log(`Deployed spot source for ${base}/${quote} at ${aggregator.address}`)
     await aggregator.set(WAD.mul(2)); console.log(`aggregator.set`)
@@ -96,7 +96,7 @@ export class Mocks {
     ilkIds: Array<string>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
-    const sources: Map<string, Map<string, SourceMock>> = new Map()
+    const sources: Map<string, Map<string, ISourceMock>> = new Map()
 
     for (let baseId of baseIds) {
       const asset = await this.deployAsset(owner, baseId)

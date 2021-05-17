@@ -14,10 +14,10 @@ import { Wand } from '../typechain/Wand'
  *
  */
 
-const cauldronAddress = '0x67d269191c92Caf3cD7723F116c85e6E9bf55933'
-const ladleAddress = '0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E'
-const witchAddress = '0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690'
-const wandAddress = '0x998abeb3E57409262aE5b751f60747921B33613E'
+const cauldronAddress = '0x09635F643e140090A9A8Dcd712eD6285858ceBef'
+const ladleAddress = '0xc5a5C42992dECbae36851359345FE25997F5C42d'
+const witchAddress = '0x67d269191c92Caf3cD7723F116c85e6E9bf55933'
+const wandAddress = '0xf5059a5D33d5853360D16C683c16e67980206f36'
 let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce
 
 console.time("Governance set in");
