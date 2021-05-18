@@ -49,14 +49,14 @@ export class Assets {
       
       const join = await ethers.getContractAt('Join', await ladle.joins(assetId), owner) as Join
       verify(join.address, [])
-      console.log(`Deployed Join for ${symbol} at ${join.address}`)
+      console.log(`[${symbol}Join, '${join.address}]`)
       joins.set(assetId, join)
     }
 
     for (let baseId of baseIds) {
       const symbol = bytesToString(baseId)
-      const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
       const rateSourceAddress = (rateSources.get(baseId) as ISourceMock).address
+      const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
       await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
     }
 

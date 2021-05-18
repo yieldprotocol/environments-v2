@@ -1,10 +1,18 @@
 import { ethers, waffle } from 'hardhat'
+import *  as fs from 'fs'
+import { jsonToMap, mapToJson } from '../shared/helpers'
+import { baseIds, ilkIds, TST } from './config'
 import { ETH, DAI, USDC } from '../shared/constants'
+
+import { Protocol } from '../fixtures/protocol'
 import { Assets } from '../fixtures/assets'
 
 import { IOracle } from '../typechain/IOracle'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
+import { ERC20Mock } from '../typechain/ERC20Mock'
+import { WETH9Mock } from '../typechain/WETH9Mock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 /**
  * 
@@ -12,48 +20,37 @@ import { Wand } from '../typechain/Wand'
  * 
  * 
  */
-const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
 
-const ladleAddress = '0x2F4163FA3cb73AD2Be4C63191f34ecE2794b3c4f'
-const wandAddress = '0x74469D604633425b1708C0D557d94A40eEAe201f'
+const json = fs.readFileSync('protocol.json', 'utf8')
+const protocol = JSON.parse(json, jsonToMap) as Protocol;
 
-const rateChiOracleAddress = '0x87e553A48d2dBe14e8f1BCfA75d2269d64705B2A'
-const spotOracleAddress = '0xC9CB02D484955cBfE56Da483D5924d26535a9080'
+// Define baseIds or ilkIds manually if needed to continue an aborted deployment
 
-const assets: Array<[string, string]> =  [
-    [DAI, '0x055d6Bc9e56e667d066A80c96B19303310a44433'],
-    [USDC,'0xc82F80F7Bf84be6b315F6381A314F0D1C5D9a2ff'],
-    [ETH, '0x05E34c8053f9Cb50DFa2726BfD66a03501031b66'],
-    [TST, '0x92b320DD0EaDdd2189861C05D6718c385491998F'],
-]
-const baseIds: Array<string> = [DAI, USDC]
-const ilkIds: Array<[string, string]> = [
-    [DAI, USDC],
-    [DAI, ETH],
-    [DAI, TST],
-    [USDC, DAI],
-    [USDC, ETH],
-    [USDC, TST],
+const assetAddresses: Array<[string, string]> =  [
+    [DAI, '0x09635F643e140090A9A8Dcd712eD6285858ceBef'],
+    [USDC, '0x67d269191c92Caf3cD7723F116c85e6E9bf55933'],
+    [ETH, '0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690'],
+    [TST, '0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB'],
 ]
 
 const rateSourceAddresses = new Map([
-    [DAI, '0xE6F7A5f513596C2e10912F0CDBb1C00d3D995948'],
-    [USDC, '0x3cD3bC30cA10c740a9B9064b20C735bbD5CDd219'],
+    [DAI, '0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9'],
+    [USDC, '0x851356ae760d987E095750cCeb3bC6014560891C'],
 ])
 const chiSourceAddresses = new Map([
-    [DAI, '0x2a9D818772e76A11347F36EB5ac0D1ed70337dC8'],
-    [USDC, '0xbaA41Ac1AdBa3b16D133BB1F0699134C86a8352b'],
+    [DAI, '0x95401dc811bb5740090279Ba06cfA8fcF6113778'],
+    [USDC, '0x70e0bA845a1A0F2DA3359C97E0285013525FFC49'],
 ])
 const spotSourceAddresses = new Map([
     [DAI, new Map([
-        [USDC, '0x0c6772B8508AAe0Fd9562DE3dAa359CD8A43c5c4'],
-        [ETH, '0xAe05f8630311DDD62E595d970a85a068546488D1'],
-        [TST, '0x6d8d8274879D944Ce48218124e38366bE3C1B57c'],
+        [USDC, '0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf'],
+        [ETH, '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf'],
+        [TST, '0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00'],
     ])],
     [USDC, new Map([
-        [DAI, '0xAB43F300f247019c6a8f4151e31a19Ca7BB7C40A'],
-        [ETH, '0x2132D1d306f20e2A9145918e566685526e556B74'],
-        [TST, '0x50B69b2131985D27DDcC4954286CA47C5336147F'],
+        [DAI, '0x809d550fca64d94Bd9F66E60752A544199cfAC3D'],
+        [ETH, '0x1291Be112d480055DaFd8a610b7d1e203891C274'],
+        [TST, '0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575'],
     ])],
 ])
 
@@ -67,13 +64,39 @@ const spotSourceAddresses = new Map([
 console.time("Assets added in");
 
 (async () => {
-    const [ ownerAcc ] = await ethers.getSigners();    
-    const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc) as unknown as Ladle
-    const wand = await ethers.getContractAt('Wand', wandAddress, ownerAcc) as unknown as Wand
-    const rateChiOracle = await ethers.getContractAt('CompoundMultiOracle', rateChiOracleAddress, ownerAcc) as IOracle
-    const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', spotOracleAddress, ownerAcc) as IOracle
+    const [ ownerAcc ] = await ethers.getSigners();   
+    const ladle = await ethers.getContractAt('Ladle', protocol.ladle.address, ownerAcc) as unknown as Ladle
+    const wand = await ethers.getContractAt('Wand', protocol.wand.address, ownerAcc) as unknown as Wand
+    const rateChiOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.compoundOracle.address, ownerAcc) as IOracle
+    const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.chainlinkOracle.address, ownerAcc) as IOracle
+    const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
+    assetAddresses.forEach(async ([assetId, address]) => {
+        if (assetId === ETH) assets.set(assetId, await ethers.getContractAt('WETH9Mock', address, ownerAcc) as WETH9Mock)
+        else assets.set(assetId, await ethers.getContractAt('ERC20Mock', address, ownerAcc) as ERC20Mock)
+    })
+    const rateSources: Map<string, ISourceMock> = new Map()
+    for (let baseId of rateSourceAddresses.keys()) {
+        const source = rateSourceAddresses.get(baseId) as string
+        rateSources.set(baseId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+    }
+    const chiSources: Map<string, ISourceMock> = new Map()
+    for (let baseId of chiSourceAddresses.keys()) {
+        const source = chiSourceAddresses.get(baseId) as string
+        chiSources.set(baseId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+    }
+    const spotSources: Map<string, Map<string, ISourceMock>> = new Map()
+    for (let baseId of spotSourceAddresses.keys()) spotSources.set(baseId, new Map())
+    
+    for (let baseId of spotSourceAddresses.keys()) {
+        const sourcesByBase = spotSourceAddresses.get(baseId) as Map<string, string>
+        for (let ilkId of sourcesByBase.keys()) {
+            const source = sourcesByBase.get(ilkId) as string
+            const instantiatedSources = spotSources.get(baseId) as Map<string, ISourceMock>
+            instantiatedSources.set(ilkId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+        }
+    }
 
-    await Assets.setup(
+    const joins = await Assets.setup(
         ownerAcc,
         ladle,
         wand,
@@ -81,10 +104,11 @@ console.time("Assets added in");
         baseIds,
         ilkIds,
         rateChiOracle,
-        rateSourceAddresses,    // baseId => sourceAddress
-        chiSourceAddresses,    // baseId => sourceAddress
+        rateSources,    // baseId => sourceAddress
+        chiSources,    // baseId => sourceAddress
         spotOracle,
-        spotSourceAddresses     // baseId,quoteId => sourceAddress
+        spotSources     // baseId,quoteId => sourceAddress
     )
+    fs.writeFileSync('joins.json', JSON.stringify(joins, mapToJson), 'utf8')
     console.timeEnd("Assets added in")
 })()

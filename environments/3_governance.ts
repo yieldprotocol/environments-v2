@@ -1,5 +1,9 @@
 import { ethers } from 'hardhat'
+import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
+import { jsonToMap } from '../shared/helpers'
+
+import { Protocol } from '../fixtures/protocol'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -14,20 +18,19 @@ import { Wand } from '../typechain/Wand'
  *
  */
 
-const cauldronAddress = '0xDa22cf5b3E21B55C1FCF4a7c3e2437d319Dd65e3'
-const ladleAddress = '0x2F4163FA3cb73AD2Be4C63191f34ecE2794b3c4f'
-const witchAddress = '0x557eFC5F41B1d565D9bB580948e0e0d5DA754095'
-const wandAddress = '0x74469D604633425b1708C0D557d94A40eEAe201f'
+const json = fs.readFileSync('protocol.json', 'utf8')
+const protocol = JSON.parse(json, jsonToMap) as Protocol;
 let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce
 
 console.time("Governance set in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
-    const cauldron = await ethers.getContractAt('Cauldron', cauldronAddress, ownerAcc) as unknown as Cauldron
-    const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc) as unknown as Ladle
-    const witch = await ethers.getContractAt('Witch', witchAddress, ownerAcc) as unknown as Witch
-    const wand = await ethers.getContractAt('Wand', wandAddress, ownerAcc) as unknown as Wand
+    const cauldron = await ethers.getContractAt('Cauldron', protocol.cauldron.address, ownerAcc) as unknown as Cauldron
+    const ladle = await ethers.getContractAt('Ladle', protocol.ladle.address, ownerAcc) as unknown as Ladle
+    const witch = await ethers.getContractAt('Witch', protocol.witch.address, ownerAcc) as unknown as Witch
+    const wand = await ethers.getContractAt('Wand', protocol.wand.address, ownerAcc) as unknown as Wand
+
     governor = await ownerAcc.getAddress()
 
     await cauldron.grantRoles(

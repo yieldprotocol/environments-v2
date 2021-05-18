@@ -15,10 +15,10 @@ import { transferFromFunder } from '../shared/helpers';
  * 
  */
 const poolAddresses = [
-    '0xf4bD6cC37B9AdfeEBa4358324939A610CE732F45',
-    '0x701b4f13DEFA88bd1009E7022E0D6E34C4D295Cc',
-    '0xD62134Fb704d81Ac46017e47C584A9c769900D1d',
-    '0xbc295845C01b62900BddBe13898b116b7e574F6e',
+  ['DAI1Pool', '0x69f9C1D1B2d0F90Cb60C461555267D182b6389ac'],
+  ['DAI2Pool', '0xff52234137A0752fb077e6b3A2838719Ee891874'],
+  ['USDC1Pool', '0xE29694371Bf0149C7745af3A937570aCb29Fc17a'],
+  ['USDC2Pool', '0xBAD1A3e3AD1a22543cd17EE8dbD05fD3c1BC414a'],
 ]
 
  /**
@@ -33,7 +33,7 @@ console.time("Pools initialized");
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();    
 
-    for (let poolAddress of poolAddresses) {
+    for (let [seriesId, poolAddress] of poolAddresses) {
         const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc) as unknown) as Pool
         const base = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc) as unknown) as ERC20Mock
         const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc) as unknown) as FYToken

@@ -83,8 +83,8 @@ export function verify(address: string, args: any) {
 
 /* Usage example: 
 const originalValue = new Map([['a', 1]]);
-const str = JSON.stringify(originalValue, replacer);
-const newValue = JSON.parse(str, revivor);
+const str = JSON.stringify(originalValue, mapToJson);
+const newValue = JSON.parse(str, jsonToMap);
 console.log(originalValue, newValue);
 */
 

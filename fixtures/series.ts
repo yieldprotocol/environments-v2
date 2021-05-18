@@ -43,13 +43,13 @@ export class Series {
 
       const base = await ethers.getContractAt('ERC20Mock', await cauldron.assets(baseId), owner) as ERC20Mock
       const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, owner) as FYToken
-      console.log(`Deployed FYToken ${symbol} at ${fyToken.address}`)
+      console.log(`[${symbol}, '${fyToken.address}'],`)
 
       const pool = await ethers.getContractAt('Pool', await ladle.pools(seriesId), owner) as Pool
-      console.log(`Deployed Pool for ${await base.symbol()} and ${await fyToken.symbol()} at ${pool.address}`)
+      console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
 
       fyTokens.set(seriesId, fyToken)
-      pools.set(baseId, pool)
+      pools.set(seriesId, pool)
     }
 
     return new Series(owner, fyTokens, pools)

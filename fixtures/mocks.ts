@@ -61,10 +61,10 @@ export class Mocks {
       asset = (await deployContract(owner, ERC20MockArtifact, args)) as unknown as ERC20Mock
       verify(asset.address, args)
     }
-    console.log(`Deployed ${symbol} at ${asset.address}`)
+    console.log(`[${symbol}, '${asset.address}'],`)
 
     // Fund the owner account ( through minting because token is mocked)
-    if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000)); console.log('asset.mint(owner)')
+    if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000))
 
     return asset
   }
@@ -73,8 +73,8 @@ export class Mocks {
     const args: any = []
     const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as ISourceMock
     verify(cTokenRate.address, args)
-    console.log(`Deployed rate source for ${base} at ${cTokenRate.address}`)
-    await cTokenRate.set(WAD.mul(2)); console.log(`cTokenRate.set`)
+    console.log(`[${base}, '${cTokenRate.address}'],`)
+    await cTokenRate.set(WAD.mul(2))
     return cTokenRate
   }
 
@@ -82,8 +82,8 @@ export class Mocks {
     const args: any = []
     const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as ISourceMock
     verify(cTokenChi.address, args)
-    console.log(`Deployed chi source for ${base} at ${cTokenChi.address}`)
-    await cTokenChi.set(WAD); console.log(`cTokenChi.set`)
+    console.log(`[${base}, '${cTokenChi.address}'],`)
+    await cTokenChi.set(WAD)
     return cTokenChi
   }
 
@@ -91,8 +91,8 @@ export class Mocks {
     const args: any = [18]
     const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
     verify(aggregator.address, args)
-    console.log(`Deployed spot source for ${base}/${quote} at ${aggregator.address}`)
-    await aggregator.set(WAD.mul(2)); console.log(`aggregator.set`)
+    console.log(`[${quote}, '${aggregator.address}'],`)
+    await aggregator.set(WAD.mul(2))
     return aggregator
   }
 
@@ -107,19 +107,25 @@ export class Mocks {
     const chiSources: Map<string, ISourceMock> = new Map()
     const spotSources: Map<string, Map<string, ISourceMock>> = new Map()
 
+    console.log(`Deploying tokens:`)
     for (let assetId of assetIds) {
       const asset = await this.deployAsset(owner, assetId)
       assets.set(assetId, asset)
     }
 
+    console.log(`Deploying rate sources:`)
     for (let baseId of baseIds) {
       const base = bytesToString(baseId)
-
-      // For each base, we add mock chi and rate oracle sources
       rateSources.set(baseId, await this.deployRateSource(owner, base))
+    }
+
+    console.log(`Deploying chi sources:`)
+    for (let baseId of baseIds) {
+      const base = bytesToString(baseId)
       chiSources.set(baseId, await this.deployChiSource(owner, base))
     }
 
+    console.log(`Deploying spot sources:`)
     for (let [baseId, ilkId] of ilkIds) {
       if (spotSources.get(baseId) === undefined) spotSources.set(baseId, new Map())
 
