@@ -1,7 +1,8 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 
-import { ETH, DAI, USDC, RATE, CHI } from '../shared/constants'
+import { ETH } from '../shared/constants'
+import { assetIds, baseIds, ilkIds, seriesData } from './config'
 
 import { Mocks } from '../fixtures/mocks'
 import { Protocol } from '../fixtures/protocol'
@@ -15,7 +16,7 @@ import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { IOracle } from '../typechain/IOracle'
 
-const toBytes6 = (x: string) => {return ethers.utils.formatBytes32String(x).slice(0, 14)}
+
 
 /**
  * This script integrates existing assets with the yield v2 protocol, deploying Joins in the process
@@ -24,25 +25,6 @@ const toBytes6 = (x: string) => {return ethers.utils.formatBytes32String(x).slic
  * npx hardhat run ./environments/assets.ts --network localhost
  *
  */
-const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
-
-const assetIds: string[] = [DAI, USDC, ETH, TST]
-const baseIds: string[] = [DAI, USDC]
-const ilkIds: Array<[string, string]> = [
-    [DAI, USDC],
-    [DAI, ETH],
-    [DAI, TST],
-    [USDC, DAI],
-    [USDC, ETH],
-    [USDC, TST],
-]
-
-const seriesData: Array<[string, string, number, Array<string>]> = [ // seriesId, baseId, maturity, ilkIds
-    [toBytes6('DAI1'), DAI, 1625093999, [USDC, ETH, TST]], // Jun21
-    [toBytes6('DAI2'), DAI, 1633042799, [USDC, ETH, TST]], // Sep21
-    [toBytes6('USDC1'), USDC, 1625093999, [DAI, ETH, TST]],
-    [toBytes6('USDC2'), USDC, 1633042799, [DAI, ETH, TST]]
-]
 
 async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: Wand, governor: string) {
     await cauldron.grantRoles(

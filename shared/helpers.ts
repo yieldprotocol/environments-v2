@@ -64,6 +64,10 @@ export function bytesToString(bytes: string): string {
   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
 }
 
+export function stringToBytes6(x: string): string {
+  return ethers.utils.formatBytes32String(x).slice(0, 14)
+}
+
 export function verify(address: string, args: any) {
   if (network.name !== 'localhost') {
     setTimeout(() => { run("verify:verify", {
@@ -80,11 +84,11 @@ export function verify(address: string, args: any) {
 /* Usage example: 
 const originalValue = new Map([['a', 1]]);
 const str = JSON.stringify(originalValue, replacer);
-const newValue = JSON.parse(str, reviver);
+const newValue = JSON.parse(str, revivor);
 console.log(originalValue, newValue);
 */
 
-export function replacer(key, value) {
+export function mapToJson(key: any, value: any) {
   if(value instanceof Map) {
     return {
       dataType: 'Map',
@@ -95,7 +99,7 @@ export function replacer(key, value) {
   }
 }
 
-export function revivor(key, value) {
+export function jsonToMap(key: any, value: any) {
   if(typeof value === 'object' && value !== null) {
     if (value.dataType === 'Map') {
       return new Map(value.value);
