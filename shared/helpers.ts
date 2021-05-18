@@ -68,11 +68,12 @@ export function stringToBytes6(x: string): string {
   return ethers.utils.formatBytes32String(x).slice(0, 14)
 }
 
-export function verify(address: string, args: any) {
+export function verify(address: string, args: any, libs?: any) {
   if (network.name !== 'localhost') {
     setTimeout(() => { run("verify:verify", {
       address: address,
       constructorArguments: args,
+      libraries: libs,
     }) }, 60000)
   }
 
