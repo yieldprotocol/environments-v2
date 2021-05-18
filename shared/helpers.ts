@@ -84,7 +84,7 @@ const newValue = JSON.parse(str, reviver);
 console.log(originalValue, newValue);
 */
 
-export function replacer(key, value) {
+export function replacer(key:any, value:any) {
   if(value instanceof Map) {
     return {
       dataType: 'Map',
@@ -95,7 +95,7 @@ export function replacer(key, value) {
   }
 }
 
-export function revivor(key, value) {
+export function revivor(key:any, value:any) {
   if(typeof value === 'object' && value !== null) {
     if (value.dataType === 'Map') {
       return new Map(value.value);
