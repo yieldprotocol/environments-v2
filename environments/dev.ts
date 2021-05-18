@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 
 import { ETH } from '../shared/constants'
-import { assetIds, baseIds, ilkIds, seriesData } from './config'
+import { assetIds, baseIds, ilkIds, seriesData, testAddrsToFund } from './config'
 
 import { Mocks } from '../fixtures/mocks'
 import { Protocol } from '../fixtures/protocol'
@@ -15,6 +15,7 @@ import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { IOracle } from '../typechain/IOracle'
+import { fundExternalAccounts } from '../shared/helpers'
 
 
 
@@ -137,5 +138,13 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
     console.log('\n')
     console.log(`### `)
     console.log('\n')
+
+    try { 
+        fundExternalAccounts(mocks.assets, testAddrsToFund).then(
+            () => console.log('Mock asset accounts have been auto-funded.')
+        )
+    } catch {
+        console.log('Error auto funding test accounts')
+    }
 
 })()

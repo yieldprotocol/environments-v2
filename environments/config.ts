@@ -21,3 +21,5 @@ export const seriesData: Array<[string, string, number, Array<string>]> = [ // s
     [stringToBytes6('USDC1'), USDC, 1625093999, [DAI, ETH, TST]],
     [stringToBytes6('USDC2'), USDC, 1633042799, [DAI, ETH, TST]]
 ]
+
+export const testAddrsToFund : Array<string> = ['0x885Bc35dC9B10EA39f2d7B3C94a7452a9ea442A7']
