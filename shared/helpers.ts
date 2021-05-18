@@ -73,3 +73,33 @@ export function verify(address: string, args: any) {
   }
 
 }
+
+
+/* MAP to Json for file export */
+
+/* Usage example: 
+const originalValue = new Map([['a', 1]]);
+const str = JSON.stringify(originalValue, replacer);
+const newValue = JSON.parse(str, reviver);
+console.log(originalValue, newValue);
+*/
+
+export function replacer(key, value) {
+  if(value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: Array.from(value.entries()), // or with spread: value: [...value]
+    };
+  } else {
+    return value;
+  }
+}
+
+export function revivor(key, value) {
+  if(typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      return new Map(value.value);
+    }
+  }
+  return value;
+}
