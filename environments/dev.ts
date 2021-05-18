@@ -140,9 +140,7 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
     console.log('\n')
 
     try { 
-        fundExternalAccounts(mocks.assets, testAddrsToFund).then(
-            () => console.log('Mock asset accounts have been auto-funded.')
-        )
+        fundExternalAccounts(mocks.assets, testAddrsToFund)
     } catch {
         console.log('Error auto funding test accounts')
     }

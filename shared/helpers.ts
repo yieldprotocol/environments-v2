@@ -57,7 +57,7 @@ export const fundExternalAccounts = async (assetList:Map<string, any>, accountLi
           })
       })
   )
-  console.log('External accounts funded with 100ETH, and 1000 of each asset')
+  console.log('External test accounts funded with 100ETH, and 1000 of each asset')
 };
 
 export function bytesToString(bytes: string): string {
