@@ -137,5 +137,23 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
         wand,
         seriesData,
     )
+
     console.timeEnd("Series added in")
+
+    console.log('\n')
+    console.log(`### PROTOCOL DEPLOYMENTS ###`)
+    console.log('\n')
+
+    console.log(`"Cauldron": "${protocol.cauldron.address}",`)
+    console.log(`"Ladle" : "${protocol.ladle.address}",`)
+    console.log(`"PoolRouter" : "${protocol.poolRouter.address}",`)
+    console.log(`"Witch" : "${protocol.witch.address}",`)
+    console.log(`"Wand" : "${protocol.wand.address}",`)
+    console.log(`"CompoundOracle" : "${protocol.compoundOracle.address}",`)
+    console.log(`"ChainlinkOracle" : "${protocol.chainlinkOracle.address}"`)
+
+    console.log('\n')
+    console.log(`### `)
+    console.log('\n')
+
 })()
