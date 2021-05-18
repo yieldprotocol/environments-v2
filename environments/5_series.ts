@@ -35,7 +35,7 @@ const series: Array<[string, string, number, Array<string>]> = [ // seriesId, ba
  *
  */
 
-console.time("Assets added in");
+console.time("Series added in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();    
@@ -50,5 +50,5 @@ console.time("Assets added in");
         wand,
         series,
     )
-    console.timeEnd("Assets added in")
+    console.timeEnd("Series added in")
 })()

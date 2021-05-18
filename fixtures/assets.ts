@@ -2,17 +2,16 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-wit
 import { ethers, waffle, network } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
 
-import { id } from '@yield-protocol/utils-v2'
 import { WAD, RATE } from '../shared/constants'
 
-import JoinArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 import { IOracle } from '../typechain/IOracle'
-import { Cauldron } from '../typechain/Cauldron'
 import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
 
-const { deployContract } = waffle
+import { ERC20Mock } from '../typechain/ERC20Mock'
+import { WETH9Mock } from '../typechain/WETH9Mock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 export class Assets {
   owner: SignerWithAddress
@@ -31,18 +30,19 @@ export class Assets {
     owner: SignerWithAddress,
     ladle: Ladle,
     wand: Wand,
-    assets: Array<[string, string]>,              // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
+    assets: Map<string, ERC20Mock | WETH9Mock>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
     baseIds: Array<string>,                       // Assets to make into bases
     ilkIds: Array<[string, string]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId], ... ]
     rateOracle: IOracle,
-    rateSourceAddresses: Map<string, string>,     // baseId => sourceAddress
-    chiSourceAddresses: Map<string, string>,      // baseId => sourceAddress
+    rateSources: Map<string, ISourceMock>,        // baseId => source
+    chiSources: Map<string, ISourceMock>,         // baseId => source
     spotOracle: IOracle,
-    spotSourceAddresses: Map<string, Map<string, string>> // baseId,quoteId => sourceAddress
+    spotSources: Map<string, Map<string, ISourceMock>> // baseId,quoteId => source
   ) {
     const joins: Map<string, Join> = new Map()
 
-    for (let [assetId, assetAddress] of assets) {
+    for (let assetId of assets.keys()) {
+      const assetAddress = (assets.get(assetId) as ERC20Mock | WETH9Mock).address
       const symbol = bytesToString(assetId)
 
       await wand.addAsset(assetId, assetAddress); console.log(`wand.addAsset(${symbol})`)
@@ -55,8 +55,8 @@ export class Assets {
 
     for (let baseId of baseIds) {
       const symbol = bytesToString(baseId)
-      const chiSourceAddress = chiSourceAddresses.get(baseId) as string
-      const rateSourceAddress = rateSourceAddresses.get(baseId) as string
+      const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
+      const rateSourceAddress = (rateSources.get(baseId) as ISourceMock).address
       await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
     }
 
@@ -66,7 +66,7 @@ export class Assets {
       if (baseId === ilkId) continue;
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
       const maxDebt = WAD.mul(1000000)
-      const spotSource = (spotSourceAddresses.get(baseId) as Map<string, string>).get(ilkId) as string
+      const spotSource = ((spotSources.get(baseId) as Map<string, ISourceMock>).get(ilkId) as ISourceMock).address
       await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 

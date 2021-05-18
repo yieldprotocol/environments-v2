@@ -21,16 +21,22 @@ const { deployContract } = waffle
 export class Mocks {
   owner: SignerWithAddress
   assets: Map<string, ERC20Mock | WETH9Mock>
-  sources: Map<string, Map<string, ISourceMock>>
+  rateSources: Map<string, ISourceMock>
+  chiSources: Map<string, ISourceMock>
+  spotSources: Map<string, Map<string, ISourceMock>>
   
   constructor(
     owner: SignerWithAddress,
     assets: Map<string, ERC20Mock | WETH9Mock>,
-    sources: Map<string, Map<string, ISourceMock>>,
+    rateSources: Map<string, ISourceMock>,
+    chiSources: Map<string, ISourceMock>,
+    spotSources: Map<string, Map<string, ISourceMock>>,
   ) {
     this.owner = owner
     this.assets = assets
-    this.sources = sources
+    this.rateSources = rateSources
+    this.chiSources = chiSources
+    this.spotSources = spotSources
   }
 
   public static async deployAsset(owner: SignerWithAddress, assetId: string): Promise<ERC20Mock | WETH9Mock>{
@@ -92,42 +98,38 @@ export class Mocks {
 
   public static async setup(
     owner: SignerWithAddress,
+    assetIds: Array<string>,
     baseIds: Array<string>,
-    ilkIds: Array<string>,
+    ilkIds: Array<[string, string]>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
-    const sources: Map<string, Map<string, ISourceMock>> = new Map()
+    const rateSources: Map<string, ISourceMock> = new Map()
+    const chiSources: Map<string, ISourceMock> = new Map()
+    const spotSources: Map<string, Map<string, ISourceMock>> = new Map()
 
-    for (let baseId of baseIds) {
-      const asset = await this.deployAsset(owner, baseId)
-      assets.set(baseId, asset)
+    for (let assetId of assetIds) {
+      const asset = await this.deployAsset(owner, assetId)
+      assets.set(assetId, asset)
     }
-
-    for (let ilkId of ilkIds) {
-      if (baseIds.includes(ilkId)) continue
-      const asset = await this.deployAsset(owner, ilkId)
-      assets.set(ilkId, asset)
-    }
-
 
     for (let baseId of baseIds) {
       const base = bytesToString(baseId)
 
       // For each base, we add mock chi and rate oracle sources
-      const baseSources = new Map()
-      baseSources.set(RATE, await this.deployRateSource(owner, base))
-      baseSources.set(CHI, await this.deployChiSource(owner, base))
-
-      for (let ilkId of ilkIds) {
-        if (baseId === ilkId) continue
-        const quote = bytesToString(ilkId)
-
-        // For each base and asset pair, we add a mock spot oracle source
-        baseSources.set(ilkId, await this.deploySpotSource(owner, base, quote))
-      }
-      sources.set(baseId, baseSources)
+      rateSources.set(baseId, await this.deployRateSource(owner, base))
+      chiSources.set(baseId, await this.deployChiSource(owner, base))
     }
 
-    return new Mocks(owner, assets, sources)
+    for (let [baseId, ilkId] of ilkIds) {
+      if (spotSources.get(baseId) === undefined) spotSources.set(baseId, new Map())
+
+      const base = bytesToString(baseId);
+      const quote = bytesToString(ilkId);
+
+      // For each base and asset pair, we add a mock spot oracle source
+      (spotSources.get(baseId) as Map<string, ISourceMock>).set(ilkId, await this.deploySpotSource(owner, base, quote))
+    }
+
+    return new Mocks(owner, assets, rateSources, chiSources, spotSources)
   }
 }
