@@ -52,8 +52,8 @@ export class Protocol {
     compoundOracle: CompoundMultiOracle,
     yieldMath: YieldMath,
     safeERC20Namer: SafeERC20Namer,
-    poolRouter: PoolRouter,
     poolFactory: PoolFactory,
+    poolRouter: PoolRouter,
     joinFactory: JoinFactory,
     wand: Wand,
   ) {
@@ -166,32 +166,32 @@ export class Protocol {
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
     yieldMath = ((await YieldMathFactory.deploy()) as unknown) as YieldMath
     await yieldMath.deployed()
-    verify(yieldMath.address, [])
     console.log(`[YieldMath, '${yieldMath.address}'],`)
+    verify(yieldMath.address, [])
 
     const SafeERC20NamerFactory = await ethers.getContractFactory('SafeERC20Namer')
     safeERC20Namer = ((await SafeERC20NamerFactory.deploy()) as unknown) as SafeERC20Namer
     await safeERC20Namer.deployed()
-    verify(safeERC20Namer.address, [])
     console.log(`[SafeERC20Namer, '${safeERC20Namer.address}'],`)
+    verify(safeERC20Namer.address, [])
     
     const poolLibs = {
-      YieldMath: yieldMath.address,
-      SafeERC20Namer: safeERC20Namer.address,
+      YieldMath: '0x64218616f3f8bDA36a6D0eD59728F27cb6bE975f',
+      SafeERC20Namer: '0x134BB787EC4e17D67f077831d73AC0E50c7b21E1',
     }
     const PoolFactoryFactory = await ethers.getContractFactory('PoolFactory', {
       libraries: poolLibs,
     })
     poolFactory = ((await PoolFactoryFactory.deploy()) as unknown) as PoolFactory
     await poolFactory.deployed()
-    verify(poolFactory.address, [], poolLibs)
     console.log(`[PoolFactory, '${poolFactory.address}'],`)
+    verify(poolFactory.address, [], poolLibs)
 
     const PoolRouterFactory = await ethers.getContractFactory('PoolRouter')
     poolRouter = ((await PoolRouterFactory.deploy(poolFactory.address, weth9)) as unknown) as PoolRouter
     await poolRouter.deployed()
-    verify(poolRouter.address, [poolFactory.address, weth9])
     console.log(`[PoolRouter, '${poolRouter.address}'],`)
+    verify(poolRouter.address, [poolFactory.address, weth9])
 
     return { yieldMath, safeERC20Namer, poolFactory, poolRouter }
 
@@ -205,37 +205,37 @@ export class Protocol {
     const ownerAdd = await owner.getAddress()
 
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
-    verify(cauldron.address, [])
     console.log(`[Cauldron, '${cauldron.address}],`)
+    verify(cauldron.address, [])
 
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address])) as Ladle
     const ladle = new LadleWrapper(innerLadle)
-    verify(innerLadle.address, [cauldron.address])
     console.log(`[Ladle, '${innerLadle.address}],`)
+    verify(innerLadle.address, [cauldron.address])
 
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
-    verify(witch.address, [cauldron.address, ladle.address])
     console.log(`[Witch, '${witch.address}],`)
+    verify(witch.address, [cauldron.address, ladle.address])
 
     const compoundOracle = (await deployContract(owner, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
-    verify(compoundOracle.address, [])
     console.log(`[CompoundMultiOracle, '${compoundOracle.address}],`)
+    verify(compoundOracle.address, [])
 
     const chainlinkOracle = (await deployContract(owner, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
-    verify(chainlinkOracle.address, [])
     console.log(`[ChainlinkMultiOracle, '${chainlinkOracle.address}],`)
+    verify(chainlinkOracle.address, [])
 
     const joinFactory = (await deployContract(owner, JoinFactoryArtifact, [])) as JoinFactory
-    verify(joinFactory.address, [])
     console.log(`[JoinFactory, '${joinFactory.address}],`)
+    verify(joinFactory.address, [])
 
     const { yieldMath, safeERC20Namer, poolFactory, poolRouter }:
       { yieldMath: YieldMath, safeERC20Namer: SafeERC20Namer, poolFactory: PoolFactory, poolRouter:PoolRouter } = 
       await this.deployPoolRouter(weth9);
 
     const wand = (await deployContract(owner, WandArtifact, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])) as Wand
-    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])
     console.log(`[Wand, '${wand.address}],`)
+    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)

@@ -24,6 +24,6 @@ console.time("Protocol deployed in");
     const [ ownerAcc ] = await ethers.getSigners();
     const weth = mocks.assets.get(ETH) as WETH9Mock
     const protocol = await Protocol.setup(ownerAcc, weth.address)
-    fs.writeFileSync('protocol.json', JSON.stringify(protocol, mapToJson), 'utf8')
+    // fs.writeFileSync('protocol.json', JSON.stringify(protocol, mapToJson), 'utf8')
     console.timeEnd("Protocol deployed in")
 })()
