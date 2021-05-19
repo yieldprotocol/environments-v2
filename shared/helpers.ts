@@ -108,3 +108,36 @@ export function jsonToMap(key: any, value: any) {
   }
   return value;
 }
+
+export function mapToJson2(key: any, value: any) {
+  if(value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: value.forEach((v, k) => { return mapToJson2(k, v) }),
+    };
+  } else if(value instanceof Array) {
+    return {
+      dataType: 'Array',
+      value: value.forEach((v, k) => { return mapToJson2(k, v) }),
+    };
+  } else if (value.address !== undefined) {
+    return value.address;
+  } else {
+    return value.toString()
+  }
+}
+
+export function jsonToMap2(key: any, value: any) {
+  if(typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      let tmp = new Map(value.value)
+      return new Map(tmp.forEach((v, k) => { return jsonToMap2(k, v) }))
+    } else if (value.dataType === 'Array') {
+      let tmp = new Map(value.value)
+      return new Array(tmp.forEach((v, k) => { return jsonToMap2(k, v) }))
+    } else {
+      return value.toString()
+    }
+  }
+  return value;
+}
