@@ -1,7 +1,7 @@
 import { ethers, network, run } from 'hardhat'
-import { BigNumber } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS } from './constants';
+import { THREE_MONTHS, VAULT_OPS } from './constants';
 
 export const transferFromFunder = async ( 
     tokenAddress:string,
@@ -81,12 +81,11 @@ export function verify(address: string, args: any, libs?: any) {
 
 
 /* MAP to Json for file export */
-export function mapToJson(map:Map<any,any>) : string {
+export function mapToJson(map: Map<any,any>) : string {
   return JSON.stringify(map,
     /* replacer */
     (key: any, value: any) =>  {
       if(value instanceof Map) {
-        console.log( value.entries())
         return {
           dataType: 'Map',
           value:  [...value],
@@ -95,6 +94,10 @@ export function mapToJson(map:Map<any,any>) : string {
         return value;
       }
     });
+}
+
+export function toAddress(obj: any) : string {
+  return obj.address !== undefined ? obj.address : obj
 }
 
 export function jsonToMap(json:string) : Map<any,any> {

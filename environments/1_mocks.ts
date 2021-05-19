@@ -26,6 +26,6 @@ console.time("Mocks deployed in");
     const readMockMap =  fs.readFileSync('mocks.json', 'utf8');
     const mockAssetMapHydrated = jsonToMap(readMockMap);
 
-    console.log( mockAssetMapHydrated )
+    // console.log( mockAssetMapHydrated )
 
 })()
