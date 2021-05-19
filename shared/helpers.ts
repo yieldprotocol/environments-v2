@@ -81,63 +81,31 @@ export function verify(address: string, args: any, libs?: any) {
 
 
 /* MAP to Json for file export */
-
-/* Usage example: 
-const originalValue = new Map([['a', 1]]);
-const str = JSON.stringify(originalValue, mapToJson);
-const newValue = JSON.parse(str, jsonToMap);
-console.log(originalValue, newValue);
-*/
-
-export function mapToJson(key: any, value: any) {
-  if(value instanceof Map) {
-    return {
-      dataType: 'Map',
-      value: Array.from(value.entries()), // or with spread: value: [...value]
-    };
-  } else {
-    return value;
-  }
+export function mapToJson(map:Map<any,any>) : string {
+  return JSON.stringify(map,
+    /* replacer */
+    (key: any, value: any) =>  {
+      if(value instanceof Map) {
+        console.log( value.entries())
+        return {
+          dataType: 'Map',
+          value:  [...value],
+        };
+      } else {
+        return value;
+      }
+    });
 }
 
-export function jsonToMap(key: any, value: any) {
-  if(typeof value === 'object' && value !== null) {
-    if (value.dataType === 'Map') {
-      return new Map(value.value);
-    }
-  }
-  return value;
-}
-
-export function mapToJson2(key: any, value: any) {
-  if(value instanceof Map) {
-    return {
-      dataType: 'Map',
-      value: value.forEach((v, k) => { return mapToJson2(k, v) }),
-    };
-  } else if(value instanceof Array) {
-    return {
-      dataType: 'Array',
-      value: value.forEach((v, k) => { return mapToJson2(k, v) }),
-    };
-  } else if (value.address !== undefined) {
-    return value.address;
-  } else {
-    return value.toString()
-  }
-}
-
-export function jsonToMap2(key: any, value: any) {
-  if(typeof value === 'object' && value !== null) {
-    if (value.dataType === 'Map') {
-      let tmp = new Map(value.value)
-      return new Map(tmp.forEach((v, k) => { return jsonToMap2(k, v) }))
-    } else if (value.dataType === 'Array') {
-      let tmp = new Map(value.value)
-      return new Array(tmp.forEach((v, k) => { return jsonToMap2(k, v) }))
-    } else {
-      return value.toString()
-    }
-  }
-  return value;
+export function jsonToMap(json:string) : Map<any,any> {
+  return JSON.parse(json, 
+    /* revivor */
+    (key: any, value: any) =>  {
+      if(typeof value === 'object' && value !== null) {
+        if (value.dataType === 'Map') {
+          return new Map(value.value);
+        }
+      }
+      return value;
+    }); 
 }
