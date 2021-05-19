@@ -23,14 +23,14 @@ export class Mocks {
   assets: Map<string, ERC20Mock | WETH9Mock>
   rateSources: Map<string, ISourceMock>
   chiSources: Map<string, ISourceMock>
-  spotSources: Map<string, Map<string, ISourceMock>>
+  spotSources: Map<string, ISourceMock>
   
   constructor(
     owner: SignerWithAddress,
     assets: Map<string, ERC20Mock | WETH9Mock>,
     rateSources: Map<string, ISourceMock>,
     chiSources: Map<string, ISourceMock>,
-    spotSources: Map<string, Map<string, ISourceMock>>,
+    spotSources: Map<string, ISourceMock>,
   ) {
     this.owner = owner
     this.assets = assets
@@ -105,7 +105,7 @@ export class Mocks {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
     const rateSources: Map<string, ISourceMock> = new Map()
     const chiSources: Map<string, ISourceMock> = new Map()
-    const spotSources: Map<string, Map<string, ISourceMock>> = new Map()
+    const spotSources: Map<string, ISourceMock> = new Map()
 
     console.log(`Deploying tokens:`)
     for (let assetId of assetIds) {
@@ -127,13 +127,10 @@ export class Mocks {
 
     console.log(`Deploying spot sources:`)
     for (let [baseId, ilkId] of ilkIds) {
-      if (spotSources.get(baseId) === undefined) spotSources.set(baseId, new Map())
-
       const base = bytesToString(baseId);
       const quote = bytesToString(ilkId);
-
-      // For each base and asset pair, we add a mock spot oracle source
-      (spotSources.get(baseId) as Map<string, ISourceMock>).set(ilkId, await this.deploySpotSource(owner, base, quote))
+      spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote))
+      console.log(`${baseId},${ilkId}: ${spotSources.get(baseId + "," + ilkId)}`)
     }
 
     return new Mocks(owner, assets, rateSources, chiSources, spotSources)

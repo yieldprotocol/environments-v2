@@ -37,7 +37,7 @@ export class Assets {
     rateSources: Map<string, ISourceMock>,        // baseId => source
     chiSources: Map<string, ISourceMock>,         // baseId => source
     spotOracle: IOracle,
-    spotSources: Map<string, Map<string, ISourceMock>> // baseId,quoteId => source
+    spotSources: Map<string, ISourceMock>         // baseId,quoteId => source
   ) {
     const joins: Map<string, Join> = new Map()
 
@@ -66,8 +66,8 @@ export class Assets {
       if (baseId === ilkId) continue;
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
       const maxDebt = WAD.mul(1000000)
-      const spotSource = ((spotSources.get(baseId) as Map<string, ISourceMock>).get(ilkId) as ISourceMock).address
-      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
+      const spotSource = spotSources.get(`${baseId},${ilkId}`) as ISourceMock
+      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource.address, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

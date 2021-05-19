@@ -9,7 +9,6 @@ import { Series } from '../fixtures/series'
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
-import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
 /**
@@ -34,7 +33,6 @@ console.time("Series added in");
     const cauldron = await ethers.getContractAt('Cauldron', protocol.cauldron.address, ownerAcc) as unknown as Cauldron
     const ladle = await ethers.getContractAt('Ladle', protocol.ladle.address, ownerAcc) as unknown as Ladle
     const wand = await ethers.getContractAt('Wand', protocol.wand.address, ownerAcc) as unknown as Wand
-    const yieldMath = await ethers.getContractAt('YieldMath', protocol.yieldMath.address, ownerAcc) as unknown as YieldMath
     const safeERC20Namer = await ethers.getContractAt('SafeERC20Namer', protocol.safeERC20Namer.address, ownerAcc) as unknown as SafeERC20Namer
 
     const series = await Series.setup(
@@ -42,7 +40,6 @@ console.time("Series added in");
         cauldron,
         ladle,
         wand,
-        yieldMath,
         safeERC20Namer,
         seriesData,
     )

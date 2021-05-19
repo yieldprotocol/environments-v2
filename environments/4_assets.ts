@@ -42,16 +42,12 @@ const chiSourceAddresses = new Map([
     [USDC, '0x70e0bA845a1A0F2DA3359C97E0285013525FFC49'],
 ])
 const spotSourceAddresses = new Map([
-    [DAI, new Map([
-        [USDC, '0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf'],
-        [ETH, '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf'],
-        [TST, '0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00'],
-    ])],
-    [USDC, new Map([
-        [DAI, '0x809d550fca64d94Bd9F66E60752A544199cfAC3D'],
-        [ETH, '0x1291Be112d480055DaFd8a610b7d1e203891C274'],
-        [TST, '0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575'],
-    ])],
+    [`${DAI},${USDC}`, '0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf'],
+    [`${DAI},${ETH}`, '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf'],
+    [`${DAI},${TST}`, '0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00'],
+    [`${USDC},${DAI}`, '0x809d550fca64d94Bd9F66E60752A544199cfAC3D'],
+    [`${USDC},${ETH}`, '0x1291Be112d480055DaFd8a610b7d1e203891C274'],
+    [`${USDC},${TST}`, '0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575'],
 ])
 
  /**
@@ -84,16 +80,10 @@ console.time("Assets added in");
         const source = chiSourceAddresses.get(baseId) as string
         chiSources.set(baseId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
     }
-    const spotSources: Map<string, Map<string, ISourceMock>> = new Map()
-    for (let baseId of spotSourceAddresses.keys()) spotSources.set(baseId, new Map())
-    
-    for (let baseId of spotSourceAddresses.keys()) {
-        const sourcesByBase = spotSourceAddresses.get(baseId) as Map<string, string>
-        for (let ilkId of sourcesByBase.keys()) {
-            const source = sourcesByBase.get(ilkId) as string
-            const instantiatedSources = spotSources.get(baseId) as Map<string, ISourceMock>
-            instantiatedSources.set(ilkId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
-        }
+    const spotSources: Map<string, ISourceMock> = new Map()
+    for (let baseIlkId of spotSourceAddresses.keys()) {
+        const source = chiSourceAddresses.get(baseIlkId) as string
+        spotSources.set(baseIlkId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
     }
 
     const joins = await Assets.setup(

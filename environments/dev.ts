@@ -14,6 +14,7 @@ import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
+import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 import { IOracle } from '../typechain/IOracle'
 import { fundExternalAccounts } from '../shared/helpers'
 
@@ -86,6 +87,7 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
     const ladle = protocol.ladle.ladle as Ladle
     const witch = protocol.witch as Witch
     const wand = protocol.wand as Wand
+    const safeERC20Namer = protocol.safeERC20Namer as SafeERC20Namer
     const rateChiOracle = protocol.compoundOracle as unknown as IOracle
     const spotOracle = protocol.chainlinkOracle as unknown as IOracle
     console.timeEnd("Protocol deployed in")
@@ -118,6 +120,7 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
         cauldron,
         ladle,
         wand,
+        safeERC20Namer,
         seriesData,
     )
 
