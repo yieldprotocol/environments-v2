@@ -176,8 +176,8 @@ export class Protocol {
     verify(safeERC20Namer.address, [])
     
     const poolLibs = {
-      YieldMath: '0x64218616f3f8bDA36a6D0eD59728F27cb6bE975f',
-      SafeERC20Namer: '0x134BB787EC4e17D67f077831d73AC0E50c7b21E1',
+      YieldMath: yieldMath.address,
+      SafeERC20Namer: safeERC20Namer.address,
     }
     const PoolFactoryFactory = await ethers.getContractFactory('PoolFactory', {
       libraries: poolLibs,
