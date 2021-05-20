@@ -18,9 +18,9 @@ import { Wand } from '../typechain/Wand'
  *
  */
 
-const json = fs.readFileSync('protocol.json', 'utf8')
-const protocol = JSON.parse(json, jsonToMap) as Protocol;
-let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce
+const json = fs.readFileSync('./output/protocol.json', 'utf8')
+const protocol = JSON.parse(json) as Protocol;
+let governor = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA' // Bruce 👑
 
 console.time("Governance set in");
 
