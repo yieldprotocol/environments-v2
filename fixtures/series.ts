@@ -12,12 +12,12 @@ import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 export class Series {
   owner: SignerWithAddress
   fyTokens: Map<string, FYToken>
-  pools: Map<string, Pool| Map<string, Pool> >
+  pools: Map<string, Pool>
   
   constructor(
     owner: SignerWithAddress,
     fyTokens: Map<string, FYToken>,
-    pools: Map<string, Pool | Map<string, Pool> >,
+    pools: Map<string, Pool>,
   ) {
     this.owner = owner
     this.fyTokens = fyTokens
