@@ -44,9 +44,11 @@ console.time("Pools initialized");
     const [ ownerAcc ] = await ethers.getSigners(); 
     pools.forEach(async (pool: Pool)=> {
 
-      const _pool = (await ethers.getContractAt('Pool', pool.address, ownerAcc) as unknown) as Pool
-      const base = (await ethers.getContractAt('ERC20Mock', await _pool.base(), ownerAcc) as unknown) as ERC20Mock
-      const fyToken = (await ethers.getContractAt('FYToken', await _pool.fyToken(), ownerAcc) as unknown) as FYToken
+      const _pool: Pool = await ethers.getContractAt('Pool', pool.address, ownerAcc) as Pool
+
+      console.log( pool.address, _pool.address)
+      const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await _pool.base(), ownerAcc) as ERC20Mock
+      const fyToken: FYToken = await ethers.getContractAt('FYToken', await _pool.fyToken(), ownerAcc) as FYToken
 
       // Supply pool with a million tokens of each for initialization
       try {
@@ -68,6 +70,6 @@ console.time("Pools initialized");
 
 
     })
-    
+
     console.timeEnd("Pools initialized")
 })()
