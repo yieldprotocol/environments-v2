@@ -11,18 +11,14 @@ import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
-/**
- * 
- * README
- * 
- * 
- */
-const protocol = JSON.parse(fs.readFileSync('protocol.json', 'utf8'), jsonToMap) as Protocol;
+
+const protocol = JSON.parse(fs.readFileSync('./output/protocol.json', 'utf8')) as Protocol;
 
  /**
+ * This script deploys the yield v2 protocol series specified in config.ts
  * 
  * run:
- * npx hardhat run ./environments/development.ts --network localhost
+ * npx hardhat run ./environments/series.ts --network localhost
  *
  */
 
@@ -45,5 +41,6 @@ console.time("Series added in");
     )
     console.timeEnd("Series added in")
 
-    fs.writeFileSync('series.json', JSON.stringify(series, mapToJson), 'utf8')
+    fs.writeFileSync('./output/fyTokens.json', mapToJson(series.fyTokens), 'utf8')
+    fs.writeFileSync('./output/pools.json', mapToJson(series.pools), 'utf8')
 })()
