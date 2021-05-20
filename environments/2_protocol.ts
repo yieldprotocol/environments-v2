@@ -15,22 +15,22 @@ import { WETH9Mock } from '../typechain/WETH9Mock'
  *
  */
 
-const json = fs.readFileSync('mocks.json', 'utf8')
-const mocks = jsonToMap(json) as Mocks["assets"];
+const json = fs.readFileSync('./output/assets.json', 'utf8')
+const assets = jsonToMap(json) as Mocks["assets"];
 
 console.time("Protocol deployed in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
-    const weth = mocks.get(ETH) as WETH9Mock
+    const weth = assets.get(ETH) as WETH9Mock
     const protocol = await Protocol.setup(ownerAcc, weth.address)
         
-    fs.writeFileSync('protocol.json', JSON.stringify(protocol), 'utf8')
+    fs.writeFileSync('./output/protocol.json', JSON.stringify(protocol), 'utf8')
     console.timeEnd("Protocol deployed in")
 
-    /* test reading */
-    const _jsonFromFile =  fs.readFileSync('protocol.json', 'utf8');
-    const _protocol = JSON.parse(_jsonFromFile);
-    console.log(_protocol)
+    /* test file output reading */
+    // const _jsonFromFile =  fs.readFileSync('./output/protocol.json', 'utf8');
+    // const _protocol = JSON.parse(_jsonFromFile);
+    // console.log(_protocol)
 
 })()
