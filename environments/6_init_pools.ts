@@ -44,53 +44,30 @@ console.time("Pools initialized");
     const [ ownerAcc ] = await ethers.getSigners(); 
     pools.forEach(async (pool: Pool)=> {
 
-      // const connectedPool = pool.connect(ownerAcc)
-      console.log(pool);
+      const _pool = (await ethers.getContractAt('Pool', pool.address, ownerAcc) as unknown) as Pool
+      const base = (await ethers.getContractAt('ERC20Mock', await _pool.base(), ownerAcc) as unknown) as ERC20Mock
+      const fyToken = (await ethers.getContractAt('FYToken', await _pool.fyToken(), ownerAcc) as unknown) as FYToken
 
-      // const base = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc) as unknown) as ERC20Mock
-      // const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc) as unknown) as FYToken
-      // // Supply pool with a million tokens of each for initialization
-      // try {
-      //   // try minting tokens (as the token owner for mock tokens)
-      //   await base.mint(pool.address, WAD.mul(1000000)); console.log(`base.mint(pool.address)`)
-      // } catch (e) { 
-      //   // if that doesn't work, try transfering tokens from a whale/funder account
-      //   // await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
-      //   console.log(e);
-      // }
-      // // Initialize pool
-      // await pool.mint(await ownerAcc.getAddress(), true, 0); console.log(`pool.mint(owner)`)
+      // Supply pool with a million tokens of each for initialization
+      try {
+        // try minting tokens (as the token owner for mock tokens)
+        await base.mint(pool.address, WAD.mul(1000000)); console.log(`base.mint(pool.address)`)
+      } catch (e) { 
+        // if that doesn't work, try transfering tokens from a whale/funder account
+        // await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
+        console.log(e);
+      }
+      // Initialize pool
+      await _pool.mint(await ownerAcc.getAddress(), true, 0); console.log(`pool.mint(owner)`)
   
-      // // Donate fyToken to the pool to skew it
-      // await fyToken.grantRole(id('mint(address,uint256)'), await ownerAcc.getAddress()); console.log(`fyToken.grantRoles(owner)`)
+      // Donate fyToken to the pool to skew it
+      await fyToken.grantRole(id('mint(address,uint256)'), await ownerAcc.getAddress()); console.log(`fyToken.grantRoles(owner)`)
 
-      // await fyToken.mint(pool.address, WAD.mul(1000000).div(9)); console.log(`fyToken.mint(pool.address)`)
-      // await pool.sync(); console.log(`pool.sync`) 
+      await fyToken.mint(pool.address, WAD.mul(1000000).div(9)); console.log(`fyToken.mint(pool.address)`)
+      await _pool.sync(); console.log(`pool.sync`)  
+
+
     })
-
-    // for (let [seriesId, poolAddress] of poolAddrs) {
-    //     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc) as unknown) as Pool
-    //     const base = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc) as unknown) as ERC20Mock
-    //     const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc) as unknown) as FYToken
-
-    //     // Supply pool with a million tokens of each for initialization
-    //     try {
-    //       // try minting tokens (as the token owner for mock tokens)
-    //       await base.mint(pool.address, WAD.mul(1000000)); console.log(`base.mint(pool.address)`)
-    //     } catch (e) { 
-    //       // if that doesn't work, try transfering tokens from a whale/funder account
-    //       // await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
-    //       console.log(e);
-    //     }
-    //     // Initialize pool
-    //     await pool.mint(await ownerAcc.getAddress(), true, 0); console.log(`pool.mint(owner)`)
     
-    //     // Donate fyToken to the pool to skew it
-    //     await fyToken.grantRole(id('mint(address,uint256)'), await ownerAcc.getAddress()); console.log(`fyToken.grantRoles(owner)`)
-  
-    //     await fyToken.mint(pool.address, WAD.mul(1000000).div(9)); console.log(`fyToken.mint(pool.address)`)
-    //     await pool.sync(); console.log(`pool.sync`)            
-    // }
-
     console.timeEnd("Pools initialized")
 })()
