@@ -2,16 +2,16 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-wit
 import { ethers, waffle, network } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
 
-import { id } from '@yield-protocol/utils-v2'
 import { WAD, RATE } from '../shared/constants'
 
-import JoinArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 import { IOracle } from '../typechain/IOracle'
-import { Cauldron } from '../typechain/Cauldron'
 import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
+import { Wand } from '../typechain/Wand'
 
-const { deployContract } = waffle
+import { ERC20Mock } from '../typechain/ERC20Mock'
+import { WETH9Mock } from '../typechain/WETH9Mock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 export class Assets {
   owner: SignerWithAddress
@@ -25,67 +25,49 @@ export class Assets {
     this.joins = joins
   }
 
-  public static async addAsset(cauldron: Cauldron, assetId: string, assetAddress: string) {
-    await cauldron.addAsset(assetId, assetAddress); console.log('cauldron.addAsset')
-  }
-
-  public static async addJoin(owner: SignerWithAddress, ladle: Ladle, assetId: string, assetAddress: string) {
-    const symbol = bytesToString(assetId)
-    const join = (await deployContract(owner, JoinArtifact, [assetAddress])) as Join
-    verify(join.address, [assetAddress])
-    console.log(`Deployed Join for ${symbol} at ${join.address}`)
-    await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], ladle.address); console.log('join.grantRoles(ladle)')
-    await ladle.addJoin(assetId, join.address); console.log('ladle.addJoin')
-    return join
-  }
-
-  public static async addRateOracle(cauldron: Cauldron, oracle: IOracle, baseId: string, sourceAddress: string) {
-    await oracle.setSources([baseId], [RATE], [sourceAddress]); console.log(`oracle.setSources`)
-    await cauldron.setRateOracle(baseId, oracle.address); console.log(`cauldron.setRateOracle`)
-  }
-
-  public static async addSpotOracle(cauldron: Cauldron, oracle: IOracle, baseId: string, ilkId: string, sourceAddress: string) {
-    const ratio = 1000000 //  1000000 == 100% collateralization ratio
-    await oracle.setSources([baseId], [ilkId], [sourceAddress]); console.log(`oracle.setSources(${baseId}, ${ilkId}), ${sourceAddress})`)
-    await cauldron.setSpotOracle(baseId, ilkId, oracle.address, ratio); console.log(`cauldron.setSpotOracle(${baseId}, ${ilkId}), ${oracle.address})`)
-    return oracle
-  }
-
   // Integrate a number of assets into a Yield v2 environment
   public static async setup(
     owner: SignerWithAddress,
-    cauldron: Cauldron,
     ladle: Ladle,
-    assets: Array<[string, string]>,              // [ [assetId, assetAddress], ... ]
-    baseIds: Array<string>,
+    wand: Wand,
+    assets: Map<string, ERC20Mock | WETH9Mock>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
+    baseIds: Array<string>,                       // Assets to make into bases
+    ilkIds: Array<[string, string]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId], ... ]
     rateOracle: IOracle,
-    rateSourceAddresses: Map<string, string>,             // baseId => sourceAddress
+    rateSources: Map<string, ISourceMock>,        // baseId => source
+    chiSources: Map<string, ISourceMock>,         // baseId => source
     spotOracle: IOracle,
-    spotSourceAddresses: Map<string, Map<string, string>> // baseId,quoteId => sourceAddress
+    spotSources: Map<string, ISourceMock>         // baseId,quoteId => source
   ) {
     const joins: Map<string, Join> = new Map()
 
-    for (let [assetId, assetAddress] of assets) {
-      // ==== Add the asset to the cauldron
-      await this.addAsset(cauldron, assetId, assetAddress)
+    for (let assetId of assets.keys()) {
+      const assetAddress = (assets.get(assetId) as ERC20Mock | WETH9Mock).address
+      const symbol = bytesToString(assetId)
 
-      // ==== Deploy Join
-      const join = await this.addJoin(owner, ladle, assetId, assetAddress) as Join
+      await wand.addAsset(assetId, assetAddress); console.log(`wand.addAsset(${symbol})`)
+      
+      const join = await ethers.getContractAt('Join', await ladle.joins(assetId), owner) as Join
+      verify(join.address, [])
+      console.log(`[${symbol}Join, '${join.address}]`)
       joins.set(assetId, join)
     }
 
     for (let baseId of baseIds) {
-      // ==== Add the rate oracle for each base
-      await this.addRateOracle(cauldron, rateOracle, baseId, rateSourceAddresses.get(baseId) as string)
+      const symbol = bytesToString(baseId)
+      const rateSourceAddress = (rateSources.get(baseId) as ISourceMock).address
+      const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
+      await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
+    }
 
-      for (let [assetId, ] of assets) {
-        if (baseId === assetId) continue;
-        // ==== Set debt limits ====
-        await cauldron.setMaxDebt(baseId, assetId, WAD.mul(1000000)); console.log(`cauldron.setMaxDebt(${baseId}, ${assetId})`)
-        
-        // ==== Add the spot oracle for each base/quote pair
-        await this.addSpotOracle(cauldron, spotOracle, baseId, assetId, (spotSourceAddresses.get(baseId) as Map<string, string>).get(assetId) as string)
-      }
+    for (let [baseId, ilkId] of ilkIds) {
+      const baseSymbol = bytesToString(baseId)
+      const ilkSymbol = bytesToString(ilkId)
+      if (baseId === ilkId) continue;
+      const ratio = 1000000 //  1000000 == 100% collateralization ratio
+      const maxDebt = WAD.mul(1000000)
+      const spotSource = spotSources.get(`${baseId},${ilkId}`) as ISourceMock
+      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource.address, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

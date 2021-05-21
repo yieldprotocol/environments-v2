@@ -1,6 +1,8 @@
 import { ethers } from 'hardhat'
-import { ETH, DAI, USDC } from '../shared/constants'
+import *  as fs from 'fs'
+import { jsonToMap, mapToJson } from '../shared/helpers'
 import { Mocks } from '../fixtures/mocks'
+import { assetIds, baseIds, ilkIds } from './config'
 
 /**
  * This script integrates existing assets with the yield v2 protocol, deploying Joins in the process
@@ -9,13 +11,19 @@ import { Mocks } from '../fixtures/mocks'
  * npx hardhat run ./environments/assets.ts --network localhost
  *
  */
-
-const baseIds: string[] = [DAI, USDC]
-const ilkIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
+ 
 console.time("Mocks deployed in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();    
-    await Mocks.setup(ownerAcc, baseIds, ilkIds)
+    const mocks = await Mocks.setup(ownerAcc, assetIds, baseIds, ilkIds)
+
+    /* keeping it flat and simple for now, albeit a bit 'unDRY' */
+    fs.writeFileSync('./output/assets.json', mapToJson(mocks.assets), 'utf8')
+    fs.writeFileSync('./output/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
+    fs.writeFileSync('./output/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
+    fs.writeFileSync('./output/spotSources.json', mapToJson(mocks.spotSources), 'utf8')
+    
     console.timeEnd("Mocks deployed in")
+
 })()

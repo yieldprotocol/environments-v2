@@ -22,22 +22,22 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "bytes6[]",
-        "name": "bases",
-        "type": "bytes6[]"
+        "indexed": false,
+        "internalType": "bytes6",
+        "name": "baseId",
+        "type": "bytes6"
       },
       {
-        "indexed": true,
-        "internalType": "bytes32[]",
-        "name": "kinds",
-        "type": "bytes32[]"
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "kind",
+        "type": "bytes32"
       },
       {
-        "indexed": true,
-        "internalType": "address[]",
-        "name": "sources_",
-        "type": "address[]"
+        "indexed": false,
+        "internalType": "address",
+        "name": "source",
+        "type": "address"
       }
     ],
     "name": "SourcesSet",
@@ -135,6 +135,29 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes6",
+        "name": "base",
+        "type": "bytes6"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "kind",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "source",
+        "type": "address"
+      }
+    ],
+    "name": "setSource",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

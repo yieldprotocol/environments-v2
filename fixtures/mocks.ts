@@ -13,7 +13,7 @@ import ChainlinkAggregatorV3MockArtifact from '../artifacts/contracts/mocks/Chai
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { WETH9Mock } from '../typechain/WETH9Mock'
-import { SourceMock } from '../typechain/SourceMock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 
 const { deployContract } = waffle
@@ -21,16 +21,22 @@ const { deployContract } = waffle
 export class Mocks {
   owner: SignerWithAddress
   assets: Map<string, ERC20Mock | WETH9Mock>
-  sources: Map<string, Map<string, SourceMock>>
+  rateSources: Map<string, ISourceMock>
+  chiSources: Map<string, ISourceMock>
+  spotSources: Map<string, ISourceMock>
   
   constructor(
     owner: SignerWithAddress,
     assets: Map<string, ERC20Mock | WETH9Mock>,
-    sources: Map<string, Map<string, SourceMock>>,
+    rateSources: Map<string, ISourceMock>,
+    chiSources: Map<string, ISourceMock>,
+    spotSources: Map<string, ISourceMock>,
   ) {
     this.owner = owner
     this.assets = assets
-    this.sources = sources
+    this.rateSources = rateSources
+    this.chiSources = chiSources
+    this.spotSources = spotSources
   }
 
   public static async deployAsset(owner: SignerWithAddress, assetId: string): Promise<ERC20Mock | WETH9Mock>{
@@ -55,79 +61,78 @@ export class Mocks {
       asset = (await deployContract(owner, ERC20MockArtifact, args)) as unknown as ERC20Mock
       verify(asset.address, args)
     }
-    console.log(`Deployed ${symbol} at ${asset.address}`)
+    console.log(`[${symbol}, '${asset.address}'],`)
 
     // Fund the owner account ( through minting because token is mocked)
-    if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000)); console.log('asset.mint(owner)')
+    if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000))
 
     return asset
   }
 
-  public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<SourceMock> {
+  public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<ISourceMock> {
     const args: any = []
-    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as SourceMock
+    const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as ISourceMock
     verify(cTokenRate.address, args)
-    console.log(`Deployed rate source for ${base} at ${cTokenRate.address}`)
-    await cTokenRate.set(WAD.mul(2)); console.log(`cTokenRate.set`)
+    console.log(`[${base}, '${cTokenRate.address}'],`)
+    await cTokenRate.set(WAD.mul(2))
     return cTokenRate
   }
 
   public static async deployChiSource(owner: SignerWithAddress, base: string) {
     const args: any = []
-    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as SourceMock
+    const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as ISourceMock
     verify(cTokenChi.address, args)
-    console.log(`Deployed chi source for ${base} at ${cTokenChi.address}`)
-    await cTokenChi.set(WAD); console.log(`cTokenChi.set`)
+    console.log(`[${base}, '${cTokenChi.address}'],`)
+    await cTokenChi.set(WAD)
     return cTokenChi
   }
 
   public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string) {
-    const args: any = []
-    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as SourceMock
+    const args: any = [18]
+    const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
     verify(aggregator.address, args)
-    console.log(`Deployed spot source for ${base}/${quote} at ${aggregator.address}`)
-    await aggregator.set(WAD.mul(2)); console.log(`aggregator.set`)
+    console.log(`[${quote}, '${aggregator.address}'],`)
+    await aggregator.set(WAD.mul(2))
     return aggregator
   }
 
   public static async setup(
     owner: SignerWithAddress,
+    assetIds: Array<string>,
     baseIds: Array<string>,
-    ilkIds: Array<string>,
+    ilkIds: Array<[string, string]>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
-    const sources: Map<string, Map<string, SourceMock>> = new Map()
+    const rateSources: Map<string, ISourceMock> = new Map()
+    const chiSources: Map<string, ISourceMock> = new Map()
+    const spotSources: Map<string, ISourceMock> = new Map()
 
-    for (let baseId of baseIds) {
-      const asset = await this.deployAsset(owner, baseId)
-      assets.set(baseId, asset)
+    console.log(`Deploying tokens:`)
+    for (let assetId of assetIds) {
+      const asset = await this.deployAsset(owner, assetId)
+      assets.set(assetId, asset)
     }
 
-    for (let ilkId of ilkIds) {
-      if (baseIds.includes(ilkId)) continue
-      const asset = await this.deployAsset(owner, ilkId)
-      assets.set(ilkId, asset)
-    }
-
-
+    console.log(`Deploying rate sources:`)
     for (let baseId of baseIds) {
       const base = bytesToString(baseId)
-
-      // For each base, we add mock chi and rate oracle sources
-      const baseSources = new Map()
-      baseSources.set(RATE, await this.deployRateSource(owner, base))
-      baseSources.set(CHI, await this.deployChiSource(owner, base))
-
-      for (let ilkId of ilkIds) {
-        if (baseId === ilkId) continue
-        const quote = bytesToString(ilkId)
-
-        // For each base and asset pair, we add a mock spot oracle source
-        baseSources.set(ilkId, await this.deploySpotSource(owner, base, quote))
-      }
-      sources.set(baseId, baseSources)
+      rateSources.set(baseId, await this.deployRateSource(owner, base))
     }
 
-    return new Mocks(owner, assets, sources)
+    console.log(`Deploying chi sources:`)
+    for (let baseId of baseIds) {
+      const base = bytesToString(baseId)
+      chiSources.set(baseId, await this.deployChiSource(owner, base))
+    }
+
+    console.log(`Deploying spot sources:`)
+    for (let [baseId, ilkId] of ilkIds) {
+      const base = bytesToString(baseId);
+      const quote = bytesToString(ilkId);
+      spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote))
+      console.log(`${baseId},${ilkId}: ${spotSources.get(baseId + "," + ilkId)}`)
+    }
+
+    return new Mocks(owner, assets, rateSources, chiSources, spotSources)
   }
 }

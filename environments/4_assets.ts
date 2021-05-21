@@ -1,74 +1,104 @@
 import { ethers, waffle } from 'hardhat'
+import *  as fs from 'fs'
+import { jsonToMap, mapToJson } from '../shared/helpers'
+import { baseIds, ilkIds, TST } from './config'
 import { ETH, DAI, USDC } from '../shared/constants'
+
+import { Protocol } from '../fixtures/protocol'
 import { Assets } from '../fixtures/assets'
 
 import { IOracle } from '../typechain/IOracle'
-import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
+import { Wand } from '../typechain/Wand'
+import { ERC20Mock } from '../typechain/ERC20Mock'
+import { WETH9Mock } from '../typechain/WETH9Mock'
+import { ISourceMock } from '../typechain/ISourceMock'
+import { Mocks } from '../fixtures/mocks'
 
-/**
- * 
- * README
- * 
- * 
- */
-const TST = ethers.utils.formatBytes32String('TST').slice(0, 14)
-const cauldronAddress = '0xeF7a4151c5899226C8C16AF98Fe43f756B449394'
-const ladleAddress = '0x109919afEF2c7d76d07093810a19adC9D99A876C'
 
-const assets: Array<[string, string]> =  [ 
-    [DAI, '0xE0C3aBB1f67862810a6A1342Fc78d3666C807b6C'],
-    [USDC,'0xbC9047227F41D84d333515ffA6Ea365C5d246Bd8'],
-    [ETH, '0xbafe9ae56ea921f63CE949B738dE2e1Bc0DF19a6'],
-    [TST, '0x6e7666d711092Cc6F3C77DCA5BA74cBEB4D49663'],
-]
-const baseIds: Array<string> = [DAI, USDC]
 
-const rateOracleAddress = '0x7B942D145E0F6dE62076477F031712532d91FbF8'
-const rateSourceAddresses = new Map([
-    [DAI, '0x4CD8019090188Aa8aF26e14B87AF8bb10ef5C22B'],
-    [USDC, '0xb91aCD6211F9aD6652827e8e21804e4D94BBC7c8'],
-])
-const spotOracleAddress = '0x028125f4f55d87132688857504BFcFC70de374Bd'
-const spotSourceAddresses = new Map([
-    [DAI, new Map([
-        [USDC, '0x3E1C6A0033Beb66cfB58aC9fB88b433a1CaD071B'],
-        [ETH, '0xC28c988548c039869073058ADDE32D330bd1385c'],
-        [TST, '0x8E480b1bE1967F3178da9Bb272117160272C9a2e'],
-    ])],
-    [USDC, new Map([
-        [DAI, '0xBF8A5E909D4E5a946B2F303B06944ba4c49ad3Ae'],
-        [ETH, '0xDeA94B5d273A557a3980D12a70f7fc1536237298'],
-        [TST, '0xDeA94B5d273A557a3980D12a70f7fc1536237298'],
-    ])],
-])
+/* Read in deployment data if available */
+const protocol = JSON.parse( fs.readFileSync('./output/protocol.json', 'utf8') ) as Protocol;
+const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Mocks["assets"];
+const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Mocks["chiSources"];
+const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Mocks["rateSources"];
+const spotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Mocks["spotSources"];
 
- /**
- * 
- * run:
- * npx hardhat run ./environments/development.ts --network localhost
- *
- */
+// Define baseIds or ilkIds manually if needed to continue an aborted deployment
+// const assetAddresses =  new Map([
+//     [DAI, '0x09635F643e140090A9A8Dcd712eD6285858ceBef'],
+//     [USDC, '0x67d269191c92Caf3cD7723F116c85e6E9bf55933'],
+//     [ETH, '0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690'],
+//     [TST, '0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB'],
+// ])
+
+// const rateSourceAddresses = new Map([
+//     [DAI, '0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9'],
+//     [USDC, '0x851356ae760d987E095750cCeb3bC6014560891C'],
+// ])
+// const chiSourceAddresses = new Map([
+//     [DAI, '0x95401dc811bb5740090279Ba06cfA8fcF6113778'],
+//     [USDC, '0x70e0bA845a1A0F2DA3359C97E0285013525FFC49'],
+// ])
+// const spotSourceAddresses = new Map([
+//     [`${DAI},${USDC}`, '0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf'],
+//     [`${DAI},${ETH}`, '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf'],
+//     [`${DAI},${TST}`, '0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00'],
+//     [`${USDC},${DAI}`, '0x809d550fca64d94Bd9F66E60752A544199cfAC3D'],
+//     [`${USDC},${ETH}`, '0x1291Be112d480055DaFd8a610b7d1e203891C274'],
+//     [`${USDC},${TST}`, '0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575'],
+// ])
 
 console.time("Assets added in");
 
 (async () => {
-    const [ ownerAcc ] = await ethers.getSigners();    
-    const cauldron = await ethers.getContractAt('Cauldron', cauldronAddress, ownerAcc) as unknown as Cauldron
-    const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc) as unknown as Ladle
-    const rateOracle = await ethers.getContractAt('CompoundMultiOracle', rateOracleAddress, ownerAcc) as IOracle
-    const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', spotOracleAddress, ownerAcc) as IOracle
+    const [ ownerAcc ] = await ethers.getSigners();   
+    const ladle = await ethers.getContractAt('Ladle', protocol.ladle.address, ownerAcc) as unknown as Ladle
+    const wand = await ethers.getContractAt('Wand', protocol.wand.address, ownerAcc) as unknown as Wand
+    const rateChiOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.compoundOracle.address, ownerAcc) as IOracle
+    const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.chainlinkOracle.address, ownerAcc) as IOracle
+    
+    // const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
+    // for (let asset of assetAddresses.keys()) {
+    //     const addr = (assetAddresses.get(asset) as string;
+    //     if (asset === ETH) assets.set(asset, await ethers.getContractAt('WETH9Mock', addr, ownerAcc) as WETH9Mock)
+    //     else assets.set(asset, await ethers.getContractAt('ERC20Mock', addr, ownerAcc) as ERC20Mock)
+    // }
 
-    await Assets.setup(
+    // const rateSources: Map<string, ISourceMock> = new Map()
+    // for (let baseId of rateSourceAddresses.keys()) {
+    //     const source = rateSourceAddresses.get(baseId) as string
+    //     rateSources.set(baseId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+    // }
+
+    // const chiSources: Map<string, ISourceMock> = new Map()
+    // for (let baseId of chiSourceAddresses.keys()) {
+    //     const source = chiSourceAddresses.get(baseId) as string
+    //     chiSources.set(baseId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+    // }
+
+    // const spotSources: Map<string, ISourceMock> = new Map()
+    // for (let baseIlkId of spotSourceAddresses.keys()) {
+
+    //     const source = spotSourceAddresses.get(baseIlkId) as string
+    //     spotSources.set(baseIlkId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
+    // }
+
+
+    const joins = await Assets.setup(
         ownerAcc,
-        cauldron,
         ladle,
+        wand,
         assets,                 // [ [assetId, assetAddress], ... ]
         baseIds,
-        rateOracle,
-        rateSourceAddresses,    // baseId => sourceAddress
+        ilkIds,
+        rateChiOracle,
+        rateSources,    // baseId => sourceAddress
+        chiSources,    // baseId => sourceAddress
         spotOracle,
-        spotSourceAddresses     // baseId,quoteId => sourceAddress
+        spotSources     // baseId,quoteId => sourceAddress
     )
+    fs.writeFileSync('./output/joins.json', mapToJson(joins.joins), 'utf8')
+
     console.timeEnd("Assets added in")
 })()

@@ -1,7 +1,7 @@
 import { ethers, network, run } from 'hardhat'
-import { BigNumber } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS } from './constants';
+import { THREE_MONTHS, VAULT_OPS } from './constants';
 
 export const transferFromFunder = async ( 
     tokenAddress:string,
@@ -57,16 +57,58 @@ export const fundExternalAccounts = async (assetList:Map<string, any>, accountLi
           })
       })
   )
-  console.log('External accounts funded with 100ETH, and 1000 of each asset')
+  console.log('External test accounts funded with 100ETH, and 1000 of each asset')
 };
 
 export function bytesToString(bytes: string): string {
   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
 }
 
-export function verify(address: string, args: any) {
-  setTimeout(() => { run("verify:verify", {
-    address: address,
-    constructorArguments: args,
-  }) }, 60000)
+export function stringToBytes6(x: string): string {
+  return ethers.utils.formatBytes32String(x).slice(0, 14)
+}
+
+export function verify(address: string, args: any, libs?: any) {
+  if (network.name !== 'localhost') {
+    setTimeout(() => { run("verify:verify", {
+      address: address,
+      constructorArguments: args,
+      libraries: libs,
+    }) }, 60000)
+  }
+
+}
+
+
+/* MAP to Json for file export */
+export function mapToJson(map: Map<any,any>) : string {
+  return JSON.stringify(map,
+    /* replacer */
+    (key: any, value: any) =>  {
+      if(value instanceof Map) {
+        return {
+          dataType: 'Map',
+          value:  [...value],
+        };
+      } else {
+        return value;
+      }
+    });
+}
+
+export function toAddress(obj: any) : string {
+  return obj.address !== undefined ? obj.address : obj
+}
+
+export function jsonToMap(json:string) : Map<any,any> {
+  return JSON.parse(json, 
+    /* revivor */
+    (key: any, value: any) =>  {
+      if(typeof value === 'object' && value !== null) {
+        if (value.dataType === 'Map') {
+          return new Map(value.value);
+        }
+      }
+      return value;
+    }); 
 }

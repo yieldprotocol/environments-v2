@@ -1,62 +1,46 @@
-import { ethers, waffle } from 'hardhat'
-import { ETH, DAI, USDC } from '../shared/constants'
+import { ethers } from 'hardhat'
+import *  as fs from 'fs'
+import { jsonToMap, mapToJson } from '../shared/helpers'
+import { seriesData } from './config'
+
+import { Protocol } from '../fixtures/protocol'
 import { Series } from '../fixtures/series'
 
-import { IOracle } from '../typechain/IOracle'
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
-import { PoolFactory } from '../typechain/PoolFactory'
+import { Wand } from '../typechain/Wand'
+import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
-import { generateMaturities } from '../shared/helpers';
 
-/**
- * 
- * README
- * 
- * 
- */
-const cauldronAddress = '0xeF7a4151c5899226C8C16AF98Fe43f756B449394'
-const ladleAddress = '0x109919afEF2c7d76d07093810a19adC9D99A876C'
-const poolFactoryAddress = '0xa9B0fDc0A47a75E52AF22874DD4C667263ad2C8F'
-
-const baseIds: string[] = [DAI, USDC]
-const ilkIds: string[] =  [DAI, USDC, ETH, ethers.utils.formatBytes32String('TST').slice(0, 14)]
-
-const chiOracleAddress = '0x7B942D145E0F6dE62076477F031712532d91FbF8'
-const chiSourceAddresses = new Map([
-    [DAI, '0xADd7B5e5d54f024Fc48783729e86c1C37D52d3CA'],
-    [USDC, '0xE8126467AcB26c45556c1337bCbC6c7A1c979479'],
-])
-
-const maturities: number[] = []
-const numberOfMaturities = 2
+const protocol = JSON.parse(fs.readFileSync('./output/protocol.json', 'utf8')) as Protocol;
 
  /**
+ * This script deploys the yield v2 protocol series specified in config.ts
  * 
  * run:
- * npx hardhat run ./environments/development.ts --network localhost
+ * npx hardhat run ./environments/series.ts --network localhost
  *
  */
 
-console.time("Assets added in");
+console.time("Series added in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();    
-    const cauldron = await ethers.getContractAt('Cauldron', cauldronAddress, ownerAcc) as unknown as Cauldron
-    const ladle = await ethers.getContractAt('Ladle', ladleAddress, ownerAcc) as unknown as Ladle
-    const poolFactory = await ethers.getContractAt('PoolFactory', poolFactoryAddress, ownerAcc) as unknown as PoolFactory
-    const chiOracle = await ethers.getContractAt('CompoundMultiOracle', chiOracleAddress, ownerAcc) as IOracle
+    const cauldron = await ethers.getContractAt('Cauldron', protocol.cauldron.address, ownerAcc) as unknown as Cauldron
+    const ladle = await ethers.getContractAt('Ladle', protocol.ladle.address, ownerAcc) as unknown as Ladle
+    const wand = await ethers.getContractAt('Wand', protocol.wand.address, ownerAcc) as unknown as Wand
+    const safeERC20Namer = await ethers.getContractAt('SafeERC20Namer', protocol.safeERC20Namer.address, ownerAcc) as unknown as SafeERC20Namer
 
-    await Series.setup(
+    const series = await Series.setup(
         ownerAcc,
         cauldron,
         ladle,
-        poolFactory,
-        baseIds,
-        ilkIds,
-        chiOracle,
-        chiSourceAddresses,             // baseId => sourceAddress
-        maturities.length ? maturities : await generateMaturities(numberOfMaturities), // if maturities list is empty, generate them
+        wand,
+        safeERC20Namer,
+        seriesData,
     )
-    console.timeEnd("Assets added in")
+    console.timeEnd("Series added in")
+
+    fs.writeFileSync('./output/fyTokens.json', mapToJson(series.fyTokens), 'utf8')
+    fs.writeFileSync('./output/pools.json', mapToJson(series.pools), 'utf8')
 })()

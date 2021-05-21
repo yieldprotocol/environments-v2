@@ -8,7 +8,7 @@ import { Pool } from '../typechain/Pool'
 import { PoolFactory } from '../typechain/PoolFactory'
 import { IOracle } from '../typechain/IOracle'
 import { ERC20Mock } from '../typechain/ERC20Mock'
-import { SourceMock } from '../typechain/SourceMock'
+import { ISourceMock } from '../typechain/ISourceMock'
 
 import { LadleWrapper } from '../shared/ladleWrapper'
 
@@ -44,9 +44,9 @@ describe('Governance', function () {
 
   let base: ERC20Mock
   let ilk: ERC20Mock
-  let spotSource: SourceMock
-  let chiSource: SourceMock
-  let rateSource: SourceMock
+  let spotSource: ISourceMock
+  let chiSource: ISourceMock
+  let rateSource: ISourceMock
 
   let baseJoin: Join
   let ilkJoin: Join
@@ -72,10 +72,10 @@ describe('Governance', function () {
 
     base = (await deployContract(owner, ERC20MockArtifact, [baseId, baseId])) as ERC20Mock
     ilk = (await deployContract(owner, ERC20MockArtifact, [ilkId, ilkId])) as ERC20Mock
-    spotSource = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, [])) as SourceMock
-    rateSource = (await deployContract(owner, CTokenRateMockArtifact, [])) as SourceMock
+    spotSource = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, [])) as ISourceMock
+    rateSource = (await deployContract(owner, CTokenRateMockArtifact, [])) as ISourceMock
     await rateSource.set(WAD.mul(2))
-    chiSource = (await deployContract(owner, CTokenChiMockArtifact, [])) as SourceMock
+    chiSource = (await deployContract(owner, CTokenChiMockArtifact, [])) as ISourceMock
     await chiSource.set(WAD.mul(3))
 
     maturity = (await generateMaturities(1))[0]

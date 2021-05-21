@@ -7,7 +7,7 @@ import { Join } from '../typechain/Join'
 import { FYToken } from '../typechain/FYToken'
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
-import { SourceMock } from '../typechain/SourceMock'
+import { ISourceMock } from '../typechain/ISourceMock'
 import { LadleWrapper } from '../shared/ladleWrapper'
 
 import { ethers, waffle } from 'hardhat'
@@ -29,7 +29,7 @@ describe('FYToken', function () {
   let base: ERC20Mock
   let baseJoin: Join
   let chiOracle: CompoundMultiOracle
-  let chiSource: SourceMock
+  let chiSource: ISourceMock
   let ladle: LadleWrapper
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
@@ -51,7 +51,7 @@ describe('FYToken', function () {
     seriesId = env.series.keys().next().value as string
     fyToken = env.series.get(seriesId) as FYToken
     chiOracle = (env.oracles.get(CHI) as unknown) as CompoundMultiOracle
-    chiSource = (await ethers.getContractAt('SourceMock', await chiOracle.sources(baseId, CHI))) as SourceMock
+    chiSource = (await ethers.getContractAt('ISourceMock', await chiOracle.sources(baseId, CHI))) as ISourceMock
 
     await baseJoin.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], fyToken.address)
 
