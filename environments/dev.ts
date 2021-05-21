@@ -1,8 +1,9 @@
 import { ethers } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
 
-import { ETH } from '../shared/constants'
-import { assetIds, baseIds, ilkIds, seriesData, testAddrsToFund } from './config'
+import { WAD, ETH } from '../shared/constants'
+import { assetIds, baseIds, ilkIds, seriesData, testAddrsToFund, initializePools } from './config'
 
 import { Mocks } from '../fixtures/mocks'
 import { Protocol } from '../fixtures/protocol'
@@ -10,10 +11,14 @@ import { Assets } from '../fixtures/assets'
 import { Series } from '../fixtures/series'
 
 import { WETH9Mock } from '../typechain/WETH9Mock'
+import { ERC20Mock } from '../typechain/ERC20Mock'
+
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
+import { FYToken } from '../typechain/FYToken'
+import { Pool } from '../typechain/Pool'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 import { IOracle } from '../typechain/IOracle'
 import { fundExternalAccounts } from '../shared/helpers'
@@ -72,6 +77,30 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
       )
 }
 
+async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
+    const base = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc) as unknown) as ERC20Mock
+    const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc) as unknown) as FYToken
+
+    // Supply pool with a million tokens of each for initialization
+    try {
+    // try minting tokens (as the token owner for mock tokens)
+    await base.mint(pool.address, initializePools); console.log(`base.mint(pool.address)`)
+    } catch (e) { 
+    // if that doesn't work, try transfering tokens from a whale/funder account
+    // await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
+    console.log(e);
+    }
+    // Initialize pool
+    await pool.mint(await ownerAcc.getAddress(), true, 0); console.log(`pool.mint(owner)`)
+
+    // Donate fyToken to the pool to skew it
+    await fyToken.grantRole(id('mint(address,uint256)'), await ownerAcc.getAddress()); console.log(`fyToken.grantRoles(owner)`)
+
+    await fyToken.mint(pool.address, initializePools.div(9)); console.log(`fyToken.mint(pool.address)`)
+    await pool.sync(); console.log(`pool.sync`)  
+}
+
+
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();   
     const owner = await ownerAcc.getAddress()
@@ -123,8 +152,13 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
         safeERC20Namer,
         seriesData,
     )
-
     console.timeEnd("Series added in")
+
+    if (initializePools.toString() !== '0') {
+        console.time("Pools initialized");
+        series.pools.forEach(async (pool: Pool)=> {initialize(ownerAcc, pool)})
+        console.timeEnd("Pools initialized")
+    }
 
     console.log('\n')
     console.log(`### PROTOCOL DEPLOYMENTS ###`)

@@ -80,8 +80,7 @@ console.time("Assets added in");
     // const spotSources: Map<string, ISourceMock> = new Map()
     // for (let baseIlkId of spotSourceAddresses.keys()) {
 
-    //     console.log(baseIlkId)
-    //     const source = chiSourceAddresses.get(baseIlkId) as string
+    //     const source = spotSourceAddresses.get(baseIlkId) as string
     //     spotSources.set(baseIlkId, await ethers.getContractAt('ISourceMock', source, ownerAcc) as ISourceMock)
     // }
 
