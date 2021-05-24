@@ -10,6 +10,7 @@ export const THREE_MONTHS: number = 3 * 30 * 24 * 60 * 60
 export const ETH = ethers.utils.formatBytes32String('ETH').slice(0, 14)
 export const DAI = ethers.utils.formatBytes32String('DAI').slice(0, 14)
 export const USDC = ethers.utils.formatBytes32String('USDC').slice(0, 14)
+export const WBTC = ethers.utils.formatBytes32String('WBTC').slice(0, 14)
 
 export const YIELDSPACE_OPS = {
   ROUTE: 0,

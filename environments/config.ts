@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
-import { WAD, ETH, DAI, USDC } from '../shared/constants'
+import { WAD, ETH, DAI, USDC, WBTC } from '../shared/constants'
 import { stringToBytes6 } from '../shared/helpers'
 
 export const TST = stringToBytes6('TST')
 
 // Assets to add to the protocol. A Join will be deployed for each one.
-export const assetIds: string[] = [DAI, USDC, ETH, TST]
+export const assetIds: string[] = [DAI, USDC, ETH, TST, WBTC]
 
 // Assets to make into underlyings. The assets must exist, as well as rate and chi oracle sources.
 export const baseIds: string[] = [DAI, USDC]
