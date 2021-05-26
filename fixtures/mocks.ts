@@ -1,6 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import { ethers, waffle, network } from 'hardhat'
-import { WAD, CHI, RATE, ETH, DAI, USDC } from '../shared/constants'
+import { waffle } from 'hardhat'
+import { WAD, ETH, DAI, USDC } from '../shared/constants'
 import { bytesToString, verify } from '../shared/helpers'
 
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
@@ -47,21 +47,24 @@ export class Mocks {
     if (assetId === DAI) {
       const args = [symbol, symbol]
       asset = (await deployContract(owner, DaiMockArtifact, args)) as unknown as ERC20Mock
+      console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
     } else if (assetId === USDC) {
       const args: any = []
       asset = (await deployContract(owner, USDCMockArtifact, args)) as unknown as ERC20Mock
+      console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
     } else if (assetId === ETH) {
       const args: any = []
       asset = (await deployContract(owner, WETH9MockArtifact, args)) as unknown as WETH9Mock
+      console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
     } else {
       const args = [symbol, symbol]
       asset = (await deployContract(owner, ERC20MockArtifact, args)) as unknown as ERC20Mock
+      console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
     }
-    console.log(`[${symbol}, '${asset.address}'],`)
 
     // Fund the owner account ( through minting because token is mocked)
     if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000))
@@ -72,8 +75,8 @@ export class Mocks {
   public static async deployRateSource(owner: SignerWithAddress, base: string): Promise<ISourceMock> {
     const args: any = []
     const cTokenRate = (await deployContract(owner, CTokenRateMockArtifact, args)) as ISourceMock
-    verify(cTokenRate.address, args)
     console.log(`[${base}, '${cTokenRate.address}'],`)
+    verify(cTokenRate.address, args)
     await cTokenRate.set(WAD.mul(2))
     return cTokenRate
   }
@@ -81,8 +84,8 @@ export class Mocks {
   public static async deployChiSource(owner: SignerWithAddress, base: string) {
     const args: any = []
     const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as ISourceMock
-    verify(cTokenChi.address, args)
     console.log(`[${base}, '${cTokenChi.address}'],`)
+    verify(cTokenChi.address, args)
     await cTokenChi.set(WAD)
     return cTokenChi
   }
@@ -90,8 +93,8 @@ export class Mocks {
   public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string) {
     const args: any = [18]
     const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
-    verify(aggregator.address, args)
     console.log(`[${quote}, '${aggregator.address}'],`)
+    verify(aggregator.address, args)
     await aggregator.set(WAD.mul(2))
     return aggregator
   }
@@ -130,7 +133,6 @@ export class Mocks {
       const base = bytesToString(baseId);
       const quote = bytesToString(ilkId);
       spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote))
-      console.log(`${baseId},${ilkId}: ${spotSources.get(baseId + "," + ilkId)}`)
     }
 
     return new Mocks(owner, assets, rateSources, chiSources, spotSources)

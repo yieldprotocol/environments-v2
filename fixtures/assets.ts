@@ -1,8 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import { ethers, waffle, network } from 'hardhat'
+import { ethers } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
-
-import { WAD, RATE } from '../shared/constants'
 
 import { IOracle } from '../typechain/IOracle'
 import { Join } from '../typechain/Join'
@@ -65,9 +63,11 @@ export class Assets {
       const ilkSymbol = bytesToString(ilkId)
       if (baseId === ilkId) continue;
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
-      const maxDebt = WAD.mul(1000000)
+      const maxDebt = 1000000
+      const minDebt = 1
+      const debtDec = 18
       const spotSource = spotSources.get(`${baseId},${ilkId}`) as ISourceMock
-      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource.address, ratio, maxDebt); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
+      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource.address, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

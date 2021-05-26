@@ -1,7 +1,7 @@
 import { ethers, network, run } from 'hardhat'
-import { BigNumber, Contract } from 'ethers'
+import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS, VAULT_OPS } from './constants';
+import { THREE_MONTHS } from './constants';
 
 export const transferFromFunder = async ( 
     tokenAddress:string,
@@ -76,7 +76,6 @@ export function verify(address: string, args: any, libs?: any) {
       libraries: libs,
     }) }, 60000)
   }
-
 }
 
 

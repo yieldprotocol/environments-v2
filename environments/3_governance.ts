@@ -39,7 +39,7 @@ console.time("Governance set in");
         id('addAsset(bytes6,address)'),
         id('addSeries(bytes6,bytes6,address)'),
         id('addIlks(bytes6,bytes6[])'),
-        id('setMaxDebt(bytes6,bytes6,uint128)'),
+        id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
         id('setRateOracle(bytes6,address)'),
         id('setSpotOracle(bytes6,bytes6,address,uint32)'),
         ],
@@ -68,11 +68,11 @@ console.time("Governance set in");
         [
           id('addAsset(bytes6,address)'),
           id('makeBase(bytes6,address,address,address)'),
-          id('makeIlk(bytes6,bytes6,address,address,uint32,uint128)'),
+          id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
           id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
           id('addPool(bytes6,bytes6)'),
         ],
         governor
-      )
+      ); console.log(`wand.grantRoles(gov, ${governor})`)
       console.timeEnd("Governance set in")
 })()

@@ -1,5 +1,5 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import { ethers, waffle, network } from 'hardhat'
+import { ethers } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
 
 import { Cauldron } from '../typechain/Cauldron'
@@ -42,6 +42,7 @@ export class Series {
       await wand.addSeries(seriesId, baseId, maturity, ilkIds, symbol, symbol)
 
       const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, owner) as FYToken
+      console.log(`[${await fyToken.symbol()}, '${fyToken.address}'],`)
       verify(fyToken.address, [
         baseId,
         await fyToken.oracle(),
@@ -52,8 +53,8 @@ export class Series {
       ])
 
       const pool = await ethers.getContractAt('Pool', await ladle.pools(seriesId), owner) as Pool
-      verify(pool.address, [], { SafeERC20Namer: safeERC20Namer.address })
       console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
+      verify(pool.address, [], { SafeERC20Namer: safeERC20Namer.address })
 
       fyTokens.set(seriesId, fyToken)
       pools.set(seriesId, pool)
