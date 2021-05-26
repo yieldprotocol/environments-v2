@@ -41,24 +41,22 @@ const pools = jsonToMap(json) as Series["pools"];
 console.time("Pools initialized");
 
 (async () => {
-    const [ ownerAcc ] = await ethers.getSigners(); 
-    pools.forEach(async (pool: Pool)=> {
-
+    const [ ownerAcc ] = await ethers.getSigners();
+    for (let pool of pools.values()) {
       const _pool: Pool = await ethers.getContractAt('Pool', pool.address, ownerAcc) as Pool
 
-      console.log( pool.address, _pool.address)
       const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await _pool.base(), ownerAcc) as ERC20Mock
       const fyToken: FYToken = await ethers.getContractAt('FYToken', await _pool.fyToken(), ownerAcc) as FYToken
 
       // Supply pool with a million tokens of each for initialization
-      try {
+      // try {
         // try minting tokens (as the token owner for mock tokens)
         await base.mint(pool.address, WAD.mul(1000000)); console.log(`base.mint(pool.address)`)
-      } catch (e) { 
+      /* } catch (e) { 
         // if that doesn't work, try transfering tokens from a whale/funder account
         // await transferFromFunder( base.address, pool.address, WAD.mul(1000000), funder)
         console.log(e);
-      }
+      }*/
       // Initialize pool
       await _pool.mint(await ownerAcc.getAddress(), true, 0); console.log(`pool.mint(owner)`)
   
@@ -67,9 +65,7 @@ console.time("Pools initialized");
 
       await fyToken.mint(pool.address, WAD.mul(1000000).div(9)); console.log(`fyToken.mint(pool.address)`)
       await _pool.sync(); console.log(`pool.sync`)  
-
-
-    })
+    }
 
     console.timeEnd("Pools initialized")
 })()

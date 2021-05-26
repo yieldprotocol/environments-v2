@@ -47,7 +47,7 @@ export class Assets {
       
       const join = await ethers.getContractAt('Join', await ladle.joins(assetId), owner) as Join
       verify(join.address, [])
-      console.log(`[${symbol}Join, '${join.address}]`)
+      console.log(`[${symbol}Join, '${join.address}'],`)
       joins.set(assetId, join)
     }
 
