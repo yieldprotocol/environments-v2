@@ -1,4 +1,5 @@
 
+import *  as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../shared/constants'
@@ -8,11 +9,9 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
+import { jsonToMap } from '../shared/helpers'
 
 import { DAI } from '../shared/constants'
-import { VaultEnvironment } from '../fixtures/vault'
-import { fixture } from '../environments/testing';
-const { loadFixture } = waffle
 
 describe('Join', function () {
   this.timeout(0)
@@ -25,10 +24,9 @@ describe('Join', function () {
   let joinFromOther: Join
   let token: ERC20Mock
 
-  let env: VaultEnvironment
-
   it('test all', async () => {
-    env = await loadFixture(fixture);
+    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
+    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
@@ -37,8 +35,8 @@ describe('Join', function () {
     otherAcc = signers[1]
     other = await otherAcc.getAddress()
 
-    token = env.assets.get(DAI) as ERC20Mock
-    join = env.joins.get(DAI) as Join
+    token = await ethers.getContractAt('ERC20Mock', assets.get(DAI) as string, ownerAcc) as ERC20Mock
+    join = await ethers.getContractAt('Join', joins.get(DAI) as string, ownerAcc) as Join
     joinFromOther = join.connect(otherAcc)
 
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], owner)
