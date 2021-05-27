@@ -71,6 +71,23 @@ export class Protocol {
     this.wand = wand
   }
 
+  public asMap(): Map<string, any> {
+    const protocol = new Map<string, any>()
+    protocol.set('owner', this.owner)
+    protocol.set('cauldron', this.cauldron)
+    protocol.set('ladle', this.ladle)
+    protocol.set('witch', this.witch)
+    protocol.set('chainlinkOracle', this.chainlinkOracle)
+    protocol.set('compoundOracle', this.compoundOracle)
+    protocol.set('yieldMath', this.yieldMath)
+    protocol.set('safeERC20Namer', this.safeERC20Namer)
+    protocol.set('poolFactory', this.poolFactory)
+    protocol.set('poolRouter', this.poolRouter)
+    protocol.set('joinFactory', this.joinFactory)
+    protocol.set('wand', this.wand)
+    return protocol
+  }
+
   public static async cauldronGovAuth(cauldron: Cauldron, receiver: string) {
     await cauldron.grantRoles(
       [
@@ -207,9 +224,9 @@ export class Protocol {
     verify(cauldron.address, [])
 
     const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address, weth9])) as Ladle
-    const ladle = new LadleWrapper(innerLadle)
     console.log(`[Ladle, '${innerLadle.address}'],`)
     verify(innerLadle.address, [cauldron.address, weth9])
+    const ladle = new LadleWrapper(innerLadle)
 
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
     console.log(`[Witch, '${witch.address}'],`)
