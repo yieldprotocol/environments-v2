@@ -19,10 +19,16 @@ console.time("Mocks deployed in");
     const mocks = await Mocks.setup(ownerAcc, assetIds, baseIds, ilkIds)
 
     /* keeping it flat and simple for now, albeit a bit 'unDRY' */
-    fs.writeFileSync('./output/assets.json', mapToJson(mocks.assets), 'utf8')
-    fs.writeFileSync('./output/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
-    fs.writeFileSync('./output/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
-    fs.writeFileSync('./output/spotSources.json', mapToJson(mocks.spotSources), 'utf8')
+    let json = fs.readFileSync('./output/assets.json', 'utf8')
+    const assets = jsonToMap(json) as Mocks["assets"]
+    fs.writeFileSync('./output/assets.json', mapToJson(new Map([...assets, ...mocks.assets])), 'utf8')
+    
+    // fs.writeFileSync('./output/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
+    // fs.writeFileSync('./output/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
+
+    json = fs.readFileSync('./output/spotSources.json', 'utf8')
+    const spotSources = jsonToMap(json) as Mocks["spotSources"]
+    fs.writeFileSync('./output/spotSources.json', mapToJson(new Map([...spotSources, ...mocks.spotSources])), 'utf8')
     
     console.timeEnd("Mocks deployed in")
 

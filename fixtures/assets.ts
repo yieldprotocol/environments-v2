@@ -51,12 +51,12 @@ export class Assets {
       joins.set(assetId, join)
     }
 
-    for (let baseId of baseIds) {
-      const symbol = bytesToString(baseId)
-      const rateSourceAddress = rateSources.get(baseId) as string
-      const chiSourceAddress = chiSources.get(baseId) as string
-      await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
-    }
+    // for (let baseId of baseIds) {
+    //   const symbol = bytesToString(baseId)
+    //   const rateSourceAddress = (rateSources.get(baseId) as ISourceMock).address
+    //   const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
+    //   await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
+    // }
 
     for (let [baseId, ilkId] of ilkIds) {
       const baseSymbol = bytesToString(baseId)
