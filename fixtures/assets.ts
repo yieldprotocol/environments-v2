@@ -28,19 +28,19 @@ export class Assets {
     owner: SignerWithAddress,
     ladle: Ladle,
     wand: Wand,
-    assets: Map<string, ERC20Mock | WETH9Mock>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
+    assets: Map<string, string>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
     baseIds: Array<string>,                       // Assets to make into bases
     ilkIds: Array<[string, string]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId], ... ]
     rateOracle: IOracle,
-    rateSources: Map<string, ISourceMock>,        // baseId => source
-    chiSources: Map<string, ISourceMock>,         // baseId => source
+    rateSources: Map<string, string>,        // baseId => source
+    chiSources: Map<string, string>,         // baseId => source
     spotOracle: IOracle,
-    spotSources: Map<string, ISourceMock>         // baseId,quoteId => source
+    spotSources: Map<string, string>         // baseId,quoteId => source
   ) {
     const joins: Map<string, Join> = new Map()
 
     for (let assetId of assets.keys()) {
-      const assetAddress = (assets.get(assetId) as ERC20Mock | WETH9Mock).address
+      const assetAddress = assets.get(assetId) as string
       const symbol = bytesToString(assetId)
 
       await wand.addAsset(assetId, assetAddress); console.log(`wand.addAsset(${symbol})`)
@@ -53,8 +53,8 @@ export class Assets {
 
     for (let baseId of baseIds) {
       const symbol = bytesToString(baseId)
-      const rateSourceAddress = (rateSources.get(baseId) as ISourceMock).address
-      const chiSourceAddress = (chiSources.get(baseId) as ISourceMock).address
+      const rateSourceAddress = rateSources.get(baseId) as string
+      const chiSourceAddress = chiSources.get(baseId) as string
       await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
     }
 
@@ -66,8 +66,8 @@ export class Assets {
       const maxDebt = 1000000
       const minDebt = 1
       const debtDec = 18
-      const spotSource = spotSources.get(`${baseId},${ilkId}`) as ISourceMock
-      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSource.address, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
+      const spotSourceAddress = spotSources.get(`${baseId},${ilkId}`) as string
+      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSourceAddress, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

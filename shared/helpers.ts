@@ -81,7 +81,7 @@ export function verify(address: string, args: any, libs?: any) {
 
 /* MAP to Json for file export */
 export function mapToJson(map: Map<any,any>) : string {
-  return JSON.stringify(map,
+  return JSON.stringify(flattenContractMap(map),
     /* replacer */
     (key: any, value: any) =>  {
       if(value instanceof Map) {
@@ -93,6 +93,14 @@ export function mapToJson(map: Map<any,any>) : string {
         return value;
       }
     });
+}
+
+export function flattenContractMap(map: Map<string,any>): Map<string, string> {
+  const flat = new Map<string, string>()
+  map.forEach((value: any, key: string) => {
+    flat.set(key, value.address !== undefined ? value.address : value)
+  })
+  return flat
 }
 
 export function toAddress(obj: any) : string {
