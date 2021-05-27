@@ -15,7 +15,6 @@ import { jsonToMap } from '../shared/helpers'
 
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
-import { jsonToMap } from '../shared/helpers'
 
 
 describe('FYToken', function () {
@@ -39,6 +38,11 @@ describe('FYToken', function () {
   let ilkId = WBTC
 
   it('test all', async () => {
+
+    const signers = await ethers.getSigners()
+    ownerAcc = signers[0]
+    owner = await ownerAcc.getAddress()
+
     const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
     const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>;
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
