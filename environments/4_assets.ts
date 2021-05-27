@@ -5,18 +5,19 @@ import { baseIds, ilkIds, TST } from './config'
 import { ETH, DAI, USDC, WBTC } from '../shared/constants'
 
 import { Assets } from '../fixtures/assets'
+import { Mocks } from '../fixtures/mocks'
 
 import { IOracle } from '../typechain/IOracle'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
 
 /* Read in deployment data if available */
-const protocol = JSON.parse( fs.readFileSync('./output/protocol.json', 'utf8') ) as Protocol;
+const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
 const allAssets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Mocks["assets"];
 const assets = new Map(); assets.set(WBTC, allAssets.get(WBTC));
-const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Mocks["chiSources"];
-const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Mocks["rateSources"];
-const allSpotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Mocks["spotSources"];
+const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>;
+const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Map<string, string>;
+const allSpotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Map<string, string>;
 const spotSources = new Map(); spotSources.set(`${DAI},${WBTC}`, allSpotSources.get(`${DAI},${WBTC}`)); spotSources.set(`${USDC},${WBTC}`, allSpotSources.get(`${USDC},${WBTC}`))
 
 console.time("Assets added in");

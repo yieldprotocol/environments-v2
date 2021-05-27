@@ -35,7 +35,7 @@ describe('Oracle', function () {
     source = await ethers.getContractAt('ISourceMock', chiSources.get(DAI) as string, ownerAcc) as ISourceMock
   })
 
-  it('sets and retrieves the value at spot price', async () => {
+  it('sets and retrieves the chi value', async () => {
     await source.set(WAD.mul(2))
     expect((await oracle.callStatic.get(bytes6ToBytes32(DAI), bytes6ToBytes32(RATE), WAD))[0]).to.equal(WAD.mul(2))
   })

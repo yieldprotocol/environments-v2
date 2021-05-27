@@ -1,8 +1,8 @@
 import *  as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
-import { CHI, WAD, DAI, USDC } from '../shared/constants'
-
+import { CHI, WAD, DAI, USDC, WBTC } from '../shared/constants'
+import { seriesData } from '../environments/config'
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Join } from '../typechain/Join'
@@ -11,6 +11,7 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { ISourceMock } from '../typechain/ISourceMock'
 import { LadleWrapper } from '../shared/ladleWrapper'
+import { jsonToMap } from '../shared/helpers'
 
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
@@ -33,15 +34,11 @@ describe('FYToken', function () {
   let ladle: LadleWrapper
 
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
-  let seriesId: string
+  let seriesId = seriesData[0][0]
   let baseId = DAI
-  let ilkId = USDC
+  let ilkId = WBTC
 
   it('test all', async () => {
-    const signers = await ethers.getSigners()
-    ownerAcc = signers[0]
-    owner = await ownerAcc.getAddress()
-
     const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
     const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>;
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
