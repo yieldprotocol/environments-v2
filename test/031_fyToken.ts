@@ -1,7 +1,7 @@
 import *  as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
-import { WAD, DAI, USDC, WBTC } from '../shared/constants'
+import { WAD, DAI, WBTC } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
 import { Join } from '../typechain/Join'
