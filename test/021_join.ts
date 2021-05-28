@@ -43,7 +43,7 @@ describe('Join', function () {
 
     await token.mint(owner, WAD.mul(4))
 
-    // it('pulls tokens from user', async () => {
+    console.log('pulls tokens from user')
     let storedBalanceBefore = await join.storedBalance()
     await token.approve(join.address, WAD)
     expect(await join.join(owner, WAD))
@@ -51,13 +51,13 @@ describe('Join', function () {
       .withArgs(owner, join.address, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD))
 
-    // it('accepts surplus as a transfer', async () => {
+    console.log('accepts surplus as a transfer')
     storedBalanceBefore = await join.storedBalance()
     await token.transfer(join.address, WAD)
     expect(await join.join(owner, WAD)).to.not.emit(token, 'Transfer')
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD))
 
-    // it('combines surplus and tokens pulled from the user', async () => {
+    console.log('combines surplus and tokens pulled from the user')
     storedBalanceBefore = await join.storedBalance()
     await token.transfer(join.address, WAD)
     await token.approve(join.address, WAD)
@@ -66,7 +66,7 @@ describe('Join', function () {
       .withArgs(owner, join.address, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD.mul(2)))
 
-    // it('pushes tokens to user', async () => {
+    console.log('pushes tokens to user')
     storedBalanceBefore = await join.storedBalance()
     expect(await join.exit(owner, WAD))
       .to.emit(token, 'Transfer')
