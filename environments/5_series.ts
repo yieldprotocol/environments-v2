@@ -3,8 +3,7 @@ import *  as fs from 'fs'
 import { jsonToMap, mapToJson } from '../shared/helpers'
 import { seriesData } from './config'
 
-import { Protocol } from '../fixtures/protocol'
-import { Series } from '../fixtures/wbtc_series'
+import { Series } from '../fixtures/series'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -41,11 +40,6 @@ console.time("Series added in");
     )
     console.timeEnd("Series added in")
 
-    // let json = fs.readFileSync('./output/fyTokens.json', 'utf8')
-    // const oldFYTokens = jsonToMap(json) as Series["fyTokens"]
-    // fs.writeFileSync('./output/fyTokens.json', mapToJson(new Map([...oldFYTokens, ...series.fyTokens])), 'utf8')
-
-    // json = fs.readFileSync('./output/pools.json', 'utf8')
-    // const oldPools = jsonToMap(json) as Series["pools"]
-    // fs.writeFileSync('./output/pools.json', mapToJson(new Map([...oldPools, ...series.pools])), 'utf8')
+    fs.writeFileSync('./output/fyTokens.json', mapToJson(series.fyTokens), 'utf8')
+    fs.writeFileSync('./output/pools.json', mapToJson(series.pools), 'utf8')
 })()

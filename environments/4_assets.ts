@@ -1,11 +1,9 @@
 import { ethers, waffle } from 'hardhat'
 import *  as fs from 'fs'
 import { jsonToMap, mapToJson } from '../shared/helpers'
-import { baseIds, ilkIds, TST } from './config'
-import { ETH, DAI, USDC, WBTC } from '../shared/constants'
+import { baseIds, ilkIds } from './config'
 
 import { Assets } from '../fixtures/assets'
-import { Mocks } from '../fixtures/mocks'
 
 import { IOracle } from '../typechain/IOracle'
 import { Ladle } from '../typechain/Ladle'
@@ -13,12 +11,10 @@ import { Wand } from '../typechain/Wand'
 
 /* Read in deployment data if available */
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
-const allAssets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Mocks["assets"];
-const assets = new Map(); assets.set(WBTC, allAssets.get(WBTC));
+const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
 const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>;
 const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Map<string, string>;
-const allSpotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Map<string, string>;
-const spotSources = new Map(); spotSources.set(`${DAI},${WBTC}`, allSpotSources.get(`${DAI},${WBTC}`)); spotSources.set(`${USDC},${WBTC}`, allSpotSources.get(`${USDC},${WBTC}`))
+const spotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Map<string, string>;
 
 console.time("Assets added in");
 
@@ -42,10 +38,7 @@ console.time("Assets added in");
         spotOracle,
         spotSources     // baseId,quoteId => sourceAddress
     )
-
-    let json = fs.readFileSync('./output/joins.json', 'utf8')
-    const oldJoins = jsonToMap(json) as Assets["joins"]
-    fs.writeFileSync('./output/joins.json', mapToJson(new Map([...oldJoins, ...joins.joins])), 'utf8')
+    fs.writeFileSync('./output/joins.json', mapToJson(joins.joins), 'utf8')
 
     console.timeEnd("Assets added in")
 })()

@@ -121,17 +121,17 @@ export class Mocks {
       assets.set(assetId, asset)
     }
 
-    // console.log(`Deploying rate sources:`)
-    // for (let baseId of baseIds) {
-    //   const base = bytesToString(baseId)
-    //   rateSources.set(baseId, await this.deployRateSource(owner, base))
-    // }
+    console.log(`Deploying rate sources:`)
+    for (let baseId of baseIds) {
+      const base = bytesToString(baseId)
+      rateSources.set(baseId, await this.deployRateSource(owner, base))
+    }
 
-    // console.log(`Deploying chi sources:`)
-    // for (let baseId of baseIds) {
-    //   const base = bytesToString(baseId)
-    //   chiSources.set(baseId, await this.deployChiSource(owner, base))
-    // }
+    console.log(`Deploying chi sources:`)
+    for (let baseId of baseIds) {
+      const base = bytesToString(baseId)
+      chiSources.set(baseId, await this.deployChiSource(owner, base))
+    }
 
     console.log(`Deploying spot sources:`)
     for (let [baseId, ilkId] of ilkIds) {
