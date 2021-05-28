@@ -119,7 +119,7 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
     console.time("Protocol deployed in")
     const protocol = await Protocol.setup(ownerAcc, weth.address)
     const cauldron = protocol.cauldron as Cauldron
-    const ladle = protocol.ladle.ladle as Ladle
+    const ladle = protocol.ladle as Ladle
     const witch = protocol.witch as Witch
     const wand = protocol.wand as Wand
     const safeERC20Namer = protocol.safeERC20Namer as SafeERC20Namer
