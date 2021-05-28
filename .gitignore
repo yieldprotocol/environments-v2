@@ -17,6 +17,7 @@ abi/
 abis/
 typechain/
 deployments/
+output/
 
 # Secret files
 .etherscanKey
