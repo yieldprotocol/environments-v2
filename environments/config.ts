@@ -5,21 +5,21 @@ import { stringToBytes6 } from '../shared/helpers'
 export const TST = stringToBytes6('TST')
 
 // Assets to add to the protocol. A Join will be deployed for each one.
-export const assetIds: string[] = [DAI, USDC, ETH, TST, WBTC]
+export const assetIds: string[] = [DAI, USDC/*, ETH, TST, WBTC*/]
 
 // Assets to make into underlyings. The assets must exist, as well as rate and chi oracle sources.
-export const baseIds: string[] = [DAI, USDC]
+export const baseIds: string[] = [DAI/*, USDC*/]
 
 // Assets to make into collaterals, as [underlying, collateral]. The underlying and collateral assets must exist, as well as spot oracle sources for each pair.
 export const ilkIds: Array<[string, string]> = [
     [DAI, USDC],
-    [DAI, ETH],
+    /*[DAI, ETH],
     [DAI, TST],
     [DAI, WBTC],
     [USDC, DAI],
     [USDC, ETH],
     [USDC, TST],
-    [USDC, WBTC],
+    [USDC, WBTC],*/
 ]
 
 // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
