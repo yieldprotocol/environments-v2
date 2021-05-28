@@ -1,7 +1,7 @@
 import *  as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
-import { WAD, DAI, USDC } from '../shared/constants'
+import { WAD, DAI, WBTC } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
 import { Join } from '../typechain/Join'
@@ -33,7 +33,7 @@ describe('FYToken', function () {
   let vaultId = ethers.utils.hexlify(ethers.utils.randomBytes(12))
   let seriesId: string
   let baseId = DAI
-  let ilkId = USDC
+  let ilkId = WBTC
 
   it('test all', async () => {
     const signers = await ethers.getSigners()

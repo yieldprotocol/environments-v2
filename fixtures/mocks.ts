@@ -1,11 +1,12 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { waffle } from 'hardhat'
-import { WAD, ETH, DAI, USDC } from '../shared/constants'
+import { WAD, ETH, DAI, USDC, WBTC } from '../shared/constants'
 import { bytesToString, verify } from '../shared/helpers'
 
 import ERC20MockArtifact from '../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
 import DaiMockArtifact from '../artifacts/contracts/mocks/DaiMock.sol/DaiMock.json'
 import USDCMockArtifact from '../artifacts/contracts/mocks/USDCMock.sol/USDCMock.json'
+import WBTCMockArtifact from '../artifacts/contracts/mocks/WBTCMock.sol/WBTCMock.json'
 import WETH9MockArtifact from '../artifacts/contracts/mocks/WETH9Mock.sol/WETH9Mock.json'
 import CTokenRateMockArtifact from '../artifacts/contracts/mocks/CTokenRateMock.sol/CTokenRateMock.json'
 import CTokenChiMockArtifact from '../artifacts/contracts/mocks/CTokenChiMock.sol/CTokenChiMock.json'
@@ -59,6 +60,10 @@ export class Mocks {
       asset = (await deployContract(owner, WETH9MockArtifact, args)) as unknown as WETH9Mock
       console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
+    } else if (assetId === WBTC) {
+      const args: any = []
+      asset = (await deployContract(owner, WBTCMockArtifact, args)) as unknown as ERC20Mock
+      verify(asset.address, args)
     } else {
       const args = [symbol, symbol]
       asset = (await deployContract(owner, ERC20MockArtifact, args)) as unknown as ERC20Mock
@@ -66,7 +71,7 @@ export class Mocks {
       verify(asset.address, args)
     }
 
-    // Fund the owner account ( through minting because token is mocked)
+    // Fund the owner account (through minting because token is mocked)
     if (assetId != ETH) await asset.mint(await owner.getAddress(), WAD.mul(100000))
 
     return asset

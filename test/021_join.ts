@@ -11,7 +11,7 @@ import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
 import { jsonToMap } from '../shared/helpers'
 
-import { DAI } from '../shared/constants'
+import { WBTC } from '../shared/constants'
 
 describe('Join', function () {
   this.timeout(0)
@@ -35,8 +35,8 @@ describe('Join', function () {
     otherAcc = signers[1]
     other = await otherAcc.getAddress()
 
-    token = await ethers.getContractAt('ERC20Mock', assets.get(DAI) as string, ownerAcc) as ERC20Mock
-    join = await ethers.getContractAt('Join', joins.get(DAI) as string, ownerAcc) as Join
+    token = await ethers.getContractAt('ERC20Mock', assets.get(WBTC) as string, ownerAcc) as ERC20Mock
+    join = await ethers.getContractAt('Join', joins.get(WBTC) as string, ownerAcc) as Join
     joinFromOther = join.connect(otherAcc)
 
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], owner)
