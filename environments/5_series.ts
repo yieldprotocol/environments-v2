@@ -21,6 +21,9 @@ const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as
  *
  */
 
+// Run  this script with ADD_AS_ILK=true/false npx hardhat run ./environments/5_series.ts --network localhost/kovan/...
+const ADD_AS_ILK = (process.env.ADD as unknown) as boolean
+
 console.time("Series added in");
 
 (async () => {
@@ -31,6 +34,7 @@ console.time("Series added in");
     const safeERC20Namer = await ethers.getContractAt('SafeERC20Namer', protocol.get('safeERC20Namer') as string, ownerAcc) as unknown as SafeERC20Namer
 
     const series = await Series.setup(
+        ADD_AS_ILK,
         ownerAcc,
         cauldron,
         ladle,
@@ -40,6 +44,13 @@ console.time("Series added in");
     )
     console.timeEnd("Series added in")
 
-    fs.writeFileSync('./output/fyTokens.json', mapToJson(series.fyTokens), 'utf8')
-    fs.writeFileSync('./output/pools.json', mapToJson(series.pools), 'utf8')
+    if (!ADD_AS_ILK) {
+        let json = fs.readFileSync('./output/fyTokens.json', 'utf8')
+        const oldFYTokens = jsonToMap(json) as Series["fyTokens"]
+        fs.writeFileSync('./output/fyTokens.json', mapToJson(new Map([...oldFYTokens, ...series.fyTokens])), 'utf8')
+
+        json = fs.readFileSync('./output/pools.json', 'utf8')
+        const oldPools = jsonToMap(json) as Series["pools"]
+        fs.writeFileSync('./output/pools.json', mapToJson(new Map([...oldPools, ...series.pools])), 'utf8')
+    }
 })()

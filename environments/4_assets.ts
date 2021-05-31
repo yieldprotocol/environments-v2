@@ -38,7 +38,9 @@ console.time("Assets added in");
         spotOracle,
         spotSources     // baseId,quoteId => sourceAddress
     )
-    fs.writeFileSync('./output/joins.json', mapToJson(joins.joins), 'utf8')
+    let json = fs.readFileSync('./output/joins.json', 'utf8')
+    const oldJoins = jsonToMap(json) as Assets["joins"]
+    fs.writeFileSync('./output/joins.json', mapToJson(new Map([...oldJoins, ...joins.joins])), 'utf8')
 
     console.timeEnd("Assets added in")
 })()
