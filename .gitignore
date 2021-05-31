@@ -21,6 +21,7 @@ output/
 
 # Secret files
 .etherscanKey
+.governor
 .infuraKey
 .mythxKey
 .secret

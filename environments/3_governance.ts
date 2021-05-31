@@ -17,8 +17,7 @@ import { Wand } from '../typechain/Wand'
  */
 
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
-const bruce = '0x1Bd3Abb6ef058408734EA01cA81D325039cd7bcA'
-const vlad = '0x1053aC28154E4aFb3B599e69f6B72b2F4293d00A'
+const governor = fs.readFileSync('.governor', 'utf8') as string
 
 console.time("Governance set in");
 
@@ -28,9 +27,6 @@ console.time("Governance set in");
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
     const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
-
-    // const governor = await ownerAcc.getAddress()
-    const governor = vlad
 
     await cauldron.grantRoles(
         [
