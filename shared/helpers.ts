@@ -69,13 +69,15 @@ export function stringToBytes6(x: string): string {
 }
 
 export function verify(address: string, args: any, libs?: any) {
-  if (network.name !== 'localhost') {
-    setTimeout(() => { run("verify:verify", {
+  const libsargs = (libs !== undefined) ? `--libraries ${libs}` : ''
+  console.log(`npx hardhat verify --network ${network.name} ${address} ${args.join(' ')} ${libsargs}`)
+  /* if (network.name !== 'localhost') {
+    run("verify:verify", {
       address: address,
       constructorArguments: args,
       libraries: libs,
-    }) }, 60000)
-  }
+    })
+  } */
 }
 
 
