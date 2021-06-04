@@ -23,8 +23,8 @@
     "@types/mocha": "^8.0.0",
     "@yield-protocol/utils-v2": "^2.2.5",
     "@yield-protocol/vault-interfaces": "^2.0.33",
-    "@yield-protocol/yieldspace-interfaces": "^2.0.14",
     "@yield-protocol/vault-v2": "^0.6.0-rc0",
+    "@yield-protocol/yieldspace-interfaces": "^2.0.14",
     "@yield-protocol/yieldspace-v2": "^0.6.0-rc0",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
@@ -44,7 +44,8 @@
     "tsdx": "^0.14.1",
     "typechain": "^4.0.1",
     "typechain-target-ethers-v5": "^5.0.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "yargs": "^17.0.1"
   },
   "repository": {
     "url": "git+https://github.com/yieldprotocol/environments-v2.git",
