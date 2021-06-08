@@ -32,7 +32,7 @@ const { deployContract } = waffle
 export class Protocol {
   owner: SignerWithAddress
   cauldron: Cauldron
-  ladle: LadleWrapper
+  ladle: Ladle
   witch: Witch
   chainlinkOracle: ChainlinkMultiOracle
   compoundOracle: CompoundMultiOracle
@@ -46,7 +46,7 @@ export class Protocol {
   constructor(
     owner: SignerWithAddress,
     cauldron: Cauldron,
-    ladle: LadleWrapper,
+    ladle: Ladle,
     witch: Witch,
     chainlinkOracle: ChainlinkMultiOracle,
     compoundOracle: CompoundMultiOracle,
@@ -119,7 +119,7 @@ export class Protocol {
     ); console.log(`cauldron.grantRoles(ladle, ${receiver})`)
   }
 
-  public static async ladleGovAuth(ladle: LadleWrapper, receiver: string) {
+  public static async ladleGovAuth(ladle: Ladle, receiver: string) {
     await ladle.grantRoles(
       [
         id('addJoin(bytes6,address)'),
@@ -154,7 +154,7 @@ export class Protocol {
     ); console.log(`cauldron.grantRoles(witch, ${receiver})`)
   }
 
-  public static async ladleWitchAuth(ladle: LadleWrapper, receiver: string) {
+  public static async ladleWitchAuth(ladle: Ladle, receiver: string) {
     await ladle.grantRoles([
       id(
         'settle(bytes12,address,uint128,uint128)'
@@ -223,10 +223,10 @@ export class Protocol {
     console.log(`[Cauldron, '${cauldron.address}'],`)
     verify(cauldron.address, [])
 
-    const innerLadle = (await deployContract(owner, LadleArtifact, [cauldron.address, weth9])) as Ladle
-    console.log(`[Ladle, '${innerLadle.address}'],`)
-    verify(innerLadle.address, [cauldron.address, weth9])
-    const ladle = new LadleWrapper(innerLadle)
+    const ladle = (await deployContract(owner, LadleArtifact, [cauldron.address, weth9])) as Ladle
+    console.log(`[Ladle, '${ladle.address}'],`)
+    verify(ladle.address, [cauldron.address, weth9])
+    // const ladle = new LadleWrapper(innerLadle)
 
     const witch = (await deployContract(owner, WitchArtifact, [cauldron.address, ladle.address])) as Witch
     console.log(`[Witch, '${witch.address}'],`)

@@ -23,7 +23,7 @@ import { FYToken } from '../typechain/FYToken'
 import { Pool } from '../typechain/Pool'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 import { IOracle } from '../typechain/IOracle'
-import { fundExternalAccounts, jsonToMap, mapToJson } from '../shared/helpers'
+import { fundExternalAccounts, flattenContractMap, mapToJson } from '../shared/helpers'
 
 
 /**
@@ -119,7 +119,7 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
     console.time("Protocol deployed in")
     const protocol = await Protocol.setup(ownerAcc, weth.address)
     const cauldron = protocol.cauldron as Cauldron
-    const ladle = protocol.ladle.ladle as Ladle
+    const ladle = protocol.ladle as Ladle
     const witch = protocol.witch as Witch
     const wand = protocol.wand as Wand
     const safeERC20Namer = protocol.safeERC20Namer as SafeERC20Namer
@@ -139,14 +139,14 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
         ownerAcc,
         ladle,
         wand,
-        mocks.assets,           // Map<assetId, ERC20Mock | WETH9Mock>
+        flattenContractMap(mocks.assets),           // Map<assetId, ERC20Mock | WETH9Mock>
         baseIds,
         ilkIds,
         rateChiOracle,
-        mocks.rateSources,    // baseId => sourceAddress
-        mocks.chiSources,    // baseId => sourceAddress
+        flattenContractMap(mocks.rateSources),    // baseId => sourceAddress
+        flattenContractMap(mocks.chiSources),    // baseId => sourceAddress
         spotOracle,
-        mocks.spotSources     // baseId,quoteId => sourceAddress
+        flattenContractMap(mocks.spotSources)     // baseId,quoteId => sourceAddress
     )
     console.timeEnd("Assets added in")
 

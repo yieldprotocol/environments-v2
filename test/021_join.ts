@@ -1,4 +1,5 @@
 
+import *  as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../shared/constants'
@@ -8,11 +9,9 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 
 import { ethers, waffle } from 'hardhat'
 import { expect } from 'chai'
+import { jsonToMap } from '../shared/helpers'
 
-import { DAI } from '../shared/constants'
-import { VaultEnvironment } from '../fixtures/vault'
-import { fixture } from '../environments/testing';
-const { loadFixture } = waffle
+import { WBTC } from '../shared/constants'
 
 describe('Join', function () {
   this.timeout(0)
@@ -25,10 +24,9 @@ describe('Join', function () {
   let joinFromOther: Join
   let token: ERC20Mock
 
-  let env: VaultEnvironment
-
   it('test all', async () => {
-    env = await loadFixture(fixture);
+    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
+    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
@@ -37,15 +35,15 @@ describe('Join', function () {
     otherAcc = signers[1]
     other = await otherAcc.getAddress()
 
-    token = env.assets.get(DAI) as ERC20Mock
-    join = env.joins.get(DAI) as Join
+    token = await ethers.getContractAt('ERC20Mock', assets.get(WBTC) as string, ownerAcc) as ERC20Mock
+    join = await ethers.getContractAt('Join', joins.get(WBTC) as string, ownerAcc) as Join
     joinFromOther = join.connect(otherAcc)
 
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], owner)
 
     await token.mint(owner, WAD.mul(4))
 
-    // it('pulls tokens from user', async () => {
+    console.log('pulls tokens from user')
     let storedBalanceBefore = await join.storedBalance()
     await token.approve(join.address, WAD)
     expect(await join.join(owner, WAD))
@@ -53,13 +51,13 @@ describe('Join', function () {
       .withArgs(owner, join.address, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD))
 
-    // it('accepts surplus as a transfer', async () => {
+    console.log('accepts surplus as a transfer')
     storedBalanceBefore = await join.storedBalance()
     await token.transfer(join.address, WAD)
     expect(await join.join(owner, WAD)).to.not.emit(token, 'Transfer')
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD))
 
-    // it('combines surplus and tokens pulled from the user', async () => {
+    console.log('combines surplus and tokens pulled from the user')
     storedBalanceBefore = await join.storedBalance()
     await token.transfer(join.address, WAD)
     await token.approve(join.address, WAD)
@@ -68,7 +66,7 @@ describe('Join', function () {
       .withArgs(owner, join.address, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.add(WAD.mul(2)))
 
-    // it('pushes tokens to user', async () => {
+    console.log('pushes tokens to user')
     storedBalanceBefore = await join.storedBalance()
     expect(await join.exit(owner, WAD))
       .to.emit(token, 'Transfer')
