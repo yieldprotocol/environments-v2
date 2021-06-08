@@ -77,7 +77,7 @@ function jsonToMap(json:string) : Map<any,any> {
 }
 
 /* Read in deployment data if available */
-const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
+const protocol = jsonToMap(fs.readFileSync('output/kovan/rc6.3/protocol.json', 'utf8')) as Map<string, string>;
 
 const appendMapToFile = (path: string, map: Map<string, string>) => {
     fs.writeFileSync(path, mapToJson(new Map([...(jsonToMap(fs.readFileSync(path, 'utf8')) as Map<string, string>), ...map])), 'utf8')
