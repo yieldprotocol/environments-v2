@@ -1,4 +1,3 @@
-import { ethers } from 'hardhat'
 import { WAD, ETH, DAI, USDC } from '../shared/constants'
 import { stringToBytes6 } from '../shared/helpers'
 

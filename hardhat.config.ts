@@ -9,6 +9,9 @@ import 'hardhat-gas-reporter'
 import 'hardhat-typechain'
 import 'solidity-coverage'
 import 'hardhat-deploy'
+import { task } from 'hardhat/config'
+
+import { addBase, addIlk } from './environments/add'
 
 // REQUIRED TO ENSURE METADATA IS SAVED IN DEPLOYMENTS (because solidity-coverage disable it otherwise)
 /* import {
@@ -20,6 +23,33 @@ task(TASK_COMPILE_GET_COMPILER_INPUT).setAction(async (_, bre, runSuper) => {
   return input
 }) */
 
+task("add", "Adds an asset as an ilk or a base to an existing protocol deployment")
+  .addFlag("base", "Add asset as base")
+  .addFlag("ilk", "Add asset as ilk")
+  .addVariadicPositionalParam("asset", "The details of the asset")
+  .setAction(async (taskArgs, hre) => {
+    const argv: any = {}
+    if (taskArgs.base && taskArgs.ilk) {
+      console.error("Must add asset as either base or ilk")
+    } else if (taskArgs.base) {
+      argv.asset = taskArgs.asset[0]
+      argv.maturity = taskArgs.asset[1]
+      argv.sources = []
+      argv.counters = []
+      argv.sources.push(taskArgs.asset[2]) // rate source
+      argv.sources.push(taskArgs.asset[3]) // chi source
+      taskArgs.asset.slice(4).forEach((a: any, i: any) => { i % 2 ? argv.counters.push(a) : argv.sources.push(a) })
+      await addBase(argv, hre)
+    } else if (taskArgs.ilk) {
+      argv.asset = taskArgs.asset[0]
+      argv.sources = []
+      argv.counters = []
+      taskArgs.asset.slice(1).forEach((a: any, i: any) => { i % 2 ? argv.counters.push(a) : argv.sources.push(a) })
+      await addIlk(argv, hre)
+    } else {
+      console.error("Must add asset as either base or ilk")
+    }
+});
 
 function nodeUrl(network: any) {
   let infuraKey
