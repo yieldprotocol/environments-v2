@@ -1,5 +1,4 @@
-
-import *  as fs from 'fs'
+import * as fs from 'fs'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../shared/constants'
@@ -25,8 +24,8 @@ describe('Join', function () {
   let token: ERC20Mock
 
   it('test all', async () => {
-    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
-    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
+    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>
+    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
@@ -35,8 +34,8 @@ describe('Join', function () {
     otherAcc = signers[1]
     other = await otherAcc.getAddress()
 
-    token = await ethers.getContractAt('ERC20Mock', assets.get(WBTC) as string, ownerAcc) as ERC20Mock
-    join = await ethers.getContractAt('Join', joins.get(WBTC) as string, ownerAcc) as Join
+    token = (await ethers.getContractAt('ERC20Mock', assets.get(WBTC) as string, ownerAcc)) as ERC20Mock
+    join = (await ethers.getContractAt('Join', joins.get(WBTC) as string, ownerAcc)) as Join
     joinFromOther = join.connect(otherAcc)
 
     await join.grantRoles([id('join(address,uint128)'), id('exit(address,uint128)')], owner)
@@ -72,5 +71,5 @@ describe('Join', function () {
       .to.emit(token, 'Transfer')
       .withArgs(join.address, owner, WAD)
     expect(await join.storedBalance()).to.equal(storedBalanceBefore.sub(WAD))
-  })  
+  })
 })
