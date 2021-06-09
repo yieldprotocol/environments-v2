@@ -36,9 +36,10 @@ task("add", "Adds an asset as an ilk or a base to an existing protocol deploymen
       argv.maturity = taskArgs.asset[1]
       argv.sources = []
       argv.counters = []
-      argv.sources.push(taskArgs.asset[2]) // rate source
-      argv.sources.push(taskArgs.asset[3]) // chi source
       taskArgs.asset.slice(4).forEach((a: any, i: any) => { i % 2 ? argv.counters.push(a) : argv.sources.push(a) })
+      await addIlk(argv, hre)
+      argv.sources.unshift(taskArgs.asset[2]) // rate source
+      argv.sources.unshift(taskArgs.asset[3]) // chi source
       await addBase(argv, hre)
     } else if (taskArgs.ilk) {
       argv.asset = taskArgs.asset[0]

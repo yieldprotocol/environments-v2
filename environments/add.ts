@@ -1,7 +1,5 @@
 import *  as fs from 'fs'
 
-import { WAD, ETH, DAI, USDC } from '../shared/constants'
-
 import { IOracle } from '../typechain/IOracle'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
@@ -17,15 +15,13 @@ function stringToBytes6(x: string, hre: HardhatRuntimeEnvironment): string {
     return hre.ethers.utils.formatBytes32String(x).slice(0, 14)
 }
 
-function seriesData(hre: HardhatRuntimeEnvironment): Array<[string, string, number, Array<string>]> {
-
-    const TST = stringToBytes6('TST', hre)
-
-    return [ // seriesId, baseId, maturity, ilkIds
-        [stringToBytes6('DAI1', hre), DAI, 1625093999, [USDC, ETH, TST]], // Jun21
-        [stringToBytes6('DAI2', hre), DAI, 1633042799, [USDC, ETH, TST]], // Sep21
-        [stringToBytes6('USDC1', hre), USDC, 1625093999, [DAI, ETH, TST]],
-        [stringToBytes6('USDC2', hre), USDC, 1633042799, [DAI, ETH, TST]]
+function seriesData(hre: HardhatRuntimeEnvironment): Array<string> {
+    return [
+        stringToBytes6('DAI1', hre),
+        stringToBytes6('DAI2', hre),
+        stringToBytes6('USDC1', hre),
+        stringToBytes6('USDC2', hre),
+        stringToBytes6('USDT', hre)
     ]
 }
 
@@ -212,7 +208,7 @@ export const addIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
     appendMapToFile('output/kovan/rc6.3/joins.json', joins)
 
-    for (let [seriesId,,,] of seriesData(hre)) {
+    for (let seriesId of seriesData(hre)) {
         await cauldron['addIlks(bytes6,bytes6[])'](seriesId, [assetId])
     }
     
