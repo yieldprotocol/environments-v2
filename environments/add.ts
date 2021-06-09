@@ -95,6 +95,7 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     const spotOracle = await hre.ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
     const safeERC20Namer = await hre.ethers.getContractAt('SafeERC20Namer', protocol.get('safeERC20Namer') as string, ownerAcc) as unknown as SafeERC20Namer
 
+    const assets: Map<string, string> = new Map()
     const joins: Map<string, string> = new Map()
     const rateSources: Map<string, string> = new Map()
     const chiSources: Map<string, string> = new Map()
@@ -105,6 +106,10 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     const asset = await hre.ethers.getContractAt('ERC20Mock', argv.asset, ownerAcc) as ERC20Mock
     const symbol = await asset.symbol() as string
     const assetId = stringToBytes6(symbol, hre)
+
+    assets.set(assetId, asset.address)
+
+    appendMapToFile('output/kovan/rc6.3/assets.json', assets)
 
     await wand.addAsset(assetId, asset.address); console.log(`wand.addAsset(${symbol})`)
     
@@ -129,10 +134,10 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
       spotSources.set(`${assetId},${ilkId}`, source)
     }
 
-    appendMapToFile('./output/rateSources.json', rateSources)
-    appendMapToFile('./output/chiSources.json', chiSources)
-    appendMapToFile('./output/spotSources.json', spotSources)
-    appendMapToFile('./output/joins.json', joins)
+    appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
+    appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
+    appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
+    appendMapToFile('output/kovan/rc6.3/joins.json', joins)
 
     const seriesId = stringToBytes6(symbol, hre)
     const ilkIds = []
@@ -158,8 +163,8 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     fyTokens.set(seriesId, fyToken.address)
     pools.set(seriesId, pool.address)
 
-    appendMapToFile('./output/fyTokens.json', fyTokens)
-    appendMapToFile('./output/pools.json', pools)
+    appendMapToFile('output/kovan/rc6.3/fyTokens.json', fyTokens)
+    appendMapToFile('output/kovan/rc6.3/pools.json', pools)
 
     console.timeEnd("Base added in")
 }
@@ -174,12 +179,17 @@ export const addIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     const cauldron = await hre.ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const spotOracle = await hre.ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
 
+    const assets: Map<string, string> = new Map()
     const joins: Map<string, string> = new Map()
     const spotSources: Map<string, string> = new Map()
 
     const asset = await hre.ethers.getContractAt('ERC20Mock', argv.asset, ownerAcc) as ERC20Mock
     const symbol = await asset.symbol() as string
     const assetId = stringToBytes6(symbol, hre)
+
+    assets.set(assetId, asset.address)
+
+    appendMapToFile('output/kovan/rc6.3/assets.json', assets)
 
     await wand.addAsset(assetId, asset.address); console.log(`wand.addAsset(${symbol})`)
         
@@ -199,8 +209,8 @@ export const addIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
         spotSources.set(`${baseId},${assetId}`, source)
     }
 
-    appendMapToFile('./output/spotSources.json', spotSources)
-    appendMapToFile('./output/joins.json', joins)
+    appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
+    appendMapToFile('output/kovan/rc6.3/joins.json', joins)
 
     for (let [seriesId,,,] of seriesData(hre)) {
         await cauldron['addIlks(bytes6,bytes6[])'](seriesId, [assetId])
