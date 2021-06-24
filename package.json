@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Yield Inc.",
   "scripts": {
-    "build": "hardhat compile",
+    "build": "rm -rf artifacts typechain && hardhat compile",
     "test": "hardhat test",
     "test:deploy": "hardhat deploy --tags DeployTest",
     "coverage": "hardhat coverage",

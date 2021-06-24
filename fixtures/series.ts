@@ -50,7 +50,7 @@ export class Series {
         maturity,
         symbol,
         symbol,
-      ])
+      ], { SafeERC20Namer: safeERC20Namer.address })
 
       const pool = await ethers.getContractAt('Pool', await ladle.pools(seriesId), owner) as Pool
       console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
