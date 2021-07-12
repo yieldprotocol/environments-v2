@@ -1,7 +1,7 @@
 import { ethers, network, run } from 'hardhat'
-import { BigNumber, Contract } from 'ethers'
+import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS, VAULT_OPS } from './constants';
+import { THREE_MONTHS } from './constants';
 
 export const transferFromFunder = async ( 
     tokenAddress:string,
@@ -69,20 +69,21 @@ export function stringToBytes6(x: string): string {
 }
 
 export function verify(address: string, args: any, libs?: any) {
-  if (network.name !== 'localhost') {
-    setTimeout(() => { run("verify:verify", {
+  const libsargs = (libs !== undefined) ? `--libraries ${libs}` : ''
+  console.log(`npx hardhat verify --network ${network.name} ${address} ${args.join(' ')} ${libsargs}`)
+  /* if (network.name !== 'localhost') {
+    run("verify:verify", {
       address: address,
       constructorArguments: args,
       libraries: libs,
-    }) }, 60000)
-  }
-
+    })
+  } */
 }
 
 
 /* MAP to Json for file export */
 export function mapToJson(map: Map<any,any>) : string {
-  return JSON.stringify(map,
+  return JSON.stringify(flattenContractMap(map),
     /* replacer */
     (key: any, value: any) =>  {
       if(value instanceof Map) {
@@ -94,6 +95,14 @@ export function mapToJson(map: Map<any,any>) : string {
         return value;
       }
     });
+}
+
+export function flattenContractMap(map: Map<string,any>): Map<string, string> {
+  const flat = new Map<string, string>()
+  map.forEach((value: any, key: string) => {
+    flat.set(key, value.address !== undefined ? value.address : value)
+  })
+  return flat
 }
 
 export function toAddress(obj: any) : string {

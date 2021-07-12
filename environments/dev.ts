@@ -1,9 +1,11 @@
+import *  as fs from 'fs'
 import { ethers } from 'hardhat'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { id } from '@yield-protocol/utils-v2'
 
 import { WAD, ETH } from '../shared/constants'
 import { assetIds, baseIds, ilkIds, seriesData, testAddrsToFund, initializePools } from './config'
+
 
 import { Mocks } from '../fixtures/mocks'
 import { Protocol } from '../fixtures/protocol'
@@ -21,8 +23,7 @@ import { FYToken } from '../typechain/FYToken'
 import { Pool } from '../typechain/Pool'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 import { IOracle } from '../typechain/IOracle'
-import { fundExternalAccounts } from '../shared/helpers'
-
+import { fundExternalAccounts, flattenContractMap, mapToJson } from '../shared/helpers'
 
 
 /**
@@ -40,7 +41,7 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
         id('addAsset(bytes6,address)'),
         id('addSeries(bytes6,bytes6,address)'),
         id('addIlks(bytes6,bytes6[])'),
-        id('setMaxDebt(bytes6,bytes6,uint128)'),
+        id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
         id('setRateOracle(bytes6,address)'),
         id('setSpotOracle(bytes6,bytes6,address,uint32)'),
         ],
@@ -69,12 +70,12 @@ async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: 
         [
           id('addAsset(bytes6,address)'),
           id('makeBase(bytes6,address,address,address)'),
-          id('makeIlk(bytes6,bytes6,address,address,uint32,uint128)'),
+          id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
           id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
           id('addPool(bytes6,bytes6)'),
         ],
         governor
-      )
+      ); console.log(`wand.grantRoles(gov, ${governor})`)
 }
 
 async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
@@ -110,10 +111,15 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
     const weth = mocks.assets.get(ETH) as WETH9Mock
     console.timeEnd("Mocks deployed in")
 
+    fs.writeFileSync('./output/assets.json', mapToJson(mocks.assets), 'utf8')
+    fs.writeFileSync('./output/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
+    fs.writeFileSync('./output/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
+    fs.writeFileSync('./output/spotSources.json', mapToJson(mocks.spotSources), 'utf8')
+
     console.time("Protocol deployed in")
     const protocol = await Protocol.setup(ownerAcc, weth.address)
     const cauldron = protocol.cauldron as Cauldron
-    const ladle = protocol.ladle.ladle as Ladle
+    const ladle = protocol.ladle as Ladle
     const witch = protocol.witch as Witch
     const wand = protocol.wand as Wand
     const safeERC20Namer = protocol.safeERC20Namer as SafeERC20Namer
@@ -121,27 +127,30 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
     const spotOracle = protocol.chainlinkOracle as unknown as IOracle
     console.timeEnd("Protocol deployed in")
 
+    fs.writeFileSync('./output/protocol.json', mapToJson(protocol.asMap()), 'utf8')
+
     console.time("Governance set in");
     await governance(cauldron, ladle, witch, wand, owner)
     console.timeEnd("Governance set in")
 
     console.time("Assets added in");
 
-
     const assets =  await Assets.setup(
         ownerAcc,
         ladle,
         wand,
-        mocks.assets,           // Map<assetId, ERC20Mock | WETH9Mock>
+        flattenContractMap(mocks.assets),           // Map<assetId, ERC20Mock | WETH9Mock>
         baseIds,
         ilkIds,
         rateChiOracle,
-        mocks.rateSources,    // baseId => sourceAddress
-        mocks.chiSources,    // baseId => sourceAddress
+        flattenContractMap(mocks.rateSources),    // baseId => sourceAddress
+        flattenContractMap(mocks.chiSources),    // baseId => sourceAddress
         spotOracle,
-        mocks.spotSources     // baseId,quoteId => sourceAddress
+        flattenContractMap(mocks.spotSources)     // baseId,quoteId => sourceAddress
     )
     console.timeEnd("Assets added in")
+
+    fs.writeFileSync('./output/joins.json', mapToJson(assets.joins), 'utf8')
 
     console.time("Series added in");
     const series = await Series.setup(
@@ -153,6 +162,9 @@ async function initialize(ownerAcc: SignerWithAddress, pool: Pool) {
         seriesData,
     )
     console.timeEnd("Series added in")
+
+    fs.writeFileSync('./output/fyTokens.json', mapToJson(series.fyTokens), 'utf8')
+    fs.writeFileSync('./output/pools.json', mapToJson(series.pools), 'utf8')
 
     if (initializePools.toString() !== '0') {
         console.time("Pools initialized");

@@ -10,14 +10,16 @@ export const THREE_MONTHS: number = 3 * 30 * 24 * 60 * 60
 export const ETH = ethers.utils.formatBytes32String('ETH').slice(0, 14)
 export const DAI = ethers.utils.formatBytes32String('DAI').slice(0, 14)
 export const USDC = ethers.utils.formatBytes32String('USDC').slice(0, 14)
+export const WBTC = ethers.utils.formatBytes32String('WBTC').slice(0, 14)
+export const USDT = ethers.utils.formatBytes32String('USDT').slice(0, 14)
 
 export const YIELDSPACE_OPS = {
-  ROUTE: 0,
-  TRANSFER_TO_POOL: 1,
-  FORWARD_PERMIT: 2,
+  ROUTE:              0,
+  TRANSFER_TO_POOL:   1,
+  FORWARD_PERMIT:     2,
   FORWARD_DAI_PERMIT: 3,
-  JOIN_ETHER: 4,
-  EXIT_ETHER: 5
+  JOIN_ETHER:         4,
+  EXIT_ETHER:         5,
 }
 
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
@@ -41,16 +43,19 @@ export const VAULT_OPS = {
   CLOSE:                8,
   REPAY:                9,
   REPAY_VAULT:          10,
-  FORWARD_PERMIT:       11,
-  FORWARD_DAI_PERMIT:   12,
-  JOIN_ETHER:           13,
-  EXIT_ETHER:           14,
-  TRANSFER_TO_POOL:     15,
-  ROUTE:                16,
-  TRANSFER_TO_FYTOKEN:  17,
-  REDEEM:               18,
+  REPAY_LADLE:          11,
+  RETRIEVE:             12,
+  FORWARD_PERMIT:       13,
+  FORWARD_DAI_PERMIT:   14,
+  JOIN_ETHER:           15,
+  EXIT_ETHER:           16,
+  TRANSFER_TO_POOL:     17,
+  ROUTE:                18,
+  TRANSFER_TO_FYTOKEN:  19,
+  REDEEM:               20,
+  MODULE:               21,
 }
 
-export const CHI = ethers.utils.formatBytes32String('chi')
-export const RATE = ethers.utils.formatBytes32String('rate')
+export const CHI = ethers.utils.formatBytes32String('chi').slice(0, 14)
+export const RATE = ethers.utils.formatBytes32String('rate').slice(0, 14)
 
