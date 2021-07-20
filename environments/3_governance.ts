@@ -7,6 +7,8 @@ import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
+import { JoinFactory } from '../typechain/JoinFactory'
+import { FYTokenFactory } from '../typechain/FYTokenFactory'
 
 /**
  * This script gives governance rights to the governor over the whole Yield v2 Protocol
@@ -27,6 +29,8 @@ console.time("Governance set in");
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
     const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
+    const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
+    const fyTokenFactory = await ethers.getContractAt('Wand', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
 
     await cauldron.grantRoles(
         [
@@ -52,9 +56,7 @@ console.time("Governance set in");
 
     await witch.grantRoles(
         [
-            id('setDuration(uint32)'),
-            id('setInitialOffer(uint64)'),
-            id('setDust(uint128)')
+            id('setIlk(bytes6,uint32,uint64,uint128)'),
         ],
         governor
     ); console.log(`witch.grantRoles(gov, ${governor})`)
@@ -68,6 +70,13 @@ console.time("Governance set in");
             id('addPool(bytes6,bytes6)'),
         ],
         governor
-      ); console.log(`wand.grantRoles(gov, ${governor})`)
-      console.timeEnd("Governance set in")
+    ); console.log(`wand.grantRoles(gov, ${governor})`)
+
+    await joinFactory.grantRoles([id('createJoin(address)')], governor)
+    console.log(`joinFactory.grantRoles(gov, ${governor})`)
+
+    await fyTokenFactory.grantRoles([id('createFYToken(bytes6,address,address,uint32,string,string)')], governor)
+    console.log(`fyTokenFactory.grantRoles(gov, ${governor})`)
+
+    console.timeEnd("Governance set in")
 })()

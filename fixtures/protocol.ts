@@ -22,6 +22,7 @@ import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { PoolFactory } from '../typechain/PoolFactory'
 import { PoolRouter } from '../typechain/PoolRouter'
 import { JoinFactory } from '../typechain/JoinFactory'
+import { FYTokenFactory } from '../typechain/FYTokenFactory'
 import { Wand } from '../typechain/Wand'
 
 import { YieldMath } from '../typechain/YieldMath'
@@ -41,6 +42,7 @@ export class Protocol {
   safeERC20Namer: SafeERC20Namer
   poolRouter: PoolRouter
   joinFactory: JoinFactory
+  fyTokenFactory: FYTokenFactory
   wand: Wand
   
   constructor(
@@ -55,6 +57,7 @@ export class Protocol {
     poolFactory: PoolFactory,
     poolRouter: PoolRouter,
     joinFactory: JoinFactory,
+    fyTokenFactory: FYTokenFactory,
     wand: Wand,
   ) {
     this.owner = owner
@@ -68,6 +71,7 @@ export class Protocol {
     this.poolFactory = poolFactory
     this.poolRouter = poolRouter
     this.joinFactory = joinFactory
+    this.fyTokenFactory = fyTokenFactory
     this.wand = wand
   }
 
@@ -84,6 +88,7 @@ export class Protocol {
     protocol.set('poolFactory', this.poolFactory)
     protocol.set('poolRouter', this.poolRouter)
     protocol.set('joinFactory', this.joinFactory)
+    protocol.set('fyTokenFactory', this.fyTokenFactory)
     protocol.set('wand', this.wand)
     return protocol
   }
@@ -153,24 +158,21 @@ export class Protocol {
     ); console.log(`cauldron.grantRoles(witch, ${receiver})`)
   }
 
-  public static async ladleWitchAuth(ladle: Ladle, receiver: string) {
-    await ladle.grantRoles(
-      [
-        id('settle(bytes12,address,uint128,uint128)')
-      ],
-    receiver
-    ); console.log(`ladle.grantRoles(witch, ${receiver})`)
-  }
-
   public static async witchGovAuth(witch: Witch, receiver: string) {
     await witch.grantRoles(
       [
-        id('setDuration(uint32)'),
-        id('setInitialOffer(uint64)'),
-        id('setDust(uint128)')
+        id('setIlk(bytes6,uint32,uint64,uint128)')
       ],
       receiver
     ); console.log(`witch.grantRoles(gov, ${receiver})`)
+  }
+
+  public static async joinFactoryAuth(joinFactory: JoinFactory, receiver: string) {
+    await joinFactory.grantRoles([id('createJoin(address)')], receiver)
+  }
+
+  public static async fyTokenFactoryAuth(fyTokenFactory: FYTokenFactory, receiver: string) {
+    await fyTokenFactory.grantRoles([id('createFYToken(bytes6,address,address,uint32,string,string)')], receiver)
   }
 
   public static async deployYieldspace(weth9: string) {
@@ -248,34 +250,38 @@ export class Protocol {
       { yieldMath: YieldMath, safeERC20Namer: SafeERC20Namer, poolFactory: PoolFactory, poolRouter:PoolRouter } =
       await this.deployYieldspace(weth9);
 
-    const wandFactory = await ethers.getContractFactory('Wand', {
+    const fyTokenFactoryFactory = await ethers.getContractFactory('FYTokenFactory', {
       libraries: {
         SafeERC20Namer: safeERC20Namer.address,
       },
     })
-    const wand = ((await wandFactory.deploy(
+    const fyTokenFactory = ((await fyTokenFactoryFactory.deploy()) as unknown) as FYTokenFactory
+    await fyTokenFactory.deployed()
+
+    const wand = (await deployContract(owner, WandArtifact, [
       cauldron.address,
       ladle.address,
+      witch.address,
       poolFactory.address,
-      joinFactory.address
-    )) as unknown) as Wand
-    await wand.deployed()
-    
+      joinFactory.address,
+      fyTokenFactory.address,
+    ])) as Wand
     console.log(`[Wand, '${wand.address}'],`)
-    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address], { SafeERC20Namer: safeERC20Namer.address })
+    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)
     await this.cauldronWitchAuth(cauldron, witch.address)
-    await this.ladleWitchAuth(ladle, witch.address)
-  
+    
     await this.cauldronGovAuth(cauldron, wand.address)
     await this.ladleGovAuth(ladle, wand.address)
     await this.witchGovAuth(witch, wand.address)
+    await this.joinFactoryAuth(joinFactory, wand.address)
+    await this.fyTokenFactoryAuth(fyTokenFactory, wand.address)
     await compoundOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address)
     await chainlinkOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address)
 
   
-    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, wand)
+    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand)
   }
 }
