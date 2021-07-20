@@ -2,29 +2,20 @@
   {
     "inputs": [
       {
-        "internalType": "bytes12",
-        "name": "vaultId",
-        "type": "bytes12"
-      },
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "internalType": "uint128",
-        "name": "ink",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "art",
-        "type": "uint128"
+        "internalType": "bytes6",
+        "name": "assetId",
+        "type": "bytes6"
       }
     ],
-    "name": "settle",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "joins",
+    "outputs": [
+      {
+        "internalType": "contract IJoin",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
