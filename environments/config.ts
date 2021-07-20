@@ -10,31 +10,35 @@ export const assetIds: string[] = [DAI, USDC, ETH, TST, WBTC, USDT]
 export const baseIds: string[] = [DAI, USDC, USDT]
 
 // Assets to make into collaterals, as [underlying, collateral]. The underlying and collateral assets must exist, as well as spot oracle sources for each pair.
-export const ilkIds: Array<[string, string]> = [
-    [DAI, USDC],
-    [DAI, ETH],
-    [DAI, TST],
-    [DAI, WBTC],
-    [DAI, USDT],
-    [USDC, DAI],
-    [USDC, ETH],
-    [USDC, TST],
-    [USDC, WBTC],
-    [USDC, USDT],
-    [USDT, DAI],
-    [USDT, USDC],
-    [USDT, ETH],
-    [USDT, TST],
-    [USDT, WBTC]
+export const ilkIds: Array<[string, string, number]> = [
+    [DAI, USDC, 18], // Composite, via ETH
+    [DAI, ETH, 18],
+    [DAI, TST, 18], // Composite, via ETH
+    [DAI, WBTC, 18], // Composite, via ETH
+    [DAI, USDT, 18], // Composite, via ETH
+    [USDC, DAI, 18], // Composite, via ETH
+    [USDC, ETH, 18],
+    [USDC, TST, 18], // Composite, via ETH
+    [USDC, WBTC, 18], // Composite, via ETH
+    [USDC, USDT, 18], // Composite, via ETH
+    [USDT, DAI, 18], // Composite, via ETH
+    [USDT, USDC, 18], // Composite, via ETH
+    [USDT, ETH, 18],
+    [USDT, TST, 18], // Composite, via ETH
+    [USDT, WBTC, 18] // Composite, via ETH
 ]
+
+export const EOSEP21 = 1633042799
+export const EODEC21 = 1640995199
 
 // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
 export const seriesData: Array<[string, string, number, Array<string>]> = [ // seriesId, baseId, maturity, ilkIds
-    [stringToBytes6('DAI1'), DAI, 1625093999, [USDC, ETH, TST, WBTC, USDT]], // Jun21
-    [stringToBytes6('DAI2'), DAI, 1633042799, [USDC, ETH, TST, WBTC, USDT]], // Sep21
-    [stringToBytes6('USDC1'), USDC, 1625093999, [DAI, ETH, TST, WBTC, USDT]],
-    [stringToBytes6('USDC2'), USDC, 1633042799, [DAI, ETH, TST, WBTC, USDT]],
-    [stringToBytes6('USDT'), USDT, 1630922996, [DAI, USDC, ETH, TST, WBTC]] // Sep9
+    [stringToBytes6('DAI1'), DAI, EOSEP21, [USDC, ETH, TST, WBTC, USDT]], // Sep21
+    [stringToBytes6('DAI2'), DAI, EODEC21, [USDC, ETH, TST, WBTC, USDT]], // Dec21
+    [stringToBytes6('USDC1'), USDC, EOSEP21, [DAI, ETH, TST, WBTC, USDT]],
+    [stringToBytes6('USDC2'), USDC, EODEC21, [DAI, ETH, TST, WBTC, USDT]],
+    [stringToBytes6('USDT'), USDT, EOSEP21, [DAI, USDC, ETH, TST, WBTC]],
+    [stringToBytes6('USDT2'), USDT, EODEC21, [DAI, USDC, ETH, TST, WBTC]]
 ]
 
 // Amount of underlying to initialize pools with. It will only work with mock assets. A 1/9 of this amount in fyToken will be minted and added to the pool.

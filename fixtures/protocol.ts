@@ -91,7 +91,6 @@ export class Protocol {
   public static async cauldronGovAuth(cauldron: Cauldron, receiver: string) {
     await cauldron.grantRoles(
       [
-        id('setAuctionInterval(uint32)'),
         id('addAsset(bytes6,address)'),
         id('addSeries(bytes6,bytes6,address)'),
         id('addIlks(bytes6,bytes6[])'),
@@ -113,7 +112,6 @@ export class Protocol {
         id('pour(bytes12,int128,int128)'),
         id('stir(bytes12,bytes12,uint128,uint128)'),
         id('roll(bytes12,bytes6,int128)'),
-        id('slurp(bytes12,uint128,uint128)'),
       ],
       receiver
     ); console.log(`cauldron.grantRoles(ladle, ${receiver})`)
@@ -147,27 +145,29 @@ export class Protocol {
   public static async cauldronWitchAuth(cauldron: Cauldron, receiver: string) {
     await cauldron.grantRoles(
       [
-        id('destroy(bytes12)'),
+        id('give(bytes12,address)'),
         id('grab(bytes12,address)'),
+        id('slurp(bytes12,uint128,uint128)')
       ],
       receiver
     ); console.log(`cauldron.grantRoles(witch, ${receiver})`)
   }
 
   public static async ladleWitchAuth(ladle: Ladle, receiver: string) {
-    await ladle.grantRoles([
-      id(
-        'settle(bytes12,address,uint128,uint128)'
-      )],
-      receiver
+    await ladle.grantRoles(
+      [
+        id('settle(bytes12,address,uint128,uint128)')
+      ],
+    receiver
     ); console.log(`ladle.grantRoles(witch, ${receiver})`)
   }
 
   public static async witchGovAuth(witch: Witch, receiver: string) {
     await witch.grantRoles(
       [
-        id('setAuctionTime(uint128)'),
-        id('setInitialProportion(uint128)'),
+        id('setDuration(uint32)'),
+        id('setInitialOffer(uint64)'),
+        id('setDust(uint128)')
       ],
       receiver
     ); console.log(`witch.grantRoles(gov, ${receiver})`)
@@ -248,9 +248,21 @@ export class Protocol {
       { yieldMath: YieldMath, safeERC20Namer: SafeERC20Namer, poolFactory: PoolFactory, poolRouter:PoolRouter } =
       await this.deployYieldspace(weth9);
 
-    const wand = (await deployContract(owner, WandArtifact, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])) as Wand
+    const wandFactory = await ethers.getContractFactory('Wand', {
+      libraries: {
+        SafeERC20Namer: safeERC20Namer.address,
+      },
+    })
+    const wand = ((await wandFactory.deploy(
+      cauldron.address,
+      ladle.address,
+      poolFactory.address,
+      joinFactory.address
+    )) as unknown) as Wand
+    await wand.deployed()
+    
     console.log(`[Wand, '${wand.address}'],`)
-    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address])
+    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address], { SafeERC20Namer: safeERC20Namer.address })
 
     // ==== Orchestration ====
     await this.cauldronLadleAuth(cauldron, ladle.address)

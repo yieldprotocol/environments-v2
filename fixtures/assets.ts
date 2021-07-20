@@ -46,7 +46,7 @@ export class Assets {
       await wand.addAsset(assetId, assetAddress); console.log(`wand.addAsset(${symbol})`)
       
       const join = await ethers.getContractAt('Join', await ladle.joins(assetId), owner) as Join
-      verify(join.address, [])
+      verify(join.address, [assetAddress])
       console.log(`[${symbol}Join, '${join.address}'],`)
       joins.set(assetId, join)
     }

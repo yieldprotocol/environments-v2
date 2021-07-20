@@ -63,6 +63,7 @@ export class Mocks {
     } else if (assetId === WBTC) {
       const args: any = []
       asset = (await deployContract(owner, WBTCMockArtifact, args)) as unknown as ERC20Mock
+      console.log(`[${symbol}, '${asset.address}'],`)
       verify(asset.address, args)
     } else {
       const args = [symbol, symbol]
@@ -95,10 +96,10 @@ export class Mocks {
     return cTokenChi
   }
 
-  public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string) {
-    const args: any = [18]
+  public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string, decimals: number) {
+    const args: any = [decimals]
     const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
-    console.log(`[${quote}, '${aggregator.address}'],`)
+    console.log(`[${base}/${quote}, '${aggregator.address}'],`)
     verify(aggregator.address, args)
     await aggregator.set(WAD.mul(2))
     return aggregator
@@ -108,7 +109,7 @@ export class Mocks {
     owner: SignerWithAddress,
     assetIds: Array<string>,
     baseIds: Array<string>,
-    ilkIds: Array<[string, string]>,
+    ilkIds: Array<[string, string, number]>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
     const rateSources: Map<string, ISourceMock> = new Map()
@@ -134,10 +135,10 @@ export class Mocks {
     }
 
     console.log(`Deploying spot sources:`)
-    for (let [baseId, ilkId] of ilkIds) {
+    for (let [baseId, ilkId, decimals] of ilkIds) {
       const base = bytesToString(baseId);
       const quote = bytesToString(ilkId);
-      spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote))
+      spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote, decimals))
     }
 
     return new Mocks(owner, assets, rateSources, chiSources, spotSources)

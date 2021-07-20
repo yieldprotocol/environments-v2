@@ -39,6 +39,12 @@ describe('Oracle', function () {
 
   it('sets and retrieves the chi value', async () => {
     await source.set(WAD.mul(2))
+    console.log(bytes6ToBytes32(DAI))
+    console.log(bytes6ToBytes32(RATE))
     expect((await oracle.callStatic.get(bytes6ToBytes32(DAI), bytes6ToBytes32(RATE), WAD))[0]).to.equal(WAD.mul(2))
   })
 })
+
+// const oracle = (await ethers.getContractAt('CompoundMultiOracle', '0x7969c5eD335650692Bc04293B07F5BF2e7A673C0', ownerAcc))
+// 0x4441490000000000000000000000000000000000000000000000000000000000
+// 0x7261746500000000000000000000000000000000000000000000000000000000
