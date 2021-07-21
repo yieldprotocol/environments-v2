@@ -50,11 +50,11 @@ export class Series {
         maturity,
         symbol,
         symbol,
-      ], { SafeERC20Namer: safeERC20Namer.address })
+      ], 'safeERC20Namer.js')
 
       const pool = await ethers.getContractAt('Pool', await ladle.pools(seriesId), owner) as Pool
       console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
-      verify(pool.address, [], { SafeERC20Namer: safeERC20Namer.address })
+      verify(pool.address, [], 'safeERC20Namer.js')
 
       fyTokens.set(seriesId, fyToken)
       pools.set(seriesId, pool)

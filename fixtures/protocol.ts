@@ -204,7 +204,7 @@ export class Protocol {
     poolFactory = ((await PoolFactoryFactory.deploy()) as unknown) as PoolFactory
     await poolFactory.deployed()
     console.log(`[PoolFactory, '${poolFactory.address}'],`)
-    verify(poolFactory.address, [], { SafeERC20Namer: safeERC20Namer.address })
+    verify(poolFactory.address, [], 'safeERC20Namer.js')
 
     const PoolRouterFactory = await ethers.getContractFactory('PoolRouter')
     poolRouter = ((await PoolRouterFactory.deploy(poolFactory.address, weth9)) as unknown) as PoolRouter
@@ -257,7 +257,7 @@ export class Protocol {
     const fyTokenFactory = ((await fyTokenFactoryFactory.deploy()) as unknown) as FYTokenFactory
     await fyTokenFactory.deployed()
     console.log(`[FYTokenFactory, '${fyTokenFactory.address}'],`)
-    verify(fyTokenFactory.address, [], { SafeERC20Namer: safeERC20Namer.address })
+    verify(fyTokenFactory.address, [], 'safeERC20Namer.js')
 
     const wand = (await deployContract(owner, WandArtifact, [
       cauldron.address,

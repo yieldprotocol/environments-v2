@@ -26,6 +26,9 @@ console.time("Protocol deployed in");
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol.asMap()), 'utf8')
     console.timeEnd("Protocol deployed in")
 
+    // SafeERC20Namer is a library that is only used in constructors, and needs a special format for etherscan verification
+    fs.writeFileSync('./output/safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${ protocol.safeERC20Namer.address }" }`, 'utf8')
+
     /* test file output reading */
     // const _jsonFromFile =  fs.readFileSync('./output/protocol.json', 'utf8');
     // const _protocol = JSON.parse(_jsonFromFile);

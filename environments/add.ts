@@ -154,7 +154,7 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
     const pool = await hre.ethers.getContractAt('Pool', await ladle.pools(seriesId), ownerAcc) as Pool
     console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
-    verify(pool.address, [], hre, { SafeERC20Namer: safeERC20Namer.address })
+    verify(pool.address, [], hre, 'safeERC20Namer.js')
 
     fyTokens.set(seriesId, fyToken.address)
     pools.set(seriesId, pool.address)
