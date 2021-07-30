@@ -9,6 +9,7 @@ import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
+import { TimeLock } from '../typechain/TimeLock'
 
 /**
  * This script gives governance rights to the governor over the whole Yield v2 Protocol
@@ -19,7 +20,7 @@ import { FYTokenFactory } from '../typechain/FYTokenFactory'
  */
 
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
-const governor = fs.readFileSync('.governor', 'utf8').trim()
+const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
 console.time("Governance set in");
 
@@ -31,6 +32,7 @@ console.time("Governance set in");
     const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
     const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
     const fyTokenFactory = await ethers.getContractAt('Wand', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
+    const timelock = await ethers.getContractAt('TimeLock', governance.get('timelock') as string, ownerAcc) as unknown as TimeLock
 
     await cauldron.grantRoles(
         [
@@ -41,8 +43,8 @@ console.time("Governance set in");
             id('setRateOracle(bytes6,address)'),
             id('setSpotOracle(bytes6,bytes6,address,uint32)'),
         ],
-        governor
-    ); console.log(`cauldron.grantRoles(gov, ${governor})`)
+        timelock.address
+    ); console.log(`cauldron.grantRoles(timelock, ${timelock.address})`)
 
     await ladle.grantRoles(
         [
@@ -51,15 +53,15 @@ console.time("Governance set in");
             id('setModule(address,bool)'),
             id('setFee(uint256)'),
         ],
-        governor
-    ); console.log(`ladle.grantRoles(gov, ${governor})`)
+        timelock.address
+    ); console.log(`ladle.grantRoles(timelock, ${timelock.address})`)
 
     await witch.grantRoles(
         [
             id('setIlk(bytes6,uint32,uint64,uint128)'),
         ],
-        governor
-    ); console.log(`witch.grantRoles(gov, ${governor})`)
+        timelock.address
+    ); console.log(`witch.grantRoles(timelock, ${timelock.address})`)
 
     await wand.grantRoles(
         [
@@ -69,14 +71,14 @@ console.time("Governance set in");
             id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
             id('addPool(bytes6,bytes6)'),
         ],
-        governor
-    ); console.log(`wand.grantRoles(gov, ${governor})`)
+        timelock.address
+    ); console.log(`wand.grantRoles(timelock, ${timelock.address})`)
 
-    await joinFactory.grantRoles([id('createJoin(address)')], governor)
-    console.log(`joinFactory.grantRoles(gov, ${governor})`)
+    await joinFactory.grantRoles([id('createJoin(address)')], timelock.address)
+    console.log(`joinFactory.grantRoles(timelock, ${timelock.address})`)
 
-    await fyTokenFactory.grantRoles([id('createFYToken(bytes6,address,address,uint32,string,string)')], governor)
-    console.log(`fyTokenFactory.grantRoles(gov, ${governor})`)
+    await fyTokenFactory.grantRoles([id('createFYToken(bytes6,address,address,uint32,string,string)')], timelock.address)
+    console.log(`fyTokenFactory.grantRoles(timelock, ${timelock.address})`)
 
     console.timeEnd("Governance set in")
 })()

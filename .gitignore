@@ -20,7 +20,7 @@ deployments/
 
 # Secret files
 .etherscanKey
-.governor
+.multisig
 .infuraKey
 .mythxKey
 .secret
