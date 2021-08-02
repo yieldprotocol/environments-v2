@@ -12,13 +12,13 @@ import JoinFactoryArtifact from '../artifacts/@yield-protocol/vault-v2/contracts
 import WandArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Wand.sol/Wand.json'
 import ChainlinkMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
 import CompoundMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol/CompoundMultiOracle.json'
+import EmergencyBrakeArtifact from '../artifacts/@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol/EmergencyBrake.json'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
-
 import { PoolFactory } from '../typechain/PoolFactory'
 import { PoolRouter } from '../typechain/PoolRouter'
 import { JoinFactory } from '../typechain/JoinFactory'
@@ -27,6 +27,8 @@ import { Wand } from '../typechain/Wand'
 
 import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
+
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 const { deployContract } = waffle
 
@@ -44,6 +46,7 @@ export class Protocol {
   joinFactory: JoinFactory
   fyTokenFactory: FYTokenFactory
   wand: Wand
+  cloak: EmergencyBrake
   
   constructor(
     owner: SignerWithAddress,
@@ -59,6 +62,7 @@ export class Protocol {
     joinFactory: JoinFactory,
     fyTokenFactory: FYTokenFactory,
     wand: Wand,
+    cloak: EmergencyBrake
   ) {
     this.owner = owner
     this.cauldron = cauldron
@@ -73,6 +77,7 @@ export class Protocol {
     this.joinFactory = joinFactory
     this.fyTokenFactory = fyTokenFactory
     this.wand = wand
+    this.cloak = cloak
   }
 
   public asMap(): Map<string, any> {
@@ -90,6 +95,7 @@ export class Protocol {
     protocol.set('joinFactory', this.joinFactory)
     protocol.set('fyTokenFactory', this.fyTokenFactory)
     protocol.set('wand', this.wand)
+    protocol.set('cloak', this.cloak)
     return protocol
   }
 
@@ -218,6 +224,8 @@ export class Protocol {
   // Set up a test environment. Provide at least one asset identifier.
   public static async setup(
     owner: SignerWithAddress,
+    planner: string,
+    executor: string,
     weth9: string,
   ) {
     const cauldron = (await deployContract(owner, CauldronArtifact, [])) as Cauldron
@@ -269,7 +277,11 @@ export class Protocol {
     ])) as Wand
     console.log(`[Wand, '${wand.address}'],`)
     verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
+
+    const cloak = (await deployContract(owner, EmergencyBrakeArtifact, [planner, executor])) as EmergencyBrake
+    console.log(`[Cloak, '${cloak.address}'],`)
+    verify(cloak.address, [planner, executor])
   
-    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand)
+    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand, cloak)
   }
 }

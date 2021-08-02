@@ -11,6 +11,9 @@ import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
+
+import { AccessControl } from '../typechain/AccessControl'
 
 /**
  * This script gives governance rights to the governor over the whole Yield v2 Protocol
@@ -21,7 +24,6 @@ import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
  */
 
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
-const governor = fs.readFileSync('.governor', 'utf8').trim()
 
 console.time("Orchestration set in");
 
@@ -35,6 +37,7 @@ console.time("Orchestration set in");
     const fyTokenFactory = await ethers.getContractAt('Wand', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
     const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
     const chainlinkOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as unknown as ChainlinkMultiOracle
+    const cloak = await ethers.getContractAt('EmergencyBrake', protocol.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
     await cauldron.grantRoles(
         [
@@ -56,7 +59,7 @@ console.time("Orchestration set in");
             id('slurp(bytes12,uint128,uint128)')
         ],
         witch.address
-    )
+    ); console.log(`cauldron.grantRoles(witch)`)
 
     await cauldron.grantRoles(
         [
@@ -103,6 +106,63 @@ console.time("Orchestration set in");
     
     await compoundOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compoundOracle.grantRoles(wand)`)
     await chainlinkOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`chainlinkOracle.grantRoles(wand)`)
+
+    await cauldron.grantRole('0x00000000', cloak.address); console.log(`cauldron.grantRoles(cloak)`)
+    await ladle.grantRole('0x00000000', cloak.address); console.log(`ladle.grantRoles(cloak)`)
+    await witch.grantRole('0x00000000', cloak.address); console.log(`witch.grantRoles(cloak)`)
+    await joinFactory.grantRole('0x00000000', cloak.address); console.log(`joinFactory.grantRoles(cloak)`)
+    await fyTokenFactory.grantRole('0x00000000', cloak.address); console.log(`fyTokenFactory.grantRoles(cloak)`)
+    await compoundOracle.grantRole('0x00000000', cloak.address); console.log(`compoundOracle.grantRoles(cloak)`)
+    await chainlinkOracle.grantRole('0x00000000', cloak.address); console.log(`chainlinkOracle.grantRoles(cloak)`)
+
+    await cloak.plan(ladle.address, [cauldron.address], [[
+        id('build(address,bytes12,bytes6,bytes6)'),
+        id('destroy(bytes12)'),
+        id('tweak(bytes12,bytes6,bytes6)'),
+        id('give(bytes12,address)'),
+        id('pour(bytes12,int128,int128)'),
+        id('stir(bytes12,bytes12,uint128,uint128)'),
+        id('roll(bytes12,bytes6,int128)'),
+    ]]); console.log(`cloak.plan(ladle)`)
+
+    await cloak.plan(witch.address, [cauldron.address], [[
+        id('give(bytes12,address)'),
+        id('grab(bytes12,address)'),
+        id('slurp(bytes12,uint128,uint128)')
+    ]]); console.log(`cloak.plan(witch)`)
+
+    await cloak.plan(wand.address, [cauldron.address, ladle.address, witch.address, joinFactory.address, fyTokenFactory.address, compoundOracle.address, chainlinkOracle.address], [
+        [
+            id('addAsset(bytes6,address)'),
+            id('addSeries(bytes6,bytes6,address)'),
+            id('addIlks(bytes6,bytes6[])'),
+            id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+            id('setRateOracle(bytes6,address)'),
+            id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+        ],
+        [
+            id('addJoin(bytes6,address)'),
+            id('addPool(bytes6,address)'),
+            id('setModule(address,bool)'),
+            id('setFee(uint256)'),
+        ],
+        [
+            id('setIlk(bytes6,uint32,uint64,uint128)'),
+        ],
+        [
+            id('createJoin(address)'),
+        ],
+        [
+            id('createFYToken(bytes6,address,address,uint32,string,string)'),
+        ],
+        [
+            id('setSource(bytes6,bytes6,address)'),
+        ],
+        [ 
+            id('setSource(bytes6,bytes6,address)'),
+        ]
+    ]); console.log(`cloak.plan(wand)`)
+
 
     console.timeEnd("Orchestration set in")
 })()
