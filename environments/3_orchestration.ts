@@ -9,8 +9,9 @@ import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
-import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
+import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
+import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 import { AccessControl } from '../typechain/AccessControl'
@@ -37,6 +38,7 @@ console.time("Orchestration set in");
     const fyTokenFactory = await ethers.getContractAt('Wand', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
     const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
     const chainlinkOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as unknown as ChainlinkMultiOracle
+    const compositeOracle = await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc) as unknown as CompositeMultiOracle
     const cloak = await ethers.getContractAt('EmergencyBrake', protocol.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
     await cauldron.grantRoles(
@@ -106,6 +108,7 @@ console.time("Orchestration set in");
     
     await compoundOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compoundOracle.grantRoles(wand)`)
     await chainlinkOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`chainlinkOracle.grantRoles(wand)`)
+    await compositeOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compositeOracle.grantRoles(wand)`)
 
     await cauldron.grantRole('0x00000000', cloak.address); console.log(`cauldron.grantRoles(cloak)`)
     await ladle.grantRole('0x00000000', cloak.address); console.log(`ladle.grantRoles(cloak)`)
@@ -114,6 +117,7 @@ console.time("Orchestration set in");
     await fyTokenFactory.grantRole('0x00000000', cloak.address); console.log(`fyTokenFactory.grantRoles(cloak)`)
     await compoundOracle.grantRole('0x00000000', cloak.address); console.log(`compoundOracle.grantRoles(cloak)`)
     await chainlinkOracle.grantRole('0x00000000', cloak.address); console.log(`chainlinkOracle.grantRoles(cloak)`)
+    await compositeOracle.grantRole('0x00000000', cloak.address); console.log(`compositeOracle.grantRoles(cloak)`)
 
     await cloak.plan(ladle.address, [cauldron.address], [[
         id('build(address,bytes12,bytes6,bytes6)'),
@@ -131,7 +135,7 @@ console.time("Orchestration set in");
         id('slurp(bytes12,uint128,uint128)')
     ]]); console.log(`cloak.plan(witch)`)
 
-    await cloak.plan(wand.address, [cauldron.address, ladle.address, witch.address, joinFactory.address, fyTokenFactory.address, compoundOracle.address, chainlinkOracle.address], [
+    await cloak.plan(wand.address, [cauldron.address, ladle.address, witch.address, joinFactory.address, fyTokenFactory.address, compoundOracle.address, chainlinkOracle.address, compositeOracle.address], [
         [
             id('addAsset(bytes6,address)'),
             id('addSeries(bytes6,bytes6,address)'),
@@ -156,6 +160,9 @@ console.time("Orchestration set in");
             id('createFYToken(bytes6,address,address,uint32,string,string)'),
         ],
         [
+            id('setSource(bytes6,bytes6,address)'),
+        ],
+        [ 
             id('setSource(bytes6,bytes6,address)'),
         ],
         [ 

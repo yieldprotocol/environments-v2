@@ -26,7 +26,7 @@ console.time("Protocol deployed in");
     const wethAddress = assets.get(ETH) as string
     const protocol = await Protocol.setup(ownerAcc, planner, executor, wethAddress)
         
-    // fs.writeFileSync('./output/protocol.json', mapToJson(protocol.asMap()), 'utf8')
+    fs.writeFileSync('./output/protocol.json', mapToJson(protocol.asMap()), 'utf8')
     console.timeEnd("Protocol deployed in")
 
     // SafeERC20Namer is a library that is only used in constructors, and needs a special format for etherscan verification

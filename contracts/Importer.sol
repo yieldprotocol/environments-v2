@@ -3,6 +3,7 @@ pragma solidity ^0.8.1;
 
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/JoinFactory.sol";
 import "@yield-protocol/vault-v2/contracts/FYTokenFactory.sol";
