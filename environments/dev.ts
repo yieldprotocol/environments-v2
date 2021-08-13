@@ -37,42 +37,42 @@ import { fundExternalAccounts, flattenContractMap, mapToJson } from '../shared/h
 async function governance(cauldron: Cauldron, ladle: Ladle, witch: Witch, wand: Wand, governor: string) {
     await cauldron.grantRoles(
         [
-        id('setAuctionInterval(uint32)'),
-        id('addAsset(bytes6,address)'),
-        id('addSeries(bytes6,bytes6,address)'),
-        id('addIlks(bytes6,bytes6[])'),
-        id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-        id('setRateOracle(bytes6,address)'),
-        id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+            id('addAsset(bytes6,address)'),
+            id('addSeries(bytes6,bytes6,address)'),
+            id('addIlks(bytes6,bytes6[])'),
+            id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+            id('setRateOracle(bytes6,address)'),
+            id('setSpotOracle(bytes6,bytes6,address,uint32)'),
         ],
         governor
     ); console.log(`cauldron.grantRoles(gov, ${governor})`)
 
     await ladle.grantRoles(
         [
-        id('addJoin(bytes6,address)'),
-        id('addPool(bytes6,address)'),
-        id('setPoolRouter(address)'),
-        id('setFee(uint256)'),
+            id('addJoin(bytes6,address)'),
+            id('addPool(bytes6,address)'),
+            id('setModule(address,bool)'),
+            id('setFee(uint256)'),
         ],
         governor
     ); console.log(`ladle.grantRoles(gov, ${governor})`)
 
     await witch.grantRoles(
         [
-        id('setAuctionTime(uint128)'),
-        id('setInitialProportion(uint128)'),
+            id('setDuration(uint32)'),
+            id('setInitialOffer(uint64)'),
+            id('setDust(uint128)')
         ],
         governor
     ); console.log(`witch.grantRoles(gov, ${governor})`)
 
     await wand.grantRoles(
         [
-          id('addAsset(bytes6,address)'),
-          id('makeBase(bytes6,address,address,address)'),
-          id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
-          id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
-          id('addPool(bytes6,bytes6)'),
+            id('addAsset(bytes6,address)'),
+            id('makeBase(bytes6,address,address,address)'),
+            id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
+            id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
+            id('addPool(bytes6,bytes6)'),
         ],
         governor
       ); console.log(`wand.grantRoles(gov, ${governor})`)

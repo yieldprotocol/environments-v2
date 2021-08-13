@@ -11,7 +11,7 @@ import 'solidity-coverage'
 import 'hardhat-deploy'
 import { task } from 'hardhat/config'
 
-import { addBase, addIlk } from './environments/add'
+import { addAsset, makeBase, makeIlk, addSeries } from './environments/add'
 
 // REQUIRED TO ENSURE METADATA IS SAVED IN DEPLOYMENTS (because solidity-coverage disable it otherwise)
 /* import {
@@ -23,33 +23,41 @@ task(TASK_COMPILE_GET_COMPILER_INPUT).setAction(async (_, bre, runSuper) => {
   return input
 }) */
 
-task("add", "Adds an asset as an ilk or a base to an existing protocol deployment")
-  .addFlag("base", "Add asset as base")
-  .addFlag("ilk", "Add asset as ilk")
+task("asset", "Adds assets and makes them into ilks and/or bases")
+  .addFlag("add", "Add asset")
+  .addFlag("base", "Make asset into base")
+  .addFlag("ilk", "Make asset into ilk")
   .addVariadicPositionalParam("asset", "The details of the asset")
   .setAction(async (taskArgs, hre) => {
     const argv: any = {}
-    if (taskArgs.base && taskArgs.ilk) {
-      console.error("Must add asset as either base or ilk")
+    if (taskArgs.add) {
+      argv.asset = taskArgs.asset[0]  // address
+      await addAsset(argv, hre)
     } else if (taskArgs.base) {
-      argv.asset = taskArgs.asset[0]
-      argv.maturity = taskArgs.asset[1]
-      argv.sources = []
-      argv.counters = []
-      taskArgs.asset.slice(4).forEach((a: any, i: any) => { i % 2 ? argv.counters.push(a) : argv.sources.push(a) })
-      await addIlk(argv, hre)
-      argv.sources.unshift(taskArgs.asset[2]) // rate source
-      argv.sources.unshift(taskArgs.asset[3]) // chi source
-      await addBase(argv, hre)
+      argv.asset = taskArgs.asset[0]  // address
+      argv.rateSource = [1]           // address
+      argv.chiSource = [2]            // address
+      await makeBase(argv, hre)
     } else if (taskArgs.ilk) {
-      argv.asset = taskArgs.asset[0]
-      argv.sources = []
-      argv.counters = []
-      taskArgs.asset.slice(1).forEach((a: any, i: any) => { i % 2 ? argv.counters.push(a) : argv.sources.push(a) })
-      await addIlk(argv, hre)
+      argv.asset = taskArgs.asset[0]  // address, p.e. MKR, which will be used as collateral
+      argv.base = taskArgs.asset[1]   // address, p.e. DAI, which will be the underlying
+      argv.spotSource = taskArgs.asset[2] // address, p.e. DAI/MKR, which will be the source for the spot oracle
+      await makeIlk(argv, hre)
     } else {
-      console.error("Must add asset as either base or ilk")
+      console.error("Must add an asset, make an asset into a base or make an asset into an ilk")
     }
+});
+
+task("series", "Adds a series")
+  .addVariadicPositionalParam("series", "The details of the series")
+  .setAction(async (taskArgs, hre) => {
+    const argv: any = {}
+    argv.seriesId = taskArgs.series[0]  // address, p.e. MKR, which will be used as collateral
+    argv.base = taskArgs.series[1]   // address, p.e. DAI, which will be the underlying
+    argv.maturity = taskArgs.series[2]   // address, p.e. DAI, which will be the underlying
+    argv.ilkIds = []
+    argv.ilkIds = taskArgs.series.slice(3).forEach((ilkId: any) => { argv.ilkIds.push(ilkId) })
+    await addSeries(argv, hre)
 });
 
 function nodeUrl(network: any) {
@@ -85,7 +93,7 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 5000,
+        runs: 1000,
       }
     }
   },

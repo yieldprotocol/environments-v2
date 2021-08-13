@@ -79,25 +79,16 @@ const appendMapToFile = (path: string, map: Map<string, string>) => {
     fs.writeFileSync(path, mapToJson(new Map([...(jsonToMap(fs.readFileSync(path, 'utf8')) as Map<string, string>), ...map])), 'utf8')
 }
 
-export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
+export const addAsset = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
-    console.time("Base added in");
+    console.time("Asset added in");
     
     const [ ownerAcc ] = await hre.ethers.getSigners();
-    const cauldron = await hre.ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const ladle = await hre.ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const wand = await hre.ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
-    const rateChiOracle = await hre.ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as IOracle
-    const spotOracle = await hre.ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
-    const safeERC20Namer = await hre.ethers.getContractAt('SafeERC20Namer', protocol.get('safeERC20Namer') as string, ownerAcc) as unknown as SafeERC20Namer
 
     const assets: Map<string, string> = new Map()
     const joins: Map<string, string> = new Map()
-    const rateSources: Map<string, string> = new Map()
-    const chiSources: Map<string, string> = new Map()
-    const spotSources: Map<string, string> = new Map()
-    const fyTokens: Map<string, string> = new Map()
-    const pools: Map<string, string> = new Map()
 
     const asset = await hre.ethers.getContractAt('ERC20Mock', argv.asset, ownerAcc) as ERC20Mock
     const symbol = await asset.symbol() as string
@@ -105,7 +96,7 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
     assets.set(assetId, asset.address)
 
-    appendMapToFile('output/kovan/rc6.3/assets.json', assets)
+    // appendMapToFile('output/kovan/rc6.3/assets.json', assets)
 
     await wand.addAsset(assetId, asset.address); console.log(`wand.addAsset(${symbol})`)
     
@@ -114,70 +105,25 @@ export const addBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     console.log(`[${symbol}Join, '${join.address}'],`)
     joins.set(assetId, join.address)
 
-    await wand.makeBase(assetId, rateChiOracle.address, argv.sources[0], argv.sources[1]); console.log(`wand.makeBase(${symbol})`)
-
-    rateSources.set(assetId, argv.sources[0])
-    chiSources.set(assetId, argv.sources[1])
-
-    for (let [source, ilk] of argv.sources.slice(2).map((s: any, i: any) => [s, argv.counters[i]])) {
-      const ilkId = stringToBytes6(ilk, hre)
-      if (assetId === ilkId) continue;
-      const ratio = 1000000 //  1000000 == 100% collateralization ratio
-      const maxDebt = 1000000
-      const minDebt = 1
-      const debtDec = 18
-      await wand.makeIlk(assetId, ilkId, spotOracle.address, source, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${symbol}, ${ilk})`)
-      spotSources.set(`${assetId},${ilkId}`, source)
-    }
-
-    appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
-    appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
-    appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
-    appendMapToFile('output/kovan/rc6.3/joins.json', joins)
-
-    const seriesId = stringToBytes6(symbol, hre)
-    const ilkIds = []
-    for (let ilk of argv.counters ) ilkIds.push(stringToBytes6(ilk, hre))
-
-    await wand.addSeries(seriesId, assetId, argv.maturity, ilkIds, symbol, symbol)
-
-    const fyToken = await hre.ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
-    console.log(`[${await fyToken.symbol()}, '${fyToken.address}'],`)
-    verify(fyToken.address, [
-        assetId,
-        await fyToken.oracle(),
-        await fyToken.join(),
-        argv.maturity,
-        symbol,
-        symbol,
-    ], hre)
-
-    const pool = await hre.ethers.getContractAt('Pool', await ladle.pools(seriesId), ownerAcc) as Pool
-    console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
-    verify(pool.address, [], hre, { SafeERC20Namer: safeERC20Namer.address })
-
-    fyTokens.set(seriesId, fyToken.address)
-    pools.set(seriesId, pool.address)
-
-    appendMapToFile('output/kovan/rc6.3/fyTokens.json', fyTokens)
-    appendMapToFile('output/kovan/rc6.3/pools.json', pools)
+    // appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
+    // appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
+    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
+    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
 
     console.timeEnd("Base added in")
 }
 
-export const addIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
+export const makeBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
-    console.time("Ilk added in");
-
-    const [ ownerAcc ] = await hre.ethers.getSigners();   
-    const ladle = await hre.ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
+    console.time("Base made in");
+    
+    const [ ownerAcc ] = await hre.ethers.getSigners();
     const wand = await hre.ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
-    const cauldron = await hre.ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
-    const spotOracle = await hre.ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
+    const rateChiOracle = await hre.ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as IOracle
 
     const assets: Map<string, string> = new Map()
-    const joins: Map<string, string> = new Map()
-    const spotSources: Map<string, string> = new Map()
+    const rateSources: Map<string, string> = new Map()
+    const chiSources: Map<string, string> = new Map()
 
     const asset = await hre.ethers.getContractAt('ERC20Mock', argv.asset, ownerAcc) as ERC20Mock
     const symbol = await asset.symbol() as string
@@ -185,32 +131,91 @@ export const addIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
     assets.set(assetId, asset.address)
 
-    appendMapToFile('output/kovan/rc6.3/assets.json', assets)
+    // appendMapToFile('output/kovan/rc6.3/assets.json', assets)
 
-    await wand.addAsset(assetId, asset.address); console.log(`wand.addAsset(${symbol})`)
-        
-    const join = await hre.ethers.getContractAt('Join', await ladle.joins(assetId) as string, ownerAcc) as Join
-    verify(join.address, [], hre)
-    console.log(`[${symbol}Join, '${join.address}'],`)
-    joins.set(assetId, join.address)
+    await wand.makeBase(assetId, rateChiOracle.address, argv.rateSource, argv.chiSource); console.log(`wand.makeBase(${symbol})`)
+
+    rateSources.set(assetId, argv.rateSource)
+    chiSources.set(assetId, argv.chiSource)
+
+    // appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
+    // appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
+    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
+    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
+
+    console.timeEnd("Base made in")
+}
+
+export const makeIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
+
+    console.time("Ilk made in");
+
+    const [ ownerAcc ] = await hre.ethers.getSigners();   
+    const wand = await hre.ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
+    const spotOracle = await hre.ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
+
+    const spotSources: Map<string, string> = new Map()
+
+    const asset = await hre.ethers.getContractAt('ERC20Mock', argv.asset, ownerAcc) as ERC20Mock
+    const assetId = stringToBytes6(await asset.symbol() as string, hre)
+
+    const base = await hre.ethers.getContractAt('ERC20Mock', argv.base, ownerAcc) as ERC20Mock
+    const baseId = stringToBytes6(await base.symbol() as string, hre)
   
-    for (let [source, base] of argv.sources.map((s: any, i: any) => [s, argv.counters[i]])) {
-        const baseId = stringToBytes6(base, hre)
-        if (baseId === assetId) continue;
-        const ratio = 1000000 //  1000000 == 100% collateralization ratio
-        const maxDebt = 1000000
-        const minDebt = 1
-        const debtDec = 18
-        await wand.makeIlk(baseId, assetId, spotOracle.address, source as string, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${base}, ${symbol})`)
-        spotSources.set(`${baseId},${assetId}`, source)
-    }
+    const ratio = 1000000 //  1000000 == 100% collateralization ratio
+    const maxDebt = 1000000
+    const minDebt = 1
+    const debtDec = 18
+    await wand.makeIlk(baseId, assetId, spotOracle.address, argv.spotSource, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${await base.symbol()}, ${await asset.symbol()})`)
+    spotSources.set(`${baseId},${assetId}`, argv.spotSource)
 
-    appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
-    appendMapToFile('output/kovan/rc6.3/joins.json', joins)
+    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
+    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
 
-    for (let seriesId of seriesData(hre)) {
-        await cauldron['addIlks(bytes6,bytes6[])'](seriesId, [assetId])
-    }
+    console.timeEnd("Ilk made in")
+}
+
+export const addSeries = async (argv: any, hre: HardhatRuntimeEnvironment) => {
+
+    console.time("Series added in");
     
-    console.timeEnd("Ilk added in")
+    const [ ownerAcc ] = await hre.ethers.getSigners();
+    const cauldron = await hre.ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
+    const ladle = await hre.ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
+    const wand = await hre.ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
+    const fyTokens: Map<string, string> = new Map()
+    const pools: Map<string, string> = new Map()
+
+    const base = await hre.ethers.getContractAt('ERC20Mock', argv.base, ownerAcc) as ERC20Mock
+    const symbol = await base.symbol() as string
+    const baseId = stringToBytes6(symbol, hre)
+
+    const seriesId = stringToBytes6(argv.seriesId, hre)
+    const ilkIds = []
+    for (let ilk of argv.ilkIds ) ilkIds.push(stringToBytes6(ilk, hre))
+
+    await wand.addSeries(seriesId, baseId, argv.maturity, ilkIds, argv.seriesId, argv.seriesId)
+
+    const fyToken = await hre.ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
+    console.log(`[${await fyToken.symbol()}, '${fyToken.address}'],`)
+    verify(fyToken.address, [
+        baseId,
+        await fyToken.oracle(),
+        await fyToken.join(),
+        argv.maturity,
+        argv.seriesId,
+        argv.seriesId,
+    ], hre)
+
+    const pool = await hre.ethers.getContractAt('Pool', await ladle.pools(seriesId), ownerAcc) as Pool
+    console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
+    verify(pool.address, [], hre, 'safeERC20Namer.js')
+
+    fyTokens.set(seriesId, fyToken.address)
+    pools.set(seriesId, pool.address)
+
+    // appendMapToFile('output/kovan/rc6.3/fyTokens.json', fyTokens)
+    // appendMapToFile('output/kovan/rc6.3/pools.json', pools)
+
+    console.timeEnd("Series added in")
 }

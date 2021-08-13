@@ -35,6 +35,7 @@ describe('Join', function () {
     other = await otherAcc.getAddress()
 
     token = (await ethers.getContractAt('ERC20Mock', assets.get(WBTC) as string, ownerAcc)) as ERC20Mock
+    console.log(await token.name())
     join = (await ethers.getContractAt('Join', joins.get(WBTC) as string, ownerAcc)) as Join
     joinFromOther = join.connect(otherAcc)
 

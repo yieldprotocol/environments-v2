@@ -7,10 +7,6 @@ import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
 
-import { ERC20Mock } from '../typechain/ERC20Mock'
-import { WETH9Mock } from '../typechain/WETH9Mock'
-import { ISourceMock } from '../typechain/ISourceMock'
-
 export class Assets {
   owner: SignerWithAddress
   joins: Map<string, Join>
@@ -30,7 +26,7 @@ export class Assets {
     wand: Wand,
     assets: Map<string, string>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
     baseIds: Array<string>,                       // Assets to make into bases
-    ilkIds: Array<[string, string]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId], ... ]
+    ilkIds: Array<[string, string, number]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId, ignore], ... ]
     rateOracle: IOracle,
     rateSources: Map<string, string>,        // baseId => source
     chiSources: Map<string, string>,         // baseId => source
@@ -46,7 +42,7 @@ export class Assets {
       await wand.addAsset(assetId, assetAddress); console.log(`wand.addAsset(${symbol})`)
       
       const join = await ethers.getContractAt('Join', await ladle.joins(assetId), owner) as Join
-      verify(join.address, [])
+      verify(join.address, [assetAddress])
       console.log(`[${symbol}Join, '${join.address}'],`)
       joins.set(assetId, join)
     }
