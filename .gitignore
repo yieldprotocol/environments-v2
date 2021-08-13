@@ -20,11 +20,15 @@ deployments/
 
 # Secret files
 .etherscanKey
-.governor
 .infuraKey
 .mythxKey
 .secret
 build/
+
+# Accounts
+.multisig
+.executor
+.planner
 
 # Solidity-coverage
 coverage/
