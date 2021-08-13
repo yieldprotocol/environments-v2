@@ -17,3 +17,4 @@ import "@yield-protocol/yieldspace-v2/contracts/PoolFactory.sol";
 import "@yield-protocol/yieldspace-v2/contracts/PoolRouter.sol";
 import "@yield-protocol/utils-v2/contracts/utils/TimeLock.sol";
 import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
+import "@yield-protocol/strategy-v2/contracts/Strategy.sol";

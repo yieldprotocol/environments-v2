@@ -2334,6 +2334,11 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
+"@yield-protocol/strategy-v2@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.0.1.tgz#1566e2aaa47c7408963748b67b6ccdb5dc245fd1"
+  integrity sha512-lkqccPBmF+f6CayCt8M+AXbzugpycoU3C/zik/cOkJkfyAO6O6NQQ7X7t8XUquf1ggYa6mRLXmXHwx+F0ZpVow==
+
 "@yield-protocol/utils-v2@^2.2.21":
   version "2.2.21"
   resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.2.21.tgz#69a3bca3925b45d3a7b03053c98872d83563e82c"

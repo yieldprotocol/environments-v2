@@ -22,6 +22,7 @@
     "@openzeppelin/contracts": "^4.1.0",
     "@truffle/hdwallet-provider": "^1.0.40",
     "@types/mocha": "^8.0.0",
+    "@yield-protocol/strategy-v2": "^0.0.1",
     "@yield-protocol/utils-v2": "^2.2.21",
     "@yield-protocol/vault-interfaces": "^2.0.39",
     "@yield-protocol/vault-v2": "^0.9.0-rc0",

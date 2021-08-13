@@ -57,7 +57,6 @@ export class Assets {
     for (let [baseId, ilkId] of ilkIds) {
       const baseSymbol = bytesToString(baseId)
       const ilkSymbol = bytesToString(ilkId)
-      if (baseId === ilkId) continue;
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
       const maxDebt = 1000000
       const minDebt = 1
