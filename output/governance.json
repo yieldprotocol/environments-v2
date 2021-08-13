@@ -1,1 +1,5 @@
-{"dataType":"Map","value":[["timelock","0xea9ed4e4Da1c15eB69c650761C05Ee20a0DAa32d"]]}
+{"dataType":"Map","value":[
+    ["timelock","0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    ["planner","0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    ["executor","0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"]
+]}

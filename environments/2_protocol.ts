@@ -16,8 +16,9 @@ import { mapToJson, jsonToMap } from '../shared/helpers'
 const json = fs.readFileSync('./output/assets.json', 'utf8')
 const assets = jsonToMap(json) as Map<string, string>;
 
-const planner = fs.readFileSync('.planner', 'utf8').trim();
-const executor = fs.readFileSync('.executor', 'utf8').trim();
+const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+const planner = governance.get('planner') as string;
+const executor = governance.get('executor') as string;
 
 console.time("Protocol deployed in");
 
