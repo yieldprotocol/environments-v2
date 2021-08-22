@@ -235,14 +235,9 @@
         "internalType": "int128",
         "name": "k",
         "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "c0",
-        "type": "int128"
       }
     ],
-    "name": "initialReservesValue",
+    "name": "invariant",
     "outputs": [
       {
         "internalType": "uint128",

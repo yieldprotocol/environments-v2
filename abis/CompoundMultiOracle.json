@@ -121,19 +121,6 @@
   },
   {
     "inputs": [],
-    "name": "SCALE_FACTOR",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "decimals",
     "outputs": [
       {
@@ -159,7 +146,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -167,7 +154,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "accumulator",
         "type": "uint256"
       },
       {
@@ -285,7 +272,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -293,7 +280,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "accumulator",
         "type": "uint256"
       },
       {
