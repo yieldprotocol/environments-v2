@@ -92,7 +92,7 @@ export class Mocks {
     const cTokenChi = (await deployContract(owner, CTokenChiMockArtifact, args)) as ISourceMock
     console.log(`[${base}, '${cTokenChi.address}'],`)
     verify(cTokenChi.address, args)
-    await cTokenChi.set(WAD)
+    await cTokenChi.set(WAD.mul(100000000))
     return cTokenChi
   }
 

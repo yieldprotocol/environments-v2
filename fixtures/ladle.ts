@@ -10,7 +10,7 @@ import LadleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ladle
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
-import { TimeLock } from '../typechain/TimeLock'
+import { Timelock } from '../typechain/Timelock'
 import { Join } from '../typechain/Join'
 import { FYToken } from '../typechain/FYToken'
 
@@ -54,7 +54,7 @@ async function ladleGovAuth(ladle: Ladle, receiver: string) {
 
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, owner) as unknown as Cauldron
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, owner) as unknown as Wand
-  const timelock = await ethers.getContractAt('TimeLock', governance.get('timelock') as string, owner) as unknown as TimeLock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, owner) as unknown as Timelock
   const weth9 = assets.get(ETH) as string
 
   const ladle = (await deployContract(owner, LadleArtifact, [cauldron.address, weth9])) as Ladle

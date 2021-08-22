@@ -9,14 +9,15 @@ import StrategyArtifact from '../artifacts/@yield-protocol/strategy-v2/contracts
 
 import { Strategy } from '../typechain/Strategy'
 import { Ladle } from '../typechain/Ladle'
-import { TimeLock } from '../typechain/TimeLock'
-import { Cauldron } from '../typechain/Cauldron'
+import { Timelock } from '../typechain/Timelock'
 
 const { deployContract } = waffle
 
 async function strategyGovAuth(strategy: Strategy, receiver: string) {
   await strategy.grantRoles(
     [
+      id('setRewardsToken(address)'),
+      id('setRewards(uint32,uint32,uint96)'),
       id('setYield(address,address)'),
       id('setTokenId(bytes6)'),
       id('resetTokenJoin()'),
@@ -34,7 +35,7 @@ async function strategyGovAuth(strategy: Strategy, receiver: string) {
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, owner) as unknown as Ladle
-  const timelock = await ethers.getContractAt('TimeLock', governance.get('timelock') as string, owner) as unknown as TimeLock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, owner) as unknown as Timelock
   const baseAddress = assets.get(DAI) as string // TODO: This should be a parameter
 
   // TODO: More parameters below

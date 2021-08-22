@@ -13,6 +13,7 @@ import WandArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Wand.s
 import ChainlinkMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
 import CompoundMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol/CompoundMultiOracle.json'
 import CompositeMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
+import CTokenMultiOracleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.sol/CTokenMultiOracle.json'
 import EmergencyBrakeArtifact from '../artifacts/@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol/EmergencyBrake.json'
 
 import { Cauldron } from '../typechain/Cauldron'
@@ -21,6 +22,7 @@ import { Witch } from '../typechain/Witch'
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
+import { CTokenMultiOracle } from '../typechain/CTokenMultiOracle'
 import { PoolFactory } from '../typechain/PoolFactory'
 import { PoolRouter } from '../typechain/PoolRouter'
 import { JoinFactory } from '../typechain/JoinFactory'
@@ -42,6 +44,7 @@ export class Protocol {
   chainlinkOracle: ChainlinkMultiOracle
   compoundOracle: CompoundMultiOracle
   compositeOracle: CompositeMultiOracle
+  cTokenOracle: CTokenMultiOracle
   poolFactory: PoolFactory
   yieldMath: YieldMath
   safeERC20Namer: SafeERC20Namer
@@ -59,6 +62,7 @@ export class Protocol {
     chainlinkOracle: ChainlinkMultiOracle,
     compoundOracle: CompoundMultiOracle,
     compositeOracle: CompositeMultiOracle,
+    cTokenOracle: CTokenMultiOracle,
     yieldMath: YieldMath,
     safeERC20Namer: SafeERC20Namer,
     poolFactory: PoolFactory,
@@ -75,6 +79,7 @@ export class Protocol {
     this.chainlinkOracle = chainlinkOracle
     this.compoundOracle = compoundOracle
     this.compositeOracle = compositeOracle
+    this.cTokenOracle = cTokenOracle
     this.yieldMath = yieldMath
     this.safeERC20Namer = safeERC20Namer
     this.poolFactory = poolFactory
@@ -94,6 +99,7 @@ export class Protocol {
     protocol.set('chainlinkOracle', this.chainlinkOracle)
     protocol.set('compoundOracle', this.compoundOracle)
     protocol.set('compositeOracle', this.compositeOracle)
+    protocol.set('cTokenOracle', this.cTokenOracle)
     protocol.set('yieldMath', this.yieldMath)
     protocol.set('safeERC20Namer', this.safeERC20Namer)
     protocol.set('poolFactory', this.poolFactory)
@@ -259,6 +265,10 @@ export class Protocol {
     console.log(`[CompositeMultiOracle, '${compositeOracle.address}'],`)
     verify(compositeOracle.address, [])
 
+    const cTokenOracle = (await deployContract(owner, CTokenMultiOracleArtifact, [])) as CTokenMultiOracle
+    console.log(`[CTokenMultiOracle, '${cTokenOracle.address}'],`)
+    verify(cTokenOracle.address, [])
+
     const joinFactory = (await deployContract(owner, JoinFactoryArtifact, [])) as JoinFactory
     console.log(`[JoinFactory, '${joinFactory.address}'],`)
     verify(joinFactory.address, [])
@@ -288,10 +298,10 @@ export class Protocol {
     console.log(`[Wand, '${wand.address}'],`)
     verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
 
-    const cloak = (await deployContract(owner, EmergencyBrakeArtifact, [planner, executor])) as EmergencyBrake
+    const cloak = (await deployContract(owner, EmergencyBrakeArtifact, [owner.address, owner.address])) as EmergencyBrake // Give the planner and executor their roles once set up
     console.log(`[Cloak, '${cloak.address}'],`)
-    verify(cloak.address, [planner, executor])
+    verify(cloak.address, [owner.address, owner.address]) // Give the planner and executor their roles once set up
   
-    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, compositeOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand, cloak)
+    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, compositeOracle, cTokenOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand, cloak)
   }
 }

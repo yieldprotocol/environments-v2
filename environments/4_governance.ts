@@ -9,10 +9,12 @@ import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
+import { PoolFactory } from '../typechain/PoolFactory'
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
-import { TimeLock } from '../typechain/TimeLock'
+import { CTokenMultiOracle } from '../typechain/CTokenMultiOracle'
+import { Timelock } from '../typechain/Timelock'
 
 /**
  * This script gives governance rights to the governor over the whole Yield v2 Protocol
@@ -35,10 +37,12 @@ console.time("Governance set in");
     const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
     const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
     const fyTokenFactory = await ethers.getContractAt('Wand', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
+    const poolFactory = await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc) as unknown as PoolFactory
     const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
     const chainlinkOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as unknown as ChainlinkMultiOracle
     const compositeOracle = await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc) as unknown as CompositeMultiOracle
-    const timelock = await ethers.getContractAt('TimeLock', governance.get('timelock') as string, ownerAcc) as unknown as TimeLock
+    const cTokenOracle = await ethers.getContractAt('CTokenMultiOracle', protocol.get('cTokenOracle') as string, ownerAcc) as unknown as CTokenMultiOracle
+    const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
     await cauldron.grantRoles(
         [
@@ -56,7 +60,9 @@ console.time("Governance set in");
         [
             id('addJoin(bytes6,address)'),
             id('addPool(bytes6,address)'),
-            id('setModule(address,bool)'),
+            id('addToken(address,bool)'),
+            id('addIntegration(address,bool)'),
+            id('addModule(address,bool)'),
             id('setFee(uint256)'),
         ],
         timelock.address
@@ -87,6 +93,12 @@ console.time("Governance set in");
     await fyTokenFactory.grantRoles([id('createFYToken(bytes6,address,address,uint32,string,string)')], timelock.address)
     console.log(`fyTokenFactory.grantRoles(timelock, ${timelock.address})`)
 
+    await poolFactory.grantRoles([
+        id('createPool(address,address)'),
+        id('setParameter(bytes32,int128)'),
+    ], timelock.address)
+    console.log(`poolFactory.grantRoles(timelock, ${timelock.address})`)
+
     await compoundOracle.grantRoles([
         id('setSource(bytes6,bytes6,address)'),
         id('setSources(bytes6[],bytes6[],address)'),
@@ -101,6 +113,11 @@ console.time("Governance set in");
         id('setSource(bytes6,bytes6,address)'),
         id('setSources(bytes6[],bytes6[],address)'),
     ], timelock.address); console.log(`compositeOracle.grantRoles(timelock)`)
+
+    await cTokenOracle.grantRoles([
+        id('setSource(bytes6,bytes6,address)'),
+        id('setSources(bytes6[],bytes6[],address)'),
+    ], timelock.address); console.log(`cTokenOracle.grantRoles(timelock)`)
 
     console.timeEnd("Governance set in")
 })()
