@@ -112,7 +112,7 @@ console.time("Orchestration set in");
             id('createPool(address,address)'),
         ],
         wand.address
-    ); console.log(`poolFactory.grantRoles(wand`)
+    ); console.log(`poolFactory.grantRoles(wand)`)
     
     await compoundOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compoundOracle.grantRoles(wand)`)
     await chainlinkOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`chainlinkOracle.grantRoles(wand)`)
@@ -129,74 +129,94 @@ console.time("Orchestration set in");
     await compositeOracle.grantRole('0x00000000', cloak.address); console.log(`compositeOracle.grantRoles(cloak)`)
     await cTokenOracle.grantRole('0x00000000', cloak.address); console.log(`cTokenOracle.grantRoles(cloak)`)
 
-    await cloak.plan(ladle.address, [cauldron.address], [[
-        id('build(address,bytes12,bytes6,bytes6)'),
-        id('destroy(bytes12)'),
-        id('tweak(bytes12,bytes6,bytes6)'),
-        id('give(bytes12,address)'),
-        id('pour(bytes12,int128,int128)'),
-        id('stir(bytes12,bytes12,uint128,uint128)'),
-        id('roll(bytes12,bytes6,int128)'),
-    ]]); console.log(`cloak.plan(ladle)`)
+    await cloak.plan(ladle.address,
+        [
+            {
+                contact: cauldron.address, signatures: [
+                    id('build(address,bytes12,bytes6,bytes6)'),
+                    id('destroy(bytes12)'),
+                    id('tweak(bytes12,bytes6,bytes6)'),
+                    id('give(bytes12,address)'),
+                    id('pour(bytes12,int128,int128)'),
+                    id('stir(bytes12,bytes12,uint128,uint128)'),
+                    id('roll(bytes12,bytes6,int128)'),
+                ]
+            }
+        ]
+    ); console.log(`cloak.plan(ladle)`)
 
-    await cloak.plan(witch.address, [cauldron.address], [[
-        id('give(bytes12,address)'),
-        id('grab(bytes12,address)'),
-        id('slurp(bytes12,uint128,uint128)')
-    ]]); console.log(`cloak.plan(witch)`)
+    await cloak.plan(witch.address, 
+        [
+            {
+                contact: cauldron.address, signatures: [
+                    id('give(bytes12,address)'),
+                    id('grab(bytes12,address)'),
+                    id('slurp(bytes12,uint128,uint128)'),
+                ]
+            }
+        ]
+    ); console.log(`cloak.plan(witch)`)
 
     await cloak.plan(wand.address,
         [
-            cauldron.address,
-            ladle.address,
-            witch.address,
-            joinFactory.address,
-            fyTokenFactory.address,
-            poolFactory.address,
-            compoundOracle.address,
-            chainlinkOracle.address,
-            compositeOracle.address,
-            cTokenOracle.address,
-        ], [
-        [
-            id('addAsset(bytes6,address)'),
-            id('addSeries(bytes6,bytes6,address)'),
-            id('addIlks(bytes6,bytes6[])'),
-            id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-            id('setRateOracle(bytes6,address)'),
-            id('setSpotOracle(bytes6,bytes6,address,uint32)'),
-        ],
-        [
-            id('addJoin(bytes6,address)'),
-            id('addPool(bytes6,address)'),
-            id('setModule(address,bool)'),
-            id('setFee(uint256)'),
-        ],
-        [
-            id('setIlk(bytes6,uint32,uint64,uint128)'),
-        ],
-        [
-            id('createJoin(address)'),
-        ],
-        [
-            id('createFYToken(bytes6,address,address,uint32,string,string)'),
-        ],
-        [
-            id('createPool(address,address)'),
-        ],
-        [
-            id('setSource(bytes6,bytes6,address)'),
-        ],
-        [ 
-            id('setSource(bytes6,bytes6,address)'),
-        ],
-        [ 
-            id('setSource(bytes6,bytes6,address)'),
-        ],
-        [ 
-            id('setSource(bytes6,bytes6,address)'),
+            {
+                contact: cauldron.address, signatures: [
+                    id('addAsset(bytes6,address)'),
+                    id('addSeries(bytes6,bytes6,address)'),
+                    id('addIlks(bytes6,bytes6[])'),
+                    id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                    id('setRateOracle(bytes6,address)'),
+                    id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+                ]
+            },
+            {
+                contact: ladle.address, signatures: [
+                    id('addJoin(bytes6,address)'),
+                    id('addPool(bytes6,address)'),
+                ]
+            },
+            {
+                contact: witch.address, signatures: [
+                    id('setIlk(bytes6,uint32,uint64,uint128)'),
+                ]
+            },
+            {
+                contact: joinFactory.address, signatures: [
+                    id('createJoin(address)'),
+                ]
+            },
+            {
+                contact: fyTokenFactory.address, signatures: [
+                    id('createFYToken(bytes6,address,address,uint32,string,string)'),
+                ]
+            },
+            {
+                contact: poolFactory.address, signatures: [
+                    id('createPool(address,address)'),
+                ]
+            },
+            {
+                contact: compoundOracle.address, signatures: [
+                    id('setSource(bytes6,bytes6,address)'),
+                ]
+            },
+            {
+                contact: chainlinkOracle.address, signatures: [
+                    id('setSource(bytes6,bytes6,address)'),
+                ]
+            },
+            {
+                contact: compositeOracle.address, signatures: [
+                    id('setSource(bytes6,bytes6,address)'),
+                ]
+            },
+            {
+                contact: cTokenOracle.address, signatures: [
+                    id('setSource(bytes6,bytes6,address)'),
+                ]
+            },
         ]
-    ]); console.log(`cloak.plan(wand)`)
+    ); console.log(`cloak.plan(wand)`)
 
 
     console.timeEnd("Orchestration set in")
