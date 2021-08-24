@@ -44,6 +44,16 @@ export const seriesData: Array<[string, string, number, Array<string>]> = [ // s
     [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC]]
 ]
 
+// Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
+export const strategiesData: Array<[string, string, string]> = [ // name, symbol, baseId
+    ['DAI3M', 'DAI3M', DAI],
+    ['DAI6M', 'DAI6M', DAI],
+    ['USDC3M', 'USDC3M', USDC],
+    ['USDC6M', 'USDC6M', USDC],
+    ['USDT3M', 'USDT3M', USDT],
+    ['USDT6M', 'USDT6M', USDT]
+]
+
 // Amount of underlying to initialize pools with. It will only work with mock assets. A 1/9 of this amount in fyToken will be minted and added to the pool.
 export const initializePools = WAD.mul(1000000)
 
