@@ -70,11 +70,17 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 
 export const EOSEP21 = 1633042799
 export const EODEC21 = 1640995199
+export const EO2508 = 1629935999
+export const EO2608 = 1630022399
+export const EO2708 = 1630108799
 
 // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
 export const seriesData: Array<[string, string, number, Array<string>]> = [ // seriesId, baseId, maturity, ilkIds
     [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT]], // Sep21
     [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT]], // Dec21
+    [stringToBytes6('DAI25'), DAI, EO2508, [DAI, USDC, ETH, TST, WBTC, USDT]],
+    [stringToBytes6('DAI26'), DAI, EO2608, [DAI, USDC, ETH, TST, WBTC, USDT]],
+    [stringToBytes6('DAI27'), DAI, EO2708, [DAI, USDC, ETH, TST, WBTC, USDT]],
     [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT]],
     [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT]],
     [stringToBytes6('USDT'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC]], // TODO: USDT -> USDT1
