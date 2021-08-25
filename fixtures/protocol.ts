@@ -283,7 +283,7 @@ export class Protocol {
       fyTokenFactory.address,
     ])) as Wand
     console.log(`[Wand, '${wand.address}'],`)
-    verify(wand.address, [cauldron.address, ladle.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
+    verify(wand.address, [cauldron.address, ladle.address, witch.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
 
     const cloak = (await deployContract(owner, EmergencyBrakeArtifact, [owner.address, owner.address])) as EmergencyBrake // Give the planner and executor their roles once set up
     console.log(`[Cloak, '${cloak.address}'],`)
