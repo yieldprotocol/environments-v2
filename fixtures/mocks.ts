@@ -110,7 +110,7 @@ export class Mocks {
     owner: SignerWithAddress,
     assetIds: Array<string>,
     baseIds: Array<string>,
-    ilkIds: Array<[string, string, number]>,
+    spotPairs: Array<[string, string, number]>,
   ) {
     const assets: Map<string, ERC20Mock | WETH9Mock> = new Map()
     const rateSources: Map<string, ISourceMock> = new Map()
@@ -136,7 +136,7 @@ export class Mocks {
     }
 
     console.log(`Deploying spot sources:`)
-    for (let [baseId, ilkId, decimals] of ilkIds) {
+    for (let [baseId, ilkId, decimals] of spotPairs) {
       const base = bytesToString(baseId);
       const quote = bytesToString(ilkId);
       spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote, decimals))

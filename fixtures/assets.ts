@@ -1,11 +1,13 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { ethers } from 'hardhat'
 import { bytesToString, verify } from '../shared/helpers'
+import { CHAINLINK, COMPOSITE } from '../environments/config'
 
 import { IOracle } from '../typechain/IOracle'
 import { Join } from '../typechain/Join'
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
+
 
 export class Assets {
   owner: SignerWithAddress
@@ -26,12 +28,10 @@ export class Assets {
     wand: Wand,
     assets: Map<string, string>,   // Assets to add to the protocol: [ [assetId, assetAddress], ... ]
     baseIds: Array<string>,                       // Assets to make into bases
-    ilkIds: Array<[string, string, number]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId, ignore], ... ]
+    ilkIds: Array<[string, string, string, number]>,              // Assets to make into ilks for a given base: [ [baseId, ilkId, ignore], ... ]
     rateOracle: IOracle,
-    rateSources: Map<string, string>,        // baseId => source
-    chiSources: Map<string, string>,         // baseId => source
     spotOracle: IOracle,
-    spotSources: Map<string, string>         // baseId,quoteId => source
+    compositeOracle: IOracle,
   ) {
     const joins: Map<string, Join> = new Map()
 
@@ -49,20 +49,17 @@ export class Assets {
 
     for (let baseId of baseIds) {
       const symbol = bytesToString(baseId)
-      const rateSourceAddress = rateSources.get(baseId) as string
-      const chiSourceAddress = chiSources.get(baseId) as string
-      await wand.makeBase(baseId, rateOracle.address, rateSourceAddress, chiSourceAddress); console.log(`wand.makeBase(${symbol})`)
+      await wand.makeBase(baseId, rateOracle.address); console.log(`wand.makeBase(${symbol})`)
     }
 
-    for (let [baseId, ilkId] of ilkIds) {
+    for (let [baseId, ilkId, oracleType] of ilkIds) {
       const baseSymbol = bytesToString(baseId)
       const ilkSymbol = bytesToString(ilkId)
       const ratio = 1000000 //  1000000 == 100% collateralization ratio
       const maxDebt = 1000000
       const minDebt = 1
       const debtDec = 18
-      const spotSourceAddress = spotSources.get(`${baseId},${ilkId}`) as string
-      await wand.makeIlk(baseId, ilkId, spotOracle.address, spotSourceAddress, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
+      await wand.makeIlk(baseId, ilkId, (oracleType === CHAINLINK) ? spotOracle.address: compositeOracle.address, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${baseSymbol}, ${ilkSymbol})`)
     }
 
     return new Assets(owner, joins)

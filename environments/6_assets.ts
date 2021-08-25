@@ -12,9 +12,6 @@ import { Wand } from '../typechain/Wand'
 /* Read in deployment data if available */
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
 const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
-const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>;
-const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Map<string, string>;
-const spotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Map<string, string>;
 
 console.time("Assets added in");
 
@@ -24,6 +21,7 @@ console.time("Assets added in");
     const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
     const rateChiOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as IOracle
     const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as IOracle
+    const compositeOracle = await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc) as IOracle
 
     const joins = await Assets.setup(
         ownerAcc,
@@ -33,10 +31,8 @@ console.time("Assets added in");
         baseIds,
         ilkIds,
         rateChiOracle,
-        rateSources,    // baseId => sourceAddress
-        chiSources,    // baseId => sourceAddress
         spotOracle,
-        spotSources     // baseId,quoteId => sourceAddress
+        compositeOracle
     )
     fs.writeFileSync('./output/joins.json', mapToJson(joins.joins), 'utf8')
 

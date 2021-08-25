@@ -157,7 +157,7 @@ export class Protocol {
       [
         id('addAsset(bytes6,address)'),
         id('makeBase(bytes6,address,address,address)'),
-        id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
+        id('makeIlk(bytes6,bytes6,address,uint32,uint96,uint24,uint8)'),
         id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
         id('addPool(bytes6,bytes6)'),
       ],

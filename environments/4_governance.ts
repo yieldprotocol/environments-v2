@@ -42,7 +42,7 @@ console.time("Governance set in");
     const chainlinkOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as unknown as ChainlinkMultiOracle
     const compositeOracle = await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc) as unknown as CompositeMultiOracle
     const cTokenOracle = await ethers.getContractAt('CTokenMultiOracle', protocol.get('cTokenOracle') as string, ownerAcc) as unknown as CTokenMultiOracle
-    const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+    const timelock = ownerAcc // await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
     await cauldron.grantRoles(
         [
@@ -78,8 +78,8 @@ console.time("Governance set in");
     await wand.grantRoles(
         [
             id('addAsset(bytes6,address)'),
-            id('makeBase(bytes6,address,address,address)'),
-            id('makeIlk(bytes6,bytes6,address,address,uint32,uint96,uint24,uint8)'),
+            id('makeBase(bytes6,address)'),
+            id('makeIlk(bytes6,bytes6,address,uint32,uint96,uint24,uint8)'),
             id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
             id('addPool(bytes6,bytes6)'),
             id('point(bytes32,address)'),
@@ -112,6 +112,8 @@ console.time("Governance set in");
     await compositeOracle.grantRoles([
         id('setSource(bytes6,bytes6,address)'),
         id('setSources(bytes6[],bytes6[],address)'),
+        id('setPath(bytes6,bytes6,bytes6[])'),
+        id('setPaths(bytes6[],bytes6[],bytes6[][])'),
     ], timelock.address); console.log(`compositeOracle.grantRoles(timelock)`)
 
     await cTokenOracle.grantRoles([

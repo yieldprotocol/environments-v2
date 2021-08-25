@@ -166,7 +166,7 @@ export const makeIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     const maxDebt = 1000000
     const minDebt = 1
     const debtDec = 18
-    await wand.makeIlk(baseId, assetId, spotOracle.address, argv.spotSource, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${await base.symbol()}, ${await asset.symbol()})`)
+    await wand.makeIlk(baseId, assetId, spotOracle.address, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${await base.symbol()}, ${await asset.symbol()})`)
     spotSources.set(`${baseId},${assetId}`, argv.spotSource)
 
     // appendMapToFile('output/spotSources.json', spotSources)
