@@ -3,7 +3,6 @@ import { ethers, waffle } from 'hardhat'
 import { verify } from '../shared/helpers'
 
 import { id } from '@yield-protocol/utils-v2'
-import { LadleWrapper } from '../shared/ladleWrapper'
 
 import CauldronArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
 import LadleArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
@@ -24,7 +23,6 @@ import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
 import { CTokenMultiOracle } from '../typechain/CTokenMultiOracle'
 import { PoolFactory } from '../typechain/PoolFactory'
-import { PoolRouter } from '../typechain/PoolRouter'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
 import { Wand } from '../typechain/Wand'
@@ -48,7 +46,6 @@ export class Protocol {
   poolFactory: PoolFactory
   yieldMath: YieldMath
   safeERC20Namer: SafeERC20Namer
-  poolRouter: PoolRouter
   joinFactory: JoinFactory
   fyTokenFactory: FYTokenFactory
   wand: Wand
@@ -66,7 +63,6 @@ export class Protocol {
     yieldMath: YieldMath,
     safeERC20Namer: SafeERC20Namer,
     poolFactory: PoolFactory,
-    poolRouter: PoolRouter,
     joinFactory: JoinFactory,
     fyTokenFactory: FYTokenFactory,
     wand: Wand,
@@ -83,7 +79,6 @@ export class Protocol {
     this.yieldMath = yieldMath
     this.safeERC20Namer = safeERC20Namer
     this.poolFactory = poolFactory
-    this.poolRouter = poolRouter
     this.joinFactory = joinFactory
     this.fyTokenFactory = fyTokenFactory
     this.wand = wand
@@ -103,7 +98,6 @@ export class Protocol {
     protocol.set('yieldMath', this.yieldMath)
     protocol.set('safeERC20Namer', this.safeERC20Namer)
     protocol.set('poolFactory', this.poolFactory)
-    protocol.set('poolRouter', this.poolRouter)
     protocol.set('joinFactory', this.joinFactory)
     protocol.set('fyTokenFactory', this.fyTokenFactory)
     protocol.set('wand', this.wand)
@@ -195,7 +189,6 @@ export class Protocol {
 
   public static async deployYieldspace(weth9: string) {
 
-    let poolRouter: PoolRouter
     let yieldMath: YieldMath
     let safeERC20Namer: SafeERC20Namer
     let poolFactory: PoolFactory
@@ -224,13 +217,7 @@ export class Protocol {
     console.log(`[PoolFactory, '${poolFactory.address}'],`)
     verify(poolFactory.address, [], 'safeERC20Namer.js')
 
-    const PoolRouterFactory = await ethers.getContractFactory('PoolRouter')
-    poolRouter = ((await PoolRouterFactory.deploy(poolFactory.address, weth9)) as unknown) as PoolRouter
-    await poolRouter.deployed()
-    console.log(`[PoolRouter, '${poolRouter.address}'],`)
-    verify(poolRouter.address, [poolFactory.address, weth9])
-
-    return { yieldMath, safeERC20Namer, poolFactory, poolRouter }
+    return { yieldMath, safeERC20Namer, poolFactory }
   }
 
   // Set up a test environment. Provide at least one asset identifier.
@@ -273,8 +260,8 @@ export class Protocol {
     console.log(`[JoinFactory, '${joinFactory.address}'],`)
     verify(joinFactory.address, [])
 
-    const { yieldMath, safeERC20Namer, poolFactory, poolRouter }:
-      { yieldMath: YieldMath, safeERC20Namer: SafeERC20Namer, poolFactory: PoolFactory, poolRouter:PoolRouter } =
+    const { yieldMath, safeERC20Namer, poolFactory }:
+      { yieldMath: YieldMath, safeERC20Namer: SafeERC20Namer, poolFactory: PoolFactory } =
       await this.deployYieldspace(weth9);
 
     const fyTokenFactoryFactory = await ethers.getContractFactory('FYTokenFactory', {
@@ -302,6 +289,6 @@ export class Protocol {
     console.log(`[Cloak, '${cloak.address}'],`)
     verify(cloak.address, [owner.address, owner.address]) // Give the planner and executor their roles once set up
   
-    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, compositeOracle, cTokenOracle, yieldMath, safeERC20Namer, poolFactory, poolRouter, joinFactory, fyTokenFactory, wand, cloak)
+    return new Protocol(owner, cauldron, ladle, witch, chainlinkOracle, compoundOracle, compositeOracle, cTokenOracle, yieldMath, safeERC20Namer, poolFactory, joinFactory, fyTokenFactory, wand, cloak)
   }
 }
