@@ -91,6 +91,12 @@ export const strategiesData: Array<[string, string, string]> = [ // name, symbol
     ['USDT6M', 'USDT6M', USDT]
 ]
 
+export const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
+    ['DAI3M', ["0x444149310000", "0x444149310000"],["0x444149320000", "0x444149320000"]], // poolId and seriesId usually match
+    ['USDC3M', ["0x555344433100","0x555344433100"],["0x555344433200","0x555344433200"]],
+    ['USDT3M', ["0x555344540000","0x555344540000"],["0x555344543200","0x555344543200"]] // TODO: USDT -> USDT1
+]
+
 // Amount of underlying to initialize pools with. It will only work with mock assets. A 1/9 of this amount in fyToken will be minted and added to the pool.
 export const initializePools = WAD.mul(1000000)
 
