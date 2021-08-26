@@ -8,7 +8,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { stringToBytes6, bytesToString, mapToJson, jsonToMap } from '../shared/helpers'
-import { CHI } from '../shared/constants'
+import { CHI, DAI } from '../shared/constants'
 
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { Timelock } from '../typechain/Timelock'
@@ -16,7 +16,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [stringToBytes6('TST1'), "0x5fc748f1FEb28d7b76fa1c6B07D8ba2d5535177c"],
+    [DAI, "0x5fc748f1FEb28d7b76fa1c6B07D8ba2d5535177c"],
     [stringToBytes6('TST2'), "0x2a810409872AfC346F9B5b26571Fd6eC42EA4849"],
     [stringToBytes6('TST3'), "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8"],
   ]

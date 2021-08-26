@@ -10,6 +10,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
+import { DAI } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
@@ -20,6 +21,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
+    [DAI, "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
     [stringToBytes6('TST1'), "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
     [stringToBytes6('TST2'), "0x22753E4264FDDc6181dc7cce468904A80a363E44"],
     [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],

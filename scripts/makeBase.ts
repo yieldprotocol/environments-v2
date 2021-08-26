@@ -1,16 +1,15 @@
 /**
  * @dev This script makes one or more assets into bases.
  * 
- * It takes as inputs the governance, protocol, assets and joins json address files.
- * It uses the Wand to add the asset to Cauldron and deploy a new Join, which gets added to the Ladle
- * It adds to the assets and joins json address files.
- * @notice The assetIds can't be already in use
+ * It takes as inputs the governance and protocol json address files.
+ * It uses the Wand to add the relevant rate source to Cauldron, and to permission the Witch to liquidate debt.
+ * It verifies that the oracle supplied can return rate and chi for the new bases.
  */
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { bytesToString, stringToBytes6, bytesToBytes32, jsonToMap } from '../shared/helpers'
-import { CHI, RATE } from '../shared/constants'
+import { CHI, RATE, DAI } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
 import { IOracle } from '../typechain/IOracle'
@@ -20,6 +19,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newBases: Array<[string, string]> = [
+    [DAI, 'compoundOracle'],
     [stringToBytes6('TST1'), 'compoundOracle'],
     [stringToBytes6('TST2'), 'compoundOracle'],
     [stringToBytes6('TST3'), 'compoundOracle'],
