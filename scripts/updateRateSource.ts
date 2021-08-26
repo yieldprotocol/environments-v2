@@ -14,6 +14,7 @@ import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
+  // Input data
   const newSources: Array<[string, string]> = [
     [DAI, "0x78F3579FbBb4a9894cE27cC201216Ef46A132f1c"],
     [USDC, "0x625E23f0C081CF8a2bbb87738087D8b0A5f5F412"],
@@ -24,9 +25,11 @@ import { Timelock } from '../typechain/Timelock'
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Map<string, string>;
 
+  // Contract instantiation
   const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
+  // Build proposal
   const proposal : Array<{ target: string; data: string}> = []
   for (let [baseId, sourceAddress] of newSources) {
     proposal.push({
@@ -36,6 +39,8 @@ import { Timelock } from '../typechain/Timelock'
     console.log(`[Rate: ${bytesToString(baseId)}: ${rateSources.get(baseId) || undefined} -> ${sourceAddress}],`)
     rateSources.set(baseId, sourceAddress)
   }
+
+  // Propose, update, execute
   const txHash = await timelock.callStatic.propose(proposal)
   await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
 
