@@ -11,7 +11,7 @@ import 'solidity-coverage'
 import 'hardhat-deploy'
 import { task } from 'hardhat/config'
 
-import { addAsset, makeBase, makeIlk, addSeries } from './scripts/add'
+// import { addAsset, makeBase, makeIlk, addSeries } from './scripts/add'
 
 // REQUIRED TO ENSURE METADATA IS SAVED IN DEPLOYMENTS (because solidity-coverage disable it otherwise)
 /* import {
