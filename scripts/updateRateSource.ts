@@ -16,7 +16,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [DAI, "0xab16A69A5a8c12C732e0DEFF4BE56A70bb64c926"],
+    [DAI,                    "0xab16A69A5a8c12C732e0DEFF4BE56A70bb64c926"],
     [stringToBytes6('TST2'), "0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82"],
     [stringToBytes6('TST3'), "0x525C7063E7C20997BaaE9bDa922159152D0e8417"],
   ]

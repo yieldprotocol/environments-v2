@@ -19,8 +19,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newBases: Array<[string, string]> = [
-    [DAI, 'compoundOracle'],
-    [stringToBytes6('TST1'), 'compoundOracle'],
+    [DAI,                    'compoundOracle'],
     [stringToBytes6('TST2'), 'compoundOracle'],
     [stringToBytes6('TST3'), 'compoundOracle'],
   ]

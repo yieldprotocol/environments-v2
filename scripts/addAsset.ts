@@ -2,7 +2,9 @@
  * @dev This script adds one or more assets to the protocol.
  * 
  * It takes as inputs the governance, protocol, assets and joins json address files.
- * It uses the Wand to add the asset to Cauldron and deploy a new Join, which gets added to the Ladle
+ * It uses the Wand to:
+ *  - Add the asset to Cauldron.
+ *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
  * It adds to the assets and joins json address files.
  * @notice The assetIds can't be already in use
  */
@@ -21,7 +23,7 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-    [DAI, "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
+    [DAI,                    "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
     [stringToBytes6('TST1'), "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
     [stringToBytes6('TST2'), "0x22753E4264FDDc6181dc7cce468904A80a363E44"],
     [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],

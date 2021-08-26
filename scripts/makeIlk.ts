@@ -47,8 +47,8 @@ import { Timelock } from '../typechain/Timelock'
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.proposeRepeated(proposal, 2)
-  await timelock.proposeRepeated(proposal, 2); console.log(`Proposed ${txHash}`)
+  const txHash = await timelock.callStatic.propose(proposal)
+  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
   await timelock.approve(txHash); console.log(`Approved ${txHash}`)
   await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 })()
