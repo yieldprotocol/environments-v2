@@ -25,7 +25,7 @@
     "@yield-protocol/strategy-v2": "^0.10.0-rc0",
     "@yield-protocol/utils-v2": "^2.4.0-rc1",
     "@yield-protocol/vault-interfaces": "^2.0.41",
-    "@yield-protocol/vault-v2": "^0.10.0-rc2",
+    "@yield-protocol/vault-v2": "^0.10.0-rc3",
     "@yield-protocol/yieldspace-interfaces": "^2.3.0-rc0",
     "@yield-protocol/yieldspace-v2": "^0.10.0-rc0",
     "chai": "4.2.0",
