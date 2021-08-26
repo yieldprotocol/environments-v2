@@ -68,6 +68,15 @@ export function stringToBytes6(x: string): string {
   return ethers.utils.formatBytes32String(x).slice(0, 14)
 }
 
+export function stringToBytes32(x: string): string {
+  return ethers.utils.formatBytes32String(x)
+}
+
+export function bytesToBytes32(bytes: string): string {
+  return stringToBytes32(bytesToString(bytes))
+}
+
+
 export function verify(address: string, args: any, libs?: any) {
   const libsargs = (libs !== undefined) ? `--libraries ${libs.toString()}` : ''
   console.log(`npx hardhat verify --network ${network.name} ${address} ${args.join(' ')} ${libsargs}`)

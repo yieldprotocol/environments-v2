@@ -7,8 +7,8 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
-import { bytesToString, mapToJson, jsonToMap } from '../shared/helpers'
-import { RATE, ETH, DAI, USDC, WBTC, USDT } from '../shared/constants'
+import { stringToBytes6, bytesToString, mapToJson, jsonToMap } from '../shared/helpers'
+import { RATE } from '../shared/constants'
 
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { Timelock } from '../typechain/Timelock'
@@ -16,9 +16,9 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [DAI, "0x78F3579FbBb4a9894cE27cC201216Ef46A132f1c"],
-    [USDC, "0x625E23f0C081CF8a2bbb87738087D8b0A5f5F412"],
-    [USDT, "0xBce93F0D091092D780C6A386fb6d34780FFb031C"],
+    [stringToBytes6('TST1'), "0xab16A69A5a8c12C732e0DEFF4BE56A70bb64c926"],
+    [stringToBytes6('TST2'), "0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82"],
+    [stringToBytes6('TST3'), "0x525C7063E7C20997BaaE9bDa922159152D0e8417"],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;

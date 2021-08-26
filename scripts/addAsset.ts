@@ -20,9 +20,9 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-    [stringToBytes6('TST1'),  "0xD9D6D61bc216a0BE1EecA4155b258CbB3030d23f"],
-    [stringToBytes6('TST2'), "0x078FfF3582342a16a7b038E6F4Fc9E88F738143d"],
-    [stringToBytes6('TST3'), "0x1292BAe0Ba398F9e480251b8C40D2A171EC446D1"],
+    [stringToBytes6('TST1'), "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
+    [stringToBytes6('TST2'), "0x22753E4264FDDc6181dc7cce468904A80a363E44"],
+    [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;

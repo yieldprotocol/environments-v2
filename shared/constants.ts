@@ -1,5 +1,6 @@
 import { ethers, BigNumber } from 'ethers'
 
+export const ZERO = BigNumber.from(0)
 export const DEC6 = BigNumber.from(10).pow(6)
 export const WAD = BigNumber.from(10).pow(18)
 export const RAY = BigNumber.from(10).pow(27)
