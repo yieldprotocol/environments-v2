@@ -1,10 +1,8 @@
 /**
- * @dev This script makes one or more assets into bases.
+ * @dev This script makes one or more assets into ilks for one or more bases.
  * 
- * It takes as inputs the governance, protocol, assets and joins json address files.
- * It uses the Wand to add the asset to Cauldron and deploy a new Join, which gets added to the Ladle
- * It adds to the assets and joins json address files.
- * @notice The assetIds can't be already in use
+ * It takes as inputs the governance and protocol address files.
+ * It uses the Wand to set the spot oracle, debt limits, and allow the Witch to liquidate collateral.
  */
 
 import { ethers } from 'hardhat'
