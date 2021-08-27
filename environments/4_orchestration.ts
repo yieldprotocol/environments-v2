@@ -15,7 +15,7 @@ import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
 import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
 import { CTokenMultiOracle } from '../typechain/CTokenMultiOracle'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
-import { AccessControl } from '../typechain/AccessControl'
+import { Timelock } from '../typechain/Timelock'
 
 /**
  * This script gives governance rights to the governor over the whole Yield v2 Protocol
@@ -25,12 +25,14 @@ import { AccessControl } from '../typechain/AccessControl'
  *
  */
 
-const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
-
 console.time("Orchestration set in");
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
+    const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+    const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
+  
+    // Contract instantiation
     const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
@@ -44,82 +46,164 @@ console.time("Orchestration set in");
     const cTokenOracle = await ethers.getContractAt('CTokenMultiOracle', protocol.get('cTokenOracle') as string, ownerAcc) as unknown as CTokenMultiOracle
     const cloak = await ethers.getContractAt('EmergencyBrake', protocol.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
-    await cauldron.grantRoles(
-        [
-          id('build(address,bytes12,bytes6,bytes6)'),
-          id('destroy(bytes12)'),
-          id('tweak(bytes12,bytes6,bytes6)'),
-          id('give(bytes12,address)'),
-          id('pour(bytes12,int128,int128)'),
-          id('stir(bytes12,bytes12,uint128,uint128)'),
-          id('roll(bytes12,bytes6,int128)'),
-        ],
-        ladle.address
-    ); console.log(`cauldron.grantRoles(ladle)`)
+    const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  
+    // Build the proposal
+    const proposal : Array<{ target: string; data: string}> = []
+  
+    proposal.push({
+        target: cauldron.address,
+        data: cauldron.interface.encodeFunctionData('grantRoles', [
+            [
+                id('build(address,bytes12,bytes6,bytes6)'),
+                id('destroy(bytes12)'),
+                id('tweak(bytes12,bytes6,bytes6)'),
+                id('give(bytes12,address)'),
+                id('pour(bytes12,int128,int128)'),
+                id('stir(bytes12,bytes12,uint128,uint128)'),
+                id('roll(bytes12,bytes6,int128)'),
+            ],
+            ladle.address
+        ])
+    })
+    console.log(`cauldron.grantRoles(ladle)`)
+  
+    proposal.push({
+        target: cauldron.address,
+        data: cauldron.interface.encodeFunctionData('grantRoles', [
+            [
+                id('give(bytes12,address)'),
+                id('grab(bytes12,address)'),
+                id('slurp(bytes12,uint128,uint128)')
+            ],
+            witch.address
+        ])
+    })
+    console.log(`cauldron.grantRoles(witch)`)
+  
+    proposal.push({
+        target: cauldron.address,
+        data: cauldron.interface.encodeFunctionData('grantRoles', [
+            [
+                id('addAsset(bytes6,address)'),
+                id('addSeries(bytes6,bytes6,address)'),
+                id('addIlks(bytes6,bytes6[])'),
+                id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                id('setRateOracle(bytes6,address)'),
+                id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`cauldron.grantRoles(wand)`)
 
-    await cauldron.grantRoles(
-        [
-            id('give(bytes12,address)'),
-            id('grab(bytes12,address)'),
-            id('slurp(bytes12,uint128,uint128)')
-        ],
-        witch.address
-    ); console.log(`cauldron.grantRoles(witch)`)
+    proposal.push({
+        target: ladle.address,
+        data: ladle.interface.encodeFunctionData('grantRoles', [
+            [
+                id('addJoin(bytes6,address)'),
+                id('addPool(bytes6,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`ladle.grantRoles(wand)`)
 
-    await cauldron.grantRoles(
-        [
-            id('addAsset(bytes6,address)'),
-            id('addSeries(bytes6,bytes6,address)'),
-            id('addIlks(bytes6,bytes6[])'),
-            id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-            id('setRateOracle(bytes6,address)'),
-            id('setSpotOracle(bytes6,bytes6,address,uint32)'),
-        ],
-        wand.address
-    ); console.log(`cauldron.grantRoles(wand)`)
+    proposal.push({
+        target: witch.address,
+        data: witch.interface.encodeFunctionData('grantRoles', [
+            [
+                id('setIlk(bytes6,uint32,uint64,uint128)')
+            ],
+            wand.address
+        ])
+    })
+    console.log(`witch.grantRoles(wand)`)
 
-    await ladle.grantRoles(
-        [
-            id('addJoin(bytes6,address)'),
-            id('addPool(bytes6,address)'),
-        ],
-        wand.address
-    ); console.log(`ladle.grantRoles(wand)`)
+    proposal.push({
+        target: joinFactory.address,
+        data: joinFactory.interface.encodeFunctionData('grantRoles', [
+            [
+                id('createJoin(address)')
+            ],
+            wand.address
+        ])
+    })
+    console.log(`joinFactory.grantRoles(wand)`)
 
-    await witch.grantRoles(
-      [
-        id('setIlk(bytes6,uint32,uint64,uint128)')
-      ],
-      wand.address
-    ); console.log(`witch.grantRoles(wand)`)
-
-    await joinFactory.grantRoles(
-        [
-            id('createJoin(address)')
-        ],
-        wand.address
-    ); console.log(`joinFactory.grantRoles(wand)`)
+    proposal.push({
+        target: fyTokenFactory.address,
+        data: fyTokenFactory.interface.encodeFunctionData('grantRoles', [
+            [
+                id('createFYToken(bytes6,address,address,uint32,string,string)')
+            ],
+            wand.address
+        ])
+    })
+    console.log(`fyTokenFactory.grantRoles(wand)`)
     
-    await fyTokenFactory.grantRoles(
-        [
-            id('createFYToken(bytes6,address,address,uint32,string,string)')
-        ],
-        wand.address
-    ); console.log(`fyTokenFactory.grantRoles(wand)`)
-
-    await poolFactory.grantRoles(
-        [
-            id('createPool(address,address)'),
-        ],
-        wand.address
-    ); console.log(`poolFactory.grantRoles(wand)`)
+    proposal.push({
+        target: poolFactory.address,
+        data: poolFactory.interface.encodeFunctionData('grantRoles', [
+            [
+                id('createPool(address,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`poolFactory.grantRoles(wand)`)
     
-    await compoundOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compoundOracle.grantRoles(wand)`)
-    await chainlinkOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`chainlinkOracle.grantRoles(wand)`)
-    await compositeOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`compositeOracle.grantRoles(wand)`)
-    await cTokenOracle.grantRole(id('setSource(bytes6,bytes6,address)'), wand.address); console.log(`cTokenOracle.grantRoles(wand)`)
-
-    await cauldron.grantRole('0x00000000', cloak.address); console.log(`cauldron.grantRoles(cloak)`)
+    proposal.push({
+        target: compoundOracle.address,
+        data: compoundOracle.interface.encodeFunctionData('grantRoles', [
+            [
+                id('setSource(bytes6,bytes6,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`compoundOracle.grantRoles(wand)`)
+    
+    proposal.push({
+        target: chainlinkOracle.address,
+        data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
+            [
+                id('setSource(bytes6,bytes6,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`chainlinkOracle.grantRoles(wand)`)
+    
+    proposal.push({
+        target: compositeOracle.address,
+        data: compositeOracle.interface.encodeFunctionData('grantRoles', [
+            [
+                id('setSource(bytes6,bytes6,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`compositeOracle.grantRoles(wand)`)
+    
+    proposal.push({
+        target: cTokenOracle.address,
+        data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
+            [
+                id('setSource(bytes6,bytes6,address)'),
+            ],
+            wand.address
+        ])
+    })
+    console.log(`cTokenOracle.grantRoles(wand)`)
+    
+    // Propose, approve, execute
+    const txHash = await timelock.callStatic.propose(proposal)
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    
+    /* await cauldron.grantRole('0x00000000', cloak.address); console.log(`cauldron.grantRoles(cloak)`)
     await ladle.grantRole('0x00000000', cloak.address); console.log(`ladle.grantRoles(cloak)`)
     await witch.grantRole('0x00000000', cloak.address); console.log(`witch.grantRoles(cloak)`)
     await joinFactory.grantRole('0x00000000', cloak.address); console.log(`joinFactory.grantRoles(cloak)`)
@@ -216,7 +300,7 @@ console.time("Orchestration set in");
                 ]
             },
         ]
-    ); console.log(`cloak.plan(wand)`)
+    ); console.log(`cloak.plan(wand)`) */
 
 
     console.timeEnd("Orchestration set in")
