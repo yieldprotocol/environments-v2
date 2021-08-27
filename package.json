@@ -32,7 +32,7 @@
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
     "ethereum-waffle": "^3.2.2",
-    "hardhat": "^2.0.8",
+    "hardhat": "^2.6.0",
     "hardhat-abi-exporter": "^2.0.3",
     "hardhat-contract-sizer": "^2.0.3",
     "hardhat-deploy": "^0.7.0-beta.44",
