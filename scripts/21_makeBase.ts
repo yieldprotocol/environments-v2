@@ -9,7 +9,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { bytesToString, stringToBytes6, bytesToBytes32, jsonToMap } from '../shared/helpers'
-import { CHI, RATE, DAI } from '../shared/constants'
+import { CHI, RATE, DAI, USDC, USDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
 import { IOracle } from '../typechain/IOracle'
@@ -19,9 +19,10 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newBases: Array<[string, string]> = [
-    [DAI,                    'compoundOracle'],
-    [stringToBytes6('TST2'), 'compoundOracle'],
-    [stringToBytes6('TST3'), 'compoundOracle'],
+    [DAI,  'compoundOracle'],
+    [USDC, 'compoundOracle'],
+    [USDT, 'compoundOracle'],
+    // [stringToBytes6('TST3'), 'compoundOracle'],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
