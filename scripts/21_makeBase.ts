@@ -16,6 +16,8 @@ import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
 
+import { id } from '@yield-protocol/utils-v2'
+
 (async () => {
   // Input data
   const newBases: Array<[string, string]> = [

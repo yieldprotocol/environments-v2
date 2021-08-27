@@ -19,16 +19,16 @@ import { Timelock } from '../typechain/Timelock'
   // Input data: baseId, quoteId, oracle name, source address
   const newSources: Array<[string, string, string, string]> = [
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
-    [DAI, DAI,   'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
-    [DAI, ETH,   'chainlinkOracle', "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
-    [DAI, TST,   'chainlinkOracle', "0x6882f3a206d6aBd729BcAd2fa237d8Cb02a4FaBD"],
-    [USDC, USDC, 'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
-    [USDC, ETH,  'chainlinkOracle', "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
-    [USDC, TST,  'chainlinkOracle', "0xe6335d692ea0deAa2fa85eB6a396622088025dE0"],
-    [USDT, USDT, 'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
-    [USDT, ETH,  'chainlinkOracle', "0x0bF499444525a23E7Bb61997539725cA2e928138"],
-    [USDT, TST,  'chainlinkOracle', "0x38912f6844239F530EC5E82d684288EA9111e3Cd"],
-    [WBTC, ETH,  'chainlinkOracle', "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
+    [DAI, DAI,   'chainlinkOracle', "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"],
+    [DAI, ETH,   'chainlinkOracle', "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"],
+    [DAI, TST,   'chainlinkOracle', "0x09635F643e140090A9A8Dcd712eD6285858ceBef"],
+    [USDC, USDC, 'chainlinkOracle', "0x67d269191c92Caf3cD7723F116c85e6E9bf55933"],
+    [USDC, ETH,  'chainlinkOracle', "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690"],
+    [USDC, TST,  'chainlinkOracle', "0x9E545E3C0baAB3E08CdfD552C960A1050f373042"],
+    [USDT, USDT, 'chainlinkOracle', "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8"],
+    [USDT, ETH,  'chainlinkOracle', "0xf5059a5D33d5853360D16C683c16e67980206f36"],
+    [USDT, TST,  'chainlinkOracle', "0x998abeb3E57409262aE5b751f60747921B33613E"],
+    [WBTC, ETH,  'chainlinkOracle', "0x4826533B4897376654Bb4d4AD88B7faFD0C98528"]
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
