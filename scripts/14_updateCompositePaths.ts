@@ -44,7 +44,6 @@ import { Timelock } from '../typechain/Timelock'
     })
     console.log(`[path: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${path}],`)
   }
-  console.log(proposal)
 
   // Propose, update, execute
   const txHash = await timelock.callStatic.propose(proposal)

@@ -53,29 +53,3 @@ export async function setup(
 
     return strategies
 }
-
-export async function init(
-  owner: SignerWithAddress,
-  timelock: Timelock,
-  pools: Map<string, string>,
-  strategies: Map<string, string>,
-  strategiesInit: Array<[string, [string, string], [string, string]]>
-) {
-  for (let [strategyId, [startPoolId, startSeriesId], [nextPoolId, nextSeriesId]] of strategiesInit) {
-    const strategy: Strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string, owner) as Strategy
-    const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), owner) as ERC20Mock
-
-    const proposal = [
-      { target: strategy.address, data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(startPoolId) as string, startSeriesId]) },
-      { target: base.address, data: base.interface.encodeFunctionData("mint", [strategy.address, '1000000000000000000000']) },
-      { target: strategy.address, data: strategy.interface.encodeFunctionData("startPool") },
-      { target: strategy.address, data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId]) },
-    ]
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-  }
-
-  return strategies
-}

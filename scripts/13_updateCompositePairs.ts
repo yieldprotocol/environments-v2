@@ -39,7 +39,6 @@ import { Timelock } from '../typechain/Timelock'
     })
     console.log(`[pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${protocol.get(oracleName) as string}],`)
   }
-  console.log(proposal)
 
   // Propose, update, execute
   const txHash = await timelock.callStatic.propose(proposal)
