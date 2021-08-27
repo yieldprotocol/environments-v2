@@ -9,17 +9,26 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { stringToBytes6, bytesToString, mapToJson, jsonToMap } from '../shared/helpers'
-import { DAI } from '../shared/constants'
+import { DAI, ETH, USDC, USDT, WBTC } from '../shared/constants'
 
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle' // TODO: Change to IOracleGov
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
+  const TST = stringToBytes6('TST')
   // Input data: baseId, quoteId, oracle name, source address
   const newSources: Array<[string, string, string, string]> = [
-    [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
-    [DAI, stringToBytes6('TST2'), 'chainlinkOracle', "0x99dBE4AEa58E518C50a1c04aE9b48C9F6354612f"],
-    [DAI, stringToBytes6('TST3'), 'chainlinkOracle', "0xCA8c8688914e0F7096c920146cd0Ad85cD7Ae8b9"],
+    // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
+    [DAI, DAI,   'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
+    [DAI, ETH,   'chainlinkOracle', "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
+    [DAI, TST,   'chainlinkOracle', "0x6882f3a206d6aBd729BcAd2fa237d8Cb02a4FaBD"],
+    [USDC, USDC, 'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
+    [USDC, ETH,  'chainlinkOracle', "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
+    [USDC, TST,  'chainlinkOracle', "0xe6335d692ea0deAa2fa85eB6a396622088025dE0"],
+    [USDT, USDT, 'chainlinkOracle', "0x136a7558F2e67EfF77A69C51C22bC5747b660DEc"],
+    [USDT, ETH,  'chainlinkOracle', "0x0bF499444525a23E7Bb61997539725cA2e928138"],
+    [USDT, TST,  'chainlinkOracle', "0x38912f6844239F530EC5E82d684288EA9111e3Cd"],
+    [WBTC, ETH,  'chainlinkOracle', "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
