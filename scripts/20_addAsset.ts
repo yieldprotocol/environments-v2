@@ -12,7 +12,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
-import { DAI } from '../shared/constants'
+import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
@@ -21,13 +21,17 @@ import { Join } from '../typechain/Join'
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
+  const TST = stringToBytes6('TST')
   // Input data
   const newAssets: Array<[string, string]> = [
-    [DAI,                    "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
-    [stringToBytes6('TST1'), "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"],
-    [stringToBytes6('TST2'), "0x22753E4264FDDc6181dc7cce468904A80a363E44"],
-    [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
-  ]
+    [DAI,  "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"],
+    [USDC, "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"],
+    [ETH,  "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"],
+    [TST,  "0x0165878A594ca255338adfa4d48449f69242Eb8F"],
+    [WBTC, "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"],
+    [USDT, "0x610178dA211FEF7D417bC0e6FeD39F05609AD788"]
+    // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
+  ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
