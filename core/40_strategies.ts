@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { jsonToMap, mapToJson } from '../shared/helpers'
 import { strategiesData } from './config'
-import { setup as setupStrategies } from '../fixtures/strategies'
+import { setup as setupStrategies } from './strategies'
 import { Ladle } from '../typechain/Ladle'
 import { Timelock } from '../typechain/Timelock'
 

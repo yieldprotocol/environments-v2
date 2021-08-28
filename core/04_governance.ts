@@ -44,18 +44,19 @@ console.time("Governance set in");
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
     // First give ROOT access to all contracts to the timelock, so that the timelock can manage access control for them.
-    await cauldron.grantRole('0x00000000', timelock.address); console.log(`cauldron.grantRoles(ROOT, timelock)`)
-    await ladle.grantRole('0x00000000', timelock.address); console.log(`ladle.grantRoles(ROOT, timelock)`)
-    await witch.grantRole('0x00000000', timelock.address); console.log(`witch.grantRoles(ROOT, timelock)`)
-    await wand.grantRole('0x00000000', timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
-    await joinFactory.grantRole('0x00000000', timelock.address); console.log(`joinFactory.grantRoles(ROOT, timelock)`)
-    await poolFactory.grantRole('0x00000000', timelock.address); console.log(`poolFactory.grantRoles(ROOT, timelock)`)
-    await fyTokenFactory.grantRole('0x00000000', timelock.address); console.log(`fyTokenFactory.grantRoles(ROOT, timelock)`)
-    await compoundOracle.grantRole('0x00000000', timelock.address); console.log(`compoundOracle.grantRoles(ROOT, timelock)`)
-    await chainlinkOracle.grantRole('0x00000000', timelock.address); console.log(`chainlinkOracle.grantRoles(ROOT, timelock)`)
-    await compositeOracle.grantRole('0x00000000', timelock.address); console.log(`compositeOracle.grantRoles(ROOT, timelock)`)
-    await cTokenOracle.grantRole('0x00000000', timelock.address); console.log(`cTokenOracle.grantRoles(ROOT, timelock)`)
-    await cloak.grantRole('0x00000000', timelock.address); console.log(`cloak.grantRoles(ROOT, timelock)`)
+    const ROOT = await cauldron.ROOT()
+    await cauldron.grantRole(await cauldron.ROOT(), timelock.address); console.log(`cauldron.grantRoles(ROOT, timelock)`)
+    await ladle.grantRole(ROOT, timelock.address); console.log(`ladle.grantRoles(ROOT, timelock)`)
+    await witch.grantRole(ROOT, timelock.address); console.log(`witch.grantRoles(ROOT, timelock)`)
+    await wand.grantRole(ROOT, timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
+    await joinFactory.grantRole(ROOT, timelock.address); console.log(`joinFactory.grantRoles(ROOT, timelock)`)
+    await poolFactory.grantRole(ROOT, timelock.address); console.log(`poolFactory.grantRoles(ROOT, timelock)`)
+    await fyTokenFactory.grantRole(ROOT, timelock.address); console.log(`fyTokenFactory.grantRoles(ROOT, timelock)`)
+    await compoundOracle.grantRole(ROOT, timelock.address); console.log(`compoundOracle.grantRoles(ROOT, timelock)`)
+    await chainlinkOracle.grantRole(ROOT, timelock.address); console.log(`chainlinkOracle.grantRoles(ROOT, timelock)`)
+    await compositeOracle.grantRole(ROOT, timelock.address); console.log(`compositeOracle.grantRoles(ROOT, timelock)`)
+    await cTokenOracle.grantRole(ROOT, timelock.address); console.log(`cTokenOracle.grantRoles(ROOT, timelock)`)
+    await cloak.grantRole(ROOT, timelock.address); console.log(`cloak.grantRoles(ROOT, timelock)`)
 
     // TODO: Execute a proposal to remove ROOT from the deployer
 

@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { ETH } from '../shared/constants'
 
-import { Protocol } from '../fixtures/protocol'
+import { Protocol } from './protocol'
 import { mapToJson, jsonToMap } from '../shared/helpers'
 
 /**

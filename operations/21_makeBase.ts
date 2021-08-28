@@ -8,15 +8,13 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
-import { bytesToString, stringToBytes6, bytesToBytes32, jsonToMap } from '../shared/helpers'
+import { bytesToString, bytesToBytes32, jsonToMap } from '../shared/helpers'
 import { CHI, RATE, DAI, USDC, USDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
 import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
-
-import { id } from '@yield-protocol/utils-v2'
 
 (async () => {
   // Input data

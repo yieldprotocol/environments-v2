@@ -22,7 +22,6 @@ import { Timelock } from '../typechain/Timelock'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number]> = [
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', 1000000, 1000000, 1, 18],
-
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
     [DAI, USDC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
     [DAI, ETH, CHAINLINK, 1000000, 1000000, 1, 18],

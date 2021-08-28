@@ -25,7 +25,7 @@ import { Timelock } from '../typechain/Timelock'
     [USDT, DAI, [ETH]],
     [USDT, USDC, [ETH]],
     [USDT, WBTC, [ETH]]
-]
+  ]
 
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;

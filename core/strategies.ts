@@ -19,6 +19,7 @@ const { deployContract } = waffle
 export async function strategyGovAuth(strategy: Strategy, receiver: string) {
   await strategy.grantRoles(
     [
+      id('0x00000000'),
       id('setRewardsToken(address)'),
       id('setRewards(uint32,uint32,uint96)'),
       id('setYield(address,address)'),
