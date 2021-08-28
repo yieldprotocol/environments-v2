@@ -39,10 +39,10 @@ import { Timelock } from '../typechain/Timelock'
 //    [stringToBytes6('DAI26'), DAI, EO2608, [TST1, TST2, TST3], 'DAI26', 'DAI26'],
 //    [stringToBytes6('DAI27'), DAI, EO2708, [TST1, TST2, TST3], 'DAI27', 'DAI27'],
 //    [stringToBytes6('DAI28'), DAI, EO2808, [TST1, TST2, TST3], 'DAI28', 'DAI28'],
-//    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
-//    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
-//    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC1', 'USDC1'],
-//    [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC2', 'USDC2'],
+    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
+    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
+    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC1', 'USDC1'],
+    [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC2', 'USDC2'],
     [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT1', 'USDT1'],
     [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT2', 'USDT2']
   ]
@@ -78,7 +78,7 @@ import { Timelock } from '../typechain/Timelock'
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
     console.log(`[${await fyToken.symbol()}, '${fyToken.address}'],`)
     verify(fyToken.address, [
-      await fyToken.underlying(),
+      await fyToken.underlyingId(),
       await fyToken.oracle(),
       await fyToken.join(),
       await fyToken.maturity(),
@@ -92,6 +92,6 @@ import { Timelock } from '../typechain/Timelock'
     console.log(`[${await fyToken.symbol()}Pool, '${pool.address}'],`)
     verify(pool.address, [], 'safeERC20Namer.js')
     pools.set(seriesId, pool.address)
-    fs.writeFileSync('./output/pools.json', mapToJson(pools), 'utf8')      
+    fs.writeFileSync('./output/pools.json', mapToJson(pools), 'utf8')
   }
 })()
