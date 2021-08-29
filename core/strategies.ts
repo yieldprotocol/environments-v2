@@ -1,8 +1,5 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
-import *  as fs from 'fs'
-import { DAI } from '../shared/constants'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap } from '../shared/helpers'
 import { verify } from '../shared/helpers'
 
 import { ethers, waffle } from 'hardhat'
@@ -12,20 +9,19 @@ import StrategyArtifact from '../artifacts/@yield-protocol/strategy-v2/contracts
 import { Strategy } from '../typechain/Strategy'
 import { Ladle } from '../typechain/Ladle'
 import { Timelock } from '../typechain/Timelock'
-import { ERC20Mock } from '../typechain/ERC20Mock'
 
 const { deployContract } = waffle
 
 export async function strategyGovAuth(strategy: Strategy, receiver: string) {
   await strategy.grantRoles(
     [
-      id('0x00000000'),
-      id('setRewardsToken(address)'),
-      id('setRewards(uint32,uint32,uint96)'),
-      id('setYield(address,address)'),
-      id('setTokenId(bytes6)'),
-      id('resetTokenJoin()'),
-      id('setNextPool(address,bytes6)'),
+      await strategy.ROOT(),
+      id(strategy.interface, 'setRewardsToken(address)'),
+      id(strategy.interface, 'setRewards(uint32,uint32,uint96)'),
+      id(strategy.interface, 'setYield(address,address)'),
+      id(strategy.interface, 'setTokenId(bytes6)'),
+      id(strategy.interface, 'resetTokenJoin()'),
+      id(strategy.interface, 'setNextPool(address,bytes6)'),
     ],
     receiver
   )

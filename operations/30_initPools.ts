@@ -61,7 +61,7 @@ import { Timelock } from '../typechain/Timelock'
     // The timelock created the series through the Wand, so it got ROOT access to the fyTokens at that point
     proposal.push({
       target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData("grantRole", [id('mint(address,uint256)'), timelock.address])
+      data: fyToken.interface.encodeFunctionData("grantRole", [id(fyToken.interface, 'mint(address,uint256)'), timelock.address])
     })
 
     // Donate fyToken to the pool to skew it

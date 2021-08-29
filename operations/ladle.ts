@@ -75,13 +75,25 @@ async function ladleGovAuth(ladle: Ladle, receiver: string) {
     const joinAddress = joins.get(assetId) as string
     const join = await ethers.getContractAt('Join', joinAddress, owner) as unknown as Join
 
-    await join.grantRoles([JOIN, EXIT], ladle.address); console.log(`Join ${assetId} permissions`)
+    await join.grantRoles(
+      [
+        id(join.interface, 'join(address,uint128)'),
+        id(join.interface, 'exit(address,uint128)')
+      ],
+      ladle.address
+    ); console.log(`Join ${assetId} permissions`)
     await ladle.addJoin(assetId, joinAddress); console.log(`Join added to Ladle`)
   }
 
   for (let seriesId of fyTokens.keys()) {
     const fyToken = await ethers.getContractAt('FYToken', fyTokens.get(seriesId) as string, owner) as unknown as FYToken
-    await fyToken.grantRoles([MINT, BURN], ladle.address); console.log(`FYToken ${seriesId} permissions`)
+    await fyToken.grantRoles(
+      [
+        id(fyToken.interface, 'mint(address,uint256)'),
+        id(fyToken.interface, 'burn(address,uint256)')
+      ],
+      ladle.address
+    ); console.log(`FYToken ${seriesId} permissions`)
   }
 
   for (let seriesId of pools.keys()) {

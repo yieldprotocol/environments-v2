@@ -67,12 +67,12 @@ console.time("Governance set in");
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
-                id('addAsset(bytes6,address)'),
-                id('addSeries(bytes6,bytes6,address)'),
-                id('addIlks(bytes6,bytes6[])'),
-                id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                id('setRateOracle(bytes6,address)'),
-                id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+                id(cauldron.interface, 'addAsset(bytes6,address)'),
+                id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
+                id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
+                id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                id(cauldron.interface, 'setRateOracle(bytes6,address)'),
+                id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
             ],
             timelock.address
         ])
@@ -83,12 +83,12 @@ console.time("Governance set in");
         target: ladle.address,
         data: ladle.interface.encodeFunctionData('grantRoles', [
             [
-                id('addJoin(bytes6,address)'),
-                id('addPool(bytes6,address)'),
-                id('addToken(address,bool)'),
-                id('addIntegration(address,bool)'),
-                id('addModule(address,bool)'),
-                id('setFee(uint256)'),
+                id(ladle.interface, 'addJoin(bytes6,address)'),
+                id(ladle.interface, 'addPool(bytes6,address)'),
+                id(ladle.interface, 'addToken(address,bool)'),
+                id(ladle.interface, 'addIntegration(address,bool)'),
+                id(ladle.interface, 'addModule(address,bool)'),
+                id(ladle.interface, 'setFee(uint256)'),
             ],
             timelock.address
         ])
@@ -99,7 +99,7 @@ console.time("Governance set in");
         target: witch.address,
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
-                id('setIlk(bytes6,uint32,uint64,uint128)'),
+                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
             ],
             timelock.address
         ])
@@ -110,12 +110,11 @@ console.time("Governance set in");
         target: wand.address,
         data: wand.interface.encodeFunctionData('grantRoles', [
             [
-                id('addAsset(bytes6,address)'),
-                id('makeBase(bytes6,address)'),
-                id('makeIlk(bytes6,bytes6,address,uint32,uint96,uint24,uint8)'),
-                id('addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
-                id('addPool(bytes6,bytes6)'),
-                id('point(bytes32,address)'),
+                id(wand.interface, 'addAsset(bytes6,address)'),
+                id(wand.interface, 'makeBase(bytes6,address)'),
+                id(wand.interface, 'makeIlk(bytes6,bytes6,address,uint32,uint96,uint24,uint8)'),
+                id(wand.interface, 'addSeries(bytes6,bytes6,uint32,bytes6[],string,string)'),
+                id(wand.interface, 'point(bytes32,address)'),
             ],
             timelock.address
         ])
@@ -123,33 +122,10 @@ console.time("Governance set in");
     console.log(`wand.grantRoles(gov, timelock)`)
 
     proposal.push({
-        target: joinFactory.address,
-        data: joinFactory.interface.encodeFunctionData('grantRoles', [
-            [
-                id('createJoin(address)'),
-            ],
-            timelock.address
-        ])
-    })
-    console.log(`joinFactory.grantRoles(gov, timelock)`)
-
-    proposal.push({
-        target: fyTokenFactory.address,
-        data: fyTokenFactory.interface.encodeFunctionData('grantRoles', [
-            [
-                id('createFYToken(bytes6,address,address,uint32,string,string)'),
-            ],
-            timelock.address
-        ])
-    })
-    console.log(`fyTokenFactory.grantRoles(gov, timelock)`)
-
-    proposal.push({
         target: poolFactory.address,
         data: poolFactory.interface.encodeFunctionData('grantRoles', [
             [
-                id('createPool(address,address)'),
-                id('setParameter(bytes32,int128)'),
+                id(poolFactory.interface, 'setParameter(bytes32,int128)'),
             ],
             timelock.address
         ])
@@ -160,8 +136,8 @@ console.time("Governance set in");
         target: compoundOracle.address,
         data: compoundOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
-                id('setSources(bytes6[],bytes6[],address)'),
+                id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
+                id(compoundOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
             ],
             timelock.address
         ])
@@ -172,8 +148,8 @@ console.time("Governance set in");
         target: chainlinkOracle.address,
         data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
-                id('setSources(bytes6[],bytes6[],address)'),
+                id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
+                id(chainlinkOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
             ],
             timelock.address
         ])
@@ -184,8 +160,8 @@ console.time("Governance set in");
         target: cTokenOracle.address,
         data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
-                id('setSources(bytes6[],bytes6[],address)'),
+                id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
+                id(cTokenOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
             ],
             timelock.address
         ])
@@ -196,10 +172,10 @@ console.time("Governance set in");
         target: compositeOracle.address,
         data: compositeOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
-                id('setSources(bytes6[],bytes6[],address)'),
-                id('setPath(bytes6,bytes6,bytes6[])'),
-                id('setPaths(bytes6[],bytes6[],bytes6[][])'),
+                id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
+                id(compositeOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
+                id(compositeOracle.interface, 'setPath(bytes6,bytes6,bytes6[])'),
+                id(compositeOracle.interface, 'setPaths(bytes6[],bytes6[],bytes6[][])'),
             ],
             timelock.address
         ])

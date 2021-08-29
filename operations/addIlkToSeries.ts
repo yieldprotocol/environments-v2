@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { bytesToString, jsonToMap } from '../shared/helpers'
-import { seriesData } from '../environments/config'
+import { seriesData } from '../core/config'
 
 import { Cauldron } from '../typechain/Cauldron'
 

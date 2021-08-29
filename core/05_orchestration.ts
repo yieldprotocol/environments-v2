@@ -55,13 +55,13 @@ console.time("Orchestration set in");
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
-                id('build(address,bytes12,bytes6,bytes6)'),
-                id('destroy(bytes12)'),
-                id('tweak(bytes12,bytes6,bytes6)'),
-                id('give(bytes12,address)'),
-                id('pour(bytes12,int128,int128)'),
-                id('stir(bytes12,bytes12,uint128,uint128)'),
-                id('roll(bytes12,bytes6,int128)'),
+                id(cauldron.interface, 'build(address,bytes12,bytes6,bytes6)'),
+                id(cauldron.interface, 'destroy(bytes12)'),
+                id(cauldron.interface, 'tweak(bytes12,bytes6,bytes6)'),
+                id(cauldron.interface, 'give(bytes12,address)'),
+                id(cauldron.interface, 'pour(bytes12,int128,int128)'),
+                id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
+                id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
             ],
             ladle.address
         ])
@@ -72,9 +72,9 @@ console.time("Orchestration set in");
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
-                id('give(bytes12,address)'),
-                id('grab(bytes12,address)'),
-                id('slurp(bytes12,uint128,uint128)')
+                id(cauldron.interface, 'give(bytes12,address)'),
+                id(cauldron.interface, 'grab(bytes12,address)'),
+                id(cauldron.interface, 'slurp(bytes12,uint128,uint128)')
             ],
             witch.address
         ])
@@ -85,12 +85,12 @@ console.time("Orchestration set in");
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
-                id('addAsset(bytes6,address)'),
-                id('addSeries(bytes6,bytes6,address)'),
-                id('addIlks(bytes6,bytes6[])'),
-                id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                id('setRateOracle(bytes6,address)'),
-                id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+                id(cauldron.interface, 'addAsset(bytes6,address)'),
+                id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
+                id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
+                id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                id(cauldron.interface, 'setRateOracle(bytes6,address)'),
+                id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
             ],
             wand.address
         ])
@@ -101,8 +101,8 @@ console.time("Orchestration set in");
         target: ladle.address,
         data: ladle.interface.encodeFunctionData('grantRoles', [
             [
-                id('addJoin(bytes6,address)'),
-                id('addPool(bytes6,address)'),
+                id(ladle.interface, 'addJoin(bytes6,address)'),
+                id(ladle.interface, 'addPool(bytes6,address)'),
             ],
             wand.address
         ])
@@ -113,7 +113,7 @@ console.time("Orchestration set in");
         target: witch.address,
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
-                id('setIlk(bytes6,uint32,uint64,uint128)')
+                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)')
             ],
             wand.address
         ])
@@ -124,7 +124,7 @@ console.time("Orchestration set in");
         target: joinFactory.address,
         data: joinFactory.interface.encodeFunctionData('grantRoles', [
             [
-                id('createJoin(address)')
+                id(joinFactory.interface, 'createJoin(address)')
             ],
             wand.address
         ])
@@ -135,7 +135,7 @@ console.time("Orchestration set in");
         target: fyTokenFactory.address,
         data: fyTokenFactory.interface.encodeFunctionData('grantRoles', [
             [
-                id('createFYToken(bytes6,address,address,uint32,string,string)')
+                id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)')
             ],
             wand.address
         ])
@@ -146,7 +146,7 @@ console.time("Orchestration set in");
         target: poolFactory.address,
         data: poolFactory.interface.encodeFunctionData('grantRoles', [
             [
-                id('createPool(address,address)'),
+                id(poolFactory.interface, 'createPool(address,address)'),
             ],
             wand.address
         ])
@@ -157,7 +157,7 @@ console.time("Orchestration set in");
         target: compoundOracle.address,
         data: compoundOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
+                id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
             ],
             wand.address
         ])
@@ -168,7 +168,7 @@ console.time("Orchestration set in");
         target: chainlinkOracle.address,
         data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
+                id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
             ],
             wand.address
         ])
@@ -179,7 +179,7 @@ console.time("Orchestration set in");
         target: compositeOracle.address,
         data: compositeOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
+                id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
             ],
             wand.address
         ])
@@ -190,7 +190,7 @@ console.time("Orchestration set in");
         target: cTokenOracle.address,
         data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id('setSource(bytes6,bytes6,address)'),
+                id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
             ],
             wand.address
         ])
@@ -217,13 +217,13 @@ console.time("Orchestration set in");
         [
             {
                 contact: cauldron.address, signatures: [
-                    id('build(address,bytes12,bytes6,bytes6)'),
-                    id('destroy(bytes12)'),
-                    id('tweak(bytes12,bytes6,bytes6)'),
-                    id('give(bytes12,address)'),
-                    id('pour(bytes12,int128,int128)'),
-                    id('stir(bytes12,bytes12,uint128,uint128)'),
-                    id('roll(bytes12,bytes6,int128)'),
+                    id(cauldron.interface, 'build(address,bytes12,bytes6,bytes6)'),
+                    id(cauldron.interface, 'destroy(bytes12)'),
+                    id(cauldron.interface, 'tweak(bytes12,bytes6,bytes6)'),
+                    id(cauldron.interface, 'give(bytes12,address)'),
+                    id(cauldron.interface, 'pour(bytes12,int128,int128)'),
+                    id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
+                    id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
                 ]
             }
         ]
@@ -233,9 +233,9 @@ console.time("Orchestration set in");
         [
             {
                 contact: cauldron.address, signatures: [
-                    id('give(bytes12,address)'),
-                    id('grab(bytes12,address)'),
-                    id('slurp(bytes12,uint128,uint128)'),
+                    id(cauldron.interface, 'give(bytes12,address)'),
+                    id(cauldron.interface, 'grab(bytes12,address)'),
+                    id(cauldron.interface, 'slurp(bytes12,uint128,uint128)')
                 ]
             }
         ]
@@ -245,58 +245,58 @@ console.time("Orchestration set in");
         [
             {
                 contact: cauldron.address, signatures: [
-                    id('addAsset(bytes6,address)'),
-                    id('addSeries(bytes6,bytes6,address)'),
-                    id('addIlks(bytes6,bytes6[])'),
-                    id('setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                    id('setRateOracle(bytes6,address)'),
-                    id('setSpotOracle(bytes6,bytes6,address,uint32)'),
+                    id(cauldron.interface, 'addAsset(bytes6,address)'),
+                    id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
+                    id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
+                    id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                    id(cauldron.interface, 'setRateOracle(bytes6,address)'),
+                    id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
                 ]
             },
             {
                 contact: ladle.address, signatures: [
-                    id('addJoin(bytes6,address)'),
-                    id('addPool(bytes6,address)'),
+                    id(ladle.interface, 'addJoin(bytes6,address)'),
+                    id(ladle.interface, 'addPool(bytes6,address)'),
                 ]
             },
             {
                 contact: witch.address, signatures: [
-                    id('setIlk(bytes6,uint32,uint64,uint128)'),
+                    id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
                 ]
             },
             {
                 contact: joinFactory.address, signatures: [
-                    id('createJoin(address)'),
+                    id(joinFactory.interface, 'createJoin(address)'),
                 ]
             },
             {
                 contact: fyTokenFactory.address, signatures: [
-                    id('createFYToken(bytes6,address,address,uint32,string,string)'),
+                    id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)'),
                 ]
             },
             {
                 contact: poolFactory.address, signatures: [
-                    id('createPool(address,address)'),
+                    id(poolFactory.interface, 'createPool(address,address)'),
                 ]
             },
             {
                 contact: compoundOracle.address, signatures: [
-                    id('setSource(bytes6,bytes6,address)'),
+                    id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
                 ]
             },
             {
                 contact: chainlinkOracle.address, signatures: [
-                    id('setSource(bytes6,bytes6,address)'),
+                    id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
                 ]
             },
             {
                 contact: compositeOracle.address, signatures: [
-                    id('setSource(bytes6,bytes6,address)'),
+                    id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
                 ]
             },
             {
                 contact: cTokenOracle.address, signatures: [
-                    id('setSource(bytes6,bytes6,address)'),
+                    id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
                 ]
             },
         ]
