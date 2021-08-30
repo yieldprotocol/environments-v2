@@ -73,7 +73,7 @@ function jsonToMap(json:string) : Map<any,any> {
 }
 
 /* Read in deployment data if available */
-const protocol = jsonToMap(fs.readFileSync('output/kovan/rc6.3/protocol.json', 'utf8')) as Map<string, string>;
+const protocol = jsonToMap(fs.readFileSync('output/protocol.json', 'utf8')) as Map<string, string>;
 
 const appendMapToFile = (path: string, map: Map<string, string>) => {
     fs.writeFileSync(path, mapToJson(new Map([...(jsonToMap(fs.readFileSync(path, 'utf8')) as Map<string, string>), ...map])), 'utf8')
@@ -96,7 +96,7 @@ export const addAsset = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
     assets.set(assetId, asset.address)
 
-    // appendMapToFile('output/kovan/rc6.3/assets.json', assets)
+    // appendMapToFile('output/assets.json', assets)
 
     await wand.addAsset(assetId, asset.address); console.log(`wand.addAsset(${symbol})`)
     
@@ -105,10 +105,10 @@ export const addAsset = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     console.log(`[${symbol}Join, '${join.address}'],`)
     joins.set(assetId, join.address)
 
-    // appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
-    // appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
-    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
-    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
+    // appendMapToFile('output/rateSources.json', rateSources)
+    // appendMapToFile('output/chiSources.json', chiSources)
+    // appendMapToFile('output/spotSources.json', spotSources)
+    // appendMapToFile('output/joins.json', joins)
 
     console.timeEnd("Base added in")
 }
@@ -131,17 +131,17 @@ export const makeBase = async (argv: any, hre: HardhatRuntimeEnvironment) => {
 
     assets.set(assetId, asset.address)
 
-    // appendMapToFile('output/kovan/rc6.3/assets.json', assets)
+    // appendMapToFile('output/assets.json', assets)
 
     await wand.makeBase(assetId, rateChiOracle.address, argv.rateSource, argv.chiSource); console.log(`wand.makeBase(${symbol})`)
 
     rateSources.set(assetId, argv.rateSource)
     chiSources.set(assetId, argv.chiSource)
 
-    // appendMapToFile('output/kovan/rc6.3/rateSources.json', rateSources)
-    // appendMapToFile('output/kovan/rc6.3/chiSources.json', chiSources)
-    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
-    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
+    // appendMapToFile('output/rateSources.json', rateSources)
+    // appendMapToFile('output/chiSources.json', chiSources)
+    // appendMapToFile('output/spotSources.json', spotSources)
+    // appendMapToFile('output/joins.json', joins)
 
     console.timeEnd("Base made in")
 }
@@ -169,8 +169,8 @@ export const makeIlk = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     await wand.makeIlk(baseId, assetId, spotOracle.address, argv.spotSource, ratio, maxDebt, minDebt, debtDec); console.log(`wand.makeIlk(${await base.symbol()}, ${await asset.symbol()})`)
     spotSources.set(`${baseId},${assetId}`, argv.spotSource)
 
-    // appendMapToFile('output/kovan/rc6.3/spotSources.json', spotSources)
-    // appendMapToFile('output/kovan/rc6.3/joins.json', joins)
+    // appendMapToFile('output/spotSources.json', spotSources)
+    // appendMapToFile('output/joins.json', joins)
 
     console.timeEnd("Ilk made in")
 }
@@ -214,8 +214,8 @@ export const addSeries = async (argv: any, hre: HardhatRuntimeEnvironment) => {
     fyTokens.set(seriesId, fyToken.address)
     pools.set(seriesId, pool.address)
 
-    // appendMapToFile('output/kovan/rc6.3/fyTokens.json', fyTokens)
-    // appendMapToFile('output/kovan/rc6.3/pools.json', pools)
+    // appendMapToFile('output/fyTokens.json', fyTokens)
+    // appendMapToFile('output/pools.json', pools)
 
     console.timeEnd("Series added in")
 }
