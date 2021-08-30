@@ -97,11 +97,12 @@ export class Mocks {
   }
 
   public static async deploySpotSource(owner: SignerWithAddress, base: string, quote: string, decimals: number) {
+    const value = (base === quote) ? WAD : WAD.mul(2)
     const args: any = [decimals]
     const aggregator = (await deployContract(owner, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
     console.log(`[${base}/${quote}, '${aggregator.address}'],`)
     verify(aggregator.address, args)
-    await aggregator.set(WAD.mul(2))
+    await aggregator.set(value)
     return aggregator
   }
 

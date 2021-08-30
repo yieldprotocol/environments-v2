@@ -11,7 +11,7 @@ import 'solidity-coverage'
 import 'hardhat-deploy'
 import { task } from 'hardhat/config'
 
-import { addAsset, makeBase, makeIlk, addSeries } from './environments/add'
+import { addAsset, makeBase, makeIlk, addSeries } from './scripts/add'
 
 // REQUIRED TO ENSURE METADATA IS SAVED IN DEPLOYMENTS (because solidity-coverage disable it otherwise)
 /* import {
@@ -23,7 +23,7 @@ task(TASK_COMPILE_GET_COMPILER_INPUT).setAction(async (_, bre, runSuper) => {
   return input
 }) */
 
-task("asset", "Adds assets and makes them into ilks and/or bases")
+/* task("asset", "Adds assets and makes them into ilks and/or bases")
   .addFlag("add", "Add asset")
   .addFlag("base", "Make asset into base")
   .addFlag("ilk", "Make asset into ilk")
@@ -58,7 +58,7 @@ task("series", "Adds a series")
     argv.ilkIds = []
     argv.ilkIds = taskArgs.series.slice(3).forEach((ilkId: any) => { argv.ilkIds.push(ilkId) })
     await addSeries(argv, hre)
-});
+}); */
 
 function nodeUrl(network: any) {
   let infuraKey
