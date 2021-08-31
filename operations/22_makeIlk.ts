@@ -31,12 +31,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     [DAI, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
     [DAI, WBTC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
     [DAI, USDT, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
-    [USDC, DAI, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [USDC, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
-    [USDC, WBTC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, USDT, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 1, 6], // Constant 1
+    [USDC, DAI, COMPOSITE, 1000000, 1000000, 1, 6], // Composite, via ETH
+    [USDC, ETH, CHAINLINK, 1000000, 1000000, 1, 6],
+    [USDC, TST, CHAINLINK, 1000000, 1000000, 1, 6], // Mock
+    [USDC, WBTC, COMPOSITE, 1000000, 1000000, 1, 6], // Composite, via ETH
+    [USDC, USDT, COMPOSITE, 1000000, 1000000, 1, 6], // Composite, via ETH
     [USDT, USDT, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
     [USDT, DAI, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
     [USDT, USDC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
