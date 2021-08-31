@@ -166,50 +166,6 @@ const { deployContract } = waffle;
     console.log(`poolFactory.grantRoles(wand)`)
     
     proposal.push({
-        target: compoundOracle.address,
-        data: compoundOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
-            ],
-            wand.address
-        ])
-    })
-    console.log(`compoundOracle.grantRoles(wand)`)
-    
-    proposal.push({
-        target: chainlinkOracle.address,
-        data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
-            ],
-            wand.address
-        ])
-    })
-    console.log(`chainlinkOracle.grantRoles(wand)`)
-    
-    proposal.push({
-        target: compositeOracle.address,
-        data: compositeOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
-            ],
-            wand.address
-        ])
-    })
-    console.log(`compositeOracle.grantRoles(wand)`)
-    
-    proposal.push({
-        target: cTokenOracle.address,
-        data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
-            ],
-            wand.address
-        ])
-    })
-    console.log(`cTokenOracle.grantRoles(wand)`)
-
-    proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [wand.address,
             [

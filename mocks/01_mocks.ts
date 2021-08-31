@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { mapToJson } from '../shared/helpers'
-import { Mocks } from '../operations/mocks'
-import { assetIds, baseIds, spotPairs } from './config'
+import { Mocks } from './mocks'
+import { assetIds, baseIds, spotPairs } from '../core/config'
 
 /**
  * This script integrates existing assets with the yield v2 protocol, deploying Joins in the process
