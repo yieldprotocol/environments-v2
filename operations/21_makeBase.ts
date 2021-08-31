@@ -8,13 +8,16 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32, jsonToMap } from '../shared/helpers'
 import { CHI, RATE, DAI, USDC, USDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
+import { Join } from '../typechain/Join'
 import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   // Input data
@@ -27,14 +30,19 @@ import { Timelock } from '../typechain/Timelock'
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
+  const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
 
   // Contract instantiation
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal
+  // Store a plan in the cloak to isolate the join from the Witch
   const proposal : Array<{ target: string; data: string}> = []
   for (let [assetId, oracleName] of newBases) {
+    const join = await ethers.getContractAt('Join', joins.get(assetId) as string, ownerAcc) as Join
+
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
     const rateChiOracle = await ethers.getContractAt('IOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as IOracle
     console.log(`Current RATE for ${bytesToString(assetId)}: ${(await rateChiOracle.peek(bytesToBytes32(assetId), bytesToBytes32(RATE), 0))[0]}`)
@@ -45,6 +53,20 @@ import { Timelock } from '../typechain/Timelock'
       data: wand.interface.encodeFunctionData('makeBase', [assetId, rateChiOracle.address])
     })
     console.log(`[Asset: ${bytesToString(assetId)} made into base using ${rateChiOracle.address}],`)
+
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
+        [
+          {
+            contact: join.address, signatures: [
+              id(join.interface, 'join(address,uint128)'),
+            ]
+          }
+        ]
+      ])
+    })
+    console.log(`cloak.plan(witch, join(${bytesToString(assetId)}))`)
   }
 
   // Propose, approve, execute

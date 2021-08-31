@@ -11,14 +11,17 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
 import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
+import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { Join } from '../typechain/Join'
 
 import { Timelock } from '../typechain/Timelock'
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   const TST = stringToBytes6('TST')
@@ -40,11 +43,14 @@ import { Timelock } from '../typechain/Timelock'
 
   // Contract instantiation
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
+  const ROOT = await timelock.ROOT()
 
   // Build the proposal
-  const proposal : Array<{ target: string; data: string}> = []
+  let proposal : Array<{ target: string; data: string}> = []
   for (let [assetId, assetAddress] of newAssets) {
     proposal.push({
       target: wand.address,
@@ -63,12 +69,57 @@ import { Timelock } from '../typechain/Timelock'
   await timelock.approve(txHash); console.log(`Approved ${txHash}`)
   await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
-  // The joins file can only be updated after the successful execution of the proposal
+  // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
+  // Give ROOT to the cloak, Timelock already has ROOT as the deployer
+  // Store a plan for isolating Join from Ladle and Witch
+  proposal = []
+
   for (let [assetId, assetAddress] of newAssets) {
     const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc) as Join
     verify(join.address, [assetAddress])
     console.log(`[${bytesToString(assetId)}Join, : '${join.address}'],`)
     joins.set(assetId, join.address)
+
+    // The joins file can only be updated after the successful execution of the proposal
+    fs.writeFileSync('./output/joins.json', mapToJson(joins), 'utf8')
+
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRoles', [
+          [
+              id(join.interface, 'setFlashFeeFactor(uint256)'),
+          ],
+          timelock.address
+      ])
+    })
+    console.log(`join.grantRoles(gov, timelock)`)
+
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    })
+    console.log(`join.grantRole(ROOT, cloak)`)
+
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address,
+        [
+          {
+            contact: join.address, signatures: [
+              id(join.interface, 'join(address,uint128)'),
+              id(join.interface, 'exit(address,uint128)'),
+            ]
+          }
+        ]
+      ])
+    })
+    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)}))`)
   }
-  fs.writeFileSync('./output/joins.json', mapToJson(joins), 'utf8')
+
+  // Propose, approve, execute
+  const txHash2 = await timelock.callStatic.propose(proposal)
+  await timelock.propose(proposal); console.log(`Proposed ${txHash2}`)
+  await timelock.approve(txHash2); console.log(`Approved ${txHash2}`)
+  await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
+
 })()

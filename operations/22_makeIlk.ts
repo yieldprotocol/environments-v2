@@ -7,13 +7,16 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, bytesToBytes32, jsonToMap } from '../shared/helpers'
 import { WAD, DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
+import { Join } from '../typechain/Join'
 import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   const TST = stringToBytes6('TST')
@@ -44,15 +47,19 @@ import { Timelock } from '../typechain/Timelock'
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
+  const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
 
   // Contract instantiation
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal
   const proposal : Array<{ target: string; data: string}> = []
+  const plans : Set<string> = new Set() // Existing plans in the cloak
   for (let [baseId, ilkId, oracleName, ratio, maxDebt, minDebt, debtDec] of newIlks) {
-    console.log(oracleName)
+    const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc) as Join
+
     // Test that the sources for spot have been set. Peek will fail with 'Source not found' if they have not.
     const spotOracle = await ethers.getContractAt('IOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as IOracle
     console.log(`Looking for ${baseId}/${ilkId} at ${protocol.get(oracleName) as string}`)
@@ -65,6 +72,23 @@ import { Timelock } from '../typechain/Timelock'
       ])
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
+
+    if (!plans.has(ilkId)) { 
+      plans.add(ilkId)
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
+          [
+            {
+              contact: join.address, signatures: [
+                id(join.interface, 'exit(address,uint128)'),
+              ]
+            }
+          ]
+        ])
+      })
+      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)}))`)
+    }
   }
 
   // Propose, approve, execute
