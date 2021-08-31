@@ -39,6 +39,12 @@ const { deployContract } = waffle;
     })
     console.log(`cloak.grantRoles(gov, timelock)`)
 
+    proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+    })
+    console.log(`cloak.revokeRole(ROOT, deployer)`)
+
     // Propose, approve, execute
     const txHash = await timelock.callStatic.propose(proposal)
     await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
