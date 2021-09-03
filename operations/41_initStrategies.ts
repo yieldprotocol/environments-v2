@@ -68,6 +68,12 @@ import { Timelock } from '../typechain/Timelock'
         data: ladle.interface.encodeFunctionData("addIntegration", [strategy.address, true])
       },
     )
+    proposal.push(
+      {
+        target: ladle.address,
+        data: ladle.interface.encodeFunctionData("addToken", [strategy.address, true])
+      },
+    )
   }
   
   // Propose, update, execute
