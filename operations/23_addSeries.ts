@@ -5,6 +5,9 @@
  * It uses the Wand to add the series:
  *  - Deploying a fyToken and adds it to the Cauldron, permissioned for the specified ilks.
  *  - Deploying a pool and adding it to the Ladle, which gets permissions to mint and burn.
+ * The Timelock and Cloak get ROOT access to the new FYToken. Root access is NOT removed from the Wand.
+ * The Timelock gets access to governance functions in the new FYToken.
+ * A plan is recorded in the Cloak to isolate the FYToken from the Ladle.
  * It adds to the fyTokens and pools json address files.
  * @notice Adding one series is 6M gas, maybe add just one per proposal
  */
@@ -27,27 +30,37 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   // Input data
-  const EO2608 = 1630022399
-  const EO2708 = 1630108799
-  const EO2808 = 1630195199
   const EOSEP21 = 1633042799
   const EODEC21 = 1640995199
 
+  const EO3108 = 1630454399
+  const EO0109 = 1630540799
+  const EO0209 = 1630627199
+  const EO0309 = 1630713599
+  const EO0409 = 1630799999
+  const EO0609 = 1630972799
+  const EO0709 = 1631059199
+  const EO0809 = 1631145599
+  const EO0909 = 1631231999
+  const EO1009 = 1631318399
+
   const TST = stringToBytes6('TST')
-  const TST1 = stringToBytes6('TST1')
-  const TST2 = stringToBytes6('TST2')
-  const TST3 = stringToBytes6('TST3')
-  
+
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('DAI26'), DAI, EO2608, [TST1, TST2, TST3], 'DAI26', 'DAI26'],
-//    [stringToBytes6('DAI27'), DAI, EO2708, [TST1, TST2, TST3], 'DAI27', 'DAI27'],
-//    [stringToBytes6('DAI28'), DAI, EO2808, [TST1, TST2, TST3], 'DAI28', 'DAI28'],
-    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
+//    [stringToBytes6('DAI31'), DAI, EO3108, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI31', 'DAI31'],
+//    [stringToBytes6('DAI01'), DAI, EO0109, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI01', 'DAI01'],
+//    [stringToBytes6('DAI02'), DAI, EO0209, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI02', 'DAI02'],
+//    [stringToBytes6('DAI03'), DAI, EO0309, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI03', 'DAI03'],
+//    [stringToBytes6('DAI04'), DAI, EO0409, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI04', 'DAI04'],
+//    [stringToBytes6('DAI06'), DAI, EO0609, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI06', 'DAI06'],
+//    [stringToBytes6('DAI07'), DAI, EO0709, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI07', 'DAI07'],
+//    [stringToBytes6('DAI08'), DAI, EO0809, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI08', 'DAI08'],
+/*    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
     [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
     [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC1', 'USDC1'],
     [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC2', 'USDC2'],
     [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT1', 'USDT1'],
-    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT2', 'USDT2']
+    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT2', 'USDT2']*/
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;

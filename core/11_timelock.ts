@@ -7,6 +7,12 @@ import { Timelock } from '../typechain/Timelock'
 
 const { deployContract } = waffle
 
+/**
+ * @dev This script deploys a Timelock
+ *
+ * It takes as inputs the governance json address file, which is updated.
+ */
+
 // const multisig = fs.readFileSync('.multisig', 'utf8').trim();
 const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 

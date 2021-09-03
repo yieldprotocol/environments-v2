@@ -4,6 +4,7 @@
  * It takes as inputs the governance and protocol json address files.
  * It uses the Wand to add the relevant rate source to Cauldron, and to permission the Witch to liquidate debt.
  * It verifies that the oracle supplied can return rate and chi for the new bases.
+ * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
 import { ethers } from 'hardhat'

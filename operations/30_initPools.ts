@@ -7,7 +7,7 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap } from '../shared/helpers'
+import { jsonToMap, stringToBytes6 } from '../shared/helpers'
 import { WAD } from '../shared/constants'
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
@@ -19,13 +19,9 @@ import { Timelock } from '../typechain/Timelock'
 
 (async () => {
   // Input data
-  const poolsInit: Array<[string]> = [ // [poolId]
-    ["0x444149310000"],
-    ["0x444149320000"],
-    ["0x555344433100"],
-    ["0x555344433200"],
-    ["0x555344543100"],
-    ["0x555344543200"],
+  const poolsInit: Array<[string]> = [ // [seriesId]
+    [stringToBytes6('DAI07')],
+    [stringToBytes6('DAI08')],
   ]
 
   const [ ownerAcc ] = await ethers.getSigners();

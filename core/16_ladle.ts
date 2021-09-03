@@ -14,7 +14,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the Ladle
+ *
+ * It takes as inputs the assets (for WETH), governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
+ * The Ladle gets access to permissioned functions in the Cauldron.
+ * A plan is recorded in the Cloak to isolate the Ladle from the Cauldron.
  */
 
 (async () => {

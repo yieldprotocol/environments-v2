@@ -11,12 +11,8 @@ const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map
 const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
 const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
- /**
- * This script deploys the yield v2 protocol series specified in config.ts
- * 
- * run:
- * npx hardhat run ./environments/series.ts --network localhost
- *
+/**
+ * @dev This script deploys strategies specified in config.ts
  */
 
 console.time("Strategies added in");
