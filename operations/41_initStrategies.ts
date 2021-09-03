@@ -16,9 +16,10 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-    ['DAI3M', ["0x444149310000", "0x444149310000"],["0x444149320000", "0x444149320000"]], // poolId and seriesId usually match
+    /* ['DAI3M', ["0x444149310000", "0x444149310000"],["0x444149320000", "0x444149320000"]], // poolId and seriesId usually match
     ['USDC3M', ["0x555344433100","0x555344433100"],["0x555344433200","0x555344433200"]],
-    ['USDT3M', ["0x555344543100","0x555344543100"],["0x555344543200","0x555344543200"]]
+    ['USDT3M', ["0x555344543100","0x555344543100"],["0x555344543200","0x555344543200"]] */
+    ['USDC10', ["0x555344433131","0x555344433131"],["0x555344433132","0x555344433132"]],
   ]
   
   const [ ownerAcc ] = await ethers.getSigners();

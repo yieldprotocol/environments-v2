@@ -32,6 +32,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Input data
   const EOSEP21 = 1633042799
   const EODEC21 = 1640995199
+  const EOMAR22 = 1648771199
 
   const EO3108 = 1630454399
   const EO0109 = 1630540799
@@ -55,12 +56,13 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 //    [stringToBytes6('DAI06'), DAI, EO0609, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI06', 'DAI06'],
 //    [stringToBytes6('DAI07'), DAI, EO0709, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI07', 'DAI07'],
 //    [stringToBytes6('DAI08'), DAI, EO0809, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI08', 'DAI08'],
-/*    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
-    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
-    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC1', 'USDC1'],
-    [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC2', 'USDC2'],
-    [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT1', 'USDT1'],
-    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT2', 'USDT2']*/
+
+//    [stringToBytes6('DAI11'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI11', 'DAI11'], // Sep21
+//    [stringToBytes6('DAI12'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI12', 'DAI12'], // Dec21
+//    [stringToBytes6('USDC11'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC11', 'USDC11'],
+    [stringToBytes6('USDC12'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC12', 'USDC12'],
+/*    [stringToBytes6('USDT11'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT11', 'USDT11'],
+    [stringToBytes6('USDT12'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT12', 'USDT12'] */
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
@@ -78,7 +80,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const ROOT = await timelock.ROOT()
 
   // Each series costs 10M gas to deploy, so there is no bundling of several series in a single proposal
-  for (let [seriesId, baseId, maturity, ilkIds, name, symbol] of newSeries) {
+  /* for (let [seriesId, baseId, maturity, ilkIds, name, symbol] of newSeries) {
     // Build the proposal
     const proposal : Array<{ target: string; data: string }> = []
 
@@ -112,7 +114,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     verify(pool.address, [], 'safeERC20Namer.js')
     pools.set(seriesId, pool.address)
     fs.writeFileSync('./output/pools.json', mapToJson(pools), 'utf8')
-  }
+  } */
 
   // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
@@ -127,7 +129,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('grantRoles', [
           [
-              id(fyToken.interface, 'setOracle(address)'),
+              id(fyToken.interface, 'point(bytes32,address)'),
           ],
           timelock.address
       ])

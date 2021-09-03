@@ -20,8 +20,8 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const poolsInit: Array<[string]> = [ // [seriesId]
-    [stringToBytes6('DAI07')],
-    [stringToBytes6('DAI08')],
+    [stringToBytes6('USDC11')],
+    [stringToBytes6('USDC12')],
   ]
 
   const [ ownerAcc ] = await ethers.getSigners();

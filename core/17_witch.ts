@@ -42,6 +42,7 @@ const { deployContract } = waffle;
     protocol.set('witch', witch.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await witch.grantRole(ROOT, timelock.address); console.log(`witch.grantRoles(ROOT, timelock)`)
+    // const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as Witch
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -52,6 +53,7 @@ const { deployContract } = waffle;
         target: witch.address,
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
+                id(witch.interface, 'point(bytes32,address)'),
                 id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
             ],
             timelock.address
