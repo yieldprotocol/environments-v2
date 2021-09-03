@@ -16,9 +16,9 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [DAI,  "0xD9D6D61bc216a0BE1EecA4155b258CbB3030d23f"],
-    [USDC, "0x078FfF3582342a16a7b038E6F4Fc9E88F738143d"],
-    [USDT, "0x1292BAe0Ba398F9e480251b8C40D2A171EC446D1"],
+    [DAI,  "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE"],
+    [USDC, "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c"],
+    [USDT, "0x59b670e9fA9D0A427751Af201D676719a970857b"],
     // [stringToBytes6('TST3'), "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8"],
   ]
   const [ ownerAcc ] = await ethers.getSigners();

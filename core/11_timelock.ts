@@ -7,8 +7,6 @@ import { Timelock } from '../typechain/Timelock'
 
 const { deployContract } = waffle
 
-console.time("Timelock deployed in");
-
 // const multisig = fs.readFileSync('.multisig', 'utf8').trim();
 const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
@@ -21,6 +19,4 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 
     governance.set('timelock', timelock.address)
     fs.writeFileSync('./output/governance.json', mapToJson(governance), 'utf8')
-
-    console.timeEnd("Timelock deployed in")
 })()

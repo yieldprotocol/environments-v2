@@ -11,25 +11,28 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
 import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
+import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { Join } from '../typechain/Join'
 
 import { Timelock } from '../typechain/Timelock'
+import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   const TST = stringToBytes6('TST')
   // Input data
   const newAssets: Array<[string, string]> = [
-    [DAI,  "0xaFCdc724EB8781Ee721863db1B15939675996484"],
-    [USDC, "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
-    [ETH,  "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
-    [TST,  "0x51C9B30BE0417559A467D1f65d710a73E5845B3a"],
-    [WBTC, "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
-    [USDT, "0x233551369dc535f5fF3517c28fDCce81d650063e"]
+    [DAI,  "0x5FbDB2315678afecb367f032d93F642f64180aa3"],
+    [USDC, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"],
+    [ETH,  "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"],
+    [TST,  "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"],
+    [WBTC, "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"],
+    [USDT, "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"]
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   const [ ownerAcc ] = await ethers.getSigners();
@@ -42,9 +45,11 @@ import { Timelock } from '../typechain/Timelock'
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
+  const ROOT = await timelock.ROOT()
 
   // Build the proposal
-  const proposal : Array<{ target: string; data: string}> = []
+  let proposal : Array<{ target: string; data: string}> = []
   for (let [assetId, assetAddress] of newAssets) {
     proposal.push({
       target: wand.address,
@@ -63,12 +68,57 @@ import { Timelock } from '../typechain/Timelock'
   await timelock.approve(txHash); console.log(`Approved ${txHash}`)
   await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
-  // The joins file can only be updated after the successful execution of the proposal
+  // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
+  // Give ROOT to the cloak, Timelock already has ROOT as the deployer
+  // Store a plan for isolating Join from Ladle and Witch
+  proposal = []
+
   for (let [assetId, assetAddress] of newAssets) {
     const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc) as Join
     verify(join.address, [assetAddress])
     console.log(`[${bytesToString(assetId)}Join, : '${join.address}'],`)
     joins.set(assetId, join.address)
+
+    // The joins file can only be updated after the successful execution of the proposal
+    fs.writeFileSync('./output/joins.json', mapToJson(joins), 'utf8')
+
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRoles', [
+          [
+              id(join.interface, 'setFlashFeeFactor(uint256)'),
+          ],
+          timelock.address
+      ])
+    })
+    console.log(`join.grantRoles(gov, timelock)`)
+
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    })
+    console.log(`join.grantRole(ROOT, cloak)`)
+
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address,
+        [
+          {
+            contact: join.address, signatures: [
+              id(join.interface, 'join(address,uint128)'),
+              id(join.interface, 'exit(address,uint128)'),
+            ]
+          }
+        ]
+      ])
+    })
+    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)}))`)
   }
-  fs.writeFileSync('./output/joins.json', mapToJson(joins), 'utf8')
+
+  // Propose, approve, execute
+  const txHash2 = await timelock.callStatic.propose(proposal)
+  await timelock.propose(proposal); console.log(`Proposed ${txHash2}`)
+  await timelock.approve(txHash2); console.log(`Approved ${txHash2}`)
+  await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
+
 })()

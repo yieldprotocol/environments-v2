@@ -18,7 +18,7 @@ export async function strategyGovAuth(strategy: Strategy, receiver: string) {
       await strategy.ROOT(),
       id(strategy.interface, 'setRewardsToken(address)'),
       id(strategy.interface, 'setRewards(uint32,uint32,uint96)'),
-      id(strategy.interface, 'setYield(address,address)'),
+      id(strategy.interface, 'setYield(address)'),
       id(strategy.interface, 'setTokenId(bytes6)'),
       id(strategy.interface, 'resetTokenJoin()'),
       id(strategy.interface, 'setNextPool(address,bytes6)'),
