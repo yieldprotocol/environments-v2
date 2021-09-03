@@ -78,10 +78,22 @@
         "type": "bytes6"
       },
       {
+        "indexed": false,
+        "internalType": "contract IERC20Metadata",
+        "name": "base",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "bytes6",
         "name": "quoteId",
         "type": "bytes6"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IERC20Metadata",
+        "name": "quote",
+        "type": "address"
       },
       {
         "indexed": true,
@@ -120,33 +132,20 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [
-      {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "base",
+        "name": "baseId",
         "type": "bytes32"
       },
       {
         "internalType": "bytes32",
-        "name": "quote",
+        "name": "quoteId",
         "type": "bytes32"
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "amountIn",
         "type": "uint256"
       }
     ],
@@ -154,7 +153,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "amountOut",
         "type": "uint256"
       },
       {
@@ -262,17 +261,17 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "base",
+        "name": "baseId",
         "type": "bytes32"
       },
       {
         "internalType": "bytes32",
-        "name": "quote",
+        "name": "quoteId",
         "type": "bytes32"
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "amountIn",
         "type": "uint256"
       }
     ],
@@ -280,7 +279,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "value",
+        "name": "amountOut",
         "type": "uint256"
       },
       {
@@ -368,13 +367,23 @@
     "inputs": [
       {
         "internalType": "bytes6",
-        "name": "base",
+        "name": "baseId",
         "type": "bytes6"
       },
       {
+        "internalType": "contract IERC20Metadata",
+        "name": "base",
+        "type": "address"
+      },
+      {
         "internalType": "bytes6",
-        "name": "quote",
+        "name": "quoteId",
         "type": "bytes6"
+      },
+      {
+        "internalType": "contract IERC20Metadata",
+        "name": "quote",
+        "type": "address"
       },
       {
         "internalType": "address",
@@ -383,29 +392,6 @@
       }
     ],
     "name": "setSource",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes6[]",
-        "name": "bases",
-        "type": "bytes6[]"
-      },
-      {
-        "internalType": "bytes6[]",
-        "name": "quotes",
-        "type": "bytes6[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "sources_",
-        "type": "address[]"
-      }
-    ],
-    "name": "setSources",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -432,7 +418,12 @@
       },
       {
         "internalType": "uint8",
-        "name": "decimals",
+        "name": "baseDecimals",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "quoteDecimals",
         "type": "uint8"
       },
       {

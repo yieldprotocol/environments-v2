@@ -2523,15 +2523,15 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@^2.0.41":
-  version "2.0.41"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.0.41.tgz#4831495e1317ea2cd09c21b49501bfb73d2ca68e"
-  integrity sha512-KeARm+VJ5aqYiA/GfDvc/LIm7NQtx1hbsV2EZvzjVoMbNyj+tWDQ4uZmM4cCkNz4cXNvz6Bi+l4GgkcVrdA4Aw==
+"@yield-protocol/vault-interfaces@^2.3.0-rc0":
+  version "2.3.0-rc0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc0.tgz#2be029383dabdfdfde176fc64de28a707a0ce7d4"
+  integrity sha512-poOWMruYlcdWj9krEFcdLpTpXXycE/iSbMcX3Lh0Hab4d/imtmeo2jSUr5SOCKh39ORIWfhigyUn/EVZs/zqMg==
 
-"@yield-protocol/vault-v2@^0.10.0-rc3":
-  version "0.10.0-rc3"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.10.0-rc3.tgz#9226e9e96012821fbc951ea2b1c4c4de4f0fc8f6"
-  integrity sha512-5onreTm//6gLptiPljmazn5YO0+b0F8FVLriGidoQr4+IwgoTjXfUceirrtoqQbYdjlTsgSSI+glnFJPkTMAhQ==
+"@yield-protocol/vault-v2@^0.10.0-rc4":
+  version "0.10.0-rc4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.10.0-rc4.tgz#1fd13db5336af577225b6e668c5ad0a4dc723639"
+  integrity sha512-1qTXOxGBSM/rG32X7LL2T1hSQANmo1U2LvHrgPA8Omcm81eZStnJXnRvkzUtjgVqUxWCSYbzEGinzkU5/ilXtw==
 
 "@yield-protocol/yieldspace-interfaces@^2.3.0-rc0":
   version "2.3.0-rc1"

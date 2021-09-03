@@ -3,6 +3,7 @@
  * 
  * It takes as inputs the governance and protocol address files.
  * It uses the Wand to set the spot oracle, debt limits, and allow the Witch to liquidate collateral.
+ * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
 import { ethers } from 'hardhat'
@@ -26,23 +27,23 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const newIlks: Array<[string, string, string, number, number, number, number]> = [
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', 1000000, 1000000, 1, 18],
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
-    [DAI, USDC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
+    [DAI, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [DAI, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
     [DAI, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
-    [DAI, WBTC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [DAI, USDT, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
-    [USDC, DAI, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [USDC, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
-    [USDC, WBTC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDC, USDT, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
+    [DAI, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
+    [DAI, USDT, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 1, 6], // Constant 1
+    [USDC, DAI, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
+    [USDC, ETH, CHAINLINK, 1000000, 1000000, 1, 6],
+    [USDC, TST, CHAINLINK, 1000000, 1000000, 1, 6], // Mock
+    [USDC, WBTC, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
+    [USDC, USDT, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
     [USDT, USDT, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
-    [USDT, DAI, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
-    [USDT, USDC, COMPOSITE, 1000000, 1000000, 1, 18], // Composite, via ETH
+    [USDT, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
+    [USDT, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
     [USDT, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
-    [USDT, WBTC, COMPOSITE, 1000000, 1000000, 1, 18] // Composite, via ETH
+    [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18] // Via ETH
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;

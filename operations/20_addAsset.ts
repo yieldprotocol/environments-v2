@@ -5,6 +5,9 @@
  * It uses the Wand to:
  *  - Add the asset to Cauldron.
  *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
+ * The Timelock and Cloak get ROOT access to the new Join. Root access is NOT removed from the Wand.
+ * The Timelock gets access to governance functions in the new Join.
+ * A plan is recorded in the Cloak to isolate the Join from the Ladle.
  * It adds to the assets and joins json address files.
  * @notice The assetIds can't be already in use
  */
@@ -27,12 +30,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const TST = stringToBytes6('TST')
   // Input data
   const newAssets: Array<[string, string]> = [
-    [DAI,  "0x5FbDB2315678afecb367f032d93F642f64180aa3"],
-    [USDC, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"],
-    [ETH,  "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"],
-    [TST,  "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"],
-    [WBTC, "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"],
-    [USDT, "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"]
+    [DAI,  "0xaFCdc724EB8781Ee721863db1B15939675996484"],
+    [USDC, "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
+    [ETH,  "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
+    [TST,  "0x51C9B30BE0417559A467D1f65d710a73E5845B3a"],
+    [WBTC, "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
+    [USDT, "0x233551369dc535f5fF3517c28fDCce81d650063e"]
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   const [ ownerAcc ] = await ethers.getSigners();
