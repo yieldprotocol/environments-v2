@@ -6,22 +6,29 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
-import { jsonToMap } from '../shared/helpers'
+import *  as hre from 'hardhat'
+import { jsonToMap, bytesToString, stringToBytes6 } from '../shared/helpers'
+import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { Strategy } from '../typechain/Strategy'
 import { Ladle } from '../typechain/Ladle'
 import { Timelock } from '../typechain/Timelock'
+import { Relay } from '../typechain/Relay'
 
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-    /* ['DAI3M', ["0x444149310000", "0x444149310000"],["0x444149320000", "0x444149320000"]], // poolId and seriesId usually match
-    ['USDC3M', ["0x555344433100","0x555344433100"],["0x555344433200","0x555344433200"]],
-    ['USDT3M', ["0x555344543100","0x555344543100"],["0x555344543200","0x555344543200"]] */
-    ['USDC10', ["0x555344433131","0x555344433131"],["0x555344433132","0x555344433132"]],
+//    ['DAI2S', [stringToBytes6('DAI21'), stringToBytes6('DAI21')],[stringToBytes6('DAI22'), stringToBytes6('DAI22')]], // poolId and seriesId usually match
+    ['USDC2S', [stringToBytes6('USDC21'), stringToBytes6('USDC21')],[stringToBytes6('USDC22'), stringToBytes6('USDC22')]],
+//    ['USDT2S', [stringToBytes6('USDT21'), stringToBytes6('USDT21')],[stringToBytes6('USDT22'), stringToBytes6('USDT22')]]
   ]
   
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  }); */
+  // const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
@@ -30,6 +37,7 @@ import { Timelock } from '../typechain/Timelock'
 
   // Contract instantiation
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
 
   // Build the proposal
   const proposal : Array<{ target: string; data: string }> = []
@@ -38,6 +46,7 @@ import { Timelock } from '../typechain/Timelock'
     const strategy: Strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string, ownerAcc) as Strategy
     const ladle: Ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as Ladle
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
+    const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
     proposal.push(
       {
@@ -48,7 +57,7 @@ import { Timelock } from '../typechain/Timelock'
     proposal.push(
       {
         target: base.address,
-        data: base.interface.encodeFunctionData("mint", [strategy.address, '1000000000000000000000'])
+        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(1000).mul(baseUnit)])
       },
     )
     proposal.push(
@@ -76,10 +85,26 @@ import { Timelock } from '../typechain/Timelock'
       },
     )
   }
-  
-  // Propose, update, execute
+
+  // Propose, approve, execute
   const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  await relay.execute(
+    [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('propose', [proposal])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('approve', [txHash])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('execute', [proposal])
+      },
+    ]
+  ); console.log(`Executed ${txHash}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 })()

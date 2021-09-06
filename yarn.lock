@@ -2515,10 +2515,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.10.0-rc0.tgz#556ba4b191b30891683c6f2b98807c3a4940a110"
   integrity sha512-8rlvvBHlsTVPZh3z5hC3jlzzmWzD+DpZtNskU20FwvKjpCcFmQVXYDTm3aqQLbIfPfhPKg8LImuMZjBwr8Lv7g==
 
-"@yield-protocol/utils-v2@^2.4.0-rc2":
-  version "2.4.0-rc2"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.0-rc2.tgz#355955b477c3aae3f97c8d0ff77a8bcfa7544fee"
-  integrity sha512-TI7SGudvRj8An1aveAZAeDz3jZXcBLBuprWC1Ed715mAGPnJI9Brn40StJYP7RWG2Uw3sL12Gvn8pLZjduU7Hw==
+"@yield-protocol/utils-v2@^2.4.0-rc3":
+  version "2.4.0-rc3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.0-rc3.tgz#d5a82df647d1cf3b7b60355a19c09b459413efe9"
+  integrity sha512-P4P/yLNc4+NoLLwIChKdAewQt48Gmt2sxC7dJ7zS0toL9ZiGaFRTuSPp2ZfkWtRdmrcPwxUt2loSdkp4+xNzng==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"

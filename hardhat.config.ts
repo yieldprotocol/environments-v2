@@ -132,6 +132,7 @@ module.exports = {
     kovan: {
       accounts,
       gasPrice: 10000000000,
+      timeout: 600000,
       url: nodeUrl('kovan')
     },
     goerli: {
@@ -148,6 +149,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
+      timeout: 600000,
       url: nodeUrl('mainnet')
     },
     coverage: {

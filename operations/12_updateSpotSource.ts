@@ -15,16 +15,12 @@ import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle' // TODO
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
-  const TST = stringToBytes6('TST')
   // Input data: baseId, quoteId, oracle name, source address
   const newSources: Array<[string, string, string, string]> = [
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
     [DAI, ETH,   'chainlinkOracle', "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
-    [DAI, TST,   'chainlinkOracle', "0x6882f3a206d6aBd729BcAd2fa237d8Cb02a4FaBD"],
     [USDC, ETH,  'chainlinkOracle', "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
-    [USDC, TST,  'chainlinkOracle', "0xe6335d692ea0deAa2fa85eB6a396622088025dE0"],
     [USDT, ETH,  'chainlinkOracle', "0x0bF499444525a23E7Bb61997539725cA2e928138"],
-    [USDT, TST,  'chainlinkOracle', "0x38912f6844239F530EC5E82d684288EA9111e3Cd"],
     [WBTC, ETH,  'chainlinkOracle', "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
   ]
   const [ ownerAcc ] = await ethers.getSigners();

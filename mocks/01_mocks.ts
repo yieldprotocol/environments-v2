@@ -5,11 +5,7 @@ import { Mocks } from './mocks'
 import { assetIds, baseIds, spotPairs } from '../core/config'
 
 /**
- * This script integrates existing assets with the yield v2 protocol, deploying Joins in the process
- * 
- * run:
- * npx hardhat run ./environments/assets.ts --network localhost
- *
+ * @dev Deploy mock tokens and oracle sources for testing
  */
  
 (async () => {
