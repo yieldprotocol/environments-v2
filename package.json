@@ -23,7 +23,7 @@
     "@truffle/hdwallet-provider": "^1.0.40",
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "^0.10.0-rc0",
-    "@yield-protocol/utils-v2": "^2.4.0-rc3",
+    "@yield-protocol/utils-v2": "^2.4.0",
     "@yield-protocol/vault-interfaces": "^2.3.0-rc0",
     "@yield-protocol/vault-v2": "^0.10.0-rc5",
     "@yield-protocol/yieldspace-interfaces": "^2.3.0-rc0",

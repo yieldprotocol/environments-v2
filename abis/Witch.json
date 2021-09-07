@@ -199,6 +199,19 @@
   },
   {
     "inputs": [],
+    "name": "LOCK8605463013",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "ROOT",
     "outputs": [
       {
@@ -212,7 +225,7 @@
   },
   {
     "inputs": [],
-    "name": "adfepixw",
+    "name": "ROOT4146650865",
     "outputs": [
       {
         "internalType": "bytes4",
