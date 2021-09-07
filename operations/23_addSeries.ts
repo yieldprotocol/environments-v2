@@ -26,12 +26,14 @@ import { FYToken } from '../typechain/FYToken'
 import { Pool } from '../typechain/Pool'
 
 import { Timelock } from '../typechain/Timelock'
+import { Relay } from '../typechain/Relay'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   // Input data
   const EOSEP21 = 1633042799
   const EODEC21 = 1640995199
+  const EOMAR22 = 1648771199
 
   const EO3108 = 1630454399
   const EO0109 = 1630540799
@@ -44,23 +46,29 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO0909 = 1631231999
   const EO1009 = 1631318399
 
-  const TST = stringToBytes6('TST')
-
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('DAI31'), DAI, EO3108, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI31', 'DAI31'],
-//    [stringToBytes6('DAI01'), DAI, EO0109, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI01', 'DAI01'],
-//    [stringToBytes6('DAI02'), DAI, EO0209, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI02', 'DAI02'],
-//    [stringToBytes6('DAI03'), DAI, EO0309, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI03', 'DAI03'],
-//    [stringToBytes6('DAI04'), DAI, EO0409, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI04', 'DAI04'],
-//    [stringToBytes6('DAI06'), DAI, EO0609, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI06', 'DAI06'],
-//    [stringToBytes6('DAI07'), DAI, EO0709, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI07', 'DAI07'],
-//    [stringToBytes6('DAI08'), DAI, EO0809, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI08', 'DAI08'],
-/*    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
-    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, TST, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
-    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC1', 'USDC1'],
-    [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, TST, WBTC, USDT], 'USDC2', 'USDC2'],
-    [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT1', 'USDT1'],
-    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, TST, WBTC], 'USDT2', 'USDT2']*/
+//    [stringToBytes6('DAI31'), DAI, EO3108, [DAI, USDC, ETH, WBTC, USDT], 'DAI31', 'DAI31'],
+//    [stringToBytes6('DAI01'), DAI, EO0109, [DAI, USDC, ETH, WBTC, USDT], 'DAI01', 'DAI01'],
+//    [stringToBytes6('DAI02'), DAI, EO0209, [DAI, USDC, ETH, WBTC, USDT], 'DAI02', 'DAI02'],
+//    [stringToBytes6('DAI03'), DAI, EO0309, [DAI, USDC, ETH, WBTC, USDT], 'DAI03', 'DAI03'],
+//    [stringToBytes6('DAI04'), DAI, EO0409, [DAI, USDC, ETH, WBTC, USDT], 'DAI04', 'DAI04'],
+//    [stringToBytes6('DAI06'), DAI, EO0609, [DAI, USDC, ETH, WBTC, USDT], 'DAI06', 'DAI06'],
+//    [stringToBytes6('DAI07'), DAI, EO0709, [DAI, USDC, ETH, WBTC, USDT], 'DAI07', 'DAI07'],
+//    [stringToBytes6('DAI08'), DAI, EO0809, [DAI, USDC, ETH, WBTC, USDT], 'DAI08', 'DAI08'],
+
+//    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
+//    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
+//    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC1', 'USDC1'],
+//    [stringToBytes6('USDC2'), USDC, EODEC21, [USDC, DAI, ETH, WBTC, USDT], 'USDC2', 'USDC2'],
+//    [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT1', 'USDT1'],
+//    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT2', 'USDT2']
+
+//    [stringToBytes6('DAI21'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI21', 'DAI21'], // Sep21
+//    [stringToBytes6('DAI22'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI22', 'DAI22'], // Dec21
+//    [stringToBytes6('USDC21'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC21', 'USDC21'],
+//    [stringToBytes6('USDC22'), USDC, EODEC21, [USDC, DAI, ETH, WBTC, USDT], 'USDC22', 'USDC22'],
+//    [stringToBytes6('USDT21'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT21', 'USDT21'],
+    [stringToBytes6('USDT22'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT22', 'USDT22']
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
@@ -74,24 +82,41 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
   const ROOT = await timelock.ROOT()
 
   // Each series costs 10M gas to deploy, so there is no bundling of several series in a single proposal
   for (let [seriesId, baseId, maturity, ilkIds, name, symbol] of newSeries) {
     // Build the proposal
-    const proposal : Array<{ target: string; data: string }> = []
+    let proposal : Array<{ target: string; data: string }> = []
 
     proposal.push({
       target: wand.address,
       data: wand.interface.encodeFunctionData("addSeries", [seriesId, baseId, maturity, ilkIds, name, symbol])
     })
 
-    // Propose, update, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    // Propose, approve, execute
+    let txHash = await timelock.callStatic.propose(proposal)
+    await relay.execute(
+      [
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('propose', [proposal])
+        },
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('approve', [txHash])
+        },
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('execute', [proposal])
+        },
+      ]
+    ); console.log(`Executed ${txHash}`)
+    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
     // The fyToken and pools files can only be updated after the successful execution of the proposal
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
@@ -112,22 +137,19 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     verify(pool.address, [], 'safeERC20Namer.js')
     pools.set(seriesId, pool.address)
     fs.writeFileSync('./output/pools.json', mapToJson(pools), 'utf8')
-  }
 
-  // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
-  // Give ROOT to the cloak, Timelock already has ROOT as the deployer
-  // Store a plan for isolating FYToken from Ladle and Base Join
-  const proposal : Array<{ target: string; data: string }> = []
+    // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
+    // Give ROOT to the cloak, Timelock already has ROOT as the deployer
+    // Store a plan for isolating FYToken from Ladle and Base Join
+    proposal  = []
 
-  for (let [seriesId, baseId] of newSeries) {
-    const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
     const join = await ethers.getContractAt('Join', joins.get(baseId) as string, ownerAcc) as Join
 
     proposal.push({
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('grantRoles', [
           [
-              id(fyToken.interface, 'setOracle(address)'),
+              id(fyToken.interface, 'point(bytes32,address)'),
           ],
           timelock.address
       ])
@@ -168,11 +190,27 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
       ])
     })
     console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)}))`)
-  }
 
-  // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    // Propose, approve, execute
+    txHash = await timelock.callStatic.propose(proposal)
+    await relay.execute(
+      [
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('propose', [proposal])
+        },
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('approve', [txHash])
+        },
+        {
+          target: timelock.address,
+          data: timelock.interface.encodeFunctionData('execute', [proposal])
+        },
+      ]
+    ); console.log(`Executed ${txHash}`)
+    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  }
 })()

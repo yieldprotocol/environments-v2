@@ -58,6 +58,7 @@ const { deployContract } = waffle;
     protocol.set('wand', wand.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await wand.grantRole(ROOT, timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
+    // const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as Wand
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer

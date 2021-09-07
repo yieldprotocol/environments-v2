@@ -35,6 +35,7 @@ const { deployContract } = waffle;
     protocol.set('cauldron', cauldron.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await cauldron.grantRole(ROOT, timelock.address); console.log(`cauldron.grantRoles(ROOT, timelock)`)
+    // const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as Cauldron
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer

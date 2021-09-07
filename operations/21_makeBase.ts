@@ -18,6 +18,7 @@ import { Join } from '../typechain/Join'
 import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
+import { Relay } from '../typechain/Relay'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
@@ -36,6 +37,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Contract instantiation
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal
@@ -72,7 +74,23 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
   // Propose, approve, execute
   const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  await relay.execute(
+    [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('propose', [proposal])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('approve', [txHash])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('execute', [proposal])
+      },
+    ]
+  ); console.log(`Executed ${txHash}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 })()

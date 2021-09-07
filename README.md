@@ -29,4 +29,3 @@ to add an asset as a base to an already deployed protocol (say, for instance, ad
 `0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb` is the spot source for USDT/`DAI`
 `0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901` is the spot source for USDT/`USDC`
 `0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9` is the spot source for USDT/`ETH`
-`0x49fd2BE640DB2910c2fAb69bB8531Ab6E76127ff` is the spot source for USDT/`TST`
