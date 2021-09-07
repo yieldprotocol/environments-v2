@@ -19,7 +19,12 @@ import { Timelock } from '../typechain/Timelock'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the MultiOracles
+ *
+ * It takes as inputs the governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
  */
 
 (async () => {
@@ -68,7 +73,6 @@ const { deployContract } = waffle;
         data: compoundOracle.interface.encodeFunctionData('grantRoles', [
             [
                 id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                id(compoundOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
             ],
             timelock.address
         ])
@@ -87,12 +91,12 @@ const { deployContract } = waffle;
     })
     console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
 
+    // function setSource(bytes6 baseId, IERC20Metadata base, bytes6 quoteId, IERC20Metadata quote, address source)
     proposal.push({
         target: chainlinkOracle.address,
         data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
             [
-                id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                id(chainlinkOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
+                id(chainlinkOracle.interface, 'setSource(bytes6,address,bytes6,address,address)'),
             ],
             timelock.address
         ])
@@ -116,7 +120,6 @@ const { deployContract } = waffle;
         data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
             [
                 id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                id(cTokenOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
             ],
             timelock.address
         ])
@@ -140,9 +143,7 @@ const { deployContract } = waffle;
         data: compositeOracle.interface.encodeFunctionData('grantRoles', [
             [
                 id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                id(compositeOracle.interface, 'setSources(bytes6[],bytes6[],address[])'),
                 id(compositeOracle.interface, 'setPath(bytes6,bytes6,bytes6[])'),
-                id(compositeOracle.interface, 'setPaths(bytes6[],bytes6[],bytes6[][])'),
             ],
             timelock.address
         ])

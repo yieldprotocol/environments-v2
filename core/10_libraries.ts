@@ -6,7 +6,7 @@ import { YieldMath } from '../typechain/YieldMath'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the SafeERC20Namer and YieldMath libraries
  */
 
 (async () => {

@@ -227,6 +227,11 @@
         "type": "uint128"
       },
       {
+        "internalType": "uint256",
+        "name": "totalSupply",
+        "type": "uint256"
+      },
+      {
         "internalType": "uint128",
         "name": "timeTillMaturity",
         "type": "uint128"

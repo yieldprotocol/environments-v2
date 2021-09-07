@@ -137,9 +137,11 @@ export class Mocks {
 
     console.log(`Deploying spot sources:`)
     for (let [baseId, ilkId, decimals] of spotPairs) {
-      const base = bytesToString(baseId);
-      const quote = bytesToString(ilkId);
-      spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote, decimals))
+      if (baseId !== ilkId) {
+        const base = bytesToString(baseId);
+        const quote = bytesToString(ilkId);
+        spotSources.set(`${baseId},${ilkId}`, await this.deploySpotSource(owner, base, quote, decimals))  
+      }
     }
 
     return new Mocks(owner, assets, rateSources, chiSources, spotSources)

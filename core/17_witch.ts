@@ -15,7 +15,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the Witch
+ *
+ * It takes as inputs the governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
+ * The Witch gets access to permissioned functions in the Cauldron.
+ * A plan is recorded in the Cloak to isolate the Witch from the Cauldron.
  */
 
 (async () => {
@@ -35,6 +42,7 @@ const { deployContract } = waffle;
     protocol.set('witch', witch.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await witch.grantRole(ROOT, timelock.address); console.log(`witch.grantRoles(ROOT, timelock)`)
+    // const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as Witch
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -45,6 +53,7 @@ const { deployContract } = waffle;
         target: witch.address,
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
+                id(witch.interface, 'point(bytes32,address)'),
                 id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
             ],
             timelock.address

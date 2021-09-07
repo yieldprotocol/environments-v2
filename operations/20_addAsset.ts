@@ -5,6 +5,9 @@
  * It uses the Wand to:
  *  - Add the asset to Cauldron.
  *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
+ * The Timelock and Cloak get ROOT access to the new Join. Root access is NOT removed from the Wand.
+ * The Timelock gets access to governance functions in the new Join.
+ * A plan is recorded in the Cloak to isolate the Join from the Ladle.
  * It adds to the assets and joins json address files.
  * @notice The assetIds can't be already in use
  */
@@ -16,23 +19,21 @@ import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../
 import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
-import { Witch } from '../typechain/Witch'
 import { Wand } from '../typechain/Wand'
 import { Join } from '../typechain/Join'
 
 import { Timelock } from '../typechain/Timelock'
+import { Relay } from '../typechain/Relay'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
-  const TST = stringToBytes6('TST')
   // Input data
   const newAssets: Array<[string, string]> = [
-    [DAI,  "0x5FbDB2315678afecb367f032d93F642f64180aa3"],
-    [USDC, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"],
-    [ETH,  "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"],
-    [TST,  "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"],
-    [WBTC, "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"],
-    [USDT, "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"]
+    [DAI,  "0xaFCdc724EB8781Ee721863db1B15939675996484"],
+    [USDC, "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
+    [ETH,  "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
+    [WBTC, "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
+    [USDT, "0x233551369dc535f5fF3517c28fDCce81d650063e"]
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   const [ ownerAcc ] = await ethers.getSigners();
@@ -45,6 +46,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
   const ROOT = await timelock.ROOT()
 
@@ -59,14 +61,29 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     assets.set(assetId, assetAddress)
   }
 
-  // Propose, update, execute
+
+  // Propose, approve, execute
   const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-
+  await relay.execute(
+    [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('propose', [proposal])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('approve', [txHash])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('execute', [proposal])
+      },
+    ]
+  ); console.log(`Executed ${txHash}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
   fs.writeFileSync('./output/assets.json', mapToJson(assets), 'utf8')
-
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
@@ -117,8 +134,24 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
   // Propose, approve, execute
   const txHash2 = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash2}`)
-  await timelock.approve(txHash2); console.log(`Approved ${txHash2}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
+  await relay.execute(
+    [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('propose', [proposal])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('approve', [txHash2])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('execute', [proposal])
+      },
+    ]
+  ); console.log(`Executed ${txHash2}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
 })()

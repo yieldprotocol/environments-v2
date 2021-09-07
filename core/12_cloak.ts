@@ -9,6 +9,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 const { deployContract } = waffle;
 
+/**
+ * @dev This script deploys the Cloak
+ *
+ * It takes as inputs the governance json address file, which is updated.
+ * ROOT access to the Cloak is given to the Timelock.
+ * `plan` access is given to the Timelock.
+ */
+
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
     const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;

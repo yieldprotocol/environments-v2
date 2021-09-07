@@ -16,7 +16,9 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data: baseId, quoteId, intermediate steps
   const newCompositePaths: Array<[string, string, Array<string>]> = [
-    [DAI, USDC, [ETH]],
+    // The Composite oracle is not needed anymore for combining two Chainlink sources through ETH
+    // This script will be needed for adding cToken as collateral to do cDai -> Dai -> Other
+    /* [DAI, USDC, [ETH]],
     [DAI, USDT, [ETH]],
     [DAI, WBTC, [ETH]],
     [USDC, DAI, [ETH]],
@@ -24,7 +26,7 @@ import { Timelock } from '../typechain/Timelock'
     [USDC, WBTC, [ETH]],
     [USDT, DAI, [ETH]],
     [USDT, USDC, [ETH]],
-    [USDT, WBTC, [ETH]]
+    [USDT, WBTC, [ETH]] */
   ]
 
   const [ ownerAcc ] = await ethers.getSigners();
