@@ -22,12 +22,15 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const poolsInit: Array<[string]> = [ // [seriesId]
-    [stringToBytes6('DAI21')],
+/*    [stringToBytes6('DAI21')],
     [stringToBytes6('DAI22')],
     [stringToBytes6('USDC21')],
     [stringToBytes6('USDC22')],
     [stringToBytes6('USDT21')],
-    [stringToBytes6('USDT22')],
+    [stringToBytes6('USDT22')], */
+//    [stringToBytes6('USDC26')],
+//    [stringToBytes6('USDC27')],
+    [stringToBytes6('USDC29')],
 ]
 
   const [ ownerAcc ] = await ethers.getSigners();
@@ -71,7 +74,7 @@ import { Relay } from '../typechain/Relay'
     // Donate fyToken to the pool to skew it
     proposal.push({
       target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData("mint", [poolAddress, WAD.mul(1000000).div(9)])
+      data: fyToken.interface.encodeFunctionData("mint", [poolAddress, baseUnit.mul(1000000).div(9)])
     })
 
     // Sync the pool

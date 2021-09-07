@@ -27,8 +27,9 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
     // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
     const strategiesData: Array<[string, string, string]> = [ // name, symbol, baseId
 //        ['DAI2S', 'DAI2S', DAI],
-        ['USDC2S', 'USDC2S', USDC],
+//        ['USDC2S', 'USDC2S', USDC],
 //        ['USDT2S', 'USDT2S', USDT],
+      ['USDC3D', 'USDC3D', USDC],
     ]
 
     /* await hre.network.provider.request({

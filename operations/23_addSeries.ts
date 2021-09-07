@@ -47,15 +47,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO1009 = 1631318399
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('DAI31'), DAI, EO3108, [DAI, USDC, ETH, WBTC, USDT], 'DAI31', 'DAI31'],
-//    [stringToBytes6('DAI01'), DAI, EO0109, [DAI, USDC, ETH, WBTC, USDT], 'DAI01', 'DAI01'],
-//    [stringToBytes6('DAI02'), DAI, EO0209, [DAI, USDC, ETH, WBTC, USDT], 'DAI02', 'DAI02'],
-//    [stringToBytes6('DAI03'), DAI, EO0309, [DAI, USDC, ETH, WBTC, USDT], 'DAI03', 'DAI03'],
-//    [stringToBytes6('DAI04'), DAI, EO0409, [DAI, USDC, ETH, WBTC, USDT], 'DAI04', 'DAI04'],
-//    [stringToBytes6('DAI06'), DAI, EO0609, [DAI, USDC, ETH, WBTC, USDT], 'DAI06', 'DAI06'],
-//    [stringToBytes6('DAI07'), DAI, EO0709, [DAI, USDC, ETH, WBTC, USDT], 'DAI07', 'DAI07'],
-//    [stringToBytes6('DAI08'), DAI, EO0809, [DAI, USDC, ETH, WBTC, USDT], 'DAI08', 'DAI08'],
-
 //    [stringToBytes6('DAI1'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI1', 'DAI1'], // Sep21
 //    [stringToBytes6('DAI2'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI2', 'DAI2'], // Dec21
 //    [stringToBytes6('USDC1'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC1', 'USDC1'],
@@ -63,12 +54,9 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 //    [stringToBytes6('USDT1'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT1', 'USDT1'],
 //    [stringToBytes6('USDT2'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT2', 'USDT2']
 
-//    [stringToBytes6('DAI21'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI21', 'DAI21'], // Sep21
-//    [stringToBytes6('DAI22'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI22', 'DAI22'], // Dec21
-//    [stringToBytes6('USDC21'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC21', 'USDC21'],
-//    [stringToBytes6('USDC22'), USDC, EODEC21, [USDC, DAI, ETH, WBTC, USDT], 'USDC22', 'USDC22'],
-//    [stringToBytes6('USDT21'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT21', 'USDT21'],
-    [stringToBytes6('USDT22'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT22', 'USDT22']
+//    [stringToBytes6('USDC26'), USDC, EO0709, [USDC, DAI, ETH, WBTC, USDT], 'USDC26', 'USDC26'],
+//    [stringToBytes6('USDC27'), USDC, EO0809, [USDC, DAI, ETH, WBTC, USDT], 'USDC27', 'USDC27'],
+    [stringToBytes6('USDC29'), USDC, EO0909, [USDC, DAI, ETH, WBTC, USDT], 'USDC29', 'USDC29'],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
