@@ -8,10 +8,6 @@ import WandArtifact from '../artifacts/@yield-protocol/vault-v2/contracts/Wand.s
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Witch } from '../typechain/Witch'
-import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
-import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
-import { CompositeMultiOracle } from '../typechain/CompositeMultiOracle'
-import { CTokenMultiOracle } from '../typechain/CTokenMultiOracle'
 import { PoolFactory } from '../typechain/PoolFactory'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
@@ -23,7 +19,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the Witch
+ *
+ * It takes as inputs the governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
+ * The Wand gets access to permissioned functions in the Cauldron, Ladle, Witch and Factories.
+ * A plan is recorded in the Cloak to isolate the Witch from the Cauldron, Ladle, Witch and Factories.
  */
 
 (async () => {
@@ -37,10 +40,6 @@ const { deployContract } = waffle;
     const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
     const fyTokenFactory = await ethers.getContractAt('FYTokenFactory', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
     const poolFactory = await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc) as unknown as PoolFactory
-    const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
-    const chainlinkOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc) as unknown as ChainlinkMultiOracle
-    const compositeOracle = await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc) as unknown as CompositeMultiOracle
-    const cTokenOracle = await ethers.getContractAt('CTokenMultiOracle', protocol.get('cTokenOracle') as string, ownerAcc) as unknown as CTokenMultiOracle
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
     const ROOT = await timelock.ROOT()
@@ -59,6 +58,7 @@ const { deployContract } = waffle;
     protocol.set('wand', wand.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await wand.grantRole(ROOT, timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
+    // const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as Wand
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -203,26 +203,6 @@ const { deployContract } = waffle;
                 {
                     contact: poolFactory.address, signatures: [
                         id(poolFactory.interface, 'createPool(address,address)'),
-                    ]
-                },
-                {
-                    contact: compoundOracle.address, signatures: [
-                        id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                    ]
-                },
-                {
-                    contact: chainlinkOracle.address, signatures: [
-                        id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                    ]
-                },
-                {
-                    contact: compositeOracle.address, signatures: [
-                        id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                    ]
-                },
-                {
-                    contact: cTokenOracle.address, signatures: [
-                        id(cTokenOracle.interface, 'setSource(bytes6,bytes6,address)'),
                     ]
                 },
             ]

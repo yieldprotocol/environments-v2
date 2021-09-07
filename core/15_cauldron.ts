@@ -12,7 +12,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the Cauldron
+ *
+ * It takes as inputs the governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
  */
 
 (async () => {
@@ -30,6 +35,7 @@ const { deployContract } = waffle;
     protocol.set('cauldron', cauldron.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await cauldron.grantRole(ROOT, timelock.address); console.log(`cauldron.grantRoles(ROOT, timelock)`)
+    // const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as Cauldron
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer

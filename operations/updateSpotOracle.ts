@@ -15,7 +15,6 @@ import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
-  const TST = stringToBytes6('TST')
   const CHAINLINK = 'chainlinkOracle'
   const COMPOSITE = 'compositeOracle'
 
@@ -24,20 +23,17 @@ import { Timelock } from '../typechain/Timelock'
     [DAI, DAI, CHAINLINK, 1000000],
     [DAI, USDC, CHAINLINK, 1000000],
     [DAI, ETH, CHAINLINK, 1000000],
-    // [DAI, TST, CHAINLINK, 1000000],
     [DAI, WBTC, CHAINLINK, 1000000],
     [DAI, USDT, CHAINLINK, 1000000],
-    /* [USDC, USDC, CHAINLINK, 1000000],
+    [USDC, USDC, CHAINLINK, 1000000],
     [USDC, DAI, CHAINLINK, 1000000],
     [USDC, ETH, CHAINLINK, 1000000],
-    // [USDC, TST, CHAINLINK, 1000000],
     [USDC, WBTC, CHAINLINK, 1000000],
-    [USDC, USDT, CHAINLINK, 1000000], */
+    [USDC, USDT, CHAINLINK, 1000000],
     [USDT, USDT, CHAINLINK, 1000000],
     [USDT, DAI, CHAINLINK, 1000000],
     [USDT, USDC, CHAINLINK, 1000000],
     [USDT, ETH, CHAINLINK, 1000000],
-    // [USDT, TST, CHAINLINK, 1000000],
     [USDT, WBTC, CHAINLINK, 1000000],
   ]
   // cauldron.setSpotOracle(baseId, ilkId, IOracle(address(oracle)), ratio);

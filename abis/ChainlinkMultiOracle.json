@@ -132,6 +132,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "adfepixw",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -145,7 +158,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amountIn",
+        "name": "amountBase",
         "type": "uint256"
       }
     ],
@@ -153,7 +166,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "amountOut",
+        "name": "amountQuote",
         "type": "uint256"
       },
       {
@@ -271,7 +284,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amountIn",
+        "name": "amountBase",
         "type": "uint256"
       }
     ],
@@ -279,7 +292,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "amountOut",
+        "name": "amountQuote",
         "type": "uint256"
       },
       {

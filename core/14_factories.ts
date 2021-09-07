@@ -15,7 +15,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 const { deployContract } = waffle;
 
 /**
- * This script deploys the SafeERC20Namer and YieldMath libraries
+ * @dev This script deploys the Factories
+ *
+ * It takes as inputs the governance and protocol json address files.
+ * The protocol json address file is updated.
+ * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
+ * The Timelock gets access to governance functions.
  */
 
 (async () => {
@@ -33,7 +38,8 @@ const { deployContract } = waffle;
     protocol.set('joinFactory', joinFactory.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await joinFactory.grantRole(ROOT, timelock.address); console.log(`joinFactory.grantRoles(ROOT, timelock)`)
-
+    // const joinFactory = (await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc)) as JoinFactory
+    
     const fyTokenFactoryFactory = await ethers.getContractFactory('FYTokenFactory', {
       libraries: {
         SafeERC20Namer: protocol.get('safeERC20Namer') as string
@@ -46,6 +52,7 @@ const { deployContract } = waffle;
     protocol.set('fyTokenFactory', fyTokenFactory.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await fyTokenFactory.grantRole(ROOT, timelock.address); console.log(`fyTokenFactory.grantRoles(ROOT, timelock)`)
+    // const fyTokenFactory = (await ethers.getContractAt('FYTokenFactory', protocol.get('fyTokenFactory') as string, ownerAcc)) as FYTokenFactory
 
     const poolLibs = {
         YieldMath: protocol.get('yieldMath') as string,
@@ -61,6 +68,7 @@ const { deployContract } = waffle;
     protocol.set('poolFactory', poolFactory.address)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
     await poolFactory.grantRole(ROOT, timelock.address); console.log(`poolFactory.grantRoles(ROOT, timelock)`)
+    // const poolFactory = (await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc)) as PoolFactory
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer

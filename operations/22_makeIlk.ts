@@ -14,35 +14,31 @@ import { WAD, DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
 import { Join } from '../typechain/Join'
-import { IOracle } from '../typechain/IOracle'
+import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle'
 
 import { Timelock } from '../typechain/Timelock'
+import { Relay } from '../typechain/Relay'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
-  const TST = stringToBytes6('TST')
   const CHAINLINK = 'chainlinkOracle'
   const COMPOSITE = 'compositeOracle'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number]> = [
-    // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', 1000000, 1000000, 1, 18],
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
     [DAI, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [DAI, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [DAI, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
     [DAI, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [DAI, USDT, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDC, USDC, CHAINLINK, 1000000, 1000000, 1, 6], // Constant 1
     [USDC, DAI, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
     [USDC, ETH, CHAINLINK, 1000000, 1000000, 1, 6],
-    [USDC, TST, CHAINLINK, 1000000, 1000000, 1, 6], // Mock
     [USDC, WBTC, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
     [USDC, USDT, CHAINLINK, 1000000, 1000000, 1, 6], // Via ETH
     [USDT, USDT, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
     [USDT, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [USDT, TST, CHAINLINK, 1000000, 1000000, 1, 18], // Mock
     [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18] // Via ETH
   ]
   const [ ownerAcc ] = await ethers.getSigners();
@@ -53,6 +49,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Contract instantiation
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal
@@ -62,8 +59,10 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc) as Join
 
     // Test that the sources for spot have been set. Peek will fail with 'Source not found' if they have not.
-    const spotOracle = await ethers.getContractAt('IOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as IOracle
-    console.log(`Looking for ${baseId}/${ilkId} at ${protocol.get(oracleName) as string}`)
+    const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as ChainlinkMultiOracle
+    console.log(`Looking for ${bytesToString(baseId)}/${bytesToString(ilkId)} at ${protocol.get(oracleName) as string}`)
+    console.log(`Source for ${bytesToString(baseId)}/ETH: ${await spotOracle.sources(baseId, ETH)}`)
+    console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
     proposal.push({
@@ -94,7 +93,23 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
   // Propose, approve, execute
   const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  await relay.execute(
+    [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('propose', [proposal])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('approve', [txHash])
+      },
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('execute', [proposal])
+      },
+    ]
+  ); console.log(`Executed ${txHash}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 })()
