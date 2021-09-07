@@ -14,9 +14,10 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
-import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
+import { DAI, USDC, ETH, WBTC, USDT, CDAI, CUSDC, CUSDT } from '../shared/constants'
 
 import { Ladle } from '../typechain/Ladle'
 import { Wand } from '../typechain/Wand'
@@ -33,9 +34,17 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     [USDC, "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
     [ETH,  "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
     [WBTC, "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
-    [USDT, "0x233551369dc535f5fF3517c28fDCce81d650063e"]
+    [USDT, "0x233551369dc535f5fF3517c28fDCce81d650063e"],
+    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
+    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
+    [CUSDT, "0x3f0a0ea2f86bae6362cf9799b523ba06647da018"],
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  });
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
@@ -150,8 +159,8 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
       },
     ]
   ); console.log(`Executed ${txHash2}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  // await timelock.propose(proposal); console.log(`Proposed ${txHash2}`)
+  // await timelock.approve(txHash); console.log(`Approved ${txHash2}`)
+  // await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
 
 })()
