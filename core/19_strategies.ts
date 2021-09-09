@@ -32,24 +32,30 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
       ['USDC3D', 'USDC3D', USDC],
     ]
 
-    /* await hre.network.provider.request({
+    await hre.network.provider.request({
       method: "hardhat_impersonateAccount",
       params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
     });
-    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-    const [ ownerAcc ] = await ethers.getSigners();    
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
+    // const [ ownerAcc ] = await ethers.getSigners();    
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
     const ROOT = await timelock.ROOT()
 
+    const strategyFactory = await ethers.getContractFactory('Strategy', {
+      libraries: {
+        SafeERC20Namer: protocol.get('safeERC20Namer') as string,
+      },
+    })
+
     const strategies: Map<string, Strategy> = new Map()
 
     for (let [name, symbol, baseId] of strategiesData) {
       const baseAddress = assets.get(baseId) as string
-      const strategy = (await deployContract(ownerAcc, StrategyArtifact, [name, symbol, 18, ladle.address, baseAddress, baseId])) as Strategy
+      const strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId)) as Strategy
       console.log(`[Strategy, '${strategy.address}'],`)
-      verify(strategy.address, [name, symbol, 18, ladle.address, baseAddress, baseId])
+      verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId], 'safeERC20Namer.js')
       strategies.set(symbol, strategy)
       fs.writeFileSync('./output/strategies.json', mapToJson(strategies), 'utf8')
       await strategy.grantRole(ROOT, timelock.address); console.log(`strategy.grantRoles(ROOT, timelock)`)
