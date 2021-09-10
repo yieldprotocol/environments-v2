@@ -8,9 +8,10 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, bytesToBytes32, jsonToMap } from '../shared/helpers'
-import { WAD, DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
+import { WAD, DAI, USDC, ETH, WBTC, USDT, CDAI, CUSDC, CUSDT } from '../shared/constants'
 
 import { Wand } from '../typechain/Wand'
 import { Join } from '../typechain/Join'
@@ -22,6 +23,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   const CHAINLINK = 'chainlinkOracle'
+  const CTOKEN = 'cTokenOracle'
   const COMPOSITE = 'compositeOracle'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number]> = [
@@ -39,8 +41,16 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     [USDT, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18] // Via ETH
+    [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
+    [DAI, CDAI, CTOKEN, 1000000, 1000000, 1, 18],
+    [USDC, CUSDC, CTOKEN, 1000000, 1000000, 1, 6],
+    [USDT, CUSDT, CTOKEN, 1000000, 1000000, 1, 18],
   ]
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  });
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
@@ -61,8 +71,8 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     // Test that the sources for spot have been set. Peek will fail with 'Source not found' if they have not.
     const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as ChainlinkMultiOracle
     console.log(`Looking for ${bytesToString(baseId)}/${bytesToString(ilkId)} at ${protocol.get(oracleName) as string}`)
-    console.log(`Source for ${bytesToString(baseId)}/ETH: ${await spotOracle.sources(baseId, ETH)}`)
-    console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
+    // console.log(`Source for ${bytesToString(baseId)}/ETH: ${await spotOracle.sources(baseId, ETH)}`)
+    // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
     proposal.push({

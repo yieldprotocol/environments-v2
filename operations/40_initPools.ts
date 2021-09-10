@@ -28,9 +28,7 @@ import { Relay } from '../typechain/Relay'
     [stringToBytes6('USDC22')],
     [stringToBytes6('USDT21')],
     [stringToBytes6('USDT22')], */
-//    [stringToBytes6('USDC26')],
-//    [stringToBytes6('USDC27')],
-    [stringToBytes6('USDC29')],
+    [stringToBytes6('USDC30')],
 ]
 
   const [ ownerAcc ] = await ethers.getSigners();

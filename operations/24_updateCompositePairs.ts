@@ -17,7 +17,7 @@ import { Timelock } from '../typechain/Timelock'
   // Input data: baseId, quoteId, oracle name
   const newCompositePairs: Array<[string, string, string]> = [
     // The Composite oracle is not needed anymore for combining two Chainlink sources through ETH
-    // This script will be needed for adding cToken as collateral to do cDai -> Dai -> Other
+    // This script would be needed for adding cToken as collateral to do cDai -> Dai -> Other
     /*[DAI, ETH, 'chainlinkOracle'],
     [USDC, ETH, 'chainlinkOracle'],
     [USDT, ETH, 'chainlinkOracle'],
