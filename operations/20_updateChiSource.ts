@@ -30,6 +30,8 @@ import { Timelock } from '../typechain/Timelock'
   const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
+  console.log(`compoundOracle: ${compoundOracle.address}],`)
+
   // Build proposal
   const proposal : Array<{ target: string; data: string}> = []
   for (let [baseId, sourceAddress] of newSources) {
@@ -37,7 +39,7 @@ import { Timelock } from '../typechain/Timelock'
       target: compoundOracle.address,
       data: compoundOracle.interface.encodeFunctionData("setSource", [baseId, CHI, sourceAddress])
     })
-    console.log(`[Chi: ${bytesToString(baseId)}: ${chiSources.get(baseId) || undefined} -> ${sourceAddress}],`)
+    console.log(`[Chi(${bytesToString(baseId)}): ${chiSources.get(baseId) || undefined} -> ${sourceAddress}],`)
     chiSources.set(baseId, sourceAddress)
   }
 
