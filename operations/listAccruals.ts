@@ -25,8 +25,7 @@ import { FYToken } from '../typechain/FYToken'
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress as string, ownerAcc) as unknown as FYToken
-    console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): ${await fyToken.oracle()} / ${await cauldron.rateOracles(await fyToken.underlyingId())}`)
-    // if (await fyToken.chiAtMaturity() === NOT_MATURE) console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
-    // else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): ${await fyToken.callStatic.accrual()}`)
+    if ((await fyToken.chiAtMaturity()).eq(NOT_MATURE)) console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
+    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): chi ${await fyToken.callStatic.accrual()} | rate ${await cauldron.callStatic.accrual(seriesId)}`)
   }
 })()

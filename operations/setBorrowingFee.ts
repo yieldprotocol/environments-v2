@@ -16,7 +16,7 @@ import { Ladle } from '../typechain/Ladle'
  */
 
 (async () => {
-    const fee = WAD.div(31535000) // wei per token per second to maturity. 1% for one year to maturity
+    const fee = WAD.div(31536000) // wei per token per second to maturity. 1% for one year to maturity
     /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
         params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],

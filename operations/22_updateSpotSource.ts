@@ -8,6 +8,7 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'fs'
 import { stringToBytes6, bytesToString, bytesToBytes32, mapToJson, jsonToMap } from '../shared/helpers'
 import { WAD, DAI, ETH, USDC, USDT, WBTC } from '../shared/constants'
 
@@ -23,6 +24,11 @@ import { Timelock } from '../typechain/Timelock'
     [USDT, ETH,  'chainlinkOracle', "0x0bF499444525a23E7Bb61997539725cA2e928138"],
     [WBTC, ETH,  'chainlinkOracle', "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
   ]
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  });
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
@@ -37,6 +43,7 @@ import { Timelock } from '../typechain/Timelock'
   for (let [baseId, quoteId, oracleName, sourceAddress] of newSources) {
     const pairId = `${baseId},${quoteId}`
     const oracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as ChainlinkMultiOracle
+    console.log(`oracle: ${oracle.address}],`)
 
     proposal.push({
       target: oracle.address,

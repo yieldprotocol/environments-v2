@@ -19,18 +19,18 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-//    ['DAI2S', [stringToBytes6('DAI21'), stringToBytes6('DAI21')],[stringToBytes6('DAI22'), stringToBytes6('DAI22')]], // poolId and seriesId usually match
-//    ['USDC2S', [stringToBytes6('USDC21'), stringToBytes6('USDC21')],[stringToBytes6('USDC22'), stringToBytes6('USDC22')]],
-//    ['USDT2S', [stringToBytes6('USDT21'), stringToBytes6('USDT21')],[stringToBytes6('USDT22'), stringToBytes6('USDT22')]],
-    ['USDC3D', [stringToBytes6('USDC26'), stringToBytes6('USDC26')],[stringToBytes6('USDC27'), stringToBytes6('USDC27')]],
+//    ['DAIS', [stringToBytes6('DAI01'), stringToBytes6('DAI01')],[stringToBytes6('DAI02'), stringToBytes6('DAI02')]], // poolId and seriesId usually match
+//    ['USDCS', [stringToBytes6('USDC01'), stringToBytes6('USDC01')],[stringToBytes6('USDC02'), stringToBytes6('USDC02')]],
+//    ['USDTS', [stringToBytes6('USDT01'), stringToBytes6('USDT01')],[stringToBytes6('USDT02'), stringToBytes6('USDT02')]],
+    ['USDCSD', [stringToBytes6('USDC10'), stringToBytes6('USDC10')],[stringToBytes6('USDC11'), stringToBytes6('USDC11')]],
   ]
   
-  await hre.network.provider.request({
+  /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
-  // const [ ownerAcc ] = await ethers.getSigners();
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")*/
+  const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
   const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>;

@@ -262,6 +262,25 @@
     "inputs": [
       {
         "internalType": "bytes6",
+        "name": "baseId",
+        "type": "bytes6"
+      }
+    ],
+    "name": "lendingOracles",
+    "outputs": [
+      {
+        "internalType": "contract IOracle",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes6",
         "name": "seriesId",
         "type": "bytes6"
       }
@@ -310,25 +329,6 @@
       }
     ],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes6",
-        "name": "baseId",
-        "type": "bytes6"
-      }
-    ],
-    "name": "rateOracles",
-    "outputs": [
-      {
-        "internalType": "contract IOracle",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

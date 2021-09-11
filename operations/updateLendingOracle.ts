@@ -38,20 +38,20 @@ import { Timelock } from '../typechain/Timelock'
   const proposal : Array<{ target: string; data: string}> = []
   for (let [baseId, oracleName] of newRateChiOracles) {
     // Test that the sources for rate have been set. Peek will fail with 'Source not found' if they have not.
-    const rateOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as CompoundMultiOracle
+    const lendingOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as CompoundMultiOracle
     console.log(`Looking for the ${bytesToString(baseId)} rate and chi at ${protocol.get(oracleName) as string}`)
-    console.log(`Source for the ${bytesToString(baseId)} rate: ${await rateOracle.sources(baseId, RATE)}`)
-    console.log(`Source for the ${bytesToString(baseId)} chi: ${await rateOracle.sources(baseId, CHI)}`)
-    console.log(`Current rate for ${bytesToString(baseId)}: ${(await rateOracle.peek(bytesToBytes32(baseId), bytesToBytes32(RATE), WAD))[0]}`)
-    console.log(`Current chi for ${bytesToString(baseId)}: ${(await rateOracle.peek(bytesToBytes32(baseId), bytesToBytes32(CHI), WAD))[0]}`)
+    console.log(`Source for the ${bytesToString(baseId)} rate: ${await lendingOracle.sources(baseId, RATE)}`)
+    console.log(`Source for the ${bytesToString(baseId)} chi: ${await lendingOracle.sources(baseId, CHI)}`)
+    console.log(`Current rate for ${bytesToString(baseId)}: ${(await lendingOracle.peek(bytesToBytes32(baseId), bytesToBytes32(RATE), WAD))[0]}`)
+    console.log(`Current chi for ${bytesToString(baseId)}: ${(await lendingOracle.peek(bytesToBytes32(baseId), bytesToBytes32(CHI), WAD))[0]}`)
 
     proposal.push({
       target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('setRateOracle', [
-        baseId, rateOracle.address
+      data: cauldron.interface.encodeFunctionData('setLendingOracle', [
+        baseId, lendingOracle.address
       ])
     })
-    console.log(`cauldron.setRateOracle(${bytesToString(baseId)}): ${rateOracle.address}`)
+    console.log(`cauldron.setLendingOracle(${bytesToString(baseId)}): ${lendingOracle.address}`)
   }
 
   // Propose, approve, execute

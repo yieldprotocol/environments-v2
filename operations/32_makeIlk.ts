@@ -27,7 +27,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const COMPOSITE = 'compositeOracle'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number]> = [
-    [DAI, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
+/*    [DAI, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Constant 1
     [DAI, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [DAI, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
     [DAI, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
@@ -41,7 +41,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     [USDT, DAI, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, USDC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
     [USDT, ETH, CHAINLINK, 1000000, 1000000, 1, 18],
-    [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH
+    [USDT, WBTC, CHAINLINK, 1000000, 1000000, 1, 18], // Via ETH */
     [DAI, CDAI, CTOKEN, 1000000, 1000000, 1, 18],
     [USDC, CUSDC, CTOKEN, 1000000, 1000000, 1, 6],
     [USDT, CUSDT, CTOKEN, 1000000, 1000000, 1, 18],

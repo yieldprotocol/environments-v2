@@ -101,7 +101,7 @@ const { deployContract } = waffle;
                 id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
                 id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
                 id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                id(cauldron.interface, 'setRateOracle(bytes6,address)'),
+                id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
                 id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
             ],
             wand.address
@@ -175,7 +175,7 @@ const { deployContract } = waffle;
                         id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
                         id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
                         id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                        id(cauldron.interface, 'setRateOracle(bytes6,address)'),
+                        id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
                         id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
                     ]
                 },

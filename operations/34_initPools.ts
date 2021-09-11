@@ -6,6 +6,7 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { BigNumber } from 'ethers'
 import { jsonToMap, stringToBytes6 } from '../shared/helpers'
@@ -22,15 +23,25 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const poolsInit: Array<[string]> = [ // [seriesId]
-/*    [stringToBytes6('DAI21')],
-    [stringToBytes6('DAI22')],
-    [stringToBytes6('USDC21')],
-    [stringToBytes6('USDC22')],
-    [stringToBytes6('USDT21')],
-    [stringToBytes6('USDT22')], */
-    [stringToBytes6('USDC30')],
-]
+//    [stringToBytes6('DAI01')],
+//    [stringToBytes6('DAI02')],
+//    [stringToBytes6('USDC01')],
+//    [stringToBytes6('USDC02')],
+//    [stringToBytes6('USDT01')],
+//    [stringToBytes6('USDT02')],
 
+    [stringToBytes6('USDC10')],
+    [stringToBytes6('USDC11')],
+    [stringToBytes6('USDC12')],
+    [stringToBytes6('USDC13')],
+    [stringToBytes6('USDC14')],
+  ]
+
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  });
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>;
@@ -80,8 +91,7 @@ import { Relay } from '../typechain/Relay'
       target: pool.address,
       data: pool.interface.encodeFunctionData("sync")
     })
-
-    console.log(`Queued init of ${await pool.symbol()}`)
+    console.log(`Initalizing ${await pool.symbol()} at ${poolAddress}`)
   }
 
   // Propose, approve, execute

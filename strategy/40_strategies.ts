@@ -26,18 +26,18 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 (async () => {
     // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
     const strategiesData: Array<[string, string, string]> = [ // name, symbol, baseId
-//        ['DAI2S', 'DAI2S', DAI],
-//        ['USDC2S', 'USDC2S', USDC],
-//        ['USDT2S', 'USDT2S', USDT],
-      ['USDC3D', 'USDC3D', USDC],
+//      ['DAIS', 'DAIS', DAI],
+//      ['USDCS', 'USDCS', USDC],
+//      ['USDTS', 'USDTS', USDT],
+      ['USDCSD', 'USDCSD', USDC],
     ]
 
-    await hre.network.provider.request({
+    /* await hre.network.provider.request({
       method: "hardhat_impersonateAccount",
       params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
     });
-    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
-    // const [ ownerAcc ] = await ethers.getSigners();    
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
+    const [ ownerAcc ] = await ethers.getSigners();    
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay

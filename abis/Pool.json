@@ -582,19 +582,6 @@
   },
   {
     "inputs": [],
-    "name": "k",
-    "outputs": [
-      {
-        "internalType": "int128",
-        "name": "",
-        "type": "int128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "maturity",
     "outputs": [
       {
@@ -980,6 +967,19 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ts",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
