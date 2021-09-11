@@ -6,7 +6,7 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
-import { id } from '@yield-protocol/utils-v2'
+import { BigNumber } from 'ethers'
 import { jsonToMap, bytesToString } from '../shared/helpers'
 import { MAX256 as NOT_MATURE } from '../shared/constants'
 
@@ -23,9 +23,16 @@ import { FYToken } from '../typechain/FYToken'
   // Contract instantiation
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
 
+  console.log('\nRate:')
+  for (let [seriesId, fyTokenAddress] of fyTokens) {
+    if ((await cauldron.ratesAtMaturity(seriesId)).eq(BigNumber.from(0))) console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
+    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): accrual ${cauldron.callStatic.accrual(seriesId)}, at maturity ${await cauldron.ratesAtMaturity(seriesId)}`)
+  }
+
+  console.log('\nChi:')
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress as string, ownerAcc) as unknown as FYToken
     if ((await fyToken.chiAtMaturity()).eq(NOT_MATURE)) console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
-    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): chi ${await fyToken.callStatic.accrual()} | rate ${await cauldron.callStatic.accrual(seriesId)}`)
+    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): accrual ${await fyToken.callStatic.accrual()}, at maturity ${await fyToken.chiAtMaturity()}`)
   }
 })()
