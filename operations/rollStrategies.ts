@@ -25,16 +25,16 @@ import { Join } from '../typechain/Join'
 //    ['DAI2S', [stringToBytes6('DAI21'), stringToBytes6('DAI21')],[stringToBytes6('DAI22'), stringToBytes6('DAI22')]], // poolId and seriesId usually match
 //    ['USDC2S', [stringToBytes6('USDC21'), stringToBytes6('USDC21')],[stringToBytes6('USDC22'), stringToBytes6('USDC22')]],
 //    ['USDT2S', [stringToBytes6('USDT21'), stringToBytes6('USDT21')],[stringToBytes6('USDT22'), stringToBytes6('USDT22')]]
-    ['USDCSD', [stringToBytes6('USDC12'), stringToBytes6('USDC12')]]
+    ['USDCSD', [stringToBytes6('USDC13'), stringToBytes6('USDC13')]]
 
 ]
   
-  /* await hre.network.provider.request({
+  await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-  const [ ownerAcc ] = await ethers.getSigners();
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
+  // const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
   const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>;

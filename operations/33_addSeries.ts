@@ -57,6 +57,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 //    [stringToBytes6('USDC12'), USDC, EO1209, [USDC, DAI, ETH, WBTC, USDT], 'USDC12', 'USDC12'],
 //    [stringToBytes6('USDC13'), USDC, EO1309, [USDC, DAI, ETH, WBTC, USDT], 'USDC13', 'USDC13'],
 //    [stringToBytes6('USDC14'), USDC, EO1409, [USDC, DAI, ETH, WBTC, USDT], 'USDC14', 'USDC14'],
+    [stringToBytes6('USDC15'), USDC, EO1509, [USDC, DAI, ETH, WBTC, USDT], 'USDC15', 'USDC15'],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
