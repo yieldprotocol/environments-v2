@@ -29,7 +29,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 //      ['DAIS', 'DAIS', DAI],
 //      ['USDCS', 'USDCS', USDC],
 //      ['USDTS', 'USDTS', USDT],
-      ['USDCS2', 'USDCS2', USDC],
+      ['USDCS3', 'USDCS3', USDC],
     ]
 
     /* await hre.network.provider.request({
@@ -49,14 +49,14 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
       },
     })
 
-    const strategies: Map<string, Strategy> = new Map()
+    const strategies = jsonToMap(fs.readFileSync('./output/strategies.json', 'utf8')) as Map<string, string>;
 
     for (let [name, symbol, baseId] of strategiesData) {
       const baseAddress = assets.get(baseId) as string
       const strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId)) as Strategy
       console.log(`[Strategy, '${strategy.address}'],`)
       verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId], 'safeERC20Namer.js')
-      strategies.set(symbol, strategy)
+      strategies.set(symbol, strategy.address)
       fs.writeFileSync('./output/strategies.json', mapToJson(strategies), 'utf8')
       await strategy.grantRole(ROOT, timelock.address); console.log(`strategy.grantRoles(ROOT, timelock)`)
 

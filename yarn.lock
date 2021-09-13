@@ -2510,10 +2510,10 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@^0.10.0-rc3":
-  version "0.10.0-rc3"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.10.0-rc3.tgz#fd599d82b6a091aec1fa560dacf454f519de401b"
-  integrity sha512-/PotfPTGV2XmBa3Fh36rhn5dRitaKMYMap+5fR065TeHTw1DvX2AtGdoZI5gLrMa4GpF6ijrxagytbnrFi5JGw==
+"@yield-protocol/strategy-v2@^0.10.0-rc4":
+  version "0.10.0-rc4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.10.0-rc4.tgz#69d20b546f17055377a66f0400bb4eadab09685e"
+  integrity sha512-G7ncPCD3Vi9m/0dAr54Bddnyi0YNf4lCjGPIbCxROI79ZLEUzON1Na3JgJCWWvuNmBhAiwogN6GKJ3UOi+Fxlg==
 
 "@yield-protocol/utils-v2@^2.4.1":
   version "2.4.1"
@@ -2523,10 +2523,10 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@^2.3.0-rc3":
-  version "2.3.0-rc3"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc3.tgz#eb3fddc451952b7ac7975f0d267b7a674b75d026"
-  integrity sha512-qPeZ80I5On0bR0Saxpx1ufYv3KzD5BU5KkNCuKqeBWXxfR7rsaobR7sW/HXXWkX2zwKadMzlSSqV72/5Fwv+kA==
+"@yield-protocol/vault-interfaces@^2.3.0-rc4":
+  version "2.3.0-rc4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc4.tgz#c10f8d6eeb53167fac6923f5d55dbda4953375e5"
+  integrity sha512-z2qFjLzWKkYsVf12NVqULLmqRc1iJ7HiLwExbPmHGaFnf92OhxFsKuDhTYn4CIK2GDkjhvKqNwcxCWfA5mjb+g==
 
 "@yield-protocol/vault-v2@^0.10.0-rc6":
   version "0.10.0-rc6"

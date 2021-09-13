@@ -22,7 +22,7 @@ import { Relay } from '../typechain/Relay'
 //    ['DAIS', [stringToBytes6('DAI01'), stringToBytes6('DAI01')],[stringToBytes6('DAI02'), stringToBytes6('DAI02')]], // poolId and seriesId usually match
 //    ['USDCS', [stringToBytes6('USDC01'), stringToBytes6('USDC01')],[stringToBytes6('USDC02'), stringToBytes6('USDC02')]],
 //    ['USDTS', [stringToBytes6('USDT01'), stringToBytes6('USDT01')],[stringToBytes6('USDT02'), stringToBytes6('USDT02')]],
-    ['USDCS2', [stringToBytes6('USDC13'), stringToBytes6('USDC13')],[stringToBytes6('USDC14'), stringToBytes6('USDC14')]],
+    ['USDCS3', [stringToBytes6('USDC13'), stringToBytes6('USDC13')],[stringToBytes6('USDC14'), stringToBytes6('USDC14')]],
   ]
   
   /* await hre.network.provider.request({
