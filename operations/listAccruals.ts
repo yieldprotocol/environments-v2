@@ -26,7 +26,7 @@ import { FYToken } from '../typechain/FYToken'
   console.log('\nRate:')
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     if ((await cauldron.ratesAtMaturity(seriesId)).eq(BigNumber.from(0))) console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
-    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): accrual ${cauldron.callStatic.accrual(seriesId)}, at maturity ${await cauldron.ratesAtMaturity(seriesId)}`)
+    else console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): accrual ${await cauldron.callStatic.accrual(seriesId)}, at maturity ${await cauldron.ratesAtMaturity(seriesId)}`)
   }
 
   console.log('\nChi:')
