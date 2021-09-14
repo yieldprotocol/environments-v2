@@ -29,7 +29,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 //      ['DAIS', 'DAIS', DAI],
 //      ['USDCS', 'USDCS', USDC],
 //      ['USDTS', 'USDTS', USDT],
-      ['USDCS3', 'USDCS3', USDC],
+      ['USDCS4', 'USDCS4', USDC],
     ]
 
     /* await hre.network.provider.request({

@@ -30,7 +30,7 @@ import { Relay } from '../typechain/Relay'
 //    [stringToBytes6('USDT01')],
 //    [stringToBytes6('USDT02')],
 
-    [stringToBytes6('USDC15')],
+    [stringToBytes6('USDC16')],
   ]
 
   /* await hre.network.provider.request({
