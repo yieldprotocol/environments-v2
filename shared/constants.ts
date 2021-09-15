@@ -1,5 +1,6 @@
 import { ethers, BigNumber } from 'ethers'
 
+export const ZERO = BigNumber.from(0)
 export const DEC6 = BigNumber.from(10).pow(6)
 export const WAD = BigNumber.from(10).pow(18)
 export const RAY = BigNumber.from(10).pow(27)
@@ -12,6 +13,10 @@ export const DAI = ethers.utils.formatBytes32String('DAI').slice(0, 14)
 export const USDC = ethers.utils.formatBytes32String('USDC').slice(0, 14)
 export const WBTC = ethers.utils.formatBytes32String('WBTC').slice(0, 14)
 export const USDT = ethers.utils.formatBytes32String('USDT').slice(0, 14)
+export const CDAI = ethers.utils.formatBytes32String('CDAI').slice(0, 14)
+export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
+export const CWBTC = ethers.utils.formatBytes32String('CWBTC').slice(0, 14)
+export const CUSDT = ethers.utils.formatBytes32String('CUSDT').slice(0, 14)
 
 export const YIELDSPACE_OPS = {
   ROUTE:              0,

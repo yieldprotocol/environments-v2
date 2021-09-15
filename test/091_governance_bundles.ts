@@ -100,7 +100,7 @@ describe('Governance', function () {
     await chiRateOracle.setSources([baseId], [RATE], [rateSource.address])
 
     // Add oracle for base in Cauldron
-    await cauldron.setRateOracle(baseId, chiRateOracle.address)
+    await cauldron.setLendingOracle(baseId, chiRateOracle.address)
     // })
 
     // it('make a collateral out of an asset', async () => {

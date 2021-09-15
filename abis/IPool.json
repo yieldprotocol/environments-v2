@@ -133,7 +133,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "baseTo",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "fyTokenTo",
         "type": "address"
       },
       {
@@ -330,6 +335,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "invariant",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

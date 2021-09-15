@@ -11,7 +11,7 @@ import 'solidity-coverage'
 import 'hardhat-deploy'
 import { task } from 'hardhat/config'
 
-import { addAsset, makeBase, makeIlk, addSeries } from './scripts/add'
+// import { addAsset, makeBase, makeIlk, addSeries } from './scripts/add'
 
 // REQUIRED TO ENSURE METADATA IS SAVED IN DEPLOYMENTS (because solidity-coverage disable it otherwise)
 /* import {
@@ -89,11 +89,11 @@ if (!etherscanKey) {
 
 module.exports = {
   solidity: {
-    version: '0.8.1',
+    version: '0.8.6',
     settings: {
       optimizer: {
         enabled: true,
-        runs: 1000,
+        runs: 1500,
       }
     }
   },
@@ -132,6 +132,7 @@ module.exports = {
     kovan: {
       accounts,
       gasPrice: 10000000000,
+      timeout: 600000,
       url: nodeUrl('kovan')
     },
     goerli: {
@@ -148,6 +149,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
+      timeout: 600000,
       url: nodeUrl('mainnet')
     },
     coverage: {

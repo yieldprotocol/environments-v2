@@ -207,7 +207,33 @@
   },
   {
     "inputs": [],
+    "name": "LOCK8605463013",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "ROOT",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ROOT4146650865",
     "outputs": [
       {
         "internalType": "bytes4",
@@ -433,6 +459,30 @@
         "internalType": "uint128",
         "name": "base",
         "type": "uint128"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes12",
+        "name": "vaultId_",
+        "type": "bytes12"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "closeFromLadle",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "repaid",
+        "type": "uint256"
       }
     ],
     "stateMutability": "payable",
@@ -928,9 +978,14 @@
         "internalType": "bytes12",
         "name": "vaultId_",
         "type": "bytes12"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       }
     ],
-    "name": "repayLadle",
+    "name": "repayFromLadle",
     "outputs": [
       {
         "internalType": "uint256",
