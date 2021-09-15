@@ -8,6 +8,7 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import *  as hre from 'hardhat'
 import { jsonToMap, bytesToString, stringToBytes6 } from '../shared/helpers'
+import { ZERO_ADDRESS } from '../shared/constants'
 import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
@@ -19,17 +20,17 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-//    ['DAIS', [stringToBytes6('DAI01'), stringToBytes6('DAI01')],[stringToBytes6('DAI02'), stringToBytes6('DAI02')]], // poolId and seriesId usually match
-//    ['USDCS', [stringToBytes6('USDC01'), stringToBytes6('USDC01')],[stringToBytes6('USDC02'), stringToBytes6('USDC02')]],
-//    ['USDTS', [stringToBytes6('USDT01'), stringToBytes6('USDT01')],[stringToBytes6('USDT02'), stringToBytes6('USDT02')]],
-    ['USDCS4', [stringToBytes6('USDC14'), stringToBytes6('USDC14')],[stringToBytes6('USDC15'), stringToBytes6('USDC15')]],
+    ['DAIQ1', [stringToBytes6('0203'), stringToBytes6('0203')],[stringToBytes6('0205'), stringToBytes6('0205')]], // poolId and seriesId usually match
+    ['DAIQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]], // poolId and seriesId usually match
+    ['USDCQ1', [stringToBytes6('0303'), stringToBytes6('0303')],[stringToBytes6('0305'), stringToBytes6('0305')]],
+    ['USDCQ2', [stringToBytes6('0304'), stringToBytes6('0304')],[stringToBytes6('0306'), stringToBytes6('0306')]],
   ]
   
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")*/
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
@@ -58,7 +59,7 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: base.address,
-        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(1000).mul(baseUnit)])
+        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(100).mul(baseUnit)])
       },
     )
     proposal.push(
@@ -70,9 +71,15 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: strategy.address,
-        data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
+        data: strategy.interface.encodeFunctionData("transfer", [ZERO_ADDRESS, BigNumber.from(100).mul(baseUnit)])  // Burn the strategy tokens minted
       },
     )
+    /* proposal.push(
+      {
+        target: strategy.address,
+        data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
+      },
+    ) */
     proposal.push(
       {
         target: ladle.address,

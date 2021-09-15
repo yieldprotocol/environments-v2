@@ -30,14 +30,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 (async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-//    [DAI,   "0xaFCdc724EB8781Ee721863db1B15939675996484"],
-//    [USDC,  "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
-//    [ETH,   "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
-//    [WBTC,  "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
+    [ETH,   "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
+    [DAI,   "0xaFCdc724EB8781Ee721863db1B15939675996484"],
+    [USDC,  "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
+    [WBTC,  "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
 //    [USDT,  "0x233551369dc535f5fF3517c28fDCce81d650063e"],
-    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
-    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
-    [CUSDT, "0x3f0a0ea2f86bae6362cf9799b523ba06647da018"],
+//    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
+//    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
+//    [CUSDT, "0x3f0a0ea2f86bae6362cf9799b523ba06647da018"],
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   /* await hre.network.provider.request({
@@ -163,4 +163,10 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // await timelock.approve(txHash); console.log(`Approved ${txHash2}`)
   // await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
 
+  // Retrieve the isolation hashes
+  const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
+  for (let i = newAssets.length; i > 0; i--) {
+    const event = logs[logs.length - i]
+    console.log(`Isolate Ladle from Join(${newAssets[i-1][0]}) with ${event.args.txHash}`)
+  }
 })()

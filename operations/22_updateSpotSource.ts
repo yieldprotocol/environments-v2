@@ -21,7 +21,6 @@ import { Timelock } from '../typechain/Timelock'
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
     [DAI, ETH,   'chainlinkOracle', "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
     [USDC, ETH,  'chainlinkOracle', "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
-    [USDT, ETH,  'chainlinkOracle', "0x0bF499444525a23E7Bb61997539725cA2e928138"],
     [WBTC, ETH,  'chainlinkOracle', "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
   ]
   /* await hre.network.provider.request({

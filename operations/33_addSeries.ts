@@ -16,7 +16,7 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
-import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
+import { DAI, USDC, ETH, WBTC } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -45,20 +45,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO1709 = 1631919599
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('DAI01'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI01', 'DAI01'], // Sep21
-//    [stringToBytes6('DAI02'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI02', 'DAI02'], // Dec21
-//    [stringToBytes6('USDC01'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC01', 'USDC01'],
-//    [stringToBytes6('USDC02'), USDC, EODEC21, [USDC, DAI, ETH, WBTC, USDT], 'USDC02', 'USDC02'],
-//    [stringToBytes6('USDT01'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT01', 'USDT01'],
-//    [stringToBytes6('USDT02'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT02', 'USDT02']
-
-//    [stringToBytes6('USDC10'), USDC, EO1009, [USDC, DAI, ETH, WBTC, USDT], 'USDC10', 'USDC10'],
-//    [stringToBytes6('USDC11'), USDC, EO1109, [USDC, DAI, ETH, WBTC, USDT], 'USDC11', 'USDC11'],
-//    [stringToBytes6('USDC12'), USDC, EO1209, [USDC, DAI, ETH, WBTC, USDT], 'USDC12', 'USDC12'],
-//    [stringToBytes6('USDC13'), USDC, EO1309, [USDC, DAI, ETH, WBTC, USDT], 'USDC13', 'USDC13'],
-//    [stringToBytes6('USDC14'), USDC, EO1409, [USDC, DAI, ETH, WBTC, USDT], 'USDC14', 'USDC14'],
-//    [stringToBytes6('USDC15'), USDC, EO1509, [USDC, DAI, ETH, WBTC, USDT], 'USDC15', 'USDC15'],
-    [stringToBytes6('USDC16'), USDC, EO1609, [USDC, DAI, ETH, WBTC, USDT], 'USDC16', 'USDC16'],
+//    [stringToBytes6('0203'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
+//    [stringToBytes6('0204'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
+//    [stringToBytes6('0303'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
+    [stringToBytes6('0304'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
+//    [stringToBytes6('0315'), USDC, EO1509, [USDC, DAI, ETH, WBTC], 'USDC15', 'USDC15'],
+//    [stringToBytes6('0316'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
@@ -202,5 +194,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
     // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
     // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-  }
+
+    // Retrieve the isolation hashes
+    let logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
+    let event = logs[logs.length - 1]
+    console.log(`Isolate FYToken from Join with ${event.args.txHash}`)
+    event = logs[logs.length - 2]
+    console.log(`Isolate FYToken from Ladle with ${event.args.txHash}`)
+   }
 })()

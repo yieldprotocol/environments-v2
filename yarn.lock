@@ -2515,10 +2515,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc0.tgz#314a09f110d44374b8825ae382f8c760ece1508e"
   integrity sha512-R2U9/zrmwaWSCETTWhkyAv71ojZj4qZ0fNRVh+IZ142We3Kj0rDEqjpghEzXoAZM1gfS4igdFsZ92EluAoqJ6A==
 
-"@yield-protocol/utils-v2@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.1.tgz#063fbd0c12cff15c70215a202b28fb1459b5ed51"
-  integrity sha512-PyLNLNjZfwbLD3CvDngnebUpRJtb+aWUdIKVgzxRGrYxahahhJfRQQL+dzIUyQ0pGu56CgvL/A5PFQ3VH52bpw==
+"@yield-protocol/utils-v2@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.2.tgz#a0975e94bbb38bb93167c6e8563173c05f3957f4"
+  integrity sha512-jjV9BcRExkOeE1fsecXiWQ65eYBV3te5QDdDahocrhcmvi876Zmq6vJnSjBzXVTzWNubOEILmjnrKyxlyMTYag==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
@@ -2528,10 +2528,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc4.tgz#c10f8d6eeb53167fac6923f5d55dbda4953375e5"
   integrity sha512-z2qFjLzWKkYsVf12NVqULLmqRc1iJ7HiLwExbPmHGaFnf92OhxFsKuDhTYn4CIK2GDkjhvKqNwcxCWfA5mjb+g==
 
-"@yield-protocol/vault-v2@^0.10.0-rc6":
-  version "0.10.0-rc6"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.10.0-rc6.tgz#3729111ba8b3ddac5b7a2a663e361511683cc214"
-  integrity sha512-meLGCH0k4Ys9/XYV3VJZ/rxljJrgnkf8r4O1Z+k3QwRfpWvHZ6vliT49HosXcuQi6DFfJyxy6HD2TgDUjIdcSg==
+"@yield-protocol/vault-v2@^0.11.0-rc0":
+  version "0.11.0-rc0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.11.0-rc0.tgz#b3e72bbe047feded88f32c048c889e7f2a696a36"
+  integrity sha512-OEA3zWfKbMz/gAXsZAMQM8elHmb2EbGFNwsuLyw2AJuvE+5OPERQtqPCF1yiyVCKWqBqY+xoyUEi9mm2BE28xQ==
 
 "@yield-protocol/yieldspace-interfaces@^2.3.0-rc3":
   version "2.3.0-rc3"

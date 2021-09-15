@@ -405,6 +405,11 @@
     "name": "ilks",
     "outputs": [
       {
+        "internalType": "bool",
+        "name": "initialized",
+        "type": "bool"
+      },
+      {
         "internalType": "uint32",
         "name": "duration",
         "type": "uint32"

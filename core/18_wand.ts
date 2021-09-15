@@ -216,4 +216,8 @@ const { deployContract } = waffle;
     await timelock.approve(txHash); console.log(`Approved ${txHash}`)
     await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
+    // Retrieve the isolation hash
+    const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
+    const event = logs[logs.length - 1]
+    console.log(`Isolate the Wand with ${event.args.txHash}`)
 })()

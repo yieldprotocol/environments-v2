@@ -1,5 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
 import { ETH } from '../shared/constants'
@@ -25,6 +26,11 @@ const { deployContract } = waffle;
  */
 
 (async () => {
+    /* await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    });
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
     const [ ownerAcc ] = await ethers.getSigners();
     const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
@@ -120,4 +126,8 @@ const { deployContract } = waffle;
     await timelock.approve(txHash); console.log(`Approved ${txHash}`)
     await timelock.execute(proposal); console.log(`Executed ${txHash}`)
 
+    // Retrieve the isolation hash
+    const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
+    const event = logs[logs.length - 1]
+    console.log(`Isolate the Ladle with ${event.args.txHash}`)
 })()

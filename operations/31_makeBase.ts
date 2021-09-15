@@ -26,8 +26,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const newBases: Array<[string, string]> = [
     [DAI,  'compoundOracle'],
     [USDC, 'compoundOracle'],
-    [USDT, 'compoundOracle'],
-    // [stringToBytes6('TST3'), 'compoundOracle'],
+//    [USDT, 'compoundOracle'],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
@@ -93,4 +92,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
   // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
   // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+
+
+  // Retrieve the isolation hashes
+  const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
+  for (let i = newBases.length; i > 0; i--) {
+    const event = logs[logs.length - i]
+    console.log(`Isolate Witch from Join(${newBases[i-1][0]}) with ${event.args.txHash}`)
+  }
 })()
