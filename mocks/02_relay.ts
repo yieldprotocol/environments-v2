@@ -32,22 +32,14 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 
     proposal.push({
         target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xca02753a', // propose,
-            relay.address
-        ])
-    })
-    proposal.push({
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xa53a1adf', // approve
-            relay.address
-        ])
-    })
-    proposal.push({
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xbaae8abf', // execute
+        data: timelock.interface.encodeFunctionData('grantRoles', [
+            [
+                '0xca02753a', // propose,
+                '0x013a652d', // proposeRepeated
+                '0xa53a1adf', // approve
+                '0xbaae8abf', // execute
+                '0xf9a28e8b', // executeRepeated
+            ],
             relay.address
         ])
     })
