@@ -20,10 +20,11 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-    ['DAIQ1', [stringToBytes6('0203'), stringToBytes6('0203')],[stringToBytes6('0205'), stringToBytes6('0205')]], // poolId and seriesId usually match
-    ['DAIQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]], // poolId and seriesId usually match
-    ['USDCQ1', [stringToBytes6('0303'), stringToBytes6('0303')],[stringToBytes6('0305'), stringToBytes6('0305')]],
-    ['USDCQ2', [stringToBytes6('0304'), stringToBytes6('0304')],[stringToBytes6('0306'), stringToBytes6('0306')]],
+//    ['DAIQ1', [stringToBytes6('0203'), stringToBytes6('0203')],[stringToBytes6('0205'), stringToBytes6('0205')]], // poolId and seriesId usually match
+//    ['DAIQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]], // poolId and seriesId usually match
+//    ['USDCQ1', [stringToBytes6('0303'), stringToBytes6('0303')],[stringToBytes6('0305'), stringToBytes6('0305')]],
+//    ['USDCQ2', [stringToBytes6('0304'), stringToBytes6('0304')],[stringToBytes6('0306'), stringToBytes6('0306')]],
+['USDCD1', [stringToBytes6('0316'), stringToBytes6('0316')],[stringToBytes6('0317'), stringToBytes6('0317')]],
   ]
   
   /* await hre.network.provider.request({
