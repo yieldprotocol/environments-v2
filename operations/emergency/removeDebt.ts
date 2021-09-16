@@ -8,11 +8,11 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap } from '../shared/helpers'
+import { jsonToMap } from '../../shared/helpers'
 
-import { Cauldron } from '../typechain/Cauldron'
-import { Timelock } from '../typechain/Timelock'
-import { Relay } from '../typechain/Relay'
+import { Cauldron } from '../../typechain/Cauldron'
+import { Timelock } from '../../typechain/Timelock'
+import { Relay } from '../../typechain/Relay'
 
 (async () => {
   const vaultId = '0x3f9765c9a4601ff812bcff99'

@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, stringToBytes32, bytesToString } from '../shared/helpers'
+import { jsonToMap, stringToBytes32, bytesToString } from '../../shared/helpers'
 
-import { Join } from '../typechain/Join'
-import { Timelock } from '../typechain/Timelock'
-import { EmergencyBrake } from '../typechain/EmergencyBrake'
+import { Join } from '../../typechain/Join'
+import { Timelock } from '../../typechain/Timelock'
+import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 
 
 /**
