@@ -66,7 +66,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
   // Build the proposal
   const proposal : Array<{ target: string; data: string}> = []
-  const plans : Set<string> = new Set() // Existing plans in the cloak
+  const plans : Array<string> = new Array() // Existing plans in the cloak
   for (let [baseId, ilkId, oracleName, ratio, invRatio, maxDebt, minDebt, debtDec] of newIlks) {
     const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc) as Join
 
@@ -78,14 +78,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
     proposal.push({
-      target: witch.address,
-      data: witch.interface.encodeFunctionData('setIlk', [
-        ilkId, 60 * 60, invRatio, minDebt * debtDec // ilkId, duration, initialOffer, dust
-      ])
-    })
-    console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
-
-    proposal.push({
       target: wand.address,
       data: wand.interface.encodeFunctionData('makeIlk', [
         baseId, ilkId, spotOracle.address, ratio, maxDebt, minDebt, debtDec
@@ -93,8 +85,16 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
-    if (!plans.has(ilkId)) { 
-      plans.add(ilkId)
+    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
+      plans.push(ilkId)
+      proposal.push({
+        target: witch.address,
+        data: witch.interface.encodeFunctionData('setIlk', [
+          ilkId, 60 * 60, invRatio, minDebt * debtDec // ilkId, duration, initialOffer, dust
+        ])
+      })
+      console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
+
       proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
@@ -135,8 +135,8 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
   // Retrieve the isolation hashes
   const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
-  for (let i = newIlks.length; i > 0; i--) { // TODO: Fix to remove repeated
+  for (let i = plans.length; i > 0; i--) {
     const event = logs[logs.length - i]
-    console.log(`Isolate Witch from Join(${newIlks[i-1][1]}) with ${event.args.txHash}`)
+    console.log(`Isolate Witch from Join(${plans[i-1]}) with ${event.args.txHash}`)
   }
 })()
