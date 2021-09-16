@@ -7,10 +7,10 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap } from '../shared/helpers'
+import { jsonToMap } from '../../shared/helpers'
 
-import { Timelock } from '../typechain/Timelock'
-import { EmergencyBrake } from '../typechain/EmergencyBrake'
+import { Timelock } from '../../typechain/Timelock'
+import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 
 (async () => {
   const newGovernor = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
