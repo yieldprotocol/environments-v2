@@ -16,17 +16,17 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data: baseId, ilkId, maxDebt, minDebt, debtDec
   const newLimits: Array<[string, string, number, number, number]> = [
-    /*[DAI, DAI, 1000000, 1, 18],
-    [DAI, USDC, 1000000, 1, 18],
+    [DAI, DAI, 1000000, 0, 18],
+    /* [DAI, USDC, 1000000, 1, 18],
     [DAI, ETH, 1000000, 1, 18],
     [DAI, WBTC, 1000000, 1, 18],
     [DAI, USDT, 1000000, 1, 18],*/
-    [USDC, USDC, 1000000, 1, 6],
-    [USDC, DAI, 1000000, 1, 6],
+    [USDC, USDC, 1000000, 0, 6],
+    /* [USDC, DAI, 1000000, 1, 6],
     [USDC, ETH, 1000000, 1, 6],
     [USDC, WBTC, 1000000, 1, 6],
     [USDC, USDT, 1000000, 1, 6],
-    /*[USDT, USDT, 1000000, 1, 18],
+    [USDT, USDT, 1000000, 0, 18],
     [USDT, DAI, 1000000, 1, 18],
     [USDT, USDC, 1000000, 1, 18],
     [USDT, ETH, 1000000, 1, 18],
