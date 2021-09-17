@@ -13,7 +13,7 @@ import { FYToken } from '../typechain/FYToken'
 (async () => {
   // Input data
   const seriesToMature: Array<string> = [ // seriesId
-      'USDC13'
+      '0316'
   ]
 
   const [ ownerAcc ] = await ethers.getSigners();

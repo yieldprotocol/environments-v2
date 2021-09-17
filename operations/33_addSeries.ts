@@ -44,21 +44,23 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO1509 = 1631746799
   const EO1609 = 1631833199
   const EO1709 = 1631919599
+  const EO1809 = 1632009599
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
 //    [stringToBytes6('0203'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
 //    [stringToBytes6('0204'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
 //    [stringToBytes6('0303'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
 //    [stringToBytes6('0304'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
-    [stringToBytes6('0316'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
-    [stringToBytes6('0317'), USDC, EO1709, [USDC, DAI, ETH, WBTC], 'USDC17', 'USDC17'],
+//    [stringToBytes6('0316'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
+//    [stringToBytes6('0317'), USDC, EO1709, [USDC, DAI, ETH, WBTC], 'USDC17', 'USDC17'],
+    [stringToBytes6('0318'), USDC, EO1809, [USDC, DAI, ETH, WBTC], 'USDC18', 'USDC18'],
   ]
-  await hre.network.provider.request({
+  /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
-  // const [ ownerAcc ] = await ethers.getSigners();
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
+  const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;

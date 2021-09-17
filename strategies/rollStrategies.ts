@@ -25,7 +25,7 @@ import { Join } from '../typechain/Join'
 //    ['DAI2S', [stringToBytes6('DAI21'), stringToBytes6('DAI21')],[stringToBytes6('DAI22'), stringToBytes6('DAI22')]], // poolId and seriesId usually match
 //    ['USDC2S', [stringToBytes6('USDC21'), stringToBytes6('USDC21')],[stringToBytes6('USDC22'), stringToBytes6('USDC22')]],
 //    ['USDT2S', [stringToBytes6('USDT21'), stringToBytes6('USDT21')],[stringToBytes6('USDT22'), stringToBytes6('USDT22')]]
-    ['USDCS3', [stringToBytes6('USDC15'), stringToBytes6('USDC15')]]
+    ['USDCD1', [stringToBytes6('0318'), stringToBytes6('0318')]]
 
 ]
   
@@ -49,8 +49,6 @@ import { Join } from '../typechain/Join'
 
   for (let [strategyId, [nextPoolId, nextSeriesId]] of strategiesRoll) {
     const strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string, ownerAcc) as Strategy
-
-    console.log(await strategy.fyToken())
     
     proposal.push(
       {

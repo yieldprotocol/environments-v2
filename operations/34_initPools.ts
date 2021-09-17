@@ -26,9 +26,10 @@ import { Relay } from '../typechain/Relay'
 //    [stringToBytes6('0204')],
 //    [stringToBytes6('0303')],
 //    [stringToBytes6('0304')],
-    [stringToBytes6('0316')],
-    [stringToBytes6('0317')],
-]
+//    [stringToBytes6('0316')],
+//    [stringToBytes6('0317')],
+    [stringToBytes6('0318')],
+  ]
 
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
