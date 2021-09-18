@@ -22,13 +22,13 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const poolsInit: Array<[string]> = [ // [seriesId]
+//    [stringToBytes6('0103')],
+//    [stringToBytes6('0104')],
 //    [stringToBytes6('0203')],
 //    [stringToBytes6('0204')],
-//    [stringToBytes6('0303')],
-//    [stringToBytes6('0304')],
-//    [stringToBytes6('0316')],
-//    [stringToBytes6('0317')],
-    [stringToBytes6('0318')],
+//    [stringToBytes6('0216')],
+//    [stringToBytes6('0217')],
+    [stringToBytes6('0218')],
   ]
 
   /* await hre.network.provider.request({

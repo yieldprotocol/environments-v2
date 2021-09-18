@@ -47,13 +47,13 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO1809 = 1632009599
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('0203'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
-//    [stringToBytes6('0204'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
-//    [stringToBytes6('0303'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
-//    [stringToBytes6('0304'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
-//    [stringToBytes6('0316'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
-//    [stringToBytes6('0317'), USDC, EO1709, [USDC, DAI, ETH, WBTC], 'USDC17', 'USDC17'],
-    [stringToBytes6('0318'), USDC, EO1809, [USDC, DAI, ETH, WBTC], 'USDC18', 'USDC18'],
+//    [stringToBytes6('0103'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
+//    [stringToBytes6('0104'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
+//    [stringToBytes6('0203'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
+//    [stringToBytes6('0204'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
+//    [stringToBytes6('0216'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
+//    [stringToBytes6('0217'), USDC, EO1709, [USDC, DAI, ETH, WBTC], 'USDC17', 'USDC17'],
+    [stringToBytes6('0218'), USDC, EO1809, [USDC, DAI, ETH, WBTC], 'USDC18', 'USDC18'],
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
