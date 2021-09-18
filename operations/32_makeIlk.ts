@@ -28,17 +28,17 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const COMPOSITE = 'compositeOracle'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number, number]> = [
-    [DAI, DAI, CHAINLINK, 1000000, 1000000, 100000, 1, 18], // Constant 1
+    [DAI, DAI, CHAINLINK, 1000000, 1000000, 100000, 0, 18], // Constant 1, no dust
     [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
     [DAI, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 18],
     [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
 //    [DAI, USDT, CHAINLINK, 1000000, 100000, 1, 18], // Via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 100000, 1, 6], // Constant 1
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 100000, 0, 6], // Constant 1, no dust
     [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
     [USDC, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 6],
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
 //    [USDC, USDT, CHAINLINK, 1000000, 100000, 1, 6], // Via ETH
-/*    [USDT, USDT, CHAINLINK, 1000000, 100000, 1, 18], // Constant 1
+/*    [USDT, USDT, CHAINLINK, 1000000, 100000, 0, 18], // Constant 1, no dust
     [USDT, DAI, CHAINLINK, 1000000, 100000, 1, 18], // Via ETH
     [USDT, USDC, CHAINLINK, 1000000, 100000, 1, 18], // Via ETH
     [USDT, ETH, CHAINLINK, 1000000, 100000, 1, 18],
@@ -77,6 +77,16 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
+    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
+      proposal.push({
+        target: witch.address,
+        data: witch.interface.encodeFunctionData('setIlk', [
+          ilkId, 60 * 60, invRatio, minDebt * debtDec // ilkId, duration, initialOffer, dust
+        ])
+      })
+      console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
+    }
+
     proposal.push({
       target: wand.address,
       data: wand.interface.encodeFunctionData('makeIlk', [
@@ -86,15 +96,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
     if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
-      plans.push(ilkId)
-      proposal.push({
-        target: witch.address,
-        data: witch.interface.encodeFunctionData('setIlk', [
-          ilkId, 60 * 60, invRatio, minDebt * debtDec // ilkId, duration, initialOffer, dust
-        ])
-      })
-      console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
-
       proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
@@ -108,6 +109,8 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
         ])
       })
       console.log(`cloak.plan(witch, join(${bytesToString(ilkId)}))`)
+
+      plans.push(ilkId)
     }
   }
 
