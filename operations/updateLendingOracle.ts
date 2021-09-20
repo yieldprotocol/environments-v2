@@ -54,9 +54,18 @@ import { Timelock } from '../typechain/Timelock'
     console.log(`cauldron.setLendingOracle(${bytesToString(baseId)}): ${lendingOracle.address}`)
   }
 
-  // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
-  { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
-  { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
+    // Propose, approve, execute
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
 })()

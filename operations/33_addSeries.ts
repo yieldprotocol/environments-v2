@@ -41,13 +41,13 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EO2209 = 1632311999
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('0103'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
-//    [stringToBytes6('0104'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
-//    [stringToBytes6('0203'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
-//    [stringToBytes6('0204'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
-    [stringToBytes6('0220'), USDC, EO2009, [USDC, DAI, ETH, WBTC], 'USDC20', 'USDC20'],
-    [stringToBytes6('0221'), USDC, EO2109, [USDC, DAI, ETH, WBTC], 'USDC21', 'USDC21'],
-    [stringToBytes6('0222'), USDC, EO2209, [USDC, DAI, ETH, WBTC], 'USDC22', 'USDC22'],
+//    [stringToBytes6('0103'), DAI,  EOSEP21, [ETH, DAI, USDC, WBTC], 'DAI01', 'DAI01'], // Sep21
+//    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'DAI02', 'DAI02'], // Dec21
+//    [stringToBytes6('0203'), USDC, EOSEP21, [ETH, DAI, USDC, WBTC], 'USDC01', 'USDC01'],
+//    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'USDC02', 'USDC02'],
+    [stringToBytes6('0220'), USDC, EO2009, [ETH, DAI, USDC, WBTC], 'USDC20', 'USDC20'],
+    [stringToBytes6('0221'), USDC, EO2109, [ETH, DAI, USDC, WBTC], 'USDC21', 'USDC21'],
+    [stringToBytes6('0222'), USDC, EO2209, [ETH, DAI, USDC, WBTC], 'USDC22', 'USDC22'],
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
@@ -66,7 +66,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
   const ROOT = await timelock.ROOT()
 

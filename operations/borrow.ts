@@ -9,6 +9,7 @@ import *  as hre from 'hardhat'
 import *  as fs from 'fs'
 import { WAD, ETH, DAI, USDC, WBTC, USDT } from '../shared/constants'
 import { jsonToMap, stringToBytes6 } from '../shared/helpers'
+import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { Cauldron } from '../typechain/Cauldron'
@@ -16,11 +17,11 @@ import { Ladle } from '../typechain/Ladle'
 
 (async () => {
   const oneUSDC = WAD.div(10**12)
-  const newVaults: Array<[string, string, string, string]> = new Array([ // seriesId, ilkId, ink, art
-    stringToBytes6('0220'),
+  const newVaults: Array<[string, string, BigNumber, BigNumber]> = new Array([ // seriesId, ilkId, ink, art
+    stringToBytes6('0103'),
     DAI,
-    WAD.mul(8000).toString(),
-    oneUSDC.mul(3000).toString() // In USDC units
+    WAD.mul(1000),
+    WAD.mul(1000)
   ])
   
   /* await hre.network.provider.request({
@@ -39,13 +40,24 @@ import { Ladle } from '../typechain/Ladle'
 
   const filter = cauldron.filters.VaultBuilt(null, null, null, null)
   for (let [seriesId, ilkId, ink, art] of newVaults) {
-    const join = await ladle.joins(ilkId)
+    const join = await ladle.joins(ilkId) as string
     const ilk = await ethers.getContractAt('ERC20Mock', assets.get(ilkId) as string, ownerAcc) as unknown as ERC20Mock
-    await ilk.mint(join, ink)
+    
+    console.log(`Approving ${ladle.address} to take ${ink.toString()} ${await ilk.symbol()}`);
+    if ((await ilk.allowance(ownerAcc.address, ladle.address)).toString() !== ink.toString()) {
+      await ilk.approve(ladle.address, ink)
+      while ((await ilk.allowance(ownerAcc.address, ladle.address)).toString() !== ink.toString()) { }
+    }
+    console.log(`Approved`)
+
+    console.log(`Creating vault for ${seriesId} and ${ilkId}...`);
+    console.log(`... and borrowing ${art} with ${ink}`)
     await ladle.batch([
       ladle.interface.encodeFunctionData('build', [seriesId, ilkId, 0]),
+      ladle.interface.encodeFunctionData('transfer', [ilk.address, ladle.address, ink]),
       ladle.interface.encodeFunctionData('pour', ['0x'+'00'.repeat(12), ownerAcc.address, ink, art])
     ])
+    console.log(`Done`)
     // TODO: Pick the right event
     // const events = await cauldron.queryFilter(filter)
     // console.log(`Vault built: ${events[events.length - 1].args}`)

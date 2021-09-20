@@ -28,14 +28,14 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const COMPOSITE = 'compositeOracle'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number, number]> = [
+    [DAI, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 18],
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 100000, 0, 18], // Constant 1, no dust
     [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
-    [DAI, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 18],
     [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
 //    [DAI, USDT, CHAINLINK, 1000000, 100000, 1, 18], // Via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 100000, 0, 6], // Constant 1, no dust
-    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
     [USDC, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 6],
+    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 100000, 0, 6], // Constant 1, no dust
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
 //    [USDC, USDT, CHAINLINK, 1000000, 100000, 1, 6], // Via ETH
 /*    [USDT, USDT, CHAINLINK, 1000000, 100000, 0, 18], // Constant 1, no dust
@@ -47,12 +47,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 //    [USDC, CUSDC, CTOKEN, 1000000, 1000000, 1, 6],
 //    [USDT, CUSDT, CTOKEN, 1000000, 1000000, 1, 18],
   ]
-  /* await hre.network.provider.request({
+  await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-  const [ ownerAcc ] = await ethers.getSigners();
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5")
+  // const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
@@ -61,7 +61,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal

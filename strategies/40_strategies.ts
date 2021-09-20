@@ -41,8 +41,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
     const [ ownerAcc ] = await ethers.getSigners();    
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-    const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
-    const ROOT = await timelock.ROOT()
+      const ROOT = await timelock.ROOT()
 
     const strategyFactory = await ethers.getContractFactory('Strategy', {
       libraries: {

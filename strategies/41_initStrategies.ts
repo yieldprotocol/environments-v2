@@ -40,7 +40,6 @@ import { Relay } from '../typechain/Relay'
 
   // Contract instantiation
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
 
   // Build the proposal
   const proposal : Array<{ target: string; data: string }> = []
