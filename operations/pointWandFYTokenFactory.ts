@@ -20,7 +20,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
  *
  * It takes as inputs the governance and protocol json address files.
  * The Wand gets access to permissioned functions in the FYTokenFactory.
- * A plan is recorded in the Cloak to isolate the Witch from the Cauldron, Ladle, Witch and Factories.
+ * A plan is recorded in the Cloak to isolate the Wand from the Cauldron, Ladle, Witch and Factories.
  */
 
 (async () => {
@@ -62,56 +62,51 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
         ])
     })
     console.log(`fyTokenFactory.grantRoles(wand)`)
-    
+        
+    const plan = [
+        {
+            contact: cauldron.address, signatures: [
+                id(cauldron.interface, 'addAsset(bytes6,address)'),
+                id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
+                id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
+                id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
+                id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
+            ]
+        },
+        {
+            contact: ladle.address, signatures: [
+                id(ladle.interface, 'addJoin(bytes6,address)'),
+                id(ladle.interface, 'addPool(bytes6,address)'),
+            ]
+        },
+        {
+            contact: joinFactory.address, signatures: [
+                id(joinFactory.interface, 'createJoin(address)'),
+            ]
+        },
+        {
+            contact: fyTokenFactory.address, signatures: [
+                id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)')
+            ]
+        },
+        {
+            contact: poolFactory.address, signatures: [
+                id(poolFactory.interface, 'createPool(address,address)'),
+            ]
+        },
+    ]
+
     proposal.push({
         target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [wand.address,
-            [
-                {
-                    contact: cauldron.address, signatures: [
-                        id(cauldron.interface, 'addAsset(bytes6,address)'),
-                        id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
-                        id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
-                        id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                        id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
-                        id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
-                    ]
-                },
-                {
-                    contact: ladle.address, signatures: [
-                        id(ladle.interface, 'addJoin(bytes6,address)'),
-                        id(ladle.interface, 'addPool(bytes6,address)'),
-                    ]
-                },
-                {
-                    contact: witch.address, signatures: [
-                        id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
-                    ]
-                },
-                {
-                    contact: joinFactory.address, signatures: [
-                        id(joinFactory.interface, 'createJoin(address)'),
-                    ]
-                },
-                {
-                    contact: fyTokenFactory.address, signatures: [
-                        id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)')
-                    ]
-                },
-                {
-                    contact: poolFactory.address, signatures: [
-                        id(poolFactory.interface, 'createPool(address,address)'),
-                    ]
-                },
-            ]
-        ])
+        data: cloak.interface.encodeFunctionData('plan', [wand.address, plan])
     })
-    console.log(`cloak.plan(wand)`)
+    console.log(`cloak.plan(wand): ${await cloak.hash(wand.address, plan)}`)
 
     // Propose, approve, execute
     const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 
 })()

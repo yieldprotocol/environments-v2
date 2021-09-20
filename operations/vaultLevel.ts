@@ -6,7 +6,7 @@ import { Cauldron } from '../typechain/Cauldron'
 
 (async () => {
   const vaultIds: Array<string> = [
-    '0x490C0970897E8C9F48F5DFA5'
+    '0xD825EC6DA9DD2E2F4B119158'
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;

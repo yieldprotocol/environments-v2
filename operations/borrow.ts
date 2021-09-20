@@ -17,9 +17,9 @@ import { Ladle } from '../typechain/Ladle'
 (async () => {
   const oneUSDC = WAD.div(10**12)
   const newVaults: Array<[string, string, string, string]> = new Array([ // seriesId, ilkId, ink, art
-    stringToBytes6('0317'),
+    stringToBytes6('0220'),
     DAI,
-    WAD.mul(4000).toString(),
+    WAD.mul(8000).toString(),
     oneUSDC.mul(3000).toString() // In USDC units
   ])
   

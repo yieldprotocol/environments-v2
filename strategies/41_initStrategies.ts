@@ -24,7 +24,7 @@ import { Relay } from '../typechain/Relay'
 //    ['DAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')],[stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
 //    ['USDCQ1', [stringToBytes6('0203'), stringToBytes6('0203')],[stringToBytes6('0205'), stringToBytes6('0205')]],
 //    ['USDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]],
-['USDCD1', [stringToBytes6('0216'), stringToBytes6('0216')],[stringToBytes6('0217'), stringToBytes6('0217')]],
+    ['USDCD1', [stringToBytes6('0220'), stringToBytes6('0220')],[stringToBytes6('0221'), stringToBytes6('0221')]],
   ]
   
   /* await hre.network.provider.request({
@@ -51,7 +51,7 @@ import { Relay } from '../typechain/Relay'
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
-    proposal.push(
+    /* proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(startPoolId) as string, startSeriesId])
@@ -74,14 +74,14 @@ import { Relay } from '../typechain/Relay'
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("transfer", [ZERO_ADDRESS, BigNumber.from(100).mul(baseUnit)])  // Burn the strategy tokens minted
       },
-    )
-    /* proposal.push(
+    ) */
+    proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
       },
-    ) */
-    proposal.push(
+    )
+    /* proposal.push(
       {
         target: ladle.address,
         data: ladle.interface.encodeFunctionData("addIntegration", [strategy.address, true])
@@ -92,28 +92,21 @@ import { Relay } from '../typechain/Relay'
         target: ladle.address,
         data: ladle.interface.encodeFunctionData("addToken", [strategy.address, true])
       },
-    )
+    ) */
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
+  }
 })()

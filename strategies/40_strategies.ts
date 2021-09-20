@@ -27,9 +27,9 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
     // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
     const strategiesData: Array<[string, string, string]> = [ // name, symbol, baseId
 //      ['DAIQ1', 'DAIQ1', DAI],
-//      ['DAIQ2', 'DAIQ2', DAI],
-//      ['USDCQ1', 'USDCQ1', USDC],
-//      ['USDCQ2', 'USDCQ2', USDC],
+      ['DAIQ2', 'DAIQ2', DAI],
+      ['USDCQ1', 'USDCQ1', USDC],
+      ['USDCQ2', 'USDCQ2', USDC],
       ['USDCD1', 'USDCD1', USDC],
 ]
 
@@ -60,6 +60,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
       strategies.set(symbol, strategy.address)
       fs.writeFileSync('./output/strategies.json', mapToJson(strategies), 'utf8')
       await strategy.grantRole(ROOT, timelock.address); console.log(`strategy.grantRoles(ROOT, timelock)`)
+      while (!(await strategy.hasRole(ROOT, timelock.address))) { }
 
       // Build the proposal
       const proposal : Array<{ target: string; data: string }> = []
@@ -89,25 +90,12 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
       ); console.log(`strategy(${symbol}).revokeRole(ROOT, deployer)`)
 
       // Propose, approve, execute
-      const txHash = await timelock.callStatic.propose(proposal)
-      await relay.execute(
-        [
-          {
-            target: timelock.address,
-            data: timelock.interface.encodeFunctionData('propose', [proposal])
-          },
-          {
-            target: timelock.address,
-            data: timelock.interface.encodeFunctionData('approve', [txHash])
-          },
-          {
-            target: timelock.address,
-            data: timelock.interface.encodeFunctionData('execute', [proposal])
-          },
-        ]
-      ); console.log(`Executed ${txHash}`)
-      // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-      // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-      // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+      const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+      if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+      while ((await timelock.proposals(txHash)).state < 1) { }
+      if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+      while ((await timelock.proposals(txHash)).state < 2) { }
+      if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
+      while ((await timelock.proposals(txHash)).state === 2) { }
     }
 })()

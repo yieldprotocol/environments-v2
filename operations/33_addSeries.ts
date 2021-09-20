@@ -17,7 +17,7 @@ import * as hre from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
-import { DAI, USDC, ETH, WBTC } from '../shared/constants'
+import { DAI, USDC, ETH, WBTC, ZERO_ADDRESS } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -36,24 +36,18 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EODEC21 = 1640995199
   const EOMAR22 = 1648771199
 
-  const EO1009 = 1631314799
-  const EO1109 = 1631401199
-  const EO1209 = 1631487599
-  const EO1309 = 1631573999
-  const EO1409 = 1631660399
-  const EO1509 = 1631746799
-  const EO1609 = 1631833199
-  const EO1709 = 1631919599
-  const EO1809 = 1632009599
+  const EO2009 = 1632139199
+  const EO2109 = 1632225599
+  const EO2209 = 1632311999
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
 //    [stringToBytes6('0103'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC], 'DAI01', 'DAI01'], // Sep21
 //    [stringToBytes6('0104'), DAI, EODEC21, [DAI, USDC, ETH, WBTC], 'DAI02', 'DAI02'], // Dec21
 //    [stringToBytes6('0203'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC], 'USDC01', 'USDC01'],
 //    [stringToBytes6('0204'), USDC, EODEC21, [USDC, DAI, ETH, WBTC], 'USDC02', 'USDC02'],
-//    [stringToBytes6('0216'), USDC, EO1609, [USDC, DAI, ETH, WBTC], 'USDC16', 'USDC16'],
-//    [stringToBytes6('0217'), USDC, EO1709, [USDC, DAI, ETH, WBTC], 'USDC17', 'USDC17'],
-    [stringToBytes6('0218'), USDC, EO1809, [USDC, DAI, ETH, WBTC], 'USDC18', 'USDC18'],
+    [stringToBytes6('0220'), USDC, EO2009, [USDC, DAI, ETH, WBTC], 'USDC20', 'USDC20'],
+    [stringToBytes6('0221'), USDC, EO2109, [USDC, DAI, ETH, WBTC], 'USDC21', 'USDC21'],
+    [stringToBytes6('0222'), USDC, EO2209, [USDC, DAI, ETH, WBTC], 'USDC22', 'USDC22'],
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
@@ -87,26 +81,20 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
 
     // Propose, approve, execute
-    let txHash = await timelock.callStatic.propose(proposal)
-    await relay.execute(
-      [
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('propose', [proposal])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('approve', [txHash])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('execute', [proposal])
-        },
-      ]
-    ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    let txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
 
     // The fyToken and pools files can only be updated after the successful execution of the proposal
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
@@ -152,62 +140,49 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`fyToken.grantRole(ROOT, cloak)`)
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address,
-        [
-          {
-            contact: fyToken.address, signatures: [
-              id(fyToken.interface, 'mint(address,uint256)'),
-              id(fyToken.interface, 'burn(address,uint256)'),
-            ]
-          }
+    const ladlePlan = [
+      {
+        contact: fyToken.address, signatures: [
+          id(fyToken.interface, 'mint(address,uint256)'),
+          id(fyToken.interface, 'burn(address,uint256)'),
         ]
-      ])
-    })
-    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)}))`)
+      }
+    ]
 
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [fyToken.address,
-        [
-          {
-            contact: join.address, signatures: [
-              id(join.interface, 'exit(address,uint128)'),
-            ]
-          }
-        ]
-      ])
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan])
     })
-    console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)}))`)
+    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
+
+    const joinPlan = [
+      {
+        contact: join.address, signatures: [
+          id(join.interface, 'join(address,uint128)'),
+          id(join.interface, 'exit(address,uint128)'),
+        ]
+      }
+    ]
+
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan])
+    })
+    console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
 
     // Propose, approve, execute
-    txHash = await timelock.callStatic.propose(proposal)
-    await relay.execute(
-      [
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('propose', [proposal])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('approve', [txHash])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('execute', [proposal])
-        },
-      ]
-    ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-
-    // Retrieve the isolation hashes
-    let logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
-    let event = logs[logs.length - 1]
-    console.log(`Isolate FYToken from Join with ${event.args.txHash}`)
-    event = logs[logs.length - 2]
-    console.log(`Isolate FYToken from Ladle with ${event.args.txHash}`)
+    txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
    }
 })()

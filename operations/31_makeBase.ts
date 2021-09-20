@@ -18,7 +18,6 @@ import { Join } from '../typechain/Join'
 import { IOracle } from '../typechain/IOracle'
 
 import { Timelock } from '../typechain/Timelock'
-import { Relay } from '../typechain/Relay'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
@@ -36,7 +35,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Contract instantiation
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
   // Build the proposal
@@ -56,48 +54,33 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`[Asset: ${bytesToString(assetId)} made into base using ${rateChiOracle.address}],`)
 
+    const plan = [
+      {
+        contact: join.address, signatures: [
+          id(join.interface, 'join(address,uint128)'),
+        ]
+      }
+    ]
+
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
-        [
-          {
-            contact: join.address, signatures: [
-              id(join.interface, 'join(address,uint128)'),
-            ]
-          }
-        ]
-      ])
+      data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string, plan])
     })
-    console.log(`cloak.plan(witch, join(${bytesToString(assetId)}))`)
+    console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`)
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-
-
-  // Retrieve the isolation hashes
-  const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
-  for (let i = newBases.length; i > 0; i--) {
-    const event = logs[logs.length - i]
-    console.log(`Isolate Witch from Join(${newBases[i-1][0]}) with ${event.args.txHash}`)
+  const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
   }
 })()

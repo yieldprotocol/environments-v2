@@ -70,28 +70,21 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     assets.set(assetId, assetAddress)
   }
 
-
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  let txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
+  }
+
   fs.writeFileSync('./output/assets.json', mapToJson(assets), 'utf8')
 
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
@@ -125,48 +118,34 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`join.grantRole(ROOT, cloak)`)
 
+    const plan = [
+      {
+        contact: join.address, signatures: [
+          id(join.interface, 'join(address,uint128)'),
+          id(join.interface, 'exit(address,uint128)'),
+        ]
+      }
+    ]
+
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address,
-        [
-          {
-            contact: join.address, signatures: [
-              id(join.interface, 'join(address,uint128)'),
-              id(join.interface, 'exit(address,uint128)'),
-            ]
-          }
-        ]
-      ])
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan])
     })
-    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)}))`)
+    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   // Propose, approve, execute
-  const txHash2 = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash2])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash2}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash2}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash2}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash2}`)
-
-  // Retrieve the isolation hashes
-  const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
-  for (let i = newAssets.length; i > 0; i--) {
-    const event = logs[logs.length - i]
-    console.log(`Isolate Ladle from Join(${newAssets[i-1][0]}) with ${event.args.txHash}`)
+  txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
   }
 })()

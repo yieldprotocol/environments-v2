@@ -55,7 +55,7 @@ import { Ladle } from '../typechain/Ladle'
         },
       ]
     ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    // { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    // { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    // { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 })()

@@ -2510,28 +2510,28 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@^0.11.0-rc0":
-  version "0.11.0-rc0"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc0.tgz#314a09f110d44374b8825ae382f8c760ece1508e"
-  integrity sha512-R2U9/zrmwaWSCETTWhkyAv71ojZj4qZ0fNRVh+IZ142We3Kj0rDEqjpghEzXoAZM1gfS4igdFsZ92EluAoqJ6A==
+"@yield-protocol/strategy-v2@^0.11.0-rc1":
+  version "0.11.0-rc1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc1.tgz#04fbc7b447197b05d49ab90590a532c8c0ded2e2"
+  integrity sha512-pXhMMgmYjja2/i3aahmgzMVFuctmjRyECRnV2tYKPU0KMVjJErjxER8i7gHJR+gssK1pQ/rRUrdUy7D2PHUQ7g==
 
-"@yield-protocol/utils-v2@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.2.tgz#a0975e94bbb38bb93167c6e8563173c05f3957f4"
-  integrity sha512-jjV9BcRExkOeE1fsecXiWQ65eYBV3te5QDdDahocrhcmvi876Zmq6vJnSjBzXVTzWNubOEILmjnrKyxlyMTYag==
+"@yield-protocol/utils-v2@^2.4.2", "@yield-protocol/utils-v2@^2.4.3":
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.3.tgz#b194d4fd60412f1c751eb44719e05d2e6676ebd5"
+  integrity sha512-UzZdyUlkXPhS60xDigD5+Klc/IlT28mFY1hpoUkqwcix73kYgOWSbm30GJ6/8YUAWSBh6nFIlsuIGgeV5DKhaQ==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@^2.3.0-rc4":
-  version "2.3.0-rc4"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc4.tgz#c10f8d6eeb53167fac6923f5d55dbda4953375e5"
-  integrity sha512-z2qFjLzWKkYsVf12NVqULLmqRc1iJ7HiLwExbPmHGaFnf92OhxFsKuDhTYn4CIK2GDkjhvKqNwcxCWfA5mjb+g==
+"@yield-protocol/vault-interfaces@^2.3.0-rc4", "@yield-protocol/vault-interfaces@^2.3.0-rc5":
+  version "2.3.0-rc5"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc5.tgz#5184b3674d9b741f769cb57eb90d4eb0860dd2f5"
+  integrity sha512-KYnq2corKqg9jsOvXF5jvibg/M6mXb7PEdPVoJByc18cQDEhdwcAMAGc3B04FT5BARm7NVyACOZKbdSFGIvAsQ==
 
-"@yield-protocol/vault-v2@^0.11.0-rc0":
-  version "0.11.0-rc0"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.11.0-rc0.tgz#b3e72bbe047feded88f32c048c889e7f2a696a36"
-  integrity sha512-OEA3zWfKbMz/gAXsZAMQM8elHmb2EbGFNwsuLyw2AJuvE+5OPERQtqPCF1yiyVCKWqBqY+xoyUEi9mm2BE28xQ==
+"@yield-protocol/vault-v2@^0.11.0-rc2":
+  version "0.11.0-rc2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.11.0-rc2.tgz#079324c273acac88b9170a918558339ba8f744cf"
+  integrity sha512-j+jjmqJcRjwk45zmWwY4QrjSobu9sioN5C1svcL4iCsjpA+os+RnANh8U9cV+Kd4mT7+lM80dPawRXXXHFlfVQ==
 
 "@yield-protocol/yieldspace-interfaces@^2.3.0-rc3":
   version "2.3.0-rc3"
@@ -13620,6 +13620,14 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^2.0.1"
+
+uniswapv3-oracle@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/uniswapv3-oracle/-/uniswapv3-oracle-1.0.0.tgz#ba6b2fb873ed0522832ea8904883c1073ee72f9d"
+  integrity sha512-YgyPfb1IH1fgVN4ltXTUiZMQnBNJ1T3D4fbpWbTao3uU3MVRjsJFAIDcUf7rZRdCQ4mr2Hez/oL2u0mcq1++zw==
+  dependencies:
+    "@yield-protocol/utils-v2" "^2.4.2"
+    "@yield-protocol/vault-interfaces" "^2.3.0-rc4"
 
 universalify@^0.1.0:
   version "0.1.2"

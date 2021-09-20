@@ -16,10 +16,9 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 
 /**
- * @dev This script points the Wand to a new PoolFactory
+ * @dev This script points the Wand to a new Witch
  *
  * It takes as inputs the governance and protocol json address files.
- * The Wand gets access to permissioned functions in the PoolFactory.
  * A plan is recorded in the Cloak to isolate the Wand from the Cauldron, Ladle, Witch and Factories.
  */
 
@@ -31,13 +30,13 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as Wand
 
     // Since the new PoolFactory should be deployed and its address stored in protocol.json, we read it from there.
-    const poolFactory = await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc) as unknown as PoolFactory
+    const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
 
     const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
-    const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
     const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
     const fyTokenFactory = await ethers.getContractAt('FYTokenFactory', protocol.get('fyTokenFactory') as string, ownerAcc) as unknown as FYTokenFactory
+    const poolFactory = await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc) as unknown as PoolFactory
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
 
@@ -46,22 +45,11 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     proposal.push({
         target: wand.address,
         data: wand.interface.encodeFunctionData('point', [
-            stringToBytes32('poolFactory'),
-            poolFactory.address,
+            stringToBytes32('witch'),
+            witch.address,
         ])
     })
-    console.log(`wand.point(poolFactory, ${poolFactory.address})`)
-
-    proposal.push({
-        target: poolFactory.address,
-        data: poolFactory.interface.encodeFunctionData('grantRoles', [
-            [
-                id(poolFactory.interface, 'createPool(address,address)'),
-            ],
-            wand.address
-        ])
-    })
-    console.log(`poolFactory.grantRoles(wand)`)
+    console.log(`wand.point(witch, ${witch.address})`)
         
     const plan = [
         {
@@ -104,9 +92,11 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     console.log(`cloak.plan(wand): ${await cloak.hash(wand.address, plan)}`)
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
-    { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
-    { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 1) { }
+    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 2) { }
+    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 
 })()

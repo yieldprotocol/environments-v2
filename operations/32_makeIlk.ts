@@ -96,50 +96,36 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
     if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
+      const plan = [
+        {
+          contact: join.address, signatures: [
+            id(join.interface, 'exit(address,uint128)'),
+          ]
+        }
+      ]
+
       proposal.push({
         target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string,
-          [
-            {
-              contact: join.address, signatures: [
-                id(join.interface, 'exit(address,uint128)'),
-              ]
-            }
-          ]
-        ])
+        data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string, plan])
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)}))`)
+      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`)
 
       plans.push(ilkId)
     }
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-
-  // Retrieve the isolation hashes
-  const logs = await cloak.queryFilter(cloak.filters.Planned(null, null))
-  for (let i = plans.length; i > 0; i--) {
-    const event = logs[logs.length - i]
-    console.log(`Isolate Witch from Join(${plans[i-1]}) with ${event.args.txHash}`)
+  const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
   }
 })()

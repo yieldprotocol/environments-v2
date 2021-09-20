@@ -19,3 +19,4 @@ import "@yield-protocol/utils-v2/contracts/utils/Relay.sol";
 import "@yield-protocol/utils-v2/contracts/utils/Timelock.sol";
 import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 import "@yield-protocol/strategy-v2/contracts/Strategy.sol";
+import "uniswapv3-oracle/contracts/UniswapV3Oracle.sol";

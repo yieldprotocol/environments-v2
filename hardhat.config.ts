@@ -131,7 +131,7 @@ module.exports = {
     },
     kovan: {
       accounts,
-      gasPrice: 10000000000,
+      gasPrice: 10000000001,
       timeout: 600000,
       url: nodeUrl('kovan')
     },
