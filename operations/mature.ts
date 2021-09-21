@@ -13,7 +13,7 @@ import { FYToken } from '../typechain/FYToken'
 (async () => {
   // Input data
   const seriesToMature: Array<string> = [ // seriesId
-      '0316'
+    '0220'
   ]
 
   const [ ownerAcc ] = await ethers.getSigners();
@@ -30,6 +30,7 @@ import { FYToken } from '../typechain/FYToken'
     const chiAtMaturity = await fyToken.chiAtMaturity()
     if (chiAtMaturity.eq(NOT_MATURE)) {
       await fyToken.mature()
+      while ((await fyToken.chiAtMaturity()).eq(NOT_MATURE)) { }
       console.log(`chi at maturity ${await fyToken.chiAtMaturity()}`)
     } else {
       console.log('already matured')
@@ -40,6 +41,7 @@ import { FYToken } from '../typechain/FYToken'
     const rateAtMaturity = await cauldron.ratesAtMaturity(stringToBytes6(seriesId))
     if (rateAtMaturity.eq('0')) {
       await cauldron.mature(stringToBytes6(seriesId))
+      while ((await cauldron.ratesAtMaturity(stringToBytes6(seriesId))).eq('0')) { }
       console.log(`rate at maturity ${await cauldron.ratesAtMaturity(stringToBytes6(seriesId))}`)
     } else {
       console.log('already matured')
