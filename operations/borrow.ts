@@ -20,8 +20,8 @@ import { Ladle } from '../typechain/Ladle'
   const newVaults: Array<[string, string, BigNumber, BigNumber]> = new Array([ // seriesId, ilkId, ink, art
     stringToBytes6('0103'),
     DAI,
-    WAD.mul(1000),
-    WAD.mul(1000)
+    WAD.mul(2).div(3),
+    WAD.mul(2).div(3)
   ])
   
   /* await hre.network.provider.request({

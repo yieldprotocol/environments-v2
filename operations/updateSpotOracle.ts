@@ -22,21 +22,14 @@ import { Timelock } from '../typechain/Timelock'
 
   // Input data: baseId, ilkId, oracle, ratio, invRatio
   const newSpotOracles: Array<[string, string, string, number, number]> = [
-    /* [DAI, DAI, CHAINLINK, 1000000],
-    [DAI, USDC, CHAINLINK, 1000000],
-    [DAI, ETH, CHAINLINK, 1000000],
-    [DAI, WBTC, CHAINLINK, 1000000],
-    [DAI, USDT, CHAINLINK, 1000000],
-    [USDC, USDC, CHAINLINK, 1000000], */
-    [USDC, DAI, CHAINLINK, 1500000, 666000],
-    /* [USDC, ETH, CHAINLINK, 1000000],
-    [USDC, WBTC, CHAINLINK, 1000000],
-    [USDC, USDT, CHAINLINK, 1000000],
-    [USDT, USDT, CHAINLINK, 1000000],
-    [USDT, DAI, CHAINLINK, 1000000],
-    [USDT, USDC, CHAINLINK, 1000000],
-    [USDT, ETH, CHAINLINK, 1000000],
-    [USDT, WBTC, CHAINLINK, 1000000], */
+    [DAI, ETH, CHAINLINK, 1400000, 714000],
+    [DAI, DAI, CHAINLINK, 1000000, 1000000], // Constant 1, no dust
+    [DAI, USDC, CHAINLINK, 1330000, 751000], // Via ETH
+    [DAI, WBTC, CHAINLINK, 1500000, 666000], // Via ETH
+    [USDC, ETH, CHAINLINK, 1400000, 714000],
+    [USDC, DAI, CHAINLINK, 1330000, 751000], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000], // Constant 1, no dust
+    [USDC, WBTC, CHAINLINK, 1500000, 666000], // Via ETH
   ]
 
   /* await hre.network.provider.request({
@@ -60,7 +53,7 @@ import { Timelock } from '../typechain/Timelock'
     const spotOracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as ChainlinkMultiOracle
     console.log(`Looking for ${baseId}/${ilkId} at ${protocol.get(oracleName) as string}`)
     console.log(`Source for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${await spotOracle.sources(baseId, ilkId)}`)
-    console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
+    console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
     proposal.push({
       target: cauldron.address,
@@ -68,7 +61,7 @@ import { Timelock } from '../typechain/Timelock'
         baseId, ilkId, spotOracle.address, ratio
       ])
     })
-    console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)}`)
+    console.log(`Pair ${bytesToString(baseId)}/${bytesToString(ilkId)} set in Cauldron via ${spotOracle.address} with ratio ${ratio}`)
 
     const witchIlk = await witch.ilks(ilkId)
     const cauldronDebt = await cauldron.debt(baseId, ilkId)
@@ -79,11 +72,11 @@ import { Timelock } from '../typechain/Timelock'
         ilkId, witchIlk.duration, invRatio, cauldronDebt.min * cauldronDebt.dec // ilkId, duration, initialOffer, dust
       ])
     })
-    console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
+    console.log(`Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address},`)
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  /* const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
   if ((await timelock.proposals(txHash)).state === 0) { 
     await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
     while ((await timelock.proposals(txHash)).state < 1) { }
@@ -95,5 +88,5 @@ import { Timelock } from '../typechain/Timelock'
   if ((await timelock.proposals(txHash)).state === 2) { 
     await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
     while ((await timelock.proposals(txHash)).state > 0) { }
-  }
+  } */
 })()
