@@ -36,18 +36,21 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EODEC21 = 1640995199
   const EOMAR22 = 1648771199
 
-  const EO2009 = 1632139199
-  const EO2109 = 1632225599
-  const EO2209 = 1632311999
+  const EO2109 = 1632268799
+  const EO2209 = 1632355199
+  const EO2309 = 1632441599
+  const EO2409 = 1632527999
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
 //    [stringToBytes6('0103'), DAI,  EOSEP21, [ETH, DAI, USDC, WBTC], 'DAI01', 'DAI01'], // Sep21
 //    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'DAI02', 'DAI02'], // Dec21
 //    [stringToBytes6('0203'), USDC, EOSEP21, [ETH, DAI, USDC, WBTC], 'USDC01', 'USDC01'],
 //    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'USDC02', 'USDC02'],
-    [stringToBytes6('0220'), USDC, EO2009, [ETH, DAI, USDC, WBTC], 'USDC20', 'USDC20'],
-    [stringToBytes6('0221'), USDC, EO2109, [ETH, DAI, USDC, WBTC], 'USDC21', 'USDC21'],
-    [stringToBytes6('0222'), USDC, EO2209, [ETH, DAI, USDC, WBTC], 'USDC22', 'USDC22'],
+//    [stringToBytes6('0220'), USDC, EO2009, [ETH, DAI, USDC, WBTC], 'USDC20', 'USDC20'],
+//    [stringToBytes6('0221'), USDC, EO2109, [ETH, DAI, USDC, WBTC], 'USDC21', 'USDC21'],
+//    [stringToBytes6('0222'), USDC, EO2209, [ETH, DAI, USDC, WBTC], 'USDC22', 'USDC22'],
+//    [stringToBytes6('0223'), USDC, EO2309, [ETH, DAI, USDC, WBTC], 'USDC23', 'USDC23'], 
+[stringToBytes6('0224'), USDC, EO2409, [ETH, DAI, USDC, WBTC], 'USDC24', 'USDC24'], 
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
@@ -81,7 +84,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
     // Propose, approve, execute
     let txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-    txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
     if ((await timelock.proposals(txHash)).state === 0) { 
       await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
       while ((await timelock.proposals(txHash)).state < 1) { }

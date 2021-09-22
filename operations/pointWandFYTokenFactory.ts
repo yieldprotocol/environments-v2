@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { jsonToMap, stringToBytes32 } from '../shared/helpers'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
-import { Witch } from '../typechain/Witch'
 import { PoolFactory } from '../typechain/PoolFactory'
 import { JoinFactory } from '../typechain/JoinFactory'
 import { FYTokenFactory } from '../typechain/FYTokenFactory'
@@ -24,6 +24,11 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
  */
 
 (async () => {
+    /* await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    });
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
     const [ ownerAcc ] = await ethers.getSigners();
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
     const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
@@ -35,7 +40,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
     const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
-    const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc) as unknown as Witch
     const joinFactory = await ethers.getContractAt('JoinFactory', protocol.get('joinFactory') as string, ownerAcc) as unknown as JoinFactory
     const poolFactory = await ethers.getContractAt('PoolFactory', protocol.get('poolFactory') as string, ownerAcc) as unknown as PoolFactory
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
