@@ -2515,7 +2515,7 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc1.tgz#04fbc7b447197b05d49ab90590a532c8c0ded2e2"
   integrity sha512-pXhMMgmYjja2/i3aahmgzMVFuctmjRyECRnV2tYKPU0KMVjJErjxER8i7gHJR+gssK1pQ/rRUrdUy7D2PHUQ7g==
 
-"@yield-protocol/utils-v2@^2.4.2", "@yield-protocol/utils-v2@^2.4.3":
+"@yield-protocol/utils-v2@2.4.3", "@yield-protocol/utils-v2@^2.4.2":
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.4.3.tgz#b194d4fd60412f1c751eb44719e05d2e6676ebd5"
   integrity sha512-UzZdyUlkXPhS60xDigD5+Klc/IlT28mFY1hpoUkqwcix73kYgOWSbm30GJ6/8YUAWSBh6nFIlsuIGgeV5DKhaQ==

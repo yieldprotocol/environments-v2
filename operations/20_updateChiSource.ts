@@ -16,9 +16,8 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [DAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
-    [USDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
-    // [stringToBytes6('TST3'), "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8"],
+    [DAI,  "0x5d3a536e4d6dbd6114cc1ead35777bab948e3643"],
+    [USDC, "0x39aa39c021dfbae8fac545936693ac917d5e7563"],
   ]
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
@@ -45,16 +44,16 @@ import { Timelock } from '../typechain/Timelock'
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
   if ((await timelock.proposals(txHash)).state === 0) { 
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state < 1) { }
+    await timelock.propose(proposal); console.log(`Queued proposal for ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }; console.log(`Proposed ${txHash}`) 
   }
   if ((await timelock.proposals(txHash)).state === 1) {
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    while ((await timelock.proposals(txHash)).state < 2) { }
+    await timelock.approve(txHash); console.log(`Queued approval for ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }; console.log(`Approved ${txHash}`)
   }
   if ((await timelock.proposals(txHash)).state === 2) { 
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state > 0) { }
+    await timelock.execute(proposal); console.log(`Queued execution for ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }; console.log(`Executed ${txHash}`) 
   }
   fs.writeFileSync('./output/chiSources.json', mapToJson(chiSources), 'utf8')
 })()

@@ -74,7 +74,7 @@ const { deployContract } = waffle;
         while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
     }
 
-    let compositeOracle: CompositeMultiOracle
+    /* let compositeOracle: CompositeMultiOracle
     if (protocol.get('compositeOracle') === undefined) {
         compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
         console.log(`[CompositeMultiOracle, '${compositeOracle.address}'],`)
@@ -101,7 +101,7 @@ const { deployContract } = waffle;
     }
     if (!(await cTokenOracle.hasRole(ROOT, timelock.address)))
         await cTokenOracle.grantRole(ROOT, timelock.address); console.log(`cTokenOracle.grantRoles(ROOT, timelock)`)
-        while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
+        while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { } */
 
     let uniswapOracle: UniswapV3Oracle
     if (protocol.get('uniswapOracle') === undefined) {
@@ -139,11 +139,11 @@ const { deployContract } = waffle;
     })
     console.log(`compoundOracle.grantRole(ROOT, cloak)`)
 
-    proposal.push({
+    /* proposal.push({
         target: compoundOracle.address,
         data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
-    console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
+    console.log(`compoundOracle.revokeRole(ROOT, deployer)`) */
 
     proposal.push({
         target: chainlinkOracle.address,
@@ -162,13 +162,13 @@ const { deployContract } = waffle;
     })
     console.log(`chainlinkOracle.grantRole(ROOT, cloak)`)
 
-    proposal.push({
+    /* proposal.push({
         target: chainlinkOracle.address,
         data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
-    console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`)
+    console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`) */
 
-    proposal.push({
+    /* proposal.push({
         target: cTokenOracle.address,
         data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
             [
@@ -213,7 +213,7 @@ const { deployContract } = waffle;
         target: compositeOracle.address,
         data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
-    console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
+    console.log(`compositeOracle.revokeRole(ROOT, deployer)`) */
 
     proposal.push({
         target: uniswapOracle.address,
@@ -232,11 +232,11 @@ const { deployContract } = waffle;
     })
     console.log(`uniswapOracle.grantRole(ROOT, cloak)`)
 
-    proposal.push({
+    /* proposal.push({
         target: uniswapOracle.address,
         data: uniswapOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
-    console.log(`uniswapOracle.revokeRole(ROOT, deployer)`)
+    console.log(`uniswapOracle.revokeRole(ROOT, deployer)`) */
 
     // Propose, approve, execute
     const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)

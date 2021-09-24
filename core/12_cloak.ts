@@ -50,11 +50,11 @@ const { deployContract } = waffle;
     // Revoke ROOT from the deployer
     const proposal : Array<{ target: string; data: string}> = []
 
-    proposal.push({
+    /* proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
-    console.log(`cloak.revokeRole(ROOT, deployer)`)
+    console.log(`cloak.revokeRole(ROOT, deployer)`) */
 
     proposal.push({
         target: cloak.address,

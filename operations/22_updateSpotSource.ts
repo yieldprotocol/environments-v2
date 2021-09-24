@@ -20,10 +20,9 @@ import { Timelock } from '../typechain/Timelock'
   const UNISWAP = 'uniswapOracle'
   // Input data: baseId, quoteId, oracle name, source address
   const newSources: Array<[string, string, string, string]> = [
-    // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
-    [DAI, ETH,   CHAINLINK, "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
-    [USDC, ETH,  CHAINLINK, "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
-    [WBTC, ETH,  CHAINLINK, "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
+    [DAI, ETH,   CHAINLINK, "0x773616E4d11A78F511299002da57A0a94577F1f4"],
+    [USDC, ETH,  CHAINLINK, "0x986b5E1e1755e3C2440e960477f25201B0a8bbD4"],
+    [WBTC, ETH,  CHAINLINK, "0xdeb288F737066589598e9214E782fa5A8eD689e8"]
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
@@ -57,16 +56,16 @@ import { Timelock } from '../typechain/Timelock'
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
   if ((await timelock.proposals(txHash)).state === 0) { 
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state < 1) { }
+    await timelock.propose(proposal); console.log(`Queued proposal for ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }; console.log(`Proposed ${txHash}`) 
   }
   if ((await timelock.proposals(txHash)).state === 1) {
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    while ((await timelock.proposals(txHash)).state < 2) { }
+    await timelock.approve(txHash); console.log(`Queued approval for ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }; console.log(`Approved ${txHash}`)
   }
   if ((await timelock.proposals(txHash)).state === 2) { 
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state > 0) { }
+    await timelock.execute(proposal); console.log(`Queued execution for ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }; console.log(`Executed ${txHash}`) 
   }
 
   fs.writeFileSync('./output/spotSources.json', mapToJson(spotSources), 'utf8')
