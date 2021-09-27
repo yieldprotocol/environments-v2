@@ -2,17 +2,17 @@ import { ethers } from 'hardhat'
 import *  as hre from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, stringToBytes32 } from '../shared/helpers'
+import { jsonToMap, stringToBytes32 } from '../../shared/helpers'
 
-import { Cauldron } from '../typechain/Cauldron'
-import { Ladle } from '../typechain/Ladle'
-import { PoolFactory } from '../typechain/PoolFactory'
-import { JoinFactory } from '../typechain/JoinFactory'
-import { FYTokenFactory } from '../typechain/FYTokenFactory'
-import { Wand } from '../typechain/Wand'
+import { Cauldron } from '../../typechain/Cauldron'
+import { Ladle } from '../../typechain/Ladle'
+import { PoolFactory } from '../../typechain/PoolFactory'
+import { JoinFactory } from '../../typechain/JoinFactory'
+import { FYTokenFactory } from '../../typechain/FYTokenFactory'
+import { Wand } from '../../typechain/Wand'
 
-import { Timelock } from '../typechain/Timelock'
-import { EmergencyBrake } from '../typechain/EmergencyBrake'
+import { Timelock } from '../../typechain/Timelock'
+import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 
 
 /**
