@@ -270,24 +270,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes12",
-        "name": "vault",
-        "type": "bytes12"
-      },
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      }
-    ],
-    "name": "grab",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes6",
         "name": "baseId",
         "type": "bytes6"
@@ -302,6 +284,25 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes12",
+        "name": "vaultId",
+        "type": "bytes12"
+      }
+    ],
+    "name": "level",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
