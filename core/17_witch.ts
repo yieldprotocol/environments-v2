@@ -90,8 +90,6 @@ const { deployContract } = waffle;
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
-                id(cauldron.interface, 'give(bytes12,address)'),
-                id(cauldron.interface, 'grab(bytes12,address)'),
                 id(cauldron.interface, 'slurp(bytes12,uint128,uint128)')
             ],
             witch.address
@@ -102,8 +100,6 @@ const { deployContract } = waffle;
     const plan = [
         {
             contact: cauldron.address, signatures: [
-                id(cauldron.interface, 'give(bytes12,address)'),
-                id(cauldron.interface, 'grab(bytes12,address)'),
                 id(cauldron.interface, 'slurp(bytes12,uint128,uint128)')
             ]
         }
