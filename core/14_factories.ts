@@ -151,9 +151,16 @@ const { deployContract } = waffle;
 
     // Propose, approve, execute
     const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
-    while ((await timelock.proposals(txHash)).state < 1) { }
-    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
-    while ((await timelock.proposals(txHash)).state < 2) { }
-    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
+    if ((await timelock.proposals(txHash)).state === 0) { 
+        await timelock.propose(proposal); console.log(`Queued proposal for ${txHash}`) 
+        while ((await timelock.proposals(txHash)).state < 1) { }; console.log(`Proposed ${txHash}`) 
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+        await timelock.approve(txHash); console.log(`Queued approval for ${txHash}`)
+        while ((await timelock.proposals(txHash)).state < 2) { }; console.log(`Approved ${txHash}`)
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+        await timelock.execute(proposal); console.log(`Queued execution for ${txHash}`) 
+        while ((await timelock.proposals(txHash)).state > 0) { }; console.log(`Executed ${txHash}`) 
+    }
 })()
