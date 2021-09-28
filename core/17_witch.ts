@@ -27,7 +27,7 @@ const { deployContract } = waffle;
  */
 
 (async () => {
-/*    await hre.network.provider.request({
+    /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
         params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
     });
@@ -67,7 +67,7 @@ const { deployContract } = waffle;
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
                 id(witch.interface, 'point(bytes32,address)'),
-                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
+                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128,bool)'),
             ],
             timelock.address
         ])
@@ -90,6 +90,7 @@ const { deployContract } = waffle;
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('grantRoles', [
             [
+                id(cauldron.interface, 'give(bytes12,address)'),
                 id(cauldron.interface, 'slurp(bytes12,uint128,uint128)')
             ],
             witch.address
