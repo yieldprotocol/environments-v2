@@ -22,7 +22,7 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
  */
 
 (async () => {
-    const oldWitchAddress = '0x8a36B0369148A12B1B91130F3c92Bfc14F971Eb6'
+    const oldWitchAddress = '0x002BcA19F5B4be65CC2d3444e89cEbd036F081c3'
     const baseIds: Array<string> = [DAI, USDC]
     const ilkIds: Array<string> = [ETH, DAI, USDC, WBTC]
     
@@ -53,6 +53,7 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
         target: cauldron.address,
         data: cauldron.interface.encodeFunctionData('revokeRoles', [
             [
+              id(cauldron.interface, 'give(bytes12,address)'),
               id(cauldron.interface, 'slurp(bytes12,uint128,uint128)'),
             ],
             oldWitchAddress,
@@ -119,7 +120,7 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
         proposal.push({
           target: witch.address,
           data: witch.interface.encodeFunctionData('setIlk', [
-            ilkId, ilk.duration, ilk.initialOffer, ilk.dust
+            ilkId, ilk.duration, ilk.initialOffer, ilk.dust, ilk.active
           ])
         })
         console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)

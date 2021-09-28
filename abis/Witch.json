@@ -91,6 +91,12 @@
         "internalType": "uint128",
         "name": "dust",
         "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "active",
+        "type": "bool"
       }
     ],
     "name": "IlkSet",
@@ -185,19 +191,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes12",
-        "name": "vaultId",
-        "type": "bytes12"
-      }
-    ],
-    "name": "Stopped",
-    "type": "event"
-  },
-  {
     "inputs": [],
     "name": "LOCK",
     "outputs": [
@@ -273,8 +266,13 @@
     "name": "auctions",
     "outputs": [
       {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
         "internalType": "uint32",
-        "name": "",
+        "name": "start",
         "type": "uint32"
       }
     ],
@@ -414,7 +412,7 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "initialized",
+        "name": "active",
         "type": "bool"
       },
       {
@@ -579,6 +577,11 @@
         "internalType": "uint128",
         "name": "dust",
         "type": "uint128"
+      },
+      {
+        "internalType": "bool",
+        "name": "active",
+        "type": "bool"
       }
     ],
     "name": "setIlk",
@@ -600,19 +603,6 @@
       }
     ],
     "name": "setRoleAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes12",
-        "name": "vaultId",
-        "type": "bytes12"
-      }
-    ],
-    "name": "stop",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
