@@ -29,13 +29,13 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), maxDebt, minDebt, debtDec
   const newIlks: Array<[string, string, string, number, number, number, number, number]> = [
     [DAI, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 18],
-    [DAI, DAI, CHAINLINK, 1000000, 1000000, 100000, 0, 18], // Constant 1, no dust
+    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
     [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
     [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
 //    [DAI, USDT, CHAINLINK, 1000000, 100000, 1, 18], // Via ETH
     [USDC, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 6],
     [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 100000, 0, 6], // Constant 1, no dust
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
 //    [USDC, USDT, CHAINLINK, 1000000, 100000, 1, 6], // Via ETH
 /*    [USDT, USDT, CHAINLINK, 1000000, 100000, 0, 18], // Constant 1, no dust
