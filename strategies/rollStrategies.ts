@@ -25,7 +25,7 @@ import { Join } from '../typechain/Join'
 //    ['DAI2S', [stringToBytes6('DAI21'), stringToBytes6('DAI21')],[stringToBytes6('DAI22'), stringToBytes6('DAI22')]], // poolId and seriesId usually match
 //    ['USDC2S', [stringToBytes6('USDC21'), stringToBytes6('USDC21')],[stringToBytes6('USDC22'), stringToBytes6('USDC22')]],
 //    ['USDT2S', [stringToBytes6('USDT21'), stringToBytes6('USDT21')],[stringToBytes6('USDT22'), stringToBytes6('USDT22')]]
-    ['USDCD1', [stringToBytes6('0224'), stringToBytes6('0224')]]
+    ['USDCD1', [stringToBytes6('0208'), stringToBytes6('0208')]]
 
 ]
   
@@ -52,6 +52,12 @@ import { Join } from '../typechain/Join'
     proposal.push(
       {
         target: strategy.address,
+        data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
+      },
+    )
+    proposal.push(
+      {
+        target: strategy.address,
         data: strategy.interface.encodeFunctionData("endPool")
       }
     )
@@ -61,12 +67,12 @@ import { Join } from '../typechain/Join'
         data: strategy.interface.encodeFunctionData("startPool")
       }
     )
-    proposal.push(
+    /* proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
       },
-    )
+    ) */
   }
 
   // Propose, approve, execute
