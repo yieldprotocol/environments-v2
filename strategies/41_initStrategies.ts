@@ -20,11 +20,11 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-//    ['DAIQ1', [stringToBytes6('0103'), stringToBytes6('0103')],[stringToBytes6('0105'), stringToBytes6('0105')]], // poolId and seriesId usually match
-//    ['DAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')],[stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
-//    ['USDCQ1', [stringToBytes6('0203'), stringToBytes6('0203')],[stringToBytes6('0205'), stringToBytes6('0205')]],
-//    ['USDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]],
-    ['USDCD1', [stringToBytes6('0220'), stringToBytes6('0220')],[stringToBytes6('0221'), stringToBytes6('0221')]],
+    ['YSDAIQ1', [stringToBytes6('0105'), stringToBytes6('0105')],[stringToBytes6('0107'), stringToBytes6('0107')]], // poolId and seriesId usually match
+    ['YSDAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')],[stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
+    ['YSUSDCQ1', [stringToBytes6('0205'), stringToBytes6('0205')],[stringToBytes6('0207'), stringToBytes6('0207')]],
+    ['YSUSDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]],
+//    ['USDCD1', [stringToBytes6('0220'), stringToBytes6('0220')],[stringToBytes6('0221'), stringToBytes6('0221')]],
   ]
   
   /* await hre.network.provider.request({
@@ -50,7 +50,7 @@ import { Relay } from '../typechain/Relay'
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
-    /* proposal.push(
+    proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(startPoolId) as string, startSeriesId])
@@ -73,14 +73,14 @@ import { Relay } from '../typechain/Relay'
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("transfer", [ZERO_ADDRESS, BigNumber.from(100).mul(baseUnit)])  // Burn the strategy tokens minted
       },
-    ) */
-    proposal.push(
+    )
+    /* proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
       },
-    )
-    /* proposal.push(
+    ) */
+    proposal.push(
       {
         target: ladle.address,
         data: ladle.interface.encodeFunctionData("addIntegration", [strategy.address, true])
@@ -91,7 +91,7 @@ import { Relay } from '../typechain/Relay'
         target: ladle.address,
         data: ladle.interface.encodeFunctionData("addToken", [strategy.address, true])
       },
-    ) */
+    )
   }
 
   // Propose, approve, execute

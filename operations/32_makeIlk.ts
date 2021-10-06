@@ -76,11 +76,11 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
-    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
+    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).active) { 
       proposal.push({
         target: witch.address,
         data: witch.interface.encodeFunctionData('setIlk', [
-          ilkId, 60 * 60, invRatio, minDebt * debtDec // ilkId, duration, initialOffer, dust
+          ilkId, 60 * 60, invRatio, minDebt * debtDec, true // ilkId, duration, initialOffer, dust, enable
         ])
       })
       console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
@@ -94,7 +94,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
-    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).initialized) { 
+    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).active) { 
       const plan = [
         {
           contact: join.address, signatures: [
