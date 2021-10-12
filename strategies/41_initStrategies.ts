@@ -65,7 +65,7 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: strategy.address,
-        data: strategy.interface.encodeFunctionData("startPool")
+        data: strategy.interface.encodeFunctionData("startPool", [0])
       }
     )
     proposal.push(

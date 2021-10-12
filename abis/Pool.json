@@ -285,12 +285,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minFYTokenOut",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -324,7 +319,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -569,19 +564,6 @@
   },
   {
     "inputs": [],
-    "name": "invariant",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "maturity",
     "outputs": [
       {
@@ -607,7 +589,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -646,7 +628,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],

@@ -26,7 +26,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const CHAINLINK = 'chainlinkOracle'
   const CTOKEN = 'cTokenOracle'
   const COMPOSITE = 'compositeOracle'
-  // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), maxDebt, minDebt, debtDec
+  // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
   const newIlks: Array<[string, string, string, number, number, number, number, number]> = [
     [DAI, ETH, CHAINLINK, 1400000, 714000, 100000, 1, 18],
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
@@ -66,7 +66,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Build the proposal
   const proposal : Array<{ target: string; data: string}> = []
   const plans : Array<string> = new Array() // Existing plans in the cloak
-  for (let [baseId, ilkId, oracleName, ratio, invRatio, maxDebt, minDebt, debtDec] of newIlks) {
+  for (let [baseId, ilkId, oracleName, ratio, invRatio, line, dust, dec] of newIlks) {
     const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc) as Join
 
     // Test that the sources for spot have been set. Peek will fail with 'Source not found' if they have not.
@@ -76,11 +76,11 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
     console.log(`Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${(await spotOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]}`)
 
-    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).active) { 
+    if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) { 
       proposal.push({
         target: witch.address,
         data: witch.interface.encodeFunctionData('setIlk', [
-          ilkId, 60 * 60, invRatio, minDebt * debtDec, true // ilkId, duration, initialOffer, dust, enable
+          ilkId, 60 * 60, invRatio, line, dust, dec // ilkId, duration, initialOffer, line, dust, dec
         ])
       })
       console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
@@ -89,12 +89,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     proposal.push({
       target: wand.address,
       data: wand.interface.encodeFunctionData('makeIlk', [
-        baseId, ilkId, spotOracle.address, ratio, maxDebt, minDebt, debtDec
+        baseId, ilkId, spotOracle.address, ratio, line, dust, dec
       ])
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
-    if (!plans.includes(ilkId) && !(await witch.ilks(ilkId)).active) { 
+    if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) { 
       const plan = [
         {
           contact: join.address, signatures: [

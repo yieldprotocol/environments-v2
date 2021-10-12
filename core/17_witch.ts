@@ -67,7 +67,7 @@ const { deployContract } = waffle;
         data: witch.interface.encodeFunctionData('grantRoles', [
             [
                 id(witch.interface, 'point(bytes32,address)'),
-                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128,bool)'),
+                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint96,uint24,uint8)'),
             ],
             timelock.address
         ])

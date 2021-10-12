@@ -143,12 +143,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minFYTokenOut",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -182,7 +177,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -313,12 +308,61 @@
   },
   {
     "inputs": [],
+    "name": "g1",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "g2",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getBaseBalance",
     "outputs": [
       {
         "internalType": "uint112",
         "name": "",
         "type": "uint112"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCache",
+    "outputs": [
+      {
+        "internalType": "uint112",
+        "name": "",
+        "type": "uint112"
+      },
+      {
+        "internalType": "uint112",
+        "name": "",
+        "type": "uint112"
+      },
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
       }
     ],
     "stateMutability": "view",
@@ -335,19 +379,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "invariant",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -377,7 +408,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -416,7 +447,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
         "type": "uint256"
       }
     ],
@@ -539,6 +570,19 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "scaleFactor",
+    "outputs": [
+      {
+        "internalType": "uint96",
+        "name": "",
+        "type": "uint96"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -691,6 +735,19 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ts",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

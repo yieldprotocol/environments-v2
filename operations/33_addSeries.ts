@@ -36,10 +36,10 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const EOMAR22 = 1648771199
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI04', 'FYDAI04'], // Dec21
-    [stringToBytes6('0105'), DAI,  EOMAR22, [ETH, DAI, USDC, WBTC], 'FYDAI05', 'FYDAI05'], // Mar22
-    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'FYUSDC04', 'FYUSDC04'],
-    [stringToBytes6('0205'), USDC, EOMAR22, [ETH, DAI, USDC, WBTC], 'FYUSDC05', 'FYUSDC05'],
+    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI2112', 'FYDAI2112'], // Dec21
+    [stringToBytes6('0105'), DAI,  EOMAR22, [ETH, DAI, USDC, WBTC], 'FYDAI2203', 'FYDAI2203'], // Mar22
+    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'FYUSDC2112', 'FYUSDC2112'],
+    [stringToBytes6('0205'), USDC, EOMAR22, [ETH, DAI, USDC, WBTC], 'FYUSDC2203', 'FYUSDC2203'],
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
