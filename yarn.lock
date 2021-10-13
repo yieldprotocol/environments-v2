@@ -2510,10 +2510,10 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@0.11.0-rc2":
-  version "0.11.0-rc2"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc2.tgz#8f242474220d834bac064e1a5a5c8a67f27e1bce"
-  integrity sha512-KuRTHwO+W0fqkP+Z+B1V17v9f/cbtgIAkt62Yo/OaXFyxxy81aatXpC/+1hf08/xWZvJGQz7wHLPVhhwTny6nA==
+"@yield-protocol/strategy-v2@0.11.0-rc3":
+  version "0.11.0-rc3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-0.11.0-rc3.tgz#7c9d3882a27bfe4c4c7d2bb2f5ad9addfe89b736"
+  integrity sha512-ztywJh/0YvEcoAbuLmZ+BB88+o5u5E2T4GjT61yPtBV/P3nYrAyyHAEoIQwTyoo/rDTDqop2PYSJXwdr/L3TCA==
 
 "@yield-protocol/utils-v2@2.4.6":
   version "2.4.6"
@@ -2546,15 +2546,15 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.11.0-rc7.tgz#43d0bfe4ab23ad35c2ade473de7f3f81edf790d8"
   integrity sha512-yB9k4e9z+x9kuC5d5HXN/6oI/FCtBtqvjftT0PG+r5hR8emKj7+MRqL5nA/LvL2rEVecuWqck/KqDJB52ryvQg==
 
-"@yield-protocol/yieldspace-interfaces@2.3.0-rc5":
-  version "2.3.0-rc5"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-interfaces/-/yieldspace-interfaces-2.3.0-rc5.tgz#da0a98912ee33f93337e2a4830905f8bd0656850"
-  integrity sha512-UHI9nAt5C4WUCqCTI8bxbpz6GS4FI7V5TCpSqcz73jtdoG0d44W/FIe3aYNjNXiLM/bPLc7NOVxqhkGyueYn8Q==
+"@yield-protocol/yieldspace-interfaces@2.3.0-rc6":
+  version "2.3.0-rc6"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-interfaces/-/yieldspace-interfaces-2.3.0-rc6.tgz#5fbd0da0ce8c6cf5a34c4d55b143a1a383c63dc9"
+  integrity sha512-JeM2L4ive3bSWPnwGYB9vLjFPrFEH/P90gd+HLklOOaI5fw9BGN/PhFly0z/ESBZb+GR1kfRGY5mpbsVWVTimw==
 
-"@yield-protocol/yieldspace-v2@0.11.0-rc3":
-  version "0.11.0-rc3"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-v2/-/yieldspace-v2-0.11.0-rc3.tgz#2b346ec52a8134d6a10c81a45092d6919f1c28d2"
-  integrity sha512-/drs4fxyEOB1nFGLZ4B3G6e+rWTBEdmKpMOKIMoZnLliXSncNbpIQMgBIw8r4kuwXRYdTapZ/3G/A70ObdMsGw==
+"@yield-protocol/yieldspace-v2@0.11.0-rc4":
+  version "0.11.0-rc4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-v2/-/yieldspace-v2-0.11.0-rc4.tgz#082bda6965dad9c5e41a5c8de42647c3cc6c5d8b"
+  integrity sha512-wAUdOstycVgEKzJ8FYt2YvV6184AXon47zI4Tf2Blkev+qaBkoc8SFUI+wD4Oe+GYK+KuJhU26E5HpapWZKrng==
 
 abab@^2.0.0:
   version "2.0.5"

@@ -60,7 +60,7 @@ import { Relay } from '../typechain/Relay'
     // Initialize pool
     proposal.push({
       target: pool.address,
-      data: pool.interface.encodeFunctionData("mint", [ZERO_ADDRESS, true, 0])  // Send the LP tokens to the zero address
+      data: pool.interface.encodeFunctionData("mint", [ZERO_ADDRESS, true, 0, 0])  // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
 
     // Give to the timelock permission to mint fyToken out of thin air (only test!)

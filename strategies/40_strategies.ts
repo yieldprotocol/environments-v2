@@ -77,7 +77,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
               id(strategy.interface, 'setTokenId(bytes6)'),
               id(strategy.interface, 'resetTokenJoin()'),
               id(strategy.interface, 'setNextPool(address,bytes6)'),
-              id(strategy.interface, 'startPool(uint256)'),
+              id(strategy.interface, 'startPool(uint256,uint256)'),
             ],
             timelock.address
           ])

@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import *  as hre from 'hardhat'
 import { jsonToMap, bytesToString, stringToBytes6 } from '../shared/helpers'
-import { ZERO_ADDRESS } from '../shared/constants'
+import { ZERO_ADDRESS, WAD } from '../shared/constants'
 import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../typechain/ERC20Mock'
@@ -65,7 +65,7 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: strategy.address,
-        data: strategy.interface.encodeFunctionData("startPool", [0])
+        data: strategy.interface.encodeFunctionData("startPool", [0, WAD])
       }
     )
     proposal.push(

@@ -145,6 +145,11 @@
         "internalType": "uint256",
         "name": "minRatio",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
+        "type": "uint256"
       }
     ],
     "name": "burn",
@@ -178,6 +183,11 @@
       {
         "internalType": "uint256",
         "name": "minRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],
@@ -410,6 +420,11 @@
         "internalType": "uint256",
         "name": "minRatio",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
+        "type": "uint256"
       }
     ],
     "name": "mint",
@@ -448,6 +463,11 @@
       {
         "internalType": "uint256",
         "name": "minRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],
