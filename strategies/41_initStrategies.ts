@@ -59,7 +59,7 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: base.address,
-        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(100).mul(baseUnit)])
+        data: base.interface.encodeFunctionData("transfer", [strategy.address, BigNumber.from(100).mul(baseUnit)])
       },
     )
     proposal.push(
