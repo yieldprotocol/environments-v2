@@ -275,11 +275,6 @@ Approved 0xd4af6ef6db1c53e016a700df11ca6573f671602a8cb05db9fffe919cfa04816e
 Executed 0xd4af6ef6db1c53e016a700df11ca6573f671602a8cb05db9fffe919cfa04816e
 Creating Typechain artifacts in directory typechain for target ethers-v5
 Successfully generated Typechain artifacts!
-[Strategy, '0xA0c95D9C1Bea558BAC894fcD68DbBe231A6D82b5'],
-npx hardhat verify --network kovan 0xA0c95D9C1Bea558BAC894fcD68DbBe231A6D82b5 YSDAIQ1 YSDAIQ1 0xeD5D1c6A66EE2c39bac78EE896ef66f5A85d6e68 0xaFCdc724EB8781Ee721863db1B15939675996484 0x303100000000 --libraries safeERC20Namer.js
-strategy.grantRoles(ROOT, timelock)
-Creating Typechain artifacts in directory typechain for target ethers-v5
-Successfully generated Typechain artifacts!
 [Strategy, '0x613CA097131251B0246060e22a86D17AE9a1e02A'],
 npx hardhat verify --network kovan 0x613CA097131251B0246060e22a86D17AE9a1e02A YSDAIQ1 YSDAIQ1 0xeD5D1c6A66EE2c39bac78EE896ef66f5A85d6e68 0xaFCdc724EB8781Ee721863db1B15939675996484 0x303100000000 --libraries safeERC20Namer.js
 strategy.grantRoles(ROOT, timelock)
