@@ -46,7 +46,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
     const strategyFactory = await ethers.getContractFactory('Strategy', {
       libraries: {
         SafeERC20Namer: protocol.get('safeERC20Namer') as string,
-        PoolExtensions: protocol.get('poolExtensions') as string,
+        YieldMathExtensions: protocol.get('yieldMathExtensions') as string,
       },
     })
 

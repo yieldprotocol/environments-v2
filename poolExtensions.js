@@ -1,1 +1,1 @@
-module.exports = { PoolExtensions: "0xB474E11fF6554e0c698CE407C5ac2E17C5dE53Db" }
+module.exports = { YieldMathExtensions: "0xB474E11fF6554e0c698CE407C5ac2E17C5dE53Db" }

@@ -3,8 +3,8 @@ import *  as fs from 'fs'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
 
 import { YieldMath } from '../typechain/YieldMath'
-import { PoolExtensions } from '../typechain/PoolExtensions'
-import { PoolExtensionsWrapper } from '../typechain/PoolExtensionsWrapper'
+import { YieldMathExtensions } from '../typechain/YieldMathExtensions'
+import { PoolView } from '../typechain/PoolView'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
 /**
@@ -15,8 +15,8 @@ import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
 
     let yieldMath: YieldMath
-    let poolExtensions: PoolExtensions
-    let poolExtensionsWrapper: PoolExtensionsWrapper
+    let yieldMathExtensions: YieldMathExtensions
+    let poolView: PoolView
     let safeERC20Namer: SafeERC20Namer
 
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
@@ -25,25 +25,25 @@ import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
     console.log(`[YieldMath, '${yieldMath.address}'],`)
     verify(yieldMath.address, [])
 
-    const PoolExtensionsFactory = await ethers.getContractFactory('PoolExtensions', {
+    const YieldMathExtensionsFactory = await ethers.getContractFactory('YieldMathExtensions', {
         libraries: {
             YieldMath: yieldMath.address,
         }
     })
-    poolExtensions = ((await PoolExtensionsFactory.deploy()) as unknown) as PoolExtensions
-    await poolExtensions.deployed()
-    console.log(`[poolExtensions, '${poolExtensions.address}'],`)
-    verify(poolExtensions.address, [], 'yieldMath.js')
+    yieldMathExtensions = ((await YieldMathExtensionsFactory.deploy()) as unknown) as YieldMathExtensions
+    await yieldMathExtensions.deployed()
+    console.log(`[yieldMathExtensions, '${yieldMathExtensions.address}'],`)
+    verify(yieldMathExtensions.address, [], 'yieldMath.js')
 
-    const PoolExtensionsWrapperFactory = await ethers.getContractFactory('PoolExtensionsWrapper', {
+    const YieldMathExtensionsWrapperFactory = await ethers.getContractFactory('PoolView', {
         libraries: {
-            PoolExtensions: poolExtensions.address,
+            YieldMathExtensions: yieldMathExtensions.address,
         }
     })
-    poolExtensionsWrapper = ((await PoolExtensionsWrapperFactory.deploy()) as unknown) as PoolExtensionsWrapper
-    await poolExtensionsWrapper.deployed()
-    console.log(`[poolExtensionsWrapper, '${poolExtensionsWrapper.address}'],`)
-    verify(poolExtensionsWrapper.address, [], 'poolExtensions.js')
+    poolView = ((await YieldMathExtensionsWrapperFactory.deploy()) as unknown) as PoolView
+    await poolView.deployed()
+    console.log(`[poolView, '${poolView.address}'],`)
+    verify(poolView.address, [], 'yieldMathExtensions.js')
 
 
     const SafeERC20NamerFactory = await ethers.getContractFactory('SafeERC20Namer')
@@ -53,14 +53,14 @@ import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
     verify(safeERC20Namer.address, [])
 
     protocol.set('yieldMath', yieldMath.address)
-    protocol.set('poolExtensions', poolExtensions.address)
-    protocol.set('poolExtensionsWrapper', poolExtensionsWrapper.address)
+    protocol.set('yieldMathExtensions', yieldMathExtensions.address)
+    protocol.set('poolView', poolView.address)
     protocol.set('safeERC20Namer', safeERC20Namer.address)
 
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
 
     fs.writeFileSync('./yieldMath.js', `module.exports = { YieldMath: "${ yieldMath.address }" }`, 'utf8')
-    fs.writeFileSync('./poolExtensions.js', `module.exports = { PoolExtensions: "${ poolExtensions.address }" }`, 'utf8')
+    fs.writeFileSync('./yieldMathExtensions.js', `module.exports = { YieldMathExtensions: "${ yieldMathExtensions.address }" }`, 'utf8')
 
     // SafeERC20Namer is a library that is only used in constructors, and needs a special format for etherscan verification
     fs.writeFileSync('./safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${ safeERC20Namer.address }" }`, 'utf8')
