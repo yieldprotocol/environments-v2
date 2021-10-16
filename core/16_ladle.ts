@@ -26,7 +26,7 @@ const { deployContract } = waffle;
  */
 
 (async () => {
-/*    await hre.network.provider.request({
+    /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
         params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
     });
@@ -43,7 +43,7 @@ const { deployContract } = waffle;
     const ROOT = await timelock.ROOT()
 
     let ladle: Ladle
-    if (protocol.get('witch') === undefined) {
+    if (protocol.get('ladle') === undefined) {
         ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9])) as Ladle
         console.log(`[Ladle, '${ladle.address}'],`)
         verify(ladle.address, [cauldron.address, weth9])
