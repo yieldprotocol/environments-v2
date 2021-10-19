@@ -7,6 +7,8 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import *  as hre from 'hardhat'
+import { id } from '@yield-protocol/utils-v2'
+
 import { jsonToMap, bytesToString, stringToBytes6 } from '../shared/helpers'
 import { ZERO_ADDRESS, WAD } from '../shared/constants'
 import { BigNumber } from 'ethers'
@@ -50,7 +52,7 @@ import { Relay } from '../typechain/Relay'
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
-    proposal.push(
+    /* proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(startPoolId) as string, startSeriesId])
@@ -59,9 +61,9 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: base.address,
-        data: base.interface.encodeFunctionData("transfer", [strategy.address, BigNumber.from(100).mul(baseUnit)])
+        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(100).mul(baseUnit)])
       },
-    )
+    ) */
     proposal.push(
       {
         target: strategy.address,
@@ -74,12 +76,6 @@ import { Relay } from '../typechain/Relay'
         data: strategy.interface.encodeFunctionData("transfer", [ZERO_ADDRESS, BigNumber.from(100).mul(baseUnit)])  // Burn the strategy tokens minted
       },
     )
-    /* proposal.push(
-      {
-        target: strategy.address,
-        data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
-      },
-    ) */
     proposal.push(
       {
         target: ladle.address,
@@ -92,6 +88,12 @@ import { Relay } from '../typechain/Relay'
         data: ladle.interface.encodeFunctionData("addToken", [strategy.address, true])
       },
     )
+    /* proposal.push(
+      {
+        target: strategy.address,
+        data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(nextPoolId) as string, nextSeriesId])
+      },
+    ) */
   }
 
   // Propose, approve, execute
