@@ -22,10 +22,12 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const poolsInit: Array<[string]> = [ // [seriesId]
-    [stringToBytes6('0104')],
-    [stringToBytes6('0105')],
-    [stringToBytes6('0204')],
-    [stringToBytes6('0205')],
+//    [stringToBytes6('0104')],
+//    [stringToBytes6('0105')],
+//    [stringToBytes6('0204')],
+//    [stringToBytes6('0205')],
+    [stringToBytes6('0106')],
+    [stringToBytes6('0206')],
   ]
 
   /* await hre.network.provider.request({
