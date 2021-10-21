@@ -13,7 +13,7 @@ import { Timelock } from '../../typechain/Timelock'
 import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 
 (async () => {
-  const newGovernor = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+  const newGovernor = '0xd659565b84BcfcB23B02ee13E46CB51429F4558A'
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
