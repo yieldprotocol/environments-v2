@@ -30,10 +30,10 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 (async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-    [ETH,   "0x55C0458edF1D8E07DF9FB44B8960AecC515B4492"],
-    [DAI,   "0xaFCdc724EB8781Ee721863db1B15939675996484"],
-    [USDC,  "0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D"],
-    [WBTC,  "0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92"],
+    [ETH,   "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"],
+    [DAI,   "0x6B175474E89094C44Da98b954EedeAC495271d0F"],
+    [USDC,  "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"],
+    [WBTC,  "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"],
 //    [USDT,  "0x233551369dc535f5fF3517c28fDCce81d650063e"],
 //    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
 //    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
