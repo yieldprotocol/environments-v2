@@ -62,7 +62,7 @@ const { deployContract } = waffle
   if (protocol.get('ladle') === undefined) {
     ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9.address])) as Ladle
     console.log(`[Ladle, '${ladle.address}'],`)
-    verify(ladle.address, [cauldron.address, weth9])
+    verify(ladle.address, [cauldron.address, weth9.address])
     protocol.set('ladle', ladle.address)
     fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
   } else {
