@@ -224,12 +224,12 @@ Approved 0xad90f1655b0143097ae84afabb9428c8d14a088ce0df413e5233e00b8fe51c42
 Executed 0xad90f1655b0143097ae84afabb9428c8d14a088ce0df413e5233e00b8fe51c42
 Creating Typechain artifacts in directory typechain for target ethers-v5
 Successfully generated Typechain artifacts!
-Current RATE for 01: 1112657988262554644
-Current CHI for 01: 216654247705633769205277052
+Current RATE for 01: 1112660792265757694
+Current CHI for 01: 216654614700457222075555511
 [Asset: 01 made into base using 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c],
 cloak.plan(witch, join(01)): 0xcafbfad74a0bac2d44489346b8db7d4cad7a1d1676ca5c6ad76d0bcbcdffcae7
-Current RATE for 02: 1210041281898309518
-Current CHI for 02: 222714753950450
+Current RATE for 02: 1210051024769564262
+Current CHI for 02: 222716152853588
 [Asset: 02 made into base using 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c],
 cloak.plan(witch, join(02)): 0x53ca612b8e5d6f3dfa6b812af769f7409d9f913c0447a4c0ce6d29b30d44ef2c
 Proposal: 0xd9a77f585a2b3b7dbcb4161e724e0ed574919472cdb8391a3512a4f857715b0e
@@ -239,7 +239,7 @@ Executed 0xd9a77f585a2b3b7dbcb4161e724e0ed574919472cdb8391a3512a4f857715b0e
 Creating Typechain artifacts in directory typechain for target ethers-v5
 Successfully generated Typechain artifacts!
 Looking for 01/00 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 01/00: 234140243143880
+Current SPOT for 01/00: 231700000000000
 [Asset: 00 set as ilk on witch at 0xD09492483E7DAa63727E24984d0cFe78eec80760],
 [Asset: 00 made into ilk for 01],
 cloak.plan(witch, join(00)): 0xcb6f321c2f53ec79f11c8123bd62fc7b9692007159dd3cc8f50b8f68b9f77ba0
@@ -249,26 +249,26 @@ Current SPOT for 01/01: 1000000000000000000
 [Asset: 01 made into ilk for 01],
 cloak.plan(witch, join(01)): 0x3c1be609949b646d60bd687ff1ad21edfdf75d17d5104d6cef4a0a184c8df7dc
 Looking for 01/02 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 01/02: 996329
+Current SPOT for 01/02: 996403
 [Asset: 02 set as ilk on witch at 0xD09492483E7DAa63727E24984d0cFe78eec80760],
 [Asset: 02 made into ilk for 01],
 cloak.plan(witch, join(02)): 0x45eed37ec2fc366b2eaa5405de0ec4aa76366badc6852625a9e63fbd46e19bab
 Looking for 01/03 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 01/03: 1496
+Current SPOT for 01/03: 1511
 [Asset: 03 set as ilk on witch at 0xD09492483E7DAa63727E24984d0cFe78eec80760],
 [Asset: 03 made into ilk for 01],
 cloak.plan(witch, join(03)): 0x1651c119b4bd0e5d4eb871360addfa7fe7546a920e3632f41086f126a0c3a816
 Looking for 02/00 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 02/00: 235002803837903000000000000
+Current SPOT for 02/00: 232536323332441000000000000
 [Asset: 00 made into ilk for 02],
 Looking for 02/01 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 02/01: 1003683948912160962566859045695
+Current SPOT for 02/01: 1003609509419253344842468709538
 [Asset: 01 made into ilk for 02],
 Looking for 02/02 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
 Current SPOT for 02/02: 1000000000000000000
 [Asset: 02 made into ilk for 02],
 Looking for 02/03 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
-Current SPOT for 02/03: 1501826710668124
+Current SPOT for 02/03: 1516789736970786
 [Asset: 03 made into ilk for 02],
 Proposal: 0x96e3a7d7b861e026248cd1c44b8d774dc5f118c67f7738e8747d5a5649bc1f0d
 Proposed 0x96e3a7d7b861e026248cd1c44b8d774dc5f118c67f7738e8747d5a5649bc1f0d
