@@ -3,34 +3,43 @@
  */
 
 import { ethers } from 'hardhat'
-import *  as fs from 'fs'
+import * as fs from 'fs'
 import { jsonToMap, stringToBytes6 } from '../shared/helpers'
 import { MAX256 as NOT_MATURE } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { FYToken } from '../typechain/FYToken'
 
-(async () => {
+;(async () => {
   // Input data
-  const seriesToMature: Array<string> = [ // seriesId
-    '0220'
+  const seriesToMature: Array<string> = [
+    // seriesId
+    '0220',
   ]
 
-  const [ ownerAcc ] = await ethers.getSigners();
-  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
-  const fyTokens = jsonToMap(fs.readFileSync('./output/fyTokens.json', 'utf8')) as Map<string,string>;
+  const [ownerAcc] = await ethers.getSigners()
+  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
+  const fyTokens = jsonToMap(fs.readFileSync('./output/fyTokens.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
+  const cauldron = (await ethers.getContractAt(
+    'Cauldron',
+    protocol.get('cauldron') as string,
+    ownerAcc
+  )) as unknown as Cauldron
 
   console.log('\nCauldron:')
   for (let seriesId of seriesToMature) {
     console.log(`Maturing in FYToken...`)
-    const fyToken = await ethers.getContractAt('FYToken', fyTokens.get(stringToBytes6(seriesId)) as string, ownerAcc) as unknown as FYToken
+    const fyToken = (await ethers.getContractAt(
+      'FYToken',
+      fyTokens.get(stringToBytes6(seriesId)) as string,
+      ownerAcc
+    )) as unknown as FYToken
     const chiAtMaturity = await fyToken.chiAtMaturity()
     if (chiAtMaturity.eq(NOT_MATURE)) {
       await fyToken.mature()
-      while ((await fyToken.chiAtMaturity()).eq(NOT_MATURE)) { }
+      while ((await fyToken.chiAtMaturity()).eq(NOT_MATURE)) {}
       console.log(`chi at maturity ${await fyToken.chiAtMaturity()}`)
     } else {
       console.log('already matured')
@@ -41,7 +50,7 @@ import { FYToken } from '../typechain/FYToken'
     const rateAtMaturity = await cauldron.ratesAtMaturity(stringToBytes6(seriesId))
     if (rateAtMaturity.eq('0')) {
       await cauldron.mature(stringToBytes6(seriesId))
-      while ((await cauldron.ratesAtMaturity(stringToBytes6(seriesId))).eq('0')) { }
+      while ((await cauldron.ratesAtMaturity(stringToBytes6(seriesId))).eq('0')) {}
       console.log(`rate at maturity ${await cauldron.ratesAtMaturity(stringToBytes6(seriesId))}`)
     } else {
       console.log('already matured')

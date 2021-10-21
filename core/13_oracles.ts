@@ -1,6 +1,6 @@
 import { ethers, waffle } from 'hardhat'
-import *  as hre from 'hardhat'
-import *  as fs from 'fs'
+import * as hre from 'hardhat'
+import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
 
@@ -19,7 +19,7 @@ import { UniswapV3Oracle } from '../typechain/UniswapV3Oracle'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 import { Timelock } from '../typechain/Timelock'
 
-const { deployContract } = waffle;
+const { deployContract } = waffle
 
 /**
  * @dev This script deploys the MultiOracles
@@ -30,50 +30,69 @@ const { deployContract } = waffle;
  * The Timelock gets access to governance functions.
  */
 
-(async () => {
-    /* await hre.network.provider.request({
+;(async () => {
+  /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
         params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
     });
     const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
-    const [ ownerAcc ] = await ethers.getSigners();    const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
-    const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
+  const [ownerAcc] = await ethers.getSigners()
+  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
+  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>
 
-    const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
-    const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-    const ROOT = await timelock.ROOT()
+  const cloak = (await ethers.getContractAt(
+    'EmergencyBrake',
+    governance.get('cloak') as string,
+    ownerAcc
+  )) as unknown as EmergencyBrake
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
+  const ROOT = await timelock.ROOT()
 
-    let compoundOracle: CompoundMultiOracle
-    if (protocol.get('compoundOracle') === undefined) {
-        compoundOracle = (await deployContract(ownerAcc, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
-        console.log(`[CompoundMultiOracle, '${compoundOracle.address}'],`)
-        verify(compoundOracle.address, [])
-        protocol.set('compoundOracle', compoundOracle.address)
-        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
-    } else {
-        compoundOracle = (await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc)) as unknown as CompoundMultiOracle
-    }
-    if (!(await compoundOracle.hasRole(ROOT, timelock.address))) {
-        await compoundOracle.grantRole(ROOT, timelock.address); console.log(`compoundOracle.grantRoles(ROOT, timelock)`)
-        while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
-    }
+  let compoundOracle: CompoundMultiOracle
+  if (protocol.get('compoundOracle') === undefined) {
+    compoundOracle = (await deployContract(ownerAcc, CompoundMultiOracleArtifact, [])) as CompoundMultiOracle
+    console.log(`[CompoundMultiOracle, '${compoundOracle.address}'],`)
+    verify(compoundOracle.address, [])
+    protocol.set('compoundOracle', compoundOracle.address)
+    fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+  } else {
+    compoundOracle = (await ethers.getContractAt(
+      'CompoundMultiOracle',
+      protocol.get('compoundOracle') as string,
+      ownerAcc
+    )) as unknown as CompoundMultiOracle
+  }
+  if (!(await compoundOracle.hasRole(ROOT, timelock.address))) {
+    await compoundOracle.grantRole(ROOT, timelock.address)
+    console.log(`compoundOracle.grantRoles(ROOT, timelock)`)
+    while (!(await compoundOracle.hasRole(ROOT, timelock.address))) {}
+  }
 
-    let chainlinkOracle: ChainlinkMultiOracle
-    if (protocol.get('chainlinkOracle') === undefined) {
-        chainlinkOracle = (await deployContract(ownerAcc, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
-        console.log(`[ChainlinkMultiOracle, '${chainlinkOracle.address}'],`)
-        verify(chainlinkOracle.address, [])
-        protocol.set('chainlinkOracle', chainlinkOracle.address)
-        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
-    } else {
-        chainlinkOracle = (await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc)) as unknown as ChainlinkMultiOracle
-    }
-    if (!(await chainlinkOracle.hasRole(ROOT, timelock.address))) {
-        await chainlinkOracle.grantRole(ROOT, timelock.address); console.log(`chainlinkOracle.grantRoles(ROOT, timelock)`)
-        while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
-    }
+  let chainlinkOracle: ChainlinkMultiOracle
+  if (protocol.get('chainlinkOracle') === undefined) {
+    chainlinkOracle = (await deployContract(ownerAcc, ChainlinkMultiOracleArtifact, [])) as ChainlinkMultiOracle
+    console.log(`[ChainlinkMultiOracle, '${chainlinkOracle.address}'],`)
+    verify(chainlinkOracle.address, [])
+    protocol.set('chainlinkOracle', chainlinkOracle.address)
+    fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+  } else {
+    chainlinkOracle = (await ethers.getContractAt(
+      'ChainlinkMultiOracle',
+      protocol.get('chainlinkOracle') as string,
+      ownerAcc
+    )) as unknown as ChainlinkMultiOracle
+  }
+  if (!(await chainlinkOracle.hasRole(ROOT, timelock.address))) {
+    await chainlinkOracle.grantRole(ROOT, timelock.address)
+    console.log(`chainlinkOracle.grantRoles(ROOT, timelock)`)
+    while (!(await compoundOracle.hasRole(ROOT, timelock.address))) {}
+  }
 
-    /* let compositeOracle: CompositeMultiOracle
+  /* let compositeOracle: CompositeMultiOracle
     if (protocol.get('compositeOracle') === undefined) {
         compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
         console.log(`[CompositeMultiOracle, '${compositeOracle.address}'],`)
@@ -117,57 +136,53 @@ const { deployContract } = waffle;
         while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
     } */
 
-    // Give access to each of the governance functions to the timelock, through a proposal to bundle them
-    // Give ROOT to the cloak, revoke ROOT from the deployer
-    const proposal : Array<{ target: string; data: string}> = []
+  // Give access to each of the governance functions to the timelock, through a proposal to bundle them
+  // Give ROOT to the cloak, revoke ROOT from the deployer
+  const proposal: Array<{ target: string; data: string }> = []
 
-    proposal.push({
-        target: compoundOracle.address,
-        data: compoundOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)'),
-            ],
-            timelock.address
-        ])
-    })
-    console.log(`compoundOracle.grantRoles(gov, timelock)`)
+  proposal.push({
+    target: compoundOracle.address,
+    data: compoundOracle.interface.encodeFunctionData('grantRoles', [
+      [id(compoundOracle.interface, 'setSource(bytes6,bytes6,address)')],
+      timelock.address,
+    ]),
+  })
+  console.log(`compoundOracle.grantRoles(gov, timelock)`)
 
-    proposal.push({
-        target: compoundOracle.address,
-        data: compoundOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
-    })
-    console.log(`compoundOracle.grantRole(ROOT, cloak)`)
+  proposal.push({
+    target: compoundOracle.address,
+    data: compoundOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
+  })
+  console.log(`compoundOracle.grantRole(ROOT, cloak)`)
 
-    proposal.push({
-        target: compoundOracle.address,
-        data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
-    })
-    console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
+  proposal.push({
+    target: compoundOracle.address,
+    data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
+  })
+  console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
 
-    proposal.push({
-        target: chainlinkOracle.address,
-        data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(chainlinkOracle.interface, 'setSource(bytes6,address,bytes6,address,address)'),
-            ],
-            timelock.address
-        ])
-    })
-    console.log(`chainlinkOracle.grantRoles(gov, timelock)`)
+  proposal.push({
+    target: chainlinkOracle.address,
+    data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
+      [id(chainlinkOracle.interface, 'setSource(bytes6,address,bytes6,address,address)')],
+      timelock.address,
+    ]),
+  })
+  console.log(`chainlinkOracle.grantRoles(gov, timelock)`)
 
-    proposal.push({
-        target: chainlinkOracle.address,
-        data: chainlinkOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
-    })
-    console.log(`chainlinkOracle.grantRole(ROOT, cloak)`)
+  proposal.push({
+    target: chainlinkOracle.address,
+    data: chainlinkOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
+  })
+  console.log(`chainlinkOracle.grantRole(ROOT, cloak)`)
 
-    proposal.push({
-        target: chainlinkOracle.address,
-        data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
-    })
-    console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`)
+  proposal.push({
+    target: chainlinkOracle.address,
+    data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
+  })
+  console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`)
 
-    /* proposal.push({
+  /* proposal.push({
         target: cTokenOracle.address,
         data: cTokenOracle.interface.encodeFunctionData('grantRoles', [
             [
@@ -237,11 +252,22 @@ const { deployContract } = waffle;
     })
     console.log(`uniswapOracle.revokeRole(ROOT, deployer)`) */
 
-    // Propose, approve, execute
-    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
-    while ((await timelock.proposals(txHash)).state < 1) { }
-    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
-    while ((await timelock.proposals(txHash)).state < 2) { }
-    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
+  // Propose, approve, execute
+  const txHash = await timelock.hash(proposal)
+  console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) {
+    await timelock.propose(proposal)
+    while ((await timelock.proposals(txHash)).state < 1) {}
+    console.log(`Proposed ${txHash}`)
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash)
+    while ((await timelock.proposals(txHash)).state < 2) {}
+    console.log(`Approved ${txHash}`)
+  }
+  if ((await timelock.proposals(txHash)).state === 2) {
+    await timelock.execute(proposal)
+    while ((await timelock.proposals(txHash)).state > 0) {}
+    console.log(`Executed ${txHash}`)
+  }
 })()

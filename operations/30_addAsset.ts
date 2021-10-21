@@ -1,6 +1,6 @@
 /**
  * @dev This script adds one or more assets to the protocol.
- * 
+ *
  * It takes as inputs the governance, protocol, assets and joins json address files.
  * It uses the Wand to:
  *  - Add the asset to Cauldron.
@@ -13,8 +13,8 @@
  */
 
 import { ethers } from 'hardhat'
-import *  as fs from 'fs'
-import *  as hre from 'hardhat'
+import * as fs from 'fs'
+import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
 import { DAI, USDC, ETH, WBTC, USDT, CDAI, CUSDC, CUSDT } from '../shared/constants'
@@ -27,17 +27,17 @@ import { Timelock } from '../typechain/Timelock'
 import { ERC20Mock } from '../typechain/ERC20Mock'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
-(async () => {
+;(async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-    [ETH,   "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"],
-    [DAI,   "0x6B175474E89094C44Da98b954EedeAC495271d0F"],
-    [USDC,  "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"],
-    [WBTC,  "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"],
-//    [USDT,  "0x233551369dc535f5fF3517c28fDCce81d650063e"],
-//    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
-//    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
-//    [CUSDT, "0x3f0a0ea2f86bae6362cf9799b523ba06647da018"],
+    [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
+    [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
+    [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
+    [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
+    //    [USDT,  "0x233551369dc535f5fF3517c28fDCce81d650063e"],
+    //    [CDAI,  "0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad"],
+    //    [CUSDC, "0x4a92e71227d294f041bd82dd8f78591b75140d63"],
+    //    [CUSDT, "0x3f0a0ea2f86bae6362cf9799b523ba06647da018"],
     // [stringToBytes6('TST3'), "0xfaAddC93baf78e89DCf37bA67943E1bE8F37Bb8c"],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   /* await hre.network.provider.request({
@@ -45,45 +45,58 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
   });
   const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
-    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
-  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
-  const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>;
-  const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
+  const [ownerAcc] = await ethers.getSigners()
+  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>
+  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
+  const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>
+  const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
-  const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
+  const cloak = (await ethers.getContractAt(
+    'EmergencyBrake',
+    governance.get('cloak') as string,
+    ownerAcc
+  )) as unknown as EmergencyBrake
   const ROOT = await timelock.ROOT()
 
   // Build the proposal
-  let proposal : Array<{ target: string; data: string}> = []
+  let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress] of newAssets) {
-    const asset = await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc) as unknown as ERC20Mock
+    const asset = (await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)) as unknown as ERC20Mock
     console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     proposal.push({
       target: wand.address,
-      data: wand.interface.encodeFunctionData("addAsset", [assetId, assetAddress])
+      data: wand.interface.encodeFunctionData('addAsset', [assetId, assetAddress]),
     })
     console.log(`[Asset: ${bytesToString(assetId)}: ${assetAddress}],`)
     assets.set(assetId, assetAddress)
   }
 
   // Propose, approve, execute
-  let txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-  if ((await timelock.proposals(txHash)).state === 0) { 
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state < 1) { }
+  let txHash = await timelock.hash(proposal)
+  console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) {
+    await timelock.propose(proposal)
+    console.log(`Proposed ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 1) {}
   }
   if ((await timelock.proposals(txHash)).state === 1) {
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    while ((await timelock.proposals(txHash)).state < 2) { }
+    await timelock.approve(txHash)
+    console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) {}
   }
-  if ((await timelock.proposals(txHash)).state === 2) { 
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state > 0) { }
+  if ((await timelock.proposals(txHash)).state === 2) {
+    await timelock.execute(proposal)
+    console.log(`Executed ${txHash}`)
+    while ((await timelock.proposals(txHash)).state > 0) {}
   }
 
   fs.writeFileSync('./output/assets.json', mapToJson(assets), 'utf8')
@@ -94,7 +107,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   proposal = []
 
   for (let [assetId, assetAddress] of newAssets) {
-    const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc) as Join
+    const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
     verify(join.address, [assetAddress])
     console.log(`[${bytesToString(assetId)}Join, : '${join.address}'],`)
     joins.set(assetId, join.address)
@@ -105,48 +118,48 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     proposal.push({
       target: join.address,
       data: join.interface.encodeFunctionData('grantRoles', [
-          [
-              id(join.interface, 'setFlashFeeFactor(uint256)'),
-          ],
-          timelock.address
-      ])
+        [id(join.interface, 'setFlashFeeFactor(uint256)')],
+        timelock.address,
+      ]),
     })
     console.log(`join.grantRoles(gov, timelock)`)
 
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+      data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
     })
     console.log(`join.grantRole(ROOT, cloak)`)
 
     const plan = [
       {
-        contact: join.address, signatures: [
-          id(join.interface, 'join(address,uint128)'),
-          id(join.interface, 'exit(address,uint128)'),
-        ]
-      }
+        contact: join.address,
+        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
+      },
     ]
 
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan])
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
     console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   // Propose, approve, execute
-  txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-  if ((await timelock.proposals(txHash)).state === 0) { 
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state < 1) { }
+  txHash = await timelock.hash(proposal)
+  console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) {
+    await timelock.propose(proposal)
+    console.log(`Proposed ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 1) {}
   }
   if ((await timelock.proposals(txHash)).state === 1) {
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    while ((await timelock.proposals(txHash)).state < 2) { }
+    await timelock.approve(txHash)
+    console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) {}
   }
-  if ((await timelock.proposals(txHash)).state === 2) { 
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
-    while ((await timelock.proposals(txHash)).state > 0) { }
+  if ((await timelock.proposals(txHash)).state === 2) {
+    await timelock.execute(proposal)
+    console.log(`Executed ${txHash}`)
+    while ((await timelock.proposals(txHash)).state > 0) {}
   }
 })()

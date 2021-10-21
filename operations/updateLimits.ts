@@ -1,11 +1,11 @@
 /**
  * @dev This script updates the dust and ceiling limits for one or more base/ilk pairs.
- * 
+ *
  * It takes as inputs the governance and protocol address files.
  */
 
 import { ethers } from 'hardhat'
-import *  as fs from 'fs'
+import * as fs from 'fs'
 import { stringToBytes6, bytesToString, jsonToMap } from '../shared/helpers'
 import { ETH, DAI, USDC, WBTC, USDT } from '../shared/constants'
 
@@ -13,7 +13,7 @@ import { Cauldron } from '../typechain/Cauldron'
 
 import { Timelock } from '../typechain/Timelock'
 
-(async () => {
+;(async () => {
   // Input data: baseId, ilkId, maxDebt, minDebt, debtDec
   const newLimits: Array<[string, string, number, number, number]> = [
     [DAI, DAI, 10000000, 0, 18],
@@ -32,42 +32,48 @@ import { Timelock } from '../typechain/Timelock'
     [USDT, ETH, 1000000, 1, 18],
     [USDT, WBTC, 1000000, 1, 18]*/
   ]
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
-  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
+  const [ownerAcc] = await ethers.getSigners()
+  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>
+  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  const cauldron = (await ethers.getContractAt(
+    'Cauldron',
+    protocol.get('cauldron') as string,
+    ownerAcc
+  )) as unknown as Cauldron
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
 
   // Build the proposal
-  const proposal : Array<{ target: string; data: string}> = []
+  const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, ilkId, maxDebt, minDebt, debtDec] of newLimits) {
-
     proposal.push({
       target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('setDebtLimits', [
-        baseId, ilkId, maxDebt, minDebt, debtDec
-      ])
+      data: cauldron.interface.encodeFunctionData('setDebtLimits', [baseId, ilkId, maxDebt, minDebt, debtDec]),
     })
     console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)}`)
   }
 
-    // Propose, approve, execute
-    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
-    if ((await timelock.proposals(txHash)).state === 0) { 
-      await timelock.propose(proposal) 
-      while ((await timelock.proposals(txHash)).state < 1) { }
-      console.log(`Proposed ${txHash}`)
-    }
-    if ((await timelock.proposals(txHash)).state === 1) {
-      await timelock.approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) { }
-      console.log(`Approved ${txHash}`)
-    }
-    if ((await timelock.proposals(txHash)).state === 2) { 
-      await timelock.execute(proposal) 
-      while ((await timelock.proposals(txHash)).state > 0) { }
-      console.log(`Executed ${txHash}`)
-    }
+  // Propose, approve, execute
+  const txHash = await timelock.hash(proposal)
+  console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) {
+    await timelock.propose(proposal)
+    while ((await timelock.proposals(txHash)).state < 1) {}
+    console.log(`Proposed ${txHash}`)
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash)
+    while ((await timelock.proposals(txHash)).state < 2) {}
+    console.log(`Approved ${txHash}`)
+  }
+  if ((await timelock.proposals(txHash)).state === 2) {
+    await timelock.execute(proposal)
+    while ((await timelock.proposals(txHash)).state > 0) {}
+    console.log(`Executed ${txHash}`)
+  }
 })()
