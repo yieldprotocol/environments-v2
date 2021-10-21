@@ -267,3 +267,134 @@ Proposal: 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
 Proposed 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
 Approved 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
 Executed 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
+
+// --- Trying to add series, reverts because of spot oracles not added
+
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+Proposed 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+Approved 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+
+// --- Finishing spot oracles addition
+
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Looking for 01/00 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 01/00: 238916905000000
+[Asset: 00 set as ilk on witch at 0x8Dcc6e8D4A2e57690EaB0acD009445fFc4B20F16],
+[Asset: 00 made into ilk for 01],
+cloak.plan(witch, join(00)): 0x2b5592120f53b6a5e37e6e3fd0e14585b6783981d314db5cc9144701eaa15057
+Looking for 01/01 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 01/01: 1000000000000000000
+[Asset: 01 set as ilk on witch at 0x8Dcc6e8D4A2e57690EaB0acD009445fFc4B20F16],
+[Asset: 01 made into ilk for 01],
+cloak.plan(witch, join(01)): 0xc836f50c71c9b8b0582b2e812b81d549aca14742148d4cf8d8a5063e543dabda
+Looking for 01/02 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 01/02: 995164
+[Asset: 02 set as ilk on witch at 0x8Dcc6e8D4A2e57690EaB0acD009445fFc4B20F16],
+[Asset: 02 made into ilk for 01],
+cloak.plan(witch, join(02)): 0x3f70347bb40be518d0e773f2ff891e6e21ba7c27ffea05acb2bb2cd2de10a797
+Looking for 01/03 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 01/03: 1526
+[Asset: 03 set as ilk on witch at 0x8Dcc6e8D4A2e57690EaB0acD009445fFc4B20F16],
+[Asset: 03 made into ilk for 01],
+cloak.plan(witch, join(03)): 0x41b59dae958bc1b147796e3a30b5c4b61d10d7fca680dc363558c746451c089d
+Looking for 02/00 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 02/00: 240077805925814000000000000
+[Asset: 00 made into ilk for 02],
+Looking for 02/01 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 02/01: 1004859015421340737692881129529
+[Asset: 01 made into ilk for 02],
+Looking for 02/02 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 02/02: 1000000000000000000
+[Asset: 02 made into ilk for 02],
+Looking for 02/03 at 0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52
+Current SPOT for 02/03: 1534259403248160
+[Asset: 03 made into ilk for 02],
+Proposal: 0x4003f11d13cbbd118fa903c54203b65e1bf2d627d837669978112bf273c65819
+Executed 0x4003f11d13cbbd118fa903c54203b65e1bf2d627d837669978112bf273c65819
+
+// --- Restarting series additionCreating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+Executed 0x031bdc8ab6ec45e47c514c8a04ebe725c1a087442f94fdbdf06142d57183070c
+[FYDAI2112, '0x260b5CC04263b39cb796a89859F855DE70BA0684'],
+npx hardhat verify --network mainnet 0x260b5CC04263b39cb796a89859F855DE70BA0684 0x303100000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0xf07306Ee5F7ed63E28057C9854b6d848110fEd5C 1640919600 FYDAI2112 FYDAI2112 --libraries safeERC20Namer.js
+[FYDAI2112Pool, '0x0bc94eFeF29cA6C89a71c58ee3018EB16F05E7cd'],
+npx hardhat verify --network mainnet 0x0bc94eFeF29cA6C89a71c58ee3018EB16F05E7cd  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0104)): 0x96d25e390fb7a0f44e390679093e84d8844148eb0e4a7c53534bb307798be500
+cloak.plan(fyToken, join(01)): 0x2cebc037b59dc750c50a13f9d212305b58d3ad1dfaea934b0ca1b8b1f17b436a
+Proposal: 0x27713d31787bfcd6222e26fda798c1731c7d0764c0861b6aaa4dfc2cf4cb3228
+Proposed 0x27713d31787bfcd6222e26fda798c1731c7d0764c0861b6aaa4dfc2cf4cb3228
+Approved 0x27713d31787bfcd6222e26fda798c1731c7d0764c0861b6aaa4dfc2cf4cb3228
+Executed 0x27713d31787bfcd6222e26fda798c1731c7d0764c0861b6aaa4dfc2cf4cb3228
+Proposal: 0xb3f4061a7f79718823adc653148dbbb4d42e357031e9e0bfb8ed78017022ea9c
+Proposed 0xb3f4061a7f79718823adc653148dbbb4d42e357031e9e0bfb8ed78017022ea9c
+Approved 0xb3f4061a7f79718823adc653148dbbb4d42e357031e9e0bfb8ed78017022ea9c
+Executed 0xb3f4061a7f79718823adc653148dbbb4d42e357031e9e0bfb8ed78017022ea9c
+[FYDAI2203, '0xF430a8cD9BDeBBaad5fD9E5EeAe60B70605137Bc'],
+npx hardhat verify --network mainnet 0xF430a8cD9BDeBBaad5fD9E5EeAe60B70605137Bc 0x303100000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0xf07306Ee5F7ed63E28057C9854b6d848110fEd5C 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+[FYDAI2203Pool, '0xAF0e14D48cb5a115Ddd293ebc8B8Dd7272411545'],
+npx hardhat verify --network mainnet 0xAF0e14D48cb5a115Ddd293ebc8B8Dd7272411545  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0xd45febf76482bf6f0cc318d422807c2302002d7b8f0e2dbd62715bde2ab1802a
+cloak.plan(fyToken, join(01)): 0x7819340fa23bfc6c866b814e9f4d5eea5f649f8734614dabb2ff2df002ccc87f
+Proposal: 0xc1a8f8f007fc2f0173ecd7d0918b5ea4eb17bd1ea0c7093b12d64bb50deb05ef
+Proposed 0xc1a8f8f007fc2f0173ecd7d0918b5ea4eb17bd1ea0c7093b12d64bb50deb05ef
+Approved 0xc1a8f8f007fc2f0173ecd7d0918b5ea4eb17bd1ea0c7093b12d64bb50deb05ef
+Executed 0xc1a8f8f007fc2f0173ecd7d0918b5ea4eb17bd1ea0c7093b12d64bb50deb05ef
+Proposal: 0xe2c8f50932deae3d9c0fdf1fbfa45fe3a6396605b233cbc0a52d319d7bed1cf3
+Proposed 0xe2c8f50932deae3d9c0fdf1fbfa45fe3a6396605b233cbc0a52d319d7bed1cf3
+Approved 0xe2c8f50932deae3d9c0fdf1fbfa45fe3a6396605b233cbc0a52d319d7bed1cf3
+Executed 0xe2c8f50932deae3d9c0fdf1fbfa45fe3a6396605b233cbc0a52d319d7bed1cf3
+[FYUSDC2112, '0xb90afFBecdEb26a3bD318De222c9d9a6303ebcb2'],
+npx hardhat verify --network mainnet 0xb90afFBecdEb26a3bD318De222c9d9a6303ebcb2 0x303200000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0x5d46829D7Ed156d7866B059B50e193209dED38b4 1640919600 FYUSDC2112 FYUSDC2112 --libraries safeERC20Namer.js
+[FYUSDC2112Pool, '0xD4365eeC86d0f81490393b63CD872d5d003097e4'],
+npx hardhat verify --network mainnet 0xD4365eeC86d0f81490393b63CD872d5d003097e4  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0204)): 0xa3e7aea20b94a7bbe341f6dc6c490d32a67eee2d3d8b1fbd93eff2ab713e5e10
+cloak.plan(fyToken, join(02)): 0x4b8774c1e552ea770c9f96c6f84a504a8cb98512abe0161211fa6e33a01dd6ce
+Proposal: 0x1d6c74b85233d4d1514a76812be54e00d9973ced01f48b45a67f009263cb6c9d
+Proposed 0x1d6c74b85233d4d1514a76812be54e00d9973ced01f48b45a67f009263cb6c9d
+Approved 0x1d6c74b85233d4d1514a76812be54e00d9973ced01f48b45a67f009263cb6c9d
+Executed 0x1d6c74b85233d4d1514a76812be54e00d9973ced01f48b45a67f009263cb6c9d
+Proposal: 0x2b82aa33cf6bdc0d3a576ca1db12b9ba5b4d6909645665a57a5f3c8106755cd4
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x2b82aa33cf6bdc0d3a576ca1db12b9ba5b4d6909645665a57a5f3c8106755cd4
+Approved 0x2b82aa33cf6bdc0d3a576ca1db12b9ba5b4d6909645665a57a5f3c8106755cd4
+Executed 0x2b82aa33cf6bdc0d3a576ca1db12b9ba5b4d6909645665a57a5f3c8106755cd4
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Proposal: 0x50b1e1d93206f9e64bb37f928df3e46868a2689412e68ef78ca339a22a2bac70
+[FYUSDC2203, '0xE44594E3835e51B44406dcfC648629eF28B529Bb'],
+npx hardhat verify --network mainnet 0xE44594E3835e51B44406dcfC648629eF28B529Bb 0x303200000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0x5d46829D7Ed156d7866B059B50e193209dED38b4 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+[FYUSDC2203Pool, '0xb0251BEc7bE83111C3B2e8151A77b3D327142C2a'],
+npx hardhat verify --network mainnet 0xb0251BEc7bE83111C3B2e8151A77b3D327142C2a  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0x6e1d3d163eefc1b40b5bf3142bf59a5e0d2268b1c96b442a02a36977ed5e0f3d
+cloak.plan(fyToken, join(02)): 0x75e04fe86bab29895e8990a690459afe49dbb331b289bc7d377430d72f632c8e
+Proposal: 0xa0598ef5c0921e9b85650b88f9807c607877283d0b3b733a820b5b8e23677f7e
+Proposed 0xa0598ef5c0921e9b85650b88f9807c607877283d0b3b733a820b5b8e23677f7e
+Approved 0xa0598ef5c0921e9b85650b88f9807c607877283d0b3b733a820b5b8e23677f7e
+Executed 0xa0598ef5c0921e9b85650b88f9807c607877283d0b3b733a820b5b8e23677f7e
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
