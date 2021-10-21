@@ -20,13 +20,12 @@ import { Timelock } from '../../typechain/Timelock'
 
 ;(async () => {
   // Input data
-  const strategiesInit: Array<[string, [string, string], [string, string]]> = [
-    // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-    ['YSDAIQ1', [stringToBytes6('0105'), stringToBytes6('0105')], [stringToBytes6('0107'), stringToBytes6('0107')]], // poolId and seriesId usually match
-    ['YSDAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')], [stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
-    ['YSUSDCQ1', [stringToBytes6('0205'), stringToBytes6('0205')], [stringToBytes6('0207'), stringToBytes6('0207')]],
-    ['YSUSDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')], [stringToBytes6('0206'), stringToBytes6('0206')]],
-    //    ['USDCD1', [stringToBytes6('0220'), stringToBytes6('0220')],[stringToBytes6('0221'), stringToBytes6('0221')]],
+  const strategiesInit: Array<[string, [string, string]]> = [
+    // [strategyId, [startPoolId, startSeriesId]]
+    ['YSDAI6MMS', [stringToBytes6('0105'), stringToBytes6('0105')]], // poolId and seriesId usually match
+    ['YSDAI6MJD', [stringToBytes6('0104'), stringToBytes6('0104')]], // poolId and seriesId usually match
+    ['YSUSDC6MMS', [stringToBytes6('0205'), stringToBytes6('0205')]],
+    ['YSUSDC6MJD', [stringToBytes6('0204'), stringToBytes6('0204')]],
   ]
 
   /* await hre.network.provider.request({
@@ -55,7 +54,7 @@ import { Timelock } from '../../typechain/Timelock'
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, [startPoolId, startSeriesId], [nextPoolId, nextSeriesId]] of strategiesInit) {
+  for (let [strategyId, [startPoolId, startSeriesId]] of strategiesInit) {
     // No need to check that strategyId exists, because `setNextPool` would revert
     // No need to check that startPoolId or startSeriesId exist, because `setNextPool` would revert
     const strategy: Strategy = (await ethers.getContractAt(
