@@ -1,4 +1,5 @@
 import { ethers, waffle } from 'hardhat'
+import *  as hre from 'hardhat'
 import *  as fs from 'fs'
 import { verify, mapToJson, jsonToMap } from '../shared/helpers'
 
@@ -17,8 +18,12 @@ const { deployContract } = waffle
 const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
 
 (async () => {
-    const [ ownerAcc ] = await ethers.getSigners();
-    const multisig = ownerAcc.address
+    /* await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
+    });
+    const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();    const multisig = ownerAcc.address
     const timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig, multisig])) as unknown as Timelock
     console.log(`[Timelock, '${timelock.address}'],`)
     verify(timelock.address, [multisig, multisig])

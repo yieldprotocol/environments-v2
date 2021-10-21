@@ -7,10 +7,12 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { stringToBytes6, bytesToString, mapToJson, jsonToMap } from '../shared/helpers'
 import { RATE, DAI, USDC, USDT } from '../shared/constants'
 
 import { CompoundMultiOracle } from '../typechain/CompoundMultiOracle'
+import { ERC20Mock } from '../typechain/ERC20Mock'
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
@@ -20,8 +22,12 @@ import { Timelock } from '../typechain/Timelock'
     [USDC, "0x39aa39c021dfbae8fac545936693ac917d5e7563"],
     // [stringToBytes6('TST3'), "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8"],
   ]
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
+  });
+  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const rateSources = jsonToMap(fs.readFileSync('./output/rateSources.json', 'utf8')) as Map<string, string>;
 
@@ -29,11 +35,13 @@ import { Timelock } from '../typechain/Timelock'
   const compoundOracle = await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc) as unknown as CompoundMultiOracle
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
 
-  console.log(`compoundOracle: ${compoundOracle.address}],`)
+  console.log(`compoundOracle: ${compoundOracle.address}`)
 
   // Build proposal
   const proposal : Array<{ target: string; data: string}> = []
   for (let [baseId, sourceAddress] of newSources) {
+    const cToken = await ethers.getContractAt('ERC20Mock', sourceAddress as string, ownerAcc) as unknown as ERC20Mock
+    console.log(`Using ${await cToken.name()} at ${sourceAddress}`)
     proposal.push({
       target: compoundOracle.address,
       data: compoundOracle.interface.encodeFunctionData("setSource", [baseId, RATE, sourceAddress])

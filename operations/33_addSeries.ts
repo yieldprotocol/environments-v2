@@ -46,8 +46,7 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
   });
   const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
   const fyTokens = jsonToMap(fs.readFileSync('./output/fyTokens.json', 'utf8')) as Map<string, string>;

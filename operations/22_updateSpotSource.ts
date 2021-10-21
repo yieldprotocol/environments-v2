@@ -13,6 +13,7 @@ import { stringToBytes6, bytesToString, bytesToBytes32, mapToJson, jsonToMap } f
 import { WAD, DAI, ETH, USDC, USDT, WBTC } from '../shared/constants'
 
 import { ChainlinkMultiOracle } from '../typechain/ChainlinkMultiOracle' // TODO: Change to IOracleGov
+import { ChainlinkAggregatorV3Mock } from '../typechain/ChainlinkAggregatorV3Mock'
 import { Timelock } from '../typechain/Timelock'
 
 (async () => {
@@ -27,11 +28,10 @@ import { Timelock } from '../typechain/Timelock'
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
-    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const spotSources = jsonToMap(fs.readFileSync('./output/spotSources.json', 'utf8')) as Map<string, string>;
@@ -42,6 +42,8 @@ import { Timelock } from '../typechain/Timelock'
   // Build proposal
   const proposal : Array<{ target: string; data: string}> = []
   for (let [baseId, quoteId, oracleName, sourceAddress] of newSources) {
+    if(await ethers.provider.getCode(sourceAddress) === '0x') throw `Address ${sourceAddress} contains no code`
+
     const pairId = `${baseId},${quoteId}`
     const oracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get(oracleName) as string, ownerAcc) as unknown as ChainlinkMultiOracle
     console.log(`oracle: ${oracle.address}],`)

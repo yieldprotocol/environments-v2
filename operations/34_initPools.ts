@@ -30,11 +30,10 @@ import { Relay } from '../typechain/Relay'
 
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
-    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>;
 
   // Contract instantiation
@@ -48,7 +47,6 @@ import { Relay } from '../typechain/Relay'
     const pool: Pool = await ethers.getContractAt('Pool', poolAddress, ownerAcc) as Pool
 
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc) as ERC20Mock
-    const fyToken: FYToken = await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc) as FYToken
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
     // Supply pool with a hundred tokens of underlying for initialization
@@ -62,25 +60,6 @@ import { Relay } from '../typechain/Relay'
       target: pool.address,
       data: pool.interface.encodeFunctionData("mint", [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0])  // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
-
-    // Give to the timelock permission to mint fyToken out of thin air (only test!)
-    // The timelock created the series through the Wand, so it got ROOT access to the fyTokens at that point
-    /* proposal.push({
-      target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData("grantRole", [id(fyToken.interface, 'mint(address,uint256)'), timelock.address])
-    }) */
-
-    // Donate fyToken to the pool to skew it
-    /* proposal.push({
-      target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData("mint", [poolAddress, baseUnit.mul(100).div(9)])
-    }) */
-
-    // Sync the pool
-    /* proposal.push({
-      target: pool.address,
-      data: pool.interface.encodeFunctionData("sync")
-    }) */
     console.log(`Initalizing ${await pool.symbol()} at ${poolAddress}`)
   }
 

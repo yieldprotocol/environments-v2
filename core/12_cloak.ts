@@ -19,13 +19,12 @@ const { deployContract } = waffle;
  */
 
 (async () => {
-/*    await hre.network.provider.request({
+    /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
-        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+        params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
     });
-    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-    const [ ownerAcc ] = await ethers.getSigners();
-    const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
+    const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();    const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
 
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const ROOT = await timelock.ROOT()

@@ -9,6 +9,7 @@
 
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
+import *  as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32, jsonToMap } from '../shared/helpers'
 import { CHI, RATE, DAI, USDC, USDT } from '../shared/constants'
@@ -27,8 +28,12 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     [USDC, 'compoundOracle'],
 //    [USDT, 'compoundOracle'],
   ]
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
+  });
+  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
   const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>;
 

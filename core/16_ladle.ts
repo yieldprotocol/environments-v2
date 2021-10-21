@@ -11,6 +11,7 @@ import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
 import { Timelock } from '../typechain/Timelock'
 import { EmergencyBrake } from '../typechain/EmergencyBrake'
+import { ERC20Mock } from '../typechain/ERC20Mock'
 
 const { deployContract } = waffle;
 
@@ -28,15 +29,16 @@ const { deployContract } = waffle;
 (async () => {
     /* await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
-        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+        params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
     });
-    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-    const [ ownerAcc ] = await ethers.getSigners();
-    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
+    const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
     const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
 
-    const weth9 = assets.get(ETH) as string
+    const weth9 = await ethers.getContractAt('ERC20Mock', assets.get(ETH) as string, ownerAcc) as unknown as ERC20Mock
+    console.log(`Using ${await weth9.name()} at ${assets.get(ETH)}`)
+
     const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc) as unknown as Cauldron
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
     const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
@@ -44,7 +46,7 @@ const { deployContract } = waffle;
 
     let ladle: Ladle
     if (protocol.get('ladle') === undefined) {
-        ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9])) as Ladle
+        ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9.address])) as Ladle
         console.log(`[Ladle, '${ladle.address}'],`)
         verify(ladle.address, [cauldron.address, weth9])
         protocol.set('ladle', ladle.address)

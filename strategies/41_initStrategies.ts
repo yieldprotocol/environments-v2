@@ -17,7 +17,6 @@ import { ERC20Mock } from '../typechain/ERC20Mock'
 import { Strategy } from '../typechain/Strategy'
 import { Ladle } from '../typechain/Ladle'
 import { Timelock } from '../typechain/Timelock'
-import { Relay } from '../typechain/Relay'
 
 (async () => {
   // Input data
@@ -31,24 +30,28 @@ import { Relay } from '../typechain/Relay'
   
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
-    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
   });
-  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
-  const [ ownerAcc ] = await ethers.getSigners();
-  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
+    const [ ownerAcc ] = await ethers.getSigners();  const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>;
   const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>;
   const strategies = jsonToMap(fs.readFileSync('./output/strategies.json', 'utf8')) as Map<string, string>;
 
   // Contract instantiation
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
+  if(await ethers.provider.getCode(ladle.address) === '0x') throw `Address ${ladle.address} contains no code`
+
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
+  if(await ethers.provider.getCode(timelock.address) === '0x') throw `Address ${timelock.address} contains no code`
 
   // Build the proposal
   const proposal : Array<{ target: string; data: string }> = []
 
   for (let [strategyId, [startPoolId, startSeriesId], [nextPoolId, nextSeriesId]] of strategiesInit) {
+    // No need to check that strategyId exists, because `setNextPool` would revert
+    // No need to check that startPoolId or startSeriesId exist, because `setNextPool` would revert
     const strategy: Strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string, ownerAcc) as Strategy
-    const ladle: Ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as Ladle
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
