@@ -18,8 +18,8 @@ function bytes6ToBytes32(x: string): string {
 describe('Oracle', function () {
   this.timeout(0)
 
-  const chiSources = jsonToMap(fs.readFileSync('./output/chiSources.json', 'utf8')) as Map<string, string>
-  const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
+  const chiSources = jsonToMap(fs.readFileSync('./addresses/chiSources.json', 'utf8')) as Map<string, string>
+  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   let ownerAcc: SignerWithAddress
   let owner: string
   let oracle: CompoundMultiOracle

@@ -149,7 +149,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
-      gasPrice: 1,
+      gasPrice: 100000000000,
       timeout: 600000,
       url: nodeUrl('mainnet')
     },
