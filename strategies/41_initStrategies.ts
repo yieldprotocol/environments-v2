@@ -52,7 +52,7 @@ import { Relay } from '../typechain/Relay'
     const base: ERC20Mock  = await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc) as ERC20Mock
     const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
-    /* proposal.push(
+    proposal.push(
       {
         target: strategy.address,
         data: strategy.interface.encodeFunctionData("setNextPool", [pools.get(startPoolId) as string, startSeriesId])
@@ -61,9 +61,9 @@ import { Relay } from '../typechain/Relay'
     proposal.push(
       {
         target: base.address,
-        data: base.interface.encodeFunctionData("mint", [strategy.address, BigNumber.from(100).mul(baseUnit)])
+        data: base.interface.encodeFunctionData("transfer", [strategy.address, BigNumber.from(100).mul(baseUnit)])
       },
-    ) */
+    )
     proposal.push(
       {
         target: strategy.address,

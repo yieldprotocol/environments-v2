@@ -240,3 +240,30 @@ Current SPOT for 02/03: 1568481868581990
 Proposal: 0x4003f11d13cbbd118fa903c54203b65e1bf2d627d837669978112bf273c65819
 Proposed 0x4003f11d13cbbd118fa903c54203b65e1bf2d627d837669978112bf273c65819
 Approved 0x4003f11d13cbbd118fa903c54203b65e1bf2d627d837669978112bf273c65819
+Compiling 91 files with 0.8.6
+Compilation finished successfully
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+[PoolFactory, '0xe4D5A6128308b4D5c5d1A107Be136AB75c9944Be'],
+npx hardhat verify --network mainnet 0xe4D5A6128308b4D5c5d1A107Be136AB75c9944Be  --libraries safeERC20Namer.js
+poolFactory.grantRoles(ROOT, timelock)
+joinFactory.grantRole(ROOT, cloak)
+joinFactory.revokeRole(ROOT, deployer)
+fyTokenFactory.grantRole(ROOT, cloak)
+fyTokenFactory.revokeRole(ROOT, deployer)
+poolFactory.grantRoles(gov, timelock)
+poolFactory.grantRole(ROOT, cloak)
+poolFactory.revokeRole(ROOT, deployer)
+Proposal: 0x058c80fa85a9ff6b9b2dee9c00a2646d3c4d03f008844bd4403685fecd096207
+Proposed 0x058c80fa85a9ff6b9b2dee9c00a2646d3c4d03f008844bd4403685fecd096207
+Approved 0x058c80fa85a9ff6b9b2dee9c00a2646d3c4d03f008844bd4403685fecd096207
+Executed 0x058c80fa85a9ff6b9b2dee9c00a2646d3c4d03f008844bd4403685fecd096207
+Creating Typechain artifacts in directory typechain for target ethers-v5
+Successfully generated Typechain artifacts!
+wand.point(poolFactory, 0xe4D5A6128308b4D5c5d1A107Be136AB75c9944Be)
+poolFactory.grantRoles(wand)
+cloak.plan(wand): 0xfe12569485be1c97e0dfa3ac6a877f95a169fe6544f7e0c8cc46c15c06e16153
+Proposal: 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
+Proposed 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
+Approved 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d
+Executed 0x4f728cf4afb308f0f95650ef75a9db2b84f563c9f32f068ba34f866f6e0d625d

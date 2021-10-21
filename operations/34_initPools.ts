@@ -54,7 +54,7 @@ import { Relay } from '../typechain/Relay'
     // Supply pool with a hundred tokens of underlying for initialization
     proposal.push({
       target: base.address,
-      data: base.interface.encodeFunctionData("mint", [poolAddress, baseUnit.mul(100)])
+      data: base.interface.encodeFunctionData("transfer", [poolAddress, baseUnit.mul(100)])
     })
 
     // Initialize pool

@@ -32,8 +32,8 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   // Input data
-  const EODEC21 = 1640995199
-  const EOMAR22 = 1648771199
+  const EODEC21 = 1640919600
+  const EOMAR22 = 1648177200
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
     [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI2112', 'FYDAI2112'], // Dec21
