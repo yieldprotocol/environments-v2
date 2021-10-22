@@ -14,7 +14,7 @@ import { Timelock } from '../../../typechain/Timelock'
 import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 
 ;(async () => {
-  const newDeveloper = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+  const newDeveloper = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
   const [ownerAcc] = await ethers.getSigners()
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
 
@@ -58,7 +58,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   }
-  if ((await timelock.proposals(txHash)).state === 1) {
+  /* if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
     while ((await timelock.proposals(txHash)).state < 2) {}
     console.log(`Approved ${txHash}`)
@@ -67,5 +67,5 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
-  }
+  } */
 })()
