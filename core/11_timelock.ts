@@ -19,9 +19,9 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
     const multisig = ownerAcc.address
-    const timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig])) as unknown as Timelock
+    const timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig, multisig])) as unknown as Timelock
     console.log(`[Timelock, '${timelock.address}'],`)
-    verify(timelock.address, [multisig])
+    verify(timelock.address, [multisig, multisig])
 
     governance.set('timelock', timelock.address)
     fs.writeFileSync('./output/governance.json', mapToJson(governance), 'utf8')

@@ -21,9 +21,9 @@ import { Timelock } from '../typechain/Timelock'
   // Input data: baseId, quoteId, oracle name, source address
   const newSources: Array<[string, string, string, string]> = [
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
-    [DAI, ETH,   CHAINLINK, "0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541"],
-    [USDC, ETH,  CHAINLINK, "0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838"],
-    [WBTC, ETH,  CHAINLINK, "0xF7904a295A029a3aBDFFB6F12755974a958C7C25"]
+    [DAI, ETH,   CHAINLINK, "0x773616E4d11A78F511299002da57A0a94577F1f4"],
+    [USDC, ETH,  CHAINLINK, "0x986b5E1e1755e3C2440e960477f25201B0a8bbD4"],
+    [WBTC, ETH,  CHAINLINK, "0xdeb288F737066589598e9214E782fa5A8eD689e8"]
   ]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
