@@ -25,10 +25,10 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
   // Series to deploy. A FYToken and Pool will be deployed for each one. The underlying assets must exist and have been added as bases. The collaterals accepted must exist and have been added as collateral for the fyToken underlying asset.
   const strategiesData: Array<[string, string, string]> = [
     // name, symbol, baseId
-    ['YSDAI6MMS', 'YSDAI6MMS', DAI],
-    ['YSDAI6MJD', 'YSDAI6MJD', DAI],
-    ['YSUSDC6MMS', 'YSUSDC6MMS', USDC],
-    ['YSUSDC6MJD', 'YSUSDC6MJD', USDC],
+    ['Yield Strategy DAI 6M Mar Sep',  'YSDAI6MMS',  DAI],
+    ['Yield Strategy DAI 6M Jun Dec',  'YSDAI6MJD',  DAI],
+    ['Yield Strategy USDC 6M Mar Sep', 'YSUSDC6MMS', USDC],
+    ['Yield Strategy USDC 6M Jun Dec', 'YSUSDC6MJD', USDC],
   ]
 
   /* await hre.network.provider.request({
@@ -67,14 +67,21 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
     )) as unknown as ERC20Mock
     console.log(`Using ${await base.name()} at ${base.address} as base`)
 
-    const strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
-    console.log(`[Strategy, '${strategy.address}'],`)
-    verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
-    strategies.set(symbol, strategy.address)
-    fs.writeFileSync('./addresses/strategies.json', mapToJson(strategies), 'utf8')
-    await strategy.grantRole(ROOT, timelock.address)
-    console.log(`strategy.grantRoles(ROOT, timelock)`)
-    while (!(await strategy.hasRole(ROOT, timelock.address))) {}
+    let strategy: Strategy
+    if (strategies.get('symbol') === undefined) {
+      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
+      console.log(`[Strategy, '${strategy.address}'],`)
+      verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
+      strategies.set(symbol, strategy.address)
+      fs.writeFileSync('./addresses/strategies.json', mapToJson(strategies), 'utf8')
+    } else {
+      strategy = (await ethers.getContractAt('Strategy', strategies.get('symbol') as string, ownerAcc)) as Strategy
+    }
+    if (!(await strategy.hasRole(ROOT, timelock.address))) {
+      await strategy.grantRole(ROOT, timelock.address)
+      console.log(`strategy.grantRoles(ROOT, timelock)`)
+      while (!(await strategy.hasRole(ROOT, timelock.address))) {}
+    }
 
     // Build the proposal
     const proposal: Array<{ target: string; data: string }> = []
