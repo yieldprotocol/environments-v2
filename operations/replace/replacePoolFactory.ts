@@ -66,7 +66,7 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
         ])
     })
     console.log(`poolFactory.grantRoles(wand)`)
-        
+    
     const plan = [
         {
             contact: cauldron.address, signatures: [

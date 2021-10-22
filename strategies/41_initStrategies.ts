@@ -22,11 +22,12 @@ import { Relay } from '../typechain/Relay'
 (async () => {
   // Input data
   const strategiesInit: Array<[string, [string, string], [string, string]]> = [ // [strategyId, [startPoolId, startSeriesId],[nextPoolId,nextSeriesId]]
-    ['YSDAIQ1', [stringToBytes6('0105'), stringToBytes6('0105')],[stringToBytes6('0107'), stringToBytes6('0107')]], // poolId and seriesId usually match
-    ['YSDAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')],[stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
-    ['YSUSDCQ1', [stringToBytes6('0205'), stringToBytes6('0205')],[stringToBytes6('0207'), stringToBytes6('0207')]],
-    ['YSUSDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]],
-//    ['USDCD1', [stringToBytes6('0220'), stringToBytes6('0220')],[stringToBytes6('0221'), stringToBytes6('0221')]],
+//    ['YSDAIQ1', [stringToBytes6('0105'), stringToBytes6('0105')],[stringToBytes6('0107'), stringToBytes6('0107')]], // poolId and seriesId usually match
+//    ['YSDAIQ2', [stringToBytes6('0104'), stringToBytes6('0104')],[stringToBytes6('0106'), stringToBytes6('0106')]], // poolId and seriesId usually match
+//    ['YSUSDCQ1', [stringToBytes6('0205'), stringToBytes6('0205')],[stringToBytes6('0207'), stringToBytes6('0207')]],
+//    ['YSUSDCQ2', [stringToBytes6('0204'), stringToBytes6('0204')],[stringToBytes6('0206'), stringToBytes6('0206')]],
+    ['YSDAIY', [stringToBytes6('0106'), stringToBytes6('0106')],[stringToBytes6('0110'), stringToBytes6('0110')]], // poolId and seriesId usually match
+    ['YSUSDCY', [stringToBytes6('0206'), stringToBytes6('0206')],[stringToBytes6('0210'), stringToBytes6('0210')]],
   ]
   
   /* await hre.network.provider.request({

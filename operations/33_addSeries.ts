@@ -34,13 +34,16 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   // Input data
   const EODEC21 = 1640919600
   const EOMAR22 = 1648177200
+  const EOJUN22 = 1656036000
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI2112', 'FYDAI2112'], // Dec21
-    [stringToBytes6('0105'), DAI,  EOMAR22, [ETH, DAI, USDC, WBTC], 'FYDAI2203', 'FYDAI2203'], // Mar22
-    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'FYUSDC2112', 'FYUSDC2112'],
-    [stringToBytes6('0205'), USDC, EOMAR22, [ETH, DAI, USDC, WBTC], 'FYUSDC2203', 'FYUSDC2203'],
-  ]
+//    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI2112', 'FYDAI2112'], // Dec21
+//    [stringToBytes6('0105'), DAI,  EOMAR22, [ETH, DAI, USDC, WBTC], 'FYDAI2203', 'FYDAI2203'], // Mar22
+//    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'FYUSDC2112', 'FYUSDC2112'],
+//    [stringToBytes6('0205'), USDC, EOMAR22, [ETH, DAI, USDC, WBTC], 'FYUSDC2203', 'FYUSDC2203'],
+    [stringToBytes6('0106'), DAI,  EOJUN22, [ETH, DAI, USDC, WBTC], 'FYDAI2206', 'FYDAI2206'],
+    [stringToBytes6('0206'), USDC, EOJUN22, [ETH, DAI, USDC, WBTC], 'FYUSDC2206', 'FYUSDC2206'],
+]
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
     params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
