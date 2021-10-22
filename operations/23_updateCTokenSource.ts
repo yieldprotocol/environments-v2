@@ -38,7 +38,6 @@ import { Relay } from '../typechain/Relay'
 
   // Contract instantiation
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
 
   // Build proposal
   const proposal : Array<{ target: string; data: string}> = []
@@ -55,26 +54,19 @@ import { Relay } from '../typechain/Relay'
   }
 
   // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await relay.execute(
-    [
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('propose', [proposal])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('approve', [txHash])
-      },
-      {
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('execute', [proposal])
-      },
-    ]
-  ); console.log(`Executed ${txHash}`)
-  // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+  const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+  if ((await timelock.proposals(txHash)).state === 0) { 
+    await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state < 1) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 1) {
+    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+  }
+  if ((await timelock.proposals(txHash)).state === 2) { 
+    await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+    while ((await timelock.proposals(txHash)).state > 0) { }
+  }
 
   fs.writeFileSync('./output/cTokenSources.json', mapToJson(cTokenSources), 'utf8')
 })()

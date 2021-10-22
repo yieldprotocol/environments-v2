@@ -27,8 +27,7 @@ import { Ladle } from '../typechain/Ladle'
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
 
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-    const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
-    const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
+      const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
 
     const proposal : Array<{ target: string; data: string}> = []
     proposal.push({
@@ -38,24 +37,17 @@ import { Ladle } from '../typechain/Ladle'
     console.log(`setFee(${fee.toString()})`)
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await relay.execute(
-      [
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('propose', [proposal])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('approve', [txHash])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('execute', [proposal])
-        },
-      ]
-    ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
 })()

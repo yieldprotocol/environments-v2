@@ -13,10 +13,11 @@
  */
 
 import { ethers } from 'hardhat'
+import * as hre from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../shared/helpers'
-import { DAI, USDC, ETH, WBTC, USDT } from '../shared/constants'
+import { DAI, USDC, ETH, WBTC, ZERO_ADDRESS } from '../shared/constants'
 
 import { Cauldron } from '../typechain/Cauldron'
 import { Ladle } from '../typechain/Ladle'
@@ -31,35 +32,23 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
 
 (async () => {
   // Input data
-  const EOSEP21 = 1633042799
-  const EODEC21 = 1640995199
-  const EOMAR22 = 1648771199
-
-  const EO1009 = 1631314799
-  const EO1109 = 1631401199
-  const EO1209 = 1631487599
-  const EO1309 = 1631573999
-  const EO1409 = 1631660399
-  const EO1509 = 1631746799
-  const EO1609 = 1631833199
-  const EO1709 = 1631919599
+  const EODEC21 = 1640919600
+  const EOMAR22 = 1648177200
+  const EOJUN22 = 1656036000
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
-//    [stringToBytes6('DAI01'), DAI, EOSEP21, [DAI, USDC, ETH, WBTC, USDT], 'DAI01', 'DAI01'], // Sep21
-//    [stringToBytes6('DAI02'), DAI, EODEC21, [DAI, USDC, ETH, WBTC, USDT], 'DAI02', 'DAI02'], // Dec21
-//    [stringToBytes6('USDC01'), USDC, EOSEP21, [USDC, DAI, ETH, WBTC, USDT], 'USDC01', 'USDC01'],
-//    [stringToBytes6('USDC02'), USDC, EODEC21, [USDC, DAI, ETH, WBTC, USDT], 'USDC02', 'USDC02'],
-//    [stringToBytes6('USDT01'), USDT, EOSEP21, [USDT, DAI, USDC, ETH, WBTC], 'USDT01', 'USDT01'],
-//    [stringToBytes6('USDT02'), USDT, EODEC21, [USDT, DAI, USDC, ETH, WBTC], 'USDT02', 'USDT02']
-
-//    [stringToBytes6('USDC10'), USDC, EO1009, [USDC, DAI, ETH, WBTC, USDT], 'USDC10', 'USDC10'],
-//    [stringToBytes6('USDC11'), USDC, EO1109, [USDC, DAI, ETH, WBTC, USDT], 'USDC11', 'USDC11'],
-//    [stringToBytes6('USDC12'), USDC, EO1209, [USDC, DAI, ETH, WBTC, USDT], 'USDC12', 'USDC12'],
-//    [stringToBytes6('USDC13'), USDC, EO1309, [USDC, DAI, ETH, WBTC, USDT], 'USDC13', 'USDC13'],
-//    [stringToBytes6('USDC14'), USDC, EO1409, [USDC, DAI, ETH, WBTC, USDT], 'USDC14', 'USDC14'],
-//    [stringToBytes6('USDC15'), USDC, EO1509, [USDC, DAI, ETH, WBTC, USDT], 'USDC15', 'USDC15'],
-    [stringToBytes6('USDC16'), USDC, EO1609, [USDC, DAI, ETH, WBTC, USDT], 'USDC16', 'USDC16'],
-  ]
+//    [stringToBytes6('0104'), DAI,  EODEC21, [ETH, DAI, USDC, WBTC], 'FYDAI2112', 'FYDAI2112'], // Dec21
+//    [stringToBytes6('0105'), DAI,  EOMAR22, [ETH, DAI, USDC, WBTC], 'FYDAI2203', 'FYDAI2203'], // Mar22
+//    [stringToBytes6('0204'), USDC, EODEC21, [ETH, DAI, USDC, WBTC], 'FYUSDC2112', 'FYUSDC2112'],
+//    [stringToBytes6('0205'), USDC, EOMAR22, [ETH, DAI, USDC, WBTC], 'FYUSDC2203', 'FYUSDC2203'],
+    [stringToBytes6('0106'), DAI,  EOJUN22, [ETH, DAI, USDC, WBTC], 'FYDAI2206', 'FYDAI2206'],
+    [stringToBytes6('0206'), USDC, EOJUN22, [ETH, DAI, USDC, WBTC], 'FYUSDC2206', 'FYUSDC2206'],
+]
+  /* await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+  });
+  const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
   const [ ownerAcc ] = await ethers.getSigners();
   const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
   const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
@@ -72,7 +61,6 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as unknown as Ladle
   const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as unknown as Wand
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock
-  const relay = await ethers.getContractAt('Relay', governance.get('relay') as string, ownerAcc) as unknown as Relay
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
   const ROOT = await timelock.ROOT()
 
@@ -87,26 +75,19 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
 
     // Propose, approve, execute
-    let txHash = await timelock.callStatic.propose(proposal)
-    await relay.execute(
-      [
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('propose', [proposal])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('approve', [txHash])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('execute', [proposal])
-        },
-      ]
-    ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    let txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
 
     // The fyToken and pools files can only be updated after the successful execution of the proposal
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc) as FYToken
@@ -152,55 +133,49 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     })
     console.log(`fyToken.grantRole(ROOT, cloak)`)
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address,
-        [
-          {
-            contact: fyToken.address, signatures: [
-              id(fyToken.interface, 'mint(address,uint256)'),
-              id(fyToken.interface, 'burn(address,uint256)'),
-            ]
-          }
+    const ladlePlan = [
+      {
+        contact: fyToken.address, signatures: [
+          id(fyToken.interface, 'mint(address,uint256)'),
+          id(fyToken.interface, 'burn(address,uint256)'),
         ]
-      ])
-    })
-    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)}))`)
+      }
+    ]
 
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [fyToken.address,
-        [
-          {
-            contact: join.address, signatures: [
-              id(join.interface, 'exit(address,uint128)'),
-            ]
-          }
-        ]
-      ])
+      data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan])
     })
-    console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)}))`)
+    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
+
+    const joinPlan = [
+      {
+        contact: join.address, signatures: [
+          id(join.interface, 'join(address,uint128)'),
+          id(join.interface, 'exit(address,uint128)'),
+        ]
+      }
+    ]
+
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan])
+    })
+    console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
 
     // Propose, approve, execute
-    txHash = await timelock.callStatic.propose(proposal)
-    await relay.execute(
-      [
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('propose', [proposal])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('approve', [txHash])
-        },
-        {
-          target: timelock.address,
-          data: timelock.interface.encodeFunctionData('execute', [proposal])
-        },
-      ]
-    ); console.log(`Executed ${txHash}`)
-    // await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    // await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    // await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-  }
+    txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+    }
+   }
 })()

@@ -1,16 +1,22 @@
-npx hardhat run --network localhost mocks/01*
-npx hardhat run --network localhost core/10*
-npx hardhat run --network localhost core/11*
-npx hardhat run --network localhost mocks/02*
-npx hardhat run --network localhost core/12*
-npx hardhat run --network localhost core/13*
-npx hardhat run --network localhost core/14*
-npx hardhat run --network localhost core/15*
-npx hardhat run --network localhost core/16*
-npx hardhat run --network localhost core/17*
-npx hardhat run --network localhost core/18*
-npx hardhat run --network localhost core/19*
-npx hardhat run --network localhost operations/2*
-npx hardhat run --network localhost operations/3*
-npx hardhat run --network localhost operations/4*
+npx hardhat run --network kovan mocks/01* >> output.txt
+npx hardhat run --network kovan core/10* >> output.txt
+npx hardhat run --network kovan core/11* >> output.txt
+npx hardhat run --network kovan mocks/02* >> output.txt
+npx hardhat run --network kovan core/12* >> output.txt
+npx hardhat run --network kovan core/13* >> output.txt
+npx hardhat run --network kovan core/14* >> output.txt
+npx hardhat run --network kovan core/15* >> output.txt
+npx hardhat run --network kovan core/16* >> output.txt
+npx hardhat run --network kovan core/17* >> output.txt
+npx hardhat run --network kovan core/18* >> output.txt
+npx hardhat run --network kovan operations/20* >> output.txt
+npx hardhat run --network kovan operations/21* >> output.txt
+npx hardhat run --network kovan operations/22* >> output.txt
+npx hardhat run --network kovan operations/30* >> output.txt
+npx hardhat run --network kovan operations/31* >> output.txt
+npx hardhat run --network kovan operations/32* >> output.txt
+npx hardhat run --network kovan operations/33* >> output.txt
+npx hardhat run --network kovan operations/34* >> output.txt
+npx hardhat run --network kovan strategies/40* >> output.txt
+npx hardhat run --network kovan strategies/41* >> output.txt
 

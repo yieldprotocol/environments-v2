@@ -3,6 +3,8 @@ import *  as fs from 'fs'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
 
 import { YieldMath } from '../typechain/YieldMath'
+import { YieldMathExtensions } from '../typechain/YieldMathExtensions'
+import { PoolView } from '../typechain/PoolView'
 import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
 
 /**
@@ -10,28 +12,75 @@ import { SafeERC20Namer } from '../typechain/SafeERC20Namer'
  */
 
 (async () => {
+    /* await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    });
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
+    const [ ownerAcc ] = await ethers.getSigners();
+
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
 
-    let safeERC20Namer: SafeERC20Namer
     let yieldMath: YieldMath
+    if (protocol.get('yieldMath') === undefined) {
+        const YieldMathFactory = await ethers.getContractFactory('YieldMath')
+        yieldMath = ((await YieldMathFactory.deploy()) as unknown) as YieldMath
+        await yieldMath.deployed()
+        console.log(`[YieldMath, '${yieldMath.address}'],`)
+        verify(yieldMath.address, [])
+        protocol.set('yieldMath', yieldMath.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+        fs.writeFileSync('./yieldMath.js', `module.exports = { YieldMath: "${ yieldMath.address }" }`, 'utf8')
+    } else {
+        yieldMath = (await ethers.getContractAt('YieldMath', protocol.get('yieldMath') as string, ownerAcc)) as YieldMath
+    }
 
-    const YieldMathFactory = await ethers.getContractFactory('YieldMath')
-    yieldMath = ((await YieldMathFactory.deploy()) as unknown) as YieldMath
-    await yieldMath.deployed()
-    console.log(`[YieldMath, '${yieldMath.address}'],`)
-    verify(yieldMath.address, [])
+    let yieldMathExtensions: YieldMathExtensions
+    if (protocol.get('yieldMathExtensions') === undefined) {
+        const YieldMathExtensionsFactory = await ethers.getContractFactory('YieldMathExtensions', {
+            libraries: {
+                YieldMath: yieldMath.address,
+            }
+        })
+        yieldMathExtensions = ((await YieldMathExtensionsFactory.deploy()) as unknown) as YieldMathExtensions
+        await yieldMathExtensions.deployed()
+        console.log(`[yieldMathExtensions, '${yieldMathExtensions.address}'],`)
+        verify(yieldMathExtensions.address, [], 'yieldMath.js')
+        protocol.set('yieldMathExtensions', yieldMathExtensions.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+        fs.writeFileSync('./yieldMathExtensions.js', `module.exports = { YieldMathExtensions: "${ yieldMathExtensions.address }" }`, 'utf8')
+    } else {
+        yieldMathExtensions = (await ethers.getContractAt('YieldMathExtensions', protocol.get('yieldMathExtensions') as string, ownerAcc)) as YieldMathExtensions
+    }
 
-    const SafeERC20NamerFactory = await ethers.getContractFactory('SafeERC20Namer')
-    safeERC20Namer = ((await SafeERC20NamerFactory.deploy()) as unknown) as SafeERC20Namer
-    await safeERC20Namer.deployed()
-    console.log(`[SafeERC20Namer, '${safeERC20Namer.address}'],`)
-    verify(safeERC20Namer.address, [])
+    let poolView: PoolView
+    if (protocol.get('poolView') === undefined) {
+        const PoolViewFactory = await ethers.getContractFactory('PoolView', {
+            libraries: {
+                YieldMathExtensions: yieldMathExtensions.address,
+            }
+        })
+        poolView = ((await PoolViewFactory.deploy()) as unknown) as PoolView
+        await poolView.deployed()
+        console.log(`[poolView, '${poolView.address}'],`)
+        verify(poolView.address, [], 'yieldMathExtensions.js')
+        protocol.set('poolView', poolView.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+    } else {
+        poolView = (await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)) as PoolView
+    }
 
-    protocol.set('yieldMath', yieldMath.address)
-    protocol.set('safeERC20Namer', safeERC20Namer.address)
-
-    fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
-
-    // SafeERC20Namer is a library that is only used in constructors, and needs a special format for etherscan verification
-    fs.writeFileSync('./safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${ safeERC20Namer.address }" }`, 'utf8')
+    let safeERC20Namer: SafeERC20Namer
+    if (protocol.get('safeERC20Namer') === undefined) {
+        const SafeERC20NamerFactory = await ethers.getContractFactory('SafeERC20Namer')
+        safeERC20Namer = ((await SafeERC20NamerFactory.deploy()) as unknown) as SafeERC20Namer
+        await safeERC20Namer.deployed()
+        console.log(`[SafeERC20Namer, '${safeERC20Namer.address}'],`)
+        verify(safeERC20Namer.address, [])
+        protocol.set('safeERC20Namer', safeERC20Namer.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+        fs.writeFileSync('./safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${ safeERC20Namer.address }" }`, 'utf8')
+    } else {
+        safeERC20Namer = (await ethers.getContractAt('SafeERC20Namer', protocol.get('safeERC20Namer') as string, ownerAcc)) as SafeERC20Namer
+    }
 })()

@@ -32,30 +32,22 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
 
     proposal.push({
         target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xca02753a', // propose,
-            relay.address
-        ])
-    })
-    proposal.push({
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xa53a1adf', // approve
-            relay.address
-        ])
-    })
-    proposal.push({
-        target: timelock.address,
-        data: timelock.interface.encodeFunctionData('grantRole', [
-            '0xbaae8abf', // execute
+        data: timelock.interface.encodeFunctionData('grantRoles', [
+            [
+                '0xca02753a', // propose,
+                '0x013a652d', // proposeRepeated
+                '0xa53a1adf', // approve
+                '0xbaae8abf', // execute
+                '0xf9a28e8b', // executeRepeated
+            ],
             relay.address
         ])
     })
     console.log(`timelock.grantRoles(relay, all)`)
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 })()

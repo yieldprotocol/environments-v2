@@ -805,24 +805,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes12",
-        "name": "vaultId",
-        "type": "bytes12"
-      },
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      }
-    ],
-    "name": "grab",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes4",
         "name": "role",
         "type": "bytes4"

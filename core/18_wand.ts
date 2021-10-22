@@ -1,4 +1,5 @@
 import { ethers, waffle } from 'hardhat'
+import *  as hre from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
@@ -30,6 +31,11 @@ const { deployContract } = waffle;
  */
 
 (async () => {
+/*    await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    });
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
     const [ ownerAcc ] = await ethers.getSigners();
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
     const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string,string>;
@@ -44,21 +50,28 @@ const { deployContract } = waffle;
     const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
     const ROOT = await timelock.ROOT()
 
-    const wand = (await deployContract(ownerAcc, WandArtifact, [
-        cauldron.address,
-        ladle.address,
-        witch.address,
-        poolFactory.address,
-        joinFactory.address,
-        fyTokenFactory.address,
-    ])) as Wand
-    console.log(`[Wand, '${wand.address}'],`)
-    verify(wand.address, [cauldron.address, ladle.address, witch.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
-  
-    protocol.set('wand', wand.address)
-    fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
-    await wand.grantRole(ROOT, timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
-    // const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as Wand
+    let wand: Wand
+    if (protocol.get('wand') === undefined) {
+        wand = (await deployContract(ownerAcc, WandArtifact, [
+            cauldron.address,
+            ladle.address,
+            witch.address,
+            poolFactory.address,
+            joinFactory.address,
+            fyTokenFactory.address,
+        ])) as Wand
+        console.log(`[Wand, '${wand.address}'],`)
+        verify(wand.address, [cauldron.address, ladle.address, witch.address, poolFactory.address, joinFactory.address, fyTokenFactory.address])
+      
+        protocol.set('wand', wand.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')    
+    } else {
+        wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc) as Wand
+    }    
+    if (!(await wand.hasRole(ROOT, timelock.address))) {
+        await wand.grantRole(ROOT, timelock.address); console.log(`wand.grantRoles(ROOT, timelock)`)
+        while (!(await wand.hasRole(ROOT, timelock.address))) { }
+    }
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -90,7 +103,7 @@ const { deployContract } = waffle;
     proposal.push({
         target: wand.address,
         data: wand.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
-    })
+    }) 
     console.log(`wand.revokeRole(ROOT, deployer)`)
 
     proposal.push({
@@ -120,17 +133,6 @@ const { deployContract } = waffle;
         ])
     })
     console.log(`ladle.grantRoles(wand)`)
-
-    proposal.push({
-        target: witch.address,
-        data: witch.interface.encodeFunctionData('grantRoles', [
-            [
-                id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)')
-            ],
-            wand.address
-        ])
-    })
-    console.log(`witch.grantRoles(wand)`)
 
     proposal.push({
         target: joinFactory.address,
@@ -165,55 +167,51 @@ const { deployContract } = waffle;
     })
     console.log(`poolFactory.grantRoles(wand)`)
     
+    const plan = [
+        {
+            contact: cauldron.address, signatures: [
+                id(cauldron.interface, 'addAsset(bytes6,address)'),
+                id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
+                id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
+                id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
+                id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
+                id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
+            ]
+        },
+        {
+            contact: ladle.address, signatures: [
+                id(ladle.interface, 'addJoin(bytes6,address)'),
+                id(ladle.interface, 'addPool(bytes6,address)'),
+            ]
+        },
+        {
+            contact: joinFactory.address, signatures: [
+                id(joinFactory.interface, 'createJoin(address)'),
+            ]
+        },
+        {
+            contact: fyTokenFactory.address, signatures: [
+                id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)')
+            ]
+        },
+        {
+            contact: poolFactory.address, signatures: [
+                id(poolFactory.interface, 'createPool(address,address)'),
+            ]
+        },
+    ]
+
     proposal.push({
         target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [wand.address,
-            [
-                {
-                    contact: cauldron.address, signatures: [
-                        id(cauldron.interface, 'addAsset(bytes6,address)'),
-                        id(cauldron.interface, 'addSeries(bytes6,bytes6,address)'),
-                        id(cauldron.interface, 'addIlks(bytes6,bytes6[])'),
-                        id(cauldron.interface, 'setDebtLimits(bytes6,bytes6,uint96,uint24,uint8)'),
-                        id(cauldron.interface, 'setLendingOracle(bytes6,address)'),
-                        id(cauldron.interface, 'setSpotOracle(bytes6,bytes6,address,uint32)'),
-                    ]
-                },
-                {
-                    contact: ladle.address, signatures: [
-                        id(ladle.interface, 'addJoin(bytes6,address)'),
-                        id(ladle.interface, 'addPool(bytes6,address)'),
-                    ]
-                },
-                {
-                    contact: witch.address, signatures: [
-                        id(witch.interface, 'setIlk(bytes6,uint32,uint64,uint128)'),
-                    ]
-                },
-                {
-                    contact: joinFactory.address, signatures: [
-                        id(joinFactory.interface, 'createJoin(address)'),
-                    ]
-                },
-                {
-                    contact: fyTokenFactory.address, signatures: [
-                        id(fyTokenFactory.interface, 'createFYToken(bytes6,address,address,uint32,string,string)')
-                    ]
-                },
-                {
-                    contact: poolFactory.address, signatures: [
-                        id(poolFactory.interface, 'createPool(address,address)'),
-                    ]
-                },
-            ]
-        ])
+        data: cloak.interface.encodeFunctionData('plan', [wand.address, plan])
     })
-    console.log(`cloak.plan(wand)`)
+    console.log(`cloak.plan(wand): ${await cloak.hash(wand.address, plan)}`)
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 1) { }
+    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 2) { }
+    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 })()

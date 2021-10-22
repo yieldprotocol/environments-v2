@@ -1,4 +1,5 @@
 import { ethers, waffle } from 'hardhat'
+import *  as hre from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { mapToJson, jsonToMap, verify } from '../shared/helpers'
@@ -25,6 +26,11 @@ const { deployContract } = waffle;
  */
 
 (async () => {
+    /* await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: ["0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
+    });
+    const ownerAcc = await ethers.getSigner("0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5") */
     const [ ownerAcc ] = await ethers.getSigners();
     const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string,string>;
     const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string,string>;
@@ -36,13 +42,26 @@ const { deployContract } = waffle;
     const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc) as unknown as EmergencyBrake
     const ROOT = await timelock.ROOT()
 
-    const ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9])) as Ladle
-    console.log(`[Ladle, '${ladle.address}'],`)
-    verify(ladle.address, [cauldron.address, weth9])
-    protocol.set('ladle', ladle.address)
+    let ladle: Ladle
+    if (protocol.get('ladle') === undefined) {
+        ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9])) as Ladle
+        console.log(`[Ladle, '${ladle.address}'],`)
+        verify(ladle.address, [cauldron.address, weth9])
+        protocol.set('ladle', ladle.address)
+        fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
+    } else {
+        ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as Ladle
+    }
+    if (!(await ladle.hasRole(ROOT, timelock.address))) {
+        await ladle.grantRole(ROOT, timelock.address); console.log(`ladle.grantRoles(ROOT, timelock)`)
+        while (!(await ladle.hasRole(ROOT, timelock.address))) { }
+    }
+
+    const router = await ladle.router()
+    console.log(`[Router, '${router}'],`)
+    verify(router, [])
+    protocol.set('router', router)
     fs.writeFileSync('./output/protocol.json', mapToJson(protocol), 'utf8')
-    await ladle.grantRole(ROOT, timelock.address); console.log(`ladle.grantRoles(ROOT, timelock)`)
-    // const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc) as Ladle
 
     // Give access to each of the governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -94,30 +113,31 @@ const { deployContract } = waffle;
     })
     console.log(`cauldron.grantRoles(ladle)`)
 
+    const plan = [
+        {
+            contact: cauldron.address, signatures: [
+                id(cauldron.interface, 'build(address,bytes12,bytes6,bytes6)'),
+                id(cauldron.interface, 'destroy(bytes12)'),
+                id(cauldron.interface, 'tweak(bytes12,bytes6,bytes6)'),
+                id(cauldron.interface, 'give(bytes12,address)'),
+                id(cauldron.interface, 'pour(bytes12,int128,int128)'),
+                id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
+                id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
+            ]
+        }
+    ]
+
     proposal.push({
         target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [ladle.address,
-            [
-                {
-                    contact: cauldron.address, signatures: [
-                        id(cauldron.interface, 'build(address,bytes12,bytes6,bytes6)'),
-                        id(cauldron.interface, 'destroy(bytes12)'),
-                        id(cauldron.interface, 'tweak(bytes12,bytes6,bytes6)'),
-                        id(cauldron.interface, 'give(bytes12,address)'),
-                        id(cauldron.interface, 'pour(bytes12,int128,int128)'),
-                        id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
-                        id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
-                    ]
-                }
-            ]
-        ])
+        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan])
     })
-    console.log(`cloak.plan(ladle)`)
+    console.log(`cloak.plan(ladle): ${await cloak.hash(ladle.address, plan)}`)
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
-
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { await timelock.propose(proposal); console.log(`Proposed ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 1) { }
+    if ((await timelock.proposals(txHash)).state === 1) { await timelock.approve(txHash); console.log(`Approved ${txHash}`) }
+    while ((await timelock.proposals(txHash)).state < 2) { }
+    if ((await timelock.proposals(txHash)).state === 2) { await timelock.execute(proposal); console.log(`Executed ${txHash}`) }
 })()

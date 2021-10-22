@@ -285,12 +285,12 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
+        "name": "minRatio",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "minFYTokenOut",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],
@@ -324,7 +324,12 @@
       },
       {
         "internalType": "uint256",
-        "name": "minBaseOut",
+        "name": "minRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],
@@ -569,19 +574,6 @@
   },
   {
     "inputs": [],
-    "name": "invariant",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "maturity",
     "outputs": [
       {
@@ -601,13 +593,18 @@
         "type": "address"
       },
       {
-        "internalType": "bool",
-        "name": "calculateFromBase",
-        "type": "bool"
+        "internalType": "address",
+        "name": "remainder",
+        "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],
@@ -640,13 +637,23 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "remainder",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "fyTokenToBuy",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "minTokensMinted",
+        "name": "minRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxRatio",
         "type": "uint256"
       }
     ],

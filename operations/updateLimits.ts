@@ -16,17 +16,17 @@ import { Timelock } from '../typechain/Timelock'
 (async () => {
   // Input data: baseId, ilkId, maxDebt, minDebt, debtDec
   const newLimits: Array<[string, string, number, number, number]> = [
-    /*[DAI, DAI, 1000000, 1, 18],
-    [DAI, USDC, 1000000, 1, 18],
+    [DAI, DAI, 10000000, 0, 18],
+    /* [DAI, USDC, 1000000, 1, 18],
     [DAI, ETH, 1000000, 1, 18],
     [DAI, WBTC, 1000000, 1, 18],
     [DAI, USDT, 1000000, 1, 18],*/
-    [USDC, USDC, 1000000, 1, 6],
-    [USDC, DAI, 1000000, 1, 6],
+    [USDC, USDC, 10000000, 0, 6],
+    /* [USDC, DAI, 1000000, 1, 6],
     [USDC, ETH, 1000000, 1, 6],
     [USDC, WBTC, 1000000, 1, 6],
     [USDC, USDT, 1000000, 1, 6],
-    /*[USDT, USDT, 1000000, 1, 18],
+    [USDT, USDT, 1000000, 0, 18],
     [USDT, DAI, 1000000, 1, 18],
     [USDT, USDC, 1000000, 1, 18],
     [USDT, ETH, 1000000, 1, 18],
@@ -53,9 +53,21 @@ import { Timelock } from '../typechain/Timelock'
     console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)}`)
   }
 
-  // Propose, approve, execute
-  const txHash = await timelock.callStatic.propose(proposal)
-  await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-  await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-  await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    // Propose, approve, execute
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+      await timelock.propose(proposal) 
+      while ((await timelock.proposals(txHash)).state < 1) { }
+      console.log(`Proposed ${txHash}`)
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+      await timelock.approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) { }
+      console.log(`Approved ${txHash}`)
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+      await timelock.execute(proposal) 
+      while ((await timelock.proposals(txHash)).state > 0) { }
+      console.log(`Executed ${txHash}`)
+    }
 })()

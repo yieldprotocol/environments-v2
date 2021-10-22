@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
 import *  as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, stringToBytes32, bytesToString } from '../shared/helpers'
+import { jsonToMap, stringToBytes32, bytesToString } from '../../shared/helpers'
 
-import { Join } from '../typechain/Join'
-import { Timelock } from '../typechain/Timelock'
-import { EmergencyBrake } from '../typechain/EmergencyBrake'
+import { Join } from '../../typechain/Join'
+import { Timelock } from '../../typechain/Timelock'
+import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 
 
 /**
@@ -34,8 +34,17 @@ import { EmergencyBrake } from '../typechain/EmergencyBrake'
     }
 
     // Propose, approve, execute
-    const txHash = await timelock.callStatic.propose(proposal)
-    await timelock.propose(proposal); console.log(`Proposed ${txHash}`)
-    await timelock.approve(txHash); console.log(`Approved ${txHash}`)
-    await timelock.execute(proposal); console.log(`Executed ${txHash}`)
+    const txHash = await timelock.hash(proposal); console.log(`Proposal: ${txHash}`)
+    if ((await timelock.proposals(txHash)).state === 0) { 
+        await timelock.propose(proposal); console.log(`Proposed ${txHash}`) 
+        while ((await timelock.proposals(txHash)).state < 1) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 1) {
+        await timelock.approve(txHash); console.log(`Approved ${txHash}`)
+        while ((await timelock.proposals(txHash)).state < 2) { }
+    }
+    if ((await timelock.proposals(txHash)).state === 2) { 
+        await timelock.execute(proposal); console.log(`Executed ${txHash}`) 
+        while ((await timelock.proposals(txHash)).state > 0) { }
+    }
 })()
