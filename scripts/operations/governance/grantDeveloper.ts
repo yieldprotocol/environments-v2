@@ -17,13 +17,19 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 ;(async () => {
   const newDeveloper = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
   
-  await hre.network.provider.request({
-    method: "hardhat_impersonateAccount",
-    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
-  });
-  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708")
-  // const [ownerAcc] = await ethers.getSigners()
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+
+  let [ownerAcc] = await ethers.getSigners()
+  // If we are running in a mainnet fork, the account used is the default hardhat one, we can detect that and impersonate the deployer
+  if (ownerAcc.address === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266") {
+    const deployer = governance.get('deployer') as string
+    console.log(`Running on a fork, impersonating ${deployer}`)
+    await hre.network.provider.request({
+      method: "hardhat_impersonateAccount",
+      params: [deployer],
+    });
+    ownerAcc = await ethers.getSigner(deployer)
+  }
 
   // Contract instantiation
   const timelock = (await ethers.getContractAt(
@@ -60,23 +66,25 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
   console.log(`Proposal: ${txHash}`)
-  // Comment out sections below to propose, approve (impersonating multisig) or execute
-  if ((await timelock.proposals(txHash)).state === 0) {
+
+  // Depending on the proposal state, propose, approve (if in a fork, impersonating the multisig), or execute
+  if ((await timelock.proposals(txHash)).state === 0) { // Propose
     await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
-  }
-  if ((await timelock.proposals(txHash)).state === 1) {
+  } else if ((await timelock.proposals(txHash)).state === 1) { // Approve, impersonating multisig if in a fork
+    // If running on a mainnet fork, impersonating the multisig will work
+    const multisig = governance.get('multisig') as string
+    console.log(`Running on a fork, impersonating multisig at ${multisig}`)
     await hre.network.provider.request({
       method: "hardhat_impersonateAccount",
-      params: ["0xd659565b84BcfcB23B02ee13E46CB51429F4558A"],
+      params: [multisig],
     });
-    const multisigAcc = await ethers.getSigner("0xd659565b84BcfcB23B02ee13E46CB51429F4558A")
+    const multisigAcc = await ethers.getSigner(multisig)
     await timelock.connect(multisigAcc).approve(txHash)
     while ((await timelock.proposals(txHash)).state < 2) {}
     console.log(`Approved ${txHash}`)
-  }
-  if ((await timelock.proposals(txHash)).state === 2) {
+  } else if ((await timelock.proposals(txHash)).state === 2) { // Execute
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
