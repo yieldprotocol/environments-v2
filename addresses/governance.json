@@ -1,4 +1,6 @@
 {"dataType":"Map","value":[
 [
+"deployer","0xd659565b84BcfcB23B02ee13E46CB51429F4558A"],[
+"multisig","0xd659565b84BcfcB23B02ee13E46CB51429F4558A"],[
 "timelock","0x3b870db67a45611CF4723d44487EAF398fAc51E3"],[
 "cloak","0xaa7B33685e9730B4D700b8F3F190EcA5EC4cf106"]]}
