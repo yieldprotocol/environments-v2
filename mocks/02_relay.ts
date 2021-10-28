@@ -15,7 +15,7 @@ const { deployContract } = waffle
  */
 
 // const multisig = fs.readFileSync('.multisig', 'utf8').trim();
-const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')) as Map<string, string>;
+const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>;
 
 (async () => {
     const [ ownerAcc ] = await ethers.getSigners();
@@ -24,7 +24,7 @@ const governance = jsonToMap(fs.readFileSync('./output/governance.json', 'utf8')
     verify(relay.address, [])
 
     governance.set('relay', relay.address)
-    fs.writeFileSync('./output/governance.json', mapToJson(governance), 'utf8')
+    fs.writeFileSync('./addresses/governance.json', mapToJson(governance), 'utf8')
 
     // Give the relay full powers to the Timelock. ONLY FOR TESTING
     const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc) as unknown as Timelock

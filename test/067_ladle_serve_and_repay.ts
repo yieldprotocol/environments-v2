@@ -36,11 +36,11 @@ describe('Ladle - serve and repay', function () {
     owner = await ownerAcc.getAddress()
     other = await otherAcc.getAddress()
 
-    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>
-    const protocol = jsonToMap(fs.readFileSync('./output/protocol.json', 'utf8')) as Map<string, string>
-    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>
-    const fyTokens = jsonToMap(fs.readFileSync('./output/fyTokens.json', 'utf8')) as Map<string, string>
-    const pools = jsonToMap(fs.readFileSync('./output/pools.json', 'utf8')) as Map<string, string>
+    const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
+    const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
+    const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
+    const fyTokens = jsonToMap(fs.readFileSync('./addresses/fyTokens.json', 'utf8')) as Map<string, string>
+    const pools = jsonToMap(fs.readFileSync('./addresses/pools.json', 'utf8')) as Map<string, string>
 
     cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
     innerLadle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle

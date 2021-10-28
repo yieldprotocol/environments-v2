@@ -18,8 +18,8 @@ import { WAD, ETH, DAI, USDC, WBTC, USDT } from '../shared/constants'
     // const mocks = await Mocks.setup(ownerAcc, assetIds, baseIds, spotPairs)
 
     /* keeping it flat and simple for now, albeit a bit 'unDRY' */
-    /* fs.writeFileSync('./output/assets.json', mapToJson(mocks.assets), 'utf8')
-    fs.writeFileSync('./output/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
-    fs.writeFileSync('./output/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
-    fs.writeFileSync('./output/spotSources.json', mapToJson(mocks.spotSources), 'utf8') */
+    /* fs.writeFileSync('./addresses/assets.json', mapToJson(mocks.assets), 'utf8')
+    fs.writeFileSync('./addresses/chiSources.json', mapToJson(mocks.chiSources), 'utf8')
+    fs.writeFileSync('./addresses/rateSources.json', mapToJson(mocks.rateSources), 'utf8')
+    fs.writeFileSync('./addresses/spotSources.json', mapToJson(mocks.spotSources), 'utf8') */
 })()

@@ -24,8 +24,8 @@ describe('Join', function () {
   let token: ERC20Mock
 
   it('test all', async () => {
-    const assets = jsonToMap(fs.readFileSync('./output/assets.json', 'utf8')) as Map<string, string>
-    const joins = jsonToMap(fs.readFileSync('./output/joins.json', 'utf8')) as Map<string, string>
+    const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
+    const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
 
     const signers = await ethers.getSigners()
     ownerAcc = signers[0]
