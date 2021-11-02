@@ -5,6 +5,8 @@ import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracl
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/lido/IWstETH.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/JoinFactory.sol";
 import "@yield-protocol/vault-v2/contracts/FYTokenFactory.sol";
