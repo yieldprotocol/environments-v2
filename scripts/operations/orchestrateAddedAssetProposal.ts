@@ -57,7 +57,7 @@ export const orchestrateAddedAssetProposal = async (
     })
     console.log(`join.grantRole(ROOT, cloak)`)
 
-    /* const plan = [
+    const plan = [
       {
         contact: join.address,
         signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
@@ -68,7 +68,7 @@ export const orchestrateAddedAssetProposal = async (
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`) */
+    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   return proposal

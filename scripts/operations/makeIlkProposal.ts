@@ -61,7 +61,7 @@ export const makeIlkProposal = async (
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
-    /* if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
+    if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
       const plan = [
         {
           contact: join.address,
@@ -78,7 +78,7 @@ export const makeIlkProposal = async (
       )
 
       plans.push(ilkId)
-    } */
+    }
   }
 
   return proposal

@@ -119,15 +119,16 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     ownerAcc
   )) as unknown as Timelock
 
-  let proposal = await orchestrateLidoOracleProposal(ownerAcc, lidoOracle, timelock, cloak)
-  proposal = proposal.concat(proposal, await updateLidoSourceProposal(ownerAcc, lidoOracle, wstEthAddress))
-  proposal = proposal.concat(proposal, await updateSpotSourcesProposal(ownerAcc, stEthEthSource))
-  proposal = proposal.concat(proposal, await orchestrateCompositeOracleProposal(ownerAcc, compositeOracle, timelock, cloak))
-  proposal = proposal.concat(proposal, await updateCompositePairsProposal(ownerAcc, compositeOracle, compositeSources))
-  proposal = proposal.concat(proposal, await updateCompositePathsProposal(compositeOracle, compositePaths))
-  proposal = proposal.concat(proposal, await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
-  proposal = proposal.concat(proposal, await makeIlkProposal(ownerAcc, witch, wand, cloak, ilks))
-  proposal = proposal.concat(proposal, await addIlksToSeriesProposal(cauldron, seriesIlks))
+  let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await orchestrateLidoOracleProposal(ownerAcc, lidoOracle, timelock, cloak))
+  proposal = proposal.concat(await updateLidoSourceProposal(ownerAcc, lidoOracle, wstEthAddress))
+  proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc, stEthEthSource))
+  proposal = proposal.concat(await orchestrateCompositeOracleProposal(ownerAcc, compositeOracle, timelock, cloak))
+  proposal = proposal.concat(await updateCompositePairsProposal(ownerAcc, compositeOracle, compositeSources))
+  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, witch, wand, cloak, ilks))
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
