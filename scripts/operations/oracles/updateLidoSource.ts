@@ -6,43 +6,10 @@
 
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { bytesToString, jsonToMap, getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
-import { WAD, WSTETH, STETH } from '../../../shared/constants'
-
-import { LidoOracle, IWstETH, Timelock } from '../../../typechain'
-
+import { jsonToMap, getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
+import { LidoOracle, Timelock } from '../../../typechain'
+import { updateLidoSourceProposal } from './updateLidoSourceProposal'
 import { newSource } from './updateLidoSource.config'
-
-export const updateLidoSourceProposal = async (
-  ownerAcc: any,
-  lidoOracle: LidoOracle,
-  source: string
-): Promise<Array<{ target: string; data: string }>>  => {
-  const proposal: Array<{ target: string; data: string }> = []
-  if ((await ethers.provider.getCode(newSource)) === '0x') throw `Address ${newSource} contains no code`
-
-  const lidoSource = (await ethers.getContractAt(
-    'IWstETH',
-    source as string,
-    ownerAcc
-  )) as unknown as IWstETH
-  
-  console.log(
-    `Current rate for ${bytesToString(STETH)}/${bytesToString(WSTETH)}: ${await lidoSource.callStatic.getWstETHByStETH(WAD)}`
-  )
-  console.log(
-    `Current rate for ${bytesToString(WSTETH)}/${bytesToString(STETH)}: ${await lidoSource.callStatic.getStETHByWstETH(WAD)}`
-  )
-
-  proposal.push({
-    target: lidoOracle.address,
-    data: lidoOracle.interface.encodeFunctionData('setSource', [
-      newSource as string,
-    ]),
-  })
-  console.log(`source: ${bytesToString(STETH)}/${bytesToString(WSTETH)} -> ${newSource as string}`)
-  return proposal
-}
 
 ;(async () => {
   const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'

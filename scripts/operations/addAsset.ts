@@ -14,36 +14,16 @@
 
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { bytesToString, getOwnerOrImpersonate, proposeApproveExecute, mapToJson, jsonToMap } from '../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute, mapToJson, jsonToMap } from '../../shared/helpers'
 
-import { Wand, Timelock, ERC20Mock } from '../../typechain'
-
+import { Wand, Timelock } from '../../typechain'
+import { addAssetProposal } from './addAssetProposal'
 import { newAssets } from './addAsset.config'
-
-export const addAssetProposal = async (
-  ownerAcc: any, 
-  wand: Wand,
-  assets: [string, string][]
-): Promise<Array<{ target: string; data: string }>>  => {
-  let proposal: Array<{ target: string; data: string }> = []
-  for (let [assetId, assetAddress] of assets) {
-    const asset = (await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)) as unknown as ERC20Mock
-    console.log(`Using ${await asset.name()} at ${assetAddress}`)
-
-    proposal.push({
-      target: wand.address,
-      data: wand.interface.encodeFunctionData('addAsset', [assetId, assetAddress]),
-    })
-    console.log(`[Asset: ${bytesToString(assetId)}: ${assetAddress}],`)
-  }
-
-  return proposal
-}
 
 
 ;(async () => {
-  const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-  let ownerAcc = await getOwnerOrImpersonate(developer)
+  const developerIfImpersonating = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating)
 
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>

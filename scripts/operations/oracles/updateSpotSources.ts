@@ -10,41 +10,9 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { bytesToString, mapToJson, jsonToMap, getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 
-import { ChainlinkMultiOracle, Timelock } from '../../../typechain'
-
+import { Timelock } from '../../../typechain'
+import { updateSpotSourcesProposal } from './updateSpotSourcesProposal'
 import { newSpotSources } from './updateSpotSources.config'
-
-export const updateChainlinkPairsProposal = async (
-  ownerAcc: any, 
-  spotSources: [string, string, string, string][]
-): Promise<Array<{ target: string; data: string }>>  => {
-  const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, oracleName, sourceAddress] of spotSources) {
-    if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
-
-    const oracle = (await ethers.getContractAt(
-      'ChainlinkMultiOracle',
-      protocol.get(oracleName) as string,
-      ownerAcc
-    )) as unknown as ChainlinkMultiOracle
-    console.log(`oracle: ${oracle.address}],`)
-
-    proposal.push({
-      target: oracle.address,
-      data: oracle.interface.encodeFunctionData('setSource', [
-        baseId,
-        assets.get(baseId) as string,
-        quoteId,
-        assets.get(quoteId) as string,
-        sourceAddress,
-      ]),
-    })
-  }
-
-  return proposal
-}
 
 ;(async () => {
   const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
@@ -67,7 +35,7 @@ export const updateChainlinkPairsProposal = async (
   }
 
   // Build proposal
-  const proposal = await updateChainlinkPairsProposal(ownerAcc, newSpotSources)
+  const proposal = await updateSpotSourcesProposal(ownerAcc, newSpotSources)
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 

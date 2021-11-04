@@ -1,6 +1,5 @@
-{"dataType":"Map","value":
+{"dataType":"Map","value":[
 [
-["multisig","0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
-["timelock","0xEc923c8392E53BB7B25dAe012aeF0883a6fa7B7B"],
-["relay","0xCbFE0597cc5eED49D5e4573B304dd0aba00B52ba"],
-["cloak","0xEc69C62c9E8C75dD60bF67d2F30bFD30D12fdb18"]]}
+"multisig", "0xd659565b84bcfcb23b02ee13e46cb51429f4558a"],[
+"timelock","0x3b870db67a45611CF4723d44487EAF398fAc51E3"],[
+"cloak","0xaa7B33685e9730B4D700b8F3F190EcA5EC4cf106"]]}
