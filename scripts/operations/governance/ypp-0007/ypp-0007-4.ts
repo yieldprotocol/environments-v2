@@ -9,8 +9,8 @@ import { orchestrateCompositeOracleProposal } from '../../oracles/orchestrateCom
 import { updateCompositePairsProposal } from '../../oracles/updateCompositePairsProposal'
 import { updateCompositePathsProposal } from '../../oracles/updateCompositePathsProposal'
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
-import { makeIlkProposal } from '../../makeIlk'
-import { addIlksToSeriesProposal } from '../../addIlksToSeries'
+import { makeIlkProposal } from '../../makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
 
 import { Cauldron, Ladle, Witch, Wand, CompositeMultiOracle, LidoOracle, Timelock, EmergencyBrake } from '../../../../typechain/'
 
@@ -41,8 +41,10 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
   const COMPOSITE = 'compositeOracle'
 
   const wstEthAddress: string = '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' // https://docs.lido.fi/deployed-contracts
-  const stEthEthSource: Array<[string, string, string, string]> = [
-    [STETH, ETH, CHAINLINK,  '0x86392dC19c0b719886221c78AB11eb8Cf5c52812'], // https://docs.lido.fi/deployed-contracts
+  const stEthAddress: string = '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84' // https://docs.lido.fi/deployed-contracts
+  const wethAddress: string = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+  const stEthEthSource: Array<[string, string, string, string, string, string]> = [
+    [STETH, stEthAddress, ETH, wethAddress, CHAINLINK,  '0x86392dC19c0b719886221c78AB11eb8Cf5c52812'], // https://docs.lido.fi/deployed-contracts
   ]
   const compositeSources: Array<[string, string, string]> = [
     [DAI,    ETH,   CHAINLINK],
@@ -97,7 +99,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     ownerAcc
   )) as unknown as Wand
   const compositeOracle = (await ethers.getContractAt(
-    'CompositeOracle',
+    'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
   )) as unknown as CompositeMultiOracle

@@ -14,12 +14,11 @@ import { ChainlinkMultiOracle } from '../../../typechain'
 
 export const updateSpotSourcesProposal = async (
   ownerAcc: any, 
-  spotSources: [string, string, string, string][]
+  spotSources: [string, string, string, string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
-  const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, oracleName, sourceAddress] of spotSources) {
+  for (let [baseId, baseAddress, quoteId, quoteAddress, oracleName, sourceAddress] of spotSources) {
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
 
     const oracle = (await ethers.getContractAt(
@@ -27,15 +26,15 @@ export const updateSpotSourcesProposal = async (
       protocol.get(oracleName) as string,
       ownerAcc
     )) as unknown as ChainlinkMultiOracle
-    console.log(`oracle: ${oracle.address}],`)
+    console.log(`Setting up ${sourceAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
 
     proposal.push({
       target: oracle.address,
       data: oracle.interface.encodeFunctionData('setSource', [
         baseId,
-        assets.get(baseId) as string,
+        baseAddress,
         quoteId,
-        assets.get(quoteId) as string,
+        quoteAddress,
         sourceAddress,
       ]),
     })

@@ -18,23 +18,24 @@ export const updateLidoSourceProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   if ((await ethers.provider.getCode(source)) === '0x') throw `Address ${source} contains no code`
 
-  const lidoSource = (await ethers.getContractAt(
+  const wstEth = (await ethers.getContractAt(
     'IWstETH',
     source,
     ownerAcc
   )) as unknown as IWstETH
   
   console.log(
-    `Current rate for ${bytesToString(STETH)}/${bytesToString(WSTETH)}: ${await lidoSource.callStatic.getWstETHByStETH(WAD)}`
+    `Current rate for ${bytesToString(STETH)}/${bytesToString(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`
   )
   console.log(
-    `Current rate for ${bytesToString(WSTETH)}/${bytesToString(STETH)}: ${await lidoSource.callStatic.getStETHByWstETH(WAD)}`
+    `Current rate for ${bytesToString(WSTETH)}/${bytesToString(STETH)}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`
   )
 
   proposal.push({
     target: lidoOracle.address,
-    data: lidoOracle.interface.encodeFunctionData('setSource', source),
+    data: lidoOracle.interface.encodeFunctionData('setSource', [source]),
   })
+
   console.log(`source: ${bytesToString(STETH)}/${bytesToString(WSTETH)} -> ${source}`)
   return proposal
 }

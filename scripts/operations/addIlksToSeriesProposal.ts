@@ -14,7 +14,7 @@ for (let [seriesId, ilkIds] of seriesIlks) {
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addIlks', [seriesId, ilkIds]),
   })
-  console.log(`addIlks ${symbol}: ${ilkIds}'`)
+  console.log(`addIlks ${symbol}: ${ilkIds}`)
 }
 
 return proposal

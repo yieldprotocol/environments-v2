@@ -34,14 +34,15 @@ export const makeIlkProposal = async (
       protocol.get(oracleName) as string,
       ownerAcc
     )) as unknown as ChainlinkMultiOracle
-    console.log(`Looking for ${bytesToString(baseId)}/${bytesToString(ilkId)} at ${protocol.get(oracleName) as string}`)
+    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${protocol.get(oracleName) as string}`)
     // console.log(`Source for ${bytesToString(baseId)}/ETH: ${await spotOracle.sources(baseId, ETH)}`)
     // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
-    console.log(
+    /* console.log(
       `Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${
         (await spotOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]
       }`
-    )
+    ) */
+    // TODO: Add the test as a step in the proposal
 
     if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
       proposal.push({
@@ -64,7 +65,7 @@ export const makeIlkProposal = async (
     })
     console.log(`[Asset: ${bytesToString(ilkId)} made into ilk for ${bytesToString(baseId)}],`)
 
-    if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
+    /* if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
       const plan = [
         {
           contact: join.address,
@@ -81,7 +82,7 @@ export const makeIlkProposal = async (
       )
 
       plans.push(ilkId)
-    }
+    } */
   }
 
   return proposal
