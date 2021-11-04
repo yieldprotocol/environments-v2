@@ -43,9 +43,11 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
   const wstEthAddress: string = '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' // https://docs.lido.fi/deployed-contracts
   const stEthAddress: string = '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84' // https://docs.lido.fi/deployed-contracts
   const wethAddress: string = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+  // Input data: baseId, base address, quoteId, quote address, oracle name, source address
   const stEthEthSource: Array<[string, string, string, string, string, string]> = [
     [STETH, stEthAddress, ETH, wethAddress, CHAINLINK,  '0x86392dC19c0b719886221c78AB11eb8Cf5c52812'], // https://docs.lido.fi/deployed-contracts
   ]
+  // Input data: baseId, quoteId, oracle name
   const compositeSources: Array<[string, string, string]> = [
     [DAI,    ETH,   CHAINLINK],
     [USDC,   ETH,   CHAINLINK],
@@ -53,10 +55,12 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     [STETH,  ETH,   CHAINLINK],
     [WSTETH, STETH, LIDO],
   ]
+  // Input data: assetId, assetId, [intermediate assetId]
   const compositePaths: Array<[string, string, Array<string>]> = [
     [WSTETH, DAI, [STETH, ETH]],
     [WSTETH, USDC, [STETH, ETH]],
   ]
+  // Input data: assetId, asset address
   const assets: Array<[string, string]> = [
     [WSTETH, wstEthAddress],
   ]
@@ -65,6 +69,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
     [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
   ]
+  // Input data: seriesId, [ilkId]
   const seriesIlks: Array<[string, string[]]> = [
     [stringToBytes6('0104'), [WSTETH]],
     [stringToBytes6('0105'), [WSTETH]],
