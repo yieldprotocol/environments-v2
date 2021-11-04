@@ -21,19 +21,17 @@ export const updateCompositePairsProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, oracleName] of compositePairs) {
 
-    // Test that the pair has been set in the inner oracle. Peek will fail with 'Source not found' if they have not.
-    /* const innerOracle = (await ethers.getContractAt(
+    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
+    const innerOracle = (await ethers.getContractAt(
       'ChainlinkMultiOracle',
       protocol.get(oracleName) as string,
       ownerAcc
-    )) as unknown as ChainlinkMultiOracle */
+    )) as unknown as ChainlinkMultiOracle
     console.log(`Adding ${baseId}/${quoteId} from ${protocol.get(oracleName) as string}`)
-    // TODO: The check can't work if the source is added in the same proposal. Add the check as part of the proposal
-    /* console.log(
-      `${bytesToString(quoteId)} obtained for WAD ${bytesToString(baseId)}: ${
-        (await innerOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD))[0]
-      }`
-    ) */
+    proposal.push({
+      target: innerOracle.address,
+      data: innerOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD]),
+    })
 
     proposal.push({
       target: compositeOracle.address,

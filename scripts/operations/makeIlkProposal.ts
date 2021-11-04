@@ -28,21 +28,17 @@ export const makeIlkProposal = async (
   for (let [baseId, ilkId, oracleName, ratio, invRatio, line, dust, dec] of ilks) {
     const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
 
-    // Test that the sources for spot have been set. Peek will fail with 'Source not found' if they have not.
+    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
     const spotOracle = (await ethers.getContractAt(
       'ChainlinkMultiOracle',
       protocol.get(oracleName) as string,
       ownerAcc
     )) as unknown as ChainlinkMultiOracle
     console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${protocol.get(oracleName) as string}`)
-    // console.log(`Source for ${bytesToString(baseId)}/ETH: ${await spotOracle.sources(baseId, ETH)}`)
-    // console.log(`Source for ${bytesToString(ilkId)}/ETH: ${await spotOracle.sources(ilkId, ETH)}`)
-    /* console.log(
-      `Current SPOT for ${bytesToString(baseId)}/${bytesToString(ilkId)}: ${
-        (await spotOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD))[0]
-      }`
-    ) */
-    // TODO: Add the test as a step in the proposal
+    proposal.push({
+      target: spotOracle.address,
+      data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
+    })
 
     if (!plans.includes(ilkId) && !((await witch.limits(ilkId)).line.toString() !== '0')) {
       proposal.push({
