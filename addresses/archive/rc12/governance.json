@@ -1,5 +1,6 @@
 {"dataType":"Map","value":
 [
+["multisig","0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5"],
 ["timelock","0xEc923c8392E53BB7B25dAe012aeF0883a6fa7B7B"],
 ["relay","0xCbFE0597cc5eED49D5e4573B304dd0aba00B52ba"],
 ["cloak","0xEc69C62c9E8C75dD60bF67d2F30bFD30D12fdb18"]]}
