@@ -1,8 +1,6 @@
 /**
  * @dev This script replaces one or more data sources in a CompositeMultiOracle.
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
- *
- * It takes as inputs the governance and protocol json address files.
  */
 
 import { ethers } from 'hardhat'

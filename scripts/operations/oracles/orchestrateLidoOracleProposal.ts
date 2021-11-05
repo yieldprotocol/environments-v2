@@ -5,10 +5,9 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 import { Timelock } from '../../../typechain/Timelock'
 
 /**
- * @dev This script orchestrates the LidoOracle
+ * @dev This script permissions the LidoOracle
  *
- * It takes as inputs the governance and protocol json address files.
- * Expectes the Timelock to have ROOT permissions on the LidoOracle.
+ * Expects the Timelock to have ROOT permissions on the LidoOracle.
  * The Cloak gets ROOT access. Root access is removed from the deployer.
  * The Timelock gets access to governance functions.
  */

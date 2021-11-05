@@ -1,8 +1,6 @@
 /**
  * @dev This script replaces one or more data paths in a CompositeMultiOracle.
  * These data paths are assets that will be used as base and quote of an iteratively calculated price.
- *
- * It takes as inputs the governance and protocol json address files.
  */
 
 import { bytesToString } from '../../../shared/helpers'

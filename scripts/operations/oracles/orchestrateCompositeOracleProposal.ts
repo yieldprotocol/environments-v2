@@ -3,10 +3,8 @@ import { id } from '@yield-protocol/utils-v2'
 import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
 
 /**
- * @dev This script deploys the CompositeMultiOracles
- *
- * It takes as inputs the governance and protocol json address files.
- * The protocol json address file is updated.
+ * @dev This script permissions a CompositeMultiOracle
+ * 
  * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
  * The Timelock gets access to governance functions.
  */
