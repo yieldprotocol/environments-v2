@@ -14,8 +14,44 @@ import { CompositeMultiOracle, ChainlinkMultiOracle, Timelock } from '../../../t
 
 import { newCompositePairs } from './updateCompositePairs.config'
 
+export const updateCompositePairsProposal = async (
+  ownerAcc: any, 
+  compositeOracle: CompositeMultiOracle,
+  compositePairs: [string, string, string][]
+): Promise<Array<{ target: string; data: string }>>  => {
+  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
+  const proposal: Array<{ target: string; data: string }> = []
+  for (let [baseId, quoteId, oracleName] of compositePairs) {
+
+    // Test that the pair has been set in the inner oracle. Peek will fail with 'Source not found' if they have not.
+    const innerOracle = (await ethers.getContractAt(
+      'ChainlinkMultiOracle',
+      protocol.get(oracleName) as string,
+      ownerAcc
+    )) as unknown as ChainlinkMultiOracle
+    console.log(`Looking for ${baseId}/${quoteId} at ${protocol.get(oracleName) as string}`)
+    console.log(
+      `${bytesToString(quoteId)} obtained for WAD ${bytesToString(baseId)}: ${
+        (await innerOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD))[0]
+      }`
+    )
+
+    proposal.push({
+      target: compositeOracle.address,
+      data: compositeOracle.interface.encodeFunctionData('setSource', [
+        baseId,
+        quoteId,
+        protocol.get(oracleName) as string,
+      ]),
+    })
+    console.log(`pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${protocol.get(oracleName) as string}`)
+  }
+
+  return proposal
+}
+
 ;(async () => {
-  const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+  const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
@@ -33,35 +69,7 @@ import { newCompositePairs } from './updateCompositePairs.config'
   )) as unknown as Timelock
 
   // Build proposal
-  const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, oracleName] of newCompositePairs) {
-
-    // Test that the pair has been set in the inner oracle. Peek will fail with 'Source not found' if they have not.
-    const innerOracle = (await ethers.getContractAt(
-      'ChainlinkMultiOracle',
-      protocol.get(oracleName) as string,
-      ownerAcc
-    )) as unknown as ChainlinkMultiOracle
-    console.log(`Looking for ${baseId}/${quoteId} at ${protocol.get(oracleName) as string}`)
-    console.log(
-      `Source for ${bytesToString(baseId)}/${bytesToString(quoteId)}: ${await innerOracle.sources(baseId, quoteId)}`
-    )
-    console.log(
-      `${bytesToString(quoteId)} obtained for WAD ${bytesToString(baseId)}: ${
-        (await innerOracle.callStatic.get(bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD))[0]
-      }`
-    )
-
-    proposal.push({
-      target: compositeOracle.address,
-      data: compositeOracle.interface.encodeFunctionData('setSource', [
-        baseId,
-        quoteId,
-        protocol.get(oracleName) as string,
-      ]),
-    })
-    console.log(`pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${protocol.get(oracleName) as string}`)
-  }
+  const proposal = await updateCompositePairsProposal(ownerAcc, compositeOracle, newCompositePairs)
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

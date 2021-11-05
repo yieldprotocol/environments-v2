@@ -63,7 +63,10 @@ export const proposeApproveExecute = async (
       while ((await timelock.proposals(txHash)).state < 2) {}
       console.log(`Approved ${txHash}`)
     } else {
-      console.log("Can't do, go bug the multisig owners");
+      // On kovan we have approval permissions
+      await timelock.approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) {}
+      console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) { // Execute
     await timelock.execute(proposal)
