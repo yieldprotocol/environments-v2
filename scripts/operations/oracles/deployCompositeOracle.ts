@@ -1,6 +1,8 @@
 import { ethers, waffle } from 'hardhat'
+import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { id } from '@yield-protocol/utils-v2'
+import { mapToJson, jsonToMap, verify, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
 
@@ -19,7 +21,7 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+  const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
