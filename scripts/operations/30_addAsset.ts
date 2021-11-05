@@ -30,10 +30,10 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
 ;(async () => {
   // Input data
   const newAssets: Array<[string, string]> = [
-    [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-    [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
-    [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-    [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
+    [ETH,  '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
+    [DAI,  '0xaFCdc724EB8781Ee721863db1B15939675996484'],
+    [USDC, '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
+    [WBTC, '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
   ] // Adding 6 assets is 10 million gas, approaching the block gas limit here
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",

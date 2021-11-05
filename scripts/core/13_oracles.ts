@@ -6,13 +6,11 @@ import { mapToJson, jsonToMap, verify } from '../../shared/helpers'
 
 import ChainlinkMultiOracleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
 import CompoundMultiOracleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol/CompoundMultiOracle.json'
-import CompositeMultiOracleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
 import CTokenMultiOracleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.sol/CTokenMultiOracle.json'
 import UniswapV3OracleArtifact from '../../artifacts/uniswapv3-oracle/contracts/UniswapV3Oracle.sol/UniswapV3Oracle.json'
 
 import { ChainlinkMultiOracle } from '../../typechain/ChainlinkMultiOracle'
 import { CompoundMultiOracle } from '../../typechain/CompoundMultiOracle'
-import { CompositeMultiOracle } from '../../typechain/CompositeMultiOracle'
 import { CTokenMultiOracle } from '../../typechain/CTokenMultiOracle'
 import { UniswapV3Oracle } from '../../typechain/UniswapV3Oracle'
 
@@ -93,22 +91,7 @@ const { deployContract } = waffle
     while (!(await compoundOracle.hasRole(ROOT, timelock.address))) {}
   }
 
-  /* let compositeOracle: CompositeMultiOracle
-    if (protocol.get('compositeOracle') === undefined) {
-        compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
-        console.log(`[CompositeMultiOracle, '${compositeOracle.address}'],`)
-        verify(compositeOracle.address, [])
-        protocol.set('compositeOracle', compositeOracle.address)
-        fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
-    } else {
-        compositeOracle = (await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc)) as unknown as CompositeMultiOracle
-    }
-    if (!(await compositeOracle.hasRole(ROOT, timelock.address))) {
-        await compositeOracle.grantRole(ROOT, timelock.address); console.log(`compositeOracle.grantRoles(ROOT, timelock)`)
-        while (!(await compoundOracle.hasRole(ROOT, timelock.address))) { }
-    }
-
-    let cTokenOracle: CTokenMultiOracle
+  /* let cTokenOracle: CTokenMultiOracle
     if (protocol.get('cTokenOracle') === undefined) {
         cTokenOracle = (await deployContract(ownerAcc, CTokenMultiOracleArtifact, [])) as CTokenMultiOracle
         console.log(`[CTokenMultiOracle, '${cTokenOracle.address}'],`)
@@ -205,30 +188,6 @@ const { deployContract } = waffle
         data: cTokenOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
     })
     console.log(`cTokenOracle.revokeRole(ROOT, deployer)`)
-
-    proposal.push({
-        target: compositeOracle.address,
-        data: compositeOracle.interface.encodeFunctionData('grantRoles', [
-            [
-                id(compositeOracle.interface, 'setSource(bytes6,bytes6,address)'),
-                id(compositeOracle.interface, 'setPath(bytes6,bytes6,bytes6[])'),
-            ],
-            timelock.address
-        ])
-    })
-    console.log(`compositeOracle.grantRoles(gov, timelock)`)
-
-    proposal.push({
-        target: compositeOracle.address,
-        data: compositeOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
-    })
-    console.log(`compositeOracle.grantRole(ROOT, cloak)`)
-
-    proposal.push({
-        target: compositeOracle.address,
-        data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
-    })
-    console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
 
     proposal.push({
         target: uniswapOracle.address,
