@@ -18,8 +18,8 @@ import { Timelock } from '../../typechain/Timelock'
 ;(async () => {
   // Input data
   const newSources: Array<[string, string]> = [
-    [DAI, '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643'],
-    [USDC, '0x39aa39c021dfbae8fac545936693ac917d5e7563'],
+    [DAI,  '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
+    [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
     // [stringToBytes6('TST3'), "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8"],
   ]
   /* await hre.network.provider.request({
