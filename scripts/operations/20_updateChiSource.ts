@@ -9,7 +9,7 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { stringToBytes6, bytesToString, mapToJson, jsonToMap } from '../../shared/helpers'
-import { CHI, DAI, USDC, USDT } from '../../shared/constants'
+import { CHI, DAI, USDC } from '../../shared/constants'
 
 import { CompoundMultiOracle } from '../../typechain/CompoundMultiOracle'
 import { ERC20Mock } from '../../typechain/ERC20Mock'

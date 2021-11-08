@@ -2,7 +2,7 @@
  * @dev Input file for updateDust.ts
  */
 
-import { ETH, DAI, USDC, WBTC, USDT } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC } from '../../../shared/constants'
 
 // Input data: baseId, ilkId, maxDebt
 export const newMin: Array<[string, string, number]> = [

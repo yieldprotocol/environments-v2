@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { jsonToMap, mapToJson, verify } from '../../shared/helpers'
-import { WAD, ETH, DAI, USDC, WBTC, USDT } from '../../shared/constants'
+import { WAD, ETH, DAI, USDC, WBTC } from '../../shared/constants'
 
 import { Ladle } from '../../typechain/Ladle'
 import { Strategy } from '../../typechain/Strategy'

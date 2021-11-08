@@ -17,7 +17,7 @@ import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../../shared/helpers'
-import { DAI, USDC, ETH, WBTC, USDT, CDAI, CUSDC, CUSDT } from '../../shared/constants'
+import { DAI, USDC, ETH, WBTC, CDAI, CUSDC, CUSDT } from '../../shared/constants'
 
 import { Ladle } from '../../typechain/Ladle'
 import { Wand } from '../../typechain/Wand'

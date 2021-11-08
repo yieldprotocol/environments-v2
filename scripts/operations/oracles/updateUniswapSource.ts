@@ -10,7 +10,7 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { stringToBytes6, bytesToString, bytesToBytes32, mapToJson, jsonToMap } from '../../shared/helpers'
-import { WAD, DAI, ETH, USDC, USDT, WBTC } from '../../shared/constants'
+import { WAD, DAI, ETH, USDC, WBTC } from '../../shared/constants'
 
 import { UniswapV3Oracle } from '../../typechain/UniswapV3Oracle' // TODO: Change to IOracleGov
 import { Timelock } from '../../typechain/Timelock'

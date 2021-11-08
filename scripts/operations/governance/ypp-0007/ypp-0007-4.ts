@@ -40,12 +40,12 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
   const LIDO = 'lidoOracle'
   const COMPOSITE = 'compositeOracle'
 
-  const wstEthAddress: string = '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' // https://docs.lido.fi/deployed-contracts
-  const stEthAddress: string = '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84' // https://docs.lido.fi/deployed-contracts
-  const wethAddress: string = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+  const wstEthAddress: string = '0xB12C63eD91e901995E68023293AC1A308ffA6c3c' // https://docs.lido.fi/deployed-contracts
+  const stEthAddress: string = '0x2296AB4F92f7fADC78eD02A9576B9a779CAa91bE' // https://docs.lido.fi/deployed-contracts
+  const wethAddress: string = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
   const stEthEthSource: Array<[string, string, string, string, string, string]> = [
-    [STETH, stEthAddress, ETH, wethAddress, CHAINLINK,  '0x86392dC19c0b719886221c78AB11eb8Cf5c52812'], // https://docs.lido.fi/deployed-contracts
+    [STETH, stEthAddress, ETH, wethAddress, CHAINLINK,  '0x545C84A9799dA0c906f3e22595b5d53c9275b9d9'], // https://docs.lido.fi/deployed-contracts
   ]
   // Input data: baseId, quoteId, oracle name
   const compositeSources: Array<[string, string, string]> = [
@@ -77,7 +77,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     [stringToBytes6('0205'), [WSTETH]],
   ]
 
-  const developerIfImpersonating = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+  const developerIfImpersonating = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating)
 
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>

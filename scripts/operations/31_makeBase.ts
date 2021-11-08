@@ -12,7 +12,7 @@ import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32, jsonToMap } from '../../shared/helpers'
-import { CHI, RATE, DAI, USDC, USDT } from '../../shared/constants'
+import { CHI, RATE, DAI, USDC } from '../../shared/constants'
 
 import { Wand } from '../../typechain/Wand'
 import { Join } from '../../typechain/Join'

@@ -3,12 +3,13 @@ import * as path from 'path'
 
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-etherscan'
-import '@typechain/hardhat'
 import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
+import 'hardhat-typechain'
 import 'solidity-coverage'
 import 'hardhat-deploy'
+import { task } from 'hardhat/config'
 
 function nodeUrl(network: any) {
   let infuraKey
