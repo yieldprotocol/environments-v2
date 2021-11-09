@@ -24,7 +24,7 @@ import { Timelock, EmergencyBrake } from '../../../../typechain'
   )) as unknown as Timelock
 
   const cloak = (await ethers.getContractAt(
-    'EmergencyBreak',
+    'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
