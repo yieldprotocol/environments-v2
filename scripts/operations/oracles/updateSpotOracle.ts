@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
 import { stringToBytes6, bytesToString, bytesToBytes32, jsonToMap } from '../../shared/helpers'
-import { WAD, ETH, DAI, USDC, WBTC, USDT } from '../../shared/constants'
+import { WAD, ETH, DAI, USDC, WBTC } from '../../shared/constants'
 
 import { Cauldron } from '../../typechain/Cauldron'
 import { Witch } from '../../typechain/Witch'

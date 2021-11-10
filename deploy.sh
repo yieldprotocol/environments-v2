@@ -16,4 +16,13 @@ npx hardhat run --network kovan scripts/operations/32* >> output.txt &&
 npx hardhat run --network kovan scripts/operations/33* >> output.txt &&
 npx hardhat run --network kovan scripts/operations/34* >> output.txt &&
 npx hardhat run --network kovan scripts/strategies/40* >> output.txt &&
-npx hardhat run --network kovan scripts/strategies/41* >> output.txt
+npx hardhat run --network kovan scripts/strategies/41* >> output.txt &&
+npx hardhat run --network kovan scripts/operations/oracles/deployLidoOracle.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/oracles/deployCompositeOracle.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-3.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-3.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-3.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-4.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-4.ts >> output.txt &&
+npx hardhat run --network kovan scripts/operations/governance/ypp-0007/ypp-0007-4.ts >> output.txt 
+

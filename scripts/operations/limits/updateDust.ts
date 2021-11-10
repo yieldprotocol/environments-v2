@@ -9,7 +9,7 @@ import * as hre from 'hardhat'
 import * as fs from 'fs'
 
 import { bytesToString, jsonToMap } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, USDT } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC } from '../../../shared/constants'
 
 import { Cauldron } from '../../../typechain/Cauldron'
 import { Timelock } from '../../../typechain/Timelock'

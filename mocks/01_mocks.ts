@@ -3,7 +3,7 @@ import *  as fs from 'fs'
 import { mapToJson } from '../shared/helpers'
 import { Mocks } from './mocks'
 import { assetIds, baseIds, spotPairs } from '../core/config'
-import { WAD, ETH, DAI, USDC, WBTC, USDT } from '../shared/constants'
+import { WAD, ETH, DAI, USDC, WBTC } from '../shared/constants'
 
 /**
  * @dev Deploy mock tokens and oracle sources for testing

@@ -10,7 +10,7 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { stringToBytes6, bytesToString, bytesToBytes32, mapToJson, jsonToMap } from '../../shared/helpers'
-import { DAI, CDAI, USDC, CUSDC, USDT, CUSDT } from '../../shared/constants'
+import { DAI, CDAI, USDC, CUSDC, CUSDT } from '../../shared/constants'
 
 import { CTokenMultiOracle } from '../../typechain/CTokenMultiOracle'
 import { Timelock } from '../../typechain/Timelock'
@@ -22,7 +22,7 @@ import { Relay } from '../../typechain/Relay'
     // [DAI, stringToBytes6('TST1'), 'chainlinkOracle', "0xF32D39ff9f6Aa7a7A64d7a4F00a54826Ef791a55"],
     [CDAI, DAI, 'cTokenOracle', '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
     [CUSDC, USDC, 'cTokenOracle', '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-    [CUSDT, USDT, 'cTokenOracle', '0x3f0a0ea2f86bae6362cf9799b523ba06647da018'],
+    [CUSDT, 'cTokenOracle', '0x3f0a0ea2f86bae6362cf9799b523ba06647da018'],
   ]
 
   /* await hre.network.provider.request({

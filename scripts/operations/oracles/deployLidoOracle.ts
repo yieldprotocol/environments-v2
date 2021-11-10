@@ -19,7 +19,7 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const developerIfImpersonating = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+  const developerIfImpersonating = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating)
 
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
