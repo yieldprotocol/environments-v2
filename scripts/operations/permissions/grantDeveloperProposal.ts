@@ -21,10 +21,10 @@ export const grantDeveloperProposal = async (
     target: timelock.address,
     data: timelock.interface.encodeFunctionData('grantRoles', [
       [
-        '0xca02753a', // propose,
-        '0x013a652d', // proposeRepeated
-        '0xbaae8abf', // execute
-        '0xf9a28e8b', // executeRepeated
+        id(timelock.interface, 'propose((address,bytes)[])'),
+        id(timelock.interface, 'proposeRepeated((address,bytes)[],uint256)'),
+        id(timelock.interface, 'execute((address,bytes)[])'),
+        id(timelock.interface, 'executeRepeated((address,bytes)[],uint256)'),
       ],
       grantedAccount,
     ]),

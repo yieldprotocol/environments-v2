@@ -21,11 +21,11 @@ export const revokeGovernorProposal = async (
     target: timelock.address,
     data: timelock.interface.encodeFunctionData('revokeRoles', [
       [
-        '0xca02753a', // propose,
-        '0x013a652d', // proposeRepeated
-        '0xa53a1adf', // approve
-        '0xbaae8abf', // execute
-        '0xf9a28e8b', // executeRepeated
+        id(timelock.interface, 'propose((address,bytes)[])'),
+        id(timelock.interface, 'proposeRepeated((address,bytes)[],uint256)'),
+        id(timelock.interface, 'approve(bytes32)'),
+        id(timelock.interface, 'execute((address,bytes)[])'),
+        id(timelock.interface, 'executeRepeated((address,bytes)[],uint256)'),
       ],
       revokedAccount,
     ]),
@@ -36,7 +36,7 @@ export const revokeGovernorProposal = async (
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('revokeRoles', [
       [
-        '0xde8a0667', // id(cloak.interface, 'plan(address,tuple[])'),
+        id(cloak.interface, 'plan(address,(address,bytes4[])[])'),
         id(cloak.interface, 'cancel(bytes32)'),
         id(cloak.interface, 'execute(bytes32)'),
         id(cloak.interface, 'restore(bytes32)'),
