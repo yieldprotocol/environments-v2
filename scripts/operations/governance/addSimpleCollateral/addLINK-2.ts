@@ -110,7 +110,7 @@ import { ETH, DAI, USDC, LINK } from '../../../../shared/constants'
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc, linkEthSource))
-  // proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, witch, wand, cloak, ilks))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
