@@ -1,8 +1,6 @@
-import { ethers, waffle } from 'hardhat'
-import * as hre from 'hardhat'
+import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { BigNumber } from 'ethers'
-import { jsonToMap, stringToBytes6, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { jsonToMap, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
 import { Ladle, ERC20Mock, LidoWrapHandler } from '../../../../typechain'
 
@@ -10,22 +8,7 @@ import { WSTETH, STETH, WAD, MAX256 } from '../../../../shared/constants'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 /**
- * @dev This script executes the part of ypp-0007 that can be condensed in a single Timelock proposal.
- * Previously, the CompositeMultiOracle and the LidoOracle should have been deployed, and ROOT access
- * given to the Timelock. WstETH should also have been added as an asset to the Cauldron.
- * Deploy the Composite Oracle
- * Deploy the Lido oracle
- * Add WstETH as an asset
- * --- You are here ---
- * Configure the permissions for the Lido Oracle
- * Add WstETH as the source for the Lido Oracle
- * Add the stETH/ETH source to the Chainlink Oracle
- * Configure the permissions for the Composite Oracle
- * Add the underlying sources for the Composite Oracle
- * Add the DAI/WSTETH and USDC/WSTETH paths in the Composite Oracle
- * Permission the WstETHJoin
- * Make WstETH into an Ilk
- * Approve WstEth as collateral for all series
+ * @dev This script tests the stEth, wstEth and LidoWrapHandler integration with the Ladle 
  */
 
 describe('LidoWrapHandler', function () {
