@@ -36,7 +36,7 @@ const { deployContract } = waffle
   if (protocol.get('lidoOracle') === undefined) {
       lidoOracle = (await deployContract(ownerAcc, LidoOracleArtifact, [bytesToBytes32(WSTETH), bytesToBytes32(STETH)])) as LidoOracle
       console.log(`[LidoOracle, '${lidoOracle.address}'],`)
-      verify(lidoOracle.address, [])
+      verify(lidoOracle.address, [bytesToBytes32(WSTETH), bytesToBytes32(STETH)])
       protocol.set('lidoOracle', lidoOracle.address)
       fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
   } else {
