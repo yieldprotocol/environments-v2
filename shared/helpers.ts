@@ -29,6 +29,26 @@ export const getOwnerOrImpersonate = async (
   return ownerAcc
 }
 
+/** @dev Impersonate an account and optionally add some ether to it */
+export const impersonate = async ( 
+  account: string,
+  balance?: BigNumber
+)  => {
+  await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: [account],
+  });
+  const ownerAcc = await ethers.getSigner(account)
+
+  if (balance !== undefined) {
+    await hre.network.provider.request({
+      method: "hardhat_setBalance",
+      params: [account, "0x1000000000000000000000"], // ethers.utils.hexlify(balance)?
+    });
+  }
+  return ownerAcc
+}
+
 /** 
  * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
  * depending on the proposal state in the timelock.
