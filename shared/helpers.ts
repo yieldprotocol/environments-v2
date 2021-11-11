@@ -78,6 +78,11 @@ export const proposeApproveExecute = async (
         method: "hardhat_impersonateAccount",
         params: [multisig],
       });
+      // Make sure the multisig has Ether
+      await hre.network.provider.request({
+        method: "hardhat_setBalance",
+        params: [multisig, "0x100000000000000000000"], // ethers.utils.hexlify(balance)?
+      });
       const multisigAcc = await ethers.getSigner(multisig as unknown as string)
       await timelock.connect(multisigAcc).approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}

@@ -15,6 +15,7 @@ export const USDC = ethers.utils.formatBytes32String('02').slice(0, 14)
 export const WBTC = ethers.utils.formatBytes32String('03').slice(0, 14)
 export const WSTETH = ethers.utils.formatBytes32String('04').slice(0, 14)
 export const STETH = ethers.utils.formatBytes32String('05').slice(0, 14)
+export const LINK = ethers.utils.formatBytes32String('06').slice(0, 14)
 
 export const CDAI = ethers.utils.formatBytes32String('CDAI').slice(0, 14)
 export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
@@ -29,31 +30,6 @@ export const k = ONE64.div(secondsInTenYears)
 export const g0 = ONE64 // No fees
 export const g1 = ONE64.mul(950).div(1000) // Sell base to the pool
 export const g2 = ONE64.mul(1000).div(950) // Sell fyToken to the pool
-
-export const VAULT_OPS = {
-  BUILD:                0,
-  TWEAK:                1,
-  GIVE:                 2,
-  DESTROY:              3,
-  STIR:                 4,
-  POUR:                 5,
-  SERVE:                6,
-  ROLL:                 7,
-  CLOSE:                8,
-  REPAY:                9,
-  REPAY_VAULT:          10,
-  REPAY_LADLE:          11,
-  RETRIEVE:             12,
-  FORWARD_PERMIT:       13,
-  FORWARD_DAI_PERMIT:   14,
-  JOIN_ETHER:           15,
-  EXIT_ETHER:           16,
-  TRANSFER_TO_POOL:     17,
-  ROUTE:                18,
-  TRANSFER_TO_FYTOKEN:  19,
-  REDEEM:               20,
-  MODULE:               21,
-}
 
 export const CHI = ethers.utils.formatBytes32String('CHI').slice(0, 14)
 export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
