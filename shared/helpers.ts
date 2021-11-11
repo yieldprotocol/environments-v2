@@ -19,6 +19,7 @@ export const getOriginalChainId = async (): Promise<number> => {
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async ( 
   impersonatedAddress: string,
+  balance?: BigNumber
 )  => {
   let [ownerAcc] = await ethers.getSigners()
   const on_fork = (ownerAcc.address === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");

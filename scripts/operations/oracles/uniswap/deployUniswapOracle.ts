@@ -1,7 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
 import { WAD } from '../../../../shared/constants'
-import { mapToJson, jsonToMap, verify, impersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import UniswapV3OracleArtifact from '../../../../artifacts/uniswapv3-oracle/contracts/UniswapV3Oracle.sol/UniswapV3Oracle.json'
 
@@ -28,7 +28,7 @@ const { deployContract } = waffle
   if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
-  let ownerAcc = await impersonate(developer.get(chainId) as string, WAD)
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>

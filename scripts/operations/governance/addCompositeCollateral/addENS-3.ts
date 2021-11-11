@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, impersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { addAssetProposal } from '../../addAssetProposal'
 import { Wand, Timelock } from '../../../../typechain'
@@ -28,7 +28,7 @@ import { ENS, WAD } from '../../../../shared/constants'
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
-  let ownerAcc = await impersonate(developer.get(chainId) as string, WAD)
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
