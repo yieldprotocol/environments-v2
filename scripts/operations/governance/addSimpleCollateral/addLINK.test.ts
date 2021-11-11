@@ -86,7 +86,7 @@ import { LINK, WAD } from '../../../../shared/constants'
     const dust = (await cauldron.debt(series.baseId, LINK)).min
     const ratio = (await cauldron.spotOracles(series.baseId, LINK)).ratio
     const borrowed = BigNumber.from(10).pow(await fyToken.decimals()).mul(dust)
-    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(LINK), borrowed))[0].mul(ratio).div(1000000).mul(11).div(10) // borrowed * spot * ratio * 1.1 (for margin)
+    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(LINK), borrowed))[0].mul(ratio).div(1000000).mul(101).div(100) // borrowed * spot * ratio * 1.01 (for margin)
 
     // Build vault
     await ladle.connect(linkWhaleAcc).build(seriesId, LINK, 0)
