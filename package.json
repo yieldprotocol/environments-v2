@@ -47,7 +47,7 @@
     "typechain": "^4.0.1",
     "typechain-target-ethers-v5": "^5.0.1",
     "typescript": "^3.9.7",
-    "uniswapv3-oracle": "^1.0.0",
+    "uniswapv3-oracle": "^1.0.1",
     "yargs": "^17.0.1"
   },
   "repository": {
