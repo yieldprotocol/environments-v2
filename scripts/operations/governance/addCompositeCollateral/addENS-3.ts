@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, proposeApproveExecute, impersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { jsonToMap, proposeApproveExecute, impersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { addAssetProposal } from '../../addAssetProposal'
 import { Wand, Timelock } from '../../../../typechain'
@@ -30,7 +30,6 @@ import { ENS, WAD } from '../../../../shared/constants'
 
   let ownerAcc = await impersonate(developer.get(chainId) as string, WAD)
 
-  const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
@@ -46,11 +45,6 @@ import { ENS, WAD } from '../../../../shared/constants'
   )) as unknown as Timelock
 
   let proposal = await addAssetProposal(ownerAcc, wand, addedAssets)
-
-  for (let [assetId, assetAddress] of addedAssets) {
-    assets.set(assetId, assetAddress)
-    fs.writeFileSync(path + 'assets.json', mapToJson(assets), 'utf8')
-  }
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

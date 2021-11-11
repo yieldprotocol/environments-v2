@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, stringToBytes6, proposeApproveExecute, impersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { jsonToMap, mapToJson, stringToBytes6, proposeApproveExecute, impersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
@@ -39,7 +39,7 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   ]) // https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
   
   // Input data: assetId, asset address
-  const assets: Array<[string, string]> = [
+  const addedAssets: Array<[string, string]> = [
     [ENS, ensAddress.get(chainId) as string],
   ]
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -65,6 +65,7 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
   const joins = jsonToMap(fs.readFileSync(path + 'joins.json', 'utf8')) as Map<string, string>
+  const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
@@ -97,8 +98,18 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as Timelock
 
+  // Update json database from previous step
+  for (let [assetId, assetAddress] of addedAssets) {
+    // Make sure the asset is recorded
+    assets.set(assetId, assetAddress as string)
+    fs.writeFileSync(path + 'assets.json', mapToJson(assets), 'utf8')
+    // The joins file can only be updated after the successful execution of the proposal
+    joins.set(assetId, (await ladle.joins(assetId)) as string)
+    fs.writeFileSync(path + 'joins.json', mapToJson(joins), 'utf8')
+  }
+
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, joins, ladle, timelock, cloak, assets))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, joins, ladle, timelock, cloak, addedAssets))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, protocol, joins, witch, wand, cloak, ilks))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
