@@ -65,12 +65,13 @@ import { LINK, WAD } from '../../../../shared/constants'
   if (chainId === 1) {
     // Impersonate LINK whale 0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39
     const linkWhale = '0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39'
-    linkWhaleAcc = await impersonate(linkWhale)
+    linkWhaleAcc = await impersonate(linkWhale, WAD)
   } else {
     await link.mint(ownerAcc.address, WAD.mul(1000000)) // This should be enough
+    linkWhaleAcc = ownerAcc
   }
 
-  const linkBalanceBefore = await link.balanceOf(ownerAcc.address)
+  const linkBalanceBefore = await link.balanceOf(linkWhaleAcc.address)
   console.log(`${linkBalanceBefore} LINK available`)
 
   for (let seriesId of seriesIds) {
@@ -88,24 +89,24 @@ import { LINK, WAD } from '../../../../shared/constants'
     const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(LINK), borrowed))[0].mul(ratio).div(1000000).mul(11).div(10) // borrowed * spot * ratio * 1.1 (for margin)
 
     // Build vault
-    await ladle.build(seriesId, LINK, 0)
+    await ladle.connect(linkWhaleAcc).build(seriesId, LINK, 0)
     const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
     const vaultId = logs[logs.length - 1].args.vaultId
     console.log(`vault: ${vaultId}`)
 
     // Post LINK and borrow fyDAI
     const linkJoinAddress = await ladle.joins(LINK)
-    await link.transfer(linkJoinAddress, posted)
-    await ladle.pour(vaultId, ownerAcc.address, posted, borrowed)
+    await link.connect(linkWhaleAcc).transfer(linkJoinAddress, posted)
+    await ladle.connect(linkWhaleAcc).pour(vaultId, linkWhaleAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw "art mismatch"
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
     
     // Repay fyDai and withdraw link
-    await fyToken.transfer(fyToken.address, borrowed)
-    await ladle.pour(vaultId, ownerAcc.address, posted.mul(-1), borrowed.mul(-1))
+    await fyToken.connect(linkWhaleAcc).transfer(fyToken.address, borrowed)
+    await ladle.connect(linkWhaleAcc).pour(vaultId, linkWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
-    if ((await link.balanceOf(ownerAcc.address)).toString() !== linkBalanceBefore.toString()) throw "balance mismatch"
+    if ((await link.balanceOf(linkWhaleAcc.address)).toString() !== linkBalanceBefore.toString()) throw "balance mismatch"
   }
 })()
