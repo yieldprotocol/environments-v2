@@ -5,6 +5,7 @@
  */
 
 import { ethers } from 'hardhat'
+import * as hre from 'hardhat'
 import * as fs from 'fs'
 
 import { bytesToString, jsonToMap } from '../../../../shared/helpers'
@@ -13,10 +14,9 @@ import { Cauldron } from '../../../../typechain/Cauldron'
 
 import { newMin } from './updateDust.config'
 ;(async () => {
-  const protocol = jsonToMap(fs.readFileSync('../../../../addresses/archive/mainnet/protocol.json', 'utf8')) as Map<
-    string,
-    string
-  >
+  const path =
+    hre.network.config.chainId == 42 ? '../../../../addresses/archive/rc12/' : '../../../../addresses/archive/mainnet/'
+  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
 
   let [ownerAcc] = await ethers.getSigners()
 
