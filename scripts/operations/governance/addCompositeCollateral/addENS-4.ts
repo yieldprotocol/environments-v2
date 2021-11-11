@@ -28,8 +28,7 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  // if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
-  if (chainId !== 1) throw "Only Mainnet supported (for now)"
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const COMPOSITE = 'compositeOracle'

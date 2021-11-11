@@ -67,7 +67,7 @@ import { ENS, WAD } from '../../../../shared/constants'
     const fyToken = (await ethers.getContractAt(
       'FYToken',
       series.fyToken,
-      ensWhale
+      ensWhaleAcc
       )) as unknown as FYToken
     
     const dust = (await cauldron.debt(series.baseId, ENS)).min

@@ -14,9 +14,9 @@ import { ChainlinkMultiOracle } from '../../../typechain'
 
 export const updateSpotSourcesProposal = async (
   ownerAcc: any, 
+  protocol: Map<string, string>,
   spotSources: [string, string, string, string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, quoteId, quoteAddress, oracleName, sourceAddress] of spotSources) {
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`

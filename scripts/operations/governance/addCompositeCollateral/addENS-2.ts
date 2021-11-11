@@ -4,6 +4,7 @@ import { jsonToMap, proposeApproveExecute, impersonate, getOriginalChainId } fro
 
 import { orchestrateUniswapOracleProposal } from '../../oracles/uniswap/orchestrateUniswapOracleProposal'
 import { updateUniswapSourcesProposal } from '../../oracles/uniswap/updateUniswapSourcesProposal'
+import { updateSpotSourcesProposal } from '../../oracles/updateSpotSourcesProposal'
 import { updateCompositePairsProposal } from '../../oracles/updateCompositePairsProposal'
 import { updateCompositePathsProposal } from '../../oracles/updateCompositePathsProposal'
 
@@ -25,22 +26,31 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  // if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
-  if (chainId !== 1) throw "Only Mainnet supported (for now)"
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const UNISWAP = 'uniswapOracle'
+  const CHAINLINK = 'chainlinkOracle'
 
   const ensEthPoolAddress: string = '0x92560c178ce069cc014138ed3c2f5221ba71f58a' // https://info.uniswap.org/#/tokens/0xc18360217d8f7ab5e7c516566761ea12ce7f9d72
-  
+  const kovanEnsEthSource = '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4' // From spotSources.json in addresses archive
+  const kovanEnsAddress = '0xA24b97c7617cc40dCc122F6dF813584A604a6C28' // From assets.json in addresses archive
+  const kovanWethAddress = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492' // From assets.json in addresses archive
+
   // Input data: baseId, quoteId, oracle name, source address
   const uniswapSources: Array<[string, string, string, string]> = [
     [ENS, ETH, UNISWAP, ensEthPoolAddress],
   ]
-  // Input data: baseId, quoteId, oracle name
-  const compositeSources: Array<[string, string, string]> = [
-    [ENS, ETH, UNISWAP],
+
+  // Input data: baseId, base address, quoteId, quote address, oracle name, source address
+  const chainlinkSources : Array<[string, string, string, string, string, string]> = [
+    [ENS, kovanEnsAddress as string, ETH, kovanWethAddress as string, CHAINLINK,  kovanEnsEthSource],
   ]
+  // Input data: baseId, quoteId, oracle name
+  const compositeSources: Map<number, Array<[string, string, string]>> = new Map([
+    [1, [[ENS, ETH, UNISWAP]]],
+    [42, [[ENS, ETH, CHAINLINK]]],
+  ])
   // Input data: assetId, assetId, [intermediate assetId]
   const compositePaths: Array<[string, string, Array<string>]> = [
     [ENS, DAI, [ETH]],
@@ -80,8 +90,10 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateUniswapOracleProposal(ownerAcc, uniswapOracle, timelock, cloak))
-  proposal = proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources))
-  proposal = proposal.concat(await updateCompositePairsProposal(ownerAcc, protocol, compositeOracle, compositeSources))
+  proposal = (chainId === 1) ? 
+    proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources)) :
+    proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, chainlinkSources))
+  proposal = proposal.concat(await updateCompositePairsProposal(ownerAcc, protocol, compositeOracle, compositeSources.get(chainId) as Array<[string, string, string]>))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
