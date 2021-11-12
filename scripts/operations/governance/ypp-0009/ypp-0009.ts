@@ -11,14 +11,9 @@ import * as fs from 'fs'
 import { getOwnerOrImpersonate, jsonToMap, proposeApproveExecute } from '../../../../shared/helpers'
 import { updateDustProposal } from '../../updateDustProposal'
 import { Cauldron, Timelock } from '../../../../typechain'
-import { newMin, linkAddress } from './ypp-0009.config'
+import { newMin, linkAddress, developerIfImpersonating } from './ypp-0009.config'
 
 ;(async () => {
-  const developerIfImpersonating = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
   let chainId: number
 
   // Because in forks the network name gets replaced by 'localhost' and chainId by 31337, we rely on checking known contracts to find out which chain are we on.
