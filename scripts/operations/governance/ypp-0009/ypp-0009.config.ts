@@ -15,3 +15,8 @@ export const newMin: Array<[string, string, number]> = [
   [USDC, DAI, 100],
   [USDC, WBTC, 100],
 ]
+
+export const linkAddress = new Map([
+  [1, '0x514910771af9ca656af840dff83e8264ecf986ca'],
+  [42, '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
+])
