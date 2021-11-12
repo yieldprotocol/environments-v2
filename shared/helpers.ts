@@ -6,6 +6,16 @@ import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS } from './constants';
 import { Timelock } from '../typechain';
 
+/** @dev Get the chain id, even after forking. This works because WETH10 was deployed at the same
+ * address in all networks, and recorded its chainId at deployment */
+export const getOriginalChainId = async (): Promise<number> => {
+  const ABI = ['function deploymentChainId() view returns (uint256)']
+  const weth10Address = '0xf4BB2e28688e89fCcE3c0580D37d36A7672E8A9F'
+  const weth10 = new ethers.Contract(weth10Address, ABI, ethers.provider)
+  if ((await ethers.provider.getCode(weth10Address)) === '0x') return 31337 // local or unknown network
+  return (await weth10.deploymentChainId()).toNumber()
+}
+
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async ( 
   impersonatedAddress: string,
