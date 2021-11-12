@@ -10,7 +10,7 @@ import * as fs from 'fs'
 
 import { bytesToString, jsonToMap } from '../../../../shared/helpers'
 import { Cauldron } from '../../../../typechain/Cauldron'
-import { newMin, linkAddress, developerIfImpersonating } from './ypp-0009.config'
+import { newMin, linkAddress } from './ypp-0009.config'
 
 ;(async () => {
   let chainId: number
