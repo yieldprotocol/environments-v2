@@ -1,8 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
-import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { mapToJson, jsonToMap, verify } from '../../shared/helpers'
+import { mapToJson, jsonToMap, verify, readAddressMappingIfExists, writeAddressMap } from '../../shared/helpers'
 import { ETH } from '../../shared/constants'
 
 import LadleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
@@ -34,9 +33,9 @@ const { deployContract } = waffle
   const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
   const [ownerAcc] = await ethers.getSigners()
 
-  const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+  const assets = readAddressMappingIfExists('assets.json');
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
   const weth9 = (await ethers.getContractAt('ERC20Mock', assets.get(ETH) as string, ownerAcc)) as unknown as ERC20Mock
   console.log(`Using ${await weth9.name()} at ${assets.get(ETH)}`)
@@ -64,7 +63,7 @@ const { deployContract } = waffle
     console.log(`[Ladle, '${ladle.address}'],`)
     verify(ladle.address, [cauldron.address, weth9.address])
     protocol.set('ladle', ladle.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+    writeAddressMap('protocol.json', protocol);
   } else {
     ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
   }
@@ -78,7 +77,7 @@ const { deployContract } = waffle
   console.log(`[Router, '${router}'],`)
   verify(router, [])
   protocol.set('router', router)
-  fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+  writeAddressMap('protocol.json', protocol);
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer

@@ -1,8 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
-import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { verify, mapToJson, jsonToMap } from '../../shared/helpers'
+import { verify, mapToJson, jsonToMap, readAddressMappingIfExists, writeAddressMap } from '../../shared/helpers'
 
 import EmergencyBrakeArtifact from '../../artifacts/@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol/EmergencyBrake.json'
 import { Timelock } from '../../typechain/Timelock'
@@ -26,7 +25,7 @@ const { deployContract } = waffle
   const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
   const [ownerAcc] = await ethers.getSigners()
 
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+  const governance = readAddressMappingIfExists('governance.json');
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -45,7 +44,7 @@ const { deployContract } = waffle
     verify(cloak.address, [ownerAcc.address, ownerAcc.address]) // Give the planner and executor their roles once set up
 
     governance.set('cloak', cloak.address)
-    fs.writeFileSync('./addresses/governance.json', mapToJson(governance), 'utf8')
+    writeAddressMap('governance.json', governance);
   } else {
     cloak = (await ethers.getContractAt(
       'EmergencyBrake',

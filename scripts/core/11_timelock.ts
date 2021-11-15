@@ -1,7 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { verify, mapToJson, jsonToMap } from '../../shared/helpers'
+import { verify, writeAddressMap, readAddressMappingIfExists } from '../../shared/helpers'
 
 import TimelockArtifact from '../../artifacts/@yield-protocol/utils-v2/contracts/utils/Timelock.sol/Timelock.json'
 import { Timelock } from '../../typechain/Timelock'
@@ -15,7 +15,7 @@ const { deployContract } = waffle
  */
 
 // const multisig = fs.readFileSync('.multisig', 'utf8').trim();
-const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+const governance = readAddressMappingIfExists('governance.json');
 
 ;(async () => {
   /* await hre.network.provider.request({
@@ -30,6 +30,6 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
   console.log(`[Timelock, '${timelock.address}'],`)
   verify(timelock.address, [multisig, multisig])
 
-  governance.set('timelock', timelock.address)
-  fs.writeFileSync('./addresses/governance.json', mapToJson(governance), 'utf8')
+  governance.set('timelock', timelock.address);
+  writeAddressMap("governance.json", governance);
 })()

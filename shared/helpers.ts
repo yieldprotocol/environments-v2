@@ -1,12 +1,14 @@
-import { ethers, network, run } from 'hardhat'
+import { ethers, network, run, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 
 import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS } from './constants'
 import * as fs from 'fs'
-import { Timelock } from '../typechain'
+import { AccessControl, Timelock } from '../typechain'
 
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from "path";
 
 
 /** @dev Determines chainId and retrieves address mappings from governance and protocol json files*/
@@ -18,6 +20,7 @@ export const getGovernanceProtocolAddresses = async (chainId: number): Promise<M
   const protocol = jsonToMap(fs.readFileSync(`${path}protocol.json`, 'utf8')) as Map<string, string>
   return [governance, protocol]
 }
+
 
 /** @dev Get the chain id, even after forking. This works because WETH10 was deployed at the same
  * address in all networks, and recorded its chainId at deployment */
@@ -230,8 +233,19 @@ export function mapToJson(map: Map<any, any>): string {
       } else {
         return value
       }
+    }, 2);
+}
+
+export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any>|Map<any,any>) {
+  let map = new Map<any, any>();
+  if (map_or_dictionary instanceof Map) {
+    map = map_or_dictionary;
+  } else {
+    for (let k in map_or_dictionary) {
+      map.set(k, map_or_dictionary[k]);
     }
-  )
+  }
+  writeFileSync(getAddressMappingFilePath(out_file), mapToJson(map), 'utf8');
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
@@ -259,4 +273,92 @@ export function jsonToMap(json: string): Map<any, any> {
       return value
     }
   )
+}
+
+/**
+ * Return path to network-specific address mapping file
+ * 'government.json' can be resolved to 'addresses/kovan/government.json', for example
+ */
+export function getAddressMappingFilePath(file_name: string): string {
+  const full_path = join("addresses", network.name, file_name);
+  if (!existsSync(dirname(full_path))) {
+    console.log(`Directory for ${full_path} doesn't exist, creating it`)
+    mkdirSync(dirname(full_path))
+  }
+  return full_path;
+}
+
+/**
+ * Read Map<string, string> from network-specific file
+ * If the file does not exist, empty map is returned
+ */
+export function readAddressMappingIfExists(file_name: string): Map<string, string>{
+  const full_path = getAddressMappingFilePath(file_name);
+  if (existsSync(full_path)) {
+    return jsonToMap(readFileSync(full_path, 'utf8'));
+  }
+  return new Map<string, string>();
+} 
+
+/**
+ * Deploy a contract and verify it
+ * Just a type-safe wrapper to deploy/log/verify a contract
+ */
+export async function deploy<OutT>(owner: any, artifact: any, constructor_args: any[]) {
+  const ret = (await waffle.deployContract(owner, artifact, constructor_args)) as unknown as OutT;
+  console.log(`[${artifact.contractName}, '${(ret as any).address}']`);
+  verify((ret as any).address, constructor_args);
+  return ret;
+}
+
+/**
+ * Type-safe wrapper around ethers.getContractAt: return deployed instance of a contract
+ */
+export async function getContract<OutT>(owner:any, name: string, address: string | undefined): Promise<OutT> {
+  if (address == undefined) {
+    throw new Error(`null address for ${name}`);
+  }
+  return (await ethers.getContractAt(
+    name,
+    address,
+    owner
+  )) as unknown as OutT;
+}
+
+/**
+ * Make sure Timelock has ROOT access to the contract
+ */
+export async function ensureRootAccess(contract: AccessControl, timelock: Timelock) {
+  const ROOT = await timelock.ROOT();
+  if (!(await contract.hasRole(ROOT, timelock.address))) {
+    await contract.grantRole(ROOT, timelock.address)
+    console.log(`${contract.address}.grantRoles(ROOT, timelock)`)
+    while (!(await contract.hasRole(ROOT, timelock.address))) {}
+  }  
+}
+
+/**
+ * Get an instance of the contract from the mapping file
+ * If the contract is not registered there, deploy, register and return it
+ */
+export async function getOrDeploy<OutT extends AccessControl>(owner: any, mapping_file: string, key: string,
+    contractName: string, constructor_args: any[], timelock: Timelock): Promise<OutT>{
+  const mapping = readAddressMappingIfExists(mapping_file);
+
+  let ret: OutT
+  if (mapping.get(key) === undefined) {
+    ret = await deploy<OutT>(
+      owner, 
+      await hre.artifacts.readArtifact(contractName), 
+      constructor_args);
+    mapping.set(key, ret.address);
+    writeAddressMap(mapping_file, mapping);
+  } else {
+    ret = await getContract<OutT>(
+      owner,
+      contractName,
+      mapping.get(key));
+  }
+  await ensureRootAccess(ret, timelock);
+  return ret;
 }
