@@ -1,8 +1,9 @@
 import { ethers } from 'hardhat'
+import { id } from '@yield-protocol/utils-v2'
 import { developerAddress } from './addDeveloper'
 import { getGovernanceProtocolAddresses, getOriginalChainId, impersonate } from '../../../../shared/helpers'
 import { WAD } from '../../../../shared/constants'
-import { Timelock, EmergencyBrake } from '../../../../typechain'
+import { Timelock, EmergencyBrake, PoolFactory, Wand } from '../../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
 
@@ -13,6 +14,8 @@ import { expect } from 'chai'
 describe('Grant developer permissions', function () {
   let timelock: Timelock
   let cloak: EmergencyBrake
+  let wand: Wand
+  let poolFactory: PoolFactory
   const governor: string = '0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708'
   let governorAcc: SignerWithAddress
   let developerAcc: SignerWithAddress
@@ -26,7 +29,7 @@ describe('Grant developer permissions', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    const [governance, _] = await getGovernanceProtocolAddresses(chainId)
+    const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
 
     developerAcc = await impersonate(`${developerAddress.get(chainId)}`, WAD)
     governorAcc = await impersonate(governor, WAD)
@@ -43,6 +46,13 @@ describe('Grant developer permissions', function () {
       governance.get('cloak') as string,
       governorAcc
     )) as unknown as EmergencyBrake
+    poolFactory = (await ethers.getContractAt(
+      'PoolFactory',
+      protocol.get('poolFactory') as string,
+      governorAcc
+    )) as unknown as PoolFactory
+    wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, governorAcc)) as Wand
+
     proposal = [
       {
         target: timelock.address,
@@ -73,17 +83,17 @@ describe('Grant developer permissions', function () {
   it('developer can execute on cloak - but nothing else', async () => {
     plan = [
       {
-        contact: cloak.address,
-        signatures: ['0xde8a0667'],
+        contact: poolFactory.address,
+        signatures: [id(poolFactory.interface, 'createPool(address,address)')],
       },
     ]
-    planHash = await cloak.hash(timelock.address, plan)
+    planHash = await cloak.hash(wand.address, plan)
 
     // Try and fail to plan with the developer
-    await expect(cloak.connect(developerAcc).plan(timelock.address, plan)).to.be.revertedWith('Access denied')
+    await expect(cloak.connect(developerAcc).plan(wand.address, plan)).to.be.revertedWith('Access denied')
 
     // Use the timelock to lodge a plan
-    await cloak.connect(timelockAcc).plan(timelock.address, plan)
+    await cloak.connect(timelockAcc).plan(wand.address, plan)
 
     // Try and fail to cancel the plan
     await expect(cloak.connect(developerAcc).cancel(planHash)).to.be.revertedWith('Access denied')
@@ -97,5 +107,4 @@ describe('Grant developer permissions', function () {
     // Developer can successfully execute the plan
     await expect(cloak.connect(developerAcc).execute(planHash)).not.to.be.reverted
   })
-
 })
