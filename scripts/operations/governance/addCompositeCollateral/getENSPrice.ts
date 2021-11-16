@@ -76,6 +76,9 @@ import { DAI, USDC, ETH, ENS, WAD } from '../../../../shared/constants'
   )) as unknown as UniswapV3Oracle
 
   console.log(`ENS/ETH: ${await uniswapOracle.peek(bytesToBytes32(ENS), bytesToBytes32(ETH), WAD)}`)
+  console.log(`ETH/ENS: ${await uniswapOracle.peek(bytesToBytes32(ETH), bytesToBytes32(ENS), WAD)}`)
   console.log(`ENS/DAI: ${await compositeOracle.peek(bytesToBytes32(ENS), bytesToBytes32(DAI), WAD)}`)
+  console.log(`DAI/ENS: ${await compositeOracle.peek(bytesToBytes32(DAI), bytesToBytes32(ENS), WAD)}`)
   console.log(`ENS/USDC: ${await compositeOracle.peek(bytesToBytes32(ENS), bytesToBytes32(USDC), WAD)}`)
+  console.log(`USDC/ENS: ${await compositeOracle.peek(bytesToBytes32(USDC), bytesToBytes32(ENS), WAD)}`)
 })()

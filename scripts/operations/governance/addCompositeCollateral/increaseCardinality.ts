@@ -16,7 +16,7 @@ import { ethers } from 'hardhat'
   const cardinalityBefore = (await pool.slot0())[4]
   if (cardinalityBefore !== newCardinality) {
     console.log(`Cardinality at ${poolAddress}: ${cardinalityBefore}`)
-    await pool.connect(me).increaseObservationCardinalityNext(10)
+    await pool.connect(me).increaseObservationCardinalityNext(60)
     console.log(`Submitted request, waiting for confirmation...`)
     while ((await pool.slot0())[4] === cardinalityBefore) { }  
   }
