@@ -16,8 +16,6 @@ describe('Grant developer permissions', function () {
   let cloak: EmergencyBrake
   let wand: Wand
   let poolFactory: PoolFactory
-  const governor: string = '0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708'
-  let governorAcc: SignerWithAddress
   let developerAcc: SignerWithAddress
   let multisigAcc: SignerWithAddress
   let timelockAcc: SignerWithAddress
@@ -32,26 +30,25 @@ describe('Grant developer permissions', function () {
     const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
 
     developerAcc = await impersonate(`${developerAddress.get(chainId)}`, WAD)
-    governorAcc = await impersonate(governor, WAD)
     multisigAcc = await impersonate(governance.get('multisig') as string, WAD)
     timelockAcc = await impersonate(governance.get('timelock') as string, WAD)
 
     timelock = (await ethers.getContractAt(
       'Timelock',
       governance.get('timelock') as string,
-      governorAcc
+      developerAcc
     )) as unknown as Timelock
     cloak = (await ethers.getContractAt(
       'EmergencyBrake',
       governance.get('cloak') as string,
-      governorAcc
+      developerAcc
     )) as unknown as EmergencyBrake
     poolFactory = (await ethers.getContractAt(
       'PoolFactory',
       protocol.get('poolFactory') as string,
-      governorAcc
+      developerAcc
     )) as unknown as PoolFactory
-    wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, governorAcc)) as Wand
+    wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, developerAcc)) as Wand
 
     proposal = [
       {
