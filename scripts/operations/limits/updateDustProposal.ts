@@ -4,9 +4,9 @@
  * It uses the cauldron to set the debt limits for the supplied base/ilk pairs.
  */
 
-import { bytesToString } from '../../shared/helpers'
+import { bytesToString } from '../../../shared/helpers'
 
-import { Cauldron } from '../../typechain'
+import { Cauldron } from '../../../typechain'
 
 export const updateDustProposal = async (
   cauldron: Cauldron,
