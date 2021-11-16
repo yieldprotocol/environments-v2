@@ -15,12 +15,13 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, mapToJson, jsonToMap, verify } from '../../shared/helpers'
+import { bytesToString, mapToJson, verify } from '../../shared/helpers'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../typechain'
 
 export const orchestrateAddedAssetProposal = async (
   ownerAcc: any, 
+  joins: Map<string, string>,
   ladle: Ladle,
   timelock: Timelock,
   cloak: EmergencyBrake,
@@ -30,17 +31,12 @@ export const orchestrateAddedAssetProposal = async (
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch
   const ROOT = await timelock.ROOT()
-  const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [assetId, assetAddress] of assets) {
     const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
     verify(join.address, [assetAddress])
     console.log(`[${bytesToString(assetId)}Join, : '${join.address}'],`)
-    joins.set(assetId, join.address)
-
-    // The joins file can only be updated after the successful execution of the proposal
-    fs.writeFileSync('./addresses/joins.json', mapToJson(joins), 'utf8')
 
     proposal.push({
       target: join.address,

@@ -16,13 +16,13 @@ import { Witch, Wand, Join, ChainlinkMultiOracle, EmergencyBrake } from '../../t
 
 export const makeIlkProposal = async (
   ownerAcc: any, 
+  protocol: Map<string, string>,
+  joins: Map<string, string>,
   witch: Witch,
   wand: Wand,
   cloak: EmergencyBrake,
   ilks: Array<[string, string, string, number, number, number, number, number]>
 ): Promise<Array<{ target: string; data: string }>>  => {
-  const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   const proposal: Array<{ target: string; data: string }> = []
   const plans: Array<string> = new Array() // Existing plans in the cloak
   for (let [baseId, ilkId, oracleName, ratio, invRatio, line, dust, dec] of ilks) {

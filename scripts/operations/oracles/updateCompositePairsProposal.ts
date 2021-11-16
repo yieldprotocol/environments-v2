@@ -4,27 +4,26 @@
  */
 
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { bytesToString, bytesToBytes32, jsonToMap } from '../../../shared/helpers'
+import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 
-import { CompositeMultiOracle, ChainlinkMultiOracle } from '../../../typechain'
+import { CompositeMultiOracle, IOracle } from '../../../typechain'
 
 export const updateCompositePairsProposal = async (
   ownerAcc: any, 
+  protocol: Map<string, string>,
   compositeOracle: CompositeMultiOracle,
   compositePairs: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, oracleName] of compositePairs) {
 
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
     const innerOracle = (await ethers.getContractAt(
-      'ChainlinkMultiOracle',
+      'IOracle',
       protocol.get(oracleName) as string,
       ownerAcc
-    )) as unknown as ChainlinkMultiOracle
+    )) as unknown as IOracle
     console.log(`Adding ${baseId}/${quoteId} from ${protocol.get(oracleName) as string}`)
     proposal.push({
       target: innerOracle.address,
