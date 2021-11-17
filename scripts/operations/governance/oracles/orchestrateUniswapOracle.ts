@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { WAD } from '../../../../shared/constants'
 import { jsonToMap, proposeApproveExecute, getOriginalChainId, impersonate } from '../../../../shared/helpers'
-import { orchestrateUniswapOracleProposal } from './orchestrateUniswapOracleProposal'
+import { orchestrateUniswapOracleProposal } from '../../oracles/uniswap/orchestrateUniswapOracleProposal'
 import { UniswapV3Oracle, EmergencyBrake, Timelock } from '../../../../typechain'
 
 /**
