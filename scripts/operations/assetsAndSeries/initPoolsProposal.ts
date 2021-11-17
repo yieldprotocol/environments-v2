@@ -8,12 +8,12 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 
-import { ERC20Mock, Pool } from '../../../typechain'
+import { ERC20Mock, Pool, Ladle } from '../../../typechain'
 
 
 export const initPoolsProposal = async (
   ownerAcc: any,
-  pools: Map<string, string>,
+  ladle: Ladle,
   poolsInit: Array<[string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
 
@@ -21,7 +21,7 @@ export const initPoolsProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [poolId] of poolsInit) {
-    const poolAddress = pools.get(poolId) as string
+    const poolAddress = await ladle.pools(poolId)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
     const base: ERC20Mock = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc)) as ERC20Mock

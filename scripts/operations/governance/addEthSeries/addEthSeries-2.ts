@@ -61,6 +61,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, WAD } from '../../../../shared/constants'
   ]
 
   const newSeries: Array<[string, string, number, string[], string, string]> = [
+    // name, baseId, maturity, ilkIds, name, symbol
     [stringToBytes6('0005'), ETH, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH], 'FYETH2203', 'FYETH2203'], // Mar22
     [stringToBytes6('0006'), ETH, EOJUN22, [ETH, DAI, USDC, WBTC, WSTETH], 'FYETH2206', 'FYETH2206'], // Jun22
   ]
