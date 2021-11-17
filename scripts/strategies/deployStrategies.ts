@@ -7,7 +7,7 @@ import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer, YieldMa
  * @dev This script deploys strategies
  */
 
- export const initStrategiesProposal = async (
+ export const deployStrategies = async (
   ownerAcc: any,
   strategies: Map<string, string>,
   cauldron: Cauldron,

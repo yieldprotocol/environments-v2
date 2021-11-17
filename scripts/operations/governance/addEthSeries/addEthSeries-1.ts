@@ -1,0 +1,62 @@
+import { ethers } from 'hardhat'
+import * as fs from 'fs'
+import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+
+import { deployStrategies } from '../../../strategies/deployStrategies'
+import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
+import { ETH, WAD } from '../../../../shared/constants'
+
+/**
+ * @dev This script deploys two strategies to be used for Ether
+ */
+
+;(async () => {
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
+  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+
+  const developer = new Map([
+    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  ])
+
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
+
+  const strategiesData: Array<[string, string, string]> = [
+    // name, symbol, baseId
+    ['Yield Strategy ETH 6M Mar Sep',  'YSETH6MMS',  ETH],
+    ['Yield Strategy ETH 6M Jun Dec',  'YSETH6MJD',  ETH],
+  ]
+
+  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
+  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
+  const strategies = jsonToMap(fs.readFileSync(path + 'strategies.json', 'utf8')) as Map<string, string>
+
+  const cauldron = (await ethers.getContractAt(
+    'Cauldron',
+    protocol.get('cauldron') as string,
+    ownerAcc
+  )) as unknown as Cauldron
+  const ladle = (await ethers.getContractAt(
+    'Ladle',
+    protocol.get('ladle') as string,
+    ownerAcc
+  )) as unknown as Ladle
+  const safeERC20Namer = (await ethers.getContractAt(
+    'SafeERC20Namer',
+    protocol.get('safeERC20Namer') as string,
+    ownerAcc
+  )) as unknown as SafeERC20Namer
+  const yieldMathExtensions = (await ethers.getContractAt(
+    'YieldMathExtensions',
+    protocol.get('yieldMathExtensions') as string,
+    ownerAcc
+  )) as unknown as YieldMathExtensions
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
+
+  await deployStrategies(ownerAcc, strategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, strategiesData)
+})()
