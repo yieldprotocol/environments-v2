@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, verify } from '../../shared/helpers'
+import { mapToJson, jsonToMap, verify, getOriginalChainId, getOwnerOrImpersonate } from '../../shared/helpers'
 
 import { YieldMath } from '../../typechain/YieldMath'
 import { YieldMathExtensions } from '../../typechain/YieldMathExtensions'
@@ -13,15 +13,18 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
  */
 
 ;(async () => {
-  /* await hre.network.provider.request({
-    method: "hardhat_impersonateAccount",
-    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
-  });
-  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
-  const [ownerAcc] = await ethers.getSigners()
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
+  const developer = new Map([
+    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  ])
 
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+
+  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
 
   let yieldMath: YieldMath
   if (protocol.get('yieldMath') === undefined) {
@@ -31,8 +34,8 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
     console.log(`[YieldMath, '${yieldMath.address}'],`)
     verify(yieldMath.address, [])
     protocol.set('yieldMath', yieldMath.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
-    fs.writeFileSync('./yieldMath.js', `module.exports = { YieldMath: "${yieldMath.address}" }`, 'utf8')
+    fs.writeFileSync(path + 'protocol.json', mapToJson(protocol), 'utf8')
+    fs.writeFileSync(path + 'yieldMath.js', `module.exports = { YieldMath: "${yieldMath.address}" }`, 'utf8')
   } else {
     yieldMath = (await ethers.getContractAt('YieldMath', protocol.get('yieldMath') as string, ownerAcc)) as YieldMath
   }
@@ -47,11 +50,11 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
     yieldMathExtensions = (await YieldMathExtensionsFactory.deploy()) as unknown as YieldMathExtensions
     await yieldMathExtensions.deployed()
     console.log(`[yieldMathExtensions, '${yieldMathExtensions.address}'],`)
-    verify(yieldMathExtensions.address, [], 'yieldMath.js')
+    verify(yieldMathExtensions.address, [], path + 'yieldMath.js')
     protocol.set('yieldMathExtensions', yieldMathExtensions.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+    fs.writeFileSync(path + 'protocol.json', mapToJson(protocol), 'utf8')
     fs.writeFileSync(
-      './yieldMathExtensions.js',
+      path + 'yieldMathExtensions.js',
       `module.exports = { YieldMathExtensions: "${yieldMathExtensions.address}" }`,
       'utf8'
     )
@@ -73,9 +76,9 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
     poolView = (await PoolViewFactory.deploy()) as unknown as PoolView
     await poolView.deployed()
     console.log(`[poolView, '${poolView.address}'],`)
-    verify(poolView.address, [], 'yieldMathExtensions.js')
+    verify(poolView.address, [], path + 'yieldMathExtensions.js')
     protocol.set('poolView', poolView.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+    fs.writeFileSync(path + 'protocol.json', mapToJson(protocol), 'utf8')
   } else {
     poolView = (await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)) as PoolView
   }
@@ -88,8 +91,8 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
     console.log(`[SafeERC20Namer, '${safeERC20Namer.address}'],`)
     verify(safeERC20Namer.address, [])
     protocol.set('safeERC20Namer', safeERC20Namer.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
-    fs.writeFileSync('./safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${safeERC20Namer.address}" }`, 'utf8')
+    fs.writeFileSync(path + 'protocol.json', mapToJson(protocol), 'utf8')
+    fs.writeFileSync(path + 'safeERC20Namer.js', `module.exports = { SafeERC20Namer: "${safeERC20Namer.address}" }`, 'utf8')
   } else {
     safeERC20Namer = (await ethers.getContractAt(
       'SafeERC20Namer',
