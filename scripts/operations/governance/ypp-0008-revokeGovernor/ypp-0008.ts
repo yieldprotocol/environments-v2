@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { revokeGovernorProposal } from '../../permissions/revokeGovernorProposal'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
@@ -12,10 +12,18 @@ import { Timelock, EmergencyBrake } from '../../../../typechain'
 ;(async () => {
   const deployer: string = '0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708'
 
-  const developerIfImpersonating = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating)
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+  const developer = new Map([
+    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  ])
+
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+
+  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
