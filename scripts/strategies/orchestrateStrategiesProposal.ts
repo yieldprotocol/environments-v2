@@ -21,7 +21,7 @@ export const orchestrateStrategiesProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [name, symbol, baseId] of strategiesData) {
-    const strategy = (await ethers.getContractAt('Strategy', strategies.get('symbol') as string, ownerAcc)) as Strategy
+    const strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
 
     proposal.push({
       target: strategy.address,

@@ -14,13 +14,13 @@ import { ERC20Mock, Pool, Ladle } from '../../../typechain'
 export const initPoolsProposal = async (
   ownerAcc: any,
   ladle: Ladle,
-  poolsInit: Array<[string]>
+  poolsInit: Array<string>
 ): Promise<Array<{ target: string; data: string }>>  => {
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [poolId] of poolsInit) {
+  for (let poolId of poolsInit) {
     const poolAddress = await ladle.pools(poolId)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 

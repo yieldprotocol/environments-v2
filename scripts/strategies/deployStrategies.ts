@@ -36,13 +36,13 @@ import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer, YieldMa
     console.log(`Using ${await base.name()} at ${base.address} as base`)
 
     let strategy: Strategy
-    if (strategies.get('symbol') === undefined) {
+    if (strategies.get(symbol) === undefined) {
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
       console.log(`[Strategy, '${strategy.address}'],`)
       verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
       strategies.set(symbol, strategy.address)
     } else {
-      strategy = (await ethers.getContractAt('Strategy', strategies.get('symbol') as string, ownerAcc)) as Strategy
+      strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
     }
     if (!(await strategy.hasRole(ROOT, timelock.address))) {
       await strategy.grantRole(ROOT, timelock.address)

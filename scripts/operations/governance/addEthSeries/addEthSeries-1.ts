@@ -4,7 +4,8 @@ import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../.
 
 import { deployStrategies } from '../../../strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
-import { ETH, WAD } from '../../../../shared/constants'
+import { WAD } from '../../../../shared/constants'
+import { newStrategies } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -21,12 +22,6 @@ import { ETH, WAD } from '../../../../shared/constants'
   ])
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
-
-  const strategiesData: Array<[string, string, string]> = [
-    // name, symbol, baseId
-    ['Yield Strategy ETH 6M Mar Sep',  'YSETH6MMS',  ETH],
-    ['Yield Strategy ETH 6M Jun Dec',  'YSETH6MJD',  ETH],
-  ]
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
@@ -58,5 +53,5 @@ import { ETH, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as Timelock
 
-  await deployStrategies(ownerAcc, strategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, strategiesData)
+  await deployStrategies(ownerAcc, strategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, newStrategies)
 })()

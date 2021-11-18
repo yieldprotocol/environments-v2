@@ -7,7 +7,8 @@ import { initPoolsProposal } from '../../assetsAndSeries/initPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../../strategies/initStrategiesProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
-import { ETH, DAI, USDC, WBTC, WSTETH, WAD } from '../../../../shared/constants'
+import { WAD } from '../../../../shared/constants'
+import { newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -24,34 +25,6 @@ import { ETH, DAI, USDC, WBTC, WSTETH, WAD } from '../../../../shared/constants'
   ])
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
-
-  const EOMAR22 = 1648177200
-  const EOJUN22 = 0
-
-  const poolsInit: Array<[string]> = [
-    // [seriesId]
-    [stringToBytes6('0005')],
-    [stringToBytes6('0006')],
-  ]
-
-  const newSeries: Array<[string, string, number, string[], string, string]> = [
-    // name, baseId, maturity, ilkIds, name, symbol
-    [stringToBytes6('0005'), ETH, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH], 'FYETH2203', 'FYETH2203'], // Mar22
-    [stringToBytes6('0006'), ETH, EOJUN22, [ETH, DAI, USDC, WBTC, WSTETH], 'FYETH2206', 'FYETH2206'], // Jun22
-  ]
-
-  const strategiesData: Array<[string, string, string]> = [
-    // name, symbol, baseId
-    ['Yield Strategy ETH 6M Mar Sep',  'YSETH6MMS',  ETH],
-    ['Yield Strategy ETH 6M Jun Dec',  'YSETH6MJD',  ETH],
-  ]
-
-  // Input data
-  const strategiesInit: Array<[string, string]> = [
-    // [strategyId, startPoolId]
-    ['YSDAI6MMS', stringToBytes6('0005')],
-    ['YSDAI6MJD', stringToBytes6('0006')],
-  ]
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
@@ -81,7 +54,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, WAD } from '../../../../shared/constants'
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateSeriesProposal(ownerAcc, cauldron, ladle, timelock, cloak, newSeries))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, ladle, poolsInit))
-  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, strategies, timelock, strategiesData))
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, strategies, timelock, newStrategies))
   proposal = proposal.concat(await initStrategiesProposal(ownerAcc, strategies, ladle, strategiesInit))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
