@@ -26,8 +26,7 @@ export const orchestrateUniswapOracleProposal = async (
       target: uniswapOracle.address,
       data: uniswapOracle.interface.encodeFunctionData('grantRoles', [
           [
-              id(uniswapOracle.interface, 'setSource(bytes6,bytes6,address)'),
-              id(uniswapOracle.interface, 'setSecondsAgo(uint32)'),
+              id(uniswapOracle.interface, 'setSource(bytes6,bytes6,address,uint32)'),
           ],
           timelock.address
       ])

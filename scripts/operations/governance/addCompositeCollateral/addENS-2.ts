@@ -36,8 +36,8 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   const kovanEnsAddress = '0xA24b97c7617cc40dCc122F6dF813584A604a6C28' // From assets.json in addresses archive
   const kovanWethAddress = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492' // From assets.json in addresses archive
 
-  // Input data: baseId, quoteId, oracle name, source address. baseId must match token0 and quoteId must match token1.
-  const uniswapSources: Array<[string, string, string, string]> = [[ETH, ENS, UNISWAP, ensEthPoolAddress]]
+  // Input data: baseId, quoteId, oracle name, pool address and twapInterval. baseId must match token0 and quoteId must match token1.
+  const uniswapSources: Array<[string, string, string, string, number]> = [[ETH, ENS, UNISWAP, ensEthPoolAddress, 600]]
 
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
   const chainlinkSources: Array<[string, string, string, string, string, string]> = [

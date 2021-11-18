@@ -13,25 +13,26 @@
  export const updateUniswapSourcesProposal = async (
    ownerAcc: any,
    protocol: Map<string, string>,
-   sources: [string, string, string, string][]
+   sources: [string, string, string, string, number][]
  ): Promise<Array<{ target: string; data: string }>>  => {
    const proposal: Array<{ target: string; data: string }> = []
-   for (let [baseId, quoteId, oracleName, sourceAddress] of sources) {
-     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
+   for (let [baseId, quoteId, oracleName, poolAddress, twapInterval] of sources) {
+     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Address ${poolAddress} contains no code`
  
      const oracle = (await ethers.getContractAt(
        'UniswapV3Oracle',
        protocol.get(oracleName) as string,
        ownerAcc
      )) as unknown as UniswapV3Oracle
-     console.log(`Setting up ${sourceAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
+     console.log(`Setting up ${poolAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
  
      proposal.push({
        target: oracle.address,
        data: oracle.interface.encodeFunctionData('setSource', [
          baseId,
          quoteId,
-         sourceAddress,
+         poolAddress,
+         twapInterval
        ]),
      })
    }
