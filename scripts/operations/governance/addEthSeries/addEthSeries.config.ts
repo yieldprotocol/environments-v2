@@ -66,5 +66,5 @@ export const newChainlinkIlks: Array<[string, string, string, number, number, nu
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newCompositeIlks: Array<[string, string, string, number, number, number, number, number]> = [
-  [ETH, WSTETH, COMPOSITE, 1500000, 666000, 250, 1, 6], // Via ETH
+  [ETH, WSTETH, COMPOSITE, 1500000, 666000, 250, 1, 18], // Via ETH
 ]

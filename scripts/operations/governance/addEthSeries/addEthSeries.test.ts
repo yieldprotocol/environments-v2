@@ -3,10 +3,10 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { jsonToMap, stringToBytes6, bytesToBytes32, impersonate, getOriginalChainId, getOwnerOrImpersonate } from '../../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle, WstETHMock } from '../../../../typechain'
-import { COMPOUND, CHAINLINK, COMPOSITE, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkIlks, newCompositeIlks, newSeries } from './addEthSeries.config'
-import { ETH, WSTETH, STETH, WAD } from '../../../../shared/constants'
+import { jsonToMap, bytesToBytes32, impersonate, getOriginalChainId, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../../typechain'
+import { newSeries } from './addEthSeries.config'
+import { WSTETH, STETH, WAD } from '../../../../shared/constants'
 
 /**
  * @dev This script tests ENS as a collateral
@@ -49,10 +49,10 @@ import { ETH, WSTETH, STETH, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as Ladle
   const oracle = (await ethers.getContractAt(
-    'ChainlinkMultiOracle',
-    protocol.get('chainlinkOracle') as string,
+    'CompositeMultiOracle',
+    protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown as ChainlinkMultiOracle
+  )) as unknown as CompositeMultiOracle
 
   if (chainId === 1) {
     // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
@@ -80,6 +80,10 @@ import { ETH, WSTETH, STETH, WAD } from '../../../../shared/constants'
     const borrowed = BigNumber.from(10).pow(await fyToken.decimals()).mul(dust)
     const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(WSTETH), borrowed))[0].mul(ratio).div(1000000).mul(101).div(100) // borrowed * spot * ratio * 1.01 (for margin)
     const wstEthBalanceBefore = await wstEth.balanceOf(stEthWhaleAcc.address)
+
+    console.log((await cauldron.debt(series.baseId, WSTETH)).max.toString())
+    console.log((await cauldron.debt(series.baseId, WSTETH)).dec.toString())
+    console.log(borrowed.toString())
 
     // Build vault
     await ladle.build(seriesId, WSTETH, 0)
