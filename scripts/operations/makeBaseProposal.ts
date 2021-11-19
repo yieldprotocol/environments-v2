@@ -28,17 +28,14 @@ export const makeBaseProposal = async (
     const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
-    console.log(
-      `Current RATE for ${bytesToString(assetId)}: ${
-        (await lendingOracle.peek(bytesToBytes32(assetId), bytesToBytes32(RATE), 0))[0]
-      }`
-    )
-    console.log(
-      `Current CHI for ${bytesToString(assetId)}: ${
-        (await lendingOracle.peek(bytesToBytes32(assetId), bytesToBytes32(CHI), 0))[0]
-      }`
-    )
-
+    proposal.push({
+      target: lendingOracle.address,
+      data: lendingOracle.interface.encodeFunctionData('peek', [bytesToBytes32(assetId), bytesToBytes32(RATE), 0]),
+    })
+    proposal.push({
+      target: lendingOracle.address,
+      data: lendingOracle.interface.encodeFunctionData('peek', [bytesToBytes32(assetId), bytesToBytes32(CHI), 0]),
+    })
     proposal.push({
       target: wand.address,
       data: wand.interface.encodeFunctionData('makeBase', [assetId, lendingOracle.address]),

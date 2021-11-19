@@ -4,12 +4,13 @@ import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExe
 
 import { updateChiSourceProposal } from '../../oracles/updateChiSourceProposal'
 import { updateRateSourceProposal } from '../../oracles/updateRateSourceProposal'
+import { updateCompositePathsProposal } from '../../oracles/updateCompositePathsProposal'
 import { makeBaseProposal } from '../../makeBaseProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
 import { addSeriesProposal } from '../../assetsAndSeries/addSeriesProposal'
-import { IOracle, CompoundMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../../typechain'
+import { IOracle, CompoundMultiOracle, CompositeMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../../typechain'
 import { WAD } from '../../../../shared/constants'
-import { COMPOUND, CHAINLINK, COMPOSITE, newChiSources, newRateSources, newBases, newChainlinkIlks, newCompositeIlks, newSeries } from './addEthSeries.config'
+import { COMPOUND, CHAINLINK, COMPOSITE, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkIlks, newCompositeIlks, newSeries } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -36,20 +37,20 @@ import { COMPOUND, CHAINLINK, COMPOSITE, newChiSources, newRateSources, newBases
     ownerAcc
   )) as unknown as Ladle
   const lendingOracle = (await ethers.getContractAt(
-    'IOracle',
+    'CompoundMultiOracle',
     protocol.get(COMPOUND) as string,
     ownerAcc
-  )) as unknown as IOracle
+  )) as unknown as CompoundMultiOracle
   const spotOracle = (await ethers.getContractAt(
     'IOracle',
     protocol.get(CHAINLINK) as string,
     ownerAcc
   )) as unknown as IOracle
   const compositeOracle = (await ethers.getContractAt(
-    'IOracle',
+    'CompositeMultiOracle',
     protocol.get(COMPOSITE) as string,
     ownerAcc
-  )) as unknown as IOracle
+  )) as unknown as CompositeMultiOracle
   const wand = (await ethers.getContractAt(
     'Wand',
     protocol.get('wand') as string,
@@ -66,18 +67,19 @@ import { COMPOUND, CHAINLINK, COMPOSITE, newChiSources, newRateSources, newBases
     ownerAcc
   )) as unknown as Timelock
   const cloak = (await ethers.getContractAt(
-    'Cloak',
+    'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
 
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateChiSourceProposal(ownerAcc, lendingOracle as unknown as CompoundMultiOracle, newChiSources.get(chainId) as [string, string][]))
-  proposal = proposal.concat(await updateRateSourceProposal(ownerAcc, lendingOracle as unknown as CompoundMultiOracle, newRateSources.get(chainId) as [string, string][]))
-  proposal = proposal.concat(await makeBaseProposal(ownerAcc, lendingOracle, ladle, wand, witch, cloak, newBases))
+  proposal = proposal.concat(await updateChiSourceProposal(ownerAcc, lendingOracle, newChiSources.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await updateRateSourceProposal(ownerAcc, lendingOracle, newRateSources.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
+  proposal = proposal.concat(await makeBaseProposal(ownerAcc, lendingOracle as unknown as IOracle, ladle, wand, witch, cloak, newBases))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, spotOracle, ladle, witch, wand, cloak, newChainlinkIlks))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, newCompositeIlks))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle as unknown as IOracle, ladle, witch, wand, cloak, newCompositeIlks))
   proposal = proposal.concat(await addSeriesProposal(wand, newSeries))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

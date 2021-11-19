@@ -22,8 +22,8 @@ import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer, YieldMa
 
   const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {
-      SafeERC20Namer: safeERC20Namer,
-      YieldMathExtensions: yieldMathExtensions,
+      SafeERC20Namer: safeERC20Namer.address,
+      YieldMathExtensions: yieldMathExtensions.address,
     },
   })
 
@@ -38,10 +38,11 @@ import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer, YieldMa
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
-      console.log(`[Strategy, '${strategy.address}'],`)
+      console.log(`Strategy deployed at '${strategy.address}'`)
       verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
       strategies.set(symbol, strategy.address)
     } else {
+      console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
       strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
     }
     if (!(await strategy.hasRole(ROOT, timelock.address))) {

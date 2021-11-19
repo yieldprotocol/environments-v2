@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { jsonToMap, mapToJson, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { deployStrategies } from '../../../strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
@@ -25,7 +25,7 @@ import { newStrategies } from './addEthSeries.config'
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
-  const strategies = jsonToMap(fs.readFileSync(path + 'strategies.json', 'utf8')) as Map<string, string>
+  let strategies = jsonToMap(fs.readFileSync(path + 'strategies.json', 'utf8')) as Map<string, string>
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
@@ -53,5 +53,6 @@ import { newStrategies } from './addEthSeries.config'
     ownerAcc
   )) as unknown as Timelock
 
-  await deployStrategies(ownerAcc, strategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, newStrategies)
+  strategies = await deployStrategies(ownerAcc, strategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, newStrategies)
+  fs.writeFileSync(path + 'strategies.json', mapToJson(strategies), 'utf8')
 })()
