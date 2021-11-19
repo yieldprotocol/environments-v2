@@ -6,7 +6,7 @@ import { ethers } from 'hardhat'
 
 ;(async () => {
   const [ me ] = await ethers.getSigners()
-  const newCardinality = 10
+  const newCardinality = 60
   const ABI = [
     'function increaseObservationCardinalityNext(uint16)',
     'function slot0() view returns(uint160,int24,uint16,uint16,uint16,uint8,bool)'
@@ -14,7 +14,7 @@ import { ethers } from 'hardhat'
   const poolAddress = '0x92560c178ce069cc014138ed3c2f5221ba71f58a'
   const pool = new ethers.Contract(poolAddress, ABI, ethers.provider)
   const cardinalityBefore = (await pool.slot0())[4]
-  if (cardinalityBefore !== newCardinality) {
+  if (cardinalityBefore < newCardinality) {
     console.log(`Cardinality at ${poolAddress}: ${cardinalityBefore}`)
     await pool.connect(me).increaseObservationCardinalityNext(60)
     console.log(`Submitted request, waiting for confirmation...`)
