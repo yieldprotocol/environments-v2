@@ -1,5 +1,6 @@
+import { BigNumber } from 'ethers'
 import { stringToBytes6 } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, WAD } from '../../../../shared/constants'
 
 export const EOMAR22 = 1648177200 // Friday, March 25, 2022 3:00:00 AM GMT+0
 export const EOJUN22 = 1656039600 // Friday, June 24, 2022 3:00:00 PM GMT+0
@@ -11,8 +12,10 @@ export const CHAINLINK = 'chainlinkOracle'
 export const COMPOUND = 'compoundOracle'
 export const COMPOSITE = 'compositeOracle'
 
-export const poolsInit: Array<string> = [
-  FYETH2203, FYETH2206,
+export const poolsInit: Array<[string, BigNumber]> = [
+  // poolId, initAmount
+  [FYETH2203, WAD.div(50)],
+  [FYETH2206, WAD.div(50)],
 ]
 
 export const newSeries: Array<[string, string, number, string[], string, string]> = [
@@ -28,10 +31,10 @@ export const newStrategies: Array<[string, string, string]> = [
 ]
 
 // Input data
-export const strategiesInit: Array<[string, string]> = [
-  // [strategyId, startPoolId]
-  [YSETH6MMS, FYETH2203], // The March/September Strategy invests in the March series
-  [YSETH6MJD, FYETH2206], // The June/December Strategy invests in the June series
+export const strategiesInit: Array<[string, string, BigNumber]> = [
+  // [strategyId, startPoolId, initAmount]
+  [YSETH6MMS, FYETH2203, WAD.div(50)], // The March/September Strategy invests in the March series
+  [YSETH6MJD, FYETH2206, WAD.div(50)], // The June/December Strategy invests in the June series
 ]
 
 export const newChiSources = new Map([

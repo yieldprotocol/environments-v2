@@ -46,7 +46,7 @@ import { newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSer
     ownerAcc
   )) as unknown as Timelock
   const cloak = (await ethers.getContractAt(
-    'Cloak',
+    'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake

@@ -14,23 +14,22 @@ import { ERC20Mock, Pool, Ladle } from '../../../typechain'
 export const initPoolsProposal = async (
   ownerAcc: any,
   ladle: Ladle,
-  poolsInit: Array<string>
+  poolsInit: Array<[string, BigNumber]>
 ): Promise<Array<{ target: string; data: string }>>  => {
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let poolId of poolsInit) {
+  for (let [poolId, initAmount] of poolsInit) {
     const poolAddress = await ladle.pools(poolId)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
     const base: ERC20Mock = (await ethers.getContractAt('ERC20Mock', await pool.base(), ownerAcc)) as ERC20Mock
-    const baseUnit: BigNumber = BigNumber.from(10).pow(await base.decimals())
 
     // Supply pool with a hundred tokens of underlying for initialization
     proposal.push({
       target: base.address,
-      data: base.interface.encodeFunctionData('transfer', [poolAddress, baseUnit.mul(100)]),
+      data: base.interface.encodeFunctionData('transfer', [poolAddress, initAmount]),
     })
 
     // Initialize pool
@@ -38,7 +37,7 @@ export const initPoolsProposal = async (
       target: pool.address,
       data: pool.interface.encodeFunctionData('mint', [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
-    console.log(`Initalizing ${await pool.symbol()} at ${poolAddress}`)
+    console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
   }
 
   return proposal
