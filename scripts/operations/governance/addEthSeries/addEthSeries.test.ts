@@ -27,15 +27,17 @@ import { WSTETH, STETH, WAD } from '../../../../shared/constants'
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
+  const stethAddress = '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'
+  const wstethAddress = '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'
 
   const wstEth = (await ethers.getContractAt(
     'WstETHMock',
-    assets.get(WSTETH) as string,
+    wstethAddress,
     ownerAcc
   )) as unknown as WstETHMock
   const stEth = (await ethers.getContractAt(
     'ERC20Mock',
-    assets.get(STETH) as string,
+    stethAddress,
     ownerAcc
   )) as unknown as ERC20Mock
   const cauldron = (await ethers.getContractAt(
@@ -54,56 +56,53 @@ import { WSTETH, STETH, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as CompositeMultiOracle
 
-  if (chainId === 1) {
-    // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
-    const stEthWhale = '0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2'
-    stEthWhaleAcc = await impersonate(stEthWhale, WAD)
-    await stEth.connect(stEthWhaleAcc).approve(wstEth.address, WAD)
-    await wstEth.connect(stEthWhaleAcc).wrap(WAD)
-  } else {
-    stEthWhaleAcc = ownerAcc
-    await wstEth.mint(stEthWhaleAcc.address, WAD)
-    await stEth.mint(stEthWhaleAcc.address, WAD)
-  }
+  // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
+  const stEthWhale = '0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2'
+  stEthWhaleAcc = await impersonate(stEthWhale, WAD.mul(100))
+  await stEth.connect(stEthWhaleAcc).approve(wstEth.address, WAD.mul(50))
+  await wstEth.connect(stEthWhaleAcc).wrap(WAD.mul(50))
 
-  for (let [seriesId] of newSeries) {
-    console.log(`series: ${seriesId}`)
-    const series = await cauldron.series(seriesId)
-    const fyToken = (await ethers.getContractAt(
-      'FYToken',
-      series.fyToken,
-      ownerAcc
-      )) as unknown as FYToken
-    
-    const dust = (await cauldron.debt(series.baseId, WSTETH)).min
-    const ratio = (await cauldron.spotOracles(series.baseId, WSTETH)).ratio
-    const borrowed = BigNumber.from(10).pow(await fyToken.decimals()).mul(dust)
-    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(WSTETH), borrowed))[0].mul(ratio).div(1000000).mul(101).div(100) // borrowed * spot * ratio * 1.01 (for margin)
-    const wstEthBalanceBefore = await wstEth.balanceOf(stEthWhaleAcc.address)
+  const seriesId = newSeries[1][0] //FYETH2206
+  console.log(`series: ${seriesId}`)
+  const series = await cauldron.series(seriesId)
+  const fyToken = (await ethers.getContractAt(
+    'FYToken',
+    series.fyToken,
+    ownerAcc
+    )) as unknown as FYToken
 
-    console.log((await cauldron.debt(series.baseId, WSTETH)).max.toString())
-    console.log((await cauldron.debt(series.baseId, WSTETH)).dec.toString())
-    console.log(borrowed.toString())
+  const dust = (await cauldron.debt(series.baseId, WSTETH)).min
+  console.log('dust', dust.toString())
+  const ratio = (await cauldron.spotOracles(series.baseId, WSTETH)).ratio
+  console.log('ratio', ratio.toString())
+  const borrowed = BigNumber.from(10).pow(await fyToken.decimals()).mul(dust)
+  console.log('borrowed.toString()', borrowed.toString())
 
-    // Build vault
-    await ladle.build(seriesId, WSTETH, 0)
-    const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
-    const vaultId = logs[logs.length - 1].args.vaultId
-    console.log(`vault: ${vaultId}`)
+  const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(WSTETH), borrowed))[0].mul(ratio).div(1000000).mul(101).div(100) // borrowed * spot * ratio * 1.01 (for margin)
+  console.log('posted.toString()  ', posted.toString())
+  const wstEthBalanceBefore = await wstEth.balanceOf(stEthWhaleAcc.address)
 
-    // Post wstEth and borrow fyETH
-    const wstEthJoinAddress = await ladle.joins(WSTETH)
-    await wstEth.transfer(wstEthJoinAddress, posted)
-    await ladle.pour(vaultId, stEthWhaleAcc.address, posted, borrowed)
-    console.log(`posted and borrowed`)
+  console.log('stuff')
+  console.log((await cauldron.debt(series.baseId, WSTETH)).max.toString())
+  console.log((await cauldron.debt(series.baseId, WSTETH)).dec.toString())
+  console.log('borrowed            ', borrowed.toString())
+  console.log('wstEthBalanceBefore', wstEthBalanceBefore.toString())
 
-    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw "art mismatch"
-    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
-    
-    // Repay fyEth and withdraw wstEth
-    await fyToken.transfer(fyToken.address, borrowed)
-    await ladle.pour(vaultId, stEthWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
-    console.log(`repaid and withdrawn`)
-    if ((await wstEth.balanceOf(stEthWhaleAcc.address)).toString() !== wstEthBalanceBefore.toString()) throw "balance mismatch"
-  }
+  // Build vault
+  await ladle.build(seriesId, WSTETH, 0)
+  const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
+  const vaultId = logs[logs.length - 1].args.vaultId
+  console.log(`vault: ${vaultId}`)
+
+  // Post wstEth and borrow fyETH
+  const wstEthJoinAddress = await ladle.joins(WSTETH)
+
+  await wstEth.connect(stEthWhaleAcc).approve(wstEthJoinAddress, borrowed)
+  await wstEth.connect(stEthWhaleAcc).transfer(wstEthJoinAddress, borrowed)
+  await ladle.pour(vaultId, stEthWhaleAcc.address, posted, borrowed)
+  console.log(`posted and borrowed  - vaultId:${vaultId}`)
+
+  if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw "art mismatch"
+  if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
+
 })()
