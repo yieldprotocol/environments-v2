@@ -17,6 +17,7 @@ export const WSTETH = ethers.utils.formatBytes32String('04').slice(0, 14)
 export const STETH = ethers.utils.formatBytes32String('05').slice(0, 14)
 export const LINK = ethers.utils.formatBytes32String('06').slice(0, 14)
 export const ENS = ethers.utils.formatBytes32String('07').slice(0, 14)
+export const UNI = ethers.utils.formatBytes32String('08').slice(0, 14)
 
 export const CDAI = ethers.utils.formatBytes32String('CDAI').slice(0, 14)
 export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
