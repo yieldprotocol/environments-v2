@@ -1,3 +1,4 @@
+npx hardhat run --network kovan scripts/operations/oracles/increaseCardinality.ts &&
 npx hardhat run --network kovan scripts/operations/oracles/deployUniswapOracle.ts &&
 
 npx hardhat run --network kovan scripts/operations/addAsset.ts &&

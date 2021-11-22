@@ -23,10 +23,9 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
  * Add the UniswapOracle as the ENS/ETH source in the Composite Oracle
  * Add the DAI/ETH/ENS and USDC/ETH/ENS paths in the Composite Oracle
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
+  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const UNISWAP = 'uniswapOracle'
@@ -37,14 +36,12 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   const kovanEnsAddress = '0xA24b97c7617cc40dCc122F6dF813584A604a6C28' // From assets.json in addresses archive
   const kovanWethAddress = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492' // From assets.json in addresses archive
 
-  // Input data: baseId, quoteId, oracle name, source address
-  const uniswapSources: Array<[string, string, string, string]> = [
-    [ENS, ETH, UNISWAP, ensEthPoolAddress],
-  ]
+  // Input data: baseId, quoteId, oracle name, source address. baseId must match token0 and quoteId must match token1.
+  const uniswapSources: Array<[string, string, string, string]> = [[ETH, ENS, UNISWAP, ensEthPoolAddress]]
 
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
-  const chainlinkSources : Array<[string, string, string, string, string, string]> = [
-    [ENS, kovanEnsAddress as string, ETH, kovanWethAddress as string, CHAINLINK,  kovanEnsEthSource],
+  const chainlinkSources: Array<[string, string, string, string, string, string]> = [
+    [ENS, kovanEnsAddress as string, ETH, kovanWethAddress as string, CHAINLINK, kovanEnsEthSource],
   ]
   // Input data: baseId, quoteId, oracle name
   const compositeSources: Map<number, Array<[string, string, string]>> = new Map([
@@ -67,33 +64,41 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
-  const compositeOracle = (await ethers.getContractAt(
+  const compositeOracle = ((await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown as CompositeMultiOracle
-  const uniswapOracle = (await ethers.getContractAt(
+  )) as unknown) as CompositeMultiOracle
+  const uniswapOracle = ((await ethers.getContractAt(
     'UniswapV3Oracle',
     protocol.get('uniswapOracle') as string,
     ownerAcc
-  )) as unknown as UniswapV3Oracle
-  const cloak = (await ethers.getContractAt(
+  )) as unknown) as UniswapV3Oracle
+  const cloak = ((await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
+  )) as unknown) as EmergencyBrake
+  const timelock = ((await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
-  )) as unknown as Timelock
+  )) as unknown) as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateUniswapOracleProposal(ownerAcc, uniswapOracle, timelock, cloak))
-  proposal = (chainId === 1) ? 
-    proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources)) :
-    proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, chainlinkSources))
-  proposal = proposal.concat(await updateCompositePairsProposal(ownerAcc, protocol, compositeOracle, compositeSources.get(chainId) as Array<[string, string, string]>))
+  proposal =
+    chainId === 1
+      ? proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources))
+      : proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, chainlinkSources))
+  proposal = proposal.concat(
+    await updateCompositePairsProposal(
+      ownerAcc,
+      protocol,
+      compositeOracle,
+      compositeSources.get(chainId) as Array<[string, string, string]>
+    )
+  )
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
