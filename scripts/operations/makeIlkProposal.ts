@@ -7,17 +7,16 @@
  */
 
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32, jsonToMap } from '../../shared/helpers'
+import { bytesToString, bytesToBytes32 } from '../../shared/helpers'
 import { WAD } from '../../shared/constants'
 
-import { Witch, Wand, Join, ChainlinkMultiOracle, EmergencyBrake } from '../../typechain'
+import { IOracle, Witch, Wand, Join, EmergencyBrake, Ladle } from '../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any, 
-  protocol: Map<string, string>,
-  joins: Map<string, string>,
+  spotOracle: IOracle,
+  ladle: Ladle,
   witch: Witch,
   wand: Wand,
   cloak: EmergencyBrake,
@@ -26,15 +25,10 @@ export const makeIlkProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   const plans: Array<string> = new Array() // Existing plans in the cloak
   for (let [baseId, ilkId, oracleName, ratio, invRatio, line, dust, dec] of ilks) {
-    const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
+    const join = (await ethers.getContractAt('Join', await ladle.joins(ilkId), ownerAcc)) as Join
 
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    const spotOracle = (await ethers.getContractAt(
-      'ChainlinkMultiOracle',
-      protocol.get(oracleName) as string,
-      ownerAcc
-    )) as unknown as ChainlinkMultiOracle
-    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${protocol.get(oracleName) as string}`)
+    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
     proposal.push({
       target: spotOracle.address,
       data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
@@ -71,10 +65,10 @@ export const makeIlkProposal = async (
 
       proposal.push({
         target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string, plan]),
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
       console.log(
-        `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`
+        `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`
       )
 
       plans.push(ilkId)

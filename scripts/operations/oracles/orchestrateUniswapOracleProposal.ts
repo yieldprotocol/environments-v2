@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 
-import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../../typechain/'
+import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../typechain/'
 
 /**
  * @dev This script permissions the UniswapV3Oracle

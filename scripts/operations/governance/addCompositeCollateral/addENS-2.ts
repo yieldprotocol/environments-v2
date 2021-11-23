@@ -2,13 +2,13 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { orchestrateUniswapOracleProposal } from '../../oracles/uniswap/orchestrateUniswapOracleProposal'
-import { updateUniswapSourcesProposal } from '../../oracles/uniswap/updateUniswapSourcesProposal'
+import { orchestrateUniswapOracleProposal } from '../../oracles/orchestrateUniswapOracleProposal'
+import { updateUniswapSourcesProposal } from '../../oracles/updateUniswapSourcesProposal'
 import { updateSpotSourcesProposal } from '../../oracles/updateSpotSourcesProposal'
 import { updateCompositePairsProposal } from '../../oracles/updateCompositePairsProposal'
 import { updateCompositePathsProposal } from '../../oracles/updateCompositePathsProposal'
 
-import { CompositeMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../../typechain'
+import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../../typechain'
 
 import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
@@ -69,6 +69,11 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
     protocol.get('compositeOracle') as string,
     ownerAcc
   )) as unknown) as CompositeMultiOracle
+  const chainlinkOracle = ((await ethers.getContractAt(
+    'ChainlinkMultiOracle',
+    protocol.get('chainlinkOracle') as string,
+    ownerAcc
+  )) as unknown) as ChainlinkMultiOracle
   const uniswapOracle = ((await ethers.getContractAt(
     'UniswapV3Oracle',
     protocol.get('uniswapOracle') as string,
@@ -90,7 +95,7 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   proposal =
     chainId === 1
       ? proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources))
-      : proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, chainlinkSources))
+      : proposal.concat(await updateSpotSourcesProposal(chainlinkOracle, chainlinkSources))
   proposal = proposal.concat(
     await updateCompositePairsProposal(
       ownerAcc,

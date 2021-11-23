@@ -8,7 +8,7 @@
 
  import { ethers } from 'hardhat'
  
- import { UniswapV3Oracle } from '../../../../typechain'
+ import { UniswapV3Oracle } from '../../../typechain'
  
  export const updateUniswapSourcesProposal = async (
    ownerAcc: any,
