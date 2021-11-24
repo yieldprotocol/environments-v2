@@ -2,13 +2,13 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { orchestrateUniswapOracleProposal } from '../../oracles/uniswap/orchestrateUniswapOracleProposal'
-import { updateUniswapSourcesProposal } from '../../oracles/uniswap/updateUniswapSourcesProposal'
+import { orchestrateUniswapOracleProposal } from '../../oracles/orchestrateUniswapOracleProposal'
+import { updateUniswapSourcesProposal } from '../../oracles/updateUniswapSourcesProposal'
 import { updateSpotSourcesProposal } from '../../oracles/updateSpotSourcesProposal'
 import { updateCompositePairsProposal } from '../../oracles/updateCompositePairsProposal'
 import { updateCompositePathsProposal } from '../../oracles/updateCompositePathsProposal'
 
-import { CompositeMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../../typechain'
+import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../../typechain'
 
 import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
@@ -36,8 +36,8 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   const kovanEnsAddress = '0xA24b97c7617cc40dCc122F6dF813584A604a6C28' // From assets.json in addresses archive
   const kovanWethAddress = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492' // From assets.json in addresses archive
 
-  // Input data: baseId, quoteId, oracle name, source address. baseId must match token0 and quoteId must match token1.
-  const uniswapSources: Array<[string, string, string, string]> = [[ETH, ENS, UNISWAP, ensEthPoolAddress]]
+  // Input data: baseId, quoteId, oracle name, pool address and twapInterval. baseId must match token0 and quoteId must match token1.
+  const uniswapSources: Array<[string, string, string, string, number]> = [[ETH, ENS, UNISWAP, ensEthPoolAddress, 600]]
 
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
   const chainlinkSources: Array<[string, string, string, string, string, string]> = [
@@ -69,6 +69,11 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
     protocol.get('compositeOracle') as string,
     ownerAcc
   )) as unknown) as CompositeMultiOracle
+  const chainlinkOracle = ((await ethers.getContractAt(
+    'ChainlinkMultiOracle',
+    protocol.get('chainlinkOracle') as string,
+    ownerAcc
+  )) as unknown) as ChainlinkMultiOracle
   const uniswapOracle = ((await ethers.getContractAt(
     'UniswapV3Oracle',
     protocol.get('uniswapOracle') as string,
@@ -90,7 +95,7 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
   proposal =
     chainId === 1
       ? proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources))
-      : proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, chainlinkSources))
+      : proposal.concat(await updateSpotSourcesProposal(chainlinkOracle, chainlinkSources))
   proposal = proposal.concat(
     await updateCompositePairsProposal(
       ownerAcc,

@@ -8,6 +8,7 @@ import "@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/lido/IWstETH.sol";
 import "@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol";
