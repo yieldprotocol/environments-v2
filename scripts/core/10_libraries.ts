@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath } from '../../shared/helpers'
+import { verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath, getOriginalChainId, getOwnerOrImpersonate } from '../../shared/helpers'
 
 import { YieldMath } from '../../typechain/YieldMath'
 import { YieldMathExtensions } from '../../typechain/YieldMathExtensions'
@@ -22,6 +22,7 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const protocol = readAddressMappingIfExists('protocol.json');
 
   let yieldMath: YieldMath

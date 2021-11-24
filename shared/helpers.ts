@@ -1,14 +1,23 @@
 import { ethers, network, run, waffle } from 'hardhat'
+import * as fs from 'fs'
 import * as hre from 'hardhat'
-
-import { BigNumber } from 'ethers'
-import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS } from './constants';
-import { AccessControl, Timelock } from '../typechain';
-
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from "path";
-import { Contract } from 'hardhat/internal/hardhat-network/stack-traces/model';
+import { BigNumber } from 'ethers'
+import { BaseProvider } from '@ethersproject/providers'
+import { THREE_MONTHS } from './constants'
+import { AccessControl, Timelock } from '../typechain'
+
+
+/** @dev Determines chainId and retrieves address mappings from governance and protocol json files*/
+/** returns a 2 element array of Map's for **governance** and **protocol**, with contract names mapped to addresses */
+export const getGovernanceProtocolAddresses = async (chainId: number): Promise<Map<string, string>[]> => {
+  if (chainId !== 1 && chainId !== 42) throw `Chain id ${chainId} not found. Only Kovan and Mainnet supported`
+  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  const governance = jsonToMap(fs.readFileSync(`${path}governance.json`, 'utf8')) as Map<string, string>
+  const protocol = jsonToMap(fs.readFileSync(`${path}protocol.json`, 'utf8')) as Map<string, string>
+  return [governance, protocol]
+}
 
 /** @dev Get the chain id, even after forking. This works because WETH10 was deployed at the same
  * address in all networks, and recorded its chainId at deployment */
@@ -258,8 +267,9 @@ export function jsonToMap(json: string): Map<any, any> {
           return new Map(value.value)
         }
       }
-      return value;
-    }); 
+      return value
+    }
+  )
 }
 
 /**
