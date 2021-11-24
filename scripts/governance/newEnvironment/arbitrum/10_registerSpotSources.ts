@@ -1,6 +1,6 @@
 import { proposeApproveExecute } from '../../../shared/helpers'
 
-import { SpotSourceUSD, updateSpotUSDSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
+import { SpotSourceUSD, updateChainlinkUSDSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
 
 import { DAI, ETH, USDC } from '../../../shared/constants'
 import { DeployedContext } from '../../../core/contexts'
@@ -15,7 +15,7 @@ import { DeployedContext } from '../../../core/contexts'
     new SpotSourceUSD(ETH, await ctx.assets.get(ETH)!, "chainlinkUSDOracle", "0x5f0423B1a6935dc5596e7A24d98532b67A0AeFd8"),
   ]
 
-  let proposal = await updateSpotUSDSourcesProposal(ctx.owner, spotSources);
+  let proposal = await updateChainlinkUSDSourcesProposal(ctx.owner, spotSources);
 
   await proposeApproveExecute(ctx.timelock, proposal, ctx.governance.get('multisig') as string)
 })()

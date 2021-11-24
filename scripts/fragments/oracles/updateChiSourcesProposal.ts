@@ -11,7 +11,7 @@ import { CHI } from '../../../shared/constants'
 
 import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
 
-export const updateChiSourceProposal = async (
+export const updateChiSourcesProposal = async (
   ownerAcc: any, 
   lendingOracle: CompoundMultiOracle,
   newSources: Array<[string, string]>

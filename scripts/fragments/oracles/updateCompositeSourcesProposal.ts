@@ -9,7 +9,7 @@ import { WAD } from '../../../shared/constants'
 
 import { CompositeMultiOracle, IOracle } from '../../../typechain'
 
-export const updateCompositePairsProposal = async (
+export const updateCompositeSourcesProposal = async (
   ownerAcc: any, 
   protocol: Map<string, string>,
   compositeOracle: CompositeMultiOracle,

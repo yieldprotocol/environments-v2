@@ -5,7 +5,7 @@ import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalCha
 import { orchestrateUniswapOracleProposal } from '../../fragments/oracles/orchestrateUniswapOracleProposal'
 import { updateUniswapSourcesProposal } from '../../fragments/oracles/updateUniswapSourcesProposal'
 import { updateSpotSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
-import { updateCompositePairsProposal } from '../../fragments/oracles/updateCompositePairsProposal'
+import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 
 import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../typechain'
@@ -97,7 +97,7 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
       ? proposal.concat(await updateUniswapSourcesProposal(ownerAcc, protocol, uniswapSources))
       : proposal.concat(await updateSpotSourcesProposal(chainlinkOracle, chainlinkSources))
   proposal = proposal.concat(
-    await updateCompositePairsProposal(
+    await updateCompositeSourcesProposal(
       ownerAcc,
       protocol,
       compositeOracle,

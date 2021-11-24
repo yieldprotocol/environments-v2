@@ -12,7 +12,7 @@ import { getContract, readAddressMappingIfExists } from '../../../shared/helpers
 
 import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechain'
 
-export const updateSpotSourcesProposal = async (
+export const updateChainlinkSourcesProposal = async (
   oracle: ChainlinkMultiOracle,
   spotSources: [string, string, string, string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
@@ -43,7 +43,7 @@ export class SpotSourceUSD {
     readonly sourceAddress: string) {}
 }
 
-export const updateSpotUSDSourcesProposal = async (
+export const updateChainlinkUSDSourcesProposal = async (
   ownerAcc: any, 
   spotSources: SpotSourceUSD[]
 ): Promise<Array<{ target: string; data: string }>>  => {

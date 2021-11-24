@@ -11,7 +11,7 @@ import { RATE } from '../../../shared/constants'
 
 import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
 
-export const updateRateSourceProposal = async (
+export const updateRateSourcesProposal = async (
   ownerAcc: any, 
   lendingOracle: CompoundMultiOracle,
   newSources: Array<[string, string]>
