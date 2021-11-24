@@ -3,7 +3,7 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import { jsonToMap, stringToBytes6, bytesToBytes32, impersonate, getOriginalChainId } from '../../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../../typechain'
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle } from '../../../../typechain'
 
 import { ENS, WAD } from '../../../../shared/constants'
 
@@ -50,10 +50,10 @@ import { ENS, WAD } from '../../../../shared/constants'
     ensWhaleAcc
   )) as unknown as Ladle
   const oracle = (await ethers.getContractAt(
-    'ChainlinkMultiOracle',
-    protocol.get('chainlinkOracle') as string,
+    'CompositeMultiOracle',
+    protocol.get('compositeOracle') as string,
     ensWhaleAcc
-  )) as unknown as ChainlinkMultiOracle
+  )) as unknown as CompositeMultiOracle
 
   if (chainId !== 1) { // Use the mock ENS to mint
     await ens.mint(ensWhale, WAD.mul(1000000)) // This should be enough

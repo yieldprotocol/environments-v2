@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath } from '../../shared/helpers'
+import { verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath, getOriginalChainId, getOwnerOrImpersonate } from '../../shared/helpers'
 
 import { YieldMath } from '../../typechain/YieldMath'
 import { YieldMathExtensions } from '../../typechain/YieldMathExtensions'
@@ -13,13 +13,16 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
  */
 
 ;(async () => {
-  /* await hre.network.provider.request({
-    method: "hardhat_impersonateAccount",
-    params: ["0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708"],
-  });
-  const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
-  const [ownerAcc] = await ethers.getSigners()
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
+  const developer = new Map([
+    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  ])
+
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   const protocol = readAddressMappingIfExists('protocol.json');
 

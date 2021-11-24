@@ -28,6 +28,7 @@ async function dumpInputs(root: string, inputs: any) {
 const COMBINED_FILE_NAME = "combined.solc.json";
 
 task("dapp-export")
+  .setDescription("Export sourcemap file that dapptools can use")
   .setAction(async function (args, hre, runSuper) {
     const dapp_root = join(hre.config.paths.cache, "dapp");
     // clean
@@ -52,6 +53,7 @@ task("dapp-export")
   })
 
 task("dapp-link")
+  .setDescription("Link sourcemap file with libraries. Example: hardhat dapp-link YieldMath:0x3ffb52852Fb8F06f74775bFd1a669d585f89cd77 YieldMathExtensions:0x6464F2cAd1e071e05F38562C38D94d8Cc49B4f99")
   .addVariadicPositionalParam("libs")
   .addOptionalParam("file", "combined.solc.json file to link", COMBINED_FILE_NAME)
   .setAction(async function (args, hre, runSuper) {
@@ -202,7 +204,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
-      gasPrice: 80000000000,
+      gasPrice: 100000000000,
       timeout: 60000000,
       url: nodeUrl('mainnet')
     },
