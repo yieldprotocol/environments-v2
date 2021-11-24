@@ -1,20 +1,20 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, stringToBytes6, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { jsonToMap, stringToBytes6, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
-import { orchestrateLidoOracleProposal } from '../../fragments/oracles/orchestrateLidoOracleProposal'
-import { updateLidoSourceProposal } from '../../fragments/oracles/updateLidoSourceProposal'
-import { updateSpotSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
-import { orchestrateCompositeOracleProposal } from '../../fragments/oracles/orchestrateCompositeOracleProposal'
-import { updateCompositePairsProposal } from '../../fragments/oracles/updateCompositePairsProposal'
-import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
+import { orchestrateLidoOracleProposal } from '../../../fragments/oracles/orchestrateLidoOracleProposal'
+import { updateLidoSourceProposal } from '../../../fragments/oracles/updateLidoSourceProposal'
+import { updateSpotSourcesProposal } from '../../../fragments/oracles/updateSpotSourcesProposal'
+import { orchestrateCompositeOracleProposal } from '../../../fragments/oracles/orchestrateCompositeOracleProposal'
+import { updateCompositePairsProposal } from '../../../fragments/oracles/updateCompositePairsProposal'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
 
-import { Cauldron, Ladle, Witch, Wand, CompositeMultiOracle, LidoOracle, Timelock, EmergencyBrake } from '../../../typechain/'
+import { Cauldron, Ladle, Witch, Wand, CompositeMultiOracle, LidoOracle, Timelock, EmergencyBrake } from '../../../../typechain'
 
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constants'
 
 /**
  * @dev This script executes the part of ypp-0007 that can be condensed in a single Timelock proposal.
