@@ -4,7 +4,7 @@
  * It takes as inputs the governance and pools json address files.
  */
 
-import { DAI, USDC } from '../../../shared/constants'
+import { DAI, USDC } from '../../../../shared/constants'
 
 import { DeployedContext } from '../../../core/contexts'
 import { deployStrategy, proposeStrategyACL, StrategyData } from '../../strategies'

@@ -1,12 +1,12 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath, getOriginalChainId, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { verify, readAddressMappingIfExists, writeAddressMap, getAddressMappingFilePath, getOriginalChainId, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
-import { YieldMath } from '../../../typechain/YieldMath'
-import { YieldMathExtensions } from '../../../typechain/YieldMathExtensions'
-import { PoolView } from '../../../typechain/PoolView'
-import { SafeERC20Namer } from '../../../typechain/SafeERC20Namer'
+import { YieldMath } from '../../../../typechain/YieldMath'
+import { YieldMathExtensions } from '../../../../typechain/YieldMathExtensions'
+import { PoolView } from '../../../../typechain/PoolView'
+import { SafeERC20Namer } from '../../../../typechain/SafeERC20Namer'
 
 /**
  * @dev This script deploys the SafeERC20Namer and YieldMath libraries
