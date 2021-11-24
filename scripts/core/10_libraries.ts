@@ -23,7 +23,6 @@ import { SafeERC20Namer } from '../../typechain/SafeERC20Namer'
   ])
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-
   const protocol = readAddressMappingIfExists('protocol.json');
 
   let yieldMath: YieldMath
