@@ -2,7 +2,6 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import {
   jsonToMap,
-  stringToBytes6,
   proposeApproveExecute,
   getOwnerOrImpersonate,
   getOriginalChainId,
@@ -13,10 +12,9 @@ import { updateSpotSourcesProposal } from '../../oracles/updateSpotSourcesPropos
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
+import { developerIfImpersonating, ilks, seriesIlks, addAssets, assetEthSource } from './addUNICollateral.config'
 
 import { Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
-
-import { ETH, DAI, USDC, UNI } from '../../../../shared/constants'
 
 /**
  * @dev This script configures the Yield Protocol to use UNI as a collateral.
@@ -29,56 +27,12 @@ import { ETH, DAI, USDC, UNI } from '../../../../shared/constants'
  * Approve UNI as collateral for all series
  */
 ;(async () => {
-  const CHAINLINK = 'chainlinkOracle'
+  
   let chainId: number
-
-  const uniAddress = new Map([
-    [1, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-    [42, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  ]) // https://github.com/Uniswap/v3-periphery/blob/main/deploys.md
-
   chainId = await getOriginalChainId()
 
-  if (chainId!=1) throw "Only Mainnet supported"
-
-  const uniOracleAddress = new Map([
-    [1, '0xD6aA3D25116d8dA79Ea0246c4826EB951872e02e'],
-  ]) // https://docs.chain.link/docs/ethereum-addresses/
-
-  const wethAddress = new Map([
-    [1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-    [42, '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
-  ]) // From assets.json in addresses archive
-
-  // Input data: baseId, base address, quoteId, quote address, oracle name, source address
-  const uniEthSource: Array<[string, string, string, string, string, string]> = [
-    [
-      UNI,
-      uniAddress.get(chainId) as string,
-      ETH,
-      wethAddress.get(chainId) as string,
-      CHAINLINK,
-      uniOracleAddress.get(chainId) as string,
-    ],
-  ]
-  
-  // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-  const ilks: Array<[string, string, string, number, number, number, number, number]> = [
-    [DAI, UNI, CHAINLINK, 2000000, 500000, 250000, 100, 18],
-    [USDC, UNI, CHAINLINK, 2000000, 500000, 250000, 100, 6],
-  ]
-  // Input data: seriesId, [ilkId]
-  const seriesIlks: Array<[string, string[]]> = [
-    [stringToBytes6('0104'), [UNI]],
-    [stringToBytes6('0105'), [UNI]],
-    [stringToBytes6('0204'), [UNI]],
-    [stringToBytes6('0205'), [UNI]],
-  ]
-
-  const developerIfImpersonating = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
+  // Input data: assetId, asset address
+  const addedAssets: Array<[string, string]> = addAssets(chainId)
 
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
 
@@ -86,9 +40,9 @@ import { ETH, DAI, USDC, UNI } from '../../../../shared/constants'
 
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
-  const joins = jsonToMap(fs.readFileSync(path+'joins.json', 'utf8')) as Map<string, string>
+  const joins = jsonToMap(fs.readFileSync(path + 'joins.json', 'utf8')) as Map<string, string>
   const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
-  
+
   const cauldron = ((await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -108,12 +62,6 @@ import { ETH, DAI, USDC, UNI } from '../../../../shared/constants'
     ownerAcc
   )) as unknown) as Timelock
 
-  
-  // Input data: assetId, asset address
-  const addedAssets: Array<[string, string]> = [
-    [UNI, uniAddress.get(chainId) as string],
-  ]
-
   // Update json database from previous step
   for (let [assetId, assetAddress] of addedAssets) {
     // Make sure the asset is recorded
@@ -125,9 +73,9 @@ import { ETH, DAI, USDC, UNI } from '../../../../shared/constants'
   }
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc,protocol, uniEthSource))
-  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc,joins, ladle, timelock, cloak, addedAssets))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc,protocol,joins, witch, wand, cloak, ilks))
+  proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc, protocol, assetEthSource(chainId)))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, joins, ladle, timelock, cloak, addedAssets))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, protocol, joins, witch, wand, cloak, ilks))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
