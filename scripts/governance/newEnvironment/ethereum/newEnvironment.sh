@@ -31,6 +31,14 @@
     update composite sources
     update composite paths
 
+--- Factories ---
+14. deploy JoinFactory
+15. deploy FYTokenFactory
+16. deploy PoolFactory
+17. orchestrate JoinFactory
+    orchestrate FYTokenFactory
+    orchestrate PoolFactory
+
 --- Core ---
 deploy Cauldron
 deploy Ladle
