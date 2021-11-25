@@ -14,14 +14,13 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, verify } from '../../shared/helpers'
-import { ROOT } from '../../shared/constants'
+import { bytesToString, verify } from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../typechain'
+import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
 
 export const orchestrateAddedAssetProposal = async (
   ownerAcc: any, 
-  joins: Map<string, string>,
   ladle: Ladle,
   timelock: Timelock,
   cloak: EmergencyBrake,

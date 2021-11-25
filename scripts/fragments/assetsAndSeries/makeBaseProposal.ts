@@ -9,22 +9,22 @@
 import { ethers } from 'hardhat'
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32 } from '../../shared/helpers'
-import { CHI, RATE } from '../../shared/constants'
+import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
+import { CHI, RATE } from '../../../shared/constants'
 
-import { Ladle, Wand, Witch, Join, EmergencyBrake, IOracle } from '../../typechain'
+import { Ladle, Wand, Witch, Join, EmergencyBrake, IOracle } from '../../../typechain'
 
 export const makeBaseProposal = async (
   ownerAcc: any, 
   lendingOracle: IOracle,
   ladle: Ladle,
-  wand: Wand,
   witch: Witch,
+  wand: Wand,
   cloak: EmergencyBrake,
-  bases: Array<[string, string]>
+  bases: Array<string>
 ): Promise<Array<{ target: string; data: string }>>  => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [assetId, oracleName] of bases) {
+  for (let assetId of bases) {
     const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.

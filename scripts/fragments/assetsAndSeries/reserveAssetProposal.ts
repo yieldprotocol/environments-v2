@@ -9,9 +9,9 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../shared/helpers'
+import { bytesToString } from '../../../shared/helpers'
 
-import { Cauldron, ERC20Mock } from '../../typechain'
+import { Cauldron, ERC20Mock } from '../../../typechain'
 
 export const reserveAssetProposal = async (
   ownerAcc: any, 

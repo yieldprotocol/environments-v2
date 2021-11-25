@@ -52,7 +52,7 @@
 --- Assets ---
 23. add assets
 
-24. orchestrate assets
+24. orchestrate joins
     make bases
     make ilks
 

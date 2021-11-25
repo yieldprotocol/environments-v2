@@ -8,10 +8,10 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32 } from '../../shared/helpers'
-import { WAD } from '../../shared/constants'
+import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
+import { WAD } from '../../../shared/constants'
 
-import { IOracle, Witch, Wand, Join, EmergencyBrake, Ladle } from '../../typechain'
+import { IOracle, Witch, Wand, Join, EmergencyBrake, Ladle } from '../../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any, 

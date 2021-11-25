@@ -8,12 +8,12 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../shared/helpers'
+import { bytesToString } from '../../../shared/helpers'
 
-import { Wand, ERC20Mock } from '../../typechain'
+import { Wand, ERC20Mock } from '../../../typechain'
 
 export const addAssetProposal = async (
-  ownerAcc: any, 
+  ownerAcc: any,
   wand: Wand,
   assets: [string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
