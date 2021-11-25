@@ -5,7 +5,6 @@
 04. deploy SafeERC20Namer
 
 --- Governance ---
-
 05. deploy Timelock
 06. deploy Cloak
 
@@ -40,28 +39,26 @@
     orchestrate PoolFactory
 
 --- Core ---
-deploy Cauldron
-deploy Ladle
-deploy Witch
-deploy Wand
+18. deploy Cauldron
+19. deploy Ladle
+20. deploy Witch
+21. deploy Wand
 
-orchestrate Cauldron
-orchestrate Ladle
-orchestrate Witch
-orchestrate Wand
-
---- Strategies ---
-deploy strategies
+22. orchestrate Cauldron
+    orchestrate Ladle
+    orchestrate Witch
+    orchestrate Wand
 
 --- Assets ---
-add assets
+23. add assets
 
-orchestrate assets
-make bases
-make ilks
+24. orchestrate assets
+    make bases
+    make ilks
 
-deploy series
+25. deploy series
+26. deploy strategies
 
-orchestrate fyToken
-init pools
-init strategies
+27. orchestrate fyToken
+    init pools
+    init strategies
