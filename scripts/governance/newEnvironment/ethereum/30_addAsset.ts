@@ -18,7 +18,7 @@ import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../../shared/helpers'
 import { DAI, USDC, ETH, WBTC, CDAI, CUSDC, CUSDT } from '../../shared/constants'
-
+import { ROOT } from '../../../shared/constants'
 import { Ladle } from '../../typechain/Ladle'
 import { Wand } from '../../typechain/Wand'
 import { Join } from '../../typechain/Join'
@@ -60,7 +60,6 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
-  const ROOT = await timelock.ROOT()
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

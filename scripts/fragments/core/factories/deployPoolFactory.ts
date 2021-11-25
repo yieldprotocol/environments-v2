@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { getOriginalChainId, getOwnerOrImpersonate, verify, readAddressMappingIfExists, writeAddressMap } from '../../../../shared/helpers'
-
+import { ROOT } from '../../../../shared/constants'
 import { PoolFactory, Timelock } from '../../../../typechain'
 
 /**
@@ -27,7 +27,6 @@ import { PoolFactory, Timelock } from '../../../../typechain'
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let poolFactory: PoolFactory
   if (protocol.get('poolFactory') === undefined) {
@@ -40,7 +39,7 @@ import { PoolFactory, Timelock } from '../../../../typechain'
     })
     poolFactory = (await PoolFactoryFactory.deploy()) as unknown as PoolFactory
     await poolFactory.deployed()
-    console.log(`[PoolFactory, '${poolFactory.address}'],`)
+    console.log(`PoolFactory deployed at ${poolFactory.address}`)
     verify(poolFactory.address, [], 'safeERC20Namer.js')
     protocol.set('poolFactory', poolFactory.address)
     writeAddressMap('protocol.json', protocol);

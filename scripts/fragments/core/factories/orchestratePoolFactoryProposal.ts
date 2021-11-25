@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-
+import { ROOT } from '../../../../shared/constants'
 import { PoolFactory } from '../../../../typechain'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 
@@ -16,7 +16,6 @@ export const orchestratePoolFactoryProposal = async (
   cloak: EmergencyBrake
 ): Promise<Array<{ target: string; data: string }>>  => {
   const proposal: Array<{ target: string; data: string }> = []
-  const ROOT = await timelock.ROOT()
 
   proposal.push({
     target: poolFactory.address,

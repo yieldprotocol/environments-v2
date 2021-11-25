@@ -1,5 +1,5 @@
 import { id } from '@yield-protocol/utils-v2'
-
+import { ROOT } from '../../../shared/constants'
 import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
 
 /**
@@ -15,7 +15,6 @@ export const orchestrateCompositeOracleProposal = async (
     timelock: Timelock,
     cloak: EmergencyBrake
   ): Promise<Array<{ target: string; data: string }>>  => {
-  const ROOT = await compositeOracle.ROOT()
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer

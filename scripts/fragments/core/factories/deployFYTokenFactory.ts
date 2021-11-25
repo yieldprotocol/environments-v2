@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { getOriginalChainId, getOwnerOrImpersonate, verify, readAddressMappingIfExists, writeAddressMap } from '../../../../shared/helpers'
-
+import { ROOT } from '../../../../shared/constants'
 import { FYTokenFactory, Timelock } from '../../../../typechain'
 
 
@@ -28,7 +28,6 @@ import { FYTokenFactory, Timelock } from '../../../../typechain'
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let fyTokenFactory: FYTokenFactory
   if (protocol.get('fyTokenFactory') === undefined) {
@@ -39,7 +38,7 @@ import { FYTokenFactory, Timelock } from '../../../../typechain'
     })
     fyTokenFactory = (await fyTokenFactoryFactory.deploy()) as unknown as FYTokenFactory
     await fyTokenFactory.deployed()
-    console.log(`[FYTokenFactory, '${fyTokenFactory.address}'],`)
+    console.log(`FYTokenFactory deployed at ${fyTokenFactory.address}`)
     verify(fyTokenFactory.address, [], 'safeERC20Namer.js')
     protocol.set('fyTokenFactory', fyTokenFactory.address)
     

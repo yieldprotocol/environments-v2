@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
 import { WAD } from '../../../shared/constants'
 import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
-
+import { ROOT } from '../../../shared/constants'
 import UniswapV3OracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol/UniswapV3Oracle.json'
 
 import { UniswapV3Oracle } from '../../../typechain/UniswapV3Oracle'
@@ -38,7 +38,6 @@ const { deployContract } = waffle
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let uniswapOracle: UniswapV3Oracle
   if (protocol.get('uniswapOracle') === undefined) {

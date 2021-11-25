@@ -7,7 +7,7 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-
+import { ROOT } from '../../../../shared/constants'
 import { Timelock, Strategy } from '../../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
@@ -16,7 +16,6 @@ export const orchestrateStrategiesProposal = async (
   timelock: Timelock,
   strategiesData: Array<[string, string, string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
-  const ROOT = await timelock.ROOT()
 
   const proposal: Array<{ target: string; data: string }> = []
 

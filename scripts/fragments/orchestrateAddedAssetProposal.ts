@@ -13,9 +13,9 @@
  */
 
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, mapToJson, verify } from '../../shared/helpers'
+import { bytesToString, verify } from '../../shared/helpers'
+import { ROOT } from '../../shared/constants'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../typechain'
 
@@ -30,7 +30,6 @@ export const orchestrateAddedAssetProposal = async (
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch
-  const ROOT = await timelock.ROOT()
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [assetId, assetAddress] of assets) {

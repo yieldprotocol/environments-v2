@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-
+import { ROOT } from '../../../../shared/constants'
 import { JoinFactory } from '../../../../typechain'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 
@@ -14,7 +14,6 @@ export const orchestrateJoinFactoryProposal = async (
   cloak: EmergencyBrake
 ): Promise<Array<{ target: string; data: string }>>  => {
   const proposal: Array<{ target: string; data: string }> = []
-  const ROOT = await timelock.ROOT()
 
   proposal.push({
     target: joinFactory.address,

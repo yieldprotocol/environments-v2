@@ -1,8 +1,7 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, stringToBytes32, bytesToString } from '../../../shared/helpers'
-
+import { jsonToMap, bytesToString } from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
 import { Join } from '../../../typechain/Join'
 import { Timelock } from '../../../typechain/Timelock'
 import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
@@ -28,7 +27,6 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
-  const ROOT = await timelock.ROOT()
 
   const proposal: Array<{ target: string; data: string }> = []
   for (let assetId of joins.keys()) {

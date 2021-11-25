@@ -1,7 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
 import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate } from '../../../shared/helpers'
-
+import { ROOT } from '../../../shared/constants'
 import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol/CompoundMultiOracle.json'
 
 import { CompoundMultiOracle } from '../../../typechain/CompoundMultiOracle'
@@ -25,8 +25,7 @@ const { deployContract } = waffle
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
-
+  
   let compoundOracle: CompoundMultiOracle
   if (protocol.get('compoundOracle') === undefined) {
       compoundOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompoundMultiOracle

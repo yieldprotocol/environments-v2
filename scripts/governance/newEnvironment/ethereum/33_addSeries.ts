@@ -18,7 +18,7 @@ import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, stringToBytes6, mapToJson, jsonToMap, verify } from '../../shared/helpers'
 import { DAI, USDC, ETH, WBTC, ZERO_ADDRESS } from '../../shared/constants'
-
+import { ROOT } from '../../../shared/constants'
 import { Cauldron } from '../../typechain/Cauldron'
 import { Ladle } from '../../typechain/Ladle'
 import { Wand } from '../../typechain/Wand'
@@ -72,7 +72,6 @@ import { EmergencyBrake } from '../../typechain/EmergencyBrake'
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
-  const ROOT = await timelock.ROOT()
 
   // Each series costs 10M gas to deploy, so there is no bundling of several series in a single proposal
   for (let [seriesId, baseId, maturity, ilkIds, name, symbol] of newSeries) {

@@ -5,7 +5,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from "path";
 import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
-import { THREE_MONTHS } from './constants'
+import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
 
 
@@ -326,7 +326,6 @@ export async function getContract<OutT>(owner:any, name: string, address: string
  * Make sure Timelock has ROOT access to the contract
  */
 export async function ensureRootAccess(contract: AccessControl, timelock: Timelock) {
-  const ROOT = await timelock.ROOT();
   if (!(await contract.hasRole(ROOT, timelock.address))) {
     await contract.grantRole(ROOT, timelock.address)
     console.log(`${contract.address}.grantRoles(ROOT, timelock)`)

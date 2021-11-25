@@ -1,7 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { getAddressMappingFilePath, readAddressMappingIfExists } from '../../../shared/helpers'
-
+import { ROOT } from '../../../shared/constants'
 import { ChainlinkUSDMultiOracle } from '../../../typechain/ChainlinkUSDMultiOracle'
 
 import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
@@ -19,7 +19,6 @@ import { AccumulatorMultiOracle } from '../../../typechain'
 
   const timelock = await getContract<Timelock>(ownerAcc, "Timelock", governance.get("timelock"));
   const cloak = await getContract<EmergencyBrake>(ownerAcc, "EmergencyBrake", governance.get("cloak"));
-  const ROOT = await timelock.ROOT()
 
   const accumulatorMultiOracle = await getOrDeploy<AccumulatorMultiOracle>(ownerAcc, 
     PROTOCOL_FILE, "accumulatorOracle", "AccumulatorMultiOracle", [], timelock);

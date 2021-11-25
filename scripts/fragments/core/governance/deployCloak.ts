@@ -1,6 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import { getOriginalChainId, getOwnerOrImpersonate, verify, writeAddressMap, readAddressMappingIfExists } from '../../../../shared/helpers'
-
+import { ROOT } from '../../../../shared/constants'
 import EmergencyBrakeArtifact from '../../../../artifacts/@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol/EmergencyBrake.json'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 
@@ -29,8 +29,7 @@ const { deployContract } = waffle
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
-
+  
   let cloak: EmergencyBrake
   if (governance.get('cloak') === undefined) {
     cloak = (await deployContract(ownerAcc, EmergencyBrakeArtifact, [

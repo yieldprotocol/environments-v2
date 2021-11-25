@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
 import { WSTETH, STETH } from '../../../shared/constants'
 import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate, bytesToBytes32 } from '../../../shared/helpers'
-
+import { ROOT } from '../../../shared/constants'
 import LidoOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol/LidoOracle.json'
 
 import { LidoOracle } from '../../../typechain/LidoOracle'
@@ -30,7 +30,6 @@ const { deployContract } = waffle
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let lidoOracle: LidoOracle
   if (protocol.get('lidoOracle') === undefined) {

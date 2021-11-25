@@ -1,6 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import { getOriginalChainId, getOwnerOrImpersonate, verify, readAddressMappingIfExists, writeAddressMap } from '../../../../shared/helpers'
-
+import { ROOT } from '../../../../shared/constants'
 import JoinFactoryArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/JoinFactory.sol/JoinFactory.json'
 import { JoinFactory, Timelock } from '../../../../typechain'
 
@@ -30,12 +30,11 @@ const { deployContract } = waffle
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let joinFactory: JoinFactory
   if (protocol.get('joinFactory') === undefined) {
     joinFactory = (await deployContract(ownerAcc, JoinFactoryArtifact, [])) as JoinFactory
-    console.log(`[JoinFactory, '${joinFactory.address}'],`)
+    console.log(`JoinFactory deployed at ${joinFactory.address}`)
     verify(joinFactory.address, [])
     protocol.set('joinFactory', joinFactory.address)
     writeAddressMap('protocol.json', protocol);

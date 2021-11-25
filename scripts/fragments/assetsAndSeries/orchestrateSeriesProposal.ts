@@ -10,6 +10,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, verify } from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
 
 import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
 
@@ -21,9 +22,6 @@ export const orchestrateSeriesProposal = async (
   cloak: EmergencyBrake,
   newSeries: Array<[string, string, number, string[], string, string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
-
-  const ROOT = await timelock.ROOT()
-
   let proposal: Array<{ target: string; data: string }> = []
 
   // Each series costs 10M gas to deploy, so there is no bundling of several series in a single proposal

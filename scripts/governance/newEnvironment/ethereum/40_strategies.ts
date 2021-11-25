@@ -4,7 +4,7 @@ import * as hre from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { jsonToMap, mapToJson, verify } from '../../shared/helpers'
 import { WAD, ETH, DAI, USDC, WBTC } from '../../shared/constants'
-
+import { ROOT } from '../../../shared/constants'
 import { Ladle } from '../../typechain/Ladle'
 import { Strategy } from '../../typechain/Strategy'
 import { ERC20Mock } from '../../typechain/ERC20Mock'
@@ -47,8 +47,6 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
     ownerAcc
   )) as unknown as Timelock
   if ((await ethers.provider.getCode(timelock.address)) === '0x') throw `Address ${timelock.address} contains no code`
-
-  const ROOT = await timelock.ROOT()
 
   const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {

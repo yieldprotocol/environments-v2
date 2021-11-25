@@ -1,24 +1,22 @@
 import { ethers } from 'hardhat'
 import { verify } from '../../../../shared/helpers'
-
+import { ROOT } from '../../../../shared/constants'
 import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer, YieldMathExtensions } from '../../../../typechain'
 
 /**
  * @dev This script deploys strategies
  */
 
- export const deployStrategies = async (
-  ownerAcc: any,
-  strategies: Map<string, string>,
-  cauldron: Cauldron,
-  ladle: Ladle,
-  safeERC20Namer: SafeERC20Namer,
-  yieldMathExtensions: YieldMathExtensions,
-  timelock: Timelock,
-  strategiesData: Array<[string, string, string]>
-): Promise<Map<string, string>> => {
-
-  const ROOT = await timelock.ROOT()
+export const deployStrategies = async (
+    ownerAcc: any,
+    strategies: Map<string, string>,
+    cauldron: Cauldron,
+    ladle: Ladle,
+    safeERC20Namer: SafeERC20Namer,
+    yieldMathExtensions: YieldMathExtensions,
+    timelock: Timelock,
+    strategiesData: Array<[string, string, string]>
+  ): Promise<Map<string, string>> => {
 
   const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {
