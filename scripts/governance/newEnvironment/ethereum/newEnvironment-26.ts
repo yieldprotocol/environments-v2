@@ -3,10 +3,10 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { deployStrategies } from '../../../fragments/core/strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
-import { developer, strategies } from './newEnvironment.config'
+import { developer, strategiesData } from './newEnvironment.config'
 
 /**
- * @dev This script deploys two strategies to be used for Ether
+ * @dev This script deploys strategies
  */
 
 ;(async () => {
@@ -44,6 +44,6 @@ import { developer, strategies } from './newEnvironment.config'
     ownerAcc
   )) as unknown as Timelock
 
-  const deployedStrategies = await deployStrategies(ownerAcc, existingStrategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, strategies)
+  const deployedStrategies = await deployStrategies(ownerAcc, existingStrategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, strategiesData)
   writeAddressMap('strategies.json', deployedStrategies);
 })()

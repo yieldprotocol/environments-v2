@@ -60,5 +60,6 @@
 26. deploy strategies
 
 27. orchestrate fyToken
+    orchestrate strategies
     init pools
     init strategies

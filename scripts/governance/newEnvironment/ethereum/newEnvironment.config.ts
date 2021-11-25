@@ -208,7 +208,7 @@ export const series: Array<[string, string, number, string[], string, string]> =
   [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2203', 'FYUSDC2203'],
 ]
 
-export const strategies: Array<[string, string, string]> = [
+export const strategiesData: Array<[string, string, string]> = [
   // name, symbol, baseId
   ['Yield Strategy DAI 6M Mar Sep',  YSDAI6MMS,  DAI],
   ['Yield Strategy DAI 6M Jun Dec',  YSDAI6MJD,  DAI],
@@ -225,3 +225,10 @@ export const strategiesInit: Array<[string, string, BigNumber]> = [
   [YSUSDC6MJD, FYUSDC2112, WAD.mul(100)],
 ]
 
+export const poolsInit: Array<[string, BigNumber]> = [
+  // poolId, initAmount
+  [FYDAI2203,  WAD.mul(100)],
+  [FYDAI2112,  WAD.mul(100)],
+  [FYUSDC2203, WAD.mul(100)],
+  [FYUSDC2112, WAD.mul(100)],
+]
