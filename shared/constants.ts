@@ -32,6 +32,19 @@ export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
 export const CWBTC = ethers.utils.formatBytes32String('CWBTC').slice(0, 14)
 export const CUSDT = ethers.utils.formatBytes32String('CUSDT').slice(0, 14)
 
+export const EODEC21 = 1640919600
+export const EOMAR22 = 1648177200
+
+export const FYDAI2112  = ethers.utils.formatBytes32String('0104').slice(0, 14)
+export const FYDAI2203  = ethers.utils.formatBytes32String('0105').slice(0, 14)
+export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
+export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
+
+export const YSDAI6MMS  = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
+export const YSDAI6MJD  = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
+export const YSUSDC6MMS = 'YSDAI6MMS' // Yield Strategy USDC 6M Mar Sep
+export const YSUSDC6MJD = 'YSDAI6MJD' // Yield Strategy USDC 6M Jun Dec
+
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years

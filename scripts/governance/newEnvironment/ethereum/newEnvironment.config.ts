@@ -1,6 +1,9 @@
-import { stringToBytes6, bytesToString, readAddressMappingIfExists } from '../../../../shared/helpers'
+import { BigNumber } from 'ethers'
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS } from '../../../../shared/constants'
-import { CHAINLINK, COMPOUND, COMPOSITE, LIDO, UNISWAP } from '../../../../shared/constants'
+import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../../shared/constants'
+import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../../shared/constants'
+import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -35,81 +38,6 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [LINK,   '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
     [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ])],
-])
-
-// Assets for which we will have a Join
-export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
-  [1, [
-    [ETH,    assets.get(1).get(ETH)],
-    [DAI,    assets.get(1).get(DAI)],
-    [USDC,   assets.get(1).get(USDC)],
-    [WBTC,   assets.get(1).get(WBTC)],
-    [WSTETH, assets.get(1).get(WSTETH)],
-    [ENS,    assets.get(1).get(ENS)],
-  ]],
-  [42, [
-    [ETH,    assets.get(1).get(ETH)],
-    [DAI,    assets.get(1).get(DAI)],
-    [USDC,   assets.get(1).get(USDC)],
-    [WBTC,   assets.get(1).get(WBTC)],
-    [WSTETH, assets.get(1).get(WSTETH)],
-    [ENS,    assets.get(1).get(ENS)],
-  ]],
-])
-
-// Assets for which we will have an Oracle, but not a Join
-export const assetsToReserve: Map<number, Array<[string, string]>> = new Map([
-  [1, [
-    [STETH, assets.get(1).get(STETH)],
-  ]],
-  [42, [
-    [STETH, assets.get(1).get(STETH)],
-  ]],
-])
-
-export const bases: Map<number, Array<string>> = new Map([
-  [1, [DAI, USDC]],
-  [42, [DAI, USDC]],
-])
-
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const chainlinkIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
-  [1, [
-    [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
-    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
-    [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
-    [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
-    [USDC, ETH, CHAINLINK, 1400000, 714000, 2000000, 1, 6],
-    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
-    [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
-  ]],
-  [42, [
-    [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
-    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
-    [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
-    [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
-    [USDC, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 6],
-    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
-    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
-    [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
-  ]],
-])
-
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const compositeIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
-  [1, [
-    [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
-    [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
-    [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
-    [USDC, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 6],
-  ]],
-  [42, [
-    [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
-    [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
-    [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
-    [USDC, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 6],
-  ]],
 ])
 
 export const chiSources: Map<number, Array<[string, string]>> = new Map([
@@ -196,3 +124,104 @@ export const compositePaths: Map<number, Array<[string, string, Array<string>]>>
     [ENS, USDC, [ETH]],
   ]],
 ])
+
+// Assets for which we will have a Join
+export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
+  [1, [
+    [ETH,    assets.get(1).get(ETH)],
+    [DAI,    assets.get(1).get(DAI)],
+    [USDC,   assets.get(1).get(USDC)],
+    [WBTC,   assets.get(1).get(WBTC)],
+    [WSTETH, assets.get(1).get(WSTETH)],
+    [ENS,    assets.get(1).get(ENS)],
+  ]],
+  [42, [
+    [ETH,    assets.get(1).get(ETH)],
+    [DAI,    assets.get(1).get(DAI)],
+    [USDC,   assets.get(1).get(USDC)],
+    [WBTC,   assets.get(1).get(WBTC)],
+    [WSTETH, assets.get(1).get(WSTETH)],
+    [ENS,    assets.get(1).get(ENS)],
+  ]],
+])
+
+// Assets for which we will have an Oracle, but not a Join
+export const assetsToReserve: Map<number, Array<[string, string]>> = new Map([
+  [1, [
+    [STETH, assets.get(1).get(STETH)],
+  ]],
+  [42, [
+    [STETH, assets.get(1).get(STETH)],
+  ]],
+])
+
+export const bases: Map<number, Array<string>> = new Map([
+  [1, [DAI, USDC]],
+  [42, [DAI, USDC]],
+])
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const chainlinkIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
+  [1, [
+    [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
+    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
+    [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
+    [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
+    [USDC, ETH, CHAINLINK, 1400000, 714000, 2000000, 1, 6],
+    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
+    [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
+  ]],
+  [42, [
+    [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
+    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
+    [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
+    [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
+    [USDC, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 6],
+    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
+    [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
+  ]],
+])
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const compositeIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
+  [1, [
+    [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
+    [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
+    [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
+    [USDC, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 6],
+  ]],
+  [42, [
+    [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
+    [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
+    [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
+    [USDC, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 6],
+  ]],
+])
+
+// Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
+export const series: Array<[string, string, number, string[], string, string]> = [
+  [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2112',  'FYDAI2112'],
+  [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2203',  'FYDAI2203'],
+  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2112', 'FYUSDC2112'],
+  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2203', 'FYUSDC2203'],
+]
+
+export const strategies: Array<[string, string, string]> = [
+  // name, symbol, baseId
+  ['Yield Strategy DAI 6M Mar Sep',  YSDAI6MMS,  DAI],
+  ['Yield Strategy DAI 6M Jun Dec',  YSDAI6MJD,  DAI],
+  ['Yield Strategy USDC 6M Mar Sep', YSUSDC6MMS, USDC],
+  ['Yield Strategy USDC 6M Jun Dec', YSUSDC6MJD, USDC],
+]
+
+// Input data
+export const strategiesInit: Array<[string, string, BigNumber]> = [
+  // [strategyId, startPoolId, initAmount]
+  [YSDAI6MMS,  FYDAI2203,  WAD.mul(100)],
+  [YSDAI6MJD,  FYDAI2112,  WAD.mul(100)],
+  [YSUSDC6MMS, FYUSDC2203, WAD.mul(100)],
+  [YSUSDC6MJD, FYUSDC2112, WAD.mul(100)],
+]
+
