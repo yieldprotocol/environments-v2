@@ -14,12 +14,14 @@ import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechai
 
 export const updateChainlinkSourcesProposal = async (
   oracle: ChainlinkMultiOracle,
-  spotSources: [string, string, string, string, string, string][]
+  spotSources: [string, string, string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, baseAddress, quoteId, quoteAddress, oracleName, sourceAddress] of spotSources) {
+  for (let [baseId, baseAddress, quoteId, quoteAddress, sourceAddress] of spotSources) {
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
     console.log(`Setting up ${sourceAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
+
+    // TODO: We can now instantiate sourceAddress into a ChainlinkV3Aggregator and read the price feed, which would be a better test
 
     proposal.push({
       target: oracle.address,

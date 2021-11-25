@@ -1,8 +1,5 @@
 /**
- * @dev This script replaces one or more chi data sources in the CompoundMultiOracle.
- *
- * It takes as inputs the governance, protocol and chiSources json address files.
- * It rewrites the chiSources json address file.
+ * @dev This script replaces one or more rate data sources in the CompoundMultiOracle.
  */
 
 import { ethers } from 'hardhat'
@@ -12,10 +9,10 @@ import { RATE } from '../../../shared/constants'
 import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
 
 export const updateRateSourcesProposal = async (
-  ownerAcc: any, 
   lendingOracle: CompoundMultiOracle,
   newSources: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
+  const [ ownerAcc ] = await ethers.getSigners()
   console.log(`compoundOracle: ${lendingOracle.address}`)
 
   // Build proposal

@@ -31,9 +31,6 @@
     update composite sources
     update composite paths
 
---- Utils ---
-deploy LidoWrapHandler
-
 --- Core ---
 deploy Cauldron
 deploy Ladle

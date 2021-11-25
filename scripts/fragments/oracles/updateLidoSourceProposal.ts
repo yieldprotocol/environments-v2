@@ -1,7 +1,5 @@
 /**
  * @dev This script replaces the data source in the LidoOracle.
- *
- * It takes as inputs the governance and protocol json address files.
  */
 
 import { ethers } from 'hardhat'
@@ -11,10 +9,11 @@ import { WAD, WSTETH, STETH } from '../../../shared/constants'
 import { LidoOracle, IWstETH } from '../../../typechain'
 
 export const updateLidoSourceProposal = async (
-  ownerAcc: any,
   lidoOracle: LidoOracle,
   source: string
 ): Promise<Array<{ target: string; data: string }>>  => {
+  const [ ownerAcc ] = await ethers.getSigners()
+
   const proposal: Array<{ target: string; data: string }> = []
   if ((await ethers.provider.getCode(source)) === '0x') throw `Address ${source} contains no code`
 
