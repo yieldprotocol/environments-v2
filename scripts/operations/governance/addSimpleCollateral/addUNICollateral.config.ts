@@ -1,5 +1,5 @@
 /**
- * @dev Input file for addUNI-2.ts
+ * @dev Input file for addUNI-1.ts, addUNI-2.ts & addUNI.test.ts
  */
 
 import { USDC, UNI, DAI, ETH } from '../../../../shared/constants'
@@ -11,11 +11,16 @@ export const assetAddress = new Map([
   [42, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
 ]) // https://github.com/Uniswap/v3-periphery/blob/main/deploys.md
 
-export const assetOracleAddress = new Map([[1, '0xD6aA3D25116d8dA79Ea0246c4826EB951872e02e']]) // https://docs.chain.link/docs/ethereum-addresses/
+export const assetOracleAddress = new Map([[1, '0xD6aA3D25116d8dA79Ea0246c4826EB951872e02e'],[42,'0xD95f3FeeB66108413819D1528D0365594Bc43f31']]) // https://docs.chain.link/docs/ethereum-addresses/
 
 export const wethAddress = new Map([
   [1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
   [42, '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
+]) // From assets.json in addresses archive
+
+export const uniWhale = new Map([
+  [1, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
+  [42, '0x41653c7d61609d856f29355e404f310ec4142cfb'],
 ]) // From assets.json in addresses archive
 
 export const developerIfImpersonating = new Map([

@@ -13,7 +13,7 @@ import { addAssets,developerIfImpersonating } from './addUNICollateral.config'
   let chainId: number
 
   chainId = await getOriginalChainId()
-  if (chainId!=1) throw "Only Mainnet supported"
+  
   const addedAssets: Array<[string, string]> = addAssets(chainId)
 
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
