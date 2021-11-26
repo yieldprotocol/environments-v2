@@ -2,11 +2,11 @@
  * @dev Input file for updateCeiling.ts
  */
 
-import { USDC, ENS } from '../../../shared/constants'
+import { USDC, ETH } from '../../../shared/constants'
 
 // Input data: baseId, ilkId, maxDebt
 export const newMax: Array<[string, string, number]> = [
-  [USDC, ENS, 1000000],
+  [USDC, ETH, 5000000],
 ]
 
 export const developerIfImpersonating = new Map([
