@@ -22,6 +22,7 @@ export const addSeriesProposal = async (
       target: wand.address,
       data: wand.interface.encodeFunctionData('addSeries', [seriesId, baseId, maturity, ilkIds, name, symbol]),
     })
+    console.log(`Adding ${name} series`)
   }
 
   return proposal

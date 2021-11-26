@@ -19,7 +19,7 @@ import { developer, series } from './newEnvironment.config'
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
-    protocol.get('timelock') as string,
+    governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
   const wand = (await ethers.getContractAt(

@@ -1,11 +1,12 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
+import { DAI, USDC, WAD } from '../../../../shared/constants'
 
 import { orchestrateSeriesProposal } from '../../../fragments/assetsAndSeries/orchestrateSeriesProposal'
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
-import { Cauldron, Ladle, Timelock, EmergencyBrake } from '../../../../typechain'
+import { Cauldron, Ladle, Timelock, EmergencyBrake, ERC20Mock } from '../../../../typechain'
 import { developer, series, strategiesData, poolsInit, strategiesInit } from './newEnvironment.config'
 
 
@@ -42,6 +43,22 @@ import { developer, series, strategiesData, poolsInit, strategiesInit } from './
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
+
+  // If we are on Kovan, put enough DAI and USDC in the Timelock to initialize pools and strategies
+  if (chainId === 42) {
+    const dai = (await ethers.getContractAt(
+      'ERC20Mock',
+      await cauldron.assets(DAI),
+      ownerAcc
+    )) as unknown as ERC20Mock
+    const usdc = (await ethers.getContractAt(
+      'ERC20Mock',
+      await cauldron.assets(USDC),
+      ownerAcc
+    )) as unknown as ERC20Mock
+    await dai.mint(timelock.address, WAD.mul(400))
+    await usdc.mint(timelock.address, WAD.mul(400))
+  }
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateSeriesProposal(ownerAcc, cauldron, ladle, timelock, cloak, series))

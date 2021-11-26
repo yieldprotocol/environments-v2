@@ -54,3 +54,14 @@ $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-23.ts # add asset
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - propose
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - approve
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - execute
+
+# Phase 7: Series, Pools, Strategies
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - execute
+
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-26.ts # deploy strategies
+
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - execute
