@@ -12,7 +12,7 @@ import {
   proposeApproveExecute,
   getGovernanceProtocolAddresses
 } from '../../../shared/helpers'
-import { updateCeilingProposal } from '../../limits/updateCeilingProposal'
+import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
 import { Cauldron, Timelock } from '../../../typechain'
 import { newMax, developerIfImpersonating } from './updateCeiling.config'
 
