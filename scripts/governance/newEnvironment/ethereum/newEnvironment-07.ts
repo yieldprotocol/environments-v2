@@ -13,7 +13,6 @@ import { deployer, developer } from './newEnvironment.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
 

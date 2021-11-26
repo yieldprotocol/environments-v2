@@ -1,27 +1,23 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { addAssetProposal } from '../../addAssetProposal'
-import { Wand, Timelock } from '../../../../typechain'
+import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
+import { Wand, Timelock } from '../../../typechain'
 
 import { addAssets,developerIfImpersonating } from './addUNICollateral.config'
 /**
  * @dev This script adds UNI as an asset.
  */
 ;(async () => {
-  let chainId: number
-
-  chainId = await getOriginalChainId()
-  
-  const addedAssets: Array<[string, string]> = addAssets(chainId)
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
 
-  const path = chainId == 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
-  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
-  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
+  const addedAssets: Array<[string, string]> = addAssets(chainId)
 
   const wand = ((await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown) as Wand
   const timelock = ((await ethers.getContractAt(

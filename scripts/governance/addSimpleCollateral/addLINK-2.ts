@@ -1,13 +1,12 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { jsonToMap, stringToBytes6, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { getOriginalChainId, readAddressMappingIfExists, stringToBytes6, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
-import { updateSpotSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
-import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
-import { makeIlkProposal } from '../../makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
+import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
+import { orchestrateAddedAssetProposal } from '../../fragments/assetsAndSeries/orchestrateAddedAssetProposal'
+import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import { Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../typechain'
+import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../typechain'
 
 import { ETH, DAI, USDC, LINK } from '../../../shared/constants'
 
@@ -24,17 +23,27 @@ import { ETH, DAI, USDC, LINK } from '../../../shared/constants'
 
 ;(async () => {
   const CHAINLINK = 'chainlinkOracle'
-  let chainId: number
-  
+  const developerIfImpersonating = new Map([
+    [1,'0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42,'0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5']
+  ])
+
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
+
+  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
+
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
+
   const linkAddress = new Map([
     [1, '0x514910771af9ca656af840dff83e8264ecf986ca'],
     [42, '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
   ]) // https://docs.chain.link/docs/link-token-contracts/
 
-  // Because in forks the network name gets replaced by 'localhost' and chainId by 31337, we rely on checking known contracts to find out which chain are we on.
-  if ((await ethers.provider.getCode(linkAddress.get(1) as string)) !== '0x') chainId = 1
-  else if ((await ethers.provider.getCode(linkAddress.get(42) as string)) !== '0x') chainId = 42
-  else throw "Unrecognized chain"
+  const addedAssets: Array<[string, string]> = [
+    [LINK, linkAddress.get(chainId) as string],
+  ]
 
   const linkOracleAddress = new Map([
     [1, '0xDC530D9457755926550b59e8ECcdaE7624181557'],
@@ -47,8 +56,8 @@ import { ETH, DAI, USDC, LINK } from '../../../shared/constants'
   ]) // From assets.json in addresses archive
 
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
-  const linkEthSource : Array<[string, string, string, string, string, string]> = [
-        [LINK, linkAddress.get(chainId) as string, ETH, wethAddress.get(chainId) as string, CHAINLINK,  linkOracleAddress.get(chainId) as string],
+  const linkEthSource : Array<[string, string, string, string, string]> = [
+        [LINK, linkAddress.get(chainId) as string, ETH, wethAddress.get(chainId) as string, linkOracleAddress.get(chainId) as string],
       ]
   // Input data: assetId, asset address
   const assets: Array<[string, string]> = [
@@ -67,16 +76,11 @@ import { ETH, DAI, USDC, LINK } from '../../../shared/constants'
     [stringToBytes6('0205'), [LINK]],
   ]
 
-  const developerIfImpersonating = new Map([
-    [1,'0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [42,'0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5']
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
-
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
-
+  const chainlinkOracle = (await ethers.getContractAt(
+    'ChainlinkMultiOracle',
+    protocol.get('chainlinkOracle') as string,
+    ownerAcc
+  )) as unknown as ChainlinkMultiOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -109,9 +113,9 @@ import { ETH, DAI, USDC, LINK } from '../../../shared/constants'
   )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc, linkEthSource))
+  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, linkEthSource))
   proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, witch, wand, cloak, ilks))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle as unknown as IOracle, ladle, witch, wand, cloak, ilks))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

@@ -1,9 +1,8 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 
-import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { jsonToMap, stringToBytes6, bytesToBytes32, impersonate, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { getOriginalChainId, readAddressMappingIfExists, stringToBytes6, bytesToBytes32, impersonate, getOwnerOrImpersonate } from '../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../typechain'
 
 import { LINK, WAD } from '../../../shared/constants'
@@ -30,15 +29,12 @@ import { LINK, WAD } from '../../../shared/constants'
     [42, '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
   ]) // https://docs.chain.link/docs/link-token-contracts/
 
-  let chainId: number
-
-  // Because in forks the network name gets replaced by 'localhost' and chainId by 31337, we rely on checking known contracts to find out which chain are we on.
-  if ((await ethers.provider.getCode(linkAddress.get(1) as string)) !== '0x') chainId = 1
-  else if ((await ethers.provider.getCode(linkAddress.get(42) as string)) !== '0x') chainId = 42
-  else throw "Unrecognized chain"
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
+
+  const protocol = readAddressMappingIfExists('protocol.json');
 
   const link = (await ethers.getContractAt(
     'ERC20Mock',

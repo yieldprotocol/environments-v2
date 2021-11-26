@@ -45,13 +45,12 @@ export const seriesIlks: Array<[string, string[]]> = [
 
 // Input data: baseId, base address, quoteId, quote address, oracle name, source address
 export function assetEthSource(chainId: any) {
-  const assetEthSource: Array<[string, string, string, string, string, string]> = [
+  const assetEthSource: Array<[string, string, string, string, string]> = [
     [
       UNI,
       assetAddress.get(chainId) as string,
       ETH,
       wethAddress.get(chainId) as string,
-      CHAINLINK,
       assetOracleAddress.get(chainId) as string,
     ],
   ]
