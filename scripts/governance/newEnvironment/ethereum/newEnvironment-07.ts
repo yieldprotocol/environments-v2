@@ -1,6 +1,5 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { orchestrateCloakProposal } from '../../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
@@ -18,7 +17,7 @@ import { deployer, developer } from './newEnvironment.config'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
 
-  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
+  const governance = readAddressMappingIfExists('governance.json');
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

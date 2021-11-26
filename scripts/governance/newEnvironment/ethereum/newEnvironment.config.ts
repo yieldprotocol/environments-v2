@@ -64,17 +64,17 @@ export const rateSources: Map<number, Array<[string, string]>> = new Map([
 
 export const chainlinkSources: Map<number, Array<[string, string, string, string, string]>> = new Map([
   [1, [
-    [DAI,   assets.get(1).get(DAI),   ETH, assets.get(1).get(ETH), '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
-    [USDC,  assets.get(1).get(USDC),  ETH, assets.get(1).get(ETH), '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
-    [WBTC,  assets.get(1).get(WBTC),  ETH, assets.get(1).get(ETH), '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-    [STETH, assets.get(1).get(STETH), ETH, assets.get(1).get(ETH), '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
+    [DAI,   (assets.get(1) as Map<string, string>).get(DAI)   as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
+    [USDC,  (assets.get(1) as Map<string, string>).get(USDC)  as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
+    [WBTC,  (assets.get(1) as Map<string, string>).get(WBTC)  as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
+    [STETH, (assets.get(1) as Map<string, string>).get(STETH) as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
   ]],
   [42, [
-    [DAI,   assets.get(42).get(DAI),   ETH, assets.get(42).get(ETH), '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
-    [USDC,  assets.get(42).get(USDC),  ETH, assets.get(42).get(ETH), '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
-    [WBTC,  assets.get(42).get(WBTC),  ETH, assets.get(42).get(ETH), '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-    [STETH, assets.get(42).get(STETH), ETH, assets.get(42).get(ETH), '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-    [ENS,   assets.get(42).get(ENS),   ETH, assets.get(42).get(ETH), '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4'],
+    [DAI,   (assets.get(42) as Map<string, string>).get(DAI)   as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
+    [USDC,  (assets.get(42) as Map<string, string>).get(USDC)  as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
+    [WBTC,  (assets.get(42) as Map<string, string>).get(WBTC)  as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
+    [STETH, (assets.get(42) as Map<string, string>).get(STETH) as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
+    [ENS,   (assets.get(42) as Map<string, string>).get(ENS)   as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4'],
   ]],
 ])
 
@@ -87,8 +87,8 @@ export const uniswapSources: Map<number, Array<[string, string, string, number]>
 
 // The lidoSource is the wstETH contract
 export const lidoSource: Map<number, string> = new Map([
-  [1, assets.get(1).get(WSTETH)],
-  [42, assets.get(1).get(WSTETH)],
+  [1,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+  [42, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
 ])
 
 export const compositeSources: Map<number, Array<[string, string, string]>> = new Map([
@@ -128,30 +128,30 @@ export const compositePaths: Map<number, Array<[string, string, Array<string>]>>
 // Assets for which we will have a Join
 export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
   [1, [
-    [ETH,    assets.get(1).get(ETH)],
-    [DAI,    assets.get(1).get(DAI)],
-    [USDC,   assets.get(1).get(USDC)],
-    [WBTC,   assets.get(1).get(WBTC)],
-    [WSTETH, assets.get(1).get(WSTETH)],
-    [ENS,    assets.get(1).get(ENS)],
+    [ETH,    (assets.get(1) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(1) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(1) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(1) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+    [ENS,    (assets.get(1) as Map<string, string>).get(ENS)    as string],
   ]],
   [42, [
-    [ETH,    assets.get(1).get(ETH)],
-    [DAI,    assets.get(1).get(DAI)],
-    [USDC,   assets.get(1).get(USDC)],
-    [WBTC,   assets.get(1).get(WBTC)],
-    [WSTETH, assets.get(1).get(WSTETH)],
-    [ENS,    assets.get(1).get(ENS)],
+    [ETH,    (assets.get(42) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(42) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(42) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(42) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
+    [ENS,    (assets.get(42) as Map<string, string>).get(ENS)    as string],
   ]],
 ])
 
 // Assets for which we will have an Oracle, but not a Join
 export const assetsToReserve: Map<number, Array<[string, string]>> = new Map([
   [1, [
-    [STETH, assets.get(1).get(STETH)],
+    [STETH, (assets.get(1) as Map<string, string>).get(STETH) as string],
   ]],
   [42, [
-    [STETH, assets.get(1).get(STETH)],
+    [STETH, (assets.get(42) as Map<string, string>).get(STETH) as string],
   ]],
 ])
 

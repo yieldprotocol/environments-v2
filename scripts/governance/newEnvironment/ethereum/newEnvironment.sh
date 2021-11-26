@@ -1,65 +1,25 @@
---- Libraries ---
-01. deploy YieldMath
-02. deploy YieldMathExtensions
-03. deploy PoolView
-04. deploy SafeERC20Namer
+#!/bin/bash
 
---- Governance ---
-05. deploy Timelock
-06. deploy Cloak
+# set -euxo pipefail
+RUN="npx hardhat run --network localhost --no-compile"
+HERE=$(dirname $0)
 
-07. orchestrate Cloak
+# Phase 1: Deploy libraries
+$RUN scripts/fragments/core/libraries/deployYieldMath.ts
+$RUN scripts/fragments/core/libraries/deployYieldMathExtensions.ts
+$RUN scripts/fragments/core/libraries/deployPoolView.ts
+$RUN scripts/fragments/core/libraries/deploySafeERC20Namer.ts
 
---- Oracles ---
-08. deploy ChainlinkMultiOracle
-09. deploy CompoundMultiOracle
-10. deploy CompositeMultiOracle
-11. deploy UniswapMultiOracle
-12. deploy LidoOracle
+# Phase 2: Deploy governance
+$RUN scripts/fragments/core/governance/deployTimelock.ts
+$RUN scripts/fragments/core/governance/deployCloak.ts
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-07.ts # orchestrate Cloak - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-07.ts # orchestrate Cloak - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-07.ts # orchestrate Cloak - execute
 
-13. orchestrate ChainlinkMultiOracle
-    orchestrate CompoundMultiOracle
-    orchestrate CompositeMultiOracle
-    orchestrate UniswapMultiOracle
-    orchestrate LidoOracle
-    update chi sources
-    update rate sources
-    update chainlink sources
-    update uniswap sources
-    update lido sources
-    update composite sources
-    update composite paths
-
---- Factories ---
-14. deploy JoinFactory
-15. deploy FYTokenFactory
-16. deploy PoolFactory
-17. orchestrate JoinFactory
-    orchestrate FYTokenFactory
-    orchestrate PoolFactory
-
---- Core ---
-18. deploy Cauldron
-19. deploy Ladle
-20. deploy Witch
-21. deploy Wand
-
-22. orchestrate Cauldron
-    orchestrate Ladle
-    orchestrate Witch
-    orchestrate Wand
-
---- Assets ---
-23. add assets
-
-24. orchestrate joins
-    make bases
-    make ilks
-
-25. deploy series
-26. deploy strategies
-
-27. orchestrate fyToken
-    orchestrate strategies
-    init pools
-    init strategies
+# Phase 3: Deploy oracles
+$RUN scripts/fragments/oracles/deployChainlinkOracle.ts
+$RUN scripts/fragments/oracles/deployCompoundOracle.ts
+$RUN scripts/fragments/oracles/deployCompositeOracle.ts
+$RUN scripts/fragments/oracles/deployLidoOracle.ts
+$RUN scripts/fragments/oracles/deployUniswapOracle.ts

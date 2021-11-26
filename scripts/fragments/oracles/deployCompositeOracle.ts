@@ -1,7 +1,6 @@
 import { ethers, waffle } from 'hardhat'
-import * as fs from 'fs'
 import { ROOT } from '../../../shared/constants'
-import { mapToJson, jsonToMap, verify, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { getOriginalChainId, readAddressMappingIfExists, writeAddressMap, verify, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
 
@@ -20,11 +19,17 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const developerIfImpersonating = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating)
+  const chainId = await getOriginalChainId()
+  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
 
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+  const developer = new Map([
+    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  ])
+
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -35,10 +40,10 @@ const { deployContract } = waffle
   let compositeOracle: CompositeMultiOracle
   if (protocol.get('compositeOracle') === undefined) {
       compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
-      console.log(`[CompositeMultiOracle, '${compositeOracle.address}'],`)
+      console.log(`CompositeMultiOracle ${compositeOracle.address}`)
       verify(compositeOracle.address, [])
       protocol.set('compositeOracle', compositeOracle.address)
-      fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+      writeAddressMap("protocol.json", protocol);
   } else {
       compositeOracle = (await ethers.getContractAt('CompositeMultiOracle', protocol.get('compositeOracle') as string, ownerAcc)) as unknown as CompositeMultiOracle
   }
