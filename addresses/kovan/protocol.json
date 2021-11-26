@@ -68,6 +68,10 @@
     [
       "wand",
       "0x3379c4F4AFB1AE91eE75227B7521ef0a44315303"
+    ],
+    [
+      "lidoWrapHandler",
+      "0xa65C9eB2a3c6Ff4025922E95D598d43293A43a3F"
     ]
   ]
 }

@@ -22,7 +22,6 @@ export const deployLadle = async (
   ): Promise<Ladle> => {
   console.log(`Using ${await weth9.name()} at ${weth9.address}`)
 
-
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
