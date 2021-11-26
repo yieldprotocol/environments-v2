@@ -1,8 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
-import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { mapToJson, jsonToMap, verify } from '../../shared/helpers'
+import { verify, readAddressMappingIfExists, writeAddressMap } from '../../shared/helpers'
 
 import CauldronArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
 
@@ -29,8 +28,8 @@ const { deployContract } = waffle
   const ownerAcc = await ethers.getSigner("0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708") */
   const [ownerAcc] = await ethers.getSigners()
 
-  const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
@@ -50,7 +49,7 @@ const { deployContract } = waffle
     console.log(`[Cauldron, '${cauldron.address}'],`)
     verify(cauldron.address, [])
     protocol.set('cauldron', cauldron.address)
-    fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
+    writeAddressMap('protocol.json', protocol);
   } else {
     cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
   }

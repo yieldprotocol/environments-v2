@@ -1,3 +1,9 @@
+External contract links:
+ - [Yearn Vault deployed token contracts](https://yearn.github.io/yearn-devdocs/getting-started/products/yvaults/vault-tokens) -- [github](https://github.com/yearn/yearn-vaults/blob/main/contracts/Vault.vy)
+ - [Curve deployed contract addresses](https://curve.readthedocs.io/ref-addresses.html) -- [github](https://github.com/curvefi/curve-contract/tree/master/contracts)
+ - [Lido deployed contracts (stEth and wstEth)](https://docs.lido.fi/deployed-contracts)
+
+---
 
 Start a local environment:
 `npx hardhat node` 

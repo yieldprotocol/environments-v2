@@ -6,7 +6,7 @@ import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetPropos
 import { makeIlkProposal } from '../../makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
 
-import { Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
+import { IOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
 
 import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
@@ -60,13 +60,18 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
   const joins = jsonToMap(fs.readFileSync(path + 'joins.json', 'utf8')) as Map<string, string>
   const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
+  const compositeOracle = ((await ethers.getContractAt(
+    'IOracle',
+    protocol.get('compositeOracle') as string,
+    ownerAcc
+  )) as unknown) as IOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -110,7 +115,7 @@ import { DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, joins, ladle, timelock, cloak, addedAssets))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, protocol, joins, witch, wand, cloak, ilks))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, ilks))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

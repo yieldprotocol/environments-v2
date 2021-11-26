@@ -1,10 +1,10 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
-import { mapToJson, jsonToMap, verify, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
-import { orchestrateCompositeOracleProposal } from './orchestrateCompositeOracleProposal'
+import { mapToJson, jsonToMap, verify, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { orchestrateCompositeOracleProposal } from '../../oracles/orchestrateCompositeOracleProposal'
 
-import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
-import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
+import CompositeMultiOracleArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
+import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../../typechain'
 
 const { deployContract } = waffle
 

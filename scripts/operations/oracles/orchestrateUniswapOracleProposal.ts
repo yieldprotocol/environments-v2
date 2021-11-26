@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 
-import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../../typechain/'
+import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../typechain/'
 
 /**
  * @dev This script permissions the UniswapV3Oracle
@@ -26,8 +26,7 @@ export const orchestrateUniswapOracleProposal = async (
       target: uniswapOracle.address,
       data: uniswapOracle.interface.encodeFunctionData('grantRoles', [
           [
-              id(uniswapOracle.interface, 'setSource(bytes6,bytes6,address)'),
-              id(uniswapOracle.interface, 'setSecondsAgo(uint32)'),
+              id(uniswapOracle.interface, 'setSource(bytes6,bytes6,address,uint32)'),
           ],
           timelock.address
       ])
