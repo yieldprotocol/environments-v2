@@ -36,3 +36,13 @@ $RUN scripts/fragments/core/factories/deployPoolFactory.ts
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-17.ts # orchestrate factories - propose
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-17.ts # orchestrate factories - approve
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-17.ts # orchestrate factories - execute
+
+# Phase 5: Core
+$RUN scripts/fragments/core/deployCauldron.ts
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-19.ts # deploy Ladle, using WETH9 from the config file
+$RUN scripts/fragments/core/deployWitch.ts
+$RUN scripts/fragments/core/deployWand.ts
+
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - execute

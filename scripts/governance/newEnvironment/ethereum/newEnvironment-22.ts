@@ -62,7 +62,7 @@ import { deployer, developer } from './newEnvironment.config'
   )) as unknown) as JoinFactory
   const fyTokenFactory = ((await ethers.getContractAt(
     'FYTokenFactory',
-    protocol.get('fYTokenFactory') as string,
+    protocol.get('fyTokenFactory') as string,
     ownerAcc
   )) as unknown) as FYTokenFactory
   const poolFactory = ((await ethers.getContractAt(
