@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
 import { reserveAssetProposal } from '../../../fragments/assetsAndSeries/reserveAssetProposal'
@@ -35,8 +35,8 @@ import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.config
   )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, wand, assetsToAdd.get(chainId)))
-  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve.get(chainId)))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, wand, assetsToAdd.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve.get(chainId) as [string, string][]))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

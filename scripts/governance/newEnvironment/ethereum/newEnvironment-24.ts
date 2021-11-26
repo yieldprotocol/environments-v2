@@ -67,10 +67,10 @@ import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../
   )) as unknown as Wand
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assetsToAdd.get(chainId)))
-  proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle, ladle, witch, wand, cloak, bases.get(chainId)))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, chainlinkIlks.get(chainId)))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeIlks.get(chainId)))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assetsToAdd.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle, ladle, witch, wand, cloak, bases.get(chainId) as string[]))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, chainlinkIlks.get(chainId) as [string, string, string, number, number, number, number, number][]))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeIlks.get(chainId) as [string, string, string, number, number, number, number, number][]))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

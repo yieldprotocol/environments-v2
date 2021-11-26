@@ -46,3 +46,11 @@ $RUN scripts/fragments/core/deployWand.ts
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - propose
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - approve
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-22.ts # orchestrate core - execute
+
+# Phase 6: Assets
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-23.ts # add assets, deploying joins - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-23.ts # add assets, deploying joins - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-23.ts # add assets, deploying joins - execute
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - execute
