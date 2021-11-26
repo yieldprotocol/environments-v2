@@ -41,5 +41,6 @@ import { PoolView } from '../../../../typechain/PoolView'
     writeAddressMap("protocol.json", protocol);
   } else {
     poolView = (await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)) as PoolView
+    console.log(`Reusing PoolView at ${poolView.address}`)
   }
 })()

@@ -36,5 +36,6 @@ import { SafeERC20Namer } from '../../../../typechain/SafeERC20Namer'
       protocol.get('safeERC20Namer') as string,
       ownerAcc
     )) as SafeERC20Namer
+    console.log(`Reusing SafeERC20Namer at ${safeERC20Namer.address}`)
   }
 })()

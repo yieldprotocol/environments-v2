@@ -45,6 +45,7 @@ const { deployContract } = waffle
       writeAddressMap("protocol.json", protocol);
   } else {
       lidoOracle = (await ethers.getContractAt('LidoOracle', protocol.get('lidoOracle') as string, ownerAcc)) as unknown as LidoOracle
+      console.log(`Reusing LidoOracle at ${lidoOracle.address}`)
   }
   if (!(await lidoOracle.hasRole(ROOT, timelock.address))) {
       await lidoOracle.grantRole(ROOT, timelock.address); console.log(`lidoOracle.grantRoles(ROOT, timelock)`)

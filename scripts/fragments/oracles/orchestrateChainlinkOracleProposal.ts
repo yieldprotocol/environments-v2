@@ -10,7 +10,7 @@ import { ChainlinkMultiOracle, EmergencyBrake, Timelock } from '../../../typecha
  */
 
 export const orchestrateChainlinkOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     chainlinkOracle: ChainlinkMultiOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
@@ -37,7 +37,7 @@ export const orchestrateChainlinkOracleProposal = async (
 
   proposal.push({
     target: chainlinkOracle.address,
-    data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+    data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`)
 

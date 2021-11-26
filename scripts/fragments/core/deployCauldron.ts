@@ -41,6 +41,7 @@ const { deployContract } = waffle
     writeAddressMap('protocol.json', protocol);
   } else {
     cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
+    console.log(`Reusing Cauldron at ${cauldron.address}`)
   }
   if (!(await cauldron.hasRole(ROOT, timelock.address))) {
     await cauldron.grantRole(ROOT, timelock.address)

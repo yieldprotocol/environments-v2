@@ -10,7 +10,7 @@ import { CompoundMultiOracle, EmergencyBrake, Timelock } from '../../../typechai
  */
 
 export const orchestrateCompoundOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     compoundOracle: CompoundMultiOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
@@ -37,7 +37,7 @@ export const orchestrateCompoundOracleProposal = async (
 
   proposal.push({
     target: compoundOracle.address,
-    data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+    data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
 

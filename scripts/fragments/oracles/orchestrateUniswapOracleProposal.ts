@@ -11,7 +11,7 @@ import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../typechain/'
  */
 
 export const orchestrateUniswapOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     uniswapOracle: UniswapV3Oracle,
     timelock: Timelock,
     cloak: EmergencyBrake
@@ -40,7 +40,7 @@ export const orchestrateUniswapOracleProposal = async (
 
   proposal.push({
       target: uniswapOracle.address,
-      data: uniswapOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+      data: uniswapOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`uniswapOracle.revokeRole(ROOT, deployer)`)
 

@@ -36,7 +36,7 @@ const { deployContract } = waffle
       ownerAcc.address,
       ownerAcc.address,
     ])) as EmergencyBrake // Give the planner and executor their roles once set up
-    console.log(`[Cloak, '${cloak.address}'],`)
+    console.log(`Cloak deployed at ${cloak.address}`)
     verify(cloak.address, [ownerAcc.address, ownerAcc.address]) // Give the planner and executor their roles once set up
 
     governance.set('cloak', cloak.address)
@@ -47,6 +47,7 @@ const { deployContract } = waffle
       governance.get('cloak') as string,
       ownerAcc
     )) as unknown as EmergencyBrake
+    console.log(`Reusing Cloak at ${cloak.address}`)
   }
   if (!(await cloak.hasRole(ROOT, timelock.address))) {
     await cloak.grantRole(ROOT, timelock.address)

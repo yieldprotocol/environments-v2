@@ -14,7 +14,6 @@ import { Timelock, EmergencyBrake, Cauldron, Ladle, Witch, Wand, JoinFactory, FY
   deployer: string,
   cauldron: Cauldron,
   ladle: Ladle,
-  witch: Witch,
   wand: Wand,
   joinFactory: JoinFactory,
   fyTokenFactory: FYTokenFactory,
@@ -24,8 +23,8 @@ import { Timelock, EmergencyBrake, Cauldron, Ladle, Witch, Wand, JoinFactory, FY
 ): Promise<Array<{ target: string; data: string }>>  => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  // Orchestrate Wand to use the permissioned functions in Cauldron
-  // Store a plan for isolating Cauldron from Witch
+  // Orchestrate Wand to use the permissioned functions in Cauldron, Ladle and Factories
+  // Store a plan for isolating the Wand from the above
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

@@ -83,12 +83,13 @@ export const uniswapSources: Map<number, Array<[string, string, string, number]>
   [1, [
     [ETH, ENS,  '0x92560c178ce069cc014138ed3c2f5221ba71f58a', 600],
   ]],
+  [42, []], // We don't use uniswap v2 in Kovan
 ])
 
 // The lidoSource is the wstETH contract
 export const lidoSource: Map<number, string> = new Map([
   [1,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
-  [42, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+  [42, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
 ])
 
 export const compositeSources: Map<number, Array<[string, string, string]>> = new Map([

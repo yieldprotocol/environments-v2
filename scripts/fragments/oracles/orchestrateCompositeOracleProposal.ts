@@ -10,7 +10,7 @@ import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typecha
  */
 
 export const orchestrateCompositeOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     compositeOracle: CompositeMultiOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
@@ -40,7 +40,7 @@ export const orchestrateCompositeOracleProposal = async (
 
   proposal.push({
     target: compositeOracle.address,
-    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
 

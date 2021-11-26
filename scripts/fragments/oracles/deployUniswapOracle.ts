@@ -44,6 +44,7 @@ const { deployContract } = waffle
       writeAddressMap("protocol.json", protocol);
   } else {
       uniswapOracle = (await ethers.getContractAt('UniswapV3Oracle', protocol.get('uniswapOracle') as string, ownerAcc)) as unknown as UniswapV3Oracle
+      console.log(`Reusing UniswapOracle at ${uniswapOracle.address}`)
   }
   if (!(await uniswapOracle.hasRole(ROOT, timelock.address))) {
       await uniswapOracle.grantRole(ROOT, timelock.address); console.log(`uniswapOracle.grantRoles(ROOT, timelock)`)

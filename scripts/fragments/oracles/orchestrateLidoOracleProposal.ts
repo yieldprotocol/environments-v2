@@ -13,7 +13,7 @@ import { Timelock } from '../../../typechain/Timelock'
  */
 
 export const orchestrateLidoOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     lidoOracle: LidoOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
@@ -42,7 +42,7 @@ export const orchestrateLidoOracleProposal = async (
 
   proposal.push({
       target: lidoOracle.address,
-      data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+      data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`lidoOracle.revokeRole(ROOT, deployer)`)
 

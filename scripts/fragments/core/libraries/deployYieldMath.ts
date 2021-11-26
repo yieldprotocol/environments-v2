@@ -32,5 +32,6 @@ import { YieldMath } from '../../../../typechain/YieldMath'
     fs.writeFileSync(getAddressMappingFilePath('yieldMath.js'), `module.exports = { YieldMath: "${yieldMath.address}" }`, 'utf8')
   } else {
     yieldMath = (await ethers.getContractAt('YieldMath', protocol.get('yieldMath') as string, ownerAcc)) as YieldMath
+    console.log(`Reusing YieldMath at ${yieldMath.address}`)
   }
 })()

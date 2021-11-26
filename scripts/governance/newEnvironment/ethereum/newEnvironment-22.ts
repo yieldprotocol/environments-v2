@@ -76,7 +76,7 @@ import { deployer, developer } from './newEnvironment.config'
   proposal = proposal.concat(await orchestrateCauldronProposal(deployer.get(chainId) as string, cauldron, timelock, cloak))
   proposal = proposal.concat(await orchestrateLadleProposal(deployer.get(chainId) as string, cauldron, ladle, timelock, cloak))
   proposal = proposal.concat(await orchestrateWitchProposal(deployer.get(chainId) as string, cauldron, witch, timelock, cloak))
-  proposal = proposal.concat(await orchestrateWandProposal(deployer.get(chainId) as string, cauldron, ladle, witch, wand, joinFactory, fyTokenFactory, poolFactory, timelock, cloak))
+  proposal = proposal.concat(await orchestrateWandProposal(deployer.get(chainId) as string, cauldron, ladle, wand, joinFactory, fyTokenFactory, poolFactory, timelock, cloak))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

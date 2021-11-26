@@ -72,18 +72,18 @@ import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, 
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateChainlinkOracleProposal(deployer, chainlinkOracle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateCompoundOracleProposal(deployer, compoundOracle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateCompositeOracleProposal(deployer, compositeOracle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateUniswapOracleProposal(deployer, uniswapOracle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateLidoOracleProposal(deployer, lidoOracle, timelock, cloak))
-  proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, chiSources.get(chainId)))
-  proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, rateSources.get(chainId)))
-  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources.get(chainId)))
-  proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapSources.get(chainId)))
-  proposal = proposal.concat(await updateLidoSourceProposal(lidoOracle, lidoSource.get(chainId)))
-  proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources.get(chainId)))
-  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths.get(chainId)))
+  proposal = proposal.concat(await orchestrateChainlinkOracleProposal(deployer.get(chainId) as string, chainlinkOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateCompoundOracleProposal(deployer.get(chainId) as string, compoundOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateCompositeOracleProposal(deployer.get(chainId) as string, compositeOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateUniswapOracleProposal(deployer.get(chainId) as string, uniswapOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateLidoOracleProposal(deployer.get(chainId) as string, lidoOracle, timelock, cloak))
+  proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, chiSources.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, rateSources.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources.get(chainId) as [string, string, string, string, string][]))
+  proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapSources.get(chainId) as [string, string, string, number][]))
+  proposal = proposal.concat(await updateLidoSourceProposal(lidoOracle, lidoSource.get(chainId) as string))
+  proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources.get(chainId) as [string, string, string][]))
+  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths.get(chainId) as [string, string, string[]][]))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

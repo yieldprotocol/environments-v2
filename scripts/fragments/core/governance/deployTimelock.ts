@@ -25,10 +25,21 @@ const { deployContract } = waffle
   const governance = readAddressMappingIfExists('governance.json');
 
   const multisig = ownerAcc.address
-  const timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig, multisig])) as unknown as Timelock
-  console.log(`[Timelock, '${timelock.address}'],`)
-  verify(timelock.address, [multisig, multisig])
 
-  governance.set('timelock', timelock.address);
-  writeAddressMap("governance.json", governance);
+  let timelock: Timelock
+  if (governance.get('timelock') === undefined) {
+    timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig, multisig])) as Timelock
+    console.log(`Timelock deployed at ${timelock.address}`)
+    verify(timelock.address, [ownerAcc.address, ownerAcc.address]) // Give the planner and executor their roles once set up
+
+    governance.set('timelock', timelock.address)
+    writeAddressMap('governance.json', governance);
+  } else {
+    timelock = (await ethers.getContractAt(
+      'Timelock',
+      governance.get('timelock') as string,
+      ownerAcc
+    )) as unknown as Timelock
+    console.log(`Reusing Timelock at ${timelock.address}`)
+  }
 })()

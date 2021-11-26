@@ -40,6 +40,7 @@ const { deployContract } = waffle
       writeAddressMap("protocol.json", protocol);
   } else {
       compoundOracle = (await ethers.getContractAt('CompoundMultiOracle', protocol.get('compoundOracle') as string, ownerAcc)) as unknown as CompoundMultiOracle
+      console.log(`Reusing CompoundMultiOracle at ${compoundOracle.address}`)
   }
   if (!(await compoundOracle.hasRole(ROOT, timelock.address))) {
       await compoundOracle.grantRole(ROOT, timelock.address); console.log(`compoundOracle.grantRoles(ROOT, timelock)`)

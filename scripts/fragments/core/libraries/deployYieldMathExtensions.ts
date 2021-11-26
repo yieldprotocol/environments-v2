@@ -31,7 +31,7 @@ import { YieldMath, YieldMathExtensions } from '../../../../typechain'
     })
     yieldMathExtensions = (await YieldMathExtensionsFactory.deploy()) as unknown as YieldMathExtensions
     await yieldMathExtensions.deployed()
-    console.log(`yieldMathExtensions deployed at ${yieldMathExtensions.address}`)
+    console.log(`YieldMathExtensions deployed at ${yieldMathExtensions.address}`)
     verify(yieldMathExtensions.address, [], getAddressMappingFilePath('yieldMath.js'))
     protocol.set('yieldMathExtensions', yieldMathExtensions.address)
     writeAddressMap("protocol.json", protocol);
@@ -46,5 +46,6 @@ import { YieldMath, YieldMathExtensions } from '../../../../typechain'
       protocol.get('yieldMathExtensions') as string,
       ownerAcc
     )) as YieldMathExtensions
+    console.log(`Reusing YieldMathExtensions at ${yieldMathExtensions.address}`)
   }
 })()

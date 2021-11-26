@@ -40,6 +40,7 @@ const { deployContract } = waffle
       writeAddressMap("protocol.json", protocol);
   } else {
       chainlinkOracle = (await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc)) as unknown as ChainlinkMultiOracle
+      console.log(`Reusing ChainlinkMultiOracle at ${chainlinkOracle.address}`)
   }
   if (!(await chainlinkOracle.hasRole(ROOT, timelock.address))) {
       await chainlinkOracle.grantRole(ROOT, timelock.address); console.log(`chainlinkOracle.grantRoles(ROOT, timelock)`)
