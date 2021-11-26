@@ -47,10 +47,11 @@ export const orchestrateSeriesProposal = async (
       ],
       'safeERC20Namer.js'
     )
-
+    console.log(`${await fyToken.symbol()} deployed at ${fyToken.address}'`)
+    
     const baseId = await fyToken.underlyingId()
     const pool = (await ethers.getContractAt('Pool', await ladle.pools(seriesId), ownerAcc)) as Pool
-    console.log(`${await fyToken.symbol()}Pool, '${pool.address}'`)
+    console.log(`${await fyToken.symbol()}Pool deployed at ${pool.address}'`)
     verify(pool.address, [], 'safeERC20Namer.js')
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them

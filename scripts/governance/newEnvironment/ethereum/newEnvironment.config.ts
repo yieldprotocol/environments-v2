@@ -25,7 +25,6 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [WBTC,   '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
     [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
     [STETH,  '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-    [LINK,   ''],
     [ENS,    '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
   ])],
   [42, new Map([
@@ -33,9 +32,8 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [DAI,    '0xaFCdc724EB8781Ee721863db1B15939675996484'],
     [USDC,   '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
     [WBTC,   '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
-    [WSTETH, '0xB12C63eD91e901995E68023293AC1A308ffA6c3c'],
-    [STETH,  '0x2296AB4F92f7fADC78eD02A9576B9a779CAa91bE'],
-    [LINK,   '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
+    [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
+    [STETH,  '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
     [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ])],
 ])
@@ -168,7 +166,7 @@ export const chainlinkIlks: Map<number, Array<[string, string, string, number, n
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
     [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
     [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
-    [USDC, ETH, CHAINLINK, 1400000, 714000, 2000000, 1, 6],
+    [USDC, ETH, CHAINLINK, 1400000, 714000, 5000000, 1, 6],
     [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
     [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
@@ -202,9 +200,13 @@ export const compositeIlks: Map<number, Array<[string, string, string, number, n
 ])
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
-export const series: Array<[string, string, number, string[], string, string]> = [
+export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
   [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2112',  'FYDAI2112'],
   [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2203',  'FYDAI2203'],
+]
+
+// Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
+export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
   [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2112', 'FYUSDC2112'],
   [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2203', 'FYUSDC2203'],
 ]

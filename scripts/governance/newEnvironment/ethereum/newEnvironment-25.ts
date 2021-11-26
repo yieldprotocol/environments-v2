@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 import { Timelock, Wand } from '../../../../typechain'
-import { developer, series } from './newEnvironment.config'
+import { developer, seriesDAI } from './newEnvironment.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -29,7 +29,7 @@ import { developer, series } from './newEnvironment.config'
   )) as unknown as Wand
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addSeriesProposal(wand, series))
+  proposal = proposal.concat(await addSeriesProposal(wand, seriesDAI))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

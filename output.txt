@@ -1,0 +1,851 @@
+ChainId: 42
+Reusing YieldMath at 0x072C005D7F58342b6f21c910EEfdC6C3E545f65A
+ChainId: 42
+Reusing YieldMathExtensions at 0x05e9DEbcf2958E1E1F8aBBFC47226C089414db08
+ChainId: 42
+Reusing PoolView at 0xd63F3DCb1f3fFec17A88119598E563481B465768
+ChainId: 42
+Reusing SafeERC20Namer at 0x66C85b207DC798E1961FA5753249DC54D9265D53
+ChainId: 42
+Reusing Timelock at 0xEc923c8392E53BB7B25dAe012aeF0883a6fa7B7B
+ChainId: 42
+Reusing Cloak at 0xEc69C62c9E8C75dD60bF67d2F30bFD30D12fdb18
+ChainId: 42
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+Proposed 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+ChainId: 42
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+Approved 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+ChainId: 42
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+Executed 0x92963786aae1e1cdf144eeb7f58eba1fc728ab524032996631aa2dce8c9b5595
+ChainId: 42
+Reusing ChainlinkMultiOracle at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+ChainId: 42
+Reusing CompoundMultiOracle at 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+ChainId: 42
+Reusing CompositeMultiOracle at 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+ChainId: 42
+Reusing LidoOracle at 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+ChainId: 42
+Reusing UniswapOracle at 0x862A0F3F2B5b87C8dfC67b43b620774bc9CBcDA0
+ChainId: 42
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Chi(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Chi(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Rate(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Rate(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Setting up 0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541 as the source for 0x303100000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838 as the source for 0x303200000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303300000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303500000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4 as the source for 0x303700000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+Adding 0x303100000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 01/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303200000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 02/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303300000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 03/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303500000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 05/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303400000000/0x303500000000 from 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+pair: 04/05 -> 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+Adding 0x303700000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 07/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+Proposed 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+ChainId: 42
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Chi(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Chi(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Rate(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Rate(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Setting up 0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541 as the source for 0x303100000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838 as the source for 0x303200000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303300000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303500000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4 as the source for 0x303700000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+Adding 0x303100000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 01/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303200000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 02/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303300000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 03/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303500000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 05/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303400000000/0x303500000000 from 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+pair: 04/05 -> 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+Adding 0x303700000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 07/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+Approved 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+ChainId: 42
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Chi(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Chi(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+compoundOracle: 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6
+Using Compound DAI at 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Rate(01): 0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad
+Using Compound USDC at 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Rate(02): 0x4a92e71227d294f041bd82dd8f78591b75140d63
+Setting up 0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541 as the source for 0x303100000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838 as the source for 0x303200000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303300000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0xF7904a295A029a3aBDFFB6F12755974a958C7C25 as the source for 0x303500000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Setting up 0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4 as the source for 0x303700000000/0x303000000000 at 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+Adding 0x303100000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 01/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303200000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 02/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303300000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 03/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303500000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 05/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+Adding 0x303400000000/0x303500000000 from 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+pair: 04/05 -> 0x30A947446FF5fC99ff8BAAa05688A0e57102bF61
+Adding 0x303700000000/0x303000000000 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+pair: 07/00 -> 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+Executed 0xf0dbbeb9b1e09652b5ee18dbfc48e129f2216f495778109fc8f624ce9b39a5f7
+ChainId: 42
+Reusing JoinFactory at 0x2DdAB027254452763D2301024fE1058f9410532c
+ChainId: 42
+Reusing FYTokenFactory at 0x21BF7B997aB272eeeBCF7086F09e6A069C3B8a38
+ChainId: 42
+Reusing PoolFactory at 0xA37e1866CAD311B19f76a8C39370b1c4e849567e
+ChainId: 42
+joinFactory.grantRole(ROOT, cloak)
+joinFactory.revokeRole(ROOT, deployer)
+fyTokenFactory.grantRole(ROOT, cloak)
+fyTokenFactory.revokeRole(ROOT, deployer)
+poolFactory.grantRoles(gov, timelock)
+poolFactory.grantRole(ROOT, cloak)
+poolFactory.revokeRole(ROOT, deployer)
+Proposal: 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+Proposed 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+ChainId: 42
+joinFactory.grantRole(ROOT, cloak)
+joinFactory.revokeRole(ROOT, deployer)
+fyTokenFactory.grantRole(ROOT, cloak)
+fyTokenFactory.revokeRole(ROOT, deployer)
+poolFactory.grantRoles(gov, timelock)
+poolFactory.grantRole(ROOT, cloak)
+poolFactory.revokeRole(ROOT, deployer)
+Proposal: 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+Approved 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+ChainId: 42
+joinFactory.grantRole(ROOT, cloak)
+joinFactory.revokeRole(ROOT, deployer)
+fyTokenFactory.grantRole(ROOT, cloak)
+fyTokenFactory.revokeRole(ROOT, deployer)
+poolFactory.grantRoles(gov, timelock)
+poolFactory.grantRole(ROOT, cloak)
+poolFactory.revokeRole(ROOT, deployer)
+Proposal: 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+Executed 0x97e51d53e457f04a403a274d0cb7719803ab582347bec2bdb84130638ea8e631
+ChainId: 42
+Cauldron deployed at 0x82Dfaef826C8c190E9b472896a9a99165Ccee35a
+npx hardhat verify --network kovan 0x82Dfaef826C8c190E9b472896a9a99165Ccee35a  
+cauldron.grantRoles(ROOT, timelock)
+ChainId: 42
+Using Wrapped Ether at 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492
+Ladle deployed at 0x30296985c59bD5B8323dAf954838DF222F9C9436
+npx hardhat verify --network kovan 0x30296985c59bD5B8323dAf954838DF222F9C9436  
+Router deployed at 0x5310b5117cD9C355055ce9242897D4B9A7Aa850b
+npx hardhat verify --network kovan 0x5310b5117cD9C355055ce9242897D4B9A7Aa850b  
+ladle.grantRoles(ROOT, timelock)
+ChainId: 42
+[Witch, '0x149FA10132bf20C968Ef46287e8c764818B6003B'],
+npx hardhat verify --network kovan 0x149FA10132bf20C968Ef46287e8c764818B6003B 0x82Dfaef826C8c190E9b472896a9a99165Ccee35a 0x30296985c59bD5B8323dAf954838DF222F9C9436 
+witch.grantRoles(ROOT, timelock)
+ChainId: 42
+[Wand, '0x3379c4F4AFB1AE91eE75227B7521ef0a44315303'],
+npx hardhat verify --network kovan 0x3379c4F4AFB1AE91eE75227B7521ef0a44315303 0x82Dfaef826C8c190E9b472896a9a99165Ccee35a 0x30296985c59bD5B8323dAf954838DF222F9C9436 0x149FA10132bf20C968Ef46287e8c764818B6003B 0xA37e1866CAD311B19f76a8C39370b1c4e849567e 0x2DdAB027254452763D2301024fE1058f9410532c 0x21BF7B997aB272eeeBCF7086F09e6A069C3B8a38 
+wand.grantRoles(ROOT, timelock)
+ChainId: 42
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0xf3b7372d00a6cefb51c34a47a0389089904448b7d87f8f968240903e26c172dc
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0x398ba76dbed118f1b4527b2e8fff0edee32e3f465fd89e4191da513da1ebc0a7
+wand.grantRoles(gov, timelock)
+wand.grantRole(ROOT, cloak)
+wand.revokeRole(ROOT, deployer)
+cauldron.grantRoles(wand)
+ladle.grantRoles(wand)
+joinFactory.grantRoles(wand)
+fyTokenFactory.grantRoles(wand)
+poolFactory.grantRoles(wand)
+cloak.plan(wand): 0xeb49627feefb5adcd374c72f717bec43f4792fa067c43fac4902807e0827ab9e
+Proposal: 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+Proposed 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+ChainId: 42
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0xf3b7372d00a6cefb51c34a47a0389089904448b7d87f8f968240903e26c172dc
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0x398ba76dbed118f1b4527b2e8fff0edee32e3f465fd89e4191da513da1ebc0a7
+wand.grantRoles(gov, timelock)
+wand.grantRole(ROOT, cloak)
+wand.revokeRole(ROOT, deployer)
+cauldron.grantRoles(wand)
+ladle.grantRoles(wand)
+joinFactory.grantRoles(wand)
+fyTokenFactory.grantRoles(wand)
+poolFactory.grantRoles(wand)
+cloak.plan(wand): 0xeb49627feefb5adcd374c72f717bec43f4792fa067c43fac4902807e0827ab9e
+Proposal: 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+Approved 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+ChainId: 42
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0xf3b7372d00a6cefb51c34a47a0389089904448b7d87f8f968240903e26c172dc
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0x398ba76dbed118f1b4527b2e8fff0edee32e3f465fd89e4191da513da1ebc0a7
+wand.grantRoles(gov, timelock)
+wand.grantRole(ROOT, cloak)
+wand.revokeRole(ROOT, deployer)
+cauldron.grantRoles(wand)
+ladle.grantRoles(wand)
+joinFactory.grantRoles(wand)
+fyTokenFactory.grantRoles(wand)
+poolFactory.grantRoles(wand)
+cloak.plan(wand): 0xeb49627feefb5adcd374c72f717bec43f4792fa067c43fac4902807e0827ab9e
+Proposal: 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+Executed 0xe28ce04ea01c4ada8cb93e7394edf2df1b758b6a371dbec219f2c1ccf5767a90
+ChainId: 42
+Using Wrapped Ether at 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492
+[Asset: 00: 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492],
+Using DAI at 0xaFCdc724EB8781Ee721863db1B15939675996484
+[Asset: 01: 0xaFCdc724EB8781Ee721863db1B15939675996484],
+Using USD Coin at 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D
+[Asset: 02: 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D],
+Using Wrapped BTC at 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92
+[Asset: 03: 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92],
+Using Wrapped liquid staked Ether 2.0 at 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+[Asset: 04: 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C],
+Using Ethereum Name Service at 0xA24b97c7617cc40dCc122F6dF813584A604a6C28
+[Asset: 07: 0xA24b97c7617cc40dCc122F6dF813584A604a6C28],
+Using Liquid staked Ether 2.0 at 0x7188e9DBdDf607474a44c653C693Aab99dB92a16
+[Asset: 05: 0x7188e9DBdDf607474a44c653C693Aab99dB92a16],
+Proposal: 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+Proposed 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+ChainId: 42
+Using Wrapped Ether at 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492
+[Asset: 00: 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492],
+Using DAI at 0xaFCdc724EB8781Ee721863db1B15939675996484
+[Asset: 01: 0xaFCdc724EB8781Ee721863db1B15939675996484],
+Using USD Coin at 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D
+[Asset: 02: 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D],
+Using Wrapped BTC at 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92
+[Asset: 03: 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92],
+Using Wrapped liquid staked Ether 2.0 at 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+[Asset: 04: 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C],
+Using Ethereum Name Service at 0xA24b97c7617cc40dCc122F6dF813584A604a6C28
+[Asset: 07: 0xA24b97c7617cc40dCc122F6dF813584A604a6C28],
+Using Liquid staked Ether 2.0 at 0x7188e9DBdDf607474a44c653C693Aab99dB92a16
+[Asset: 05: 0x7188e9DBdDf607474a44c653C693Aab99dB92a16],
+Proposal: 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+Approved 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+ChainId: 42
+Using Wrapped Ether at 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492
+[Asset: 00: 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492],
+Using DAI at 0xaFCdc724EB8781Ee721863db1B15939675996484
+[Asset: 01: 0xaFCdc724EB8781Ee721863db1B15939675996484],
+Using USD Coin at 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D
+[Asset: 02: 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D],
+Using Wrapped BTC at 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92
+[Asset: 03: 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92],
+Using Wrapped liquid staked Ether 2.0 at 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C
+[Asset: 04: 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C],
+Using Ethereum Name Service at 0xA24b97c7617cc40dCc122F6dF813584A604a6C28
+[Asset: 07: 0xA24b97c7617cc40dCc122F6dF813584A604a6C28],
+Using Liquid staked Ether 2.0 at 0x7188e9DBdDf607474a44c653C693Aab99dB92a16
+[Asset: 05: 0x7188e9DBdDf607474a44c653C693Aab99dB92a16],
+Proposal: 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+Executed 0x1198c8e35fdc2e6d439cc504d4fc45caa1591519a26f8d3796a8e1a8245833fa
+ChainId: 42
+npx hardhat verify --network kovan 0x5A1554016043916853fF25a1f73A70A810874ABF 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492 
+[00Join, : '0x5A1554016043916853fF25a1f73A70A810874ABF'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(00)): 0xc04711e4e5490c634ed49021fa823ee15e77fb81c7e519fe8a5395e6ed0d6650
+npx hardhat verify --network kovan 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 0xaFCdc724EB8781Ee721863db1B15939675996484 
+[01Join, : '0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(01)): 0x1e67be9c87989540718201c64d17ad2f2367e1031e42ec6d4eb4914035b791ce
+npx hardhat verify --network kovan 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D 
+[02Join, : '0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(02)): 0xc89441bdc5b785b02d07ad3f44a2e1f1005d0a1710ab1ef090d8dc4516c76824
+npx hardhat verify --network kovan 0x44e6844b70760Bdf3767c349681719fC69e791d2 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92 
+[03Join, : '0x44e6844b70760Bdf3767c349681719fC69e791d2'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(03)): 0xe61e0cbaa1523d2c206aa0558b29882691b177e5baac22f2022dd88a0561a679
+npx hardhat verify --network kovan 0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C 
+[04Join, : '0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(04)): 0xbe1c5c647dbd178c21f15300636bd396239eecfe9a8fef9ee98e3d59bb7fb157
+npx hardhat verify --network kovan 0x4858CF04F32F6D582d10cE0ef25000FeaEa54571 0xA24b97c7617cc40dCc122F6dF813584A604a6C28 
+[07Join, : '0x4858CF04F32F6D582d10cE0ef25000FeaEa54571'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(07)): 0xea91ed8901bad4f765f7706351bd740038eff0f71f3a4dbd70f5fb8895ead747
+[Asset: 01 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(01)): 0xe02a022ec3a858dd75422b2d71568f17338f60eda863a93526b93654cd6e79e3
+[Asset: 02 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(02)): 0x98d3290323c45e4b21ecddc74dfe878721291d96d083e894fbeb84fed402eabb
+Adding for 01/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 00 made into ilk for 01],
+cloak.plan(witch, join(00)): 0xe03dbcb7ff9df0230db177ca91ef27189ab64335786bcda55d107be55521b0be
+Adding for 01/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 01 made into ilk for 01],
+cloak.plan(witch, join(01)): 0x4574ab389a3ffea60cea2266aa8eecca95eb249ed9132f81845c4b675bcbec03
+Adding for 01/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 02 made into ilk for 01],
+cloak.plan(witch, join(02)): 0x482f348421bc9d89428315a602e67a4621e826501a781522ecf4506ea3f20670
+Adding for 01/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 03 made into ilk for 01],
+cloak.plan(witch, join(03)): 0xdcd3ce1a29aa287e7d4776ad10a42281f91ab8a4d18c4c8e3b822e3d716f4daa
+Adding for 02/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 made into ilk for 02],
+Adding for 02/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 made into ilk for 02],
+Adding for 02/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 made into ilk for 02],
+Adding for 02/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 made into ilk for 02],
+Adding for 01/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 04 made into ilk for 01],
+cloak.plan(witch, join(04)): 0x3b4796920d4684f485f82ca699cb0c3c8cb612069647c143ed6affd92278b362
+Adding for 02/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 made into ilk for 02],
+Adding for 01/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 07 made into ilk for 01],
+cloak.plan(witch, join(07)): 0x78850620af38040cc118a6e54c214e993a9ac82c53fcea932d8e2555aa7ec1c4
+Adding for 02/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 made into ilk for 02],
+Proposal: 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+Proposed 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+ChainId: 42
+npx hardhat verify --network kovan 0x5A1554016043916853fF25a1f73A70A810874ABF 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492 
+[00Join, : '0x5A1554016043916853fF25a1f73A70A810874ABF'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(00)): 0xc04711e4e5490c634ed49021fa823ee15e77fb81c7e519fe8a5395e6ed0d6650
+npx hardhat verify --network kovan 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 0xaFCdc724EB8781Ee721863db1B15939675996484 
+[01Join, : '0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(01)): 0x1e67be9c87989540718201c64d17ad2f2367e1031e42ec6d4eb4914035b791ce
+npx hardhat verify --network kovan 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D 
+[02Join, : '0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(02)): 0xc89441bdc5b785b02d07ad3f44a2e1f1005d0a1710ab1ef090d8dc4516c76824
+npx hardhat verify --network kovan 0x44e6844b70760Bdf3767c349681719fC69e791d2 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92 
+[03Join, : '0x44e6844b70760Bdf3767c349681719fC69e791d2'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(03)): 0xe61e0cbaa1523d2c206aa0558b29882691b177e5baac22f2022dd88a0561a679
+npx hardhat verify --network kovan 0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C 
+[04Join, : '0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(04)): 0xbe1c5c647dbd178c21f15300636bd396239eecfe9a8fef9ee98e3d59bb7fb157
+npx hardhat verify --network kovan 0x4858CF04F32F6D582d10cE0ef25000FeaEa54571 0xA24b97c7617cc40dCc122F6dF813584A604a6C28 
+[07Join, : '0x4858CF04F32F6D582d10cE0ef25000FeaEa54571'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(07)): 0xea91ed8901bad4f765f7706351bd740038eff0f71f3a4dbd70f5fb8895ead747
+[Asset: 01 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(01)): 0xe02a022ec3a858dd75422b2d71568f17338f60eda863a93526b93654cd6e79e3
+[Asset: 02 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(02)): 0x98d3290323c45e4b21ecddc74dfe878721291d96d083e894fbeb84fed402eabb
+Adding for 01/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 00 made into ilk for 01],
+cloak.plan(witch, join(00)): 0xe03dbcb7ff9df0230db177ca91ef27189ab64335786bcda55d107be55521b0be
+Adding for 01/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 01 made into ilk for 01],
+cloak.plan(witch, join(01)): 0x4574ab389a3ffea60cea2266aa8eecca95eb249ed9132f81845c4b675bcbec03
+Adding for 01/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 02 made into ilk for 01],
+cloak.plan(witch, join(02)): 0x482f348421bc9d89428315a602e67a4621e826501a781522ecf4506ea3f20670
+Adding for 01/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 03 made into ilk for 01],
+cloak.plan(witch, join(03)): 0xdcd3ce1a29aa287e7d4776ad10a42281f91ab8a4d18c4c8e3b822e3d716f4daa
+Adding for 02/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 made into ilk for 02],
+Adding for 02/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 made into ilk for 02],
+Adding for 02/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 made into ilk for 02],
+Adding for 02/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 made into ilk for 02],
+Adding for 01/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 04 made into ilk for 01],
+cloak.plan(witch, join(04)): 0x3b4796920d4684f485f82ca699cb0c3c8cb612069647c143ed6affd92278b362
+Adding for 02/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 made into ilk for 02],
+Adding for 01/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 07 made into ilk for 01],
+cloak.plan(witch, join(07)): 0x78850620af38040cc118a6e54c214e993a9ac82c53fcea932d8e2555aa7ec1c4
+Adding for 02/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 made into ilk for 02],
+Proposal: 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+Approved 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+ChainId: 42
+npx hardhat verify --network kovan 0x5A1554016043916853fF25a1f73A70A810874ABF 0x55C0458edF1D8E07DF9FB44B8960AecC515B4492 
+[00Join, : '0x5A1554016043916853fF25a1f73A70A810874ABF'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(00)): 0xc04711e4e5490c634ed49021fa823ee15e77fb81c7e519fe8a5395e6ed0d6650
+npx hardhat verify --network kovan 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 0xaFCdc724EB8781Ee721863db1B15939675996484 
+[01Join, : '0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(01)): 0x1e67be9c87989540718201c64d17ad2f2367e1031e42ec6d4eb4914035b791ce
+npx hardhat verify --network kovan 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D 
+[02Join, : '0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(02)): 0xc89441bdc5b785b02d07ad3f44a2e1f1005d0a1710ab1ef090d8dc4516c76824
+npx hardhat verify --network kovan 0x44e6844b70760Bdf3767c349681719fC69e791d2 0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92 
+[03Join, : '0x44e6844b70760Bdf3767c349681719fC69e791d2'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(03)): 0xe61e0cbaa1523d2c206aa0558b29882691b177e5baac22f2022dd88a0561a679
+npx hardhat verify --network kovan 0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708 0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C 
+[04Join, : '0x5690373F64C5d65eCA0C66c677Ed2fe9a4555708'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(04)): 0xbe1c5c647dbd178c21f15300636bd396239eecfe9a8fef9ee98e3d59bb7fb157
+npx hardhat verify --network kovan 0x4858CF04F32F6D582d10cE0ef25000FeaEa54571 0xA24b97c7617cc40dCc122F6dF813584A604a6C28 
+[07Join, : '0x4858CF04F32F6D582d10cE0ef25000FeaEa54571'],
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(07)): 0xea91ed8901bad4f765f7706351bd740038eff0f71f3a4dbd70f5fb8895ead747
+[Asset: 01 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(01)): 0xe02a022ec3a858dd75422b2d71568f17338f60eda863a93526b93654cd6e79e3
+[Asset: 02 made into base using 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6],
+cloak.plan(witch, join(02)): 0x98d3290323c45e4b21ecddc74dfe878721291d96d083e894fbeb84fed402eabb
+Adding for 01/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 00 made into ilk for 01],
+cloak.plan(witch, join(00)): 0xe03dbcb7ff9df0230db177ca91ef27189ab64335786bcda55d107be55521b0be
+Adding for 01/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 01 made into ilk for 01],
+cloak.plan(witch, join(01)): 0x4574ab389a3ffea60cea2266aa8eecca95eb249ed9132f81845c4b675bcbec03
+Adding for 01/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 02 made into ilk for 01],
+cloak.plan(witch, join(02)): 0x482f348421bc9d89428315a602e67a4621e826501a781522ecf4506ea3f20670
+Adding for 01/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 03 made into ilk for 01],
+cloak.plan(witch, join(03)): 0xdcd3ce1a29aa287e7d4776ad10a42281f91ab8a4d18c4c8e3b822e3d716f4daa
+Adding for 02/00 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 00 made into ilk for 02],
+Adding for 02/01 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 01 made into ilk for 02],
+Adding for 02/02 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 02 made into ilk for 02],
+Adding for 02/03 from 0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b
+[Asset: 03 made into ilk for 02],
+Adding for 01/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 04 made into ilk for 01],
+cloak.plan(witch, join(04)): 0x3b4796920d4684f485f82ca699cb0c3c8cb612069647c143ed6affd92278b362
+Adding for 02/04 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 04 made into ilk for 02],
+Adding for 01/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 set as ilk on witch at 0x149FA10132bf20C968Ef46287e8c764818B6003B],
+[Asset: 07 made into ilk for 01],
+cloak.plan(witch, join(07)): 0x78850620af38040cc118a6e54c214e993a9ac82c53fcea932d8e2555aa7ec1c4
+Adding for 02/07 from 0xaF45D0277399E79Bf599d72fF4521f8Dc4A060E1
+[Asset: 07 made into ilk for 02],
+Proposal: 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+Executed 0x84631d74e76c5f6b955f76d28cf16facc5f7b213ed50ff5e3987c52fe9f8ef7c
+ChainId: 42
+Adding FYDAI2112 series
+Adding FYDAI2203 series
+Proposal: 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+Proposed 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+ChainId: 42
+Adding FYDAI2112 series
+Adding FYDAI2203 series
+Proposal: 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+Approved 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+ChainId: 42
+Adding FYDAI2112 series
+Adding FYDAI2203 series
+Proposal: 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+Executed 0x9344c40c036a8ef3c06b98d6b4efed5135e6109398885570c364f03874f754ab
+ChainId: 42
+Adding FYUSDC2112 series
+Adding FYUSDC2203 series
+Proposal: 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+Proposed 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+ChainId: 42
+Adding FYUSDC2112 series
+Adding FYUSDC2203 series
+Proposal: 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+Approved 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+ChainId: 42
+Adding FYUSDC2112 series
+Adding FYUSDC2203 series
+Proposal: 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+Executed 0xf593ca7dd1aa0858b0639cda4ca28ac0f9f9ebf4e419ae837538186ddf4914ec
+ChainId: 42
+Using DAI at 0xaFCdc724EB8781Ee721863db1B15939675996484 as base
+Strategy deployed at '0xcb0CbAd097F04Bf2bba0BB7afdec5d8f4B282610'
+npx hardhat verify --network kovan 0xcb0CbAd097F04Bf2bba0BB7afdec5d8f4B282610 Yield Strategy DAI 6M Mar Sep YSDAI6MMS 0x30296985c59bD5B8323dAf954838DF222F9C9436 0xaFCdc724EB8781Ee721863db1B15939675996484 0x303100000000 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+Using DAI at 0xaFCdc724EB8781Ee721863db1B15939675996484 as base
+Strategy deployed at '0x13a8489cfD9F4c173331B47822825bB0674aA26C'
+npx hardhat verify --network kovan 0x13a8489cfD9F4c173331B47822825bB0674aA26C Yield Strategy DAI 6M Jun Dec YSDAI6MJD 0x30296985c59bD5B8323dAf954838DF222F9C9436 0xaFCdc724EB8781Ee721863db1B15939675996484 0x303100000000 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+Using USD Coin at 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D as base
+Strategy deployed at '0xbaD923077606d951bb279701CFFc8837767bAE50'
+npx hardhat verify --network kovan 0xbaD923077606d951bb279701CFFc8837767bAE50 Yield Strategy USDC 6M Mar Sep YSUSDC6MMS 0x30296985c59bD5B8323dAf954838DF222F9C9436 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D 0x303200000000 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+Using USD Coin at 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D as base
+Strategy deployed at '0x4F8a85D001032dfBf303d8042b35cfC8efe22984'
+npx hardhat verify --network kovan 0x4F8a85D001032dfBf303d8042b35cfC8efe22984 Yield Strategy USDC 6M Jun Dec YSUSDC6MJD 0x30296985c59bD5B8323dAf954838DF222F9C9436 0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D 0x303200000000 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+ChainId: 42
+FYDAI2112, '0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+npx hardhat verify --network kovan 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1640919600 FYDAI2112 FYDAI2112 --libraries safeERC20Namer.js
+FYDAI2112 deployed at 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+FYDAI2112Pool deployed at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57'
+npx hardhat verify --network kovan 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0104)): 0x56871e6565f44b3a579dbf2fd8eb9d6364cee44dc80385655d4b5990e0ed2455
+cloak.plan(fyToken, join(01)): 0xa58f98d84ca135cf91fd351d12bf48e14be4f2885f49135ef1569c81e86d0e29
+FYDAI2203, '0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+npx hardhat verify --network kovan 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+FYDAI2203 deployed at 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+FYDAI2203Pool deployed at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60'
+npx hardhat verify --network kovan 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0x9ac27a4cd92137c0938d2ef9c0c42f273daf9bfa9111c30ab67639e412ad5396
+cloak.plan(fyToken, join(01)): 0x943f6e287b23356f297ff0b79507b5e51386bfe95349f41aab0f85ae8a325290
+FYUSDC2112, '0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+npx hardhat verify --network kovan 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1640919600 FYUSDC2112 FYUSDC2112 --libraries safeERC20Namer.js
+FYUSDC2112 deployed at 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+FYUSDC2112Pool deployed at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2'
+npx hardhat verify --network kovan 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0204)): 0xebc79207102f10144f8bfbbf78a8882ed0c8177d53f3bb0d2f8de13c00b2cd9b
+cloak.plan(fyToken, join(02)): 0x5851c89fdb2e6c77e132f3fb7a4263a95e6ec94958fe8da7bd9392558f01e92c
+FYUSDC2203, '0xF707761769c98a15d52790693b25Ee25d66b20b1'
+npx hardhat verify --network kovan 0xF707761769c98a15d52790693b25Ee25d66b20b1 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+FYUSDC2203 deployed at 0xF707761769c98a15d52790693b25Ee25d66b20b1'
+FYUSDC2203Pool deployed at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c'
+npx hardhat verify --network kovan 0x21c904F210eB399eA7291aB713Cb90B70393BB7c  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0xeefbdf67f968c06d1bd62a6c0ff894a9b126d361d9e8869dc272ad7cd210c27a
+cloak.plan(fyToken, join(02)): 0x4360a8692527054f2f96594481ea943fac4dacbc56c3f5f08954e175978a1c0e
+Initializing FYDAI2203LP at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60
+Initializing FYDAI2112LP at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57
+Initializing FYUSDC2203LP at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c
+Initializing FYUSDC2112LP at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Proposal: 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+Proposed 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+ChainId: 42
+FYDAI2112, '0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+npx hardhat verify --network kovan 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1640919600 FYDAI2112 FYDAI2112 --libraries safeERC20Namer.js
+FYDAI2112 deployed at 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+FYDAI2112Pool deployed at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57'
+npx hardhat verify --network kovan 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0104)): 0x56871e6565f44b3a579dbf2fd8eb9d6364cee44dc80385655d4b5990e0ed2455
+cloak.plan(fyToken, join(01)): 0xa58f98d84ca135cf91fd351d12bf48e14be4f2885f49135ef1569c81e86d0e29
+FYDAI2203, '0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+npx hardhat verify --network kovan 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+FYDAI2203 deployed at 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+FYDAI2203Pool deployed at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60'
+npx hardhat verify --network kovan 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0x9ac27a4cd92137c0938d2ef9c0c42f273daf9bfa9111c30ab67639e412ad5396
+cloak.plan(fyToken, join(01)): 0x943f6e287b23356f297ff0b79507b5e51386bfe95349f41aab0f85ae8a325290
+FYUSDC2112, '0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+npx hardhat verify --network kovan 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1640919600 FYUSDC2112 FYUSDC2112 --libraries safeERC20Namer.js
+FYUSDC2112 deployed at 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+FYUSDC2112Pool deployed at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2'
+npx hardhat verify --network kovan 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0204)): 0xebc79207102f10144f8bfbbf78a8882ed0c8177d53f3bb0d2f8de13c00b2cd9b
+cloak.plan(fyToken, join(02)): 0x5851c89fdb2e6c77e132f3fb7a4263a95e6ec94958fe8da7bd9392558f01e92c
+FYUSDC2203, '0xF707761769c98a15d52790693b25Ee25d66b20b1'
+npx hardhat verify --network kovan 0xF707761769c98a15d52790693b25Ee25d66b20b1 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+FYUSDC2203 deployed at 0xF707761769c98a15d52790693b25Ee25d66b20b1'
+FYUSDC2203Pool deployed at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c'
+npx hardhat verify --network kovan 0x21c904F210eB399eA7291aB713Cb90B70393BB7c  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0xeefbdf67f968c06d1bd62a6c0ff894a9b126d361d9e8869dc272ad7cd210c27a
+cloak.plan(fyToken, join(02)): 0x4360a8692527054f2f96594481ea943fac4dacbc56c3f5f08954e175978a1c0e
+Initializing FYDAI2203LP at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60
+Initializing FYDAI2112LP at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57
+Initializing FYUSDC2203LP at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c
+Initializing FYUSDC2112LP at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Proposal: 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+Approved 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+ChainId: 42
+FYDAI2112, '0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+npx hardhat verify --network kovan 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1640919600 FYDAI2112 FYDAI2112 --libraries safeERC20Namer.js
+FYDAI2112 deployed at 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+FYDAI2112Pool deployed at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57'
+npx hardhat verify --network kovan 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0104)): 0x56871e6565f44b3a579dbf2fd8eb9d6364cee44dc80385655d4b5990e0ed2455
+cloak.plan(fyToken, join(01)): 0xa58f98d84ca135cf91fd351d12bf48e14be4f2885f49135ef1569c81e86d0e29
+FYDAI2203, '0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+npx hardhat verify --network kovan 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+FYDAI2203 deployed at 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+FYDAI2203Pool deployed at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60'
+npx hardhat verify --network kovan 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0x9ac27a4cd92137c0938d2ef9c0c42f273daf9bfa9111c30ab67639e412ad5396
+cloak.plan(fyToken, join(01)): 0x943f6e287b23356f297ff0b79507b5e51386bfe95349f41aab0f85ae8a325290
+FYUSDC2112, '0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+npx hardhat verify --network kovan 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1640919600 FYUSDC2112 FYUSDC2112 --libraries safeERC20Namer.js
+FYUSDC2112 deployed at 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+FYUSDC2112Pool deployed at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2'
+npx hardhat verify --network kovan 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0204)): 0xebc79207102f10144f8bfbbf78a8882ed0c8177d53f3bb0d2f8de13c00b2cd9b
+cloak.plan(fyToken, join(02)): 0x5851c89fdb2e6c77e132f3fb7a4263a95e6ec94958fe8da7bd9392558f01e92c
+FYUSDC2203, '0xF707761769c98a15d52790693b25Ee25d66b20b1'
+npx hardhat verify --network kovan 0xF707761769c98a15d52790693b25Ee25d66b20b1 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+FYUSDC2203 deployed at 0xF707761769c98a15d52790693b25Ee25d66b20b1'
+FYUSDC2203Pool deployed at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c'
+npx hardhat verify --network kovan 0x21c904F210eB399eA7291aB713Cb90B70393BB7c  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0xeefbdf67f968c06d1bd62a6c0ff894a9b126d361d9e8869dc272ad7cd210c27a
+cloak.plan(fyToken, join(02)): 0x4360a8692527054f2f96594481ea943fac4dacbc56c3f5f08954e175978a1c0e
+Initializing FYDAI2203LP at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60
+Initializing FYDAI2112LP at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57
+Initializing FYUSDC2203LP at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c
+Initializing FYUSDC2112LP at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Proposal: 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+ChainId: 42
+FYDAI2112, '0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+npx hardhat verify --network kovan 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1640919600 FYDAI2112 FYDAI2112 --libraries safeERC20Namer.js
+FYDAI2112 deployed at 0x98edD3761131606Bed4322A0FcF0B3fAf6c07FC4'
+FYDAI2112Pool deployed at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57'
+npx hardhat verify --network kovan 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0104)): 0x56871e6565f44b3a579dbf2fd8eb9d6364cee44dc80385655d4b5990e0ed2455
+cloak.plan(fyToken, join(01)): 0xa58f98d84ca135cf91fd351d12bf48e14be4f2885f49135ef1569c81e86d0e29
+FYDAI2203, '0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+npx hardhat verify --network kovan 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc 0x303100000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0x1cC0ef60a66FD09A4B4be3601B1948bCF8ABe167 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+FYDAI2203 deployed at 0x3446D154e7b50DBB8a9CFFf4c67A25d52057BBAc'
+FYDAI2203Pool deployed at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60'
+npx hardhat verify --network kovan 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0x9ac27a4cd92137c0938d2ef9c0c42f273daf9bfa9111c30ab67639e412ad5396
+cloak.plan(fyToken, join(01)): 0x943f6e287b23356f297ff0b79507b5e51386bfe95349f41aab0f85ae8a325290
+FYUSDC2112, '0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+npx hardhat verify --network kovan 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1640919600 FYUSDC2112 FYUSDC2112 --libraries safeERC20Namer.js
+FYUSDC2112 deployed at 0xe9EFa3aC64A87d22Cab86200BCCa700E4d34f00d'
+FYUSDC2112Pool deployed at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2'
+npx hardhat verify --network kovan 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0204)): 0xebc79207102f10144f8bfbbf78a8882ed0c8177d53f3bb0d2f8de13c00b2cd9b
+cloak.plan(fyToken, join(02)): 0x5851c89fdb2e6c77e132f3fb7a4263a95e6ec94958fe8da7bd9392558f01e92c
+FYUSDC2203, '0xF707761769c98a15d52790693b25Ee25d66b20b1'
+npx hardhat verify --network kovan 0xF707761769c98a15d52790693b25Ee25d66b20b1 0x303200000000 0x23F5F7a17117ba794Fcc5F46Fbf635edD2596Bb6 0xeeE30Ddba591cD12514d10ff168B0B9BAaCdA394 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+FYUSDC2203 deployed at 0xF707761769c98a15d52790693b25Ee25d66b20b1'
+FYUSDC2203Pool deployed at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c'
+npx hardhat verify --network kovan 0x21c904F210eB399eA7291aB713Cb90B70393BB7c  --libraries safeERC20Namer.js
+fyToken.grantRoles(gov, timelock)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0xeefbdf67f968c06d1bd62a6c0ff894a9b126d361d9e8869dc272ad7cd210c27a
+cloak.plan(fyToken, join(02)): 0x4360a8692527054f2f96594481ea943fac4dacbc56c3f5f08954e175978a1c0e
+Initializing FYDAI2203LP at 0xdeEBd0Fc899Fa23cADf47Aa9E474e785bE900A60
+Initializing FYDAI2112LP at 0x3c4b5d81d991F379f04a3Bb20a3B26A65586cF57
+Initializing FYUSDC2203LP at 0x21c904F210eB399eA7291aB713Cb90B70393BB7c
+Initializing FYUSDC2112LP at 0x57b0f0Add3Cbd5CB22c05fD5A6eceD40bCe1b3B2
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Proposal: 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de
+Executed 0x8f192ae2860f4f8374f4773142c7a3ced0aac124d5f95c9129adec17d2a500de

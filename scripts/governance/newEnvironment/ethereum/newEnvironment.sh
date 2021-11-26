@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set -euxo pipefail
-RUN="npx hardhat run --network localhost --no-compile"
+RUN="npx hardhat run --network kovan --no-compile"
 HERE=$(dirname $0)
 
 # Phase 1: Libraries
@@ -56,12 +56,15 @@ $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestra
 $RUN scripts/governance/newEnvironment/ethereum/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - execute
 
 # Phase 7: Series, Pools, Strategies
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - propose
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - approve
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add series - execute
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add DAI series - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add DAI series - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-25.ts # add DAI series - execute
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-26.ts # add USDC series - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-26.ts # add USDC series - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-26.ts # add USDC series - execute
 
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-26.ts # deploy strategies
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # deploy strategies
 
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - propose
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - approve
-$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-27.ts # orchestrate fyToken and strategies, initialize pools and strategies - execute
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-28.ts # orchestrate fyToken and strategies, initialize pools and strategies - propose
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-28.ts # orchestrate fyToken and strategies, initialize pools and strategies - approve
+$RUN scripts/governance/newEnvironment/ethereum/newEnvironment-28.ts # orchestrate fyToken and strategies, initialize pools and strategies - execute
