@@ -56,6 +56,7 @@
     make bases
     make ilks
 
+--- Series ---
 25. deploy series
 26. deploy strategies
 
