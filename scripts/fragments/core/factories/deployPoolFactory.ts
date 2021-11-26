@@ -49,6 +49,7 @@ import { PoolFactory, Timelock } from '../../../../typechain'
       protocol.get('poolFactory') as string,
       ownerAcc
     )) as PoolFactory
+    console.log(`Reusing PoolFactory at ${poolFactory.address}`)
   }
   if (!(await poolFactory.hasRole(ROOT, timelock.address))) {
     await poolFactory.grantRole(ROOT, timelock.address)

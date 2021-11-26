@@ -49,6 +49,7 @@ import { FYTokenFactory, Timelock } from '../../../../typechain'
       protocol.get('fyTokenFactory') as string,
       ownerAcc
     )) as FYTokenFactory
+    console.log(`Reusing FYTokenFactory at ${fyTokenFactory.address}`)
   }
 
   if (!(await fyTokenFactory.hasRole(ROOT, timelock.address))) {

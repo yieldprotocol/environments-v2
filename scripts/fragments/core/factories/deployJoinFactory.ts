@@ -44,6 +44,7 @@ const { deployContract } = waffle
       protocol.get('joinFactory') as string,
       ownerAcc
     )) as JoinFactory
+    console.log(`Reusing JoinFactory at ${joinFactory.address}`)
   }
 
   if (!(await joinFactory.hasRole(ROOT, timelock.address))) {
