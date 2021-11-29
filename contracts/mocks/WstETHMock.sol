@@ -12,14 +12,14 @@ contract WstETHMock is ISourceMock, ERC20Mock {
     }
 
     function wrap(uint256 _stETHAmount) external returns (uint256) {
-        uint256 wstETHAmount = _stETHAmount;
+        uint256 wstETHAmount = getWstETHByStETH(_stETHAmount);
         _mint(msg.sender, wstETHAmount);
         stETH.transferFrom(msg.sender, address(this), _stETHAmount);
         return wstETHAmount;
     }
 
     function unwrap(uint256 _wstETHAmount) external returns (uint256) {
-        uint256 stETHAmount = _wstETHAmount;
+        uint256 stETHAmount = getStETHByWstETH(_wstETHAmount);
         _burn(msg.sender, _wstETHAmount);
         stETH.transfer(msg.sender, stETHAmount);
         return stETHAmount;
@@ -29,11 +29,11 @@ contract WstETHMock is ISourceMock, ERC20Mock {
         price = price_;
     }
 
-    function getWstETHByStETH(uint256 _stETHAmount) external view returns (uint256) {
+    function getWstETHByStETH(uint256 _stETHAmount) public view returns (uint256) {
         return (_stETHAmount * 1e18) / price;
     }
 
-    function getStETHByWstETH(uint256 _wstETHAmount) external view returns (uint256) {
+    function getStETHByWstETH(uint256 _wstETHAmount) public view returns (uint256) {
         return (_wstETHAmount * price) / 1e18;
     }
 }
