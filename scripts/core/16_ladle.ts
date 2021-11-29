@@ -7,11 +7,26 @@ import { ETH } from '../../shared/constants'
 
 import LadleArtifact from '../../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
 
-import { Cauldron } from '../../typechain/Cauldron'
-import { Ladle } from '../../typechain/Ladle'
-import { Timelock } from '../../typechain/Timelock'
-import { EmergencyBrake } from '../../typechain/EmergencyBrake'
-import { ERC20Mock } from '../../typechain/ERC20Mock'
+import { 
+    Ladle, 
+    Ladle__factory, 
+    Cauldron__factory, 
+    Cauldron, 
+    Timelock,
+    Timelock__factory,
+    EmergencyBrake,
+    EmergencyBrake__factory,
+    ERC20Mock,
+    ERC20Mock__factory,
+} from '../../typechain';
+// alternatively,
+import * as contracts from '../../typechain';
+
+// import { Cauldron } from '../../typechain/Cauldron'
+// mport { Ladle } from '../../typechain/Ladle'
+// import { Timelock } from '../../typechain/Timelock'
+// import { EmergencyBrake } from '../../typechain/EmergencyBrake'
+// import { ERC20Mock } from '../../typechain/ERC20Mock'
 
 const { deployContract } = waffle
 
@@ -38,24 +53,30 @@ const { deployContract } = waffle
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
 
-  const weth9 = (await ethers.getContractAt('ERC20Mock', assets.get(ETH) as string, ownerAcc)) as unknown as ERC20Mock
+  const weth9 = ERC20Mock__factory.connect(protocol.get('ERC20Mock'), ownerAcc ) as ERC20Mock;
+  // const weth9 = (await ethers.getContractAt('ERC20Mock', assets.get(ETH) as string, ownerAcc)) as unknown as ERC20Mock
   console.log(`Using ${await weth9.name()} at ${assets.get(ETH)}`)
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const cauldron = Cauldron__factory.connect(protocol.get('Cauldron'), ownerAcc ) as Cauldron;
+  const timelock = Timelock__factory.connect(protocol.get('Timelock'), ownerAcc ) as Timelock;
+  const cloak = EmergencyBrake__factory.connect(protocol.get('EmergencyBrake'), ownerAcc ) as EmergencyBrake;
+
+  // const cauldron = (await ethers.getContractAt(
+  //   'Cauldron',
+  //   protocol.get('cauldron') as string,
+  //   ownerAcc
+  // )) as unknown as Cauldron
+  // const timelock = (await ethers.getContractAt(
+  //   'Timelock',
+  //   governance.get('timelock') as string,
+  //   ownerAcc
+  // )) as unknown as Timelock
+  // const cloak = (await ethers.getContractAt(
+  //   'EmergencyBrake',
+  //   governance.get('cloak') as string,
+  //   ownerAcc
+  // )) as unknown as EmergencyBrake
+
   const ROOT = await timelock.ROOT()
 
   let ladle: Ladle
@@ -66,7 +87,8 @@ const { deployContract } = waffle
     protocol.set('ladle', ladle.address)
     fs.writeFileSync('./addresses/protocol.json', mapToJson(protocol), 'utf8')
   } else {
-    ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
+    ladle = Ladle__factory.connect(protocol.get('ladle') as string, ownerAcc) as Ladle
+    // ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
   }
   if (!(await ladle.hasRole(ROOT, timelock.address))) {
     await ladle.grantRole(ROOT, timelock.address)
