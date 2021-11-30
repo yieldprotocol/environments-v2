@@ -25,8 +25,18 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [WBTC,   '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
     [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
     [STETH,  '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-    [LINK,   ''],
+    [LINK,   '0x514910771af9ca656af840dff83e8264ecf986ca'],
     [ENS,    '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
+  ])],
+  [4, new Map([
+    [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+    [DAI,    '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
+    [USDC,   '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
+    [WBTC,   '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
+    [WSTETH, ''],
+    [STETH,  ''],
+    [LINK,   ''],
+    [ENS,    ''],
   ])],
   [42, new Map([
     [ETH,    '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
@@ -45,6 +55,10 @@ export const chiSources: Map<number, Array<[string, string]>> = new Map([
     [DAI,  '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
     [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
   ]],
+  [4, [
+    [DAI,  '0x6d7f0754ffeb405d23c51ce938289d4835be3b14'],
+    [USDC, '0x5b281a6dda0b271e91ae35de655ad301c976edb1'],
+  ]],
   [42, [
     [DAI,  '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
     [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
@@ -55,6 +69,10 @@ export const rateSources: Map<number, Array<[string, string]>> = new Map([
   [1, [
     [DAI,  '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
     [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
+  ]],
+  [4, [
+    [DAI,  '0x6d7f0754ffeb405d23c51ce938289d4835be3b14'],
+    [USDC, '0x5b281a6dda0b271e91ae35de655ad301c976edb1'],
   ]],
   [42, [
     [DAI,  '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
@@ -68,6 +86,13 @@ export const chainlinkSources: Map<number, Array<[string, string, string, string
     [USDC,  (assets.get(1) as Map<string, string>).get(USDC)  as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
     [WBTC,  (assets.get(1) as Map<string, string>).get(WBTC)  as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
     [STETH, (assets.get(1) as Map<string, string>).get(STETH) as string, ETH, (assets.get(1) as Map<string, string>).get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
+  ]],
+  [4, [
+    [DAI,   (assets.get(4) as Map<string, string>).get(DAI)   as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D'],
+    [USDC,  (assets.get(4) as Map<string, string>).get(USDC)  as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf'],
+    [WBTC,  (assets.get(4) as Map<string, string>).get(WBTC)  as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x2431452A0010a43878bF198e170F6319Af6d27F4'],
+    [STETH, (assets.get(4) as Map<string, string>).get(STETH) as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x7B6Fe482eD3E9f3C5bE525C8e81D2B96402eb234'],
+    [ENS,   (assets.get(4) as Map<string, string>).get(ENS)   as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x64EB137E967D1788Ce653C4Bdd4E4aD708F50Ae6'],
   ]],
   [42, [
     [DAI,   (assets.get(42) as Map<string, string>).get(DAI)   as string, ETH, (assets.get(42) as Map<string, string>).get(ETH) as string, '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
@@ -83,12 +108,14 @@ export const uniswapSources: Map<number, Array<[string, string, string, number]>
   [1, [
     [ETH, ENS,  '0x92560c178ce069cc014138ed3c2f5221ba71f58a', 600],
   ]],
+  [4, []], // We don't use uniswap v2 in Rinkeby
   [42, []], // We don't use uniswap v2 in Kovan
 ])
 
 // The lidoSource is the wstETH contract
 export const lidoSource: Map<number, string> = new Map([
   [1,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+  [4,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
   [42, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
 ])
 
@@ -100,6 +127,14 @@ export const compositeSources: Map<number, Array<[string, string, string]>> = ne
     [STETH,  ETH,   protocol.get(CHAINLINK) as string],
     [WSTETH, STETH, protocol.get(LIDO) as string],
     [ENS,    ETH,   protocol.get(UNISWAP) as string],
+  ]],
+  [4, [
+    [DAI,    ETH,   protocol.get(CHAINLINK) as string],
+    [USDC,   ETH,   protocol.get(CHAINLINK) as string],
+    [WBTC,   ETH,   protocol.get(CHAINLINK) as string],
+    [STETH,  ETH,   protocol.get(CHAINLINK) as string],
+    [WSTETH, STETH, protocol.get(LIDO) as string],
+    [ENS,    ETH,   protocol.get(CHAINLINK) as string], // We don't use Uniswap on rinkeby
   ]],
   [42, [
     [DAI,    ETH,   protocol.get(CHAINLINK) as string],
@@ -113,6 +148,12 @@ export const compositeSources: Map<number, Array<[string, string, string]>> = ne
 
 export const compositePaths: Map<number, Array<[string, string, Array<string>]>> = new Map([
   [1, [
+    [WSTETH, DAI, [STETH, ETH]],
+    [WSTETH, USDC, [STETH, ETH]],
+    [ENS, DAI, [ETH]],
+    [ENS, USDC, [ETH]],
+  ]],
+  [4, [
     [WSTETH, DAI, [STETH, ETH]],
     [WSTETH, USDC, [STETH, ETH]],
     [ENS, DAI, [ETH]],
@@ -136,6 +177,14 @@ export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
     [WSTETH, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
     [ENS,    (assets.get(1) as Map<string, string>).get(ENS)    as string],
   ]],
+  [4, [
+    [ETH,    (assets.get(4) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(4) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(4) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(4) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(4) as Map<string, string>).get(WSTETH) as string],
+    [ENS,    (assets.get(4) as Map<string, string>).get(ENS)    as string],
+  ]],
   [42, [
     [ETH,    (assets.get(42) as Map<string, string>).get(ETH)    as string],
     [DAI,    (assets.get(42) as Map<string, string>).get(DAI)    as string],
@@ -150,6 +199,9 @@ export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
 export const assetsToReserve: Map<number, Array<[string, string]>> = new Map([
   [1, [
     [STETH, (assets.get(1) as Map<string, string>).get(STETH) as string],
+  ]],
+  [4, [
+    [STETH, (assets.get(4) as Map<string, string>).get(STETH) as string],
   ]],
   [42, [
     [STETH, (assets.get(42) as Map<string, string>).get(STETH) as string],
@@ -173,6 +225,16 @@ export const chainlinkIlks: Map<number, Array<[string, string, string, number, n
     [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
   ]],
+  [4, [
+    [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
+    [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
+    [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
+    [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
+    [USDC, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 6],
+    [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
+    [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
+    [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
+  ]],
   [42, [
     [DAI, ETH, CHAINLINK, 1400000, 714000, 1000000, 1, 18],
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
@@ -188,6 +250,12 @@ export const chainlinkIlks: Map<number, Array<[string, string, string, number, n
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const compositeIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
   [1, [
+    [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
+    [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
+    [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
+    [USDC, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 6],
+  ]],
+  [4, [
     [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
     [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 6],
     [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
