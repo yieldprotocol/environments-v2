@@ -9,11 +9,13 @@ const protocol = readAddressMappingIfExists('protocol.json');
 
 export const developer: Map<number, string> = new Map([
     [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
 export const deployer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+  [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
@@ -33,19 +35,18 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [DAI,    '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
     [USDC,   '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
     [WBTC,   '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
-    [WSTETH, ''],
-    [STETH,  ''],
-    [LINK,   ''],
-    [ENS,    ''],
+    [WSTETH, '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
+    [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
+    [LINK,   '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
+    [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
   ])],
   [42, new Map([
     [ETH,    '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
     [DAI,    '0xaFCdc724EB8781Ee721863db1B15939675996484'],
     [USDC,   '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
     [WBTC,   '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
-    [WSTETH, '0xB12C63eD91e901995E68023293AC1A308ffA6c3c'],
-    [STETH,  '0x2296AB4F92f7fADC78eD02A9576B9a779CAa91bE'],
-    [LINK,   '0xe37c6209C44d89c452A422DDF3B71D1538D58b96'],
+    [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
+    [STETH,  '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
     [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ])],
 ])
@@ -91,7 +92,7 @@ export const chainlinkSources: Map<number, Array<[string, string, string, string
     [DAI,   (assets.get(4) as Map<string, string>).get(DAI)   as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D'],
     [USDC,  (assets.get(4) as Map<string, string>).get(USDC)  as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf'],
     [WBTC,  (assets.get(4) as Map<string, string>).get(WBTC)  as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x2431452A0010a43878bF198e170F6319Af6d27F4'],
-    [STETH, (assets.get(4) as Map<string, string>).get(STETH) as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x7B6Fe482eD3E9f3C5bE525C8e81D2B96402eb234'],
+    [STETH, (assets.get(4) as Map<string, string>).get(STETH) as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x17AEAA7aF619Cf60095528cB115fbE22F14dFA44'],
     [ENS,   (assets.get(4) as Map<string, string>).get(ENS)   as string, ETH, (assets.get(4) as Map<string, string>).get(ETH) as string, '0x64EB137E967D1788Ce653C4Bdd4E4aD708F50Ae6'],
   ]],
   [42, [
@@ -115,7 +116,7 @@ export const uniswapSources: Map<number, Array<[string, string, string, number]>
 // The lidoSource is the wstETH contract
 export const lidoSource: Map<number, string> = new Map([
   [1,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
-  [4,  (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+  [4,  (assets.get(4) as Map<string, string>).get(WSTETH) as string],
   [42, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
 ])
 
@@ -210,6 +211,7 @@ export const assetsToReserve: Map<number, Array<[string, string]>> = new Map([
 
 export const bases: Map<number, Array<string>> = new Map([
   [1, [DAI, USDC]],
+  [4, [DAI, USDC]],
   [42, [DAI, USDC]],
 ])
 
@@ -220,7 +222,7 @@ export const chainlinkIlks: Map<number, Array<[string, string, string, number, n
     [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
     [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
     [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
-    [USDC, ETH, CHAINLINK, 1400000, 714000, 2000000, 1, 6],
+    [USDC, ETH, CHAINLINK, 1400000, 714000, 5000000, 1, 6],
     [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
     [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
     [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
@@ -270,9 +272,13 @@ export const compositeIlks: Map<number, Array<[string, string, string, number, n
 ])
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
-export const series: Array<[string, string, number, string[], string, string]> = [
+export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
   [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2112',  'FYDAI2112'],
   [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYDAI2203',  'FYDAI2203'],
+]
+
+// Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
+export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
   [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2112', 'FYUSDC2112'],
   [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, ENS], 'FYUSDC2203', 'FYUSDC2203'],
 ]

@@ -34,7 +34,7 @@ export const orchestrateAddedAssetProposal = async (
   for (let [assetId, assetAddress] of assets) {
     const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
     verify(join.address, [assetAddress])
-    console.log(`[${bytesToString(assetId)}Join, : '${join.address}'],`)
+    console.log(`${bytesToString(assetId)}Join deployed at '${join.address}`)
 
     proposal.push({
       target: join.address,
