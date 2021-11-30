@@ -37,7 +37,7 @@ export const deployLadle = async (
   if (protocol.get('ladle') === undefined) {
     ladle = (await deployContract(ownerAcc, LadleArtifact, [cauldron.address, weth9.address])) as Ladle
     console.log(`Ladle deployed at ${ladle.address}`)
-    verify(ladle.address, [])
+    verify(ladle.address, [cauldron.address, weth9.address])
 
     const router = await ladle.router()
     console.log(`Router deployed at ${router}`)

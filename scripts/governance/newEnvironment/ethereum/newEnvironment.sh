@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network rinkeby"
 HERE=$(dirname $0)
 
 ## Phase 1: Libraries
@@ -36,21 +36,21 @@ HERE=$(dirname $0)
 #$RUN $HERE/newEnvironment-17.ts # orchestrate factories - propose
 #$RUN $HERE/newEnvironment-17.ts # orchestrate factories - approve
 #$RUN $HERE/newEnvironment-17.ts # orchestrate factories - execute
-#
-## Phase 5: Core
-#$RUN scripts/fragments/core/deployCauldron.ts
-#$RUN $HERE/newEnvironment-19.ts # deploy Ladle, using WETH9 from the config file
-#$RUN scripts/fragments/core/deployWitch.ts
-#$RUN scripts/fragments/core/deployWand.ts
-#
-#$RUN $HERE/newEnvironment-22.ts # orchestrate core - propose
-#$RUN $HERE/newEnvironment-22.ts # orchestrate core - approve
-#$RUN $HERE/newEnvironment-22.ts # orchestrate core - execute
-#
-## Phase 6: Assets
-#$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - propose
-#$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - approve
-#$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - execute
+
+# Phase 5: Core
+$RUN scripts/fragments/core/deployCauldron.ts
+$RUN $HERE/newEnvironment-19.ts # deploy Ladle, using WETH9 from the config file
+$RUN scripts/fragments/core/deployWitch.ts
+$RUN scripts/fragments/core/deployWand.ts
+
+$RUN $HERE/newEnvironment-22.ts # orchestrate core - propose
+$RUN $HERE/newEnvironment-22.ts # orchestrate core - approve
+$RUN $HERE/newEnvironment-22.ts # orchestrate core - execute
+
+# Phase 6: Assets
+$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - propose
+$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - approve
+$RUN $HERE/newEnvironment-23.ts # add assets, deploying joins - execute
 $RUN $HERE/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - propose
 $RUN $HERE/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - approve
 $RUN $HERE/newEnvironment-24.ts # orchestrate joins, make bases, make ilks - execute

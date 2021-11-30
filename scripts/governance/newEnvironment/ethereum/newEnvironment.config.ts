@@ -3,7 +3,7 @@ import { readAddressMappingIfExists } from '../../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS } from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../../shared/constants'
-import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD } from '../../../../shared/constants'
+import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -296,14 +296,14 @@ export const strategiesInit: Array<[string, string, BigNumber]> = [
   // [strategyId, startPoolId, initAmount]
   [YSDAI6MMS,  FYDAI2203,  WAD.mul(100)],
   [YSDAI6MJD,  FYDAI2112,  WAD.mul(100)],
-  [YSUSDC6MMS, FYUSDC2203, WAD.mul(100)],
-  [YSUSDC6MJD, FYUSDC2112, WAD.mul(100)],
+  [YSUSDC6MMS, FYUSDC2203, ONEUSDC.mul(100)],
+  [YSUSDC6MJD, FYUSDC2112, ONEUSDC.mul(100)],
 ]
 
 export const poolsInit: Array<[string, BigNumber]> = [
   // poolId, initAmount
   [FYDAI2203,  WAD.mul(100)],
   [FYDAI2112,  WAD.mul(100)],
-  [FYUSDC2203, WAD.mul(100)],
-  [FYUSDC2112, WAD.mul(100)],
+  [FYUSDC2203, ONEUSDC.mul(100)],
+  [FYUSDC2112, ONEUSDC.mul(100)],
 ]

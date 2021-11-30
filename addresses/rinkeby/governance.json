@@ -1,0 +1,17 @@
+{
+  "dataType": "Map",
+  "value": [
+    [
+      "multisig",
+      "0x5ad7799f02d5a829b2d6fa085e6bd69a872619d5"
+    ],
+    [
+      "timelock",
+      "0x448c52C11ee83320DA2bff32300B3193E60cC020"
+    ],
+    [
+      "cloak",
+      "0x2dcE1f65Ca63B95aa9ebE7760A8D32F1DE7e7697"
+    ]
+  ]
+}

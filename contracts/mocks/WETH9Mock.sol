@@ -29,4 +29,10 @@ contract WETH9Mock is ERC20 {
     function totalSupply() public view override returns (uint) {
         return address(this).balance;
     }
+
+    // Allow to mint wETH out of nowhere
+    function mint(address to, uint256 wad) public payable {
+        _balanceOf[to] += wad;
+        emit Deposit(msg.sender, msg.value);
+    }
 }

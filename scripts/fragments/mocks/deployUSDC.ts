@@ -24,6 +24,6 @@ const { deployContract } = waffle
   const args: any = []
   const asset = (await deployContract(ownerAcc, USDCMockArtifact, args)) as unknown as USDCMock
   await asset.deployed()
-  console.log(`${await asset.symbol()} deployed at ${asset.address}'],`)
+  console.log(`${await asset.symbol()} deployed at ${asset.address}`)
   verify(asset.address, args)
 })()
