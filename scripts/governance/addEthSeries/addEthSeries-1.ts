@@ -18,6 +18,7 @@ import { newStrategies } from './addEthSeries.config'
 
   const developer = new Map([
     [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
