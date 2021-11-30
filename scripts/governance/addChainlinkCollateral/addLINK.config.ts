@@ -17,7 +17,7 @@ export const assets: Map<number, Map<string, string>> = new Map([
   [ETH,    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
   [DAI,    '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
   [USDC,   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-  [LINK,   '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
+  [LINK,   '0x514910771af9ca656af840dff83e8264ecf986ca'],
 ])],
 [4, new Map([
   [ETH,    '0xB370AFD9Efb99BD5CD0aD934AECfF00f949BC69c'],
@@ -60,8 +60,8 @@ export const assetToAdd: Map<number, [string, string]> = new Map([
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const limits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, LINK, CHAINLINK, 1670000, 1000000, 250000, 100, 18],
-  [USDC, LINK, CHAINLINK, 1670000, 1000000, 250000, 100, 6],
+  [DAI, LINK, CHAINLINK, 1670000, 1000000, 1000000, 100, 18],
+  [USDC, LINK, CHAINLINK, 1670000, 1000000, 1000000, 100, 6],
 ]
 
 // Input data: seriesId, [ilkId]
