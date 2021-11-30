@@ -181,19 +181,19 @@ module.exports = {
     },
     kovan: {
       accounts,
-      gasPrice: 1,
+      gasPrice: 1000000000,
       timeout: 600000,
       url: nodeUrl('kovan')
     },
     goerli: {
       accounts,
-      gasPrice: 1,
+      gasPrice: 1000000000,
       timeout: 600000,
       url: nodeUrl('goerli'),
     },
     rinkeby: {
       accounts,
-      gasPrice: 1,
+      gasPrice: 2000000000,
       timeout: 600000,
       url: nodeUrl('rinkeby')
     },
