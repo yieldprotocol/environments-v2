@@ -3,7 +3,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { getOriginalChainId, readAddressMappingIfExists, bytesToBytes32, impersonate, getOwnerOrImpersonate } from '../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../typechain'
-import { developer, whale, assetToAdd, seriesIlks } from './addUNI.config'
+import { developer, whale, assetToAdd, seriesIlks } from './addLINK.config'
 import { WAD } from '../../../shared/constants'
 
 /**

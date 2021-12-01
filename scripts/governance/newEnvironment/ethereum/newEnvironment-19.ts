@@ -13,7 +13,7 @@ import { developer, assets } from './newEnvironment.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const protocol = readAddressMappingIfExists('protocol.json');

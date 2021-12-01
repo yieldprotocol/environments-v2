@@ -16,7 +16,7 @@ import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategies
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const governance = readAddressMappingIfExists('governance.json');
@@ -44,21 +44,7 @@ import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategies
     ownerAcc
   )) as unknown as EmergencyBrake
 
-  // If we are on Kovan, put enough DAI and USDC in the Timelock to initialize pools and strategies
-  /* if (chainId === 42) {
-    const dai = (await ethers.getContractAt(
-      'ERC20Mock',
-      await cauldron.assets(DAI),
-      ownerAcc
-    )) as unknown as ERC20Mock
-    await dai.mint(timelock.address, WAD.mul(400))
-    const usdc = (await ethers.getContractAt(
-      'ERC20Mock',
-      await cauldron.assets(USDC),
-      ownerAcc
-    )) as unknown as ERC20Mock
-    await usdc.mint(timelock.address, WAD.mul(400))
-  } */
+  // Remember to put enough DAI and USDC in the Timelock to initialize pools and strategies
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateSeriesProposal(ownerAcc, cauldron, ladle, timelock, cloak, seriesDAI))

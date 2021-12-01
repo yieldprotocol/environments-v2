@@ -8,7 +8,7 @@ import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlks
 
 import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../typechain'
 
-import { developer, chainlinkSources, assetToAdd, limits, seriesIlks } from './addUNI.config'
+import { developer, chainlinkSources, assetToAdd, limits, seriesIlks } from './addLINK.config'
 
 /**
  * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
@@ -23,7 +23,7 @@ import { developer, chainlinkSources, assetToAdd, limits, seriesIlks } from './a
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 

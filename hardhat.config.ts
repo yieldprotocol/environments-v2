@@ -3,10 +3,11 @@ import * as path from 'path'
 
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-etherscan'
+import '@typechain/hardhat'
+
 import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
-import 'hardhat-typechain'
 import 'solidity-coverage'
 import 'hardhat-deploy'
 import { subtask, task } from 'hardhat/config'
@@ -180,16 +181,20 @@ module.exports = {
     },
     kovan: {
       accounts,
-      gasPrice: 10000000000,
+      gasPrice: 1000000000,
       timeout: 600000,
       url: nodeUrl('kovan')
     },
     goerli: {
       accounts,
+      gasPrice: 1000000000,
+      timeout: 600000,
       url: nodeUrl('goerli'),
     },
     rinkeby: {
       accounts,
+      gasPrice: 2000000000,
+      timeout: 600000,
       url: nodeUrl('rinkeby')
     },
     arb_rinkeby: {
