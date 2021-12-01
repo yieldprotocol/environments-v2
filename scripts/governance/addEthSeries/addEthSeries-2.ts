@@ -8,7 +8,7 @@ import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBasePropos
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { IOracle, CompoundMultiOracle, CompositeMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../typechain'
 import { COMPOUND, CHAINLINK, COMPOSITE, UNISWAP } from '../../../shared/constants'
-import { developer, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkIlks, newCompositeIlks, newUniswapIlks } from './addEthSeries.config'
+import { developer, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkLimits, newCompositeLimits, newUniswapLimits } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -75,10 +75,9 @@ import { developer, newChiSources, newRateSources, newCompositePaths, newBases, 
   proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, newRateSources.get(chainId) as [string, string][]))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
   proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, ladle, witch, wand, cloak, newBases))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, newChainlinkIlks))
-  if (chainId === 1)  proposal = proposal.concat(await makeIlkProposal(ownerAcc, uniswapOracle, ladle, witch, wand, cloak, newUniswapIlks.get(chainId) as [string, string, string, number, number, number, number, number][]))
-  if (chainId === 42) proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, newUniswapIlks.get(chainId) as [string, string, string, number, number, number, number, number][]))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle as unknown as IOracle, ladle, witch, wand, cloak, newCompositeIlks))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, newChainlinkLimits.get(chainId) as [string, string, string, number, number, number, number, number][]))
+  if (chainId === 1)  proposal = proposal.concat(await makeIlkProposal(ownerAcc, uniswapOracle, ladle, witch, wand, cloak, newUniswapLimits.get(chainId) as [string, string, string, number, number, number, number, number][]))
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle as unknown as IOracle, ladle, witch, wand, cloak, newCompositeLimits))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

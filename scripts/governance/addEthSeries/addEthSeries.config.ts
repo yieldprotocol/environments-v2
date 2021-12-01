@@ -3,13 +3,15 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD } from '../../
 import { EOMAR22, EOJUN22, FYETH2203, FYETH2206, YSETH6MMS, YSETH6MJD } from '../../../shared/constants'
 import { CHAINLINK, COMPOUND, COMPOSITE, UNISWAP } from '../../../shared/constants'
 
-export const developer = new Map([
+export const developer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
 export const whale = new Map([
-  [1, '0x06920c9fc643de77b99cb7670a944ad31eaaa260'],
+  [1,  '0x06920c9fc643de77b99cb7670a944ad31eaaa260'],
+  [4,  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
@@ -21,7 +23,18 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [WBTC,   '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
     [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
     [STETH,  '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
+    [LINK,   '0x514910771af9ca656af840dff83e8264ecf986ca'],
     [ENS,    '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
+  ])],
+  [4, new Map([
+    [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+    [DAI,    '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
+    [USDC,   '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
+    [WBTC,   '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
+    [WSTETH, '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
+    [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
+    [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
+    [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
   ])],
   [42, new Map([
     [ETH,    '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
@@ -30,6 +43,7 @@ export const assets: Map<number, Map<string, string>> = new Map([
     [WBTC,   '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
     [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
     [STETH,  '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
+    [LINK,   '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
     [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ])],
 ])
@@ -42,8 +56,8 @@ export const poolsInit: Array<[string, BigNumber]> = [
 
 export const newSeries: Array<[string, string, number, string[], string, string]> = [
   // name, baseId, maturity, ilkIds, name, symbol
-  [FYETH2203, ETH, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYETH2203', 'FYETH2203'], // Mar22
-  [FYETH2206, ETH, EOJUN22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYETH2206', 'FYETH2206'], // Jun22
+  [FYETH2203, ETH, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYETH2203', 'FYETH2203'], // Mar22
+  [FYETH2206, ETH, EOJUN22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYETH2206', 'FYETH2206'], // Jun22
 ]
 
 export const newStrategies: Array<[string, string, string]> = [
@@ -60,13 +74,15 @@ export const strategiesInit: Array<[string, string, BigNumber]> = [
 ]
 
 export const newChiSources = new Map([
-  [1, [[ETH,  '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]],
-  [42, [[ETH,  '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']]],
+  [1,  [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]],
+  [4,  [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]],
+  [42, [[ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']]],
 ])
 
 export const newRateSources = new Map([
-  [1, [[ETH,  '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]],
-  [42, [[ETH,  '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']]],
+  [1,  [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]],
+  [4,  [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]],
+  [42, [[ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']]],
 ])
 
 // Input data: assetId, assetId, [intermediate assetId]
@@ -77,23 +93,41 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 export const newBases: Array<string> = [ETH]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const newChainlinkIlks: Array<[string, string, string, number, number, number, number, number]> = [
-  [ETH, ETH,  CHAINLINK, 1000000, 1000000, 2500000000, 0,     12], // Constant 1, no dust
-  [ETH, DAI,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
-  [ETH, USDC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
-  [ETH, WBTC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
-  [ETH, LINK, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
-  [ETH, UNI,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
-]
+export const newChainlinkLimits: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
+  [1, [
+    [ETH, ETH,  CHAINLINK, 1000000, 1000000, 2500000000, 0,     12], // Constant 1, no dust
+    [ETH, DAI,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, USDC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, WBTC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, LINK, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+  ]],
+  [4, [
+    [ETH, ETH,  CHAINLINK, 1000000, 1000000, 2500000000, 0,     12], // Constant 1, no dust
+    [ETH, DAI,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, USDC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, WBTC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, LINK, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, ENS,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12]
+  ]],
+  [42, [
+    [ETH, ETH,  CHAINLINK, 1000000, 1000000, 2500000000, 0,     12], // Constant 1, no dust
+    [ETH, DAI,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, USDC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, WBTC, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, LINK, CHAINLINK, 1500000, 666000,  250000000,  10000, 12],
+    [ETH, ENS,  CHAINLINK, 1500000, 666000,  250000000,  10000, 12]
+  ]]
+])
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const newCompositeIlks: Array<[string, string, string, number, number, number, number, number]> = [
+export const newCompositeLimits: Array<[string, string, string, number, number, number, number, number]> = [
   [ETH, WSTETH, COMPOSITE, 1000000, 666000, 250000000, 10000, 12],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const newUniswapIlks: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
-  [1, [[ETH, ENS, UNISWAP, 1500000, 666000, 250000000, 10000, 12]]],
-  [42, [[ETH, ENS, CHAINLINK, 1500000, 666000, 250000000, 10000, 12]]],
+export const newUniswapLimits: Map<number, Array<[string, string, string, number, number, number, number, number]>> = new Map([
+  [1,  [[ETH, ENS, UNISWAP,   1500000, 666000, 250000000, 10000, 12]]],
+  [4,  []],
+  [42, []],
 ])
 

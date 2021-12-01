@@ -8,14 +8,14 @@ import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../..
 const protocol = readAddressMappingIfExists('protocol.json');
 
 export const developer: Map<number, string> = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
+  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+])
 
 export const deployer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
+  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
