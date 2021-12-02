@@ -25,6 +25,8 @@ export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI    = ethers.utils.formatBytes32String('10').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
+export const CHAINLINKUSD = 'chainlinkUSDOracle'
+export const ACCUMULATOR = 'accumulatorOracle'
 export const COMPOUND  = 'compoundOracle'
 export const COMPOSITE = 'compositeOracle'
 export const LIDO      = 'lidoOracle'

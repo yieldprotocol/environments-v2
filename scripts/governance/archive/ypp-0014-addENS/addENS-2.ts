@@ -25,7 +25,6 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
  */
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const UNISWAP = 'uniswapOracle'

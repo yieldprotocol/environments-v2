@@ -13,7 +13,6 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
   const deployer: string = '0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708'
 
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const developer = new Map([

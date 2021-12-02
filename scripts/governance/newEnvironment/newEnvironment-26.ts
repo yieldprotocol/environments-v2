@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 import { Timelock, Wand } from '../../../../typechain'
-import { developer, seriesDAI } from './newEnvironment.config'
+import { developer, seriesUSDC } from './newEnvironment.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -11,7 +11,6 @@ import { developer, seriesDAI } from './newEnvironment.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const governance = readAddressMappingIfExists('governance.json');
@@ -29,7 +28,7 @@ import { developer, seriesDAI } from './newEnvironment.config'
   )) as unknown as Wand
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addSeriesProposal(wand, seriesDAI))
+  proposal = proposal.concat(await addSeriesProposal(wand, seriesUSDC))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

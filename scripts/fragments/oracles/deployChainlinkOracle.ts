@@ -9,12 +9,11 @@ import { Timelock } from '../../../typechain/Timelock'
 const { deployContract } = waffle
 
 /**
- * @dev This script deploys the CompositeMultiOracles
+ * @dev This script deploys the ChainlinkMultiOracle
  */
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
   const developer = new Map([
     [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
