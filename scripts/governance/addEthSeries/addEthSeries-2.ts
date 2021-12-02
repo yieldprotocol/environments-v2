@@ -6,9 +6,11 @@ import { updateRateSourcesProposal } from '../../fragments/oracles/updateRateSou
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
+import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
+
 import { IOracle, CompoundMultiOracle, CompositeMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../typechain'
 import { COMPOUND, CHAINLINK, COMPOSITE, UNISWAP } from '../../../shared/constants'
-import { developer, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkLimits, newCompositeLimits, newUniswapLimits } from './addEthSeries.config'
+import { developer, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkLimits, newCompositeLimits, newUniswapLimits, newSeries } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -78,6 +80,7 @@ import { developer, newChiSources, newRateSources, newCompositePaths, newBases, 
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, newChainlinkLimits.get(chainId) as [string, string, string, number, number, number, number, number][]))
   if (chainId === 1)  proposal = proposal.concat(await makeIlkProposal(ownerAcc, uniswapOracle, ladle, witch, wand, cloak, newUniswapLimits.get(chainId) as [string, string, string, number, number, number, number, number][]))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle as unknown as IOracle, ladle, witch, wand, cloak, newCompositeLimits))
+  proposal = proposal.concat(await addSeriesProposal(wand, newSeries))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

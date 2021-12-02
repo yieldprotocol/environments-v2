@@ -11,6 +11,3 @@ $RUN $HERE/addEthSeries-2.ts
 $RUN $HERE/addEthSeries-3.ts
 $RUN $HERE/addEthSeries-3.ts
 $RUN $HERE/addEthSeries-3.ts
-$RUN $HERE/addEthSeries-4.ts
-$RUN $HERE/addEthSeries-4.ts
-$RUN $HERE/addEthSeries-4.ts
