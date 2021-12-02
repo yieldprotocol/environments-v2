@@ -73,7 +73,9 @@ import { WSTETH, STETH, WAD } from '../../../shared/constants'
 
     // Post wstEth and borrow fyETH
     const wstEthJoinAddress = await ladle.joins(WSTETH)
-    await wstEth.transfer(wstEthJoinAddress, posted)
+    console.log(`posting ${posted} wstETH out of ${await wstEth.balanceOf(whaleAcc.address)}`)
+    await wstEth.connect(whaleAcc).transfer(wstEthJoinAddress, posted)
+    console.log(`borrowing ${borrowed} fyETH`)
     await ladle.pour(vaultId, whaleAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
@@ -81,7 +83,8 @@ import { WSTETH, STETH, WAD } from '../../../shared/constants'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
     
     // Repay fyEth and withdraw wstEth
-    await fyToken.transfer(fyToken.address, borrowed)
+    await fyToken.connect(whaleAcc).transfer(fyToken.address, borrowed)
+    console.log(`repaying ${borrowed} fyETH and withdrawing ${posted} wstETH`)
     await ladle.pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
     if ((await wstEth.balanceOf(whaleAcc.address)).toString() !== wstEthBalanceBefore.toString()) throw "balance mismatch"
