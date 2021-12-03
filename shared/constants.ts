@@ -37,9 +37,9 @@ export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
 export const CWBTC = ethers.utils.formatBytes32String('CWBTC').slice(0, 14)
 export const CUSDT = ethers.utils.formatBytes32String('CUSDT').slice(0, 14)
 
-export const EODEC21 = 1640919600
-export const EOMAR22 = 1648177200
-export const EOJUN22 = 1656039600 // Friday, June 24, 2022 3:00:00 PM GMT+0
+export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
+export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
+export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 
 export const FYETH2203  = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206  = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
