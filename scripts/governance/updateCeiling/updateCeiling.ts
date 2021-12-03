@@ -14,12 +14,12 @@ import {
 } from '../../../shared/helpers'
 import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
 import { Cauldron, Timelock } from '../../../typechain'
-import { newMax, developerIfImpersonating } from './updateCeiling.config'
+import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
   const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
-  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   // Contract instantiation
   const cauldron = ((await ethers.getContractAt(
@@ -35,7 +35,10 @@ import { newMax, developerIfImpersonating } from './updateCeiling.config'
   )) as unknown) as Timelock
 
   // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await updateCeilingProposal(cauldron, newMax)
+  let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await updateCeilingProposal(cauldron, chainlinkLimits))
+  proposal = proposal.concat(await updateCeilingProposal(cauldron, compositeLimits))
+
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

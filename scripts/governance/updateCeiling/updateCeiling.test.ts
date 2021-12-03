@@ -13,12 +13,12 @@ import {
   getGovernanceProtocolAddresses
 } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
-import { newMax, developerIfImpersonating } from './updateCeiling.config'
+import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
   const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
-  let ownerAcc = await getOwnerOrImpersonate(developerIfImpersonating.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   // Contract instantiation
   const cauldron = ((await ethers.getContractAt(
@@ -26,7 +26,7 @@ import { newMax, developerIfImpersonating } from './updateCeiling.config'
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown) as Cauldron
-  for (let [baseId, ilkId, maxDebt] of newMax) {
+  for (let [baseId, ilkId, maxDebt] of chainlinkLimits.concat(compositeLimits)) {
     const debt = await cauldron.debt(baseId, ilkId)
     if (debt.max.toString() === maxDebt.toString())
       console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} set: ${debt.max}`)
