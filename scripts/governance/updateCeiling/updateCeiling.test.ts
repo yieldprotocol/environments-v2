@@ -13,7 +13,7 @@ import {
   getGovernanceProtocolAddresses
 } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
-import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.config'
+import { newLimits, developer } from './updateCeiling.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -26,7 +26,7 @@ import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.con
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown) as Cauldron
-  for (let [baseId, ilkId, maxDebt] of chainlinkLimits.concat(compositeLimits)) {
+  for (let [baseId, ilkId, maxDebt] of newLimits) {
     const debt = await cauldron.debt(baseId, ilkId)
     if (debt.max.toString() === maxDebt.toString())
       console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} set: ${debt.max}`)

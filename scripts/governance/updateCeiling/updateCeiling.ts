@@ -14,7 +14,7 @@ import {
 } from '../../../shared/helpers'
 import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
 import { Cauldron, Timelock } from '../../../typechain'
-import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.config'
+import { newLimits, developer } from './updateCeiling.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -36,8 +36,7 @@ import { chainlinkLimits, compositeLimits, developer } from './updateCeiling.con
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateCeilingProposal(cauldron, chainlinkLimits))
-  proposal = proposal.concat(await updateCeilingProposal(cauldron, compositeLimits))
+  proposal = proposal.concat(await updateCeilingProposal(cauldron, newLimits))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

@@ -11,12 +11,8 @@
  ])
  
 // Input data: baseId, ilkId, line
-export const chainlinkLimits: Array<[string, string, number]> = [
+export const newLimits: Array<[string, string, number]> = [
   [DAI,  ETH, 2000000],
-]
-
-// Input data: baseId, ilkId, line
-export const compositeLimits: Array<[string, string, number]> = [
   [DAI,  ENS, 2000000],
   [USDC, ENS, 2000000],
 ]
