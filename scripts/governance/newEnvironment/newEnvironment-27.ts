@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, writeAddressMap } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, writeAddressMap } from '../../../shared/helpers'
 
-import { deployStrategies } from '../../../fragments/core/strategies/deployStrategies'
-import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
-import { developer, strategiesData } from './newEnvironment.config'
+import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
+import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
+import { developer, strategiesData } from './newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys strategies
@@ -12,7 +12,7 @@ import { developer, strategiesData } from './newEnvironment.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
   const existingStrategies = readAddressMappingIfExists('strategies.json');

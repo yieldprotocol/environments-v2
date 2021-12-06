@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
 
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { Timelock, Wand } from '../../../../typechain'
-import { developer, seriesUSDC } from './newEnvironment.config'
+import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
+import { Timelock, Wand } from '../../../typechain'
+import { developer, seriesUSDC } from './newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -12,7 +12,7 @@ import { developer, seriesUSDC } from './newEnvironment.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
 

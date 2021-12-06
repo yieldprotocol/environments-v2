@@ -6,7 +6,7 @@ import AccumulatorMultiOracleArtifact from '../../../artifacts/@yield-protocol/v
 import { AccumulatorMultiOracle } from '../../../typechain/AccumulatorMultiOracle'
 import { Timelock } from '../../../typechain/Timelock'
 
-const { deployContract } = waffle
+const { deployContract } = waffle;
 
 /**
  * @dev This script deploys the AccumulatorMultiOracle

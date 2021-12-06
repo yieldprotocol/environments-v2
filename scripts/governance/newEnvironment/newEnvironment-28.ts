@@ -1,13 +1,13 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
-import { DAI, USDC, WAD } from '../../../../shared/constants'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import { DAI, USDC, WAD } from '../../../shared/constants'
 
-import { orchestrateSeriesProposal } from '../../../fragments/assetsAndSeries/orchestrateSeriesProposal'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
-import { Cauldron, Ladle, Timelock, EmergencyBrake, ERC20Mock } from '../../../../typechain'
-import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategiesInit } from './newEnvironment.config'
+import { orchestrateSeriesProposal } from '../../fragments/assetsAndSeries/orchestrateSeriesProposal'
+import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
+import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
+import { Cauldron, Ladle, Timelock, EmergencyBrake, ERC20Mock } from '../../../typechain'
+import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategiesInit } from './newEnvironment.arb_rinkeby.config'
 
 
 /**

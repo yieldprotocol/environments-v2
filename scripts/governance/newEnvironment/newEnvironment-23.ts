@@ -1,10 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { reserveAssetProposal } from '../../../fragments/assetsAndSeries/reserveAssetProposal'
-import { Cauldron, Wand, Timelock } from '../../../../typechain'
-import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.config'
+import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
+import { reserveAssetProposal } from '../../fragments/assetsAndSeries/reserveAssetProposal'
+import { Cauldron, Wand, Timelock } from '../../../typechain'
+import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script adds assets to the Yield Protocol.
@@ -13,7 +13,7 @@ import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.config
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -34,8 +34,8 @@ import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.config
   )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, wand, assetsToAdd.get(chainId) as [string, string][]))
-  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve.get(chainId) as [string, string][]))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, wand, assetsToAdd as [string, string][]))
+  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve as [string, string][]))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

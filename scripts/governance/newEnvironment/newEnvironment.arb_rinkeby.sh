@@ -1,22 +1,22 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network arb_rinkeby"
+RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
 
-# Phase 1: Libraries
-$RUN scripts/fragments/core/libraries/deployYieldMath.ts
-$RUN scripts/fragments/core/libraries/deployYieldMathExtensions.ts
-$RUN scripts/fragments/core/libraries/deployPoolView.ts
-$RUN scripts/fragments/core/libraries/deploySafeERC20Namer.ts
-
-# Phase 2: Governance
-$RUN scripts/fragments/core/governance/deployTimelock.ts
-$RUN scripts/fragments/core/governance/deployCloak.ts
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - propose
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - approve
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - execute
-
+## Phase 1: Libraries
+#$RUN scripts/fragments/core/libraries/deployYieldMath.ts
+#$RUN scripts/fragments/core/libraries/deployYieldMathExtensions.ts
+#$RUN scripts/fragments/core/libraries/deployPoolView.ts
+#$RUN scripts/fragments/core/libraries/deploySafeERC20Namer.ts
+#
+## Phase 2: Governance
+#$RUN scripts/fragments/core/governance/deployTimelock.ts
+#$RUN scripts/fragments/core/governance/deployCloak.ts
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - propose
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - approve
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - execute
+#
 # Phase 3: Oracles
 $RUN scripts/fragments/oracles/deployChainlinkUSDOracle.ts
 $RUN scripts/fragments/oracles/deployAccumulatorOracle.ts

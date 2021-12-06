@@ -1,9 +1,9 @@
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC } from '../../../../shared/constants'
-import { CHAINLINKUSD, ACCUMULATOR, RATE, CHI } from '../../../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../../shared/constants'
-import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../shared/helpers'
+import { ETH, DAI, USDC } from '../../../shared/constants'
+import { CHAINLINKUSD, ACCUMULATOR, RATE, CHI } from '../../../shared/constants'
+import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
+import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
 
