@@ -1,14 +1,12 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { stringToBytes6, jsonToMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
 
 import { orchestrateSeriesProposal } from '../../fragments/assetsAndSeries/orchestrateSeriesProposal'
 import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
-import { WAD } from '../../../shared/constants'
-import { newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSeries.config'
+import { developer, newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSeries.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -16,19 +14,13 @@ import { newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSer
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
-
-  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
-  const strategies = jsonToMap(fs.readFileSync(path + 'strategies.json', 'utf8')) as Map<string, string>
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
+  let strategies = readAddressMappingIfExists('strategies.json');
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',

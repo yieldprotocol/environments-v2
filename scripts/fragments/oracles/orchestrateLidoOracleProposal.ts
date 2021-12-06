@@ -1,5 +1,5 @@
 import { id } from '@yield-protocol/utils-v2'
-
+import { ROOT } from '../../../shared/constants'
 import { LidoOracle } from '../../../typechain/LidoOracle'
 import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 import { Timelock } from '../../../typechain/Timelock'
@@ -13,12 +13,11 @@ import { Timelock } from '../../../typechain/Timelock'
  */
 
 export const orchestrateLidoOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     lidoOracle: LidoOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
   ): Promise<Array<{ target: string; data: string }>>  => {
-  const ROOT = await lidoOracle.ROOT()
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -43,7 +42,7 @@ export const orchestrateLidoOracleProposal = async (
 
   proposal.push({
       target: lidoOracle.address,
-      data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+      data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`lidoOracle.revokeRole(ROOT, deployer)`)
 

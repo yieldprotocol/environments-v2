@@ -10,6 +10,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, verify } from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
 
 import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
 
@@ -21,9 +22,6 @@ export const orchestrateSeriesProposal = async (
   cloak: EmergencyBrake,
   newSeries: Array<[string, string, number, string[], string, string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
-
-  const ROOT = await timelock.ROOT()
-
   let proposal: Array<{ target: string; data: string }> = []
 
   // Each series costs 10M gas to deploy, so there is no bundling of several series in a single proposal
@@ -49,10 +47,11 @@ export const orchestrateSeriesProposal = async (
       ],
       'safeERC20Namer.js'
     )
-
+    console.log(`${await fyToken.symbol()} deployed at ${fyToken.address}'`)
+    
     const baseId = await fyToken.underlyingId()
     const pool = (await ethers.getContractAt('Pool', await ladle.pools(seriesId), ownerAcc)) as Pool
-    console.log(`${await fyToken.symbol()}Pool, '${pool.address}'`)
+    console.log(`${await fyToken.symbol()}Pool deployed at ${pool.address}'`)
     verify(pool.address, [], 'safeERC20Namer.js')
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them

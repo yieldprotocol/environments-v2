@@ -1,5 +1,5 @@
 import { id } from '@yield-protocol/utils-v2'
-
+import { ROOT } from '../../../shared/constants'
 import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
 
 /**
@@ -10,12 +10,11 @@ import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typecha
  */
 
 export const orchestrateCompositeOracleProposal = async (
-    ownerAcc: any, 
+    deployer: string, 
     compositeOracle: CompositeMultiOracle,
     timelock: Timelock,
     cloak: EmergencyBrake
   ): Promise<Array<{ target: string; data: string }>>  => {
-  const ROOT = await compositeOracle.ROOT()
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
@@ -41,7 +40,7 @@ export const orchestrateCompositeOracleProposal = async (
 
   proposal.push({
     target: compositeOracle.address,
-    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address])
+    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
   })
   console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
 

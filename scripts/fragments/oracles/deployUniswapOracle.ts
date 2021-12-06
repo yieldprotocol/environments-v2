@@ -1,8 +1,6 @@
 import { ethers, waffle } from 'hardhat'
-import * as fs from 'fs'
-import { WAD } from '../../../shared/constants'
-import { mapToJson, jsonToMap, verify, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
-
+import { getOriginalChainId, readAddressMappingIfExists, writeAddressMap, verify, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
 import UniswapV3OracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol/UniswapV3Oracle.json'
 
 import { UniswapV3Oracle } from '../../../typechain/UniswapV3Oracle'
@@ -19,36 +17,35 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
+  const chainId = await getOriginalChainId()
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
+
   const developer = new Map([
     [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
-  const chainId = await getOriginalChainId()
-  if (chainId !== 1 && chainId !== 42) throw "Only Kovan and Mainnet supported"
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
-
-  const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
-  const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const ROOT = await timelock.ROOT()
 
   let uniswapOracle: UniswapV3Oracle
   if (protocol.get('uniswapOracle') === undefined) {
       uniswapOracle = (await deployContract(ownerAcc, UniswapV3OracleArtifact)) as UniswapV3Oracle
-      console.log(`[UniswapOracle, '${uniswapOracle.address}'],`)
+      console.log(`UniswapOracle deployed at ${uniswapOracle.address}`)
       verify(uniswapOracle.address, [])
       protocol.set('uniswapOracle', uniswapOracle.address)
-      fs.writeFileSync(path + 'protocol.json', mapToJson(protocol), 'utf8')
+      writeAddressMap("protocol.json", protocol);
   } else {
       uniswapOracle = (await ethers.getContractAt('UniswapV3Oracle', protocol.get('uniswapOracle') as string, ownerAcc)) as unknown as UniswapV3Oracle
+      console.log(`Reusing UniswapOracle at ${uniswapOracle.address}`)
   }
   if (!(await uniswapOracle.hasRole(ROOT, timelock.address))) {
       await uniswapOracle.grantRole(ROOT, timelock.address); console.log(`uniswapOracle.grantRoles(ROOT, timelock)`)

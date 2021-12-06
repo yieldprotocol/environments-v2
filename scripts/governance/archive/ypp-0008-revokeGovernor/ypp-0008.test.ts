@@ -21,7 +21,7 @@ describe('Revoke governor permissions', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    if (chainId !== 1 && chainId !== 42) throw 'Only Kovan and Mainnet supported'
+    if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
     const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
   
     const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>

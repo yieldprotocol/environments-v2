@@ -6,7 +6,7 @@ import { orchestrateLidoOracleProposal } from '../../../fragments/oracles/orches
 import { updateLidoSourceProposal } from '../../../fragments/oracles/updateLidoSourceProposal'
 import { updateSpotSourcesProposal } from '../../../fragments/oracles/updateSpotSourcesProposal'
 import { orchestrateCompositeOracleProposal } from '../../../fragments/oracles/orchestrateCompositeOracleProposal'
-import { updateCompositePairsProposal } from '../../../fragments/oracles/updateCompositePairsProposal'
+import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
@@ -129,7 +129,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
   proposal = proposal.concat(await updateLidoSourceProposal(ownerAcc, lidoOracle, wstEthAddress))
   proposal = proposal.concat(await updateSpotSourcesProposal(ownerAcc, stEthEthSource))
   proposal = proposal.concat(await orchestrateCompositeOracleProposal(ownerAcc, compositeOracle, timelock, cloak))
-  proposal = proposal.concat(await updateCompositePairsProposal(ownerAcc, compositeOracle, compositeSources))
+  proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
   proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assets))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, witch, wand, cloak, ilks))

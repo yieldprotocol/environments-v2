@@ -12,10 +12,7 @@ contract DaiMock is ERC20  {
     bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)");
     string  public constant version  = "1";
 
-    constructor(
-        string memory name,
-        string memory symbol
-    ) ERC20(name, symbol, 18) {
+    constructor() ERC20("Dai Stablecoin", "DAI", 18) {
         uint256 chainId;
         assembly {
             chainId := chainid()
