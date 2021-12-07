@@ -16,4 +16,3 @@ export const newLimits: Array<[string, string, number]> = [
   [DAI,  ENS, 2000000],
   [USDC, ENS, 2000000],
 ]
-
