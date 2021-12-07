@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.6;
 import "./ISourceMock.sol";
-import "@yield-protocol/utils-v2/contracts/token/ERC20Permit.sol";
+import "@yield-protocol/utils-v2/contracts/token/ERC20.sol";
 
-contract YvTokenMock is ISourceMock, ERC20Permit {
+contract YvTokenMock is ISourceMock, ERC20 {
     ERC20 public token;
     uint256 public price;
 
-    constructor(string memory name, string memory symbol, uint8 decimals, ERC20 token_) ERC20Permit(name, symbol, decimals) {
+    constructor(string memory name, string memory symbol, uint8 decimals, ERC20 token_) ERC20(name, symbol, decimals) {
         token = token_;
     }
 

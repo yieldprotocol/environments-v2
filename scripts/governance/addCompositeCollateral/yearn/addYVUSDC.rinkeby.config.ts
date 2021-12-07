@@ -18,7 +18,7 @@ export const assets: Map<string, string> = new Map([
   [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
   [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
   [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
-  [YVUSDC, '0x477AD07c6Cb5Ce14E979520112acED3273252283'],
+  [YVUSDC, '0x9ce25084D277580C6F899F84F6233b6009540795'],
 ])
 
 // underlying, yvToken, address
@@ -39,7 +39,7 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 
 // Assets for which we will have a Join
 export const assetsToAdd: Array<[string, string]> = [
-  [YVUSDC,assets.get(YVUSDC) as string],
+  [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -51,10 +51,10 @@ export const compositeLimits: Array<[string, string, string, number, number, num
 
 // Input data: seriesId, [ilkIds]
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2112, [YVUSDC]],
-  [FYDAI2203, [YVUSDC]],
+  [FYDAI2112,  [YVUSDC]],
+  [FYDAI2203,  [YVUSDC]],
   [FYUSDC2112, [YVUSDC]],
   [FYUSDC2203, [YVUSDC]],
-  [FYETH2203, [YVUSDC]],
-  [FYETH2206, [YVUSDC]]
+  [FYETH2203,  [YVUSDC]],
+  [FYETH2206,  [YVUSDC]]
 ]
