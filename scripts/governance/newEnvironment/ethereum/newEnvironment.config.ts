@@ -224,7 +224,7 @@ export const bases: Map<number, Array<string>> = new Map([
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI,  ETH,  CHAINLINK, 1400000, 714000,  1000000,  1,   18],
+  [DAI,  ETH,  CHAINLINK, 1400000, 714000,  2000000,  1,   18],
   [DAI,  DAI,  CHAINLINK, 1000000, 1000000, 10000000, 0,   18], // Constant 1, no dust
   [DAI,  USDC, CHAINLINK, 1330000, 751000,  100000,   1,   18], // Via ETH
   [DAI,  WBTC, CHAINLINK, 1500000, 666000,  100000,   1,   18], // Via ETH
@@ -240,8 +240,8 @@ export const chainlinkLimits: Array<[string, string, string, number, number, num
 export const compositeLimits: Array<[string, string, string, number, number, number, number, number]> = [
   [DAI,  WSTETH, COMPOSITE, 1400000, 714000, 500000,  1,   18],
   [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000,  1,   6],
-  [DAI,  ENS,    COMPOSITE, 1670000, 600000, 500000,  100, 18],
-  [USDC, ENS,    COMPOSITE, 1670000, 600000, 1000000, 100, 6],
+  [DAI,  ENS,    COMPOSITE, 1670000, 600000, 2000000, 100, 18],
+  [USDC, ENS,    COMPOSITE, 1670000, 600000, 2000000, 100, 6],
 ]
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
