@@ -29,6 +29,7 @@ export const COMPOUND  = 'compoundOracle'
 export const COMPOSITE = 'compositeOracle'
 export const LIDO      = 'lidoOracle'
 export const UNISWAP   = 'uniswapOracle'
+export const YEARN   = 'yearnOracle'
 
 export const CDAI  = ethers.utils.formatBytes32String('CDAI').slice(0, 14)
 export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)

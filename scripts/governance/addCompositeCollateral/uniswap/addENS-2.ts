@@ -1,16 +1,16 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { orchestrateUniswapOracleProposal } from '../../fragments/oracles/orchestrateUniswapOracleProposal'
-import { updateUniswapSourcesProposal } from '../../fragments/oracles/updateUniswapSourcesProposal'
-import { updateSpotSourcesProposal } from '../../fragments/oracles/updateSpotSourcesProposal'
-import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
+import { orchestrateUniswapOracleProposal } from '../../../fragments/oracles/orchestrateUniswapOracleProposal'
+import { updateUniswapSourcesProposal } from '../../../fragments/oracles/updateUniswapSourcesProposal'
+import { updateSpotSourcesProposal } from '../../../fragments/oracles/updateSpotSourcesProposal'
+import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 
-import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../typechain'
+import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../../typechain'
 
-import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
+import { ETH, DAI, USDC, ENS, WAD } from '../../../../shared/constants'
 
 /**
  * @dev This script configures the ENS price feed

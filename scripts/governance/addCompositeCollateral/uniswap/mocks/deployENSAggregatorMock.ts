@@ -1,11 +1,11 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { ETH, ENS } from '../../../../shared/constants'
-import { mapToJson, jsonToMap, verify, getOriginalChainId } from '../../../../shared/helpers'
+import { ETH, ENS } from '../../../../../shared/constants'
+import { mapToJson, jsonToMap, verify, getOriginalChainId } from '../../../../../shared/helpers'
 
 import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
-import { ChainlinkAggregatorV3Mock } from '../../../../typechain'
+import { ChainlinkAggregatorV3Mock } from '../../../../../typechain'
 
 const { deployContract } = waffle
 
