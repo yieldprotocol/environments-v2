@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOriginalChainId, proposeApproveExecute, 
 
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
 import { Wand, Timelock } from '../../../typechain'
-import { developer, assetToAdd } from './addLINK.config'
+import { developer, assetToAdd } from './addUNI.config'
 
 /**
  * @dev This script adds as an asset.
