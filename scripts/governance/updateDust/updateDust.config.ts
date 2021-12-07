@@ -13,13 +13,11 @@
 // Input data: baseId, ilkId, line, dust, dec
 export const newMin: Array<[string, string, number]> = [
   [DAI,  ETH,    5000],
-  [DAI,  DAI,    5000], // Constant 1, no dust
   [DAI,  USDC,   5000], // Via ETH
   [DAI,  WBTC,   5000], // Via ETH
   [DAI,  LINK,   5000],
   [USDC, ETH,    5000],
   [USDC, DAI,    5000], // Via ETH
-  [USDC, USDC,   5000], // Constant 1, no dust
   [USDC, WBTC,   5000], // Via ETH  
   [USDC, LINK,   5000],
   [DAI,  WSTETH, 5000],
