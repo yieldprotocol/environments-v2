@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, bytesToBytes32, getOwnerOrImpersonate, getO
 
 import { IOracle } from '../../../../typechain'
 
-import { DAI, USDC, ETH, YVUSDC, WAD } from '../../../../shared/constants'
+import { DAI, USDC, ETH, YVUSDC, WAD, ONEUSDC } from '../../../../shared/constants'
 import { developer } from './addYVUSDC.rinkeby.config'
 
 /**
@@ -28,10 +28,10 @@ import { developer } from './addYVUSDC.rinkeby.config'
     ownerAcc
   )) as unknown as IOracle
 
-  console.log(`YVUSDC/ETH: ${await yearnOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(ETH), WAD)}`)
-  console.log(`ETH/YVUSDC: ${await yearnOracle.peek(bytesToBytes32(ETH), bytesToBytes32(YVUSDC), WAD)}`)
-  console.log(`YVUSDC/DAI: ${await compositeOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(DAI), WAD)}`)
+  console.log(`YVUSDC/USDC: ${await yearnOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(USDC), ONEUSDC)}`)
+  console.log(`USDC/YVUSDC: ${await yearnOracle.peek(bytesToBytes32(USDC), bytesToBytes32(YVUSDC), ONEUSDC)}`)
+  console.log(`YVUSDC/DAI: ${await compositeOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(DAI), ONEUSDC)}`)
   console.log(`DAI/YVUSDC: ${await compositeOracle.peek(bytesToBytes32(DAI), bytesToBytes32(YVUSDC), WAD)}`)
-  console.log(`YVUSDC/USDC: ${await compositeOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(USDC), WAD)}`)
-  console.log(`USDC/YVUSDC: ${await compositeOracle.peek(bytesToBytes32(USDC), bytesToBytes32(YVUSDC), WAD)}`)
+  console.log(`YVUSDC/ETH: ${await compositeOracle.peek(bytesToBytes32(YVUSDC), bytesToBytes32(ETH), ONEUSDC)}`)
+  console.log(`ETH/YVUSDC: ${await compositeOracle.peek(bytesToBytes32(ETH), bytesToBytes32(YVUSDC), WAD)}`)
 })()
