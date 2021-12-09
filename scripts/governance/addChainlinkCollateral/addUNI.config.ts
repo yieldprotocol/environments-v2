@@ -55,14 +55,14 @@ export const whale = new Map([
 // Assets for which we will have a Join
 export const assetToAdd: Map<number, [string, string]> = new Map([
   [1,  [UNI, (assets.get(1) as Map<string, string>).get(UNI) as string]],
-  [4,  [UNI, (assets.get(1) as Map<string, string>).get(UNI) as string]],
+  [4,  [UNI, (assets.get(4) as Map<string, string>).get(UNI) as string]],
   [42, [UNI, (assets.get(42) as Map<string, string>).get(UNI) as string]],
 ])
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const limits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, UNI, CHAINLINK, 1670000, 1000000, 1000000, 100, 18],
-  [USDC, UNI, CHAINLINK, 1670000, 1000000, 1000000, 100, 6],
+  [DAI, UNI, CHAINLINK, 1670000, 600000, 1000000, 100, 18],
+  [USDC, UNI, CHAINLINK, 1670000, 600000, 1000000, 100, 6],
 ]
 
 // Input data: seriesId, [ilkId]
