@@ -193,6 +193,7 @@ module.exports = {
     },
     rinkeby: {
       accounts,
+      gas: 10000000,
       gasPrice: 2000000000,
       timeout: 600000,
       url: nodeUrl('rinkeby')

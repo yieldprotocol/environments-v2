@@ -6,8 +6,8 @@ import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, FYETH2203, FYETH2206 } fr
 
 const protocol = readAddressMappingIfExists('protocol.json');
 
-export const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const developer = '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'
+export const deployer = '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'
 
 export const assets: Map<string, string> = new Map([
   [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
@@ -18,7 +18,7 @@ export const assets: Map<string, string> = new Map([
   [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
   [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
   [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
-  [YVUSDC, '0x9ce25084D277580C6F899F84F6233b6009540795'],
+  [YVUSDC, '0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B'],
 ])
 
 // underlying, yvToken, address

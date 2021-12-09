@@ -72,6 +72,10 @@
     [
       "lidoWrapHandler",
       "0x80d0CfceE7dfa135189e44d617032d5A7Cc2705b"
+    ],
+    [
+      "yearnOracle",
+      "0xCa0C6fb403A2d2a7C09175ACbe5233dFEdb6a938"
     ]
   ]
 }
