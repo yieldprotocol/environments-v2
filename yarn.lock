@@ -2382,12 +2382,7 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@2.3.0-rc6":
-  version "2.3.0-rc6"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc6.tgz#dbfad673507913e13a39b2f36ef5fa44cde4217d"
-  integrity sha512-MlLFJVjE6Z6esHZffjGULwBsCe/+XSLqWLcDsxxo/mXL79BdYIhwRBT50ikaqo2o6IDqib/S40hPN3uS36LT7g==
-
-"@yield-protocol/vault-interfaces@^2.3.0-rc4":
+"@yield-protocol/vault-interfaces@2.3.2", "@yield-protocol/vault-interfaces@^2.3.0-rc4":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.2.tgz#a839211c2001cf039577856a81d293435787fded"
   integrity sha512-cedYPGJlCFnM+4yGgEsldzL23/BC/+ZN7LrQF6XfvwmEe6J7tUAzzTJFOfeJHWO3sFTBhh40QaLacI5STVY/KQ==
@@ -2396,6 +2391,13 @@
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.14.1.tgz#22ef379ed0ca3261b876c8a4e1e92efb82081533"
   integrity sha512-Q6FKedqKU6bzdhXR8UMoHIt04i27qG1MhJDLeLtN+yRDTfz2+IbriNfMkpXx+YEbKJH7BX+5pnac18FmMFomzw==
+
+"@yield-protocol/yield-liquidator-v2@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yield-liquidator-v2/-/yield-liquidator-v2-0.0.2.tgz#b925929141d6efff02861f574b0e817de215df63"
+  integrity sha512-O5PcTNw/G57wfl7hC04euFLoZ9YevjNL1wb1kAILn6uoHTL4631KfFLnNlg2mgQvBeCH4QunGc+lOJMiowzCmA==
+  dependencies:
+    latest "^0.2.0"
 
 "@yield-protocol/yieldspace-interfaces@2.3.0-rc7":
   version "2.3.0-rc7"
@@ -2586,11 +2588,6 @@ ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
   integrity sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==
   dependencies:
     type-fest "^0.21.3"
-
-ansi-regex@*:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-6.0.1.tgz#3183e38fae9a65d7cb5e53945cd5897d0260a06a"
-  integrity sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -7710,7 +7707,7 @@ imul@^1.0.0:
   resolved "https://registry.yarnpkg.com/imul/-/imul-1.0.1.tgz#9d5867161e8b3de96c2c38d5dc7cb102f35e2ac9"
   integrity sha1-nVhnFh6LPelsLDjV3HyxAvNeKsk=
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
