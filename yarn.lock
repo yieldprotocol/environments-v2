@@ -2077,6 +2077,11 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.22.tgz#47020d7e4cf19194d43b5202f35f75bd2ad35ce7"
   integrity sha512-tFfcE+DSTzWAgifkjik9AySNqIyNoYwmR+uecPwwD/XRNfvOjmC/FjCxpiUGDkDVDphPfCUecSQVFw+lN3M3kQ==
 
+"@types/chai@^4.2.22":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.0.tgz#23509ebc1fa32f1b4d50d6a66c4032d5b8eaabdc"
+  integrity sha512-/ceqdqeRraGolFTcfoXNiqjyQhZzbINDngeoAq9GoHa8PPK1yNzTaxWjA6BFWp5Ua9JpXEMSS4s5i9tS0hOJtw==
+
 "@types/concat-stream@^1.6.0":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@types/concat-stream/-/concat-stream-1.6.1.tgz#24bcfc101ecf68e886aaedce60dfd74b632a1b74"
@@ -2382,20 +2387,23 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@2.3.0-rc6":
-  version "2.3.0-rc6"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.0-rc6.tgz#dbfad673507913e13a39b2f36ef5fa44cde4217d"
-  integrity sha512-MlLFJVjE6Z6esHZffjGULwBsCe/+XSLqWLcDsxxo/mXL79BdYIhwRBT50ikaqo2o6IDqib/S40hPN3uS36LT7g==
-
-"@yield-protocol/vault-interfaces@^2.3.0-rc4":
+"@yield-protocol/vault-interfaces@^2.3.0-rc4", "@yield-protocol/vault-interfaces@^2.3.2":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.2.tgz#a839211c2001cf039577856a81d293435787fded"
   integrity sha512-cedYPGJlCFnM+4yGgEsldzL23/BC/+ZN7LrQF6XfvwmEe6J7tUAzzTJFOfeJHWO3sFTBhh40QaLacI5STVY/KQ==
 
-"@yield-protocol/vault-v2@0.15.0-rc1":
-  version "0.15.0-rc1"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.15.0-rc1.tgz#fd4389e0dd967134170d1422dfe1965e83a4e1c5"
-  integrity sha512-+uUTFtFUq0i2kEA1CKzBH1Wi2gb5AiPE4PnYiLiHN6MI5gU5DrjfUT9e1uZ7dqxVJWRkr21ZqsAEGhQYbth0OQ==
+"@yield-protocol/vault-v2@0.15.0-rc4":
+  version "0.15.0-rc4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.15.0-rc4.tgz#60b6c8ee0b61597ba4a0e9bf49b6386063e61441"
+  integrity sha512-qihq42y2LiHjidX1Yn2MdVu7DK3RM3LX7CVVHX+xxZZYgKhnNmUIUUpUj5/dd953k23t3z4WMG56foV6T8eWXQ==
+
+"@yield-protocol/yield-liquidator-v2@^0.0.5-rc3":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yield-liquidator-v2/-/yield-liquidator-v2-0.0.5.tgz#907fb2c5fa8f871ed8242098993ac69317b3340f"
+  integrity sha512-7JMNgB38tzN5DMwOOqxMpYXKs1PIaR2z+FICtSJrGlrTV4iljFOVjNX/YMHe+PImsS7ledTPamZorn4snINDkw==
+  dependencies:
+    "@types/chai" "^4.2.22"
+    latest "^0.2.0"
 
 "@yield-protocol/yieldspace-interfaces@2.3.0-rc7":
   version "2.3.0-rc7"
