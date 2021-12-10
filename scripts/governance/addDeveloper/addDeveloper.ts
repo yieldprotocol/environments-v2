@@ -7,19 +7,20 @@ import {
   proposeApproveExecute,
 } from '../../../shared/helpers'
 
-import { grantDeveloperProposal } from '../../permissions/grantDeveloperProposal'
+import { grantDeveloperProposal } from '../../fragments/permissions/grantDeveloperProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 
 export const developerAddress = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [4, '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'],
+  [42, '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'],
 ])
 
 /**
  * @dev This script gives developer privileges to an account.
  */
 ;(async () => {
-  const account: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
+  const account: string = '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
 
   const chainId = await getOriginalChainId()
   const [governance, _] = await getGovernanceProtocolAddresses(chainId)
