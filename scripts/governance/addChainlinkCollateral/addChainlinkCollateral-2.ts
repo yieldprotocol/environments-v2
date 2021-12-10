@@ -8,7 +8,7 @@ import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlks
 
 import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../typechain'
 
-import { developer, chainlinkSources, assetToAdd, limits, seriesIlks } from './addLINK.config'
+import { developer, chainlinkSources, assetToAdd, limits, seriesIlks } from './addUNI.config'
 
 /**
  * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.

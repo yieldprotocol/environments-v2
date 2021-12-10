@@ -10,11 +10,11 @@ import { Cauldron } from '../../../typechain'
 
 export const updateCeilingProposal = async (
   cauldron: Cauldron,
-  newDust: [string, string, number][]
+  newCeilings: [string, string, number][]
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [baseId, ilkId, maxDebt] of newDust) {
+  for (let [baseId, ilkId, maxDebt] of newCeilings) {
     // We need to pass `min` and `dec`, but we don't want to change them, so we read them from the contract
     const debt = await cauldron.debt(baseId, ilkId)
     proposal.push({

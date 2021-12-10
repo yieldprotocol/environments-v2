@@ -13,7 +13,7 @@ import {
   getGovernanceProtocolAddresses
 } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
-import { newLimits, developer } from './updateCeiling.config'
+import { newMin, developer } from './updateDust.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -26,10 +26,10 @@ import { newLimits, developer } from './updateCeiling.config'
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown) as Cauldron
-  for (let [baseId, ilkId, maxDebt] of newLimits) {
+  for (let [baseId, ilkId, minDebt] of newMin) {
     const debt = await cauldron.debt(baseId, ilkId)
-    if (debt.max.toString() === maxDebt.toString())
-      console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} set: ${debt.max}`)
-    else console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} not updated, still at ${debt.max}`)
+    if (debt.min.toString() === minDebt.toString())
+      console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} set: ${debt.min}`)
+    else console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} not updated, still at ${debt.min}`)
   }
 })()

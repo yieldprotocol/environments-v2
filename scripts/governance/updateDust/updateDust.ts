@@ -10,16 +10,19 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
   proposeApproveExecute,
-  getGovernanceProtocolAddresses
+  readAddressMappingIfExists
 } from '../../../shared/helpers'
-import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
+import { updateDustProposal } from '../../fragments/limits/updateDustProposal'
 import { Cauldron, Timelock } from '../../../typechain'
-import { newLimits, developer } from './updateCeiling.config'
+import { newMin, developer } from './updateDust.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
+
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json');
 
   // Contract instantiation
   const cauldron = ((await ethers.getContractAt(
@@ -35,9 +38,7 @@ import { newLimits, developer } from './updateCeiling.config'
   )) as unknown) as Timelock
 
   // Build the proposal
-  let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateCeilingProposal(cauldron, newLimits))
-
+  const proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newMin)
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
