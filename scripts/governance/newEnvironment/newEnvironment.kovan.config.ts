@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI } from '../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
 import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
@@ -19,6 +19,7 @@ export const assets: Map<string, string> = new Map([
   [STETH,  '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
   [LINK,   '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
   [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
+  [UNI,    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -38,6 +39,7 @@ export const chainlinkSources: Array<[string, string, string, string, string]> =
   [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
   [LINK,  assets.get(LINK)  as string, ETH, assets.get(ETH) as string, '0x3Af8C569ab77af5230596Acf0E8c2F9351d24C38'],
   [ENS,   assets.get(ENS)   as string, ETH, assets.get(ETH) as string, '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4'],
+  [UNI,   assets.get(UNI)   as string, ETH, assets.get(ETH) as string, '0xC0E69E49D98D26D52f7505Af1dF8b3009168f945'],
 ]
 
 // token0, token1, address, twapInterval
@@ -69,8 +71,9 @@ export const assetsToAdd: Array<[string, string]> = [
   [USDC,   assets.get(USDC)   as string],
   [WBTC,   assets.get(WBTC)   as string],
   [WSTETH, assets.get(WSTETH) as string],
-  [LINK,   assets.get(LINK) as string],
+  [LINK,   assets.get(LINK)   as string],
   [ENS,    assets.get(ENS)    as string],
+  [UNI,    assets.get(UNI)    as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
@@ -87,11 +90,13 @@ export const chainlinkLimits: Array<[string, string, string, number, number, num
   [DAI,  USDC, CHAINLINK, 1330000, 751000,  100000,   5000, 18], // Via ETH
   [DAI,  WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 18], // Via ETH
   [DAI,  LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
+  [DAI,  UNI,  CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
   [USDC, ETH,  CHAINLINK, 1400000, 714000,  5000000,  5000, 6],
   [USDC, DAI,  CHAINLINK, 1330000, 751000,  100000,   5000, 6], // Via ETH
   [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0,    6], // Constant 1, no dust
   [USDC, WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 6], // Via ETH  
   [USDC, LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
+  [USDC, UNI,  CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -104,14 +109,14 @@ export const compositeLimits: Array<[string, string, string, number, number, num
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
-  [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYDAI2112',  'FYDAI2112'],
-  [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYDAI2203',  'FYDAI2203'],
+  [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2112',  'FYDAI2112'],
+  [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2203',  'FYDAI2203'],
 ]
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
-  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYUSDC2112', 'FYUSDC2112'],
-  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS], 'FYUSDC2203', 'FYUSDC2203'],
+  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2112', 'FYUSDC2112'],
+  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2203', 'FYUSDC2203'],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
