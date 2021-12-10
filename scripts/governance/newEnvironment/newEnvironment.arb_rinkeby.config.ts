@@ -64,11 +64,11 @@ export const bases: Array<string> = [DAI, USDC]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI,  ETH,  CHAINLINKUSD, 1400000, 714000,  1000000,  1,   18],
+  [DAI,  ETH,  CHAINLINKUSD, 1400000, 714000,  1000000,  100, 18],
   [DAI,  DAI,  CHAINLINKUSD, 1000000, 1000000, 10000000, 0,   18], // Constant 1, no dust
-  [DAI,  USDC, CHAINLINKUSD, 1330000, 751000,  100000,   1,   18], // Via ETH
-  [USDC, ETH,  CHAINLINKUSD, 1400000, 714000,  5000000,  1,   6],
-  [USDC, DAI,  CHAINLINKUSD, 1330000, 751000,  100000,   1,   6], // Via ETH
+  [DAI,  USDC, CHAINLINKUSD, 1330000, 751000,  100000,   100, 18], // Via ETH
+  [USDC, ETH,  CHAINLINKUSD, 1400000, 714000,  5000000,  100, 6],
+  [USDC, DAI,  CHAINLINKUSD, 1330000, 751000,  100000,   100, 6], // Via ETH
   [USDC, USDC, CHAINLINKUSD, 1000000, 1000000, 10000000, 0,   6], // Constant 1, no dust
 ]
 
