@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonat
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
 import { reserveAssetProposal } from '../../fragments/assetsAndSeries/reserveAssetProposal'
 import { Cauldron, Wand, Timelock } from '../../../typechain'
-import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.arb_rinkeby.config'
+import { developer, assetsToAdd, assetsToReserve } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script adds assets to the Yield Protocol.

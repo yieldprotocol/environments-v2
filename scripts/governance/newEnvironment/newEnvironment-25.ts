@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
 import { Timelock, Wand } from '../../../typechain'
-import { developer, seriesDAI } from './newEnvironment.arb_rinkeby.config'
+import { developer, seriesDAI } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether

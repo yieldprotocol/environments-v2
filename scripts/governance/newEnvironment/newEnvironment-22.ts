@@ -9,7 +9,7 @@ import { orchestrateWandProposal } from '../../fragments/core/orchestrateWandPro
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Wand } from '../../../typechain'
 import { JoinFactory, FYTokenFactory, PoolFactory } from '../../../typechain'
-import { deployer, developer } from './newEnvironment.arb_rinkeby.config'
+import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cauldron, Ladle, Witch and Wand

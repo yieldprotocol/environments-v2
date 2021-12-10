@@ -5,8 +5,8 @@ import { COMPOUND, CHAINLINK, COMPOSITE } from '../../../shared/constants'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { orchestrateAddedAssetProposal } from '../../fragments/assetsAndSeries/orchestrateAddedAssetProposal'
-import { developer, assetsToAdd } from './newEnvironment.arb_rinkeby.config'
-import { bases, chainlinkLimits, compositeLimits } from './newEnvironment.arb_rinkeby.config'
+import { developer, assetsToAdd } from './newEnvironment.rinkeby.config'
+import { bases, chainlinkLimits, compositeLimits } from './newEnvironment.rinkeby.config'
 
 import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../typechain'
 

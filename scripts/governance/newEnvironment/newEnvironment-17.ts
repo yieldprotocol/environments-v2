@@ -7,7 +7,7 @@ import { orchestratePoolFactoryProposal } from '../../fragments/core/factories/o
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { JoinFactory, FYTokenFactory, PoolFactory } from '../../../typechain'
-import { deployer, developer } from './newEnvironment.arb_rinkeby.config'
+import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script orchestrates the Factories

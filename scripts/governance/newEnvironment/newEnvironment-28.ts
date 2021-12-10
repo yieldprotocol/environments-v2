@@ -7,7 +7,7 @@ import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProp
 import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
 import { Cauldron, Ladle, Timelock, EmergencyBrake, ERC20Mock } from '../../../typechain'
-import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategiesInit } from './newEnvironment.arb_rinkeby.config'
+import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategiesInit } from './newEnvironment.rinkeby.config'
 
 
 /**
@@ -17,7 +17,7 @@ import { developer, seriesDAI, seriesUSDC, strategiesData, poolsInit, strategies
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
   const deployedStrategies = readAddressMappingIfExists('strategies.json');
