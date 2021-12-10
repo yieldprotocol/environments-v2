@@ -1,15 +1,15 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { orchestrateCauldronProposal } from '../../../fragments/core/orchestrateCauldronProposal'
-import { orchestrateLadleProposal } from '../../../fragments/core/orchestrateLadleProposal'
-import { orchestrateWitchProposal } from '../../../fragments/core/orchestrateWitchProposal'
-import { orchestrateWandProposal } from '../../../fragments/core/orchestrateWandProposal'
+import { orchestrateCauldronProposal } from '../../fragments/core/orchestrateCauldronProposal'
+import { orchestrateLadleProposal } from '../../fragments/core/orchestrateLadleProposal'
+import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchProposal'
+import { orchestrateWandProposal } from '../../fragments/core/orchestrateWandProposal'
 
-import { Timelock, EmergencyBrake } from '../../../../typechain'
-import { Cauldron, Ladle, Witch, Wand } from '../../../../typechain'
-import { JoinFactory, FYTokenFactory, PoolFactory } from '../../../../typechain'
-import { deployer, developer } from './newEnvironment.config'
+import { Timelock, EmergencyBrake } from '../../../typechain'
+import { Cauldron, Ladle, Witch, Wand } from '../../../typechain'
+import { JoinFactory, FYTokenFactory, PoolFactory } from '../../../typechain'
+import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cauldron, Ladle, Witch and Wand
@@ -17,9 +17,8 @@ import { deployer, developer } from './newEnvironment.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -73,10 +72,10 @@ import { deployer, developer } from './newEnvironment.config'
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateCauldronProposal(deployer.get(chainId) as string, cauldron, timelock, cloak))
-  proposal = proposal.concat(await orchestrateLadleProposal(deployer.get(chainId) as string, cauldron, ladle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateWitchProposal(deployer.get(chainId) as string, cauldron, witch, timelock, cloak))
-  proposal = proposal.concat(await orchestrateWandProposal(deployer.get(chainId) as string, cauldron, ladle, wand, joinFactory, fyTokenFactory, poolFactory, timelock, cloak))
+  proposal = proposal.concat(await orchestrateCauldronProposal(deployer as string, cauldron, timelock, cloak))
+  proposal = proposal.concat(await orchestrateLadleProposal(deployer as string, cauldron, ladle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateWitchProposal(deployer as string, cauldron, witch, timelock, cloak))
+  proposal = proposal.concat(await orchestrateWandProposal(deployer as string, cauldron, ladle, wand, joinFactory, fyTokenFactory, poolFactory, timelock, cloak))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
 
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { Timelock, Wand } from '../../../../typechain'
-import { developer, seriesDAI } from './newEnvironment.config'
+import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
+import { Timelock, Wand } from '../../../typechain'
+import { developer, seriesUSDC } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -11,9 +11,8 @@ import { developer, seriesDAI } from './newEnvironment.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -29,7 +28,7 @@ import { developer, seriesDAI } from './newEnvironment.config'
   )) as unknown as Wand
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addSeriesProposal(wand, seriesDAI))
+  proposal = proposal.concat(await addSeriesProposal(wand, seriesUSDC))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

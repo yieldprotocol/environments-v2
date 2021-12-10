@@ -200,6 +200,7 @@ module.exports = {
     arb_rinkeby: {
       accounts,
       url: arbNodeUrl('rinkeby'),
+      gasPrice: 1000000000,
       chainId: 421611,
       timeout: 60000
     },

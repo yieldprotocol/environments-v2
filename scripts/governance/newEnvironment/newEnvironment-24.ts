@@ -1,14 +1,14 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
-import { COMPOUND, CHAINLINK, COMPOSITE } from '../../../../shared/constants'
+import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { COMPOUND, CHAINLINK, COMPOSITE } from '../../../shared/constants'
 
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { orchestrateAddedAssetProposal } from '../../../fragments/assetsAndSeries/orchestrateAddedAssetProposal'
-import { developer, assetsToAdd } from './newEnvironment.config'
-import { bases, chainlinkLimits, compositeLimits } from './newEnvironment.config'
+import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
+import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
+import { orchestrateAddedAssetProposal } from '../../fragments/assetsAndSeries/orchestrateAddedAssetProposal'
+import { developer, assetsToAdd } from './newEnvironment.rinkeby.config'
+import { bases, chainlinkLimits, compositeLimits } from './newEnvironment.rinkeby.config'
 
-import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../../typechain'
+import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../typechain'
 
 
 /**
@@ -17,9 +17,8 @@ import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
   const protocol = readAddressMappingIfExists('protocol.json');
 
@@ -67,8 +66,8 @@ import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../
   )) as unknown as Wand
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assetsToAdd.get(chainId) as [string, string][]))
-  proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle, ladle, witch, wand, cloak, bases.get(chainId) as string[]))
+  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, assetsToAdd as [string, string][]))
+  proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle, ladle, witch, wand, cloak, bases as string[]))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, chainlinkLimits))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeLimits))
 

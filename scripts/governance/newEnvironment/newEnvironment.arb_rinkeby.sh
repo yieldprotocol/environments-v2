@@ -1,32 +1,29 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network rinkeby"
+RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
 
-# Phase 1: Libraries
-$RUN scripts/fragments/core/libraries/deployYieldMath.ts
-$RUN scripts/fragments/core/libraries/deployYieldMathExtensions.ts
-$RUN scripts/fragments/core/libraries/deployPoolView.ts
-$RUN scripts/fragments/core/libraries/deploySafeERC20Namer.ts
-
-# Phase 2: Governance
-$RUN scripts/fragments/core/governance/deployTimelock.ts
-$RUN scripts/fragments/core/governance/deployCloak.ts
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - propose
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - approve
-$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - execute
-
+## Phase 1: Libraries
+#$RUN scripts/fragments/core/libraries/deployYieldMath.ts
+#$RUN scripts/fragments/core/libraries/deployYieldMathExtensions.ts
+#$RUN scripts/fragments/core/libraries/deployPoolView.ts
+#$RUN scripts/fragments/core/libraries/deploySafeERC20Namer.ts
+#
+## Phase 2: Governance
+#$RUN scripts/fragments/core/governance/deployTimelock.ts
+#$RUN scripts/fragments/core/governance/deployCloak.ts
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - propose
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - approve
+#$RUN $HERE/newEnvironment-07.ts # orchestrate Cloak - execute
+#
 # Phase 3: Oracles
-$RUN scripts/fragments/oracles/deployChainlinkOracle.ts
-$RUN scripts/fragments/oracles/deployCompoundOracle.ts
-$RUN scripts/fragments/oracles/deployCompositeOracle.ts
-$RUN scripts/fragments/oracles/deployLidoOracle.ts
-$RUN scripts/fragments/oracles/deployUniswapOracle.ts
+$RUN scripts/fragments/oracles/deployChainlinkUSDOracle.ts
+$RUN scripts/fragments/oracles/deployAccumulatorOracle.ts
 
-$RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - propose
-$RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - approve
-$RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - execute
+$RUN $HERE/arbitrum/newEnvironment-13.ts # setup oracles - propose
+$RUN $HERE/arbitrum/newEnvironment-13.ts # setup oracles - approve
+$RUN $HERE/arbitrum/newEnvironment-13.ts # setup oracles - execute
 
 # Phase 4: Factories
 $RUN scripts/fragments/core/factories/deployJoinFactory.ts
