@@ -11,6 +11,7 @@ import "@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.so
 import "@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/lido/IWstETH.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol";
 import "@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/JoinFactory.sol";
@@ -20,6 +21,9 @@ import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
 import "@yield-protocol/vault-v2/contracts/Ladle.sol";
 import "@yield-protocol/vault-v2/contracts/Witch.sol";
 import "@yield-protocol/vault-v2/contracts/Wand.sol";
+import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexLadleModule.sol";
+import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexStakingWrapper.sol";
+import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexStakingWrapperYield.sol";
 import "@yield-protocol/yieldspace-v2/contracts/Pool.sol";
 import "@yield-protocol/yieldspace-v2/contracts/PoolFactory.sol";
 import "@yield-protocol/yieldspace-v2/contracts/extensions/YieldMathExtensions.sol";
