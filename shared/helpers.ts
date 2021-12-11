@@ -8,12 +8,18 @@ import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
 
+const paths = new Map([
+  [1, './addresses/mainnet/'],
+  [4, './addresses/rinkeby/'],
+  [42, './addresses/kovan/'],
+])
+
 
 /** @dev Determines chainId and retrieves address mappings from governance and protocol json files*/
 /** returns a 2 element array of Map's for **governance** and **protocol**, with contract names mapped to addresses */
 export const getGovernanceProtocolAddresses = async (chainId: number): Promise<Map<string, string>[]> => {
-  if (chainId !== 1 && chainId !== 42) throw `Chain id ${chainId} not found. Only Kovan and Mainnet supported`
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  if (![1,4,42].includes(chainId)) throw `Chain id ${chainId} not found. Only Rinkeby, Kovan and Mainnet supported`
+  const path = paths.get(chainId)
   const governance = jsonToMap(fs.readFileSync(`${path}governance.json`, 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync(`${path}protocol.json`, 'utf8')) as Map<string, string>
   return [governance, protocol]
