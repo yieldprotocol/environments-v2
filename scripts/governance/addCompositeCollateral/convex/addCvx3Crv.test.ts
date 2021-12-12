@@ -1,9 +1,6 @@
 import { ethers, network } from 'hardhat'
-
-import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import {
-  jsonToMap,
   stringToBytes6,
   bytesToBytes32,
   impersonate,
@@ -33,9 +30,9 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
 
   const seriesIds: Array<string> = [
     stringToBytes6('0104'),
-    // stringToBytes6('0105'),
-    // stringToBytes6('0204'),
-    // stringToBytes6('0205'),
+    stringToBytes6('0105'),
+    stringToBytes6('0204'),
+    stringToBytes6('0205'),
   ]
 
   // Impersonate cvx3Crv whale 0xd7a029db2585553978190db5e85ec724aa4df23f
@@ -145,6 +142,17 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+
+    const crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
+    const cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    
+    // Claim CVX & CRV reward
+    await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
+    const crvAfter = (await crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
+    const cvxAfter = (await cvx.balanceOf(cvx3CrvWhaleAcc.address)).toString()
+    if(crvBefore.gt(crvAfter)) throw "Reward claim failed"
+    if(cvxBefore.gt(cvxAfter)) throw "Reward claim failed"
+
     // Repay fyDai and withdraw cvx3Crv
     await fyToken.transfer(fyToken.address, borrowed)
 
@@ -153,26 +161,13 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
       cvx3CrvWhaleAcc.address,
     ])
     await ladle.batch([
-        ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1)),
-        ladle.routeAction(convexStakingWrapperYield.address, unwrapCall),
-      ])
+      ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1)),
+      ladle.routeAction(convexStakingWrapperYield.address, unwrapCall),
+    ])
 
     console.log(`repaid and withdrawn`)
     const cvx3CrvAfter = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
     console.log(`${cvx3CrvAfter} cvx3Crv after`)
     if(cvx3CrvAfter !== cvx3CrvBefore) throw "cvx3Crv balance mismatch"
   }
-  
-
-//   console.log('Crv ' + (await crv.balanceOf(cvx3CrvWhaleAcc.address)).toString())
-//   console.log('Cvx ' + (await cvx.balanceOf(cvx3CrvWhaleAcc.address)).toString())
-//   await network.provider.send('evm_increaseTime', [604800]) // 1 week
-//   await network.provider.send('evm_mine', [])
-//   console.log((await crv.balanceOf(cvx3CrvWhaleAcc.address)).toString())
-//   await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
-//   const crvAfter = (await crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
-//   console.log(`${crvAfter} cvx3Crv reward claim`)
-
-//   const cvxAfter = (await cvx.balanceOf(cvx3CrvWhaleAcc.address)).toString()
-//   console.log(`${cvxAfter} cvx3Crv reward claim`)
 })()
