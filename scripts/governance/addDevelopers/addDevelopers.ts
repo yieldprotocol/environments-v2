@@ -8,7 +8,7 @@ import {
 
 import { grantDeveloperProposal } from '../../fragments/permissions/grantDeveloperProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { newDevelopers, developerToImpersonate } from './addDevelopers.rinkeby.config'
+import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.config'
 
 /**
  * @dev This script gives developer privileges to one or more accounts.

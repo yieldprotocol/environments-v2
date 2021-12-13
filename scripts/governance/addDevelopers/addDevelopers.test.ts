@@ -34,7 +34,7 @@ describe('Grant developer permissions', function () {
       const governance = readAddressMappingIfExists('governance.json');
       const protocol = readAddressMappingIfExists('protocol.json');
   
-      developerAcc = await impersonate(newDeveloper)
+      developerAcc = await impersonate(newDeveloper, WAD)
       multisigAcc = await impersonate(governance.get('multisig') as string, WAD)
       timelockAcc = await impersonate(governance.get('timelock') as string, WAD)
   

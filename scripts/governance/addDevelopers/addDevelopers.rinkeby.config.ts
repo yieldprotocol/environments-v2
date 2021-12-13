@@ -1,6 +1,6 @@
 export const newDevelopers: string[] = [
     '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A',
-    '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+    '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
 ]
 
 
