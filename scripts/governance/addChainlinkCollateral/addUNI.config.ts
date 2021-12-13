@@ -61,8 +61,8 @@ export const assetToAdd: Map<number, [string, string]> = new Map([
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const limits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, UNI, CHAINLINK, 1670000, 600000, 1000000, 100, 18],
-  [USDC, UNI, CHAINLINK, 1670000, 600000, 1000000, 100, 6],
+  [DAI,  UNI, CHAINLINK, 1670000, 600000, 1000000, 5000, 18],
+  [USDC, UNI, CHAINLINK, 1670000, 600000, 1000000, 5000, 6],
 ]
 
 // Input data: seriesId, [ilkId]

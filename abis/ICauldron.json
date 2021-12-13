@@ -502,6 +502,42 @@
   {
     "inputs": [
       {
+        "internalType": "bytes6",
+        "name": "baseId",
+        "type": "bytes6"
+      },
+      {
+        "internalType": "bytes6",
+        "name": "ilkId",
+        "type": "bytes6"
+      }
+    ],
+    "name": "spotOracles",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IOracle",
+            "name": "oracle",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "ratio",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct DataTypes.SpotOracle",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes12",
         "name": "from",
         "type": "bytes12"
