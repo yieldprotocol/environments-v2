@@ -152,7 +152,7 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
     const cvxAfter = (await cvx.balanceOf(cvx3CrvWhaleAcc.address)).toString()
     if(crvBefore.gt(crvAfter)) throw "Reward claim failed"
     if(cvxBefore.gt(cvxAfter)) throw "Reward claim failed"
-
+    console.log("reward claimed")
     // Repay fyDai and withdraw cvx3Crv
     await fyToken.transfer(fyToken.address, borrowed)
 

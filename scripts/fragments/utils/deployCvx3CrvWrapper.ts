@@ -5,15 +5,15 @@ import {
   writeAddressMap,
   verify,
   getOwnerOrImpersonate,
-  bytesToBytes32,
 } from '../../../shared/helpers'
-import { WSTETH, STETH, CVX3CRV } from '../../../shared/constants'
+import { CVX3CRV, ROOT } from '../../../shared/constants'
 import ConvexStakingWrapperYieldArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/utils/convex/ConvexStakingWrapperYield.sol/ConvexStakingWrapperYield.json'
 
 import { ConvexStakingWrapperYield } from '../../../typechain/ConvexStakingWrapperYield'
 import { Timelock } from '../../../typechain/Timelock'
 import { Cauldron, Join, Ladle } from '../../../typechain'
 import { developer } from '../../governance/addCompositeCollateral/convex/addCvx3Crv.config'
+import { id } from '@yield-protocol/utils-v2'
 const { deployContract } = waffle
 
 /**
@@ -54,7 +54,6 @@ const { deployContract } = waffle
       9, // poolId_,
       join.address, // join_,
       cauldron.address,
-      timelock.address,
     ])) as ConvexStakingWrapperYield
     console.log(`convexStakingWrapperYield deployed at ${convexStakingWrapperYield.address}`)
     verify(convexStakingWrapperYield.address, [
@@ -64,10 +63,12 @@ const { deployContract } = waffle
       9,
       '0x0000000000000000000000000000000000000000',
       cauldron.address,
-      timelock.address,
     ])
     protocol.set('convexStakingWrapperYield', convexStakingWrapperYield.address)
     writeAddressMap('protocol.json', protocol)
+
+    await convexStakingWrapperYield.addRewards()
+    await convexStakingWrapperYield.setApprovals()
   } else {
     convexStakingWrapperYield = (await ethers.getContractAt(
       'convexStakingWrapperYield',
@@ -76,4 +77,15 @@ const { deployContract } = waffle
     )) as unknown as ConvexStakingWrapperYield
     console.log(`Reusing convexStakingWrapperYield at ${convexStakingWrapperYield.address}`)
   }
+
+  if (!(await convexStakingWrapperYield.hasRole(ROOT, timelock.address))) {
+    await convexStakingWrapperYield.grantRole(ROOT, timelock.address)
+    console.log(`convexStakingWrapperYield.grantRoles(ROOT, timelock)`)
+    while (!(await convexStakingWrapperYield.hasRole(ROOT, timelock.address))) {}
+  }
+  // if (!(await convexStakingWrapperYield.hasRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address))) {
+  //   await convexStakingWrapperYield.grantRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address)
+  //   console.log(`convexStakingWrapperYield.grantRole(withdrawFor,ladle)`)
+  //   while (!(await convexStakingWrapperYield.hasRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address))) {}
+  // }
 })()
