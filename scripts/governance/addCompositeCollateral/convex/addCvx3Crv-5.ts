@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
-
+import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
 import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
 import { Cauldron, EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
 import { developer } from './addCvx3Crv.config'
@@ -53,6 +53,7 @@ import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orche
   proposal = proposal.concat(await addIntegrationProposal(ladle,convexStakingWrapperYield.address))
   proposal = proposal.concat(await orchestrateConvexWrapperProposal(ownerAcc.address,convexStakingWrapperYield,timelock,cloak))
   proposal = proposal.concat(await pointCollateralVaultProposal(convexStakingWrapperYield,join.address))
+  proposal = proposal.concat(await addTokenProposal(ladle, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

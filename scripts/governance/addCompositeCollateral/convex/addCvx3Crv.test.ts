@@ -127,14 +127,16 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
     const vaultId = logs[logs.length - 1].args.vaultId
     console.log(`vault: ${vaultId}`)
     const cvx3CrvBefore = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
+    
     // Post CVX3CRV and borrow fyDAI
-    await cvx3Crv.approve(convexStakingWrapperYield.address, posted)
-    const wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('stakeFor', [
-      posted,
-      cvx3CrvWhaleAcc.address,
+    await cvx3Crv.approve(ladle.address, posted)
+
+    const wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('wrap', [
       join.address,
     ])
+
     await ladle.batch([
+      ladle.transferAction(cvx3Crv.address,convexStakingWrapperYield.address,posted),
       ladle.routeAction(convexStakingWrapperYield.address, wrapCall),
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
     ])
@@ -153,15 +155,16 @@ import { ConvexLadleModule } from '../../../../typechain/ConvexLadleModule'
     if(crvBefore.gt(crvAfter)) throw "Reward claim failed"
     if(cvxBefore.gt(cvxAfter)) throw "Reward claim failed"
     console.log("reward claimed")
+    
     // Repay fyDai and withdraw cvx3Crv
     await fyToken.transfer(fyToken.address, borrowed)
 
-    const unwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('withdrawFor', [
-      posted,
-      cvx3CrvWhaleAcc.address,
+    const unwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('unwrap', [
+      cvx3CrvWhale,
     ])
+    // Unwrapping code needs to be changed
     await ladle.batch([
-      ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1)),
+      ladle.pourAction(vaultId, convexStakingWrapperYield.address, posted.mul(-1), borrowed.mul(-1)),
       ladle.routeAction(convexStakingWrapperYield.address, unwrapCall),
     ])
 
