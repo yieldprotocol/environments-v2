@@ -6,8 +6,8 @@ import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, FYETH2203, FYETH2206 } fr
 
 const protocol = readAddressMappingIfExists('protocol.json');
 
-export const developer = '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'
-export const deployer = '0x09F41c916B5C2e26706fEbf7c4666d2afE57419A'
+export const developer = '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
+export const deployer = '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
 
 export const assets: Map<string, string> = new Map([
   [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
