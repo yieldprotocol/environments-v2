@@ -10,8 +10,8 @@ import { CompositeMultiOracle, YearnVaultMultiOracle, Timelock, EmergencyBrake }
 
 import { COMPOSITE, YEARN, WAD } from '../../../../shared/constants'
 
-import { deployer, developer } from './addYVUSDC.rinkeby.config'
-import { yearnSources, compositeSources, compositePaths } from './addYVUSDC.rinkeby.config'
+import { deployer, developer } from './addYVUSDC.mainnet.config'
+import { yearnSources, compositeSources, compositePaths } from './addYVUSDC.mainnet.config'
 
 /**
  * @dev This script configures the YVUSDC price feed

@@ -4,8 +4,8 @@ import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonat
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
 import { Wand, Timelock } from '../../../../typechain'
 import { WAD } from '../../../../shared/constants'
-import { developer } from './addYVUSDC.rinkeby.config'
-import { assetsToAdd } from './addYVUSDC.rinkeby.config'
+import { developer } from './addYVUSDC.mainnet.config'
+import { assetsToAdd } from './addYVUSDC.mainnet.config'
 
 /**
  * @dev This script adds YVUSDC as an asset to the Yield Protocol.

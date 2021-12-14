@@ -5,7 +5,7 @@ import YvTokenMockArtifact from '../../../../../artifacts/contracts/mocks/YvToke
 import { YvTokenMock } from '../../../../../typechain/YvTokenMock'
 
 import { USDC } from '../../../../../shared/constants'
-import { assets } from './../addYVUSDC.rinkeby.config'
+import { assets } from './../addYVUSDC.mainnet.config'
 
 const { deployContract } = waffle
 

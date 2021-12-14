@@ -6,9 +6,9 @@ import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkPropo
 import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { IOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
 import { WAD } from '../../../../shared/constants'
-import { developer } from './addYVUSDC.rinkeby.config'
-import { assetsToAdd, compositeLimits, seriesIlks } from './addYVUSDC.rinkeby.config'
- 
+import { developer } from './addYVUSDC.mainnet.config'
+import { assetsToAdd, compositeLimits, seriesIlks } from './addYVUSDC.mainnet.config'
+
 /**
  * @dev This script adds YVUSDC as an ilk to the Yield Protocol
  * Previously, the YearnOracle should have been deployed, and ROOT access
@@ -25,13 +25,13 @@ import { assetsToAdd, compositeLimits, seriesIlks } from './addYVUSDC.rinkeby.co
  * Make YVUSDC into an Ilk
  * Approve YVUSDC as collateral for all series
  */
- 
+
  ;(async () => {
    const chainId = await getOriginalChainId()
    if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
- 
+
    let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
- 
+
    const governance = readAddressMappingIfExists('governance.json');
    const protocol = readAddressMappingIfExists('protocol.json');
 
