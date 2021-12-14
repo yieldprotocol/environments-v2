@@ -19,7 +19,7 @@ import {
 import { CVX3CRV, WAD } from '../../../../shared/constants'
 
 /**
- * @dev This script tests YVUSDC as a collateral
+ * @dev This script tests cvx3Crv as a collateral
  */
 import { LadleWrapper } from '../../../../shared/ladleWrapper'
 import { ConvexStakingWrapperYield } from '../../../../typechain/ConvexStakingWrapperYield'
