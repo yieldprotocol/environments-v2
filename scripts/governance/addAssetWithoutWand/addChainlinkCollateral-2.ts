@@ -5,12 +5,11 @@ import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchest
 import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
-import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
+import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, CompoundMultiOracle } from '../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
-import { developer, deployer, chainlinkSources, assets, bases } from './newEnvironment.rinkeby.config'
-import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compositeAuctionLimits } from './newEnvironment.rinkeby.config'
+import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
+
+import { developer, deployer, chainlinkSources, assetsToAdd, debtLimits, auctionLimits, seriesIlks } from './addMKR.rinkeby.config'
 
 /**
  * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
@@ -30,24 +29,14 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
   const joins = readAddressMappingIfExists('joins.json');
+  const governance = readAddressMappingIfExists('governance.json');
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get('chainlinkOracle') as string,
     ownerAcc
   )) as unknown as ChainlinkMultiOracle
-  const compositeOracle = (await ethers.getContractAt(
-    'CompositeMultiOracle',
-    protocol.get('compositeOracle') as string,
-    ownerAcc
-  )) as unknown as CompositeMultiOracle
-  const compoundOracle = (await ethers.getContractAt(
-    'CompoundMultiOracle',
-    protocol.get('compoundOracle') as string,
-    ownerAcc
-  )) as unknown as CompoundMultiOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -74,18 +63,10 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
     ownerAcc
   )) as unknown as Timelock
 
-  let assetsAndJoins: [string, string, string][] = []
-  console.log(` AssetId      | Asset Address                            | Join Address`)
-
-  for (let [assetId, joinAddress] of joins) {
-    assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
-    console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
-  }
-
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd))
   proposal = proposal.concat(await makeIlkProposal(
     ownerAcc,
     chainlinkOracle as unknown as IOracle,
@@ -93,28 +74,10 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
     witch,
     cloak,
     joins,
-    chainlinkDebtLimits,
-    chainlinkAuctionLimits
+    debtLimits,
+    auctionLimits
   ))
-  proposal = proposal.concat(await makeIlkProposal(
-    ownerAcc,
-    compositeOracle as unknown as IOracle,
-    cauldron,
-    witch,
-    cloak,
-    joins,
-    compositeDebtLimits,
-    compositeAuctionLimits
-  ))
-  proposal = proposal.concat(await makeBaseProposal(
-    ownerAcc,
-    compoundOracle as unknown as IOracle,
-    cauldron,
-    ladle,
-    witch,
-    cloak,
-    bases
-  ))
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

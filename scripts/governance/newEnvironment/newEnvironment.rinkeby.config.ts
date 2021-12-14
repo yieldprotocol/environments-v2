@@ -84,28 +84,44 @@ export const assetsToReserve: Array<[string, string]> = [
 
 export const bases: Array<string> = [DAI, USDC]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI,  ETH,  CHAINLINK, 1400000, 714000,  2000000,  5000, 18],
-  [DAI,  DAI,  CHAINLINK, 1000000, 1000000, 10000000, 0,    18], // Constant 1, no dust
-  [DAI,  USDC, CHAINLINK, 1330000, 751000,  100000,   5000, 18], // Via ETH
-  [DAI,  WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 18], // Via ETH
-  [DAI,  LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
-  [DAI,  UNI,  CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
-  [USDC, ETH,  CHAINLINK, 1400000, 714000,  5000000,  5000, 6],
-  [USDC, DAI,  CHAINLINK, 1330000, 751000,  100000,   5000, 6], // Via ETH
-  [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0,    6], // Constant 1, no dust
-  [USDC, WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 6], // Via ETH  
-  [USDC, LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
-  [USDC, UNI,  CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
+  [DAI,  ETH,  1400000, 2000000,  5000, 18],
+  [DAI,  DAI,  1000000, 10000000, 0,    18], // Constant 1, no dust
+  [DAI,  USDC, 1330000, 100000,   5000, 18], // Via ETH
+  [DAI,  WBTC, 1500000, 100000,   5000, 18], // Via ETH
+  [DAI,  LINK, 1670000, 1000000,  5000, 18],
+  [DAI,  UNI,  1670000, 1000000,  5000, 18],
+  [USDC, ETH,  1400000, 5000000,  5000, 6],
+  [USDC, DAI,  1330000, 100000,   5000, 6], // Via ETH
+  [USDC, USDC, 1000000, 10000000, 0,    6], // Constant 1, no dust
+  [USDC, WBTC, 1500000, 100000,   5000, 6], // Via ETH  
+  [USDC, LINK, 1670000, 1000000,  5000, 6],
+  [USDC, UNI,  1670000, 1000000,  5000, 6],
 ]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const compositeLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI,  WSTETH, COMPOSITE, 1400000, 714000, 500000,  5000, 18],
-  [USDC, WSTETH, COMPOSITE, 1400000, 714000, 500000,  5000, 6],
-  [DAI,  ENS,    COMPOSITE, 1670000, 600000, 2000000, 5000, 18],
-  [USDC, ENS,    COMPOSITE, 1670000, 600000, 2000000, 5000, 6],
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+export const compositeDebtLimits: Array<[string, string, number, number, number, number]> = [
+  [DAI,  WSTETH, 1400000, 500000,  5000, 18],
+  [USDC, WSTETH, 1400000, 500000,  5000, 6],
+  [DAI,  ENS,    1670000, 2000000, 5000, 18],
+  [USDC, ENS,    1670000, 2000000, 5000, 6],
+]
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [ETH,  3600, 714000,  2000000,  10000, 12],
+  [DAI,  3600, 1000000, 10000000, 5000,  18],
+  [USDC, 3600, 751000,  100000,   5000,  6],
+  [WBTC, 3600, 666000,  100000,   2100,  0],
+  [LINK, 3600, 600000,  1000000,  300,   18],
+  [UNI,  3600, 600000,  1000000,  100,   18],
+]
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+export const compositeAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [WSTETH, 3600, 714000, 500000,  10000, 12],
+  [ENS,    3600, 600000, 2000000, 300,   18],
 ]
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name

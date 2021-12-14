@@ -19,22 +19,27 @@ import { ROOT } from '../../../shared/constants'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
 
-export const orchestrateAddedAssetProposal = async (
+export const orchestrateJoinProposal = async (
   ownerAcc: any, 
+  deployer: string,
   ladle: Ladle,
   timelock: Timelock,
   cloak: EmergencyBrake,
-  assets: [string, string][]
+  assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>>  => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [assetId, assetAddress] of assets) {
-    const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
-    verify(join.address, [assetAddress])
-    console.log(`${bytesToString(assetId)}Join deployed at '${join.address}`)
+  for (let [assetId, assetAddress, joinAddress] of assets) {
+    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    })
+    console.log(`join.revokeRole(ROOT, deployer)`)  
 
     proposal.push({
       target: join.address,

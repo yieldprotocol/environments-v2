@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployJoin } from '../../fragments/assetsAndSeries/deployJoin'
 
 import { ERC20Mock } from '../../../typechain'
-import { developer, assetsToAdd } from './newEnvironment.rinkeby.config'
+import { developer, assetsToAdd } from './addMKR.rinkeby.config'
 
 /**
  * @dev This script deploys a Join
@@ -30,7 +30,7 @@ import { developer, assetsToAdd } from './newEnvironment.rinkeby.config'
     const join = await deployJoin(ownerAcc, asset, protocol, governance)
     console.log(`Join for ${asset.address} deployed at ${join.address}`)
 
-    joins.set(assetId, join.address)
+    joins.set(assetId, asset.address)
     writeAddressMap('joins.json', joins);
   }
 })()
