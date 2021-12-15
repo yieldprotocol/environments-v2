@@ -8,7 +8,7 @@ export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
 export const assets: Map<string, string> = new Map([
   [USDC,   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-  [YVUSDC, '0x5f18c75abdae578b483e5f43f12a39cf75b973a9'],
+  [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
 ])
 
 // underlying, yvToken, address

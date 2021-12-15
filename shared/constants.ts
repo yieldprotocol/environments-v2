@@ -21,6 +21,10 @@ export const STETH  = ethers.utils.formatBytes32String('05').slice(0, 14)
 export const LINK   = ethers.utils.formatBytes32String('06').slice(0, 14)
 export const ENS    = ethers.utils.formatBytes32String('07').slice(0, 14)
 export const YVDAI  = ethers.utils.formatBytes32String('08').slice(0, 14)
+//NOTE: We are using the following YVUSDC constant to represent the yvUSDC token (api 0.4.3)
+//      found here: https://etherscan.io/token/0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE
+//      There is another yvUSDC token (api 0.3.0) found here:
+//      https://etherscan.io/token/0x5f18c75abdae578b483e5f43f12a39cf75b973a9
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI    = ethers.utils.formatBytes32String('10').slice(0, 14)
 

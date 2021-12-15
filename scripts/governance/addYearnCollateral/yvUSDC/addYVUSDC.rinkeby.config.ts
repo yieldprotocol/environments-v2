@@ -18,7 +18,7 @@ export const assets: Map<string, string> = new Map([
   [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
   [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
   [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
-  [YVUSDC, '0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B'],
+  [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
 ])
 
 // underlying, yvToken, address

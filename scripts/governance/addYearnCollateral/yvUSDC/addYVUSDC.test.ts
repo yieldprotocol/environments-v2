@@ -29,13 +29,13 @@ import { IOracle } from '../../../../typechain'
     stringToBytes6('0205'),
   ]
 
-  // Impersonate YVUSDC whale 0x167ebedc8a162cd2541555073613ee384a169ea9
+  // Impersonate YVUSDC whale 0xac2fdf3c54c9f6f4c4fb9473a139aca3e40b7559
   // random whale found on etherscan
-  const yvUSDCWhale = '0x167ebedc8a162cd2541555073613ee384a169ea9'
+  const yvUSDCWhale = '0xac2fdf3c54c9f6f4c4fb9473a139aca3e40b7559'
   const yvUSDCWhaleAcc = await impersonate(yvUSDCWhale, WAD)
 
   const yvUSDCAddress = new Map([
-    [1, '0x5f18c75abdae578b483e5f43f12a39cf75b973a9'],
+    [1, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
     [42, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ]) // https://yvUSDC.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
 
