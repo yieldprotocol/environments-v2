@@ -23,7 +23,7 @@ export const assetsToAdd: Array<[string, string]> = [
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const yearnLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [USDC, YVUSDC, YEARN, 1400000, 714000, 500000,  5000,    6],
+  [USDC, YVUSDC, YEARN, 1250000, 800000, 1000000,  5000,    6],
 ]
 
 // Input data: seriesId, [ilkIds]
