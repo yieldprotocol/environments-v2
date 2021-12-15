@@ -8,6 +8,8 @@ export const addIlksToSeriesProposal = async (
 const proposal: Array<{ target: string; data: string }> = []
 
 for (let [seriesId, ilkIds] of seriesIlks) {
+  console.log('seriesId:', seriesId)
+  console.log('ilkIds:', ilkIds)
   const symbol = bytesToString(seriesId)
 
   proposal.push({

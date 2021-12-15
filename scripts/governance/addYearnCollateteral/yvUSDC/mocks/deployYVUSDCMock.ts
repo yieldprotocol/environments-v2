@@ -11,6 +11,7 @@ const { deployContract } = waffle
 
 /**
  * @dev This script deploys the YvTokenMock contract
+ * @notice Not used for mainnet
  */
 
 ;(async () => {

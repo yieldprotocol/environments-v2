@@ -10,10 +10,10 @@ import {
   Ladle,
   FYToken,
   Witch,
-  CompositeMultiOracle,
 } from '../../../../typechain'
 
 import { YVUSDC, WAD } from '../../../../shared/constants'
+import { IOracle } from '../../../../typechain'
 
 /**
  * @dev This script tests YVUSDC as a collateral
@@ -21,10 +21,10 @@ import { YVUSDC, WAD } from '../../../../shared/constants'
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  // CHANGED THIS NEXT LINE TO LOCALHOST FOR MAINNET FORK TESTING
+  // const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  const path = chainId === 1 ? './addresses/localhost/' : './addresses/kovan/'
   const seriesIds: Array<string> = [
-    stringToBytes6('0104'),
-    stringToBytes6('0105'),
     stringToBytes6('0204'),
     stringToBytes6('0205'),
   ]
@@ -41,8 +41,6 @@ import { YVUSDC, WAD } from '../../../../shared/constants'
 
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
-
-
   const yvUSDC = (await ethers.getContractAt(
     'ERC20Mock',
     yvUSDCAddress.get(chainId) as string,
@@ -59,10 +57,10 @@ import { YVUSDC, WAD } from '../../../../shared/constants'
     yvUSDCWhaleAcc
   )) as unknown as Ladle
   const oracle = (await ethers.getContractAt(
-    'CompositeMultiOracle',
-    protocol.get('compositeOracle') as string,
+    'IOracle',
+    protocol.get('yearnOracle') as string,
     yvUSDCWhaleAcc
-  )) as unknown as CompositeMultiOracle
+  )) as unknown as IOracle
   const witch = (await ethers.getContractAt(
     'Witch',
     protocol.get('witch') as string,

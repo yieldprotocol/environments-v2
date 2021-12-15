@@ -2392,10 +2392,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.3.2.tgz#a839211c2001cf039577856a81d293435787fded"
   integrity sha512-cedYPGJlCFnM+4yGgEsldzL23/BC/+ZN7LrQF6XfvwmEe6J7tUAzzTJFOfeJHWO3sFTBhh40QaLacI5STVY/KQ==
 
-"@yield-protocol/vault-v2@0.15.0-rc5":
-  version "0.15.0-rc5"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.15.0-rc5.tgz#f4de7abb1d756f9053f4d19c49694bad754f6068"
-  integrity sha512-OeQnEC5ngGawySkXssUdy8Hz6nh7C8n1G+vpKUodQQu2WCwk26DFG2nSmCb/bT6DIL2jIyrTUe1vhCnWJh7LLg==
+"@yield-protocol/vault-v2@0.15.0-rc6":
+  version "0.15.0-rc6"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.15.0-rc6.tgz#2d5a89bd825ffbeb3f6b5126a559b65aee81fd73"
+  integrity sha512-2+7+rYmvyPVWsAiPuymUatbQUFlz9HR5r4c3ZVLxDmaxQNewENzvMA5WEpcA0jXBtC3yZr8fLk9qTAkbyMokrw==
 
 "@yield-protocol/yield-liquidator-v2@^0.0.5-rc3":
   version "0.0.5"
