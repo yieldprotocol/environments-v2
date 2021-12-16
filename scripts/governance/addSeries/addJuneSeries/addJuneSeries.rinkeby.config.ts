@@ -26,44 +26,44 @@ export const assets: Map<string, string> = new Map([
 
 // assetId, joinAddress
 export const joins: Map<string, string> = new Map([
-//  [DAI,    '0x96cc8be616fEec55F58A1E647b45c2989AEB4096'],
+  [DAI,    '0x96cc8be616fEec55F58A1E647b45c2989AEB4096'],
   [USDC,   '0x56727B9892042Ae397D319FDebCA7fb47780d525'],
 ])
 
 // seriesId, fyTokenAddress
 export const poolData: Array<[string, string]> = [
-//  [FYDAI2206,  fyTokens.get(FYDAI2206) as string],
+  [FYDAI2206,  fyTokens.get(FYDAI2206) as string],
   [FYUSDC2206, fyTokens.get(FYUSDC2206) as string]
 ]
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, BigNumber, BigNumber]> = [
-//  [FYDAI2206,  WAD.mul(100),  WAD.mul(32)],
+  [FYDAI2206,  WAD.mul(100),  WAD.mul(32)],
   [FYUSDC2206, ONEUSDC.mul(100), ONEUSDC.mul(48)],
 ]
 
 // assetId, loanAmount
 export const joinLoans: Array<[string, BigNumber]> = [
-//  [DAI,  WAD.mul(100)],
+  [DAI,  WAD.mul(100)],
   [USDC, ONEUSDC.mul(100)],
 ]
   
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-//  [FYDAI2206,  DAI,  protocol.get(COMPOUND) as string, joins.get(DAI) as string,  EOJUN22, 'FYDAI2206',  'FYDAI2206'],
+  [FYDAI2206,  DAI,  protocol.get(COMPOUND) as string, joins.get(DAI) as string,  EOJUN22, 'FYDAI2206',  'FYDAI2206'],
   [FYUSDC2206, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOJUN22, 'FYUSDC2206', 'FYUSDC2206'],
 ]
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-//  [FYDAI2206,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYDAI2206,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 // strategyId, nextSeriesId, minRatio, maxRatio
 export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
-//  [YSDAI6MJD,  FYDAI2206,  BigNumber.from(0), MAX256],
+  [YSDAI6MJD,  FYDAI2206,  BigNumber.from(0), MAX256],
   [YSUSDC6MJD, FYUSDC2206, BigNumber.from(0), MAX256],
 ]
 

@@ -27,11 +27,8 @@ export const addSeriesProposal = async (
 ): Promise<Array<{ target: string; data: string }>>  => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let seriesId of newFYTokens.keys()) {
-
-    const fyTokenAddress = newFYTokens.get(seriesId)
-    if (fyTokenAddress === undefined) throw `FYToken for ${seriesId} not found`
-    else console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
+  for (let [seriesId, fyTokenAddress] of newFYTokens) {
+    console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
     const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
     
     const baseId = await fyToken.underlyingId()
@@ -53,7 +50,6 @@ export const addSeriesProposal = async (
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, Timelock already has ROOT as the deployer
     // Store a plan for isolating FYToken from Ladle and Base Join
-    proposal = []
 
     // Add fyToken/series to the Cauldron
     proposal.push({
