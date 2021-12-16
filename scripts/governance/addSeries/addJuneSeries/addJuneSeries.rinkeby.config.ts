@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256 } from '../../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256, ONE64 } from '../../../../shared/constants'
 import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
@@ -40,6 +40,12 @@ export const poolData: Array<[string, string]> = [
 export const poolsInit: Array<[string, BigNumber, BigNumber]> = [
   [FYDAI2206,  WAD.mul(100),  WAD.mul(32)],
   [FYUSDC2206, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+]
+
+// g1, g2
+export const poolFees: [BigNumber, BigNumber] = [
+  ONE64.mul(75).div(100), // Sell base to the pool
+  ONE64.mul(100).div(75), // Sell fyToken to the pool
 ]
 
 // assetId, loanAmount

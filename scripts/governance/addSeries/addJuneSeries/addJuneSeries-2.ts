@@ -1,10 +1,11 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute, verify } from '../../../../shared/helpers'
 
+import { updatePoolFeesProposal } from '../../../fragments/core/factories/updatePoolFeesProposal'
 import { orchestratePoolFactoryProposal } from '../../../fragments/core/factories/orchestratePoolFactoryProposal'
 import { deployPoolsProposal } from '../../../fragments/assetsAndSeries/deployPoolsProposal'
 import { FYToken, PoolFactory, EmergencyBrake, Timelock } from '../../../../typechain'
-import { developer, deployer, poolData } from './addJuneSeries.rinkeby.config'
+import { developer, deployer, poolData, poolFees } from './addJuneSeries.rinkeby.config'
 
 /**
  * @dev This script grants the Timelock permission to create pools using the PoolFactory, and creates two pools
@@ -36,6 +37,7 @@ import { developer, deployer, poolData } from './addJuneSeries.rinkeby.config'
   )) as unknown as EmergencyBrake
 
   let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await updatePoolFeesProposal(poolFactory, poolFees))
   proposal = proposal.concat(await orchestratePoolFactoryProposal(deployer, poolFactory, timelock, cloak))
   proposal = proposal.concat(await deployPoolsProposal(ownerAcc, poolFactory, poolData))
 

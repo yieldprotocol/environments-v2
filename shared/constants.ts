@@ -69,4 +69,6 @@ export const g2 = ONE64.mul(1000).div(950) // Sell fyToken to the pool
 
 export const CHI  = ethers.utils.formatBytes32String('CHI').slice(0, 14)
 export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
+export const G1  = ethers.utils.formatBytes32String('g1')
+export const G2  = ethers.utils.formatBytes32String('g2')
 
