@@ -3,8 +3,8 @@ import { USDC, YVUSDC } from '../../../../shared/constants'
 import { YEARN } from '../../../../shared/constants'
 import { FYUSDC2112, FYUSDC2203 } from '../../../../shared/constants'
 
-export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const deployer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 
 export const assets: Map<string, string> = new Map([
   [USDC,   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
