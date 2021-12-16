@@ -22,8 +22,8 @@ export const chainlinkSources: Array<[string, string, string, string, string]> =
 
 // Assets for which we will have a Join
 // assetId, assetAddress, joinAddress
-export const assetsToAdd: [string, string, string][] = [
-   [MKR, assets.get(MKR) as string,  '0xDB57B6028C8F59c88aC120987A6EAA58789473FB']
+export const assetsToAdd: [string, string][] = [
+   [MKR, assets.get(MKR) as string]
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec

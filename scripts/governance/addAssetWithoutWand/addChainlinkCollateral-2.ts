@@ -9,7 +9,7 @@ import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlks
 
 import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
 
-import { developer, deployer, chainlinkSources, assetsToAdd, debtLimits, auctionLimits, seriesIlks } from './addMKR.rinkeby.config'
+import { developer, deployer, chainlinkSources, assets, debtLimits, auctionLimits, seriesIlks } from './addMKR.rinkeby.config'
 
 /**
  * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
@@ -63,10 +63,16 @@ import { developer, deployer, chainlinkSources, assetsToAdd, debtLimits, auction
     ownerAcc
   )) as unknown as Timelock
 
+  let assetsAndJoins: Array<[string, string, string]> = []
+  for (let [assetId, joinAddress] of joins) {
+    assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
+    console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
+  }
+
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd))
+  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   proposal = proposal.concat(await makeIlkProposal(
     ownerAcc,
     chainlinkOracle as unknown as IOracle,

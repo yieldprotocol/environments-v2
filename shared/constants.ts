@@ -46,8 +46,10 @@ export const FYETH2203  = ethers.utils.formatBytes32String('0005').slice(0, 14) 
 export const FYETH2206  = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
 export const FYDAI2112  = ethers.utils.formatBytes32String('0104').slice(0, 14)
 export const FYDAI2203  = ethers.utils.formatBytes32String('0105').slice(0, 14)
+export const FYDAI2206  = ethers.utils.formatBytes32String('0106').slice(0, 14)
 export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
+export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 
 export const YSDAI6MMS  = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD  = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
