@@ -6,10 +6,10 @@ import { jsonToMap, stringToBytes6, bytesToBytes32, impersonate, getOriginalChai
 import {
   ERC20Mock,
   Cauldron,
-  FlashLiquidator,
   Ladle,
   FYToken,
   Witch,
+  Timelock,
 } from '../../../../typechain'
 
 import { YVUSDC, WAD } from '../../../../shared/constants'
@@ -77,7 +77,7 @@ import { IOracle } from '../../../../typechain'
     'Timelock',
     governance.get('timelock') as string,
     yvUSDCWhaleAcc
-  )) as unknown as FlashLiquidator
+  )) as unknown as Timelock
 
   if (chainId !== 1) {
     // Use the mock YVUSDC to mint
