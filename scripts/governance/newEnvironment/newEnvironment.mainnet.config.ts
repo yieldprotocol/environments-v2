@@ -11,6 +11,12 @@ export const chainId = 1
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
+export const additionalDevelopers: Array<string> = [
+  '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
+  '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+]
+export const additionalGovernors: Array<string> = []
+
 export const assets: Map<string, string> = new Map([
   [ETH,    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
   [DAI,    '0x6B175474E89094C44Da98b954EedeAC495271d0F'],

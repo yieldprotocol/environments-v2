@@ -6,7 +6,7 @@ import { Timelock, Wand } from '../../../typechain'
 import { developer, seriesDAI } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script deploys two strategies to be used for Ether
+ * @dev This script deploys two strategies to be used for DAI
  */
 
 ;(async () => {

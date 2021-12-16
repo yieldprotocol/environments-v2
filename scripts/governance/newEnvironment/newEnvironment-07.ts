@@ -7,7 +7,7 @@ import { WAD } from '../../../shared/constants'
 import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script orchestratese the Cloak
+ * @dev This script orchestrates the Cloak
  */
 
 ;(async () => {
