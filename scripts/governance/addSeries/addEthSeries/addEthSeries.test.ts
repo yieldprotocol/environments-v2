@@ -2,10 +2,10 @@ import { ethers } from 'hardhat'
 
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { readAddressMappingIfExists, bytesToBytes32, impersonate, getOriginalChainId, getOwnerOrImpersonate } from '../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../typechain'
+import { readAddressMappingIfExists, bytesToBytes32, impersonate, getOriginalChainId, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../../typechain'
 import { developer, whale, newSeries, assets } from './addEthSeries.config'
-import { WSTETH, STETH, WAD } from '../../../shared/constants'
+import { WSTETH, STETH, WAD } from '../../../../shared/constants'
 
 /**
  * @dev This script tests ENS as a collateral

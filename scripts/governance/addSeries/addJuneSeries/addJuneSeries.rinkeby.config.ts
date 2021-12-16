@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256 } from '../../../shared/constants'
-import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256 } from '../../../../shared/constants'
+import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
 

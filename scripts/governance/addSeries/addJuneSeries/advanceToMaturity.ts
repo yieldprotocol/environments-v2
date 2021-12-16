@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { Strategy, Pool } from '../../../typechain'
+import { Strategy, Pool } from '../../../../typechain'
 import { developer, rollData } from './addJuneSeries.rinkeby.config'
 
 /**

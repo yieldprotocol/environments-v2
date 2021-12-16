@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute, verify } from '../../../shared/helpers'
+import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute, verify } from '../../../../shared/helpers'
 
-import { orchestratePoolFactoryProposal } from '../../fragments/core/factories/orchestratePoolFactoryProposal'
-import { deployPoolsProposal } from '../../fragments/assetsAndSeries/deployPoolsProposal'
-import { FYToken, PoolFactory, EmergencyBrake, Timelock } from '../../../typechain'
+import { orchestratePoolFactoryProposal } from '../../../fragments/core/factories/orchestratePoolFactoryProposal'
+import { deployPoolsProposal } from '../../../fragments/assetsAndSeries/deployPoolsProposal'
+import { FYToken, PoolFactory, EmergencyBrake, Timelock } from '../../../../typechain'
 import { developer, deployer, poolData } from './addJuneSeries.rinkeby.config'
 
 /**

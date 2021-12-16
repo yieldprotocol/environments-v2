@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { WETH9Mock } from '../../../typechain'
-import { ETH, WAD } from '../../../shared/constants'
+import { WETH9Mock } from '../../../../typechain'
+import { ETH, WAD } from '../../../../shared/constants'
 import { developer, assets } from './addEthSeries.config'
 
 /**

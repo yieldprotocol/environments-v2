@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../shared/helpers'
-import { WAD } from '../../../shared/constants'
-import { ERC20Mock, Ladle, Join } from '../../../typechain'
+import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
+import { WAD } from '../../../../shared/constants'
+import { ERC20Mock, Ladle, Join } from '../../../../typechain'
 import { joinLoans } from './addJuneSeries.rinkeby.config'
 
 /**

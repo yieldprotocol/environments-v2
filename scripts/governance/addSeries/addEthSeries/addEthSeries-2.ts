@@ -1,15 +1,15 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { updateChiSourcesProposal } from '../../fragments/oracles/updateChiSourcesProposal'
-import { updateRateSourcesProposal } from '../../fragments/oracles/updateRateSourcesProposal'
-import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
-import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
-import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
-import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
+import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
+import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
+import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
+import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 
-import { IOracle, CompoundMultiOracle, CompositeMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../typechain'
-import { COMPOUND, CHAINLINK, COMPOSITE, UNISWAP } from '../../../shared/constants'
+import { IOracle, CompoundMultiOracle, CompositeMultiOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../../typechain'
+import { COMPOUND, CHAINLINK, COMPOSITE, UNISWAP } from '../../../../shared/constants'
 import { developer, newChiSources, newRateSources, newCompositePaths, newBases, newChainlinkLimits, newCompositeLimits, newUniswapLimits, newSeries } from './addEthSeries.config'
 
 /**

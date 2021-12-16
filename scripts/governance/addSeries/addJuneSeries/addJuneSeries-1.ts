@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { deployFYTokens } from '../../fragments/assetsAndSeries/deployFYTokens'
-import { SafeERC20Namer, Timelock } from '../../../typechain'
+import { deployFYTokens } from '../../../fragments/assetsAndSeries/deployFYTokens'
+import { SafeERC20Namer, Timelock } from '../../../../typechain'
 import { developer, fyTokenData } from './addJuneSeries.rinkeby.config'
 
 /**

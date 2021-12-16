@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { orchestrateSeriesProposal } from '../../fragments/assetsAndSeries/orchestrateSeriesProposal'
-import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
-import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
+import { orchestrateSeriesProposal } from '../../../fragments/assetsAndSeries/orchestrateSeriesProposal'
+import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
+import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
+import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
 import { developer, newSeries, poolsInit, newStrategies, strategiesInit } from './addEthSeries.config'
 
 /**

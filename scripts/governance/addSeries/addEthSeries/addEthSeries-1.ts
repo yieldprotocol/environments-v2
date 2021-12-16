@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
-import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
+import { deployStrategies } from '../../../fragments/core/strategies/deployStrategies'
+import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../../typechain'
 import { developer, newStrategies } from './addEthSeries.config'
 
 /**

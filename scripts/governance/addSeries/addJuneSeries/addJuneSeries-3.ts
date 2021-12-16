@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
-import { rollStrategiesProposal } from '../../fragments/core/strategies/rollStrategiesProposal'
-import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
+import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
+import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollStrategiesProposal'
+import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
 import { developer, deployer, seriesIlks, poolsInit, rollData } from './addJuneSeries.rinkeby.config'
 
 /**

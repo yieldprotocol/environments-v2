@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { ERC20Mock, Pool } from '../../../typechain'
+import { ERC20Mock, Pool } from '../../../../typechain'
 import { developer, poolsInit } from './addJuneSeries.rinkeby.config'
 
 /**
