@@ -5,7 +5,7 @@ import { updatePoolFeesProposal } from '../../../fragments/core/factories/update
 import { orchestratePoolFactoryProposal } from '../../../fragments/core/factories/orchestratePoolFactoryProposal'
 import { deployPoolsProposal } from '../../../fragments/assetsAndSeries/deployPoolsProposal'
 import { FYToken, PoolFactory, EmergencyBrake, Timelock } from '../../../../typechain'
-import { developer, deployer, poolData, poolFees } from './addJuneSeries.rinkeby.config'
+import { developer, deployer, poolData, poolFees } from './addJuneSeries.mainnet.config'
 
 /**
  * @dev This script grants the Timelock permission to create pools using the PoolFactory, and creates two pools

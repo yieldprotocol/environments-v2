@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { Strategy, Pool, FYToken, Join, Ladle, ERC20Mock } from '../../../../typechain'
-import { developer, deployer, seriesIlks, poolsInit, rollData } from './addJuneSeries.rinkeby.config'
+import { Strategy, Pool, FYToken, Join, ERC20Mock } from '../../../../typechain'
+import { developer, rollData } from './addJuneSeries.mainnet.config'
 import { WAD, MAX256 } from '../../../../shared/constants'
 
 /**

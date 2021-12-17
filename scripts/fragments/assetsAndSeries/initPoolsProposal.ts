@@ -14,13 +14,13 @@ import { ERC20Mock, Pool, FYToken, Join } from '../../../typechain'
 export const initPoolsProposal = async (
   ownerAcc: any,
   newPools: Map<string, string>,
-  poolsInit: Array<[string, BigNumber, BigNumber]>
+  poolsInit: Array<[string, string, BigNumber, BigNumber]>
 ): Promise<Array<{ target: string; data: string }>>  => {
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [seriesId, baseAmount, fyTokenAmount] of poolsInit) {
+  for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
     const poolAddress = newPools.get(seriesId) as string
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)

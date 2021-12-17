@@ -10,7 +10,11 @@ const fyTokens = readAddressMappingIfExists('newFYTokens.json');
 
 export const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const whale = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const whales: Map<string, string> = new Map([
+  [ETH,    '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [DAI,    '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [USDC,   '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+])
 
 export const assets: Map<string, string> = new Map([
   [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
@@ -37,9 +41,9 @@ export const poolData: Array<[string, string]> = [
 ]
 
 // seriesId, initAmount
-export const poolsInit: Array<[string, BigNumber, BigNumber]> = [
-  [FYDAI2206,  WAD.mul(100),  WAD.mul(32)],
-  [FYUSDC2206, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
+  [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(32)],
+  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
 ]
 
 // g1, g2

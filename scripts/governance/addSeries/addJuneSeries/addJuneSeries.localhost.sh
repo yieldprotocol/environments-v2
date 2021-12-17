@@ -12,7 +12,7 @@ $RUN $HERE/addJuneSeries-2.ts
 $RUN $HERE/addJuneSeries-2.ts
 $RUN $HERE/addJuneSeries-2.ts
 
-# On testnets, put funds in the Timelock
+# On localhost, put funds in the Timelock
 $RUN $HERE/loadTimelock.ts
 
 # On localhost, advance time
