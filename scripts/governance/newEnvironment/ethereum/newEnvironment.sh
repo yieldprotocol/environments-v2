@@ -23,7 +23,8 @@ $RUN scripts/fragments/oracles/deployCompoundOracle.ts
 $RUN scripts/fragments/oracles/deployCompositeOracle.ts
 $RUN scripts/fragments/oracles/deployLidoOracle.ts
 $RUN scripts/fragments/oracles/deployUniswapOracle.ts
-
+$RUN scripts/fragments/oracles/deployYearnOracle.ts
+# orchestrate and setup sources
 $RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - propose
 $RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - approve
 $RUN $HERE/newEnvironment-13.ts # setup oracles, data sources and price derivation paths - execute

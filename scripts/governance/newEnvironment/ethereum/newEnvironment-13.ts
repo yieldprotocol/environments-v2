@@ -6,12 +6,14 @@ import { orchestrateChainlinkOracleProposal } from '../../../fragments/oracles/o
 import { orchestrateCompoundOracleProposal } from '../../../fragments/oracles/orchestrateCompoundOracleProposal'
 import { orchestrateCompositeOracleProposal } from '../../../fragments/oracles/orchestrateCompositeOracleProposal'
 import { orchestrateUniswapOracleProposal } from '../../../fragments/oracles/orchestrateUniswapOracleProposal'
+import { orchestrateYearnOracleProposal } from '../../../fragments/oracles/orchestrateYearnOracleProposal'
 import { orchestrateLidoOracleProposal } from '../../../fragments/oracles/orchestrateLidoOracleProposal'
 import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
 import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
 import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
 import { updateUniswapSourcesProposal } from '../../../fragments/oracles/updateUniswapSourcesProposal'
 import { updateLidoSourceProposal } from '../../../fragments/oracles/updateLidoSourceProposal'
+import { updateYearnSourcesProposal } from '../../../fragments/oracles/updateYearnSourcesProposal'
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 
@@ -19,7 +21,7 @@ import { Timelock, EmergencyBrake } from '../../../../typechain'
 import { ChainlinkMultiOracle, CompoundMultiOracle, CompositeMultiOracle, UniswapV3Oracle, LidoOracle } from '../../../../typechain'
 import { WAD } from '../../../../shared/constants'
 import { deployer, developer } from './newEnvironment.config'
-import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths } from './newEnvironment.config'
+import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths, yearnSources } from './newEnvironment.config'
 
 /**
  * @dev This script orchestratese the Cloak
@@ -69,6 +71,11 @@ import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, 
     protocol.get('lidoOracle') as string,
     ownerAcc
   )) as unknown) as LidoOracle
+  const yearnOracle = ((await ethers.getContractAt(
+    'YearnOracle',
+    protocol.get('yearnOracle') as string,
+    ownerAcc
+  )) as unknown) as YearnOracle
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
@@ -76,11 +83,13 @@ import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, 
   proposal = proposal.concat(await orchestrateCompoundOracleProposal(deployer.get(chainId) as string, compoundOracle, timelock, cloak))
   proposal = proposal.concat(await orchestrateCompositeOracleProposal(deployer.get(chainId) as string, compositeOracle, timelock, cloak))
   proposal = proposal.concat(await orchestrateUniswapOracleProposal(deployer.get(chainId) as string, uniswapOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateYearnOracleProposal(deployer.get(chainId) as string, yearnOracle, timelock, cloak))
   proposal = proposal.concat(await orchestrateLidoOracleProposal(deployer.get(chainId) as string, lidoOracle, timelock, cloak))
   proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, chiSources.get(chainId) as [string, string][]))
   proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, rateSources.get(chainId) as [string, string][]))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources.get(chainId) as [string, string, string, string, string][]))
   proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapSources.get(chainId) as [string, string, string, number][]))
+  proposal = proposal.concat(await updateYearnSourcesProposal(yearnOracle, yearnSources.get(chainId) as [string, string, string, number][]))
   proposal = proposal.concat(await updateLidoSourceProposal(lidoOracle, lidoSource.get(chainId) as string))
   proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources.get(chainId) as [string, string, string][]))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths.get(chainId) as [string, string, string[]][]))

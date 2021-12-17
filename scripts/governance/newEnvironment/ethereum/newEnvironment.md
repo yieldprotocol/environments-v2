@@ -1,3 +1,4 @@
+//TODO: These numbers are kind of annoying to update, maybe we do away with them?
 --- Libraries ---
 01. deploy YieldMath
 02. deploy YieldMathExtensions
@@ -16,12 +17,14 @@
 10. deploy CompositeMultiOracle
 11. deploy UniswapMultiOracle
 12. deploy LidoOracle
+13. deploy YearnOracle
 
-13. orchestrate ChainlinkMultiOracle
+14. orchestrate ChainlinkMultiOracle
     orchestrate CompoundMultiOracle
     orchestrate CompositeMultiOracle
     orchestrate UniswapMultiOracle
     orchestrate LidoOracle
+    orchestrate YearnOracle
     update chi sources
     update rate sources
     update chainlink sources
@@ -29,38 +32,39 @@
     update lido sources
     update composite sources
     update composite paths
+    update yearn sources
 
 --- Factories ---
-14. deploy JoinFactory
-15. deploy FYTokenFactory
-16. deploy PoolFactory
-17. orchestrate JoinFactory
+15. deploy JoinFactory
+16. deploy FYTokenFactory
+17. deploy PoolFactory
+18. orchestrate JoinFactory
     orchestrate FYTokenFactory
     orchestrate PoolFactory
 
 --- Core ---
-18. deploy Cauldron
-19. deploy Ladle
-20. deploy Witch
-21. deploy Wand
+19. deploy Cauldron
+20. deploy Ladle
+21. deploy Witch
+22. deploy Wand
 
-22. orchestrate Cauldron
+23. orchestrate Cauldron
     orchestrate Ladle
     orchestrate Witch
     orchestrate Wand
 
 --- Assets ---
-23. add assets
+24. add assets
 
-24. orchestrate joins
+25. orchestrate joins
     make bases
     make ilks
 
 --- Series ---
-25. deploy series
-26. deploy strategies
+26. deploy series
+27. deploy strategies
 
-27. orchestrate fyToken
+28. orchestrate fyToken
     orchestrate strategies
     init pools
     init strategies

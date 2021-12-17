@@ -26,6 +26,7 @@ export const yearnLimits: Array<[string, string, string, number, number, number,
   [USDC, YVUSDC, YEARN, 1250000, 800000, 1000000,  5000,    6],
 ]
 
+// TODO: I couldn't find where in the newEnvironment scripts we call addIlksToSeriesProposal
 // Input data: seriesId, [ilkIds]
 export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDC2112, [YVUSDC]],
