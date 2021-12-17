@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
 import { Strategy, Pool } from '../../../../typechain'
-import { developer, rollData } from './addJuneSeries.mainnet.config'
+import { developer, rollData } from './addJuneSeries.rinkeby.config'
 
 /**
  * @dev This script advances time until maturity of the first strategy

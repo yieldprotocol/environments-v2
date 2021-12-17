@@ -6,7 +6,7 @@ import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addI
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollStrategiesProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
-import { developer, deployer, seriesIlks, poolsInit, rollData } from './addJuneSeries.mainnet.config'
+import { developer, deployer, seriesIlks, poolsInit, rollData } from './addJuneSeries.rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether

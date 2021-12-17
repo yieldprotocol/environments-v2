@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployFYTokens } from '../../../fragments/assetsAndSeries/deployFYTokens'
 import { SafeERC20Namer, Timelock } from '../../../../typechain'
-import { developer, fyTokenData } from './addJuneSeries.mainnet.config'
+import { developer, fyTokenData } from './addJuneSeries.rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
