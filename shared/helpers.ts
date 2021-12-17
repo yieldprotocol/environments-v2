@@ -18,7 +18,7 @@ const paths = new Map([
 /** @dev Determines chainId and retrieves address mappings from governance and protocol json files*/
 /** returns a 2 element array of Map's for **governance** and **protocol**, with contract names mapped to addresses */
 export const getGovernanceProtocolAddresses = async (chainId: number): Promise<Map<string, string>[]> => {
-  if (![1,4,42].includes(chainId)) throw `Chain id ${chainId} not found. Only Rinkeby, Kovan and Mainnet supported`
+  if (!paths.get(chainId)) throw `Chain id ${chainId} not found. Only Rinkeby, Kovan and Mainnet supported`
   const path = paths.get(chainId)
   const governance = jsonToMap(fs.readFileSync(`${path}governance.json`, 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync(`${path}protocol.json`, 'utf8')) as Map<string, string>
@@ -301,7 +301,7 @@ export function readAddressMappingIfExists(file_name: string): Map<string, strin
     return jsonToMap(readFileSync(full_path, 'utf8'));
   }
   return new Map<string, string>();
-} 
+}
 
 /**
  * Deploy a contract and verify it
@@ -336,7 +336,7 @@ export async function ensureRootAccess(contract: AccessControl, timelock: Timelo
     await contract.grantRole(ROOT, timelock.address)
     console.log(`${contract.address}.grantRoles(ROOT, timelock)`)
     while (!(await contract.hasRole(ROOT, timelock.address))) {}
-  }  
+  }
 }
 
 /**
@@ -350,8 +350,8 @@ export async function getOrDeploy<OutT extends AccessControl>(owner: any, mappin
   let ret: OutT
   if (mapping.get(key) === undefined) {
     ret = await deploy<OutT>(
-      owner, 
-      await hre.artifacts.readArtifact(contractName), 
+      owner,
+      await hre.artifacts.readArtifact(contractName),
       constructor_args);
     mapping.set(key, ret.address);
     writeAddressMap(mapping_file, mapping);

@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS } from '../../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, YVUSDC } from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../../shared/constants'
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../../shared/constants'
@@ -8,57 +8,49 @@ import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../.
 const protocol = readAddressMappingIfExists('protocol.json')
 
 export const developer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],  //0xfe90d993367bc93D171A5ED88ab460759DE2bED6
   [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
 export const deployer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
+  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'], //0xfe90d993367bc93D171A5ED88ab460759DE2bED6
   [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
 export const assets: Map<number, Map<string, string>> = new Map([
-  [
-    1,
-    new Map([
-      [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-      [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
-      [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-      [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
-      [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
-      [STETH, '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-      [LINK, '0x514910771af9ca656af840dff83e8264ecf986ca'],
-      [ENS, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
-    ]),
-  ],
-  [
-    4,
-    new Map([
-      [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
-      [DAI, '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
-      [USDC, '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
-      [WBTC, '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
-      [WSTETH, '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
-      [STETH, '0xE910c4D4802898683De478e57852738e773dBCD9'],
-      [LINK, '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
-      [ENS, '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
-    ]),
-  ],
-  [
-    42,
-    new Map([
-      [ETH, '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
-      [DAI, '0xaFCdc724EB8781Ee721863db1B15939675996484'],
-      [USDC, '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
-      [WBTC, '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
-      [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
-      [STETH, '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
-      [LINK, '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
-      [ENS, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
-    ]),
-  ],
+  [1, new Map([
+    [ETH,    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
+    [DAI,    '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
+    [USDC,   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
+    [WBTC,   '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
+    [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
+    [STETH,  '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
+    [LINK,   '0x514910771af9ca656af840dff83e8264ecf986ca'],
+    [ENS,    '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
+    [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'], //Use mocks for YVUSDC on testnset
+  ])],
+  [4, new Map([
+    [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+    [DAI,    '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
+    [USDC,   '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
+    [WBTC,   '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
+    [WSTETH, '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
+    [STETH,  '0xE910c4D4802898683De478e57852738e773dBCD9'],
+    [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
+    [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
+  ])],
+  [42, new Map([
+    [ETH,    '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
+    [DAI,    '0xaFCdc724EB8781Ee721863db1B15939675996484'],
+    [USDC,   '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
+    [WBTC,   '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
+    [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
+    [STETH,  '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
+    [LINK,   '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
+    [ENS,    '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
+  ])],
 ])
 
 export const chiSources: Map<number, Array<[string, string]>> = new Map([
@@ -260,6 +252,16 @@ export const lidoSource: Map<number, string> = new Map([
   [42, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
 ])
 
+// underlyingId, yvTokenId, address of yvToken <-- the source
+export const yearnSources: Array<[string, string, string]> = [
+  [USDC, YVUSDC,  assets.get(YVUSDC) as string]
+]
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const yearnLimits: Array<[string, string, string, number, number, number, number, number]> = [
+  [USDC, YVUSDC, YEARN, 1250000, 800000, 1000000,  5000,    6],
+]
+
 export const compositeSources: Map<number, Array<[string, string, string]>> = new Map([
   [
     1,
@@ -328,42 +330,36 @@ export const compositePaths: Map<number, Array<[string, string, Array<string>]>>
 
 // Assets for which we will have a Join
 export const assetsToAdd: Map<number, Array<[string, string]>> = new Map([
-  [
-    1,
-    [
-      [ETH, (assets.get(1) as Map<string, string>).get(ETH) as string],
-      [DAI, (assets.get(1) as Map<string, string>).get(DAI) as string],
-      [USDC, (assets.get(1) as Map<string, string>).get(USDC) as string],
-      [WBTC, (assets.get(1) as Map<string, string>).get(WBTC) as string],
-      [WSTETH, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
-      [LINK, (assets.get(1) as Map<string, string>).get(LINK) as string],
-      [ENS, (assets.get(1) as Map<string, string>).get(ENS) as string],
-    ],
-  ],
-  [
-    4,
-    [
-      [ETH, (assets.get(4) as Map<string, string>).get(ETH) as string],
-      [DAI, (assets.get(4) as Map<string, string>).get(DAI) as string],
-      [USDC, (assets.get(4) as Map<string, string>).get(USDC) as string],
-      [WBTC, (assets.get(4) as Map<string, string>).get(WBTC) as string],
-      [WSTETH, (assets.get(4) as Map<string, string>).get(WSTETH) as string],
-      [LINK, (assets.get(4) as Map<string, string>).get(LINK) as string],
-      [ENS, (assets.get(4) as Map<string, string>).get(ENS) as string],
-    ],
-  ],
-  [
-    42,
-    [
-      [ETH, (assets.get(42) as Map<string, string>).get(ETH) as string],
-      [DAI, (assets.get(42) as Map<string, string>).get(DAI) as string],
-      [USDC, (assets.get(42) as Map<string, string>).get(USDC) as string],
-      [WBTC, (assets.get(42) as Map<string, string>).get(WBTC) as string],
-      [WSTETH, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
-      [LINK, (assets.get(42) as Map<string, string>).get(LINK) as string],
-      [ENS, (assets.get(42) as Map<string, string>).get(ENS) as string],
-    ],
-  ],
+  [1, [
+    [ETH,    (assets.get(1) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(1) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(1) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(1) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(1) as Map<string, string>).get(WSTETH) as string],
+    [LINK,   (assets.get(1) as Map<string, string>).get(LINK)   as string],
+    [ENS,    (assets.get(1) as Map<string, string>).get(ENS)    as string],
+    [YVUSDC, (assets.get(1) as Map<string, string>).get(YVUSDC) as string],
+  ]],
+  [4, [
+    [ETH,    (assets.get(4) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(4) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(4) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(4) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(4) as Map<string, string>).get(WSTETH) as string],
+    [LINK,   (assets.get(4) as Map<string, string>).get(LINK)   as string],
+    [ENS,    (assets.get(4) as Map<string, string>).get(ENS)    as string],
+    [YVUSDC, (assets.get(1) as Map<string, string>).get(YVUSDC) as string],
+  ]],
+  [42, [
+    [ETH,    (assets.get(42) as Map<string, string>).get(ETH)    as string],
+    [DAI,    (assets.get(42) as Map<string, string>).get(DAI)    as string],
+    [USDC,   (assets.get(42) as Map<string, string>).get(USDC)   as string],
+    [WBTC,   (assets.get(42) as Map<string, string>).get(WBTC)   as string],
+    [WSTETH, (assets.get(42) as Map<string, string>).get(WSTETH) as string],
+    [LINK,   (assets.get(42) as Map<string, string>).get(LINK)   as string],
+    [ENS,    (assets.get(42) as Map<string, string>).get(ENS)    as string],
+    [YVUSDC, (assets.get(1) as Map<string, string>).get(YVUSDC)  as string],
+  ]],
 ])
 
 // Assets for which we will have an Oracle, but not a Join
@@ -381,16 +377,16 @@ export const bases: Map<number, Array<string>> = new Map([
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, ETH, CHAINLINK, 1400000, 714000, 2000000, 1, 18],
-  [DAI, DAI, CHAINLINK, 1000000, 1000000, 10000000, 0, 18], // Constant 1, no dust
-  [DAI, USDC, CHAINLINK, 1330000, 751000, 100000, 1, 18], // Via ETH
-  [DAI, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 18], // Via ETH
-  [DAI, LINK, CHAINLINK, 1670000, 1000000, 1000000, 100, 18],
-  [USDC, ETH, CHAINLINK, 1400000, 714000, 5000000, 1, 6],
-  [USDC, DAI, CHAINLINK, 1330000, 751000, 100000, 1, 6], // Via ETH
-  [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0, 6], // Constant 1, no dust
-  [USDC, WBTC, CHAINLINK, 1500000, 666000, 100000, 1, 6], // Via ETH
-  [USDC, LINK, CHAINLINK, 1670000, 1000000, 1000000, 100, 6],
+  [DAI,  ETH,  CHAINLINK, 1400000, 714000,  2000000,  1,   18],
+  [DAI,  DAI,  CHAINLINK, 1000000, 1000000, 10000000, 0,   18], // Constant 1, no dust
+  [DAI,  USDC, CHAINLINK, 1330000, 751000,  100000,   1,   18], // Via ETH
+  [DAI,  WBTC, CHAINLINK, 1500000, 666000,  100000,   1,   18], // Via ETH
+  [DAI,  LINK, CHAINLINK, 1670000, 1000000, 1000000,  100, 18],
+  [USDC, ETH,  CHAINLINK, 1400000, 714000,  5000000,  1,   6],
+  [USDC, DAI,  CHAINLINK, 1330000, 751000,  100000,   1,   6], // Via ETH
+  [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0,   6], // Constant 1, no dust
+  [USDC, WBTC, CHAINLINK, 1500000, 666000,  100000,   1,   6], // Via ETH
+  [USDC, LINK, CHAINLINK, 1670000, 1000000, 1000000,  100, 6],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
