@@ -61,7 +61,8 @@ export const YSETH6MJD  = 'YSETH6MJD' // Yield Strategy ETH 6M Jun Dec
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
-export const k = ONE64.div(secondsInTenYears)
+export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
+export const ts = ONE64.div(secondsIn25Years)
 
 export const g0 = ONE64 // No fees
 export const g1 = ONE64.mul(950).div(1000) // Sell base to the pool
@@ -71,4 +72,5 @@ export const CHI  = ethers.utils.formatBytes32String('CHI').slice(0, 14)
 export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1  = ethers.utils.formatBytes32String('g1')
 export const G2  = ethers.utils.formatBytes32String('g2')
+export const TS  = ethers.utils.formatBytes32String('ts')
 

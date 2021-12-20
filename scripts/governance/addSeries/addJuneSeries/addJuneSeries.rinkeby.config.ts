@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256, ONE64 } from '../../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../shared/constants'
 import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
@@ -52,12 +52,14 @@ export const poolFees: [BigNumber, BigNumber] = [
   ONE64.mul(100).div(75), // Sell fyToken to the pool
 ]
 
+// Time stretch to be set in the PoolFactory prior to pool deployment
+export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
+
 // assetId, loanAmount
 export const joinLoans: Array<[string, BigNumber]> = [
   [DAI,  WAD.mul(100)],
   [USDC, ONEUSDC.mul(100)],
 ]
-  
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [

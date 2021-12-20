@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
 import { WAD } from '../../../../shared/constants'
 import { ERC20Mock, Pool } from '../../../../typechain'
-import { whales, poolsInit } from './addJuneSeries.rinkeby.config'
+import { whales, poolsInit } from './addJuneSeries.mainnet.config'
 
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
