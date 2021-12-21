@@ -51,6 +51,11 @@ export const uniswapSources: Array<[string, string, string, number]> = [
 // The lidoSource is the wstETH contract
 export const lidoSource: string = assets.get(WSTETH) as string
 
+// underlying, yvToken, address
+export const yearnSources: Array<[string, string, string]> = [
+  [USDC, YVUSDC,  assets.get(YVUSDC) as string]
+]
+
 export const compositeSources: Array<[string, string, string]> = [
   [DAI,    ETH,   protocol.get(CHAINLINK) as string],
   [USDC,   ETH,   protocol.get(CHAINLINK) as string],
@@ -77,6 +82,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [LINK,   assets.get(LINK)   as string],
   [ENS,    assets.get(ENS)    as string],
   [UNI,    assets.get(UNI)    as string],
+  [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
@@ -99,7 +105,6 @@ export const chainlinkLimits: Array<[string, string, string, number, number, num
   [USDC, WBTC,   CHAINLINK, 1500000, 666000,  100000,   5000, 6], // Via ETH
   [USDC, LINK,   CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
   [USDC, UNI,    CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
-  [USDC, YVUSDC, YEARN,     1250000, 800000, 1000000,   5000, 6],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -110,6 +115,11 @@ export const compositeLimits: Array<[string, string, string, number, number, num
   [USDC, ENS,    COMPOSITE, 1670000, 600000, 2000000, 5000, 6],
 ]
 
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const yearnLimits: Array<[string, string, string, number, number, number, number, number]> = [
+  [USDC, YVUSDC, YEARN,     1250000, 800000, 1000000,   5000, 6],
+]
+
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
   [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2112',  'FYDAI2112'],
@@ -118,8 +128,8 @@ export const seriesDAI: Array<[string, string, number, string[], string, string]
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
-  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2112', 'FYUSDC2112'],
-  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2203', 'FYUSDC2203'],
+  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC], 'FYUSDC2112', 'FYUSDC2112'],
+  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC], 'FYUSDC2203', 'FYUSDC2203'],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
