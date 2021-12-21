@@ -4,7 +4,7 @@ import "./ISourceMock.sol";
 import "./ERC20Mock.sol";
 
 contract WstETHMock is ISourceMock, ERC20Mock {
-    ERC20 stETH;
+    ERC20 public stETH;
     uint256 public price;
 
     constructor(ERC20 _stETH) ERC20Mock("Wrapped liquid staked Ether 2.0", "wstETH") {

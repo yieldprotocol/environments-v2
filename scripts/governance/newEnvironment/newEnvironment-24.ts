@@ -38,6 +38,11 @@ import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../
     protocol.get(COMPOUND) as string,
     ownerAcc
   )) as unknown as IOracle
+  const yearnOracle = (await ethers.getContractAt(
+    'IOracle',
+    protocol.get(YEARN) as string,
+    ownerAcc
+  )) as unknown as IOracle
   const chainlinkOracle = (await ethers.getContractAt(
     'IOracle',
     protocol.get(CHAINLINK) as string,
@@ -70,6 +75,8 @@ import { IOracle, Ladle, Witch, Wand, EmergencyBrake, Timelock } from '../../../
   proposal = proposal.concat(await makeBaseProposal(ownerAcc, compoundOracle, ladle, witch, wand, cloak, bases as string[]))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, chainlinkOracle, ladle, witch, wand, cloak, chainlinkLimits))
   proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeLimits))
+  // TODO: MISSING WSTEH?
+  proposal = proposal.concat(await makeIlkProposal(ownerAcc, yearnOracle, ladle, witch, wand, cloak, yearnLimits))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
