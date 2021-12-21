@@ -8,7 +8,7 @@ import { WETH9Mock } from '../../../typechain'
 import { developer, assets } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script orchestrates the Factories
+ * @dev This script deploys the Ladle
  */
 
 ;(async () => {

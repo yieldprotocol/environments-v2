@@ -6,7 +6,7 @@ import { Timelock, Wand } from '../../../typechain'
 import { developer, seriesUSDC } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script deploys two strategies to be used for Ether
+ * @dev This script deploys two strategies to be used for USDC
  */
 
 ;(async () => {

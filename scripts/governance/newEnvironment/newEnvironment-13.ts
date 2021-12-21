@@ -24,7 +24,7 @@ import { deployer, developer } from './newEnvironment.config'
 import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths, yearnSources } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script orchestratese the Cloak
+ * @dev This script sets up the oracles
  */
 
 ;(async () => {
