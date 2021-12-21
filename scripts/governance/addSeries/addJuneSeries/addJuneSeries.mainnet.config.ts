@@ -57,8 +57,8 @@ export const poolData: Array<[string, string]> = [
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(32)],
-  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+  [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(39)], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(24)], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
 ]
 
 // Pool fees to be set in the PoolFactory prior to pool deployment
@@ -74,8 +74,8 @@ export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 // Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
 // assetId, loanAmount
 export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI,  WAD.mul(0)],
-  [USDC, ONEUSDC.mul(61000)],
+  [DAI,  WAD.mul(0)],     // Join has 609886630292632589467107 DAI, pool has 6788019263610582280742 fyDAI. Surplus is 603098 611029022007186365 DAI
+  [USDC, ONEUSDC.mul(0)], // Join has 258185014360 USDC, pool has 22868196923 fyUSDC. Surplus is 235316 817437 USDC.
 ]
 
 // Ilks to accept for each series
