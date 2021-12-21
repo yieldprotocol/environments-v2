@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../shared/constants'
 import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
@@ -82,7 +82,7 @@ export const joinLoans: Array<[string, BigNumber]> = [
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2206,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC]],
 ]
 
 // Parameters to roll each strategy
