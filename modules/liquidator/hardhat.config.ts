@@ -18,10 +18,6 @@ import { task } from 'hardhat/config'
 // import 'hardhat-dapptools'
 
 
-task("regression-test", async function(_args, hre, _runSuper) {
-  return hre.run("test", {testFiles: ["regression_tests/flashLiquidator.ts"]})
-})
-
 function nodeUrl(network: any) {
   let infuraKey
   try {

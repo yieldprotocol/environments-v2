@@ -16,7 +16,7 @@ import { tmpdir } from "os";
 import { join } from "path";
 import { promisify } from "util";
 import { exec as exec_async } from "child_process";
-import { HardhatNetworkAccountConfig } from "hardhat/types/config";
+import { HardhatNetworkAccountConfig, HardhatNetworkAccountsConfig } from "hardhat/types/config";
 import { TransactionResponse } from "@ethersproject/abstract-provider";
 
 const exec = promisify(exec_async);
@@ -54,7 +54,7 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, FlashLiqui
 }
 
 async function run_liquidator(tmp_root: string, liquidator: FlashLiquidator,
-    base_to_debt_threshold: { [name: string]: string } = {}) {
+    private_key: string, base_to_debt_threshold: { [name: string]: string } = {}) {
 
     const config_path = join(tmp_root, "config.json")
     await fs.writeFile(config_path, JSON.stringify({
@@ -66,13 +66,10 @@ async function run_liquidator(tmp_root: string, liquidator: FlashLiquidator,
     }, undefined, 2))
 
     logger.info("Liquidator deployed: ", liquidator.address)
-    const accounts = normalizeHardhatNetworkAccountsConfig(
-        config.networks[network.name].accounts as HardhatNetworkAccountConfig[]
-    );
 
     const private_key_path = join(tmp_root, "private_key")
-    await fs.writeFile(private_key_path, accounts[0].privateKey.substring(2))
-    const cmd = `cargo run -- -c ${config_path} -u http://127.0.0.1:8545/ -C ${network.config.chainId} \
+    await fs.writeFile(private_key_path, private_key)
+    const cmd = `cargo run -- -c ${config_path} -u http://127.0.0.1:9545/ -C ${network.config.chainId} \
         -p ${private_key_path} \
         --gas-boost 10 \
         --swap-router-binary build/bin/router \
@@ -84,6 +81,7 @@ async function run_liquidator(tmp_root: string, liquidator: FlashLiquidator,
     let stderr: string
     try {
         const results = await exec(cmd, {
+            cwd: "modules/liquidator",
             encoding: "utf-8", env: {
                 "RUST_BACKTRACE": "1",
                 "RUST_LOG": "liquidator,yield_liquidator=debug",
@@ -115,10 +113,18 @@ async function run_liquidator(tmp_root: string, liquidator: FlashLiquidator,
 
 describe("flash liquidator", function () {
     let tmp_root: string;
+    let private_key: string;
+
 
     this.beforeAll(async function () {
+        const accounts = normalizeHardhatNetworkAccountsConfig(
+            config.networks[network.name].accounts as HardhatNetworkAccountsConfig
+        );
+
+        private_key = accounts[0].privateKey.slice(2);
+
         return new Promise((resolve, fail) => {
-            run("node", { silent: true });
+            run("node", { silent: true, port:9545 });
 
             // launch hardhat node so that external processes can access it
             subtask("node:server-ready", async function (args, _hre, runSuper) {
@@ -144,7 +150,7 @@ describe("flash liquidator", function () {
 
         const starting_balance = await _owner.getBalance();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator);
+        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
 
         let bought = 0;
 
@@ -166,7 +172,7 @@ describe("flash liquidator", function () {
         await fork(13911677)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator);
+        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
 
         const vault_not_to_be_auctioned = "00cbb039b7b8103611a9717f";
 
@@ -191,7 +197,7 @@ describe("flash liquidator", function () {
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, {
+        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key, {
             "303200000000": "1000000000"
         });
 
@@ -218,7 +224,7 @@ describe("flash liquidator", function () {
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, {
+        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key, {
             "303100000000": "1000000000000000000000"
         });
 
@@ -257,7 +263,7 @@ describe("flash liquidator", function () {
             await fork(13900485);
             const [_owner, liquidator] = await deploy_flash_liquidator();
 
-            const liquidator_logs = await run_liquidator(tmp_root, liquidator);
+            const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
 
             let vault_is_liquidated = false;
             for (const log_record of liquidator_logs) {
@@ -278,7 +284,7 @@ describe("flash liquidator", function () {
             await fork(13900364);
             const [_owner, liquidator] = await deploy_flash_liquidator();
 
-            const liquidator_logs = await run_liquidator(tmp_root, liquidator);
+            const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
 
             let new_vaults_message;
             for (const log_record of liquidator_logs) {
@@ -302,7 +308,7 @@ describe("flash liquidator", function () {
         await fork(14045343);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator);
+        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
 
         const vault_to_be_auctioned = "b50e0c2ce9adb248f755540b";
         let vault_is_liquidated = false;
