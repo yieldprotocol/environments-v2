@@ -53,7 +53,7 @@ import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orche
   proposal = proposal.concat(await addIntegrationProposal(ladle,convexStakingWrapperYield.address))
   proposal = proposal.concat(await orchestrateConvexWrapperProposal(ownerAcc.address,convexStakingWrapperYield,timelock,cloak))
   proposal = proposal.concat(await pointCollateralVaultProposal(convexStakingWrapperYield,join.address))
-  proposal = proposal.concat(await addTokenProposal(ladle, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'))
+  proposal = proposal.concat(await addTokenProposal(ladle, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'))// cvx3Crv
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

@@ -12,21 +12,12 @@ import {
   CVX3CRV,
 } from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../shared/constants'
-import {
-  FYDAI2112,
-  FYDAI2203,
-  FYUSDC2112,
-  FYUSDC2203,
-  FYETH2203,
-  FYETH2206,
-} from '../../../../shared/constants'
 
 function bytes6ToBytes32(x: string): string {
   return x + '00'.repeat(26)
 }
 
 const protocol = readAddressMappingIfExists('protocol.json')
-
 
 export const deployer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
@@ -39,7 +30,6 @@ export const developer: Map<number, string> = new Map([
   [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
-
 
 export const assets: Map<string, string> = new Map([
   [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],

@@ -21,7 +21,7 @@ import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
 import "@yield-protocol/vault-v2/contracts/Ladle.sol";
 import "@yield-protocol/vault-v2/contracts/Witch.sol";
 import "@yield-protocol/vault-v2/contracts/Wand.sol";
-import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexLadleModule.sol";
+import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexModule.sol";
 import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexStakingWrapper.sol";
 import "@yield-protocol/vault-v2/contracts/utils/convex/ConvexStakingWrapperYield.sol";
 import "@yield-protocol/yieldspace-v2/contracts/Pool.sol";
