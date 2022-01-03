@@ -1,6 +1,22 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists, stringToBytes6 } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, CVX3CRV } from '../../../../shared/constants'
+import {
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  CVX3CRV,
+  FYDAI2112,
+  FYDAI2203,
+  FYETH2203,
+  FYETH2206,
+  FYUSDC2112,
+  FYUSDC2203,
+} from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../shared/constants'
 
 function bytes6ToBytes32(x: string): string {
@@ -11,8 +27,8 @@ const protocol = readAddressMappingIfExists('protocol.json')
 
 export const deployer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'], //Rinkeby
+  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'], //Kovan
 ])
 
 export const developer: Map<number, string> = new Map([
@@ -30,23 +46,23 @@ export const assets: Map<string, string> = new Map([
   [STETH, '0xE910c4D4802898683De478e57852738e773dBCD9'],
   [LINK, '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
   [ENS, '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
-  [CVX3CRV, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'],
+  [CVX3CRV, protocol.get('cvx3CrvMock') as string],
 ])
 
-// CVX3CRV, ETH, 3CRVPool, DAI/ETH chainlink, USDC/ETH chainlink, USDT/ETH chainlink
+// CVX3CRV, ETH, 3CRVPool, DAI/ETH chainlink, USDC/ETH chainlink
 export const cvx3CrvSources: [string, string, string, string, string, string] = [
   bytes6ToBytes32(CVX3CRV),
   bytes6ToBytes32(ETH),
-  '0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7',
-  '0x773616E4d11A78F511299002da57A0a94577F1f4',
-  '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4',
-  '0xEe9F2375b4bdF6387aa8265dD4FB8F16512A1d46',
+  protocol.get('curvePoolMock') as string,
+  '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541',
+  '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838',
+  '0x0bF499444525a23E7Bb61997539725cA2e928138',
 ]
 
 export const compositeSources: Array<[string, string, string]> = [
   [CVX3CRV, ETH, protocol.get(CONVEX3CRV) as string],
-  [DAI, ETH, protocol.get(CHAINLINK) as string], // Maybe it's there already?
-  [USDC, ETH, protocol.get(CHAINLINK) as string], // Maybe it's there already?
+  // [DAI, ETH, protocol.get(CHAINLINK) as string], // Maybe it's there already?
+  // [USDC, ETH, protocol.get(CHAINLINK) as string], // Maybe it's there already?
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [

@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../../shared/helpers'
 
 import { orchestrateCvx3CrvOracleProposal } from '../../../fragments/oracles/orchestrateCvx3CrvOracleProposal'
 import { updateCvx3CrvOracleSourcesProposal } from '../../../fragments/oracles/updateCvx3CrvOracleSourcesProposal'
@@ -10,8 +15,8 @@ import { CompositeMultiOracle, Timelock, EmergencyBrake } from '../../../../type
 import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
 import { COMPOSITE, CONVEX3CRV, WAD } from '../../../../shared/constants'
 
-import { deployer, developer } from './addCvx3Crv.config'
-import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.config'
+import { developer } from './addCvx3Crv.kovan.config'
+import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.kovan.config'
 
 /**
  * @dev This script configures the Cvx3crv price feed
@@ -25,35 +30,35 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
  * Add the Chainlink Oracle as the DAI/ETH and USDC/ETH sources in the Composite Oracle
  * Add the DAI/CVX3CRV/ETH and USDC/CVX3CRV/ETH paths in the Composite Oracle
  */
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
 
-  const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json')
+  const protocol = readAddressMappingIfExists('protocol.json')
 
-  const compositeOracle = ((await ethers.getContractAt(
+  const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get(COMPOSITE) as string,
     ownerAcc
-  )) as unknown) as CompositeMultiOracle
-  const cvx3CrvOracle = ((await ethers.getContractAt(
+  )) as unknown as CompositeMultiOracle
+  const cvx3CrvOracle = (await ethers.getContractAt(
     'Cvx3CrvOracle',
     protocol.get(CONVEX3CRV) as string,
     ownerAcc
-  )) as unknown) as Cvx3CrvOracle
-  const cloak = ((await ethers.getContractAt(
+  )) as unknown as Cvx3CrvOracle
+  const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
-  )) as unknown) as EmergencyBrake
-  const timelock = ((await ethers.getContractAt(
+  )) as unknown as EmergencyBrake
+  const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
-  )) as unknown) as Timelock
+  )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateCvx3CrvOracleProposal(ownerAcc.address, cvx3CrvOracle, timelock, cloak))

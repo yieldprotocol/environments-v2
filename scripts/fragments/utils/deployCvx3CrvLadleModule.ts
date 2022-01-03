@@ -9,9 +9,9 @@ import {
 } from '../../../shared/helpers'
 import { WSTETH, STETH } from '../../../shared/constants'
 import { ROOT } from '../../../shared/constants'
-import ConvexLadleModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/utils/convex/ConvexLadleModule.sol/ConvexLadleModule.json'
+import ConvexLadleModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/utils/convex/ConvexModule.sol/ConvexModule.json'
 
-import { ConvexLadleModule } from '../../../typechain/ConvexLadleModule'
+import { ConvexModule } from '../../../typechain/ConvexModule'
 import { Timelock } from '../../../typechain/Timelock'
 import { Cauldron } from '../../../typechain'
 
@@ -51,23 +51,23 @@ const { deployContract } = waffle
     ownerAcc
   )) as unknown as Cauldron
   
-  let convexLadleModule: ConvexLadleModule
+  let convexLadleModule: ConvexModule
   
   if (protocol.get('convexLadleModule') === undefined) {
     convexLadleModule = (await deployContract(ownerAcc, ConvexLadleModuleArtifact, [
       cauldron.address,
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'//WETH,
-    ])) as ConvexLadleModule
+    ])) as ConvexModule
     console.log(`convexLadleModule deployed at ${convexLadleModule.address}`)
     verify(convexLadleModule.address, [cauldron.address,'0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'])
     protocol.set('convexLadleModule', convexLadleModule.address)
     writeAddressMap('protocol.json', protocol)
   } else {
     convexLadleModule = (await ethers.getContractAt(
-      'ConvexLadleModule',
+      'ConvexModule',
       protocol.get('convexLadleModule') as string,
       ownerAcc
-    )) as unknown as ConvexLadleModule
+    )) as unknown as ConvexModule
     console.log(`Reusing convexLadleModule at ${convexLadleModule.address}`)
   }
   // if (!(await convexLadleModule.hasRole(ROOT, timelock.address))) {

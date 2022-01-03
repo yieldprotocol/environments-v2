@@ -4,6 +4,7 @@ pragma solidity 0.8.6;
 import '@yield-protocol/utils-v2/contracts/token/ERC20.sol';
 import '@yield-protocol/vault-interfaces/DataTypes.sol';
 import '@yield-protocol/utils-v2/contracts/token/TransferHelper.sol';
+import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 
 struct Balances {
     uint128 art; // Debt amount
@@ -48,7 +49,7 @@ interface IRewardStaking {
     function balanceOf(address _account) external view returns (uint256);
 }
 
-contract ConvexStakingWrapperYieldMock is ERC20 {
+contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     using TransferHelper for IERC20;
 
     struct RewardType {
@@ -70,9 +71,8 @@ contract ConvexStakingWrapperYieldMock is ERC20 {
 
     //constants/immutables
     // address public constant convexBooster = address(0xF403C135812408BFbE8713b5A23a04b3D48AAE31);
-    address public immutable crv = address(0xD533a949740bb3306d119CC777fa900bA034cd52);
-    address public immutable cvx = address(0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B);
-    address public curveToken;
+    address public crv;
+    address public cvx;
     address public convexToken;
     address public convexPool;
     uint256 public convexPoolId;
@@ -85,8 +85,13 @@ contract ConvexStakingWrapperYieldMock is ERC20 {
     event Withdrawn(address indexed _user, uint256 _amount, bool _unwrapped);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    constructor(
-        address curveToken_,
+    constructor() ERC20('StakedConvexToken', 'stkCvx', 18) {
+        // isShutdown = false;
+        // isInit = true;
+        // curveToken = curveToken_;
+    }
+
+    function initialize(
         address convexToken_,
         address convexPool_,
         uint256 poolId_,
@@ -94,10 +99,7 @@ contract ConvexStakingWrapperYieldMock is ERC20 {
         ICauldron cauldron_,
         address crv_,
         address cvx_
-    ) ERC20('StakedConvexToken', 'stkCvx', 18) {
-        // isShutdown = false;
-        // isInit = true;
-        curveToken = curveToken_;
+    ) public {
         convexToken = convexToken_;
         convexPool = convexPool_;
         convexPoolId = poolId_;
@@ -105,6 +107,8 @@ contract ConvexStakingWrapperYieldMock is ERC20 {
         cauldron = cauldron_;
         crv = crv_;
         cvx = cvx_;
+        setApprovals();
+        addRewards();
     }
 
     // function deposit(uint256 _amount, address _to) external {
@@ -325,15 +329,19 @@ contract ConvexStakingWrapperYieldMock is ERC20 {
             reward.reward_remaining = 0;
         }
 
-        uint256 extraCount = IRewardStaking(mainPool).extraRewardsLength();
-        uint256 startIndex = rewards.length - 1;
-        for (uint256 i = startIndex; i < extraCount; i++) {
-            address extraPool = IRewardStaking(mainPool).extraRewards(i);
-            RewardType storage reward = rewards.push();
-            reward.reward_token = IRewardStaking(extraPool).rewardToken();
-            reward.reward_pool = extraPool;
-            reward.reward_integral = 0;
-            reward.reward_remaining = 0;
-        }
+        // uint256 extraCount = IRewardStaking(mainPool).extraRewardsLength();
+        // uint256 startIndex = rewards.length - 1;
+        // for (uint256 i = startIndex; i < extraCount; i++) {
+        //     address extraPool = IRewardStaking(mainPool).extraRewards(i);
+        //     RewardType storage reward = rewards.push();
+        //     reward.reward_token = IRewardStaking(extraPool).rewardToken();
+        //     reward.reward_pool = extraPool;
+        //     reward.reward_integral = 0;
+        //     reward.reward_remaining = 0;
+        // }
+    }
+
+    function point(address join_) public {
+        collateralVault = join_;
     }
 }

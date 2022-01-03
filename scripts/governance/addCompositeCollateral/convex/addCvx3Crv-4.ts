@@ -1,6 +1,10 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
-import { jsonToMap, mapToJson, stringToBytes6,readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../../shared/helpers'
 
 import { orchestrateAddedAssetProposal } from '../../../fragments/assetsAndSeries/orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
@@ -8,7 +12,7 @@ import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addI
 
 import { IOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
 
-import {developer,assets,assetsToAdd,compositeLimits,seriesIlks} from './addCvx3Crv.config'
+import { developer, compositeLimits, seriesIlks } from './addCvx3Crv.kovan.config'
 
 /**
  * @dev This script adds ENS as an ilk to the Yield Protocol
@@ -24,44 +28,30 @@ import {developer,assets,assetsToAdd,compositeLimits,seriesIlks} from './addCvx3
  * Make Cvx3Crv into an Ilk
  * Approve Cvx3Crv as collateral for all series
  */
-
-;import { CVX3CRV } from '../../../../shared/constants'
-(async () => {
+import { CVX3CRV } from '../../../../shared/constants'
+;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
+  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
-  const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const joins = readAddressMappingIfExists('joins.json');
-  const assets = readAddressMappingIfExists('assets.json');
+  const governance = readAddressMappingIfExists('governance.json')
+  const protocol = readAddressMappingIfExists('protocol.json')
   const convexStakingWrapperYieldAddress: string = protocol.get('convexStakingWrapperYield') as string
-  const compositeOracle = ((await ethers.getContractAt(
+
+  const compositeOracle = (await ethers.getContractAt(
     'IOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown) as IOracle
+  )) as unknown as IOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'Witch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as Witch
-  const wand = (await ethers.getContractAt(
-    'Wand',
-    protocol.get('wand') as string,
-    ownerAcc
-  )) as unknown as Wand
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -74,8 +64,12 @@ import {developer,assets,assetsToAdd,compositeLimits,seriesIlks} from './addCvx3
   )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, [[CVX3CRV, convexStakingWrapperYieldAddress]]))
-  proposal = proposal.concat(await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeLimits))
+  proposal = proposal.concat(
+    await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, [[CVX3CRV, convexStakingWrapperYieldAddress]])
+  )
+  proposal = proposal.concat(
+    await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeLimits)
+  )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
