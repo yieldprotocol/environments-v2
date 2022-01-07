@@ -22,7 +22,7 @@ contract ConvexPoolMock {
     /// @param _claimExtras Whether to claim the extra rewards
     /// @return true if reward was sent
     function getReward(address _account, bool _claimExtras) public returns (bool) {
-        rewardToken.transfer(_account, 100); //Fixed reward transfer
+        rewardToken.transfer(_account, 1e18); //Fixed reward transfer
         return true;
     }
 

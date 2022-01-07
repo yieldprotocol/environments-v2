@@ -13,7 +13,7 @@ import { ConvexStakingWrapperYield } from '../../../typechain/ConvexStakingWrapp
 import { Timelock } from '../../../typechain/Timelock'
 import { Cauldron, Join, Ladle } from '../../../typechain'
 import { developer } from '../../governance/addCompositeCollateral/convex/addCvx3Crv.config'
-import { id } from '@yield-protocol/utils-v2'
+
 const { deployContract } = waffle
 
 /**
@@ -71,7 +71,7 @@ const { deployContract } = waffle
     await convexStakingWrapperYield.setApprovals()
   } else {
     convexStakingWrapperYield = (await ethers.getContractAt(
-      'convexStakingWrapperYield',
+      'ConvexStakingWrapperYield',
       protocol.get('convexStakingWrapperYield') as string,
       ownerAcc
     )) as unknown as ConvexStakingWrapperYield
@@ -83,9 +83,4 @@ const { deployContract } = waffle
     console.log(`convexStakingWrapperYield.grantRoles(ROOT, timelock)`)
     while (!(await convexStakingWrapperYield.hasRole(ROOT, timelock.address))) {}
   }
-  // if (!(await convexStakingWrapperYield.hasRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address))) {
-  //   await convexStakingWrapperYield.grantRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address)
-  //   console.log(`convexStakingWrapperYield.grantRole(withdrawFor,ladle)`)
-  //   while (!(await convexStakingWrapperYield.hasRole(id(convexStakingWrapperYield.interface, 'withdrawFor(uint256,address)'),ladle.address))) {}
-  // }
 })()

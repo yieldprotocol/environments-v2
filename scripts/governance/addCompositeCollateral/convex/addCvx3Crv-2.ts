@@ -15,8 +15,8 @@ import { CompositeMultiOracle, Timelock, EmergencyBrake } from '../../../../type
 import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
 import { COMPOSITE, CONVEX3CRV, WAD } from '../../../../shared/constants'
 
-import { developer } from './addCvx3Crv.kovan.config'
-import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.kovan.config'
+import { developer } from './addCvx3Crv.config'
+import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.config'
 
 /**
  * @dev This script configures the Cvx3crv price feed

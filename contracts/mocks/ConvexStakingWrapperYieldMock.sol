@@ -85,61 +85,22 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     event Withdrawn(address indexed _user, uint256 _amount, bool _unwrapped);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    constructor() ERC20('StakedConvexToken', 'stkCvx', 18) {
-        // isShutdown = false;
-        // isInit = true;
-        // curveToken = curveToken_;
-    }
-
-    function initialize(
-        address convexToken_,
+    constructor(address convexToken_,
         address convexPool_,
         uint256 poolId_,
         address join_,
         ICauldron cauldron_,
-        address crv_,
-        address cvx_
-    ) public {
+        address crv_) ERC20('StakedConvexToken', 'stkCvx', 18) {
         convexToken = convexToken_;
         convexPool = convexPool_;
         convexPoolId = poolId_;
         collateralVault = join_; //TODO: Add the join address
         cauldron = cauldron_;
         crv = crv_;
-        cvx = cvx_;
+        cvx = convexToken_;
         setApprovals();
         addRewards();
     }
-
-    // function deposit(uint256 _amount, address _to) external {
-    //     if (_amount > 0) {
-    //         _mint(_to, _amount);
-    //         // IERC20(curveToken).safeTransferFrom(msg.sender, address(this), _amount);
-    //     }
-    // }
-
-    // function stake(uint256 _amount, address _to) external {
-    //     if (_amount > 0) {
-    //         _mint(_to, _amount);
-    //         // IERC20(convexToken).safeTransferFrom(msg.sender, address(this), _amount);
-    //     }
-    // }
-
-    // function withdraw(uint256 _amount) external {
-    //     if (_amount > 0) {
-    //         _burn(msg.sender, _amount);
-    //         // IRewardStaking(convexPool).withdraw(_amount, false);
-    //         // IERC20(convexToken).safeTransfer(msg.sender, _amount);
-    //     }
-    // }
-
-    // function withdrawAndUnwrap(uint256 _amount) external {
-    //     if (_amount > 0) {
-    //         _burn(msg.sender, _amount);
-    //         // IRewardStaking(convexPool).withdrawAndUnwrap(_amount, false);
-    //         // IERC20(curveToken).safeTransfer(msg.sender, _amount);
-    //     }
-    // }
 
     function setCauldron(ICauldron _cauldron) external {
         cauldron = _cauldron;
@@ -185,7 +146,7 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
         uint256[2] memory depositedBalance;
         depositedBalance[0] = _getDepositedBalance(_accounts[0]); //only do first slot
 
-        // IRewardStaking(convexPool).getReward(address(this), true);//TODO: Write mock for this
+        IRewardStaking(convexPool).getReward(address(this), true);
 
         uint256 rewardCount = rewards.length;
         for (uint256 i = 0; i < rewardCount; i++) {

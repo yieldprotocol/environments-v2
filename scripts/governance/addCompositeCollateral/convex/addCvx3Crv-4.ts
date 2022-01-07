@@ -12,7 +12,7 @@ import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addI
 
 import { IOracle, Cauldron, Ladle, Witch, Wand, Timelock, EmergencyBrake } from '../../../../typechain'
 
-import { developer, compositeLimits, seriesIlks } from './addCvx3Crv.kovan.config'
+import { developer, compositeLimits, seriesIlks } from './addCvx3Crv.config'
 
 /**
  * @dev This script adds ENS as an ilk to the Yield Protocol

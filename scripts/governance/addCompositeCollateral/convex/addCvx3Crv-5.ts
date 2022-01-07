@@ -8,8 +8,8 @@ import {
 import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
 import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
 import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
-import { ConvexStakingWrapperYieldMock, EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
-import { developer, assets } from './addCvx3Crv.kovan.config'
+import { EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
+import { developer, assets } from './addCvx3Crv.config'
 
 /**
  * @dev This script:
@@ -19,7 +19,7 @@ import { ConvexStakingWrapperYield } from '../../../../typechain/ConvexStakingWr
 import { CVX3CRV } from '../../../../shared/constants'
 import { pointCollateralVaultProposal } from '../../../fragments/utils/pointCollateralVaultProposal'
 import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orchestrateConvexWrapperProposal'
-import { initializeConvexWrapper } from '../../../fragments/utils/initializeConvexWrapper'
+
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
@@ -46,11 +46,6 @@ import { initializeConvexWrapper } from '../../../fragments/utils/initializeConv
     governance.get('cloak') as string,
     ownerAcc
   )) as unknown as EmergencyBrake
-  const convexStakingWrapperYieldMock = (await ethers.getContractAt(
-    'ConvexStakingWrapperYieldMock',
-    protocol.get('convexStakingWrapperYield') as string,
-    ownerAcc
-  )) as unknown as ConvexStakingWrapperYieldMock
 
   const join = (await ethers.getContractAt('Join', await ladle.joins(CVX3CRV), ownerAcc)) as Join
 
@@ -62,17 +57,6 @@ import { initializeConvexWrapper } from '../../../fragments/utils/initializeConv
   )
   proposal = proposal.concat(await pointCollateralVaultProposal(convexStakingWrapperYield, join.address))
   proposal = proposal.concat(await addTokenProposal(ladle, assets.get(CVX3CRV) as string))
-  proposal = proposal.concat(
-    await initializeConvexWrapper(
-      convexStakingWrapperYieldMock,
-      assets.get(CVX3CRV) as string,
-      protocol.get('convexPoolMock') as string,
-      0,
-      join.address,
-      protocol.get('cauldron') as string,
-      protocol.get('crvMock') as string
-    )
-  )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

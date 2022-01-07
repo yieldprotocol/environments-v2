@@ -31,15 +31,14 @@ const { deployContract } = waffle
       join.address,
       protocol.get('cauldron') as string,
       protocol.get('crvMock') as string,
-      protocol.get('cvx3CrvMock') as string,
     ]
 
     convexStakingWrapperYieldMock = (await deployContract(
       ownerAcc,
-      ConvexStakingWrapperYieldMockArtifact
+      ConvexStakingWrapperYieldMockArtifact,args
     )) as ConvexStakingWrapperYieldMock
     console.log(`ConvexStakingWrapperYieldMock deployed at '${convexStakingWrapperYieldMock.address}`)
-    verify(convexStakingWrapperYieldMock.address, [])
+    verify(convexStakingWrapperYieldMock.address, args)
     protocol.set('convexStakingWrapperYield', convexStakingWrapperYieldMock.address)
     writeAddressMap('protocol.json', protocol)
   } else {

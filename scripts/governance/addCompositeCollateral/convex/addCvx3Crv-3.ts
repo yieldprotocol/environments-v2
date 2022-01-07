@@ -9,8 +9,7 @@ import {
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
 import { Wand, Timelock } from '../../../../typechain'
 import { CVX3CRV, WAD } from '../../../../shared/constants'
-import { developer } from './addCvx3Crv.kovan.config'
-import { assetsToAdd } from './addCvx3Crv.kovan.config'
+import { developer } from './addCvx3Crv.config'
 
 /**
  * @dev This script adds cvx3Crv as an asset to the Yield Protocol.
