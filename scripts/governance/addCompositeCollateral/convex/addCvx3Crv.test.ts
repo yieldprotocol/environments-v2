@@ -61,8 +61,6 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     cvx3CrvWhaleAcc
   )) as unknown as Ladle
 
-  
-
   let ladle: LadleWrapper
   ladle = new LadleWrapper(innerLadle)
 
@@ -103,7 +101,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
   const cvx3CrvBalanceBefore = await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)
   console.log(`${cvx3CrvBalanceBefore} cvx3Crv available`)
-  
+
   const join = (await ethers.getContractAt('Join', await ladle.joins(CVX3CRV), cvx3CrvWhaleAcc)) as Join
 
   // Batch action to build a vault & add it to the wrapper
@@ -111,7 +109,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     convexStakingWrapperYield.address,
     '0x000000000000000000000000',
   ])
-  console.log((await crv.balanceOf(convexStakingWrapperYield.address)).toString())
+  console.log('Contract balance ' + (await crv.balanceOf(convexStakingWrapperYield.address)).toString())
   for (let seriesId of seriesIds) {
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
@@ -142,13 +140,13 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.approve(ladle.address, posted)
 
     const wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('wrap', [join.address])
-    
+
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, convexStakingWrapperYield.address, posted),
       ladle.routeAction(convexStakingWrapperYield.address, wrapCall),
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
     ])
-    
+
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
@@ -157,16 +155,15 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
     // Claim CVX & CRV reward
     await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
-    var crvAfter = (await crv.balanceOf(cvx3CrvWhaleAcc.address))
-    var cvxAfter = (await cvx.balanceOf(cvx3CrvWhaleAcc.address))
+    var crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
+    var cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     console.log('Reward Claimed')
-    console.log(crvAfter.sub(crvBefore).toString())
-    console.log(cvxAfter.sub(cvxBefore).toString())
+
     // Repay fyDai and withdraw cvx3Crv
     await fyToken.transfer(fyToken.address, borrowed)
-    
+
     const unwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('unwrap', [cvx3CrvWhale])
 
     await ladle.batch([
@@ -178,14 +175,5 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     const cvx3CrvAfter = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
     console.log(`${cvx3CrvAfter} cvx3Crv after`)
     if (cvx3CrvAfter !== cvx3CrvBefore) throw 'cvx3Crv balance mismatch'
-
-    
-    await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
-    crvAfter = ((await crv.balanceOf(cvx3CrvWhaleAcc.address)))
-    cvxAfter = ((await cvx.balanceOf(cvx3CrvWhaleAcc.address)))
-    console.log('Again claimed')
-    console.log(crvAfter.toString())
-    console.log(cvxAfter.toString())
-    console.log("Contract balance "+(await crv.balanceOf(convexStakingWrapperYield.address)).toString())
   }
 })()
