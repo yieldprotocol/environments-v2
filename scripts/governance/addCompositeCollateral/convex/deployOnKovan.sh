@@ -2,6 +2,7 @@ npx hardhat run --network localhost scripts/governance/addCompositeCollateral/co
 npx hardhat run --network localhost scripts/fragments/utils/deployCvx3CrvLadleModule.ts &&
 npx hardhat run --network localhost scripts/fragments/oracles/deployCVX3CRVOracle.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployCRVMock.ts &&
+npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployCVXMock.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployCvx3CrvMock.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployConvexPoolMock.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployConvexStakingWrapperYieldMock.ts &&

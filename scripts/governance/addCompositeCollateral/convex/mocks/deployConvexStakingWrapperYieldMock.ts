@@ -31,6 +31,7 @@ const { deployContract } = waffle
       join.address,
       protocol.get('cauldron') as string,
       protocol.get('crvMock') as string,
+      protocol.get('cvxMock') as string,
     ]
 
     convexStakingWrapperYieldMock = (await deployContract(

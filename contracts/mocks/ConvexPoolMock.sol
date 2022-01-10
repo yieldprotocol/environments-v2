@@ -9,12 +9,18 @@ contract ConvexPoolMock {
     using TransferHelper for IERC20;
     IERC20 rewardToken;
     IERC20 stakingToken;
+    IERC20 cvx;
     uint256 _totalSupply;
     mapping(address => uint256) _balances;
 
-    constructor(IERC20 _rewardToken, IERC20 _stakingToken) {
+    constructor(
+        IERC20 _rewardToken,
+        IERC20 _stakingToken,
+        IERC20 cvx_
+    ) {
         rewardToken = _rewardToken;
         stakingToken = _stakingToken;
+        cvx = cvx_;
     }
 
     /// @notice Simulates getting reward tokens
@@ -23,6 +29,7 @@ contract ConvexPoolMock {
     /// @return true if reward was sent
     function getReward(address _account, bool _claimExtras) public returns (bool) {
         rewardToken.transfer(_account, 1e18); //Fixed reward transfer
+        cvx.transfer(_account, 1e18);
         return true;
     }
 

@@ -5,7 +5,7 @@ import '@yield-protocol/utils-v2/contracts/token/ERC20.sol';
 import '@yield-protocol/vault-interfaces/DataTypes.sol';
 import '@yield-protocol/utils-v2/contracts/token/TransferHelper.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-
+import 'hardhat/console.sol';
 struct Balances {
     uint128 art; // Debt amount
     uint128 ink; // Collateral amount
@@ -85,19 +85,22 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     event Withdrawn(address indexed _user, uint256 _amount, bool _unwrapped);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    constructor(address convexToken_,
+    constructor(
+        address convexToken_,
         address convexPool_,
         uint256 poolId_,
         address join_,
         ICauldron cauldron_,
-        address crv_) ERC20('StakedConvexToken', 'stkCvx', 18) {
+        address crv_,
+        address cvx_
+    ) ERC20('StakedConvexToken', 'stkCvx', 18) {
         convexToken = convexToken_;
         convexPool = convexPool_;
         convexPoolId = poolId_;
         collateralVault = join_; //TODO: Add the join address
         cauldron = cauldron_;
         crv = crv_;
-        cvx = convexToken_;
+        cvx = cvx_;
         setApprovals();
         addRewards();
     }
@@ -121,6 +124,7 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     function wrap(address _to) external {
         uint256 amount_ = IERC20(convexToken).balanceOf(address(this));
         require(amount_ > 0, 'No cvx3CRV to wrap');
+        _checkpoint([address(0), tx.origin]);
         _mint(_to, amount_);
         IRewardStaking(convexPool).stake(amount_);
         emit Deposited(msg.sender, _to, amount_, false);
@@ -129,6 +133,7 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     function unwrap(address to_) external {
         uint256 amount_ = _balanceOf[address(this)];
         require(amount_ > 0, 'No wcvx3CRV to unwrap');
+        _checkpoint([address(0), to_]);
         _burn(address(this), amount_);
         IRewardStaking(convexPool).withdraw(amount_, false);
         IERC20(convexToken).safeTransfer(to_, amount_);
@@ -139,6 +144,24 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
     function getReward(address _account) external {
         //claim directly in checkpoint logic to save a bit of gas
         _checkpointAndClaim([_account, address(0)]);
+    }
+
+    function _checkpoint(address[2] memory _accounts) internal {
+        //if shutdown, no longer checkpoint in case there are problems
+        // if (isShutdown) return;
+
+        uint256 supply = _totalSupply;
+        uint256[2] memory depositedBalance;
+        depositedBalance[0] = _getDepositedBalance(_accounts[0]);
+        depositedBalance[1] = _getDepositedBalance(_accounts[1]);
+
+        IRewardStaking(convexPool).getReward(address(this), true);
+
+        uint256 rewardCount = rewards.length;
+        for (uint256 i = 0; i < rewardCount; i++) {
+            _calcRewardIntegral(i, _accounts, depositedBalance, supply, false);
+        }
+        _calcCvxIntegral(_accounts, depositedBalance, supply, false);
     }
 
     function _checkpointAndClaim(address[2] memory _accounts) internal {
@@ -187,6 +210,8 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
         bool _isClaim
     ) internal {
         uint256 bal = IERC20(cvx).balanceOf(address(this));
+        console.log('balance', bal);
+        console.log('cvx_reward_remaining', cvx_reward_remaining);
         uint256 d_cvxreward = bal - cvx_reward_remaining;
 
         if (_supply > 0 && d_cvxreward > 0) {
@@ -200,14 +225,18 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
             if (_accounts[u] == collateralVault) continue;
 
             uint256 userI = cvx_reward_integral_for[_accounts[u]];
+            console.log('userI',userI);
+            console.log('cvx_reward_integral',cvx_reward_integral);
+            console.log('balances',_balances[u]);
             if (_isClaim || userI < cvx_reward_integral) {
                 uint256 receiveable = cvx_claimable_reward[_accounts[u]] +
                     ((_balances[u] * (cvx_reward_integral - userI)) / 1e20);
+                console.log('receiveable', receiveable);
                 if (_isClaim) {
                     if (receiveable > 0) {
                         cvx_claimable_reward[_accounts[u]] = 0;
                         IERC20(cvx).safeTransfer(_accounts[u], receiveable);
-                        bal = bal - (receiveable);
+                        bal = bal - receiveable;
                     }
                 } else {
                     cvx_claimable_reward[_accounts[u]] = receiveable;
@@ -304,5 +333,20 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
 
     function point(address join_) public {
         collateralVault = join_;
+    }
+
+    function _transfer(
+        address src,
+        address dst,
+        uint256 wad
+    ) internal override returns (bool) {
+        _checkpoint([address(0), tx.origin]);
+        // _checkpoint([src, dst]);
+        return super._transfer(src, dst, wad);
+    }
+
+    function user_checkpoint(address[2] calldata _accounts) external returns (bool) {
+        _checkpoint([_accounts[0], _accounts[1]]);
+        return true;
     }
 }

@@ -18,7 +18,11 @@ const { deployContract } = waffle
   const protocol = readAddressMappingIfExists('protocol.json')
   let convexPoolMock: ConvexPoolMock
   if (protocol.get('convexPoolMock') === undefined) {
-    const args = [protocol.get('crvMock') as string, protocol.get('cvx3CrvMock') as string]
+    const args = [
+      protocol.get('crvMock') as string,
+      protocol.get('cvx3CrvMock') as string,
+      protocol.get('cvxMock') as string,
+    ]
     convexPoolMock = (await deployContract(ownerAcc, ConvexPoolMockArtifact, args)) as ConvexPoolMock
     console.log(`ConvexPoolMock deployed at '${convexPoolMock.address}`)
     verify(convexPoolMock.address, args)
