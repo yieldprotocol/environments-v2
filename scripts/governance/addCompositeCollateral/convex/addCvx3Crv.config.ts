@@ -21,6 +21,21 @@ export const developer: Map<number, string> = new Map([
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
+export const cvx3CrvAddress = new Map([
+  [1, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'],
+  [42, protocol.get('cvx3CrvMock') as string],
+]) // https://cvx3Crv.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
+
+export const crvAddress = new Map([
+  [1, '0xd533a949740bb3306d119cc777fa900ba034cd52'],
+  [42, protocol.get('crvMock') as string],
+])
+
+export const cvxAddress = new Map([
+  [1, '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b'],
+  [42, protocol.get('cvxMock') as string],
+])
+
 export const assets: Map<string, string> = new Map([
   [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
   [DAI, '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
