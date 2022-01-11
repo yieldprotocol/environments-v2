@@ -5,7 +5,7 @@ import '@yield-protocol/utils-v2/contracts/token/ERC20.sol';
 import '@yield-protocol/vault-interfaces/DataTypes.sol';
 import '@yield-protocol/utils-v2/contracts/token/TransferHelper.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-import 'hardhat/console.sol';
+
 struct Balances {
     uint128 art; // Debt amount
     uint128 ink; // Collateral amount
@@ -210,8 +210,6 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
         bool _isClaim
     ) internal {
         uint256 bal = IERC20(cvx).balanceOf(address(this));
-        console.log('balance', bal);
-        console.log('cvx_reward_remaining', cvx_reward_remaining);
         uint256 d_cvxreward = bal - cvx_reward_remaining;
 
         if (_supply > 0 && d_cvxreward > 0) {
@@ -225,13 +223,9 @@ contract ConvexStakingWrapperYieldMock is ERC20, AccessControl {
             if (_accounts[u] == collateralVault) continue;
 
             uint256 userI = cvx_reward_integral_for[_accounts[u]];
-            console.log('userI',userI);
-            console.log('cvx_reward_integral',cvx_reward_integral);
-            console.log('balances',_balances[u]);
             if (_isClaim || userI < cvx_reward_integral) {
                 uint256 receiveable = cvx_claimable_reward[_accounts[u]] +
                     ((_balances[u] * (cvx_reward_integral - userI)) / 1e20);
-                console.log('receiveable', receiveable);
                 if (_isClaim) {
                     if (receiveable > 0) {
                         cvx_claimable_reward[_accounts[u]] = 0;
