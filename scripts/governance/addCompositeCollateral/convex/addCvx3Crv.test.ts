@@ -93,7 +93,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx.mint(protocol.get('convexPoolMock') as string, ethers.utils.parseEther('100000'))
   }
 
-  await cvx3Crv.transfer(user2.address,ethers.utils.parseEther('10'))
+  await cvx3Crv.transfer(user2.address, ethers.utils.parseEther('10'))
 
   const cvx3CrvBalanceBefore = await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)
   console.log(`${cvx3CrvBalanceBefore} cvx3Crv available`)
@@ -128,11 +128,13 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
       ladle.moduleCallAction(convexLadleModule.address, addVaultCall),
     ])
 
-    await ladle.connect(user2).batch([
-      ladle.connect(user2).buildAction(seriesId, CVX3CRV),
-      ladle.connect(user2).moduleCallAction(convexLadleModule.address, addVaultCall),
-    ])
-    
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).buildAction(seriesId, CVX3CRV),
+        ladle.connect(user2).moduleCallAction(convexLadleModule.address, addVaultCall),
+      ])
+
     const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
     const vaultId = logs[logs.length - 2].args.vaultId
     const vaultId2 = logs[logs.length - 1].args.vaultId
@@ -143,7 +145,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.approve(ladle.address, posted)
     await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
-    const wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('wrap', [join.address])
+    var wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('wrap', [join.address, cvx3CrvWhale])
 
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, convexStakingWrapperYield.address, posted),
@@ -151,11 +153,15 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
     ])
 
-    await ladle.connect(user2).batch([
-      ladle.connect(user2).transferAction(cvx3Crv.address, convexStakingWrapperYield.address, posted),
-      ladle.connect(user2).routeAction(convexStakingWrapperYield.address, wrapCall),
-      ladle.connect(user2).pourAction(vaultId2, user2.address, posted, borrowed),
-    ])
+    wrapCall = convexStakingWrapperYield.interface.encodeFunctionData('wrap', [join.address, user2.address])
+
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).transferAction(cvx3Crv.address, convexStakingWrapperYield.address, posted),
+        ladle.connect(user2).routeAction(convexStakingWrapperYield.address, wrapCall),
+        ladle.connect(user2).pourAction(vaultId2, user2.address, posted, borrowed),
+      ])
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
@@ -169,10 +175,12 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexStakingWrapperYield.connect(user2).getReward(user2.address)
     var crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
+    
     console.log('Reward Claimed')
 
     // Repay fyDai and withdraw cvx3Crv
@@ -181,7 +189,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
     var unwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('unwrap', [cvx3CrvWhale])
     var preUnwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('user_checkpoint', [
-      ['0x0000000000000000000000000000000000000000',cvx3CrvWhale],
+      ['0x0000000000000000000000000000000000000000', cvx3CrvWhale],
     ])
 
     await ladle.batch([
@@ -192,14 +200,16 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
     unwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('unwrap', [user2.address])
     preUnwrapCall = convexStakingWrapperYield.interface.encodeFunctionData('user_checkpoint', [
-      ['0x0000000000000000000000000000000000000000',user2.address],
+      ['0x0000000000000000000000000000000000000000', user2.address],
     ])
 
-    await ladle.connect(user2).batch([
-      ladle.connect(user2).routeAction(convexStakingWrapperYield.address, preUnwrapCall),
-      ladle.connect(user2).pourAction(vaultId2, convexStakingWrapperYield.address, posted.mul(-1), borrowed.mul(-1)),
-      ladle.connect(user2).routeAction(convexStakingWrapperYield.address, unwrapCall),
-    ])
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).routeAction(convexStakingWrapperYield.address, preUnwrapCall),
+        ladle.connect(user2).pourAction(vaultId2, convexStakingWrapperYield.address, posted.mul(-1), borrowed.mul(-1)),
+        ladle.connect(user2).routeAction(convexStakingWrapperYield.address, unwrapCall),
+      ])
 
     console.log(`repaid and withdrawn`)
     const cvx3CrvAfter = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
@@ -212,17 +222,19 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
     crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
-    console.log('Claimed leftover reward')
 
     crvBefore = await crv.balanceOf(user2.address)
     cvxBefore = await cvx.balanceOf(user2.address)
     await convexStakingWrapperYield.getReward(user2.address)
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
+    
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     console.log('Claimed leftover reward')
   }
+  
 })()
