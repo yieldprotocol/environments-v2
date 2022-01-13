@@ -27,6 +27,7 @@ export const YVDAI  = ethers.utils.formatBytes32String('08').slice(0, 14)
 //      https://etherscan.io/token/0x5f18c75abdae578b483e5f43f12a39cf75b973a9 <<NOT USING THIS ONE
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI    = ethers.utils.formatBytes32String('10').slice(0, 14)
+export const MKR    = ethers.utils.formatBytes32String('11').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -50,8 +51,10 @@ export const FYETH2203  = ethers.utils.formatBytes32String('0005').slice(0, 14) 
 export const FYETH2206  = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
 export const FYDAI2112  = ethers.utils.formatBytes32String('0104').slice(0, 14)
 export const FYDAI2203  = ethers.utils.formatBytes32String('0105').slice(0, 14)
+export const FYDAI2206  = ethers.utils.formatBytes32String('0106').slice(0, 14)
 export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
+export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 
 export const YSDAI6MMS  = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD  = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
@@ -63,7 +66,8 @@ export const YSETH6MJD  = 'YSETH6MJD' // Yield Strategy ETH 6M Jun Dec
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
-export const k = ONE64.div(secondsInTenYears)
+export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
+export const ts = ONE64.div(secondsIn25Years)
 
 export const g0 = ONE64 // No fees
 export const g1 = ONE64.mul(950).div(1000) // Sell base to the pool
@@ -71,4 +75,7 @@ export const g2 = ONE64.mul(1000).div(950) // Sell fyToken to the pool
 
 export const CHI  = ethers.utils.formatBytes32String('CHI').slice(0, 14)
 export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
+export const G1  = ethers.utils.formatBytes32String('g1')
+export const G2  = ethers.utils.formatBytes32String('g2')
+export const TS  = ethers.utils.formatBytes32String('ts')
 

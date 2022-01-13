@@ -10,6 +10,8 @@ const proposal: Array<{ target: string; data: string }> = []
 for (let [seriesId, ilkIds] of seriesIlks) {
   const symbol = bytesToString(seriesId)
 
+  const series = await cauldron.series(seriesId)
+  console.log(`Updating ${seriesId} (${series})`)
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addIlks', [seriesId, ilkIds]),

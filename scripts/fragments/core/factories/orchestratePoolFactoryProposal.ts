@@ -20,7 +20,10 @@ export const orchestratePoolFactoryProposal = async (
   proposal.push({
     target: poolFactory.address,
     data: poolFactory.interface.encodeFunctionData('grantRoles', [
-      [id(poolFactory.interface, 'setParameter(bytes32,int128)')],
+      [
+        id(poolFactory.interface, 'setParameter(bytes32,int128)'),
+        id(poolFactory.interface, 'createPool(address,address)'),
+      ],
       timelock.address,
     ]),
   })

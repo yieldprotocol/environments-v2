@@ -24,6 +24,6 @@ const { deployContract } = waffle
     await aggregator.deployed()
     console.log(`Mock Chainlink aggregator deployed at ${aggregator.address}`)
     verify(aggregator.address, args)
-    // await aggregator.set(value) // Set this to a relistic value for each aggregator
+    // await aggregator.set('598100000000000000') // Set this to a relistic value for each aggregator
     return aggregator
 })()
