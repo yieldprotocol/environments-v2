@@ -46,3 +46,5 @@ crytic-export/
 
 # Typescript
 dist/
+
+addresses/localhost/

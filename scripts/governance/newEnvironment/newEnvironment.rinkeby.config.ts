@@ -19,6 +19,12 @@ export const whales: Map<string, string> = new Map([
   [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
+export const additionalDevelopers: Array<string> = []
+export const additionalGovernors: Array<string> = [
+  '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A',
+  '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
+]
+
 export const assets: Map<string, string> = new Map([
   [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
   [DAI,    '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
@@ -29,6 +35,7 @@ export const assets: Map<string, string> = new Map([
   [LINK,   '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
   [ENS,    '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
   [UNI,    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
+  [YVUSDC, '0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -57,6 +64,11 @@ export const uniswapSources: Array<[string, string, string, number]> = [] // We 
 // The lidoSource is the wstETH contract
 export const lidoSource = assets.get(WSTETH) as string
 
+// underlying, yvToken, address
+export const yearnSources: Array<[string, string, string]> = [
+  [USDC, YVUSDC,  assets.get(YVUSDC) as string]
+]
+
 export const compositeSources: Array<[string, string, string]> = [
   [DAI,    ETH,   protocol.get(CHAINLINK) as string],
   [USDC,   ETH,   protocol.get(CHAINLINK) as string],
@@ -83,6 +95,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [LINK,   assets.get(LINK)   as string],
   [ENS,    assets.get(ENS)    as string],
   [UNI,    assets.get(UNI)    as string],
+  [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join

@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, YEARN, YVUSDC, STETH, LINK, ENS, UNI } from '../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
 import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
@@ -8,8 +8,14 @@ import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../..
 const protocol = readAddressMappingIfExists('protocol.json');
 
 export const chainId = 1
-export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8' //0xfe90d993367bc93D171A5ED88ab460759DE2bED6
+export const deployer =  '0xC7aE076086623ecEA2450e364C838916a043F9a8' //0xfe90d993367bc93D171A5ED88ab460759DE2bED6
+
+export const additionalDevelopers: Array<string> = [
+  '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
+  '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+]
+export const additionalGovernors: Array<string> = []
 
 export const assets: Map<string, string> = new Map([
   [ETH,    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
@@ -21,6 +27,7 @@ export const assets: Map<string, string> = new Map([
   [LINK,   '0x514910771af9ca656af840dff83e8264ecf986ca'],
   [ENS,    '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
   [UNI,    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
+  [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -50,6 +57,11 @@ export const uniswapSources: Array<[string, string, string, number]> = [
 // The lidoSource is the wstETH contract
 export const lidoSource: string = assets.get(WSTETH) as string
 
+// underlying, yvToken, address
+export const yearnSources: Array<[string, string, string]> = [
+  [USDC, YVUSDC,  assets.get(YVUSDC) as string]
+]
+
 export const compositeSources: Array<[string, string, string]> = [
   [DAI,    ETH,   protocol.get(CHAINLINK) as string],
   [USDC,   ETH,   protocol.get(CHAINLINK) as string],
@@ -76,6 +88,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [LINK,   assets.get(LINK)   as string],
   [ENS,    assets.get(ENS)    as string],
   [UNI,    assets.get(UNI)    as string],
+  [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
@@ -87,17 +100,17 @@ export const bases: Array<string> = [DAI, USDC]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI,  ETH,  CHAINLINK, 1400000, 714000,  2000000,  5000, 18],
-  [DAI,  DAI,  CHAINLINK, 1000000, 1000000, 10000000, 0,    18], // Constant 1, no dust
-  [DAI,  USDC, CHAINLINK, 1330000, 751000,  100000,   5000, 18], // Via ETH
-  [DAI,  WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 18], // Via ETH
-  [DAI,  LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
-  [USDC, ETH,  CHAINLINK, 1400000, 714000,  5000000,  5000, 6],
-  [USDC, DAI,  CHAINLINK, 1330000, 751000,  100000,   5000, 6], // Via ETH
-  [USDC, USDC, CHAINLINK, 1000000, 1000000, 10000000, 0,    6], // Constant 1, no dust
-  [USDC, WBTC, CHAINLINK, 1500000, 666000,  100000,   5000, 6], // Via ETH  
-  [USDC, LINK, CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
-  [USDC, UNI,  CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
+  [DAI,  ETH,    CHAINLINK, 1400000, 714000,  2000000,  5000, 18],
+  [DAI,  DAI,    CHAINLINK, 1000000, 1000000, 10000000, 0,    18], // Constant 1, no dust
+  [DAI,  USDC,   CHAINLINK, 1330000, 751000,  100000,   5000, 18], // Via ETH
+  [DAI,  WBTC,   CHAINLINK, 1500000, 666000,  100000,   5000, 18], // Via ETH
+  [DAI,  LINK,   CHAINLINK, 1670000, 600000,  1000000,  5000, 18],
+  [USDC, ETH,    CHAINLINK, 1400000, 714000,  5000000,  5000, 6],
+  [USDC, DAI,    CHAINLINK, 1330000, 751000,  100000,   5000, 6], // Via ETH
+  [USDC, USDC,   CHAINLINK, 1000000, 1000000, 10000000, 0,    6], // Constant 1, no dust
+  [USDC, WBTC,   CHAINLINK, 1500000, 666000,  100000,   5000, 6], // Via ETH
+  [USDC, LINK,   CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
+  [USDC, UNI,    CHAINLINK, 1670000, 600000,  1000000,  5000, 6],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -108,6 +121,11 @@ export const compositeLimits: Array<[string, string, string, number, number, num
   [USDC, ENS,    COMPOSITE, 1670000, 600000, 2000000, 5000, 6],
 ]
 
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const yearnLimits: Array<[string, string, string, number, number, number, number, number]> = [
+  [USDC, YVUSDC, YEARN,     1250000, 800000, 1000000,   5000, 6],
+]
+
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
   [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2112',  'FYDAI2112'],
@@ -116,8 +134,8 @@ export const seriesDAI: Array<[string, string, number, string[], string, string]
 
 // Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
 export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
-  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2112', 'FYUSDC2112'],
-  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2203', 'FYUSDC2203'],
+  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC], 'FYUSDC2112', 'FYUSDC2112'],
+  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC], 'FYUSDC2203', 'FYUSDC2203'],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
