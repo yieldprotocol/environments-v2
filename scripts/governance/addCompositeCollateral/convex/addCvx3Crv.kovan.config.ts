@@ -26,29 +26,23 @@ function bytes6ToBytes32(x: string): string {
 const protocol = readAddressMappingIfExists('protocol.json')
 
 export const deployer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
   [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'], //Rinkeby
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'], //Kovan
 ])
 
 export const developer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
 export const cvx3CrvAddress = new Map([
-  [1, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'],
   [42, protocol.get('cvx3CrvMock') as string],
 ]) // https://cvx3Crv.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
 
 export const crvAddress = new Map([
-  [1, '0xd533a949740bb3306d119cc777fa900ba034cd52'],
   [42, protocol.get('crvMock') as string],
 ])
 
 export const cvxAddress = new Map([
-  [1, '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b'],
   [42, protocol.get('cvxMock') as string],
 ])
 

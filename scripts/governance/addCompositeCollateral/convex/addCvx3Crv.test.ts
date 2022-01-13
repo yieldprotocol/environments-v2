@@ -168,19 +168,23 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
     var crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
-
     // Claim CVX & CRV reward
     console.log('Claiming Reward')
     await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
-    await convexStakingWrapperYield.connect(user2).getReward(user2.address)
     var crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
-    
+    console.log(crvAfter.toString())
+    console.log("Earned "+crvAfter.sub(crvBefore).toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
+
+    crvBefore = await crv.balanceOf(user2.address)
+    cvxBefore = await cvx.balanceOf(user2.address)
+    await convexStakingWrapperYield.connect(user2).getReward(user2.address)
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
-    
+    console.log(crvAfter.toString())
+    console.log("Earned "+crvAfter.sub(crvBefore).toString())
     console.log('Reward Claimed')
 
     // Repay fyDai and withdraw cvx3Crv
@@ -222,7 +226,8 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexStakingWrapperYield.getReward(cvx3CrvWhaleAcc.address)
     crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
-    
+    console.log("Earned "+crvAfter.sub(crvBefore).toString())
+    console.log(crvAfter.toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
 
@@ -231,10 +236,13 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexStakingWrapperYield.getReward(user2.address)
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
-    
+    console.log("Earned "+crvAfter.sub(crvBefore).toString())
+    console.log(crvAfter.toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     console.log('Claimed leftover reward')
+    // console.log((await crv.balanceOf(join.address)).toString())
   }
-  
+  console.log("Amount CRV left in wrapper: "+(await crv.balanceOf(convexStakingWrapperYield.address)).toString())
+  console.log("Amount CVX left in wrapper: "+(await cvx.balanceOf(convexStakingWrapperYield.address)).toString())
 })()
