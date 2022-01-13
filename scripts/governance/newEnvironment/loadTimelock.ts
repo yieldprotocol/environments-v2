@@ -1,28 +1,29 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
-
-import { WETH9Mock } from '../../../typechain'
-import { ETH, WAD } from '../../../shared/constants'
-import { developer, assets } from './addEthSeries.config'
+import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../shared/helpers'
+import { WAD } from '../../../shared/constants'
+import { ERC20Mock, Pool } from '../../../typechain'
+import { whales, poolsInit } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script loads the Timelock with Ether to initialize pools and strategies
+ * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
  */
 
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-
   const governance = readAddressMappingIfExists('governance.json');
 
-  const weth = (await ethers.getContractAt(
-    'WETH9Mock',
-    (assets.get(chainId) as Map<string, string>).get(ETH) as string,
-    ownerAcc
-  )) as unknown as WETH9Mock
+  for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
+    const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
+    const pools = readAddressMappingIfExists('newPools.json');
+    const poolAddress = pools.get(seriesId) as string
 
-  await weth.deposit({ value: WAD.div(50).mul(4) })
-  await weth.transfer(governance.get('timelock') as string, WAD.div(50).mul(4))
+    const pool = (await ethers.getContractAt('Pool', poolAddress, whaleAcc)) as Pool
+    const baseAddress = await pool.base()
+
+    const base = (await ethers.getContractAt('ERC20Mock', baseAddress, whaleAcc)) as unknown as ERC20Mock
+    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount))
+    console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
+  }
 })()

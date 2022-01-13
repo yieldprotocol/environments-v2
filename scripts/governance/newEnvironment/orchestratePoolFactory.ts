@@ -1,22 +1,22 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
+import { orchestratePoolFactoryProposal } from '../../fragments/core/factories/orchestratePoolFactoryProposal'
+
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { WAD } from '../../../shared/constants'
+import { PoolFactory } from '../../../typechain'
 import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script orchestratese the Cloak
+ * @dev This script orchestrates the Factories
  */
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
-  let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
-
+  let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json');
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
@@ -29,8 +29,15 @@ import { deployer, developer } from './newEnvironment.rinkeby.config'
     ownerAcc
   )) as unknown as Timelock
 
+  const poolFactory = ((await ethers.getContractAt(
+    'PoolFactory',
+    protocol.get('poolFactory') as string,
+    ownerAcc
+  )) as unknown) as PoolFactory
+
   // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await orchestrateCloakProposal(deployer as string, timelock, cloak)
+  let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await orchestratePoolFactoryProposal(deployer as string, poolFactory, timelock, cloak))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

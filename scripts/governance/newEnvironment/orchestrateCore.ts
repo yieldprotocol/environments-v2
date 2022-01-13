@@ -4,11 +4,9 @@ import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonat
 import { orchestrateCauldronProposal } from '../../fragments/core/orchestrateCauldronProposal'
 import { orchestrateLadleProposal } from '../../fragments/core/orchestrateLadleProposal'
 import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchProposal'
-import { orchestrateWandProposal } from '../../fragments/core/orchestrateWandProposal'
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { Cauldron, Ladle, Witch, Wand } from '../../../typechain'
-import { JoinFactory, FYTokenFactory, PoolFactory } from '../../../typechain'
+import { Cauldron, Ladle, Witch } from '../../../typechain'
 import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
@@ -48,34 +46,12 @@ import { deployer, developer } from './newEnvironment.rinkeby.config'
     protocol.get('witch') as string,
     ownerAcc
   )) as unknown as Witch
-  const wand = (await ethers.getContractAt(
-    'Wand',
-    protocol.get('wand') as string,
-    ownerAcc
-  )) as unknown as Wand
-
-  const joinFactory = ((await ethers.getContractAt(
-    'JoinFactory',
-    protocol.get('joinFactory') as string,
-    ownerAcc
-  )) as unknown) as JoinFactory
-  const fyTokenFactory = ((await ethers.getContractAt(
-    'FYTokenFactory',
-    protocol.get('fyTokenFactory') as string,
-    ownerAcc
-  )) as unknown) as FYTokenFactory
-  const poolFactory = ((await ethers.getContractAt(
-    'PoolFactory',
-    protocol.get('poolFactory') as string,
-    ownerAcc
-  )) as unknown) as PoolFactory
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateCauldronProposal(deployer as string, cauldron, timelock, cloak))
   proposal = proposal.concat(await orchestrateLadleProposal(deployer as string, cauldron, ladle, timelock, cloak))
   proposal = proposal.concat(await orchestrateWitchProposal(deployer as string, cauldron, witch, timelock, cloak))
-  proposal = proposal.concat(await orchestrateWandProposal(deployer as string, cauldron, ladle, wand, joinFactory, fyTokenFactory, poolFactory, timelock, cloak))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

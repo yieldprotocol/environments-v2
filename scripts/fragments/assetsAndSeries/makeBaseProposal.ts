@@ -21,11 +21,11 @@ export const makeBaseProposal = async (
   ladle: Ladle,
   witch: Witch,
   cloak: EmergencyBrake,
-  bases: Array<string>
+  bases: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>>  => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let assetId of bases) {
-    const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)) as Join
+  for (let [assetId, joinAddress] of bases) {
+    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
     proposal.push({

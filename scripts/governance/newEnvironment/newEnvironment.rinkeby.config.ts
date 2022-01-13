@@ -1,15 +1,23 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI } from '../../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
-import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
+import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND } from '../../../shared/constants'
+import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../shared/constants'
+import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../shared/constants'
+import { WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
+const joins = readAddressMappingIfExists('joins.json');
+const fyTokens = readAddressMappingIfExists('fyTokens.json');
+
 
 export const chainId = 4
 export const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const whales: Map<string, string> = new Map([
+  [DAI,  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+])
 
 export const assets: Map<string, string> = new Map([
   [ETH,    '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
@@ -82,7 +90,11 @@ export const assetsToReserve: Array<[string, string]> = [
   [STETH, assets.get(STETH) as string]
 ]
 
-export const bases: Array<string> = [DAI, USDC]
+// Assets that will be made into a base
+export const bases: Array<[string, string]> = [
+  [DAI, joins.get(DAI) as string],
+  [USDC, joins.get(USDC) as string]
+]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
@@ -124,17 +136,47 @@ export const compositeAuctionLimits: Array<[string, number, number, number, numb
   [ENS,    3600, 600000, 2000000, 300,   18],
 ]
 
-// Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
-export const seriesDAI: Array<[string, string, number, string[], string, string]> = [
-  [FYDAI2112,  DAI,  EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2112',  'FYDAI2112'],
-  [FYDAI2203,  DAI,  EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYDAI2203',  'FYDAI2203'],
+// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
+  [FYDAI2203,  DAI,  protocol.get(COMPOUND) as string, joins.get(DAI) as string,  EOMAR22, 'FYDAI2203',  'FYDAI2203'],
+  [FYUSDC2203, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOMAR22, 'FYUSDC2203', 'FYUSDC2203'],
+  [FYDAI2206,  DAI,  protocol.get(COMPOUND) as string, joins.get(DAI) as string,  EOJUN22, 'FYDAI2206',  'FYDAI2206'],
+  [FYUSDC2206, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOJUN22, 'FYUSDC2206', 'FYUSDC2206'],
 ]
 
-// Input data: seriesId, baseId, maturity, [ilkIds], symbol, name
-export const seriesUSDC: Array<[string, string, number, string[], string, string]> = [
-  [FYUSDC2112, USDC, EODEC21, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2112', 'FYUSDC2112'],
-  [FYUSDC2203, USDC, EOMAR22, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI], 'FYUSDC2203', 'FYUSDC2203'],
+// seriesId, accepted ilks
+export const seriesIlks: Array<[string, string[]]> = [
+  [FYDAI2203,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYDAI2206,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
+
+// seriesId, fyTokenAddress
+export const poolData: Array<[string, string]> = [
+  [FYDAI2203,  fyTokens.get(FYDAI2203) as string],
+  [FYUSDC2203, fyTokens.get(FYUSDC2203) as string],
+  [FYDAI2206,  fyTokens.get(FYDAI2206) as string],
+  [FYUSDC2206, fyTokens.get(FYUSDC2206) as string]
+]
+
+// seriesId, initAmount
+export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
+  [FYDAI2203,  DAI, WAD.mul(100),  WAD.mul(32)],
+  [FYUSDC2203, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+  [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(32)],
+  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+]
+
+// g1, g2
+export const poolFees: [BigNumber, BigNumber] = [
+  ONE64.mul(75).div(100), // Sell base to the pool
+  ONE64.mul(100).div(75), // Sell fyToken to the pool
+]
+
+// Time stretch to be set in the PoolFactory prior to pool deployment
+export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
+
 
 export const strategiesData: Array<[string, string, string]> = [
   // name, symbol, baseId
@@ -148,15 +190,8 @@ export const strategiesData: Array<[string, string, string]> = [
 export const strategiesInit: Array<[string, string, BigNumber]> = [
   // [strategyId, startPoolId, initAmount]
   [YSDAI6MMS,  FYDAI2203,  WAD.mul(100)],
-  [YSDAI6MJD,  FYDAI2112,  WAD.mul(100)],
+  [YSDAI6MJD,  FYDAI2206,  WAD.mul(100)],
   [YSUSDC6MMS, FYUSDC2203, ONEUSDC.mul(100)],
-  [YSUSDC6MJD, FYUSDC2112, ONEUSDC.mul(100)],
+  [YSUSDC6MJD, FYUSDC2206, ONEUSDC.mul(100)],
 ]
 
-export const poolsInit: Array<[string, BigNumber]> = [
-  // poolId, initAmount
-  [FYDAI2203,  WAD.mul(100)],
-  [FYDAI2112,  WAD.mul(100)],
-  [FYUSDC2203, ONEUSDC.mul(100)],
-  [FYUSDC2112, ONEUSDC.mul(100)],
-]

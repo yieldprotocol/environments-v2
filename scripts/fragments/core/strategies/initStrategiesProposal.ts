@@ -5,7 +5,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { ZERO_ADDRESS, WAD } from '../../../../shared/constants'
+import { ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
 import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../../../../typechain/ERC20Mock'
@@ -40,26 +40,32 @@ export const initStrategiesProposal = async (
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setNextPool', [startPoolAddress, startPoolId]),
     })
+    console.log(`Setting ${startPoolAddress} as the next pool for ${strategyId}`)
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [strategy.address, initAmount]),
     })
+    console.log(`Transferring ${initAmount} of ${base.address} to ${strategy.address}`)
     proposal.push({
       target: strategy.address,
-      data: strategy.interface.encodeFunctionData('startPool', [0, WAD]),
+      data: strategy.interface.encodeFunctionData('startPool', [0, MAX256]),
     })
+    console.log(`Starting ${strategyId} at ${strategy.address}`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('transfer', [ZERO_ADDRESS, initAmount]), // Burn the strategy tokens minted
     })
+    console.log(`Burning strategy tokens`)
     proposal.push({
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addIntegration', [strategy.address, true]),
     })
+    console.log(`Setting ${strategyId} as an integration in the Ladle`)
     proposal.push({
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addToken', [strategy.address, true]),
     })
+    console.log(`Setting ${strategyId} as a token in the Ladle`)
   }
 
   return proposal

@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { getOriginalChainId, readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
+// import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
@@ -13,14 +13,7 @@ import { developer, deployer, chainlinkSources, assets, bases } from './newEnvir
 import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compositeAuctionLimits } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
- * Previously, the collateral should have been added as an asset with the Wand.
- * Add collateral as an asset
- * --- You are here ---
- * Add the collateral/ETH source to the Chainlink Oracle
- * Permission the collateral Join
- * Make collateral into an Ilk
- * Approve collateral as collateral for all series
+ * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
  */
 
 ;(async () => {
@@ -84,7 +77,6 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
-  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   proposal = proposal.concat(await makeIlkProposal(
     ownerAcc,

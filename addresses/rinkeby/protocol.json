@@ -38,40 +38,24 @@
       "0x401c5Cd7E99eB396d0Bb39Be955DfD8063e76676"
     ],
     [
-      "joinFactory",
-      "0xcfD2E4Bf834Df911FcB4823603b3514F8174EAb7"
-    ],
-    [
-      "fyTokenFactory",
-      "0xFf764D539C79Adfa4C849879d5C8074c228CC98c"
-    ],
-    [
       "poolFactory",
       "0x27d3B5648c6dA54cBfa3addB1f5Eadf5cE036bF1"
     ],
     [
       "cauldron",
-      "0x8390Cd98C116F269a6E6A3b50Fb03B0931423164"
+      "0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3"
     ],
     [
       "ladle",
-      "0xbC0200F0AAD7C1c0bBB1CC7885E1e796DFFac3e0"
+      "0x45f502A7358ec631c7a422270922d7dFA142cb9C"
     ],
     [
       "router",
-      "0x89d0Bb33188A107fc9361C7E577941632b76aF1D"
+      "0x9Bba4568E6246e859923C107555b6e0d64dB9708"
     ],
     [
       "witch",
-      "0x458098338c136D1c4410910e6F893316D86Ba837"
-    ],
-    [
-      "wand",
-      "0x4C486fCdc57B8DaB22beBF3EB7b388F04ed7fbf0"
-    ],
-    [
-      "lidoWrapHandler",
-      "0x80d0CfceE7dfa135189e44d617032d5A7Cc2705b"
+      "0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F"
     ]
   ]
 }
