@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { grantDevelopersProposal } from '../../fragments/permissions/grantDevelopersProposal'
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
-import { Cauldron, Ladle, Timelock, EmergencyBrake, ERC20Mock } from '../../../typechain'
+import { Timelock, EmergencyBrake } from '../../../typechain'
 import { developer, additionalDevelopers, additionalGovernors } from './newEnvironment.rinkeby.config'
 
 
@@ -16,19 +16,7 @@ import { developer, additionalDevelopers, additionalGovernors } from './newEnvir
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const deployedStrategies = readAddressMappingIfExists('strategies.json');
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

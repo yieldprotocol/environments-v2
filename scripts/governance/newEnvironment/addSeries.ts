@@ -49,7 +49,7 @@ import { developer, deployer, seriesIlks, poolsInit } from './newEnvironment.rin
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools))
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, newPools, poolsInit))
+  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

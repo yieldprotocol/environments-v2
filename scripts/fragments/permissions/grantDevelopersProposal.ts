@@ -16,8 +16,8 @@ export const grantDevelopersProposal = async (
     grantedAccounts: string[]
   ): Promise<Array<{ target: string; data: string }>>  => {
 
+  const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {
-    const proposal: Array<{ target: string; data: string }> = []
     proposal.push({
       target: timelock.address,
       data: timelock.interface.encodeFunctionData('grantRoles', [
