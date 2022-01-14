@@ -22,7 +22,6 @@ import "@yield-protocol/vault-v2/contracts/Ladle.sol";
 import "@yield-protocol/vault-v2/contracts/Witch.sol";
 import "@yield-protocol/vault-v2/contracts/Wand.sol";
 import "@yield-protocol/yieldspace-v2/contracts/Pool.sol";
-import "@yield-protocol/yieldspace-v2/contracts/PoolFactory.sol";
 import "@yield-protocol/yieldspace-v2/contracts/extensions/YieldMathExtensions.sol";
 import "@yield-protocol/yieldspace-v2/contracts/extensions/PoolView.sol";
 import "@yield-protocol/utils-v2/contracts/utils/Relay.sol";

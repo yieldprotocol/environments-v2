@@ -175,12 +175,12 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
 ]
 
-// seriesId, fyTokenAddress
-export const poolData: Array<[string, string]> = [
-  [FYDAI2203,  fyTokens.get(FYDAI2203) as string],
-  [FYUSDC2203, fyTokens.get(FYUSDC2203) as string],
-  [FYDAI2206,  fyTokens.get(FYDAI2206) as string],
-  [FYUSDC2206, fyTokens.get(FYUSDC2206) as string]
+// seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
+export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+  [FYDAI2203,  assets.get(DAI) as string,  fyTokens.get(FYDAI2203) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
+  [FYUSDC2203, assets.get(USDC) as string, fyTokens.get(FYUSDC2203) as string, ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
+  [FYDAI2206,  assets.get(DAI) as string,  fyTokens.get(FYDAI2206) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
+  [FYUSDC2206, assets.get(USDC) as string, fyTokens.get(FYUSDC2206) as string, ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)]
 ]
 
 // seriesId, initAmount
@@ -190,16 +190,6 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(32)],
   [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
 ]
-
-// g1, g2
-export const poolFees: [BigNumber, BigNumber] = [
-  ONE64.mul(75).div(100), // Sell base to the pool
-  ONE64.mul(100).div(75), // Sell fyToken to the pool
-]
-
-// Time stretch to be set in the PoolFactory prior to pool deployment
-export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
-
 
 export const strategiesData: Array<[string, string, string]> = [
   // name, symbol, baseId
