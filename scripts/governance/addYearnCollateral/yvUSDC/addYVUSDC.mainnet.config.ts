@@ -1,7 +1,5 @@
-import { readAddressMappingIfExists } from '../../../../shared/helpers'
 import { USDC, YVUSDC } from '../../../../shared/constants'
-import { YEARN } from '../../../../shared/constants'
-import { FYUSDC2112, FYUSDC2203 } from '../../../../shared/constants'
+import { FYUSDC2203, FYUSDC2206 } from '../../../../shared/constants'
 
 export const developer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const deployer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
@@ -21,14 +19,18 @@ export const assetsToAdd: Array<[string, string]> = [
   [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const yearnLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [USDC, YVUSDC, YEARN, 1250000, 800000, 1000000,  5000,    6],
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
+export const debtLimits: Array<[string, string, number, number, number, number]> = [
+  [USDC, YVUSDC, 1250000, 1000000,  5000,    6],
 ]
 
-// TODO: I couldn't find where in the newEnvironment scripts we call addIlksToSeriesProposal
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
+export const auctionLimits: Array<[string, number, number, number, number, number]> = [
+  [YVUSDC, 3600, 600000, 1000000, 2, 18],
+]
+
 // Input data: seriesId, [ilkIds]
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYUSDC2112, [YVUSDC]],
   [FYUSDC2203, [YVUSDC]],
+  [FYUSDC2206, [YVUSDC]],
 ]

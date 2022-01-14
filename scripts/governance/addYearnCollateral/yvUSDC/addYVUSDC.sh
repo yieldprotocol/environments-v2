@@ -1,19 +1,13 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network mainnet"
+RUN="npx hardhat run --network rinkeby"
 HERE=$(dirname $0)
 
-$RUN scripts/fragments/oracles/deployYearnOracle.ts
+# $RUN scripts/fragments/oracles/deployYearnOracle.ts
 
-$RUN $HERE/addYVUSDC-1.ts # Set oracles - propose
-$RUN $HERE/addYVUSDC-1.ts # Set oracles - approve
-$RUN $HERE/addYVUSDC-1.ts # Set oracles - execute
+# $RUN $HERE/addYVUSDC-1.ts # Deploy Join
 
-$RUN $HERE/addYVUSDC-2.ts # Add asset - propose
-$RUN $HERE/addYVUSDC-2.ts # Add asset - approve
-$RUN $HERE/addYVUSDC-2.ts # Add asset - execute
-
-$RUN $HERE/addYVUSDC-3.ts # Orchestrate join, make ilk, add ilk to series
-$RUN $HERE/addYVUSDC-3.ts # Orchestrate join, make ilk, add ilk to series
-$RUN $HERE/addYVUSDC-3.ts # Orchestrate join, make ilk, add ilk to series
+$RUN $HERE/addYVUSDC-2.ts # Orchestrate Join, add asset, make ilk, add ilk to series - propose
+$RUN $HERE/addYVUSDC-2.ts # Orchestrate Join, add asset, make ilk, add ilk to series - approve
+$RUN $HERE/addYVUSDC-2.ts # Orchestrate Join, add asset, make ilk, add ilk to series - execute

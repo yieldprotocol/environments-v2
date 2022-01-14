@@ -95,7 +95,7 @@ export const proposeApproveExecute = async (
   // Depending on the proposal state, propose, approve (if in a fork, impersonating the multisig), or execute
   if ((await timelock.proposals(txHash)).state === 0) {
     // Propose
-    await timelock.propose(proposal, { nonce: 613 })
+    await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
@@ -121,13 +121,13 @@ export const proposeApproveExecute = async (
       console.log(`Approved ${txHash}`)
     } else {
       // On kovan we have approval permissions
-      await timelock.approve(txHash, { nonce: 614 })
+      await timelock.approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
     // Execute
-    await timelock.execute(proposal, { nonce: 615 })
+    await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
   }
