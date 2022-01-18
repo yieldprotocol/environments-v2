@@ -3,4 +3,4 @@ npx hardhat run --network localhost scripts/governance/addCompositeCollateral/co
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployCVXMock.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployCvx3CrvMock.ts &&
 npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployConvexPoolMock.ts &&
-npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployConvexStakingWrapperYieldMock.ts
+npx hardhat run --network localhost scripts/governance/addCompositeCollateral/convex/mocks/deployConvexYieldWrapperMock.ts

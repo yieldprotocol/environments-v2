@@ -22,17 +22,17 @@ import { developer } from './addCvx3Crv.config'
 
   const governance = readAddressMappingIfExists('governance.json')
   const protocol = readAddressMappingIfExists('protocol.json')
-  const convexStakingWrapperYieldAddress: string = protocol.get('convexStakingWrapperYield') as string
+  const convexYieldWrapperAddress: string = protocol.get('convexYieldWrapper') as string
 
   const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
-  
+
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  
-  let proposal = await addAssetProposal(ownerAcc, wand, [[CVX3CRV, convexStakingWrapperYieldAddress]])
+
+  let proposal = await addAssetProposal(ownerAcc, wand, [[CVX3CRV, convexYieldWrapperAddress]])
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

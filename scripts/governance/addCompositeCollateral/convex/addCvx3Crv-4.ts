@@ -37,7 +37,7 @@ import { CVX3CRV } from '../../../../shared/constants'
 
   const governance = readAddressMappingIfExists('governance.json')
   const protocol = readAddressMappingIfExists('protocol.json')
-  const convexStakingWrapperYieldAddress: string = protocol.get('convexStakingWrapperYield') as string
+  const convexYieldWrapperAddress: string = protocol.get('convexYieldWrapper') as string
 
   const compositeOracle = (await ethers.getContractAt(
     'IOracle',
@@ -65,7 +65,7 @@ import { CVX3CRV } from '../../../../shared/constants'
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(
-    await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, [[CVX3CRV, convexStakingWrapperYieldAddress]])
+    await orchestrateAddedAssetProposal(ownerAcc, ladle, timelock, cloak, [[CVX3CRV, convexYieldWrapperAddress]])
   )
   proposal = proposal.concat(
     await makeIlkProposal(ownerAcc, compositeOracle, ladle, witch, wand, cloak, compositeLimits)
