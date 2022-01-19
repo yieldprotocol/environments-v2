@@ -16,15 +16,7 @@ $RUN $HERE/orchestrateCore.ts # orchestrate core - execute
 # Phase 5: Assets, Series, Strategies
 $RUN $HERE/deployJoins.ts # deploy joins
 $RUN $HERE/deployFYTokens.ts # deploy fyTokens
-
-# TODO: Deprecate the PoolFactory
-$RUN scripts/fragments/core/factories/deployPoolFactory.ts
-$RUN $HERE/orchestratePoolFactory.ts # orchestrate PoolFactory - propose
-$RUN $HERE/orchestratePoolFactory.ts # orchestrate PoolFactory - approve
-$RUN $HERE/orchestratePoolFactory.ts # orchestrate PoolFactory - execute
-$RUN $HERE/deployPools.ts # deploy Pools - propose
-$RUN $HERE/deployPools.ts # deploy Pools - approve
-$RUN $HERE/deployPools.ts # deploy Pools - execute
+$RUN $HERE/deployPools.ts # deploy pools
 
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - propose
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - approve

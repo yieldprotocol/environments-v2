@@ -14,18 +14,6 @@
       "0xBcdc8bad83ca8053DFA6B1CBAEB7E71699254a3b"
     ],
     [
-      "joinFactory",
-      "0x2DdAB027254452763D2301024fE1058f9410532c"
-    ],
-    [
-      "fyTokenFactory",
-      "0x21BF7B997aB272eeeBCF7086F09e6A069C3B8a38"
-    ],
-    [
-      "poolFactory",
-      "0xA37e1866CAD311B19f76a8C39370b1c4e849567e"
-    ],
-    [
       "lidoOracle",
       "0x30A947446FF5fC99ff8BAAa05688A0e57102bF61"
     ],
@@ -64,10 +52,6 @@
     [
       "witch",
       "0x149FA10132bf20C968Ef46287e8c764818B6003B"
-    ],
-    [
-      "wand",
-      "0x3379c4F4AFB1AE91eE75227B7521ef0a44315303"
     ],
     [
       "lidoWrapHandler",

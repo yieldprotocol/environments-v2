@@ -1,6 +1,32 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "base_",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IFYToken",
+        "name": "fyToken_",
+        "type": "address"
+      },
+      {
+        "internalType": "int128",
+        "name": "ts_",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "g1_",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "g2_",
+        "type": "int128"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },

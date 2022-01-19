@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Timelock, EmergencyBrake, Cauldron, Ladle, Witch, Wand, JoinFactory, FYTokenFactory, PoolFactory } from '../../../typechain'
+import { Timelock, EmergencyBrake, Cauldron, Witch } from '../../../typechain'
 
 /**
  * @dev This script orchestrates the Wand
