@@ -30,7 +30,7 @@
     "@yield-protocol/vault-v2": "0.15.0",
     "@yield-protocol/yield-liquidator-v2": "^0.0.5-rc3",
     "@yield-protocol/yieldspace-interfaces": "2.3.0-rc7",
-    "@yield-protocol/yieldspace-v2": "0.12.0",
+    "@yield-protocol/yieldspace-v2": "0.12.0-rc2",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",

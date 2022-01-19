@@ -26,18 +26,6 @@
       "0xaE956a6cB4D53a08Dc28D6B9E169e07a6e69aE1C"
     ],
     [
-      "joinFactory",
-      "0x9AB16234999393436643821d7a6d72c704Be445d"
-    ],
-    [
-      "fyTokenFactory",
-      "0x0F1c36F12FF481bD042e6316eB05cFAcd082684C"
-    ],
-    [
-      "poolFactory",
-      "0x56ef5cEd1506A841A3F9AF08667D468087EEa4db"
-    ],
-    [
       "cauldron",
       "0xF8dF50d5E8406242FF7f6c4BECE195893Ac15027"
     ],
@@ -52,10 +40,6 @@
     [
       "witch",
       "0x56b4cb5838Eb6304DF4252eb53f997bf29a7293d"
-    ],
-    [
-      "wand",
-      "0x22539EAF520BeDaA5aCC6B413340B7D88c442E98"
     ]
   ]
 }
