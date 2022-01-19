@@ -8,11 +8,12 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 
-import { ERC20Mock, Pool, FYToken, Join } from '../../../typechain'
+import { ERC20Mock, Pool, FYToken, Join, Timelock } from '../../../typechain'
 
 
 export const initPoolsProposal = async (
   ownerAcc: any,
+  timelock: Timelock,
   newPools: Map<string, string>,
   poolsInit: Array<[string, string, BigNumber, BigNumber]>
 ): Promise<Array<{ target: string; data: string }>>  => {
@@ -30,10 +31,12 @@ export const initPoolsProposal = async (
     const join: Join = (await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)) as Join
 
     // Supply pool with a hundred tokens of underlying for initialization
+    console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),
     })
+    console.log(`Transferring ${baseAmount} of ${baseId} from Timelock to Pool`)
 
     // Initialize pool
     proposal.push({
@@ -47,6 +50,7 @@ export const initPoolsProposal = async (
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
     })
+    console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
     proposal.push({
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),

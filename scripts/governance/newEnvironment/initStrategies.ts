@@ -34,7 +34,7 @@ import { developer, strategiesData, strategiesInit } from './newEnvironment.rink
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, deployedStrategies, timelock, strategiesData))
-  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, deployedStrategies, ladle, strategiesInit))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, deployedStrategies, ladle, timelock, strategiesInit))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

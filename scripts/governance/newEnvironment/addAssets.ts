@@ -7,10 +7,10 @@ import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetPropos
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 
-import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, CompoundMultiOracle } from '../../../typechain'
+import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, YearnVaultMultiOracle, CompoundMultiOracle } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
-import { developer, deployer, chainlinkSources, assets, bases } from './newEnvironment.rinkeby.config'
-import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compositeAuctionLimits } from './newEnvironment.rinkeby.config'
+import { developer, deployer, assets, bases } from './newEnvironment.rinkeby.config'
+import { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
@@ -36,6 +36,11 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
     protocol.get('compositeOracle') as string,
     ownerAcc
   )) as unknown as CompositeMultiOracle
+  const yearnOracle = (await ethers.getContractAt(
+    'YearnVaultMultiOracle',
+    protocol.get('yearnOracle') as string,
+    ownerAcc
+  )) as unknown as YearnVaultMultiOracle
   const compoundOracle = (await ethers.getContractAt(
     'CompoundMultiOracle',
     protocol.get('compoundOracle') as string,
@@ -97,6 +102,16 @@ import { chainlinkDebtLimits, chainlinkAuctionLimits, compositeDebtLimits, compo
     joins,
     compositeDebtLimits,
     compositeAuctionLimits
+  ))
+  proposal = proposal.concat(await makeIlkProposal(
+    ownerAcc,
+    yearnOracle as unknown as IOracle,
+    cauldron,
+    witch,
+    cloak,
+    joins,
+    yearnDebtLimits,
+    yearnAuctionLimits
   ))
   proposal = proposal.concat(await makeBaseProposal(
     ownerAcc,

@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI } from '../../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC } from '../../../shared/constants'
+import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../shared/constants'
 import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../shared/constants'
 import { WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../shared/constants'
@@ -133,6 +133,11 @@ export const compositeDebtLimits: Array<[string, string, number, number, number,
   [USDC, ENS,    1670000, 2000000, 5000, 6],
 ]
 
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
+export const yearnDebtLimits: Array<[string, string, number, number, number, number]> = [
+  [USDC, YVUSDC, 1250000, 1000000,  5000,    6],
+]
+
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
   [ETH,  3600, 714000,  2000000,  10000, 12],
@@ -149,6 +154,11 @@ export const compositeAuctionLimits: Array<[string, number, number, number, numb
   [ENS,    3600, 600000, 2000000, 300,   18],
 ]
 
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
+export const yearnAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [YVUSDC, 3600, 600000, 1000000, 2, 18],
+]
+
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYDAI2203,  DAI,  protocol.get(COMPOUND) as string, joins.get(DAI) as string,  EOMAR22, 'FYDAI2203',  'FYDAI2203'],
@@ -160,9 +170,9 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2203,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
   [FYDAI2206,  [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
 ]
 
 // seriesId, fyTokenAddress
