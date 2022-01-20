@@ -19,6 +19,7 @@ typechain/
 deployments/
 
 # Secret files
+.arbiscanKey
 .etherscanKey
 .infuraKey
 .mythxKey

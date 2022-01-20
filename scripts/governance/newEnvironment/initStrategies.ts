@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
 import { Ladle, Timelock } from '../../../typechain'
-import { developer, strategiesData, strategiesInit } from './newEnvironment.rinkeby.config'
+import { developer, strategiesData, strategiesInit } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 
 /**

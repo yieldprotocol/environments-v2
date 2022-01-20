@@ -3,43 +3,51 @@
   "value": [
     [
       "yieldMath",
-      "0xd851DE2eC789035B235C9F6ceb231022F9F547aa"
+      "0x371B0bA755fbab01540372d9F1E3639d8DA2167A"
     ],
     [
       "yieldMathExtensions",
-      "0xF579A9449dDE1C7A78C84540500de1A9F9fdE4c0"
+      "0x8211e026E79F697a7EC93C7642306603a711cd7b"
     ],
     [
       "poolView",
-      "0x9163d3450b268A9354D5ecFc5ccBA1dDa38f4055"
+      "0xCdebE52BbE8Fd132526bAfab95D9E7Ce78FFEbbE"
     ],
     [
       "safeERC20Namer",
-      "0x335cc59175e96572BaCE7430132AC4f00EDFaf7B"
+      "0x27b771A39aDe26edFe970f9438872a534dc3C3fD"
     ],
     [
-      "accumulatorOracle",
-      "0x4e4d5AE0240e6C2333C91C3A5c6F2403Af582d0f"
+      "timelock",
+      "0x1240F05038B7aE760007Cd2836143A94f66e86A2"
+    ],
+    [
+      "cloak",
+      "0x251bB44A398fA6a0fDE12F85F973e2183a3D7646"
     ],
     [
       "chainlinkUSDOracle",
-      "0xaE956a6cB4D53a08Dc28D6B9E169e07a6e69aE1C"
+      "0xb952fF816F0F1065D9A653D21bD4d8Ce96AE7b20"
+    ],
+    [
+      "accumulatorOracle",
+      "0x07B7e44d6A78b2cAa3246866B2c9b4d49EF8A9b0"
     ],
     [
       "cauldron",
-      "0xF8dF50d5E8406242FF7f6c4BECE195893Ac15027"
+      "0x5DcC4152b5b685e9B094705f36D672Ae5D04134f"
     ],
     [
       "ladle",
-      "0xA1781a4A44815Ce4dBEf2A5E4724B96A8129162c"
+      "0xfdf43681C87Fcb0F9B601902CC668D7E6291Ce41"
     ],
     [
       "router",
-      "0xC0932209d93DF81AdD5cC6eB8bd57f41751Df80B"
+      "0xE2a57c1C41ACe430B06e647473D7a8131D6344Ed"
     ],
     [
       "witch",
-      "0x56b4cb5838Eb6304DF4252eb53f997bf29a7293d"
+      "0xadBCeeC6387840140A6b765fdC8b32B5ad508c76"
     ]
   ]
 }

@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonat
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
-import { deployer, developer } from './newEnvironment.rinkeby.config'
+import { deployer, developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cloak
@@ -12,7 +12,6 @@ import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
 

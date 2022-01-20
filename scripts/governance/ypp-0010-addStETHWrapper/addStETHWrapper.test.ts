@@ -30,8 +30,7 @@ describe('LidoWrapHandler', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
-    const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+      const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
   
     const developer = new Map([
       [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],

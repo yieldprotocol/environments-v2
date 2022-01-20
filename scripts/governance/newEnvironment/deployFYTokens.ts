@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployFYTokens } from '../../fragments/assetsAndSeries/deployFYTokens'
 import { SafeERC20Namer, Timelock } from '../../../typechain'
-import { developer, fyTokenData } from './newEnvironment.rinkeby.config'
+import { developer, fyTokenData } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys two strategies to be used for Ether
@@ -11,7 +11,6 @@ import { developer, fyTokenData } from './newEnvironment.rinkeby.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 

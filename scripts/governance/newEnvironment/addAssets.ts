@@ -9,8 +9,8 @@ import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBasePropos
 
 import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, YearnVaultMultiOracle, CompoundMultiOracle } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
-import { developer, deployer, assets, bases } from './newEnvironment.rinkeby.config'
-import { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } from './newEnvironment.rinkeby.config'
+import { developer, deployer, assets, bases } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
@@ -18,7 +18,6 @@ import { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuc
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 

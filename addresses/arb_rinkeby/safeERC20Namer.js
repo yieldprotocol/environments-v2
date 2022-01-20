@@ -1,1 +1,1 @@
-module.exports = { SafeERC20Namer: "0x335cc59175e96572BaCE7430132AC4f00EDFaf7B" }
+module.exports = { SafeERC20Namer: "0x27b771A39aDe26edFe970f9438872a534dc3C3fD" }
