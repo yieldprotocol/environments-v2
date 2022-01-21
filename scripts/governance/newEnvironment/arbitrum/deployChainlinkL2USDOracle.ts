@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
 
-import { deployChainlinkUSDOracle } from '../../../fragments/oracles/deployChainlinkUSDOracle'
-
+import { deployChainlinkL2USDOracle } from '../../../fragments/oracles/deployChainlinkL2USDOracle'
+import { CHAINLINKUSD } from '../../../../shared/constants'
 import { Timelock } from '../../../../typechain'
 import { developer } from './newEnvironment.arb_rinkeby.config'
 
@@ -23,8 +23,9 @@ import { developer } from './newEnvironment.arb_rinkeby.config'
     ownerAcc
   )) as unknown as Timelock
 
-  const chainlinkUSDOracle = await deployChainlinkUSDOracle(ownerAcc, timelock, protocol)
-  protocol.set('chainlinkUSDOracle', chainlinkUSDOracle.address)
+  // We are deploying an L2 oracle, but we treat it as the original L1 throughout the code
+  const chainlinkUSDOracle = await deployChainlinkL2USDOracle(ownerAcc, timelock, protocol)
+  protocol.set(CHAINLINKUSD, chainlinkUSDOracle.address)
 
 
   writeAddressMap('protocol.json', protocol);

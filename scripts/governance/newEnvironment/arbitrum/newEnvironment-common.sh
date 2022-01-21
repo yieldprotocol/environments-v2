@@ -5,10 +5,10 @@ RUN="npx hardhat run --network arb_rinkeby"
 HERE=$(dirname $0)
 
 # Phase 1: Libraries
-# $RUN $HERE/../deployYieldMath.ts
-# $RUN $HERE/../deployYieldMathExtensions.ts
-# $RUN $HERE/../deployPoolView.ts
-# $RUN $HERE/../deploySafeERC20Namer.ts
+$RUN $HERE/../deployYieldMath.ts
+$RUN $HERE/../deployYieldMathExtensions.ts
+$RUN $HERE/../deployPoolView.ts
+$RUN $HERE/../deploySafeERC20Namer.ts
 
 # Phase 2: Governance
 $RUN $HERE/../deployTimelock.ts
@@ -21,7 +21,7 @@ $RUN $HERE/../grantRoles.ts # grant developer and governor roles - approve
 $RUN $HERE/../grantRoles.ts # grant developer and governor roles - execute
 
 # Phase 3: Oracles
-$RUN $HERE/deployChainlinkUSDOracle.ts # TODO: Swap for the ChainlinkL2USDOracle
+$RUN $HERE/deployChainlinkL2USDOracle.ts
 $RUN $HERE/deployAccumulatorOracle.ts
 
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - propose
