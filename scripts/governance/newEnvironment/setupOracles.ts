@@ -20,8 +20,8 @@ import { updateCompositePathsProposal } from '../../fragments/oracles/updateComp
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { ChainlinkMultiOracle, CompoundMultiOracle, CompositeMultiOracle, UniswapV3Oracle, LidoOracle, YearnVaultMultiOracle } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
-import { deployer, developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
-import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths, yearnSources } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { deployer, developer } from './newEnvironment.rinkeby.config'
+import { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths, yearnSources } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script sets up the oracles

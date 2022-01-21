@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists, impersonate } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 import { ERC20Mock } from '../../../typechain'
-import { assets, whales } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { assets, whales } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script loads the Timelock with assets to initialize strategies and pools. Only usable on forks.

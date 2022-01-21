@@ -1,11 +1,13 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { deployWitch } from '../../fragments/core/deployWitch'
+import { deployChainlinkOracle } from '../../fragments/oracles/deployChainlinkOracle'
+
+import { Timelock } from '../../../typechain'
 import { developer } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script deploys the Witch
+ * @dev This script deploys the Chainlink Oracle
  */
 
 ;(async () => {
@@ -15,8 +17,14 @@ import { developer } from './newEnvironment.rinkeby.config'
   const protocol = readAddressMappingIfExists('protocol.json');
   const governance = readAddressMappingIfExists('governance.json');
 
-  const witch = await deployWitch(ownerAcc, protocol, governance)
-  protocol.set('witch', witch.address)
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
+
+  const chainlinkOracle = await deployChainlinkOracle(ownerAcc, timelock, protocol)
+  protocol.set('chainlinkOracle', chainlinkOracle.address)
 
   writeAddressMap('protocol.json', protocol);
 })()

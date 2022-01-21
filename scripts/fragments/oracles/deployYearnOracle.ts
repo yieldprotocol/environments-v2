@@ -15,30 +15,14 @@ const { deployContract } = waffle
  * The protocol json address file is updated.
  * The Timelock gets ROOT access.
  */
-
-;(async () => {
-  const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-
+export const deployYearnOracle = async (
+  ownerAcc: any,
+  timelock: Timelock,
+  protocol: Map<string, string>,
+): Promise<YearnVaultMultiOracle> => {
   let yearnOracle: YearnVaultMultiOracle
   if (protocol.get('yearnOracle') === undefined) {
-      yearnOracle = (await deployContract(ownerAcc, YearnVaultMultiOracleArtifact)) as YearnVaultMultiOracle
+      yearnOracle = (await deployContract(ownerAcc, YearnVaultMultiOracleArtifact, [])) as YearnVaultMultiOracle
       console.log(`YearnVaultMultiOracle deployed at ${yearnOracle.address}`)
       verify(yearnOracle.address, [])
       protocol.set('yearnOracle', yearnOracle.address)
@@ -48,7 +32,9 @@ const { deployContract } = waffle
       console.log(`Reusing YearnVaultMultiOracle at ${yearnOracle.address}`)
   }
   if (!(await yearnOracle.hasRole(ROOT, timelock.address))) {
-    await yearnOracle.grantRole(ROOT, timelock.address); console.log(`yearnOracle.grantRoles(ROOT, timelock)`)
-    while (!(await yearnOracle.hasRole(ROOT, timelock.address))) { }
+      await yearnOracle.grantRole(ROOT, timelock.address); console.log(`yearnOracle.grantRoles(ROOT, timelock)`)
+      while (!(await yearnOracle.hasRole(ROOT, timelock.address))) { }
   }
-})()
+
+  return yearnOracle
+}

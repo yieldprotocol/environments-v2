@@ -5,9 +5,9 @@ RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
 
 # Phase 4: Core
-$RUN scripts/fragments/core/deployCauldron.ts
+$RUN $HERE/deployCauldron.ts
 $RUN $HERE/deployLadle.ts # deploy Ladle, using WETH9 from the config file
-$RUN scripts/fragments/core/deployWitch.ts
+$RUN $HERE/deployWitch.ts
 
 $RUN $HERE/orchestrateCore.ts # orchestrate core - propose
 $RUN $HERE/orchestrateCore.ts # orchestrate core - approve

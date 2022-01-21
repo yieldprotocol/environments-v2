@@ -5,7 +5,7 @@ import { ETH } from '../../../shared/constants'
 import { deployLadle } from '../../fragments/core/deployLadle'
 
 import { WETH9Mock } from '../../../typechain'
-import { developer, assets } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { developer, assets } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script deploys the Ladle

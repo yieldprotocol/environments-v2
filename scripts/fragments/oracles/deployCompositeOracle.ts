@@ -17,26 +17,11 @@ const { deployContract } = waffle
  * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
  * The Timelock gets access to governance functions.
  */
-
-;(async () => {
-  const chainId = await getOriginalChainId()
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-
+export const deployCompositeOracle = async (
+  ownerAcc: any,
+  timelock: Timelock,
+  protocol: Map<string, string>,
+): Promise<CompositeMultiOracle> => {
   let compositeOracle: CompositeMultiOracle
   if (protocol.get('compositeOracle') === undefined) {
       compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
@@ -52,4 +37,6 @@ const { deployContract } = waffle
       await compositeOracle.grantRole(ROOT, timelock.address); console.log(`compositeOracle.grantRoles(ROOT, timelock)`)
       while (!(await compositeOracle.hasRole(ROOT, timelock.address))) { }
   }
-})()
+
+  return compositeOracle
+}

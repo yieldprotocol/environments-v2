@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonat
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
-import { deployer, developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cloak

@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
 import { deployCauldron } from '../../fragments/core/deployCauldron'
-import { developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
+import { developer } from './newEnvironment.rinkeby.config'
 
 /**
  * @dev This script deploys the Cauldron

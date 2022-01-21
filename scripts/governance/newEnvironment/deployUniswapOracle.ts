@@ -1,11 +1,13 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
-import { deployWitch } from '../../fragments/core/deployWitch'
+import { deployUniswapOracle } from '../../fragments/oracles/deployUniswapOracle'
+
+import { Timelock } from '../../../typechain'
 import { developer } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script deploys the Witch
+ * @dev This script deploys the Uniswap Oracle
  */
 
 ;(async () => {
@@ -15,8 +17,14 @@ import { developer } from './newEnvironment.rinkeby.config'
   const protocol = readAddressMappingIfExists('protocol.json');
   const governance = readAddressMappingIfExists('governance.json');
 
-  const witch = await deployWitch(ownerAcc, protocol, governance)
-  protocol.set('witch', witch.address)
+  const timelock = (await ethers.getContractAt(
+    'Timelock',
+    governance.get('timelock') as string,
+    ownerAcc
+  )) as unknown as Timelock
+
+  const uniswapOracle = await deployUniswapOracle(ownerAcc, timelock, protocol)
+  protocol.set('uniswapOracle', uniswapOracle.address)
 
   writeAddressMap('protocol.json', protocol);
 })()
