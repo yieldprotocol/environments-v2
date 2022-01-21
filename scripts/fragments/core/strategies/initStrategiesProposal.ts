@@ -51,12 +51,12 @@ export const initStrategiesProposal = async (
       data: strategy.interface.encodeFunctionData('startPool', [0, MAX256]),
     })
     console.log(`Starting ${strategyId} at ${strategy.address}`)
-    // TODO: No idea why this reverts with an "ERC20: Insufficient balance" error
-    /* proposal.push({
+    // The fragment below only works with pools that have been initialized with underlying only
+    proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('transfer', [ZERO_ADDRESS, initAmount]), // Burn the strategy tokens minted
     })
-    console.log(`Burning strategy tokens`) */
+    console.log(`Burning strategy tokens`)
     proposal.push({
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addIntegration', [strategy.address, true]),

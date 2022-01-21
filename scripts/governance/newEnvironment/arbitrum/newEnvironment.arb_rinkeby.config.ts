@@ -4,7 +4,7 @@ import { ETH, DAI, USDC } from '../../../../shared/constants'
 import { ACCUMULATOR, RATE, CHI } from '../../../../shared/constants'
 import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../../shared/constants'
 import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../../shared/constants'
-import { WAD, ONEUSDC, ONE64, secondsIn25Years } from '../../../../shared/constants'
+import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json');
 const joins = readAddressMappingIfExists('joins.json');
@@ -101,10 +101,10 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2203,  DAI, WAD.mul(100),  WAD.mul(32)],
-  [FYUSDC2203, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
-  [FYDAI2206,  DAI, WAD.mul(100),  WAD.mul(32)],
-  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+  [FYDAI2203,  DAI,  WAD.mul(100),     ZERO],
+  [FYUSDC2203, USDC, ONEUSDC.mul(100), ZERO],
+  [FYDAI2206,  DAI,  WAD.mul(100),     ZERO],
+  [FYUSDC2206, USDC, ONEUSDC.mul(100), ZERO],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
