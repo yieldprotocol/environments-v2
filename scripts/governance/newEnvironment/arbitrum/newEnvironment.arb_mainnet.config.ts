@@ -13,11 +13,11 @@ const fyTokens = readAddressMappingIfExists('fyTokens.json');
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const additionalDevelopers: Array<string> = []
-export const additionalGovernors: Array<string> = [
+export const additionalDevelopers: Array<string> = [
   '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
   '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 ]
+export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
   [DAI,  '0xa5a33ab9063395a90ccbea2d86a62eccf27b5742'],
   [USDC, '0xba12222222228d8ba445958a75a0704d566bf2c8'],
@@ -61,19 +61,19 @@ export const bases: Array<[string, string]> = [
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI,  ETH,  1400000,  1000000,  100, 18],
+  [DAI,  ETH,  1400000, 1000000,  100, 18],
   [DAI,  DAI,  1000000, 10000000, 0,   18], // Constant 1, no dust
-  [DAI,  USDC, 1330000,  100000,   100, 18], // Via ETH
-  [USDC, ETH,  1400000,  5000000,  100, 6],
-  [USDC, DAI,  1330000,  100000,   100, 6], // Via ETH
+  [DAI,  USDC, 1330000, 100000,   100, 18], // Via ETH
+  [USDC, ETH,  1400000, 5000000,  100, 6],
+  [USDC, DAI,  1330000, 100000,   100, 6], // Via ETH
   [USDC, USDC, 1000000, 10000000, 0,   6], // Constant 1, no dust
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [ETH,  3600, 714000,  2000000,  10000, 12],
-  [DAI,  3600, 1000000, 10000000, 5000,  18],
-  [USDC, 3600, 751000,  100000,   5000,  6],
+  [ETH,  3600, 714000, 1000000, 10000, 12],
+  [DAI,  3600, 751000, 1000000, 5000,  18],
+  [USDC, 3600, 751000, 1000000, 5000,  6],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
