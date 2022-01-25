@@ -16,26 +16,11 @@ const { deployContract } = waffle
  * The protocol json address file is updated.
  * The Timelock gets ROOT access.
  */
-
-;(async () => {
-  const chainId = await getOriginalChainId()
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-
+export const deployLidoOracle = async (
+  ownerAcc: any,
+  timelock: Timelock,
+  protocol: Map<string, string>,
+): Promise<LidoOracle> => {
   let lidoOracle: LidoOracle
   if (protocol.get('lidoOracle') === undefined) {
       lidoOracle = (await deployContract(ownerAcc, LidoOracleArtifact, [bytesToBytes32(WSTETH), bytesToBytes32(STETH)])) as LidoOracle
@@ -51,4 +36,6 @@ const { deployContract } = waffle
       await lidoOracle.grantRole(ROOT, timelock.address); console.log(`lidoOracle.grantRoles(ROOT, timelock)`)
       while (!(await lidoOracle.hasRole(ROOT, timelock.address))) { }
   }
-})()
+
+  return lidoOracle
+}

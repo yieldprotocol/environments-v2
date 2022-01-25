@@ -12,20 +12,11 @@
  * @dev This script deploys the Witch
  * The Timelock gets ROOT access.
  */
- 
-;(async () => {
-  const chainId = await getOriginalChainId()
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
- 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-
+export const deployWitch = async (
+  ownerAcc: any,
+  protocol: Map<string, string>,
+  governance: Map<string, string>,
+): Promise<Witch> => {
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
@@ -53,4 +44,6 @@
     console.log(`witch.grantRoles(ROOT, timelock)`)
     while (!(await witch.hasRole(ROOT, timelock.address))) {}
   }
-})()
+
+  return witch
+}

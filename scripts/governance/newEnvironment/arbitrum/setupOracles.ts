@@ -9,11 +9,11 @@ import { updateChainlinkUSDSourcesProposal } from '../../../fragments/oracles/up
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 import { ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../shared/constants'
-import { deployer, developer } from './../newEnvironment.arb_rinkeby.config'
-import { chainlinkUSDSources, rateChiSources } from './../newEnvironment.arb_rinkeby.config'
+import { deployer, developer } from './newEnvironment.arb_rinkeby.config'
+import { chainlinkUSDSources, rateChiSources } from './newEnvironment.arb_rinkeby.config'
 
 /**
- * @dev This script orchestratese the Cloak
+ * @dev This script sets up the oracles
  */
 
 ;(async () => {
@@ -47,11 +47,11 @@ import { chainlinkUSDSources, rateChiSources } from './../newEnvironment.arb_rin
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateChainlinkUSDOracleProposal(deployer as string, chainlinkUSDOracle, timelock, cloak))
-  proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer as string, accumulatorOracle, timelock, cloak))
-  proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources as [string, string, string, string][]))
-  proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources as [string, string, string][]))
-
+  proposal = proposal.concat(await orchestrateChainlinkUSDOracleProposal(deployer, chainlinkUSDOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
+  proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
+  proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
+  
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

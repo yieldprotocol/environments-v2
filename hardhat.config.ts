@@ -115,6 +115,7 @@ function nodeUrl(network: any) {
 function arbNodeUrl(network: string) {
   switch (network) {
     case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
+    case "mainnet": return "https://arb1.arbitrum.io/rpc";
   }
   throw new Error(`Unknown arbitrum network ${network}`);
 }
@@ -179,17 +180,21 @@ module.exports = {
       chainId: 31337,
       timeout: 600000
     },
-    kovan: {
+    ropsten: {
       accounts,
-      gasPrice: 1000000000,
-      timeout: 600000,
-      url: nodeUrl('kovan')
+      url: nodeUrl('ropsten')
     },
     goerli: {
       accounts,
       gasPrice: 1000000000,
       timeout: 600000,
       url: nodeUrl('goerli'),
+    },
+    kovan: {
+      accounts,
+      gasPrice: 1000000000,
+      timeout: 600000,
+      url: nodeUrl('kovan')
     },
     rinkeby: {
       accounts,
@@ -204,15 +209,18 @@ module.exports = {
       chainId: 421611,
       timeout: 60000
     },
-    ropsten: {
-      accounts,
-      url: nodeUrl('ropsten')
-    },
     mainnet: {
       accounts,
       gasPrice: 100000000000,
       timeout: 60000000,
       url: nodeUrl('mainnet')
+    },
+    arb_mainnet: {
+      accounts,
+      url: arbNodeUrl('mainnet'),
+      gasPrice: 3000000000,
+      chainId: 42161,
+      timeout: 60000
     },
     coverage: {
       url: 'http://127.0.0.1:8555',

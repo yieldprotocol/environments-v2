@@ -14,7 +14,6 @@ const { deployContract } = waffle
 
  ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const protocol = readAddressMappingIfExists('protocol.json');

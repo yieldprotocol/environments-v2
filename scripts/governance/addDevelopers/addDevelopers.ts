@@ -15,7 +15,6 @@ import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.c
  */
  ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 

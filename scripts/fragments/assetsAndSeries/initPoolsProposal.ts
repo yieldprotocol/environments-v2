@@ -32,6 +32,7 @@ export const initPoolsProposal = async (
 
     // Supply pool with a hundred tokens of underlying for initialization
     console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)
+
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),

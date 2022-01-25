@@ -11,21 +11,11 @@ const { deployContract } = waffle
  *
  * It takes as inputs the governance json address file, which is updated.
  */
-
-;(async () => {
-  const chainId = await getOriginalChainId()
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const governance = readAddressMappingIfExists('governance.json');
-
-  const multisig = ownerAcc.address
-
+export const deployTimelock = async (
+  ownerAcc: any,
+  governance: Map<string, string>,
+): Promise<Timelock> => {
+  const multisig = governance.get('multisig') as string
   let timelock: Timelock
   if (governance.get('timelock') === undefined) {
     timelock = (await deployContract(ownerAcc, TimelockArtifact, [multisig, multisig])) as Timelock
@@ -42,4 +32,6 @@ const { deployContract } = waffle
     )) as unknown as Timelock
     console.log(`Reusing Timelock at ${timelock.address}`)
   }
-})()
+
+  return timelock
+}
