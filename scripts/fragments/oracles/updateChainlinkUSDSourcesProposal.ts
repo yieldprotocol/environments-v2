@@ -9,7 +9,7 @@ export const updateChainlinkUSDSourcesProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
     // TODO: Does the line below work in Arbitrum?
-    // if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
+    if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
     console.log(`Setting up ${sourceAddress} as the source for ${baseId}/USD at ${oracle.address}`)
 
     const aggregator = await ethers.getContractAt('AggregatorV3Interface', sourceAddress, (await ethers.getSigners())[0]) as unknown as AggregatorV3Interface
