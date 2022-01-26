@@ -7,7 +7,15 @@ import {
   getOriginalChainId,
   readAddressMappingIfExists,
 } from '../../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, Join } from '../../../../typechain'
+import {
+  ERC20Mock,
+  Cauldron,
+  Ladle,
+  FYToken,
+  CompositeMultiOracle,
+  Join,
+  ConvexModule__factory,
+} from '../../../../typechain'
 
 import { CVX3CRV, WAD } from '../../../../shared/constants'
 import { cvx3CrvAddress, crvAddress, cvxAddress } from './addCvx3Crv.config'
@@ -34,6 +42,8 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   const cvx3CrvWhaleAcc = await impersonate(cvx3CrvWhale, WAD)
 
   const user2 = await impersonate('0xd7a029db2585553978190db5e85ec724aa4df23f', WAD)
+  const rescueAccount = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
+  const deployer = await impersonate('0x3b870db67a45611CF4723d44487EAF398fAc51E3', WAD)
 
   const cvx3Crv = (await ethers.getContractAt(
     'ERC20Mock',
@@ -168,6 +178,9 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
+    if ((await cauldron.balances(vaultId2)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    if ((await cauldron.balances(vaultId2)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+    console.log('Borrowed Successfully')
     var crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
     // Claim CVX & CRV reward
@@ -175,7 +188,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexYieldWrapper.getReward(cvx3CrvWhaleAcc.address)
     var crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
-    console.log(crvAfter.toString())
+    console.log('User1 ' + crvAfter.toString())
     console.log('Earned ' + crvAfter.sub(crvBefore).toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
@@ -185,7 +198,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexYieldWrapper.connect(user2).getReward(user2.address)
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
-    console.log(crvAfter.toString())
+    console.log('User2 ' + crvAfter.toString())
     console.log('Earned ' + crvAfter.sub(crvBefore).toString())
     console.log('Reward Claimed')
 
@@ -229,7 +242,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
     console.log('Earned ' + crvAfter.sub(crvBefore).toString())
-    console.log(crvAfter.toString())
+    console.log('User1 ' + crvAfter.toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
 
@@ -239,7 +252,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
     console.log('Earned ' + crvAfter.sub(crvBefore).toString())
-    console.log(crvAfter.toString())
+    console.log('User2 ' + crvAfter.toString())
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     console.log('Claimed leftover reward')
@@ -247,4 +260,109 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   }
   console.log('Amount CRV left in wrapper: ' + (await crv.balanceOf(convexYieldWrapper.address)).toString())
   console.log('Amount CVX left in wrapper: ' + (await cvx.balanceOf(convexYieldWrapper.address)).toString())
+  console.log('Join CRV balance' + (await crv.balanceOf(join.address)).toString())
+
+  // Testing recovery of ERC20
+  var recoveryAmount = BigNumber.from(10).pow(18)
+  await cvx3Crv.transfer(convexYieldWrapper.address, recoveryAmount)
+  await convexYieldWrapper.connect(deployer).recoverERC20(cvx3Crv.address, recoveryAmount, rescueAccount.address)
+  var rescBalance = await cvx3Crv.balanceOf(rescueAccount.address)
+  if (!rescBalance.eq(recoveryAmount)) throw "Recovery didn't happen"
+
+  // Testing shutdown of contract
+  for (let seriesId of seriesIds) {
+    console.log(`series: ${seriesId}`)
+    const series = await cauldron.series(seriesId)
+    const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, cvx3CrvWhaleAcc)) as unknown as FYToken
+
+    const dust = (await cauldron.debt(series.baseId, CVX3CRV)).min
+    const ratio = (await cauldron.spotOracles(series.baseId, CVX3CRV)).ratio
+    const borrowed = BigNumber.from(10)
+      .pow(await fyToken.decimals())
+      .mul(dust)
+    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(CVX3CRV), borrowed))[0]
+      .mul(ratio)
+      .div(1000000)
+      .mul(101)
+      .div(100) // borrowed * spot * ratio * 1.01 (for margin)
+    console.log(`${posted} cvx3Crv posted`)
+    // Build vault
+    await ladle.batch([
+      ladle.buildAction(seriesId, CVX3CRV),
+      ladle.moduleCallAction(convexLadleModule.address, addVaultCall),
+    ])
+
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).buildAction(seriesId, CVX3CRV),
+        ladle.connect(user2).moduleCallAction(convexLadleModule.address, addVaultCall),
+      ])
+
+    const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
+    const vaultId = logs[logs.length - 2].args.vaultId
+    const vaultId2 = logs[logs.length - 1].args.vaultId
+    console.log(`vault: ${vaultId}`)
+    const cvx3CrvBefore = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
+
+    // Post CVX3CRV and borrow fyDAI
+    await cvx3Crv.approve(ladle.address, posted)
+    await cvx3Crv.connect(user2).approve(ladle.address, posted)
+
+    var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, cvx3CrvWhale])
+
+    await ladle.batch([
+      ladle.transferAction(cvx3Crv.address, convexYieldWrapper.address, posted),
+      ladle.routeAction(convexYieldWrapper.address, wrapCall),
+      ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
+    ])
+
+    wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, user2.address])
+
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).transferAction(cvx3Crv.address, convexYieldWrapper.address, posted),
+        ladle.connect(user2).routeAction(convexYieldWrapper.address, wrapCall),
+        ladle.connect(user2).pourAction(vaultId2, user2.address, posted, borrowed),
+      ])
+
+    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+
+    if ((await cauldron.balances(vaultId2)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    if ((await cauldron.balances(vaultId2)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+    console.log('Borrowed Successfully')
+    var crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
+    var cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+
+    await convexYieldWrapper.connect(deployer).shutdownAndRescue(rescueAccount.address)
+
+    var crvRescue = await crv.balanceOf(rescueAccount.address)
+    var cvxRescue = await cvx.balanceOf(rescueAccount.address)
+    console.log('Rescue CRV Amount: ' + crvRescue.toString())
+    console.log('Rescue CVX Amount: ' + cvxRescue.toString())
+    var rescCvx3CrvBalance = await cvx3Crv.balanceOf(rescueAccount.address)
+    console.log('Rescue cvx3CRV Amount: ' + rescCvx3CrvBalance.toString())
+
+    // Claim leftover rewards
+    crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
+    cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    await convexYieldWrapper.getReward(cvx3CrvWhaleAcc.address)
+    crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
+    cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    console.log('Earned ' + crvAfter.sub(crvBefore).toString())
+    console.log('User1 ' + crvAfter.toString())
+    if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
+    if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
+
+    crvBefore = await crv.balanceOf(user2.address)
+    cvxBefore = await cvx.balanceOf(user2.address)
+    await convexYieldWrapper.getReward(user2.address)
+    crvAfter = await crv.balanceOf(user2.address)
+    cvxAfter = await cvx.balanceOf(user2.address)
+    console.log('Earned ' + crvAfter.sub(crvBefore).toString())
+    console.log('User2 ' + crvAfter.toString())
+    if (!rescCvx3CrvBalance.eq(posted.mul(2).add(recoveryAmount))) throw 'Not rescued'
+  }
 })()

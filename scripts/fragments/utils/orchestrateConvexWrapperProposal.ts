@@ -30,6 +30,24 @@ export const orchestrateConvexWrapperProposal = async (
 
   proposal.push({
     target: convexYieldWrapper.address,
+    data: convexYieldWrapper.interface.encodeFunctionData('grantRole', [
+      id(convexYieldWrapper.interface, 'recoverERC20(address,uint256,address)'),
+      timelock.address,
+    ]),
+  })
+  console.log(`convexYieldWrapper.grantRole(recoverERC20, timelock)`)
+
+  proposal.push({
+    target: convexYieldWrapper.address,
+    data: convexYieldWrapper.interface.encodeFunctionData('grantRole', [
+      id(convexYieldWrapper.interface, 'shutdownAndRescue(address)'),
+      timelock.address,
+    ]),
+  })
+  console.log(`convexYieldWrapper.grantRole(shutdownAndRescue, timelock)`)
+
+  proposal.push({
+    target: convexYieldWrapper.address,
     data: convexYieldWrapper.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
   console.log(`convexYieldWrapper.grantRole(ROOT, cloak)`)
