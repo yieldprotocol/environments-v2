@@ -1,7 +1,5 @@
 /**
- * @dev This script tests the dust limits for one or more base/ilk pairs.
- *
- * It takes as inputs the protocol address files.
+ * @dev This script tests the witch auction limits.
  */
 
 import { ethers } from 'hardhat'
@@ -13,7 +11,7 @@ import {
   readAddressMappingIfExists
 } from '../../../shared/helpers'
 import { Witch } from '../../../typechain/Witch'
-import { newInitialOffer, developer } from './updateInitialOffer.mainnet.config'
+import { newLimits, newInitialOffer, developer } from './updateAuctions.mainnet.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -28,6 +26,22 @@ import { newInitialOffer, developer } from './updateInitialOffer.mainnet.config'
     protocol.get('witch') as string,
     ownerAcc
   )) as unknown) as Witch
+
+  console.log(`Limits:`)
+  for (let [ilkId, line, dust, dec] of newLimits) {
+    const limits = await witch.limits(ilkId)
+    if (limits.line.toString() === line.toString())
+      console.log(`${bytesToString(ilkId)} set: ${limits.line}`)
+    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.line}`)
+    if (limits.dust.toString() === dust.toString())
+      console.log(`${bytesToString(ilkId)} set: ${limits.dust}`)
+    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dust}`)
+    if (limits.dec.toString() === dec.toString())
+      console.log(`${bytesToString(ilkId)} set: ${limits.dec}`)
+    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dec}`)
+  }
+
+  console.log(`Initial Offer:`)
   for (let [ilkId, initialOffer] of newInitialOffer) {
     const ilk = await witch.ilks(ilkId)
     if (ilk.initialOffer.toString() === initialOffer.toString())

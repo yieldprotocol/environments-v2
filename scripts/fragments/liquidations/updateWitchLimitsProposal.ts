@@ -19,7 +19,7 @@ export const updateWitchLimitsProposal = async (
       target: witch.address,
       data: witch.interface.encodeFunctionData('setIlk', [ilkId, ilk.duration, ilk.initialOffer, line, dust, dec]),
     })
-    console.log(`${bytesToString(ilkId)}: ${limits.line}/${limits.dust}/${limits.dec} -> ${limits.line}/${limits.dust}/${limits.dec}`)
+    console.log(`${bytesToString(ilkId)}: ${limits.line}/${limits.dust}/${limits.dec} -> ${line}/${dust}/${dec}`)
   }
   return proposal
 }
