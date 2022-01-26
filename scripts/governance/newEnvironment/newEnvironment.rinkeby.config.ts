@@ -156,7 +156,7 @@ export const compositeAuctionLimits: Array<[string, number, number, number, numb
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
 export const yearnAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [YVUSDC, 3600, 600000, 1000000, 5000, 18],
+  [YVUSDC, 3600, 800000, 1000000, 5000, 18],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
