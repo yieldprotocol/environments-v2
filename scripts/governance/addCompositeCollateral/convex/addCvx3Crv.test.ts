@@ -271,6 +271,8 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
 
   // Testing shutdown of contract
   for (let seriesId of seriesIds) {
+    var shutDown = await convexYieldWrapper.isShutdown()
+    if (shutDown) break
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
     const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, cvx3CrvWhaleAcc)) as unknown as FYToken
@@ -351,8 +353,8 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexYieldWrapper.getReward(cvx3CrvWhaleAcc.address)
     crvAfter = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     cvxAfter = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
-    console.log('Earned ' + crvAfter.sub(crvBefore).toString())
-    console.log('User1 ' + crvAfter.toString())
+    console.log('Rescued CRV: ' + crvAfter.sub(crvBefore).toString())
+
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
 
@@ -361,8 +363,8 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await convexYieldWrapper.getReward(user2.address)
     crvAfter = await crv.balanceOf(user2.address)
     cvxAfter = await cvx.balanceOf(user2.address)
-    console.log('Earned ' + crvAfter.sub(crvBefore).toString())
-    console.log('User2 ' + crvAfter.toString())
+    console.log('Rescued CRV: ' + crvAfter.sub(crvBefore).toString())
+
     if (!rescCvx3CrvBalance.eq(posted.mul(2).add(recoveryAmount))) throw 'Not rescued'
   }
 })()
