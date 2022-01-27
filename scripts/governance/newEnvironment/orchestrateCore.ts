@@ -7,7 +7,7 @@ import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchP
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
-import { deployer, developer } from './newEnvironment.rinkeby.config'
+import { deployer, developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cauldron, Ladle, Witch and Wand

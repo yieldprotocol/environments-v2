@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 
 import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
-import { developer, strategiesData } from './newEnvironment.rinkeby.config'
+import { developer, strategiesData } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys strategies

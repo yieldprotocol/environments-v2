@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network arb_rinkeby"
+RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
 
 # Phase 1: Libraries

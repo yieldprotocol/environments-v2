@@ -49,3 +49,5 @@ crytic-export/
 dist/
 
 addresses/localhost/
+
+.idea

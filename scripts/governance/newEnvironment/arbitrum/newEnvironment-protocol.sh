@@ -1,8 +1,11 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network arb_rinkeby"
+RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
+
+# Add funds to the timelock
+$RUN $HERE/../loadTimelock.ts
 
 # Phase 4: Core
 $RUN $HERE/../deployCauldron.ts

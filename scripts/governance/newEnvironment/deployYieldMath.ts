@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployYieldMath } from '../../fragments/core/libraries/deployYieldMath'
 
-import { developer } from './newEnvironment.rinkeby.config'
+import { developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys the YieldMath

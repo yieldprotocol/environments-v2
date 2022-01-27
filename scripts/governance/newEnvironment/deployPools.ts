@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployPools } from '../../fragments/assetsAndSeries/deployPools'
 import { YieldMath } from '../../../typechain'
-import { developer, poolData } from './newEnvironment.rinkeby.config'
+import { developer, poolData } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys Pools

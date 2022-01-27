@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployYearnOracle } from '../../fragments/oracles/deployYearnOracle'
 
 import { Timelock } from '../../../typechain'
-import { developer } from './newEnvironment.rinkeby.config'
+import { developer } from './arbitrum/newEnvironment.arb_rinkeby.config'
 
 /**
  * @dev This script deploys the YearnVault Oracle
