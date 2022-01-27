@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
-import { ETH, DAI, USDC } from '../../../../shared/constants'
+import {ETH, DAI, USDC, FYETH2203, FYETH2206, YSETH6MMS, YSETH6MJD} from '../../../../shared/constants'
 import { ACCUMULATOR, RATE, CHI } from '../../../../shared/constants'
 import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../../shared/constants'
 import { YSDAI6MMS,YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../../shared/constants'
@@ -21,6 +21,7 @@ export const additionalGovernors: Array<string> = [
 export const whales: Map<string, string> = new Map([
   [DAI,  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [ETH,  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -32,8 +33,10 @@ export const assets: Map<string, string> = new Map([
 export const rateChiSources: Array<[string, string, string, string]> = [
   [DAI,  RATE, WAD.toString(), WAD.toString()],
   [USDC, RATE, WAD.toString(), WAD.toString()],
+  [ETH,  RATE, WAD.toString(), WAD.toString()],
   [DAI,  CHI,  WAD.toString(), WAD.toString()],
   [USDC, CHI,  WAD.toString(), WAD.toString()],
+  [ETH,  CHI,  WAD.toString(), WAD.toString()],
 ]
 
 export const chainlinkUSDSources: Array<[string, string, string]> = [
@@ -55,17 +58,21 @@ export const assetsToReserve: Array<[string, string]> = []
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [
   [DAI, joins.get(DAI) as string],
-  [USDC, joins.get(USDC) as string]
+  [USDC, joins.get(USDC) as string],
+  [ETH, joins.get(ETH) as string],
 ]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
   [DAI,  ETH,  1400000,  1000000,  100, 18],
-  [DAI,  DAI,  1000000, 10000000, 0,   18], // Constant 1, no dust
+  [DAI,  DAI,  1000000,  10000000, 0,   18], // Constant 1, no dust
   [DAI,  USDC, 1330000,  100000,   100, 18], // Via ETH
   [USDC, ETH,  1400000,  5000000,  100, 6],
   [USDC, DAI,  1330000,  100000,   100, 6], // Via ETH
-  [USDC, USDC, 1000000, 10000000, 0,   6], // Constant 1, no dust
+  [USDC, USDC, 1000000,  10000000, 0,   6], // Constant 1, no dust
+  [ETH,  DAI,  1400000,  10000000, 100, 18], // TODO: Is the limit in USD or ETH????
+  [ETH,  USDC, 1400000,  10000000, 100, 18], // TODO: Is the limit in USD or ETH????
+  [ETH,  ETH,  1000000,  1000000,  0,   18], // Constant 1, no dust
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -81,30 +88,38 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   [FYUSDC2203, USDC, protocol.get(ACCUMULATOR) as string, joins.get(USDC) as string, EOMAR22, 'FYUSDC2203', 'FYUSDC2203'],
   [FYDAI2206,  DAI,  protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string,  EOJUN22, 'FYDAI2206',  'FYDAI2206'],
   [FYUSDC2206, USDC, protocol.get(ACCUMULATOR) as string, joins.get(USDC) as string, EOJUN22, 'FYUSDC2206', 'FYUSDC2206'],
+  [FYETH2203,  ETH,  protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string,  EOMAR22, 'FYETH2203',  'FYETH2203'],
+  [FYETH2206,  ETH,  protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string,  EOJUN22, 'FYETH2206',  'FYETH2206'],
 ]
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2203,  [ETH, DAI, USDC]],
   [FYUSDC2203, [ETH, DAI, USDC]],
+  [FYETH2203,  [ETH, DAI, USDC]],
   [FYDAI2206,  [ETH, DAI, USDC]],
   [FYUSDC2206, [ETH, DAI, USDC]],
+  [FYETH2206,  [ETH, DAI, USDC]],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [FYDAI2203,  assets.get(DAI) as string,  fyTokens.get(FYDAI2203) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
   [FYUSDC2203, assets.get(USDC) as string, fyTokens.get(FYUSDC2203) as string, ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
+  [FYETH2203,  assets.get(ETH) as string,  fyTokens.get(FYETH2203) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
   [FYDAI2206,  assets.get(DAI) as string,  fyTokens.get(FYDAI2206) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
-  [FYUSDC2206, assets.get(USDC) as string, fyTokens.get(FYUSDC2206) as string, ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)]
+  [FYUSDC2206, assets.get(USDC) as string, fyTokens.get(FYUSDC2206) as string, ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
+  [FYETH2206,  assets.get(ETH) as string,  fyTokens.get(FYETH2206) as string,  ONE64.div(secondsIn25Years), ONE64.mul(75).div(100), ONE64.mul(100).div(75)],
 ]
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYDAI2203,  DAI,  WAD.mul(100),     ZERO],
   [FYUSDC2203, USDC, ONEUSDC.mul(100), ZERO],
+  [FYETH2203,  DAI,  WAD,                    ZERO],
   [FYDAI2206,  DAI,  WAD.mul(100),     ZERO],
   [FYUSDC2206, USDC, ONEUSDC.mul(100), ZERO],
+  [FYETH2206,  DAI,  WAD,                    ZERO],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
@@ -113,6 +128,8 @@ export const strategiesData: Array<[string, string, string]> = [
   ['Yield Strategy DAI 6M Jun Dec',  YSDAI6MJD,  DAI],
   ['Yield Strategy USDC 6M Mar Sep', YSUSDC6MMS, USDC],
   ['Yield Strategy USDC 6M Jun Dec', YSUSDC6MJD, USDC],
+  ['Yield Strategy ETH 6M Mar Sep',  YSETH6MMS,  ETH],
+  ['Yield Strategy ETH 6M Jun Dec',  YSETH6MJD,  ETH],
 ]
 
 // Input data
@@ -122,4 +139,6 @@ export const strategiesInit: Array<[string, string, BigNumber]> = [
   [YSDAI6MJD,  FYDAI2206,  WAD.mul(100)],
   [YSUSDC6MMS, FYUSDC2203, ONEUSDC.mul(100)],
   [YSUSDC6MJD, FYUSDC2206, ONEUSDC.mul(100)],
+  [YSETH6MMS,  FYETH2203,  WAD],
+  [YSETH6MJD,  FYETH2206,  WAD],
 ]
