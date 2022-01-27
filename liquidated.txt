@@ -1,0 +1,2691 @@
+No need to generate any newer typings.
+[
+  {
+    blockNumber: 13630546,
+    blockHash: '0x1f104573cf8e7bc95a575b05dcbcb2cb5441bd311ea2ee73ff15066ae2f62694',
+    transactionIndex: 12,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x7fcaa8c036ca4ec15d3a9fd10000000000000000000000000000000000000000',
+      '0x00000000000000000000000000000000000000000000000000000000619475bc'
+    ],
+    transactionHash: '0xf14a9b578e21c8f6c8a753992238c29f724b6a6734de5c88f7ad4ae5eb14e8af',
+    logIndex: 28,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x7fcaa8c036ca4ec15d3a9fd1',
+      [BigNumber],
+      vaultId: '0x7fcaa8c036ca4ec15d3a9fd1',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13666858,
+    blockHash: '0xcdd203775c8c2e25b266196eb19d0d6f0c3f6bc7d5cb968874a83dc3aeeb25cc',
+    transactionIndex: 68,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf911d6a78b16c74c2512a2890000000000000000000000000000000000000000',
+      '0x00000000000000000000000000000000000000000000000000000000619c099a'
+    ],
+    transactionHash: '0x8b4cea0c1a171c67822172fac84e3c9af5b3782c38738dfc35e1f1d311085f20',
+    logIndex: 62,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf911d6a78b16c74c2512a289',
+      [BigNumber],
+      vaultId: '0xf911d6a78b16c74c2512a289',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13734253,
+    blockHash: '0xf4da597957f40fa666a817480b5be3435adf0050edc1c7b8f4f4c730365db331',
+    transactionIndex: 157,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x2d6e3fdd05502845e2b503ab0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061aa325f'
+    ],
+    transactionHash: '0xdd59cbf56d24746db6cb472bd2830e8b71addfa7657c3a0b8ff8c6cb66289215',
+    logIndex: 315,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x2d6e3fdd05502845e2b503ab',
+      [BigNumber],
+      vaultId: '0x2d6e3fdd05502845e2b503ab',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13734577,
+    blockHash: '0x0410c3d197e6e643c55b36ebd4fbe2e0911ecbd6a9ebb907ae6e35b2d492d640',
+    transactionIndex: 57,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xce773aa5b259faf3d238fa9f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061aa444c'
+    ],
+    transactionHash: '0x7ddfcc89368b9ad865d79c524bfd0b4a8f59b163f1d28df851105d9c3118c76b',
+    logIndex: 86,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xce773aa5b259faf3d238fa9f',
+      [BigNumber],
+      vaultId: '0xce773aa5b259faf3d238fa9f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13737702,
+    blockHash: '0xec96c7163f8565d64af58b9a3746f8514e9b4df82220a66f52194a6f6084c5be',
+    transactionIndex: 54,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x2c16f3bd6274a3aa4775ec2d0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061aae97c'
+    ],
+    transactionHash: '0x91d8e017c3e8a3f86faae0961d4bc3a51a4ef4808f6909858e9ca857033fcfe1',
+    logIndex: 116,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x2c16f3bd6274a3aa4775ec2d',
+      [BigNumber],
+      vaultId: '0x2c16f3bd6274a3aa4775ec2d',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13737960,
+    blockHash: '0x7a0f2ef4918bdfae2f90d98cfa446192b927fd079503dacf291531186b289737',
+    transactionIndex: 33,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x6e7735b7d3a2b7ae2d306fb00000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061aaf8c7'
+    ],
+    transactionHash: '0x30dcdfd409568dc0de6c09fc525f7515532e38c978023643dcff351f41b0c1b2',
+    logIndex: 38,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x6e7735b7d3a2b7ae2d306fb0',
+      [BigNumber],
+      vaultId: '0x6e7735b7d3a2b7ae2d306fb0',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13737972,
+    blockHash: '0x74ce754fb3c0c574d8676ac9cc2125e79b14a556b942a973655dc9ee28e438d4',
+    transactionIndex: 13,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x61b5e1e31194f82a42c8f5ed0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061aaf92c'
+    ],
+    transactionHash: '0xc419c0956696aedc28f5dec0ba3b0af80e9f374ea12dcfbc57552082659e58fa',
+    logIndex: 55,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x61b5e1e31194f82a42c8f5ed',
+      [BigNumber],
+      vaultId: '0x61b5e1e31194f82a42c8f5ed',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13738307,
+    blockHash: '0x50ae965ed17f4d1da811e9465118f49b1ff9cb964379e6b5a5721558c87cff33',
+    transactionIndex: 468,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x89ea17518550c6bf7f928ec40000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ab0c81'
+    ],
+    transactionHash: '0xa1519dd20cbcc202a8eb96a18ae4d435c6f509546e6cfbbb06d835f1cc5c1c51',
+    logIndex: 571,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x89ea17518550c6bf7f928ec4',
+      [BigNumber],
+      vaultId: '0x89ea17518550c6bf7f928ec4',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13738307,
+    blockHash: '0x50ae965ed17f4d1da811e9465118f49b1ff9cb964379e6b5a5721558c87cff33',
+    transactionIndex: 469,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x4dad1678f210260313408de70000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ab0c81'
+    ],
+    transactionHash: '0x6cb462cd180b894ea7e2e491e1483ed9f7e372fc5d10f18c3c99a76f011ea291',
+    logIndex: 573,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x4dad1678f210260313408de7',
+      [BigNumber],
+      vaultId: '0x4dad1678f210260313408de7',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13738315,
+    blockHash: '0x607870629bac70a98f73f2a201d82a40332945875638e4ed55bf35cb4b0de460',
+    transactionIndex: 175,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x638fe71ed9a58f6642cc27f30000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ab0ce5'
+    ],
+    transactionHash: '0x50089b8cbda129d215ccb6a00676aa72f80c616c7c1bafdaf26bf428d387e546',
+    logIndex: 135,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x638fe71ed9a58f6642cc27f3',
+      [BigNumber],
+      vaultId: '0x638fe71ed9a58f6642cc27f3',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13738315,
+    blockHash: '0x607870629bac70a98f73f2a201d82a40332945875638e4ed55bf35cb4b0de460',
+    transactionIndex: 176,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x18982d40f1158fdb6086b9060000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ab0ce5'
+    ],
+    transactionHash: '0x651348b99b654635eae7e8385435811aa3b9a86354e44228ab53b619f7f46aea',
+    logIndex: 137,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x18982d40f1158fdb6086b906',
+      [BigNumber],
+      vaultId: '0x18982d40f1158fdb6086b906',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13738352,
+    blockHash: '0x0e92a745ab6f0183fba7a56fe38a193cfc5fd96335e9c50fb337c6745e660f0e',
+    transactionIndex: 89,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x4e63c3db8b818e75fb41cf2b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ab0eb4'
+    ],
+    transactionHash: '0x2379545c68aa224da241f44a474001902c5a3564f8bea744f82b6eaf69d4f2f1',
+    logIndex: 93,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x4e63c3db8b818e75fb41cf2b',
+      [BigNumber],
+      vaultId: '0x4e63c3db8b818e75fb41cf2b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13764886,
+    blockHash: '0xaa09ccc31f59a9f1c7c32b5705519a173247218d95d0a93734896b1492b27946',
+    transactionIndex: 100,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb19915eed14c3fbcb8f1246d0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061b0a969'
+    ],
+    transactionHash: '0x86cf88923db007e3c7e9b7f155b322aca6d744a463da3d309134c32762ba0877',
+    logIndex: 96,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb19915eed14c3fbcb8f1246d',
+      [BigNumber],
+      vaultId: '0xb19915eed14c3fbcb8f1246d',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 74,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x311f6610f5ef06b08c31452e0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0x776d26a5b0e9c2a1d52b23bffc22d271e296d90b6eebdcbdc99d20f7ebc2e814',
+    logIndex: 57,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x311f6610f5ef06b08c31452e',
+      [BigNumber],
+      vaultId: '0x311f6610f5ef06b08c31452e',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 75,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf5cf4b4c717f1d3f9c523d350000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0x6f5c3ad8c888d4f170be94c913308577c75f35b9d01e99ef12705af151119134',
+    logIndex: 59,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf5cf4b4c717f1d3f9c523d35',
+      [BigNumber],
+      vaultId: '0xf5cf4b4c717f1d3f9c523d35',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 76,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf3326c82eff306f7dc2c0e230000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0x7bad0ed0ede58b34302c6628efbc080f41756dc6ddb7734fb278f47dbfeeb848',
+    logIndex: 61,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf3326c82eff306f7dc2c0e23',
+      [BigNumber],
+      vaultId: '0xf3326c82eff306f7dc2c0e23',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 77,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x9b7f6e30389f946c5637a0190000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0x3725ec629c82d78a612b789b989d0d091cacbf1a723102cfc2d9ddeaecdb23fe',
+    logIndex: 63,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x9b7f6e30389f946c5637a019',
+      [BigNumber],
+      vaultId: '0x9b7f6e30389f946c5637a019',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 78,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xd62d536462cbd60def4e1b220000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0xabf20e5d545715766f41edb78ecd95bcee6f0d0b0083ef47af76197b35297899',
+    logIndex: 65,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xd62d536462cbd60def4e1b22',
+      [BigNumber],
+      vaultId: '0xd62d536462cbd60def4e1b22',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13857075,
+    blockHash: '0xacf7d39de48fdfc81dabc83d691e3299c9b4e71aa2125cd8ef7131b62b753235',
+    transactionIndex: 79,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xeaf210994a136c74f4cf7b1f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c386dd'
+    ],
+    transactionHash: '0x4b6cf641b210e14a9acd737f7588bfbd3853aebd31877cb5daf677e71f4c5b46',
+    logIndex: 67,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xeaf210994a136c74f4cf7b1f',
+      [BigNumber],
+      vaultId: '0xeaf210994a136c74f4cf7b1f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13858275,
+    blockHash: '0x25a8fd6844ab60a2354644c353ec7ad82cd65eeef778ec380ffd30648e6387bb',
+    transactionIndex: 230,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb4a6d1194ec87f3fe6c5c51f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c3c48c'
+    ],
+    transactionHash: '0x2b4339fd337f22f19693d91c8288b08232e9a3f9e2d79eb4b7f4b600c5fbef5a',
+    logIndex: 225,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb4a6d1194ec87f3fe6c5c51f',
+      [BigNumber],
+      vaultId: '0xb4a6d1194ec87f3fe6c5c51f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13858275,
+    blockHash: '0x25a8fd6844ab60a2354644c353ec7ad82cd65eeef778ec380ffd30648e6387bb',
+    transactionIndex: 231,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x8190e1eb7a15c245e69094aa0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c3c48c'
+    ],
+    transactionHash: '0xd8e672aabbec1f5b3ea5e66de138d0384097b586b187591a9b2fecef880c91c6',
+    logIndex: 227,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x8190e1eb7a15c245e69094aa',
+      [BigNumber],
+      vaultId: '0x8190e1eb7a15c245e69094aa',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13858982,
+    blockHash: '0xf81020ef45533bf088e1ff7c19f5ce5473d156c1a02c12757182bb0e18369f7d',
+    transactionIndex: 147,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x28c18980769c9e01474b89680000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061c3e9e7'
+    ],
+    transactionHash: '0xe2fa5a36080809440c162b1cedbb4730a5c096fcae6078a987b452f481969daa',
+    logIndex: 176,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x28c18980769c9e01474b8968',
+      [BigNumber],
+      vaultId: '0x28c18980769c9e01474b8968',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13894354,
+    blockHash: '0x16c12c03ca8edcc6b4b2470f80c5e6b8535bb1703895c7656f4ed752c74c5a36',
+    transactionIndex: 62,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x118ad4225136f46e08582b2f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061cb2344'
+    ],
+    transactionHash: '0x09db7a1789a996a5e7aa319c6ff79aa9acf76e4be2c47f1bd172c003916ff86f',
+    logIndex: 111,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x118ad4225136f46e08582b2f',
+      [BigNumber],
+      vaultId: '0x118ad4225136f46e08582b2f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13894792,
+    blockHash: '0x9be5aa967c9f975a358f89a53cb82bc88413cf2c8fce38871db2c895c6ce9dff',
+    transactionIndex: 58,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3e84ecb472ef1ea478aabd870000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061cb3abd'
+    ],
+    transactionHash: '0x1ddb6b9fcead1e948b1ca8ccbbda51239139c5c7ab9cc95bef38ed1329758ad2',
+    logIndex: 84,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3e84ecb472ef1ea478aabd87',
+      [BigNumber],
+      vaultId: '0x3e84ecb472ef1ea478aabd87',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13894846,
+    blockHash: '0xe55db8b923828b4148dbe91b980fa95eb3d528c9f5bb36127a2c9ce5b7e7e781',
+    transactionIndex: 193,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbf7806f7c9d47e0b7c177d9a0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061cb3d22'
+    ],
+    transactionHash: '0xb4892b44d6be714cd74d238ae4995dfc4b4cf8e95cabfba1eb992b0c2dcee807',
+    logIndex: 227,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbf7806f7c9d47e0b7c177d9a',
+      [BigNumber],
+      vaultId: '0xbf7806f7c9d47e0b7c177d9a',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13900229,
+    blockHash: '0x72fdac2c9655705c3d851237a19f1662dc57e96330baf4d5a1103a3ec42d769d',
+    transactionIndex: 46,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3ddcb12f945cd58f4acf26c70000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061cc559b'
+    ],
+    transactionHash: '0x5df0c8cafe0b3d1ac362da4ca38cfcc9ffc7d7ae67349d0bc48a1d73c22f1bbc',
+    logIndex: 39,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3ddcb12f945cd58f4acf26c7',
+      [BigNumber],
+      vaultId: '0x3ddcb12f945cd58f4acf26c7',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13903191,
+    blockHash: '0x801951abd8b33160511c2f780a583f732b57983e79ff73c85e09d6e5bd6b4891',
+    transactionIndex: 83,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x4474cfa26402c3675a516d9d0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ccee5c'
+    ],
+    transactionHash: '0x97fd943e390e22e648ff63042381f4cacacc4fc9a724b32fcc0ae783da237f1b',
+    logIndex: 138,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x4474cfa26402c3675a516d9d',
+      [BigNumber],
+      vaultId: '0x4474cfa26402c3675a516d9d',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 57,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x00cbb039b7b8103611a9717f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x3e501dc25bc03cb105c243dd136c7b973d762d9153fdcb488167bb32bddc3824',
+    logIndex: 73,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x00cbb039b7b8103611a9717f',
+      [BigNumber],
+      vaultId: '0x00cbb039b7b8103611a9717f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 58,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x5ccb62d4469f05e5722438c80000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x3c0f9bfa7feedee688d92279a869f7bf19bb9dbd49950409adb7d8591dc3344f',
+    logIndex: 75,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x5ccb62d4469f05e5722438c8',
+      [BigNumber],
+      vaultId: '0x5ccb62d4469f05e5722438c8',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 59,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xd23597d30226733db4fb6cf40000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xbf39b6bc06f5ffe1bee478927ddcddd5e5b57d00e96b0845081d9c05f19268bc',
+    logIndex: 77,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xd23597d30226733db4fb6cf4',
+      [BigNumber],
+      vaultId: '0xd23597d30226733db4fb6cf4',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 60,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3e51cc04a9c3699a39cd2bd90000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x28d8245d8c89c2ed3a5442d2ac035f4d3bdf678b3b4bf32669b0f271567bab30',
+    logIndex: 79,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3e51cc04a9c3699a39cd2bd9',
+      [BigNumber],
+      vaultId: '0x3e51cc04a9c3699a39cd2bd9',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 61,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x33511a38ea88d0fbd53f7e560000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x033dd77cb37bc9ff90bcaee99965b0393dc4008f9404e24be7712d16482319dd',
+    logIndex: 81,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x33511a38ea88d0fbd53f7e56',
+      [BigNumber],
+      vaultId: '0x33511a38ea88d0fbd53f7e56',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 62,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x43decdb33e8e2d8a176f61ab0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xca5c302d9cf3c5f1ab0565d4ec71e4ca9635781978a62c4dc6d632f24c955dd5',
+    logIndex: 83,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x43decdb33e8e2d8a176f61ab',
+      [BigNumber],
+      vaultId: '0x43decdb33e8e2d8a176f61ab',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 63,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x838207002829369952a7f4290000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x9205139d5c0d4fc9250c2c758ca07d4452aa02c159e4cec03cc9d79c6b01fe4d',
+    logIndex: 85,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x838207002829369952a7f429',
+      [BigNumber],
+      vaultId: '0x838207002829369952a7f429',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 65,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xa4e4850b34b5cc956318399e0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x4b797708d41d45586e439272f6558a161d853fd9dcdade6c929f24c66580d568',
+    logIndex: 87,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xa4e4850b34b5cc956318399e',
+      [BigNumber],
+      vaultId: '0xa4e4850b34b5cc956318399e',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 66,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf41ce1e102dbdf2e77f510990000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x4dcba617229a31728c79b982c7ee045123e5fd77f523bc6e9953ab9e046fb1a1',
+    logIndex: 89,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf41ce1e102dbdf2e77f51099',
+      [BigNumber],
+      vaultId: '0xf41ce1e102dbdf2e77f51099',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 67,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x278f72be9caef348e887e1110000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x87700600add0835059e67edf46adcffd503245c96c5ccf181f503d8b11352668',
+    logIndex: 91,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x278f72be9caef348e887e111',
+      [BigNumber],
+      vaultId: '0x278f72be9caef348e887e111',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 68,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3ecca886e2378c1da2da1c5a0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x31e87abc9f2a087baa641db5125c3d324eabfaebca838bb06b80f17b00aa700c',
+    logIndex: 93,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3ecca886e2378c1da2da1c5a',
+      [BigNumber],
+      vaultId: '0x3ecca886e2378c1da2da1c5a',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 69,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x6dba431e216a584fe809a97c0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xeda87a7a94d0386ff3cc2af4f9a62dcd265f148ee75ebcd815b2bb9eb96b3cd6',
+    logIndex: 95,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x6dba431e216a584fe809a97c',
+      [BigNumber],
+      vaultId: '0x6dba431e216a584fe809a97c',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 70,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x9e0abbd2a156b0398bc68ee10000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x37d28da8f0ad920d1df4e53ede1f9ed0a49b6abb6d1ef9cda9e658313682e225',
+    logIndex: 97,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x9e0abbd2a156b0398bc68ee1',
+      [BigNumber],
+      vaultId: '0x9e0abbd2a156b0398bc68ee1',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 71,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x24b6825ab6af1a5e1ae532990000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x3aea2cddaa7fba3c782240ff18d70c9198fa53ea34ebf6073149b115057ec35f',
+    logIndex: 99,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x24b6825ab6af1a5e1ae53299',
+      [BigNumber],
+      vaultId: '0x24b6825ab6af1a5e1ae53299',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 72,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xdd1778f66c90eadbfe4f80fb0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xb432933af8de22ae61dbb208936428e41a1206b4216d261c5da910f2d9d87fdb',
+    logIndex: 101,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xdd1778f66c90eadbfe4f80fb',
+      [BigNumber],
+      vaultId: '0xdd1778f66c90eadbfe4f80fb',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 73,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x2f60b769be00ec8b8f31ad790000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xf9f788d912591413e1568e6babaf7dbc67a42fa6b7dddd50769579ad1e741416',
+    logIndex: 103,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x2f60b769be00ec8b8f31ad79',
+      [BigNumber],
+      vaultId: '0x2f60b769be00ec8b8f31ad79',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 74,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3d9e4437fab99e6a3f88e90b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x3f693969c05cdcb3d2b1c560a667440a5fb9131155968030b3eca76758ae9911',
+    logIndex: 105,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3d9e4437fab99e6a3f88e90b',
+      [BigNumber],
+      vaultId: '0x3d9e4437fab99e6a3f88e90b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 75,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb24ce8d152186d6733a5035a0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x4218a70b2271b7ea38ae2dbb25b22685b8e708ebfb27aafab642c241133b650d',
+    logIndex: 107,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb24ce8d152186d6733a5035a',
+      [BigNumber],
+      vaultId: '0xb24ce8d152186d6733a5035a',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 76,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x684365c17d220cc4f8bd4c240000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x656de8187e276d207faabe8280b280ea60d0553c8b1bd8b738237fcc6bf0d911',
+    logIndex: 109,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x684365c17d220cc4f8bd4c24',
+      [BigNumber],
+      vaultId: '0x684365c17d220cc4f8bd4c24',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 77,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xac571c7e86d25e8390756b2e0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x9eb1463c89bd137ba40b33a406d5432fb70871711a7c26e4f431cd58a7ec6551',
+    logIndex: 111,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xac571c7e86d25e8390756b2e',
+      [BigNumber],
+      vaultId: '0xac571c7e86d25e8390756b2e',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 78,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x071562351a540b46b48f65e10000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xa7d8247f0e4e26a800f400c2c0ac33b36d5f6203ad0d40194f87bdec2b316c04',
+    logIndex: 113,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x071562351a540b46b48f65e1',
+      [BigNumber],
+      vaultId: '0x071562351a540b46b48f65e1',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 79,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x44b6d5dc625a7f995761c0190000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xfff7d32385ffac1c362b0fc758ec4ab67dddf5f6cbcfc9ceb5d0aa57aada9b58',
+    logIndex: 115,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x44b6d5dc625a7f995761c019',
+      [BigNumber],
+      vaultId: '0x44b6d5dc625a7f995761c019',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 80,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf297f38c05e8bae8e7fa3a090000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xf75abb0403d05b9ddbc8acfa6d10e1cbfec5912ea2692b1e89932b03994d3c11',
+    logIndex: 117,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf297f38c05e8bae8e7fa3a09',
+      [BigNumber],
+      vaultId: '0xf297f38c05e8bae8e7fa3a09',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 81,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x36d6a4e0ac13956513f7b0260000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x98e23cab89daa534f29a094e1f466d83e6b166432cb62a322771b962fbe1e2a5',
+    logIndex: 119,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x36d6a4e0ac13956513f7b026',
+      [BigNumber],
+      vaultId: '0x36d6a4e0ac13956513f7b026',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 82,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xd6d70fc6403b2ffb18a80d020000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x325653d4972b16c60924b55fbe86a70e43b711b4ec35129fc6f1ebfaacb0c8ea',
+    logIndex: 121,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xd6d70fc6403b2ffb18a80d02',
+      [BigNumber],
+      vaultId: '0xd6d70fc6403b2ffb18a80d02',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 83,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x080791dcfc09c628c97cd6050000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xf0f57dec487cebbfb081f00605574dd03a64b16f9d533e90b563e9f0c33aca64',
+    logIndex: 123,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x080791dcfc09c628c97cd605',
+      [BigNumber],
+      vaultId: '0x080791dcfc09c628c97cd605',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 84,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x760f99a24167fe157ff772820000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0x9fe78fc8d18348f376cccccedeef610ff1bc3acfdf208851d193a3a8e3f57d29',
+    logIndex: 125,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x760f99a24167fe157ff77282',
+      [BigNumber],
+      vaultId: '0x760f99a24167fe157ff77282',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911678,
+    blockHash: '0xec19ed073752a9f1ff0ab192067cdb837336fe401663e159335c1642396315e4',
+    transactionIndex: 85,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xf20f3dffbce1c3b6ff55880d0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceab9c'
+    ],
+    transactionHash: '0xa2d70b704399643687e142476198221e60ef73d1cf50eaf47f031e9d07d3c9d7',
+    logIndex: 127,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xf20f3dffbce1c3b6ff55880d',
+      [BigNumber],
+      vaultId: '0xf20f3dffbce1c3b6ff55880d',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13911746,
+    blockHash: '0x953d6025ec619d0f7f5c520303181ed980e1613624434f4f6b215797c0f4064f',
+    transactionIndex: 51,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xa58a915fc650f235650fed330000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ceae99'
+    ],
+    transactionHash: '0x1a52b3c2a3276d9df360a451546465c9796b05a3709e3a436c512009a1cbabce',
+    logIndex: 100,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xa58a915fc650f235650fed33',
+      [BigNumber],
+      vaultId: '0xa58a915fc650f235650fed33',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13949632,
+    blockHash: '0x1e35911c460aa55be585f9764522cd3e80b834d57d9eb652f2c376e7aba6dc7b',
+    transactionIndex: 101,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x9c11e0310065bc4a8affb3870000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061d66a8d'
+    ],
+    transactionHash: '0x075aa6d63b591552589e4cd057d07b50d9079727a620d88fa12828396688d67e',
+    logIndex: 135,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x9c11e0310065bc4a8affb387',
+      [BigNumber],
+      vaultId: '0x9c11e0310065bc4a8affb387',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13956254,
+    blockHash: '0xc4e886e4a24a8f81c5665863542430918acffaaad71552b8f65b4b2ceacb1d13',
+    transactionIndex: 372,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb4a7e36f5ab54176649f54790000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061d7c6eb'
+    ],
+    transactionHash: '0xd54373ffda392d93649cdc15145e9385cb540c5239ae1cd5374cba22c213519d',
+    logIndex: 540,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb4a7e36f5ab54176649f5479',
+      [BigNumber],
+      vaultId: '0xb4a7e36f5ab54176649f5479',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 13979119,
+    blockHash: '0x977ef67e47e7f4bf3828712f33d25a2a9a95ea5acb26bf489ae7dddfd1857c8c',
+    transactionIndex: 145,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x11936040d649e54fbd8d743b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061dc6d0b'
+    ],
+    transactionHash: '0x2766270179118597ac132705ae6039b617c6adef4a1dae970fbc775ea8168810',
+    logIndex: 321,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x11936040d649e54fbd8d743b',
+      [BigNumber],
+      vaultId: '0x11936040d649e54fbd8d743b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14030637,
+    blockHash: '0x926cb81df61f2efb7bb03387751788a946b705be1393f2b7717304b4a172c817',
+    transactionIndex: 315,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3f6382b30099a917d19c6e000000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e6ecf2'
+    ],
+    transactionHash: '0x03b752082a3fa14b98947ae749042e3e8fc504c86b3ad7c2aec9c348a05df731',
+    logIndex: 585,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3f6382b30099a917d19c6e00',
+      [BigNumber],
+      vaultId: '0x3f6382b30099a917d19c6e00',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 73,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb50e0c2ce9adb248f755540b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0xf816c5a357498359c86c60f2401a3ce8d2847d08a3786ba176e1be0c145452f4',
+    logIndex: 46,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb50e0c2ce9adb248f755540b',
+      [BigNumber],
+      vaultId: '0xb50e0c2ce9adb248f755540b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 75,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xaaaea58320f09dd3ef475bde0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x901f2d4934a2c0686db0e6ee13d294e5e7e04b69969a09eb22df52392dba6f15',
+    logIndex: 52,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xaaaea58320f09dd3ef475bde',
+      [BigNumber],
+      vaultId: '0xaaaea58320f09dd3ef475bde',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 76,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x860f369a6d4cfe13f068b15e0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x4cf3ab4f9e2d0e55005238a53ed9cc04e0ffaa24a29784341aa1bd63a6e9c442',
+    logIndex: 54,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x860f369a6d4cfe13f068b15e',
+      [BigNumber],
+      vaultId: '0x860f369a6d4cfe13f068b15e',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 77,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x8da149be58332f9cbd73e30a0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x40ef8366e0e94803f5904ed225ad80bb08313c658ab0f302e3a72e8aeafdef8f',
+    logIndex: 56,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x8da149be58332f9cbd73e30a',
+      [BigNumber],
+      vaultId: '0x8da149be58332f9cbd73e30a',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 78,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xeac4ddf4e401fda631f9e85c0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0xcb6b8d016974a0460ea65430573b1f1484117dd39e4bd27b0c5744f78859d7bb',
+    logIndex: 58,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xeac4ddf4e401fda631f9e85c',
+      [BigNumber],
+      vaultId: '0xeac4ddf4e401fda631f9e85c',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 79,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3702b33619eb5344d47f8c640000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x93e07af3fec197c0d97991a480b28ec328fb9651d681655dbd0a18cd383793fe',
+    logIndex: 60,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3702b33619eb5344d47f8c64',
+      [BigNumber],
+      vaultId: '0x3702b33619eb5344d47f8c64',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 80,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xe8b7a8eefbe3de92f7b2a8ae0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x56b6a3dd05897276481c5a03154aab36cb1575aec4956c9a4b806a30e0ee94fc',
+    logIndex: 62,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xe8b7a8eefbe3de92f7b2a8ae',
+      [BigNumber],
+      vaultId: '0xe8b7a8eefbe3de92f7b2a8ae',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 81,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x0428bf373eba63c43eba17c90000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x66790ad799db87a14d15aded95a7bf1b859b7fd912307af20e30e4207793f203',
+    logIndex: 64,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x0428bf373eba63c43eba17c9',
+      [BigNumber],
+      vaultId: '0x0428bf373eba63c43eba17c9',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 82,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x08ddef6fd915fc39b27773010000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0xc539d9844c1d2344af69d69d8cf97de343432446319b0ac4cbb55b52bca02462',
+    logIndex: 66,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x08ddef6fd915fc39b2777301',
+      [BigNumber],
+      vaultId: '0x08ddef6fd915fc39b2777301',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 83,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x9f2741548afa46d0292c6eff0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x3d0e441f08480e270c3acf8f326180acf28da99703e23a988a0211556a3bfdfa',
+    logIndex: 68,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x9f2741548afa46d0292c6eff',
+      [BigNumber],
+      vaultId: '0x9f2741548afa46d0292c6eff',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 84,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x0898a76dbd818ccd8eac220b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x25fee6272d2ae07aa90b69f64c5234ac0c653803db0a04a5b4077c130307784a',
+    logIndex: 70,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x0898a76dbd818ccd8eac220b',
+      [BigNumber],
+      vaultId: '0x0898a76dbd818ccd8eac220b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 85,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x5401d4972b1cb330b121f7790000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0xf9f04887956954d0aeb363863190a8d14bcaea758682fc72dfdf3429b27924f4',
+    logIndex: 72,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x5401d4972b1cb330b121f779',
+      [BigNumber],
+      vaultId: '0x5401d4972b1cb330b121f779',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 86,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x75cdd162a6df2d5d6cb2f3780000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x9f5de259e086c45a932a9d426c6118a19659075d4e252389124da2fa688bc464',
+    logIndex: 74,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x75cdd162a6df2d5d6cb2f378',
+      [BigNumber],
+      vaultId: '0x75cdd162a6df2d5d6cb2f378',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14038406,
+    blockHash: '0x13b509094d09a52b70bd4670900d6eaf57a71801e08cb72174853af3bb672c18',
+    transactionIndex: 87,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xe7cd42dcd74fc7d8912dedb70000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e88392'
+    ],
+    transactionHash: '0x6ac24835ac3cf7b6c594aa1db56a1750f88dea19e956bdd7fccbb31cb4b88360',
+    logIndex: 76,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xe7cd42dcd74fc7d8912dedb7',
+      [BigNumber],
+      vaultId: '0xe7cd42dcd74fc7d8912dedb7',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14039078,
+    blockHash: '0x559252a4e0643dbbb5693fffef380b6080f87d07a976c096673a18e298e6e3d9',
+    transactionIndex: 120,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x73659d576543cc78a91ba9f30000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e8a4b7'
+    ],
+    transactionHash: '0x4a9d2fd25d0c1009e44097c7d8ba1d1c96682e9d7bf929986b3673791e9e753c',
+    logIndex: 170,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x73659d576543cc78a91ba9f3',
+      [BigNumber],
+      vaultId: '0x73659d576543cc78a91ba9f3',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14045643,
+    blockHash: '0xf84c08654492bd136bda93c7d1220b2f7996f987be6cba029fe3d0ad09bd838a',
+    transactionIndex: 22,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x57cab190af7c8accd7bcc72b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061e9f9fb'
+    ],
+    transactionHash: '0x12764f622bb80de0aee03b313bf9d81f4e4eb00e5b7bea76bcb45e348f8a0cd9',
+    logIndex: 32,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x57cab190af7c8accd7bcc72b',
+      [BigNumber],
+      vaultId: '0x57cab190af7c8accd7bcc72b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14046038,
+    blockHash: '0xb2499d11888e70cf9027542ae10f04cfa14e960fe8ce4338e76299b11dc8931a',
+    transactionIndex: 144,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x90eafc7ef67e477c9273071b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ea0f0d'
+    ],
+    transactionHash: '0x76b5c7082358bd44e5746d2b537fb864a0f72975141d49c6cfb36c7256a9450f',
+    logIndex: 360,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x90eafc7ef67e477c9273071b',
+      [BigNumber],
+      vaultId: '0x90eafc7ef67e477c9273071b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14046091,
+    blockHash: '0xba7f36d926d7824d0538d5d13ff327e6e3ad133fe589b5b238b13fe9f991cf02',
+    transactionIndex: 55,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xb9b6982550a61c9a8979f6e30000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ea11b5'
+    ],
+    transactionHash: '0xadcb18754363b4eb9cc4448c2259ad207428eb683f5fac2a11d8ec568d85e8ce',
+    logIndex: 63,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xb9b6982550a61c9a8979f6e3',
+      [BigNumber],
+      vaultId: '0xb9b6982550a61c9a8979f6e3',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14046093,
+    blockHash: '0xf73344b5af954a62d3b028aa034c40e74376bd3daab880bbb3a3ca70f8ed8cbf',
+    transactionIndex: 89,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x3fe970346acd2d28555829670000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ea11c1'
+    ],
+    transactionHash: '0x623d647dff0b2e237c0fe4de7db6e3eaa0d88953688634ba3338402b2e089f23',
+    logIndex: 183,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x3fe970346acd2d2855582967',
+      [BigNumber],
+      vaultId: '0x3fe970346acd2d2855582967',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14046512,
+    blockHash: '0x6442433a4f4f25e450df5821986b2dff0d2f58321910cc6493fe709991049fd7',
+    transactionIndex: 31,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbc0cfff4647f8ef0d6dacd600000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ea2892'
+    ],
+    transactionHash: '0xbaa849d79bc1c19e94e719d2babf226869d6ed667ef6e6e78917651fa34d69b1',
+    logIndex: 56,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbc0cfff4647f8ef0d6dacd60',
+      [BigNumber],
+      vaultId: '0xbc0cfff4647f8ef0d6dacd60',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14046547,
+    blockHash: '0x5c5c3f11e64835a7fbeaaa4d02763a5c5752ee26698a2d1018ec1ffe7e80637b',
+    transactionIndex: 86,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x0da292d60a57266436f8463b0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ea2a3b'
+    ],
+    transactionHash: '0x3186ffc002ad82a583219c19541126b09c362554b799251c6110bd4ada8faf06',
+    logIndex: 75,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x0da292d60a57266436f8463b',
+      [BigNumber],
+      vaultId: '0x0da292d60a57266436f8463b',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14048931,
+    blockHash: '0x265ebd70a9a00b8da2041692b8110820838aec7e1a0f3c71e4c3b0d9ebc143aa',
+    transactionIndex: 177,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xe209956ba27a4783cfcdaf5d0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eaa828'
+    ],
+    transactionHash: '0x9c340c3bec53ffae6b6455951106f72ce46c9013577aeb6599570a02e4b48655',
+    logIndex: 545,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xe209956ba27a4783cfcdaf5d',
+      [BigNumber],
+      vaultId: '0xe209956ba27a4783cfcdaf5d',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14050936,
+    blockHash: '0x4795c70d6b7851d115dd406dde6e9b54ac95ca3ca7492bf8f635f181b8a22ad1',
+    transactionIndex: 96,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x5e49dece2b8853d594508f8e0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eb0fd2'
+    ],
+    transactionHash: '0xc15a3a9d6f69552bc8a131f1e6d9b4333b5dc6a2324703050d1862e18f20c9d0',
+    logIndex: 155,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x5e49dece2b8853d594508f8e',
+      [BigNumber],
+      vaultId: '0x5e49dece2b8853d594508f8e',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14051703,
+    blockHash: '0x750d4f82bac5cac44a9844c67b36c8109e95dd3d6c0cbdbdb0327c9f9c343324',
+    transactionIndex: 61,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x4def69750d87074dd00790d00000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eb39a1'
+    ],
+    transactionHash: '0xd427a89f472c49b64b3978b05253415542ac2039acffbc9b2baa9d0704c4b813',
+    logIndex: 189,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x4def69750d87074dd00790d0',
+      [BigNumber],
+      vaultId: '0x4def69750d87074dd00790d0',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14053710,
+    blockHash: '0xd6fad5fbef548f5152089992d54ed16dd9cef789bc218362327d82b00ff60a89',
+    transactionIndex: 62,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xfb59df88210c66b4b86075e90000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eb9e94'
+    ],
+    transactionHash: '0xb2d01b45deb96924b5c7df5f28577537d304e95989cf60fa88f0a055805a1bd0',
+    logIndex: 71,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xfb59df88210c66b4b86075e9',
+      [BigNumber],
+      vaultId: '0xfb59df88210c66b4b86075e9',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14054122,
+    blockHash: '0x9b4fdb954030ec660bc8ab5ce7fe0f101308121b518d6169114ce912ffa0dc9d',
+    transactionIndex: 243,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbcdfacdca7985df1b921ff620000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ebb468'
+    ],
+    transactionHash: '0xf3790b5938b34aefde8f61e3cfe355488ed405d87141485267c708ca5ca9bf19',
+    logIndex: 524,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbcdfacdca7985df1b921ff62',
+      [BigNumber],
+      vaultId: '0xbcdfacdca7985df1b921ff62',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14057307,
+    blockHash: '0x0a1855349fd04cac335b8e0c42ad218172ab23324f7c0c0936c3b09bc80c7e98',
+    transactionIndex: 290,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x77515eeb6868ebae1ca66fb00000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ec5bfa'
+    ],
+    transactionHash: '0xa1e4d529b5404d011609347499a763d80208ed0e8ceb95e5a3e62a44c6fc2f29',
+    logIndex: 276,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x77515eeb6868ebae1ca66fb0',
+      [BigNumber],
+      vaultId: '0x77515eeb6868ebae1ca66fb0',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14068109,
+    blockHash: '0x5b4f3d6c4cbcedf20da1368dbf736585fa071be4406119d565d1a143aababd46',
+    transactionIndex: 140,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x9f78a0b12bc8152573520d520000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ee900d'
+    ],
+    transactionHash: '0x603b86aa4866e6ffb6984db32e515fcae4b8efa3a2b3ff0d0753d9e1a3bc1186',
+    logIndex: 351,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x9f78a0b12bc8152573520d52',
+      [BigNumber],
+      vaultId: '0x9f78a0b12bc8152573520d52',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14068202,
+    blockHash: '0x32eccd3e64e4fba4dffdc6df9f81c396695ba681d4e52d4cf355e160fd5bcb6a',
+    transactionIndex: 183,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbb58640d1bc366c44fccb96f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061ee94fc'
+    ],
+    transactionHash: '0xcdbe15492423b1d1a2f7a295a9a1c34090b68bf2067d428f24f5132b27f33b8d',
+    logIndex: 254,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbb58640d1bc366c44fccb96f',
+      [BigNumber],
+      vaultId: '0xbb58640d1bc366c44fccb96f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14068521,
+    blockHash: '0x0385762ce30489d6f07118a2588bc91b8f209aa1eeef5b141c7d4798bf7cf32b',
+    transactionIndex: 155,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x0f12b99efb8af471c155c9c60000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eea5c1'
+    ],
+    transactionHash: '0x5ce602a55c56eb875014fb9f5c1b4e75d69ed4460d1fa2e1fb6e0139fdf7c764',
+    logIndex: 268,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x0f12b99efb8af471c155c9c6',
+      [BigNumber],
+      vaultId: '0x0f12b99efb8af471c155c9c6',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14069572,
+    blockHash: '0x1ff8dce59560f3cafbe6d442e97ae1c2ef24498484bec29e424782ea2300ed7d',
+    transactionIndex: 115,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbae7d720e0cea17e1e35c7310000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eedb74'
+    ],
+    transactionHash: '0x0178b6947ac8bc121bb3b766d8ef5305b8a855a5bd1c594ccdb9ad5442ae874a',
+    logIndex: 144,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbae7d720e0cea17e1e35c731',
+      [BigNumber],
+      vaultId: '0xbae7d720e0cea17e1e35c731',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14069572,
+    blockHash: '0x1ff8dce59560f3cafbe6d442e97ae1c2ef24498484bec29e424782ea2300ed7d',
+    transactionIndex: 116,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x468ff2cb1b8bb57bf932ab3f0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eedb74'
+    ],
+    transactionHash: '0x48670fab6812404b7ac42d198e21b39078af8b3f97fe8cc63b3de4b6f2711726',
+    logIndex: 146,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x468ff2cb1b8bb57bf932ab3f',
+      [BigNumber],
+      vaultId: '0x468ff2cb1b8bb57bf932ab3f',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14069572,
+    blockHash: '0x1ff8dce59560f3cafbe6d442e97ae1c2ef24498484bec29e424782ea2300ed7d',
+    transactionIndex: 117,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xbbcec7bf01d42dde31041db30000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eedb74'
+    ],
+    transactionHash: '0x53fb1246211b0b265017581129f20c135b431b3d098fb355f55527c06c41edb9',
+    logIndex: 148,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xbbcec7bf01d42dde31041db3',
+      [BigNumber],
+      vaultId: '0xbbcec7bf01d42dde31041db3',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14069572,
+    blockHash: '0x1ff8dce59560f3cafbe6d442e97ae1c2ef24498484bec29e424782ea2300ed7d',
+    transactionIndex: 118,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0x0aa81aa0ddcde727843c8dd60000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eedb74'
+    ],
+    transactionHash: '0xb11afb0c117448e3fb5e5ff984f5f3ecdb1e1f5b934a8372c2864cb68348c6bf',
+    logIndex: 150,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0x0aa81aa0ddcde727843c8dd6',
+      [BigNumber],
+      vaultId: '0x0aa81aa0ddcde727843c8dd6',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14069851,
+    blockHash: '0xc296d8b02510be8373da63b22d68f5bbcc2d9fd421037dcf5b2d1693a3e536bf',
+    transactionIndex: 88,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xdfb6ed52ab312defdcb2a4a10000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eeea45'
+    ],
+    transactionHash: '0xa8c2eb192b7d092250f3e60fc1f6444c11ddb35850f9edfc8bfe1f6fa1e13c89',
+    logIndex: 129,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xdfb6ed52ab312defdcb2a4a1',
+      [BigNumber],
+      vaultId: '0xdfb6ed52ab312defdcb2a4a1',
+      start: [BigNumber]
+    ]
+  },
+  {
+    blockNumber: 14070007,
+    blockHash: '0xa5d150b429f3e0cf6786698ac59ab69482d2141bad27807e4c248ed6c9390816',
+    transactionIndex: 187,
+    removed: false,
+    address: '0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061',
+    data: '0x',
+    topics: [
+      '0xf5f0f31704b7ca16ced82a8f879c00f695dc647fb9412ba4cdb2264611b364a7',
+      '0xd2e5dcf11e911c6604923cfd0000000000000000000000000000000000000000',
+      '0x0000000000000000000000000000000000000000000000000000000061eef36e'
+    ],
+    transactionHash: '0xfee7d55dfbc927c0d08115eacbc9a7ba749a0a718f4c1a3af591c0935b4a545f',
+    logIndex: 194,
+    removeListener: [Function (anonymous)],
+    getBlock: [Function (anonymous)],
+    getTransaction: [Function (anonymous)],
+    getTransactionReceipt: [Function (anonymous)],
+    event: 'Auctioned',
+    eventSignature: 'Auctioned(bytes12,uint256)',
+    decode: [Function (anonymous)],
+    args: [
+      '0xd2e5dcf11e911c6604923cfd',
+      [BigNumber],
+      vaultId: '0xd2e5dcf11e911c6604923cfd',
+      start: [BigNumber]
+    ]
+  }
+]
