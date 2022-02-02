@@ -9,8 +9,8 @@ import { updateChainlinkUSDSourcesProposal } from '../../../fragments/oracles/up
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 import { ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../shared/constants'
-import { deployer, developer } from './newEnvironment.arb_rinkeby.config'
-import { chainlinkUSDSources, rateChiSources } from './newEnvironment.arb_rinkeby.config'
+const { deployer, developer } = require(process.env.CONF as string)
+const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles

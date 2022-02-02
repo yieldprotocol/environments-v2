@@ -9,8 +9,8 @@ import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBasePro
 
 import { IOracle, ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
-import { developer, deployer, assets, bases } from './newEnvironment.arb_rinkeby.config'
-import { chainlinkDebtLimits, chainlinkAuctionLimits, } from './newEnvironment.arb_rinkeby.config'
+const { developer, deployer, assets, bases } = require(process.env.CONF as string)
+const { chainlinkDebtLimits, chainlinkAuctionLimits, } = require(process.env.CONF as string)
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../shared/constants'
 
 /**

@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployYieldMathExtensions } from '../../fragments/core/libraries/deployYieldMathExtensions'
 
 import { YieldMath } from '../../../typechain'
-import { developer } from './newEnvironment.rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the YieldMathExtensions

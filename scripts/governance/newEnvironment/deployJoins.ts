@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployJoins } from '../../fragments/assetsAndSeries/deployJoins'
 
 import { Timelock } from '../../../typechain'
-import { developer, assetsToAdd } from './newEnvironment.rinkeby.config'
+const { developer, assetsToAdd } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys a Join

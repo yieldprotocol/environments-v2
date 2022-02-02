@@ -1,8 +1,9 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
+export CONF=$PWD/$HERE/newEnvironment.rinkeby.config
+RUN="npx hardhat run --network localhost"
 
 # Phase 1: Libraries
 $RUN $HERE/deployYieldMath.ts
