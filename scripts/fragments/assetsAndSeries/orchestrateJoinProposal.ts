@@ -63,11 +63,13 @@ export const orchestrateJoinProposal = async (
       },
     ]
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
-    })
-    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
+    if ((await cloak.plans(await cloak.hash(ladle.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
+      })
+      console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
+    }
   }
 
   return proposal

@@ -12,6 +12,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { bytesToString } from '../../../shared/helpers'
 
 import { Cauldron, Ladle, Join, ERC20Mock } from '../../../typechain'
+import { ZERO_ADDRESS } from '../../../shared/constants'
 
 export const addAssetProposal = async (
   ownerAcc: any,
@@ -31,11 +32,13 @@ export const addAssetProposal = async (
     //console.log(`Using ${await asset.name()} join at ${joinAddress}`)
     console.log(joinAddress)
 
-    // Add asset to Cauldron
-    proposal.push({
-      target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('addAsset', [assetId, assetAddress]),
-    })
+    if ((await cauldron.assets(assetId)) === ZERO_ADDRESS) {
+      // Add asset to Cauldron
+      proposal.push({
+        target: cauldron.address,
+        data: cauldron.interface.encodeFunctionData('addAsset', [assetId, assetAddress]),
+      })
+    }
 
     // Allow Ladle to join and exit on the asset Join
     proposal.push({
