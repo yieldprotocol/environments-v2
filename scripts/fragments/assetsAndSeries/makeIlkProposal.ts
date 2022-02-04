@@ -62,13 +62,15 @@ export const makeIlkProposal = async (
       },
     ]
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
-    })
-    console.log(
-      `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`
-    )
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+      })
+      console.log(
+          `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`
+      )
+    }
   }
   
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {

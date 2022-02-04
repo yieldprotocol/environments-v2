@@ -2,26 +2,30 @@
  * @dev This script replaces one or more chi data sources in the AccumulatorMultiOracle.
  */
 
-import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
-import { AccumulatorMultiOracle } from '../../../typechain'
+import {bytesToString} from '../../../shared/helpers'
+import {AccumulatorMultiOracle} from '../../../typechain'
 
 export const updateAccumulatorSourcesProposal = async (
-  lendingOracle: AccumulatorMultiOracle,
-  newSources: Array<[string, string, string, string]>
-): Promise<Array<{ target: string; data: string }>>  => {
-  const [ ownerAcc ] = await ethers.getSigners()
-  console.log(`compoundOracle: ${lendingOracle.address}`)
+    lendingOracle: AccumulatorMultiOracle,
+    newSources: Array<[string, string, string, string]>
+): Promise<Array<{ target: string; data: string }>> => {
+    console.log(`compoundOracle: ${lendingOracle.address}`)
 
-  // Build proposal
-  const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, kind, startRate, perSecondRate] of newSources) {
-    proposal.push({
-      target: lendingOracle.address,
-      data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, kind, startRate, perSecondRate]),
-    })
-    console.log(`Accumulator(${bytesToString(baseId)}/${kind}): ${startRate}, ${perSecondRate}`)
-  }
+    // Build proposal
+    const proposal: Array<{ target: string; data: string }> = []
+    for (let [baseId, kind, startRate, perSecondRate] of newSources) {
+        const source = await lendingOracle.sources(baseId, kind);
 
-  return proposal
+        if (source.lastUpdated.isZero()) {
+            proposal.push({
+                target: lendingOracle.address,
+                data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, kind, startRate, perSecondRate]),
+            })
+            console.log(`Accumulator(${bytesToString(baseId)}/${kind}): ${startRate}, ${perSecondRate}`)
+        } else {
+            console.log(`Accumulator for (${bytesToString(baseId)}/${kind}): already set`)
+        }
+    }
+
+    return proposal
 }
