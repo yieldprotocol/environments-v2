@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployPools } from '../../fragments/assetsAndSeries/deployPools'
 import { YieldMath } from '../../../typechain'
-import { developer, poolData } from './newEnvironment.rinkeby.config'
+const { developer, poolData } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys Pools

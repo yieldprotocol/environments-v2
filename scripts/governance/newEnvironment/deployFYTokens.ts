@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployFYTokens } from '../../fragments/assetsAndSeries/deployFYTokens'
 import { SafeERC20Namer, Timelock } from '../../../typechain'
-import { developer, fyTokenData } from './newEnvironment.rinkeby.config'
+const { developer, fyTokenData } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys two strategies to be used for Ether

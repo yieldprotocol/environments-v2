@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployLidoOracle } from '../../fragments/oracles/deployLidoOracle'
 
 import { Timelock } from '../../../typechain'
-import { developer } from './newEnvironment.rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Lido Oracle

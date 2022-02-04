@@ -7,7 +7,7 @@ import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchP
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
-import { deployer, developer } from './newEnvironment.rinkeby.config'
+const { deployer, developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates the Cauldron, Ladle, Witch and Wand

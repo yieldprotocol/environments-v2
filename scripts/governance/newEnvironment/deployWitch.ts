@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
 
 import { deployWitch } from '../../fragments/core/deployWitch'
-import { developer } from './newEnvironment.rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Witch

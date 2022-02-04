@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployAccumulatorOracle } from '../../../fragments/oracles/deployAccumulatorOracle'
 
 import { Timelock } from '../../../../typechain'
-import { developer } from './newEnvironment.arb_rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Ladle

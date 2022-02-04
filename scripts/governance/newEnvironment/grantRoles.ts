@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, 
 import { grantDevelopersProposal } from '../../fragments/permissions/grantDevelopersProposal'
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { developer, additionalDevelopers, additionalGovernors } from './newEnvironment.rinkeby.config'
+const { developer, additionalDevelopers, additionalGovernors } = require(process.env.CONF as string)
 
 
 /**

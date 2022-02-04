@@ -9,8 +9,8 @@ import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBasePropos
 
 import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, YearnVaultMultiOracle, CompoundMultiOracle } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
-import { developer, deployer, assets, bases } from './newEnvironment.rinkeby.config'
-import { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } from './newEnvironment.rinkeby.config'
+const { developer, deployer, assets, bases } = require(process.env.CONF as string)
+const { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly

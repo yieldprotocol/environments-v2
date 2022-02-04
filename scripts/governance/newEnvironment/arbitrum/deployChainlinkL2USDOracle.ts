@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 import { deployChainlinkL2USDOracle } from '../../../fragments/oracles/deployChainlinkL2USDOracle'
 import { CHAINLINKUSD } from '../../../../shared/constants'
 import { Timelock } from '../../../../typechain'
-import { developer } from './newEnvironment.arb_rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Ladle

@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, get
 
 import { deployYieldMath } from '../../fragments/core/libraries/deployYieldMath'
 
-import { developer } from './newEnvironment.rinkeby.config'
+const { developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the YieldMath

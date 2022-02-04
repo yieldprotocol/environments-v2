@@ -1,8 +1,9 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network arb_rinkeby"
 HERE=$(dirname $0)
+export CONF=$PWD/$HERE/newEnvironment.arb_rinkeby.config
+RUN="npx hardhat run --network arb_rinkeby"
 
 # Phase 4: Core
 $RUN $HERE/../deployCauldron.ts
