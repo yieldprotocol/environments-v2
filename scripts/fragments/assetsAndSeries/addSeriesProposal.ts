@@ -11,7 +11,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString } from '../../../shared/helpers'
-import {ROOT, ZERO_ADDRESS} from '../../../shared/constants'
+import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
 import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
 
@@ -30,7 +30,7 @@ export const addSeriesProposal = async (
   for (let [seriesId, fyTokenAddress] of newFYTokens) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
     const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
-    
+
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
