@@ -23,21 +23,15 @@ import * as base_config from '../../../newEnvironment.arb_rinkeby.config'
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const whales: Map<string, string> = new Map([
-  [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-])
+export const whales: Map<string, string> = base_config.whales.set(
+    ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5',
+)
 
 const protocol = readAddressMappingIfExists('protocol.json')
 const joins = readAddressMappingIfExists('joins.json')
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 
-export const assets: Map<string, string> = new Map([
-  [ETH, '0xb3B95E6AeE64b403D0586379F0073b0437F85c13'],
-  [DAI, '0x358871f2F233Ee078743be4D965FAc23Bb0bFeDd'],
-  [USDC, '0x461B6d0E560C27AD1C383DE0b1a0d1eF13Dcb0E6'],
-])
+export const assets: Map<string, string> = base_config.assets
 
 export const rateChiSources: Array<[string, string, string, string]> = [
   [ETH, RATE, WAD.toString(), WAD.toString()],
