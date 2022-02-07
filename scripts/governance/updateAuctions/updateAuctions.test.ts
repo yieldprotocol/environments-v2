@@ -11,7 +11,7 @@ import {
   readAddressMappingIfExists
 } from '../../../shared/helpers'
 import { Witch } from '../../../typechain/Witch'
-import { newLimits, newInitialOffer, developer } from './updateAuctions.mainnet.config'
+import { newLimits, developer } from './updateAuctions.mainnet.config'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -28,24 +28,22 @@ import { newLimits, newInitialOffer, developer } from './updateAuctions.mainnet.
   )) as unknown) as Witch
 
   console.log(`Limits:`)
-  for (let [ilkId, line, dust, dec] of newLimits) {
+  for (let [ilkId, initialOffer, line, dust, dec] of newLimits) {
     const limits = await witch.limits(ilkId)
+    const ilk = await witch.ilks(ilkId)
+    
     if (limits.line.toString() === line.toString())
-      console.log(`${bytesToString(ilkId)} set: ${limits.line}`)
+      console.log(`${bytesToString(ilkId)} line set: ${limits.line}`)
     else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.line}`)
     if (limits.dust.toString() === dust.toString())
-      console.log(`${bytesToString(ilkId)} set: ${limits.dust}`)
+      console.log(`${bytesToString(ilkId)} dust set: ${limits.dust}`)
     else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dust}`)
     if (limits.dec.toString() === dec.toString())
-      console.log(`${bytesToString(ilkId)} set: ${limits.dec}`)
-    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dec}`)
-  }
-
-  console.log(`Initial Offer:`)
-  for (let [ilkId, initialOffer] of newInitialOffer) {
-    const ilk = await witch.ilks(ilkId)
+      console.log(`${bytesToString(ilkId)} dec set: ${limits.dec}`)
+    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dec}`)    
     if (ilk.initialOffer.toString() === initialOffer.toString())
-      console.log(`${bytesToString(ilkId)} set: ${ilk.initialOffer}`)
+      console.log(`${bytesToString(ilkId)} initialOffer set: ${ilk.initialOffer}`)
     else console.log(`${bytesToString(ilkId)} not updated, still at ${ilk.initialOffer}`)
   }
+  
 })()
