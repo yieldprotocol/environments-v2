@@ -119,8 +119,8 @@ export const strategiesData: Array<[string, string, string]> = [
 // Input data
 export const strategiesInit: Array<[string, string, BigNumber]> = [
   // [strategyId, startPoolId, initAmount]
-  [YSDAI6MMS,  FYDAI2203,  WAD.mul(100)],
-  [YSDAI6MJD,  FYDAI2206,  WAD.mul(100)],
-  [YSUSDC6MMS, FYUSDC2203, ONEUSDC.mul(100)],
-  [YSUSDC6MJD, FYUSDC2206, ONEUSDC.mul(100)],
+  [YSDAI6MMS,  FYDAI2203,  WAD.mul(99)],
+  [YSDAI6MJD,  FYDAI2206,  WAD.mul(99)],
+  [YSUSDC6MMS, FYUSDC2203, ONEUSDC.mul(99)],
+  [YSUSDC6MJD, FYUSDC2206, ONEUSDC.mul(99)],
 ]
