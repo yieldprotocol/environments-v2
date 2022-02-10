@@ -8,13 +8,14 @@ RUN="npx hardhat run --network arb_rinkeby"
 # Add funds to the timelock
 #$RUN $HERE/../../../../loadTimelock.ts
 
-$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - propose
-$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - approve
-$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - execute
-
 $RUN $HERE/../../../newEnvironment/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../../newEnvironment/deployPools.ts # deploy pools
 $RUN $HERE/../../../newEnvironment/deployStrategies.ts # deploy strategies
+
+# Merge all the scripts below into a single one
+$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - propose
+$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - approve
+$RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - execute
 
 $RUN $HERE/addAssets.ts # make existing assets into bases and create new base/ilk pairs - propose
 $RUN $HERE/addAssets.ts # make existing assets into bases and create new base/ilk pairs - approve
