@@ -14,6 +14,7 @@ import {
   USDC,
   WBTC,
   LINK,
+  STETH,
   WSTETH,
   ENS,
   WAD,
@@ -62,6 +63,10 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [ETH, USDC, 1500000, 250000000, 10000, 12],
   [ETH, WBTC, 1500000, 250000000, 10000, 12],
   [ETH, LINK, 1500000, 250000000, 10000, 12],
+]
+
+export const newCompositePaths: Array<[string, string, Array<string>]> = [
+  [WSTETH, ETH, [STETH]],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec

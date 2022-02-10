@@ -4,7 +4,7 @@ import {
   readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-} from '../../../../../shared/helpers'
+} from '../../../../shared/helpers'
 
 import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
 import { updateIlkProposal } from '../../../fragments/assetsAndSeries/updateIlkProposal'
@@ -18,7 +18,7 @@ import {
 } from '../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
 const { developer, deployer, assets, bases } = require(process.env.CONF as string)
-const { chainlinkDebtLimits, uniswapDebtLimits, compositeDebtLimits } = require(process.env.CONF as string)
+const { newChainlinkLimits, newUniswapLimits, newCompositeLimits } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
@@ -75,11 +75,13 @@ const { chainlinkDebtLimits, uniswapDebtLimits, compositeDebtLimits } = require(
   )
 
   proposal = proposal.concat(
-    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, chainlinkDebtLimits)
+    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
-  proposal = proposal.concat(await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, uniswapDebtLimits))
   proposal = proposal.concat(
-    await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, compositeDebtLimits)
+    await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, newUniswapLimits)
+  )
+  proposal = proposal.concat(
+    await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
