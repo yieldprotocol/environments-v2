@@ -59,8 +59,8 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-    [FYETH2203, DAI, WAD, ZERO],
-    [FYETH2206, DAI, WAD, ZERO],
+    [FYETH2203, ETH, WAD.div(40), ZERO],
+    [FYETH2206, ETH, WAD.div(40), ZERO],
 ]
 
 // seriesId, accepted ilks
@@ -78,6 +78,6 @@ export const strategiesData: Array<[string, string, string]> = [
 // Input data
 export const strategiesInit: Array<[string, string, BigNumber]> = [
     // [strategyId, startPoolId, initAmount]
-    [YSETH6MMS, FYETH2203, WAD],
-    [YSETH6MJD, FYETH2206, WAD],
+    [YSETH6MMS, FYETH2203, WAD.div(40)],
+    [YSETH6MJD, FYETH2206, WAD.div(40)],
 ]
