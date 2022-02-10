@@ -65,7 +65,9 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(
+          `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`
+      )
     }
   }
 

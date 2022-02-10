@@ -38,13 +38,13 @@ export const addSeriesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    const joinAddress = (await ladle.joins(baseId)) as string
-    if (joinAddress === undefined) throw `Join for ${baseId} not found`
+    const joinAddress = await ladle.joins(baseId) as string
+    if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
     else console.log(`Using join at ${joinAddress} for ${baseId}`)
     const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
 
-    const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
-    if (chiOracleAddress === undefined) throw `${baseId} not a base in the Cauldron`
+    const chiOracleAddress = await cauldron.lendingOracles(baseId) as string
+    if (chiOracleAddress === undefined || chiOracleAddress === ZERO_ADDRESS) throw `${baseId} not a base in the Cauldron`
     else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
@@ -117,14 +117,12 @@ export const addSeriesProposal = async (
       },
     ]
 
-    if ((await cloak.plans(await cloak.hash(ladle.address, ladlePlan))).state === 0) {
+    if((await cloak.plans(await cloak.hash(ladle.address, ladlePlan))).state === 0) {
       proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
       })
-      console.log(
-        `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
-      )
+      console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
     }
 
     // Register emergency plan to disconnect fyToken from join
