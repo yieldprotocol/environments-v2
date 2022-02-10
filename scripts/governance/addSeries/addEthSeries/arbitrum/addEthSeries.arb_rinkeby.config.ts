@@ -16,16 +16,14 @@ import {
   YSETH6MJD,
   YSETH6MMS,
   ZERO,
-} from '../../../../../../../shared/constants'
-import { readAddressMappingIfExists } from '../../../../../../../shared/helpers'
+} from '../../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-import * as base_config from '../../../newEnvironment.arb_rinkeby.config'
+import * as base_config from '../../../base.arb_rinkeby.config'
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const whales: Map<string, string> = base_config.whales.set(
-    ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5',
-)
+export const whales: Map<string, string> = base_config.whales.set(ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5')
 
 const protocol = readAddressMappingIfExists('protocol.json')
 const joins = readAddressMappingIfExists('joins.json')
@@ -45,9 +43,9 @@ export const bases: Array<[string, string]> = [[ETH, joins.get(ETH) as string]]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-    [ETH, DAI,  1400000, 1000000000, 1250000, 12],
-    [ETH, USDC, 1400000, 1000000000, 1250000, 12],
-    [ETH, ETH,  1000000, 2500000000, 0,       12], // Constant 1, no dust
+  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
+  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
+  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
