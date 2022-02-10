@@ -3,7 +3,7 @@ import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId }
 
 import { WETH9Mock } from '../../../../typechain'
 import { ETH, WAD } from '../../../../shared/constants'
-import { developer, assets } from './addEthSeries.config'
+const { developer, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with Ether to initialize pools and strategies
@@ -11,13 +11,13 @@ import { developer, assets } from './addEthSeries.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const governance = readAddressMappingIfExists('governance.json')
 
   const weth = (await ethers.getContractAt(
     'WETH9Mock',
-    (assets.get(chainId) as Map<string, string>).get(ETH) as string,
+    assets.get(ETH) as string,
     ownerAcc
   )) as unknown as WETH9Mock
 
