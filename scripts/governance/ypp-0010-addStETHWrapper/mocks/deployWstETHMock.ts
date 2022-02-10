@@ -15,7 +15,7 @@ const { deployContract } = waffle
   const stEthAddress = '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'
 
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy WstETHMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let wstETH = (await deployContract(ownerAcc, WstETHMockArtifact, [stEthAddress])) as WstETHMock
   console.log(`WstETHMock deployed at '${wstETH.address}`)

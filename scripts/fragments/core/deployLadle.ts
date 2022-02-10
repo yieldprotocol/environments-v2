@@ -15,11 +15,11 @@ const { deployContract } = waffle
  */
 
 export const deployLadle = async (
-    ownerAcc: any,
-    weth9: WETH9Mock,
-    protocol: Map<string, string>,
-    governance: Map<string, string>,
-  ): Promise<Ladle> => {
+  ownerAcc: any,
+  weth9: WETH9Mock,
+  protocol: Map<string, string>,
+  governance: Map<string, string>
+): Promise<Ladle> => {
   console.log(`Using ${await weth9.name()} at ${weth9.address}`)
 
   const timelock = (await ethers.getContractAt(

@@ -1,13 +1,19 @@
- import { ethers, waffle } from 'hardhat'
- import { getOriginalChainId, getOwnerOrImpersonate, verify, readAddressMappingIfExists, writeAddressMap } from '../../../shared/helpers'
- import { ROOT } from '../../../shared/constants'
- 
- import WitchArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Witch.sol/Witch.json'
- 
- import { Witch, Timelock } from '../../../typechain'
- 
- const { deployContract } = waffle
- 
+import { ethers, waffle } from 'hardhat'
+import {
+  getOriginalChainId,
+  getOwnerOrImpersonate,
+  verify,
+  readAddressMappingIfExists,
+  writeAddressMap,
+} from '../../../shared/helpers'
+import { ROOT } from '../../../shared/constants'
+
+import WitchArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Witch.sol/Witch.json'
+
+import { Witch, Timelock } from '../../../typechain'
+
+const { deployContract } = waffle
+
 /**
  * @dev This script deploys the Witch
  * The Timelock gets ROOT access.
@@ -15,7 +21,7 @@
 export const deployWitch = async (
   ownerAcc: any,
   protocol: Map<string, string>,
-  governance: Map<string, string>,
+  governance: Map<string, string>
 ): Promise<Witch> => {
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -30,12 +36,9 @@ export const deployWitch = async (
       protocol.get('ladle') as string,
     ])) as Witch
     console.log(`Witch deployed at ${witch.address}`)
-    verify(witch.address, [
-      protocol.get('cauldron') as string,
-      protocol.get('ladle') as string,
-    ])
+    verify(witch.address, [protocol.get('cauldron') as string, protocol.get('ladle') as string])
     protocol.set('witch', witch.address)
-    writeAddressMap('protocol.json', protocol);
+    writeAddressMap('protocol.json', protocol)
   } else {
     witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as Witch
   }

@@ -8,18 +8,17 @@ import {
 
 import { grantGovernorProposal } from '../../fragments/permissions/grantGovernorProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { newGovernors,developerToImpersonate } from './addGovernors.rinkeby.config'
-
+import { newGovernors, developerToImpersonate } from './addGovernors.rinkeby.config'
 
 /**
  * @dev This script gives governor privileges to one or more accounts.
  */
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

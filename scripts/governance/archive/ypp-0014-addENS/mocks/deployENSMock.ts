@@ -15,9 +15,9 @@ const { deployContract } = waffle
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 42) throw "Only Kovan supported"
+  if (chainId !== 42) throw 'Only Kovan supported'
 
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   const assets = jsonToMap(fs.readFileSync('./addresses/kovan/assets.json', 'utf8')) as Map<string, string>
 

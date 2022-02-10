@@ -8,48 +8,27 @@ import { WAD, MAX256 } from '../../../../shared/constants'
 /**
  * @dev This script deploys two strategies to be used for Ether
  */
-
-(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await impersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const strategies = readAddressMappingIfExists('strategies.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const strategies = readAddressMappingIfExists('strategies.json')
 
   let strategyAcc = await impersonate(strategies.get(rollData[0][0]) as string, WAD)
   let ladleAcc = await impersonate(protocol.get('ladle') as string, WAD)
 
-  const strategy = (await ethers.getContractAt(
-    'Strategy',
-    strategyAcc.address,
-    ownerAcc
-  )) as unknown as Strategy
+  const strategy = (await ethers.getContractAt('Strategy', strategyAcc.address, ownerAcc)) as unknown as Strategy
 
-  const pool = (await ethers.getContractAt(
-    'Pool',
-    await strategy.pool(),
-    strategyAcc
-  )) as unknown as Pool
+  const pool = (await ethers.getContractAt('Pool', await strategy.pool(), strategyAcc)) as unknown as Pool
 
-  const base = (await ethers.getContractAt(
-    'ERC20Mock',
-    await pool.base(),
-    strategyAcc
-  )) as unknown as ERC20Mock
+  const base = (await ethers.getContractAt('ERC20Mock', await pool.base(), strategyAcc)) as unknown as ERC20Mock
 
-  const fyToken = (await ethers.getContractAt(
-    'FYToken',
-    await pool.fyToken(),
-    strategyAcc
-  )) as unknown as FYToken
+  const fyToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), strategyAcc)) as unknown as FYToken
   let fyTokenAcc = await impersonate(fyToken.address, WAD)
 
-  const join = (await ethers.getContractAt(
-    'Join',
-    await fyToken.join(),
-    strategyAcc
-  )) as unknown as Join
+  const join = (await ethers.getContractAt('Join', await fyToken.join(), strategyAcc)) as unknown as Join
 
   const toDivest = await pool.balanceOf(strategy.address)
   console.log(`toDivest: ${toDivest}`)
@@ -63,7 +42,7 @@ import { WAD, MAX256 } from '../../../../shared/constants'
 
   // Simulate the redemption
   const fyTokenDivested = await fyToken.balanceOf(strategy.address)
-  await fyToken.transfer(fyToken.address, fyTokenDivested);
+  await fyToken.transfer(fyToken.address, fyTokenDivested)
   console.log(`fyToken transferred to the fyToken contract: ${fyTokenDivested}`)
   await fyToken.connect(ladleAcc).burn(strategyAcc.address, fyTokenDivested)
   console.log(`fyToken balance after burn: ${await fyToken.balanceOf(fyToken.address)}`)

@@ -7,10 +7,10 @@ import { PoolView } from '../../../../typechain/PoolView'
 /**
  * @dev This script deploys the PoolView library
  */
- export const deployPoolView = async (
+export const deployPoolView = async (
   ownerAcc: any,
   yieldMathExtensions: YieldMathExtensions,
-  protocol: Map<string, string>,
+  protocol: Map<string, string>
 ): Promise<PoolView> => {
   let poolView: PoolView
   if (protocol.get('poolView') === undefined) {
@@ -24,7 +24,7 @@ import { PoolView } from '../../../../typechain/PoolView'
     console.log(`PoolView deployed at ${poolView.address}`)
     verify(poolView.address, [], getAddressMappingFilePath('yieldMathExtensions.js'))
     protocol.set('poolView', poolView.address)
-    writeAddressMap("protocol.json", protocol);
+    writeAddressMap('protocol.json', protocol)
   } else {
     poolView = (await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)) as PoolView
     console.log(`Reusing PoolView at ${poolView.address}`)
@@ -32,4 +32,3 @@ import { PoolView } from '../../../../typechain/PoolView'
 
   return poolView
 }
-

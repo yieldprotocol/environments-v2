@@ -14,13 +14,17 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy WstETHMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   const baseId = STETH
   const quoteId = ETH
 
   const args: any = [18]
-  const aggregator = (await deployContract(ownerAcc, ChainlinkAggregatorV3MockArtifact, args)) as ChainlinkAggregatorV3Mock
+  const aggregator = (await deployContract(
+    ownerAcc,
+    ChainlinkAggregatorV3MockArtifact,
+    args
+  )) as ChainlinkAggregatorV3Mock
   console.log(`[${baseId}/${quoteId}, '${aggregator.address}'],`)
   verify(aggregator.address, args)
   await aggregator.set('993446937361492000')

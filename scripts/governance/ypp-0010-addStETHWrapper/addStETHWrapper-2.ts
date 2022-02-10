@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { addTokenProposal } from '../../fragments/ladle/addTokenProposal'
 import { addIntegrationProposal } from '../../fragments/ladle/addIntegrationProposal'
@@ -13,26 +18,25 @@ import { developer } from './addStETHWrapper.config'
  *   2. Adds lidoWrapHandler as an integration to Ladle, to allow `route`
  *   3. Adds a STETH/ETH/DAI and STETH/ETH/USDC paths to the CompositeOracle, to be used by the frontend
  */
-
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const lidoWrapHandlerAddress: string = protocol.get('lidoWrapHandler') as string
-  const cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as unknown as Cauldron
+  const cauldron = (await ethers.getContractAt(
+    'Cauldron',
+    protocol.get('cauldron') as string,
+    ownerAcc
+  )) as unknown as Cauldron
   const wstEthAddress = await cauldron.assets(WSTETH)
   const stEthAddress = await cauldron.assets(STETH)
   console.log(`Using wstETH at ${wstEthAddress}`)
   console.log(`Using stETH at ${stEthAddress}`)
 
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

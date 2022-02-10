@@ -6,10 +6,7 @@ import { YieldMath } from '../../../../typechain/YieldMath'
 /**
  * @dev This script deploys the YieldMath library
  */
-export const deployYieldMath = async (
-  ownerAcc: any,
-  protocol: Map<string, string>,
-): Promise<YieldMath> => {
+export const deployYieldMath = async (ownerAcc: any, protocol: Map<string, string>): Promise<YieldMath> => {
   let yieldMath: YieldMath
   if (protocol.get('yieldMath') === undefined) {
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
@@ -18,7 +15,7 @@ export const deployYieldMath = async (
     console.log(`YieldMath deployed at ${yieldMath.address}`)
     verify(yieldMath.address, [])
     protocol.set('yieldMath', yieldMath.address)
-    writeAddressMap("protocol.json", protocol);
+    writeAddressMap('protocol.json', protocol)
   } else {
     yieldMath = (await ethers.getContractAt('YieldMath', protocol.get('yieldMath') as string, ownerAcc)) as YieldMath
     console.log(`Reusing YieldMath at ${yieldMath.address}`)

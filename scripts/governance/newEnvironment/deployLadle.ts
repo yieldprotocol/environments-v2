@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 import { ETH } from '../../../shared/constants'
 
 import { deployLadle } from '../../fragments/core/deployLadle'
@@ -15,12 +20,12 @@ const { developer, assets } = require(process.env.CONF as string)
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const weth9 = (await ethers.getContractAt(
     'WETH9Mock',
-    (assets as Map<string,string>).get(ETH) as string,
+    (assets as Map<string, string>).get(ETH) as string,
     ownerAcc
   )) as unknown as WETH9Mock
 
@@ -30,5 +35,5 @@ const { developer, assets } = require(process.env.CONF as string)
   const router = await ladle.router()
   protocol.set('router', router)
 
-  writeAddressMap('protocol.json', protocol);
+  writeAddressMap('protocol.json', protocol)
 })()

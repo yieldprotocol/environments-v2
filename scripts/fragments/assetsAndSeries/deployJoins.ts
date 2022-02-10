@@ -13,24 +13,23 @@ const { deployContract } = waffle
  */
 
 export const deployJoins = async (
-    ownerAcc: any,
-    timelock: Timelock,
-    joinData: Array<[string, string]>
-  ): Promise<Map<string, Join>> => {
-
+  ownerAcc: any,
+  timelock: Timelock,
+  joinData: Array<[string, string]>
+): Promise<Map<string, Join>> => {
   let joins: Map<string, Join> = new Map()
   for (let [assetId, assetAddress] of joinData) {
     let join: Join
     join = (await deployContract(ownerAcc, JoinArtifact, [assetAddress])) as Join
     console.log(`Join deployed at ${join.address} for ${assetAddress}`)
     verify(join.address, [assetAddress])
-  
+
     if (!(await join.hasRole(ROOT, timelock.address))) {
       await join.grantRole(ROOT, timelock.address)
       console.log(`join.grantRoles(ROOT, timelock)`)
       while (!(await join.hasRole(ROOT, timelock.address))) {}
     }
-    
+
     joins.set(assetId, join)
   }
 

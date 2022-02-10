@@ -23,14 +23,14 @@ export const addSeriesProposal = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
-  newPools: Map<string, string>,    // seriesId, poolAddress
-): Promise<Array<{ target: string; data: string }>>  => {
+  newPools: Map<string, string> // seriesId, poolAddress
+): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [seriesId, fyTokenAddress] of newFYTokens) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
     const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
-    
+
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
@@ -38,12 +38,12 @@ export const addSeriesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    const joinAddress = await ladle.joins(baseId) as string
+    const joinAddress = (await ladle.joins(baseId)) as string
     if (joinAddress === undefined) throw `Join for ${baseId} not found`
     else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', await ladle.joins(baseId) as string, ownerAcc)) as Join
+    const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
 
-    const chiOracleAddress = await cauldron.lendingOracles(baseId) as string
+    const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
     if (chiOracleAddress === undefined) throw `${baseId} not a base in the Cauldron`
     else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
 
@@ -54,21 +54,14 @@ export const addSeriesProposal = async (
     // Add fyToken/series to the Cauldron
     proposal.push({
       target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('addSeries', [
-        seriesId,
-        baseId,
-        fyToken.address
-      ]),
+      data: cauldron.interface.encodeFunctionData('addSeries', [seriesId, baseId, fyToken.address]),
     })
     console.log(`Adding ${seriesId} for ${baseId} using ${fyToken.address}`)
 
     // Register pool in Ladle
     proposal.push({
       target: ladle.address,
-      data: ladle.interface.encodeFunctionData('addPool', [
-        seriesId,
-        pool.address
-      ]),
+      data: ladle.interface.encodeFunctionData('addPool', [seriesId, pool.address]),
     })
     console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
 
@@ -76,10 +69,7 @@ export const addSeriesProposal = async (
     proposal.push({
       target: join.address,
       data: join.interface.encodeFunctionData('grantRoles', [
-        [
-          id(join.interface, 'join(address,uint128)'),
-          id(join.interface, 'exit(address,uint128)'),
-        ],
+        [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
         fyToken.address,
       ]),
     })
@@ -89,10 +79,7 @@ export const addSeriesProposal = async (
     proposal.push({
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('grantRoles', [
-        [
-          id(fyToken.interface, 'mint(address,uint256)'),
-          id(fyToken.interface, 'burn(address,uint256)'),
-        ],
+        [id(fyToken.interface, 'mint(address,uint256)'), id(fyToken.interface, 'burn(address,uint256)')],
         ladle.address,
       ]),
     })
@@ -102,10 +89,7 @@ export const addSeriesProposal = async (
     proposal.push({
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('grantRoles', [
-        [
-          id(fyToken.interface, 'point(bytes32,address)'),
-          id(fyToken.interface, 'setFlashFeeFactor(uint256)'),
-        ],
+        [id(fyToken.interface, 'point(bytes32,address)'), id(fyToken.interface, 'setFlashFeeFactor(uint256)')],
         timelock.address,
       ]),
     })
@@ -129,10 +113,7 @@ export const addSeriesProposal = async (
     const ladlePlan = [
       {
         contact: fyToken.address,
-        signatures: [
-          id(fyToken.interface, 'mint(address,uint256)'),
-          id(fyToken.interface, 'burn(address,uint256)')
-        ],
+        signatures: [id(fyToken.interface, 'mint(address,uint256)'), id(fyToken.interface, 'burn(address,uint256)')],
       },
     ]
 
@@ -146,10 +127,7 @@ export const addSeriesProposal = async (
     const joinPlan = [
       {
         contact: join.address,
-        signatures: [
-          id(join.interface, 'join(address,uint128)'),
-          id(join.interface, 'exit(address,uint128)')
-        ],
+        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
       },
     ]
 

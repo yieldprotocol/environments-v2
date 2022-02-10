@@ -1,5 +1,11 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, getOwnerOrImpersonate, verify, readAddressMappingIfExists, writeAddressMap } from '../../../shared/helpers'
+import {
+  getOriginalChainId,
+  getOwnerOrImpersonate,
+  verify,
+  readAddressMappingIfExists,
+  writeAddressMap,
+} from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
 import CauldronArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
@@ -15,7 +21,7 @@ const { deployContract } = waffle
 export const deployCauldron = async (
   ownerAcc: any,
   protocol: Map<string, string>,
-  governance: Map<string, string>,
+  governance: Map<string, string>
 ): Promise<Cauldron> => {
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -29,7 +35,7 @@ export const deployCauldron = async (
     console.log(`Cauldron deployed at ${cauldron.address}`)
     verify(cauldron.address, [])
     protocol.set('cauldron', cauldron.address)
-    writeAddressMap('protocol.json', protocol);
+    writeAddressMap('protocol.json', protocol)
   } else {
     cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
     console.log(`Reusing Cauldron at ${cauldron.address}`)

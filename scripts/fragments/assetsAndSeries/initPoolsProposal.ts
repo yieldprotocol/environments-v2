@@ -10,14 +10,12 @@ import { ZERO_ADDRESS } from '../../../shared/constants'
 
 import { ERC20Mock, Pool, FYToken, Join, Timelock } from '../../../typechain'
 
-
 export const initPoolsProposal = async (
   ownerAcc: any,
   timelock: Timelock,
   newPools: Map<string, string>,
   poolsInit: Array<[string, string, BigNumber, BigNumber]>
-): Promise<Array<{ target: string; data: string }>>  => {
-
+): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 

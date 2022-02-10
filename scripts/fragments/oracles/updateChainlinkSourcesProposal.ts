@@ -15,7 +15,7 @@ import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechai
 export const updateChainlinkSourcesProposal = async (
   oracle: ChainlinkMultiOracle,
   spotSources: [string, string, string, string, string][]
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, quoteId, quoteAddress, sourceAddress] of spotSources) {
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`

@@ -14,7 +14,7 @@ import { WAD } from '../../../shared/constants'
 import { IOracle, Cauldron, Ladle, Witch, Join, EmergencyBrake } from '../../../typechain'
 
 export const makeIlkProposal = async (
-  ownerAcc: any, 
+  ownerAcc: any,
   spotOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
@@ -22,7 +22,7 @@ export const makeIlkProposal = async (
   joins: Map<string, string>,
   debtLimits: Array<[string, string, number, number, number, number]>,
   auctionLimits: Array<[string, number, number, number, number, number]>
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec] of auctionLimits) {
@@ -47,9 +47,7 @@ export const makeIlkProposal = async (
     proposal.push({
       target: join.address,
       data: join.interface.encodeFunctionData('grantRoles', [
-        [
-          id(join.interface, 'exit(address,uint128)'),
-        ],
+        [id(join.interface, 'exit(address,uint128)')],
         witch.address,
       ]),
     })
@@ -66,11 +64,9 @@ export const makeIlkProposal = async (
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
     })
-    console.log(
-      `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`
-    )
+    console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
   }
-  
+
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
     // console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)

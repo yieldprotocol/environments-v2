@@ -1,6 +1,11 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { orchestrateChainlinkOracleProposal } from '../../fragments/oracles/orchestrateChainlinkOracleProposal'
 import { orchestrateCompoundOracleProposal } from '../../fragments/oracles/orchestrateCompoundOracleProposal'
@@ -18,10 +23,26 @@ import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCo
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { ChainlinkMultiOracle, CompoundMultiOracle, CompositeMultiOracle, UniswapV3Oracle, LidoOracle, YearnVaultMultiOracle } from '../../../typechain'
+import {
+  ChainlinkMultiOracle,
+  CompoundMultiOracle,
+  CompositeMultiOracle,
+  UniswapV3Oracle,
+  LidoOracle,
+  YearnVaultMultiOracle,
+} from '../../../typechain'
 import { WAD } from '../../../shared/constants'
 const { deployer, developer } = require(process.env.CONF as string)
-const { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, compositeSources, compositePaths, yearnSources } = require(process.env.CONF as string)
+const {
+  chainlinkSources,
+  chiSources,
+  rateSources,
+  uniswapSources,
+  lidoSource,
+  compositeSources,
+  compositePaths,
+  yearnSources,
+} = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
@@ -31,8 +52,8 @@ const { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, c
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json')
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
@@ -45,36 +66,36 @@ const { chainlinkSources, chiSources, rateSources, uniswapSources, lidoSource, c
     ownerAcc
   )) as unknown as Timelock
 
-  const chainlinkOracle = ((await ethers.getContractAt(
+  const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get('chainlinkOracle') as string,
     ownerAcc
-  )) as unknown) as ChainlinkMultiOracle
-  const compoundOracle = ((await ethers.getContractAt(
+  )) as unknown as ChainlinkMultiOracle
+  const compoundOracle = (await ethers.getContractAt(
     'CompoundMultiOracle',
     protocol.get('compoundOracle') as string,
     ownerAcc
-  )) as unknown) as CompoundMultiOracle
-  const compositeOracle = ((await ethers.getContractAt(
+  )) as unknown as CompoundMultiOracle
+  const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown) as CompositeMultiOracle
-  const uniswapOracle = ((await ethers.getContractAt(
+  )) as unknown as CompositeMultiOracle
+  const uniswapOracle = (await ethers.getContractAt(
     'UniswapV3Oracle',
     protocol.get('uniswapOracle') as string,
     ownerAcc
-  )) as unknown) as UniswapV3Oracle
-  const lidoOracle = ((await ethers.getContractAt(
+  )) as unknown as UniswapV3Oracle
+  const lidoOracle = (await ethers.getContractAt(
     'LidoOracle',
     protocol.get('lidoOracle') as string,
     ownerAcc
-  )) as unknown) as LidoOracle
-  const yearnOracle = ((await ethers.getContractAt(
+  )) as unknown as LidoOracle
+  const yearnOracle = (await ethers.getContractAt(
     'YearnVaultMultiOracle',
     protocol.get('yearnOracle') as string,
     ownerAcc
-  )) as unknown) as YearnVaultMultiOracle
+  )) as unknown as YearnVaultMultiOracle
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

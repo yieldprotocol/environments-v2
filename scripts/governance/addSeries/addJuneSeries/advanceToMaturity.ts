@@ -7,7 +7,6 @@ import { developer, rollData } from './addJuneSeries.mainnet.config'
 /**
  * @dev This script advances time until maturity of the first strategy
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
@@ -15,7 +14,7 @@ import { developer, rollData } from './addJuneSeries.mainnet.config'
 
   const [strategyId] = rollData[0]
 
-  const strategies = readAddressMappingIfExists('strategies.json');
+  const strategies = readAddressMappingIfExists('strategies.json')
   const strategyAddress = strategies.get(strategyId)
   if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
   else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)

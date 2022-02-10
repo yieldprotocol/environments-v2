@@ -10,7 +10,6 @@ import * as fs from 'fs'
 import { bytesToString, jsonToMap, getOriginalChainId, getOwnerOrImpersonate } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
 import { newMin } from './ypp-0009.config'
-
 ;(async () => {
   const chainId = await getOriginalChainId()
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
@@ -26,11 +25,11 @@ import { newMin } from './ypp-0009.config'
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = ((await ethers.getContractAt(
+  const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
-  )) as unknown) as Cauldron
+  )) as unknown as Cauldron
   for (let [baseId, ilkId, minDebt] of newMin) {
     const debt = await cauldron.debt(baseId, ilkId)
     if (debt.min.toString() === minDebt.toString())

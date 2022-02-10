@@ -10,29 +10,28 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
   proposeApproveExecute,
-  getGovernanceProtocolAddresses
+  getGovernanceProtocolAddresses,
 } from '../../../shared/helpers'
 import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
 import { Cauldron, Timelock } from '../../../typechain'
 import { newLimits, developer } from './updateCeiling.config'
-
 ;(async () => {
   const chainId = await getOriginalChainId()
   const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   // Contract instantiation
-  const cauldron = ((await ethers.getContractAt(
+  const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
-  )) as unknown) as Cauldron
+  )) as unknown as Cauldron
 
-  const timelock = ((await ethers.getContractAt(
+  const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
-  )) as unknown) as Timelock
+  )) as unknown as Timelock
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

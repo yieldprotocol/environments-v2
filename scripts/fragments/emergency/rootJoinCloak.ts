@@ -11,7 +11,6 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
  *
  * It takes as inputs the governance and joins json address files.
  */
-
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>

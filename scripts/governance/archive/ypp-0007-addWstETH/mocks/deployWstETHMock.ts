@@ -17,7 +17,7 @@ const { deployContract } = waffle
   const stEthAddress = '0x2296AB4F92f7fADC78eD02A9576B9a779CAa91bE'
 
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy WstETHMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
 

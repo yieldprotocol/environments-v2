@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+  proposeApproveExecute,
+} from '../../../shared/helpers'
 
 import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
@@ -16,24 +21,20 @@ const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF 
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-  const strategies = readAddressMappingIfExists('strategies.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
+  const strategies = readAddressMappingIfExists('strategies.json')
 
   // Temporary files with the fyTokens and pools to add
-  const newFYTokens = readAddressMappingIfExists('fyTokens.json');
-  const newPools = readAddressMappingIfExists('pools.json');
+  const newFYTokens = readAddressMappingIfExists('fyTokens.json')
+  const newPools = readAddressMappingIfExists('pools.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
@@ -46,7 +47,9 @@ const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF 
   )) as unknown as EmergencyBrake
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools))
+  proposal = proposal.concat(
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
+  )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 

@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { deployPools } from '../../fragments/assetsAndSeries/deployPools'
 import { YieldMath } from '../../../typechain'
@@ -12,7 +17,7 @@ const { developer, poolData } = require(process.env.CONF as string)
 ;(async () => {
   const chainId = await getOriginalChainId()
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const yieldMath = (await ethers.getContractAt(
     'YieldMath',
@@ -21,5 +26,5 @@ const { developer, poolData } = require(process.env.CONF as string)
   )) as unknown as YieldMath
 
   const pools = await deployPools(ownerAcc, yieldMath, poolData)
-  writeAddressMap('pools.json', pools); // pools.json is a tempporary file
+  writeAddressMap('pools.json', pools) // pools.json is a tempporary file
 })()

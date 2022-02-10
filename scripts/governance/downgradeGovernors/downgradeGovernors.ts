@@ -10,16 +10,15 @@ import { governorsToDevelopersProposal } from '../../fragments/permissions/gover
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { accounts, developerToImpersonate } from './downgradeGovernors.arb_mainnet.config'
 
-
 /**
  * @dev This script downgrades one or more accounts from a governor to a developer role.
  */
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

@@ -10,13 +10,13 @@ import { Timelock, EmergencyBrake, Cauldron, Witch } from '../../../typechain'
  * A plan is recorded in the Cloak to isolate the Witch from the Cauldron.
  */
 
- export const orchestrateWitchProposal = async (
+export const orchestrateWitchProposal = async (
   deployer: string,
   cauldron: Cauldron,
   witch: Witch,
   timelock: Timelock,
   cloak: EmergencyBrake
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   // Orchestrate Witch to use the permissioned functions in Cauldron

@@ -10,7 +10,6 @@ import { ENS, WAD } from '../../../shared/constants'
 /**
  * @dev This script tests ENS as a collateral
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
@@ -20,7 +19,7 @@ import { ENS, WAD } from '../../../shared/constants'
     stringToBytes6('0105'),
     stringToBytes6('0204'),
     stringToBytes6('0205'),
-  ]  
+  ]
 
   // Impersonate ENS whale 0xd7a029db2585553978190db5e85ec724aa4df23f
   const ensWhale = '0xd7a029db2585553978190db5e85ec724aa4df23f'
@@ -30,7 +29,7 @@ import { ENS, WAD } from '../../../shared/constants'
     [1, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
     [42, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ]) // https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
-  
+
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
 
   const ens = (await ethers.getContractAt(
@@ -43,18 +42,15 @@ import { ENS, WAD } from '../../../shared/constants'
     protocol.get('cauldron') as string,
     ensWhaleAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ensWhaleAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ensWhaleAcc)) as unknown as Ladle
   const oracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ensWhaleAcc
   )) as unknown as CompositeMultiOracle
 
-  if (chainId !== 1) { // Use the mock ENS to mint
+  if (chainId !== 1) {
+    // Use the mock ENS to mint
     await ens.mint(ensWhale, WAD.mul(1000000)) // This should be enough
   }
   const ensBalanceBefore = await ens.balanceOf(ensWhaleAcc.address)
@@ -63,16 +59,18 @@ import { ENS, WAD } from '../../../shared/constants'
   for (let seriesId of seriesIds) {
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
-    const fyToken = (await ethers.getContractAt(
-      'FYToken',
-      series.fyToken,
-      ensWhaleAcc
-      )) as unknown as FYToken
-    
+    const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ensWhaleAcc)) as unknown as FYToken
+
     const dust = (await cauldron.debt(series.baseId, ENS)).min
     const ratio = (await cauldron.spotOracles(series.baseId, ENS)).ratio
-    const borrowed = BigNumber.from(10).pow(await fyToken.decimals()).mul(dust)
-    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ENS), borrowed))[0].mul(ratio).div(1000000).mul(101).div(100) // borrowed * spot * ratio * 1.01 (for margin)
+    const borrowed = BigNumber.from(10)
+      .pow(await fyToken.decimals())
+      .mul(dust)
+    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ENS), borrowed))[0]
+      .mul(ratio)
+      .div(1000000)
+      .mul(101)
+      .div(100) // borrowed * spot * ratio * 1.01 (for margin)
 
     // Build vault
     await ladle.build(seriesId, ENS, 0)
@@ -86,13 +84,13 @@ import { ENS, WAD } from '../../../shared/constants'
     await ladle.pour(vaultId, ensWhaleAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
-    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw "art mismatch"
-    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
-    
+    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+
     // Repay fyDai and withdraw ens
     await fyToken.transfer(fyToken.address, borrowed)
     await ladle.pour(vaultId, ensWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
-    if ((await ens.balanceOf(ensWhaleAcc.address)).toString() !== ensBalanceBefore.toString()) throw "balance mismatch"
+    if ((await ens.balanceOf(ensWhaleAcc.address)).toString() !== ensBalanceBefore.toString()) throw 'balance mismatch'
   }
 })()

@@ -1,6 +1,13 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, mapToJson, stringToBytes6, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  jsonToMap,
+  mapToJson,
+  stringToBytes6,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetProposal'
 import { makeIlkProposal } from '../../makeIlkProposal'
@@ -25,7 +32,6 @@ import { DAI, USDC, ENS, WAD } from '../../../shared/constants'
  * Make ENS into an Ilk
  * Approve ENS as collateral for all series
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
@@ -36,11 +42,9 @@ import { DAI, USDC, ENS, WAD } from '../../../shared/constants'
     [1, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
     [42, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   ]) // https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
-  
+
   // Input data: assetId, asset address
-  const addedAssets: Array<[string, string]> = [
-    [ENS, ensAddress.get(chainId) as string],
-  ]
+  const addedAssets: Array<[string, string]> = [[ENS, ensAddress.get(chainId) as string]]
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
   const ilks: Array<[string, string, string, number, number, number, number, number]> = [
     [DAI, ENS, COMPOSITE, 1670000, 600000, 500000, 100, 18],
@@ -67,31 +71,19 @@ import { DAI, USDC, ENS, WAD } from '../../../shared/constants'
   const joins = jsonToMap(fs.readFileSync(path + 'joins.json', 'utf8')) as Map<string, string>
   const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
-  const compositeOracle = ((await ethers.getContractAt(
+  const compositeOracle = (await ethers.getContractAt(
     'IOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown) as IOracle
+  )) as unknown as IOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'Witch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as Witch
-  const wand = (await ethers.getContractAt(
-    'Wand',
-    protocol.get('wand') as string,
-    ownerAcc
-  )) as unknown as Wand
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,

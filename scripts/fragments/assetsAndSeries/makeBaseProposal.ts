@@ -15,14 +15,14 @@ import { CHI, RATE } from '../../../shared/constants'
 import { Ladle, Cauldron, Witch, Join, EmergencyBrake, IOracle } from '../../../typechain'
 
 export const makeBaseProposal = async (
-  ownerAcc: any, 
+  ownerAcc: any,
   lendingOracle: IOracle,
   cauldron: Cauldron,
   ladle: Ladle,
   witch: Witch,
   cloak: EmergencyBrake,
   bases: Array<[string, string]>
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, joinAddress] of bases) {
     const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
@@ -41,9 +41,7 @@ export const makeBaseProposal = async (
     proposal.push({
       target: join.address,
       data: join.interface.encodeFunctionData('grantRoles', [
-        [
-          id(join.interface, 'join(address,uint128)'),
-        ],
+        [id(join.interface, 'join(address,uint128)')],
         witch.address,
       ]),
     })
@@ -59,9 +57,7 @@ export const makeBaseProposal = async (
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
     })
-    console.log(
-      `cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`
-    )
+    console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
 
     // Add the asset as a base
     proposal.push({

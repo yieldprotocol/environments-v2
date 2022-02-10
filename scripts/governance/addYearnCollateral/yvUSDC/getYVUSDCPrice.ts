@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, bytesToBytes32, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  bytesToBytes32,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../../shared/helpers'
 
 import { IOracle } from '../../../../typechain'
 
@@ -10,11 +15,11 @@ import { developer } from './addYVUSDC.mainnet.config'
  * @dev This script reads YVUSDC/ETH, YVUSDC/DAI and YVUSDC/USDC prices
  */
 ;(async () => {
-   const chainId = await getOriginalChainId()
- 
-   let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
+  const chainId = await getOriginalChainId()
 
-   const protocol = readAddressMappingIfExists('protocol.json');
+  let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
+
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const compositeOracle = (await ethers.getContractAt(
     'IOracle',

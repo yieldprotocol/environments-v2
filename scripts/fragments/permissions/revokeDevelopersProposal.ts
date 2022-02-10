@@ -11,11 +11,10 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
  */
 
 export const revokeDevelopersProposal = async (
-    timelock: Timelock,
-    cloak: EmergencyBrake,
-    revokedAccounts: string[]
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  timelock: Timelock,
+  cloak: EmergencyBrake,
+  revokedAccounts: string[]
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of revokedAccounts) {
     proposal.push({
@@ -32,7 +31,10 @@ export const revokeDevelopersProposal = async (
     })
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('revokeRoles', [[id(cloak.interface, 'execute(bytes32)')], revokedAccount]),
+      data: cloak.interface.encodeFunctionData('revokeRoles', [
+        [id(cloak.interface, 'execute(bytes32)')],
+        revokedAccount,
+      ]),
     })
     console.log(`Revoked developer ${revokedAccount}`)
   }

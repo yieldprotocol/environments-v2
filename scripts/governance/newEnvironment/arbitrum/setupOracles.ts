@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../../shared/helpers'
 
 import { orchestrateChainlinkUSDOracleProposal } from '../../../fragments/oracles/orchestrateChainlinkUSDOracleProposal'
 import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
@@ -20,8 +25,8 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const governance = readAddressMappingIfExists('governance.json')
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
@@ -34,16 +39,16 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
     ownerAcc
   )) as unknown as Timelock
 
-  const chainlinkUSDOracle = ((await ethers.getContractAt(
+  const chainlinkUSDOracle = (await ethers.getContractAt(
     'ChainlinkUSDMultiOracle',
     protocol.get(CHAINLINKUSD) as string,
     ownerAcc
-  )) as unknown) as ChainlinkUSDMultiOracle
-  const accumulatorOracle = ((await ethers.getContractAt(
+  )) as unknown as ChainlinkUSDMultiOracle
+  const accumulatorOracle = (await ethers.getContractAt(
     'AccumulatorMultiOracle',
     protocol.get(ACCUMULATOR) as string,
     ownerAcc
-  )) as unknown) as AccumulatorMultiOracle
+  )) as unknown as AccumulatorMultiOracle
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
@@ -51,7 +56,7 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
   proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
   proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
-  
+
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

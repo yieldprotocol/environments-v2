@@ -9,11 +9,10 @@ import { Pool, YieldMath } from '../../../typechain'
  */
 
 export const deployPools = async (
-    ownerAcc: any,
-    yieldMathLibrary: YieldMath,
-    poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]>
-  ): Promise<Map<string, Pool>> => {
-
+  ownerAcc: any,
+  yieldMathLibrary: YieldMath,
+  poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]>
+): Promise<Map<string, Pool>> => {
   const PoolFactory = await ethers.getContractFactory('Pool', {
     libraries: {
       YieldMath: yieldMathLibrary.address,
@@ -28,10 +27,10 @@ export const deployPools = async (
     if ((await ethers.provider.getCode(fyTokenAddress)) === '0x') throw `Contract at ${fyTokenAddress} contains no code`
     else console.log(`Using fyToken at ${fyTokenAddress}`)
 
-    const pool = ((await PoolFactory.deploy(baseAddress, fyTokenAddress, ts, g1, g2)) as unknown) as Pool
+    const pool = (await PoolFactory.deploy(baseAddress, fyTokenAddress, ts, g1, g2)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
-    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString(), g2.toString()], "yieldMath.js")
-    
+    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString(), g2.toString()], 'yieldMath.js')
+
     pools.set(seriesId, pool)
   }
 

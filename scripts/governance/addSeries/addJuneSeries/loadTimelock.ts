@@ -7,15 +7,14 @@ import { whales, poolsInit } from './addJuneSeries.mainnet.config'
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
     const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
-    const pools = readAddressMappingIfExists('newPools.json');
+    const pools = readAddressMappingIfExists('newPools.json')
     const poolAddress = pools.get(seriesId) as string
 
     const pool = (await ethers.getContractAt('Pool', poolAddress, whaleAcc)) as Pool

@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+} from '../../../shared/helpers'
 
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 // import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
@@ -7,10 +12,23 @@ import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetPropos
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 
-import { IOracle, ChainlinkMultiOracle, CompositeMultiOracle, YearnVaultMultiOracle, CompoundMultiOracle } from '../../../typechain'
+import {
+  IOracle,
+  ChainlinkMultiOracle,
+  CompositeMultiOracle,
+  YearnVaultMultiOracle,
+  CompoundMultiOracle,
+} from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
 const { developer, deployer, assets, bases } = require(process.env.CONF as string)
-const { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuctionLimits, compositeAuctionLimits, yearnAuctionLimits } = require(process.env.CONF as string)
+const {
+  chainlinkDebtLimits,
+  compositeDebtLimits,
+  yearnDebtLimits,
+  chainlinkAuctionLimits,
+  compositeAuctionLimits,
+  yearnAuctionLimits,
+} = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
@@ -21,9 +39,9 @@ const { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuct
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-  const joins = readAddressMappingIfExists('joins.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
+  const joins = readAddressMappingIfExists('joins.json')
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
@@ -50,16 +68,8 @@ const { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuct
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'Witch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as Witch
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -82,45 +92,45 @@ const { chainlinkDebtLimits, compositeDebtLimits, yearnDebtLimits, chainlinkAuct
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
-  proposal = proposal.concat(await makeIlkProposal(
-    ownerAcc,
-    chainlinkOracle as unknown as IOracle,
-    cauldron,
-    witch,
-    cloak,
-    joins,
-    chainlinkDebtLimits,
-    chainlinkAuctionLimits
-  ))
-  proposal = proposal.concat(await makeIlkProposal(
-    ownerAcc,
-    compositeOracle as unknown as IOracle,
-    cauldron,
-    witch,
-    cloak,
-    joins,
-    compositeDebtLimits,
-    compositeAuctionLimits
-  ))
-  proposal = proposal.concat(await makeIlkProposal(
-    ownerAcc,
-    yearnOracle as unknown as IOracle,
-    cauldron,
-    witch,
-    cloak,
-    joins,
-    yearnDebtLimits,
-    yearnAuctionLimits
-  ))
-  proposal = proposal.concat(await makeBaseProposal(
-    ownerAcc,
-    compoundOracle as unknown as IOracle,
-    cauldron,
-    ladle,
-    witch,
-    cloak,
-    bases
-  ))
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      chainlinkOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      joins,
+      chainlinkDebtLimits,
+      chainlinkAuctionLimits
+    )
+  )
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      compositeOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      joins,
+      compositeDebtLimits,
+      compositeAuctionLimits
+    )
+  )
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      yearnOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      joins,
+      yearnDebtLimits,
+      yearnAuctionLimits
+    )
+  )
+  proposal = proposal.concat(
+    await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
+  )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

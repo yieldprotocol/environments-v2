@@ -12,7 +12,6 @@ import { jsonToMap } from '../../shared/helpers'
 import { Cauldron } from '../../typechain/Cauldron'
 import { Timelock } from '../../typechain/Timelock'
 import { Relay } from '../../typechain/Relay'
-
 ;(async () => {
   const vaultIds: Array<string> = ['0x3f9765c9a4601ff812bcff99']
   const [ownerAcc] = await ethers.getSigners()

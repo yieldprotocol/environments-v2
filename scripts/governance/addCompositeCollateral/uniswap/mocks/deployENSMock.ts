@@ -11,7 +11,7 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let ens: ERC20Mock
   const args = ['Ethereum Name Service', 'ENS']

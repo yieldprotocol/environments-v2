@@ -12,9 +12,7 @@ import { getOwnerOrImpersonate, getOriginalChainId, jsonToMap, proposeApproveExe
 import { updateDecimalsProposal } from '../../limits/updateDecimalsProposal'
 import { Cauldron, Timelock } from '../../../typechain'
 import { newLimits } from './updateDecimals.config'
-
 ;(async () => {
-
   const chainId = await getOriginalChainId()
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
@@ -30,17 +28,17 @@ import { newLimits } from './updateDecimals.config'
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = ((await ethers.getContractAt(
+  const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
-  )) as unknown) as Cauldron
+  )) as unknown as Cauldron
 
-  const timelock = ((await ethers.getContractAt(
+  const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
-  )) as unknown) as Timelock
+  )) as unknown as Timelock
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = await updateDecimalsProposal(cauldron, newLimits)

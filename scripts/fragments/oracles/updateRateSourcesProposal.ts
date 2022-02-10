@@ -11,8 +11,8 @@ import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
 export const updateRateSourcesProposal = async (
   lendingOracle: CompoundMultiOracle,
   newSources: Array<[string, string]>
-): Promise<Array<{ target: string; data: string }>>  => {
-  const [ ownerAcc ] = await ethers.getSigners()
+): Promise<Array<{ target: string; data: string }>> => {
+  const [ownerAcc] = await ethers.getSigners()
   console.log(`compoundOracle: ${lendingOracle.address}`)
 
   // Build proposal

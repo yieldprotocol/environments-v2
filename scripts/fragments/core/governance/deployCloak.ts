@@ -14,7 +14,7 @@ const { deployContract } = waffle
 export const deployCloak = async (
   ownerAcc: any,
   timelock: Timelock,
-  governance: Map<string, string>,
+  governance: Map<string, string>
 ): Promise<EmergencyBrake> => {
   let cloak: EmergencyBrake
   if (governance.get('cloak') === undefined) {
@@ -26,7 +26,7 @@ export const deployCloak = async (
     verify(cloak.address, [ownerAcc.address, ownerAcc.address]) // Give the planner and executor their roles once set up
 
     governance.set('cloak', cloak.address)
-    writeAddressMap('governance.json', governance);
+    writeAddressMap('governance.json', governance)
   } else {
     cloak = (await ethers.getContractAt(
       'EmergencyBrake',
@@ -41,5 +41,5 @@ export const deployCloak = async (
     while (!(await cloak.hasRole(ROOT, timelock.address))) {}
   }
 
-return cloak
+  return cloak
 }

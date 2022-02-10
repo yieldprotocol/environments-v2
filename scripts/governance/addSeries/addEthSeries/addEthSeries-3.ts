@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+  proposeApproveExecute,
+} from '../../../../shared/helpers'
 
 import { orchestrateSeriesProposal } from '../../../fragments/assetsAndSeries/orchestrateSeriesProposal'
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
@@ -11,26 +16,21 @@ import { developer, newSeries, poolsInit, newStrategies, strategiesInit } from '
 /**
  * @dev This script deploys two strategies to be used for Ether
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
-  let strategies = readAddressMappingIfExists('strategies.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
+  let strategies = readAddressMappingIfExists('strategies.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

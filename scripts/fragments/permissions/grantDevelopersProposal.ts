@@ -11,11 +11,10 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
  */
 
 export const grantDevelopersProposal = async (
-    timelock: Timelock,
-    cloak: EmergencyBrake,
-    grantedAccounts: string[]
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  timelock: Timelock,
+  cloak: EmergencyBrake,
+  grantedAccounts: string[]
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {
     proposal.push({
@@ -32,8 +31,11 @@ export const grantDevelopersProposal = async (
     })
     proposal.push({
       target: cloak.address,
-      data: cloak.interface.encodeFunctionData('grantRoles', [[id(cloak.interface, 'execute(bytes32)')], grantedAccount]),
-    })  
+      data: cloak.interface.encodeFunctionData('grantRoles', [
+        [id(cloak.interface, 'execute(bytes32)')],
+        grantedAccount,
+      ]),
+    })
     console.log(`Granted developer ${grantedAccount}`)
   }
 

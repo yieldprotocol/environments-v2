@@ -15,7 +15,7 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let yvUSDC: YvTokenMock
   const args = ['USDC yVault', 'yvUSDC', 6, assets.get(USDC) as string]

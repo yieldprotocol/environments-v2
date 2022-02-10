@@ -11,11 +11,10 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
  */
 
 export const grantGovernorsProposal = async (
-    timelock: Timelock,
-    cloak: EmergencyBrake,
-    grantedAccounts: string[]
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  timelock: Timelock,
+  cloak: EmergencyBrake,
+  grantedAccounts: string[]
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {
     proposal.push({

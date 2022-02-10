@@ -4,18 +4,17 @@ import { AccumulatorMultiOracle, EmergencyBrake, Timelock } from '../../../typec
 
 /**
  * @dev This script permissions a AccumulatorMultiOracle
- * 
+ *
  * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
  * The Timelock gets access to governance functions.
  */
 
 export const orchestrateAccumulatorOracleProposal = async (
-    deployer: string, 
-    accumulatorOracle: AccumulatorMultiOracle,
-    timelock: Timelock,
-    cloak: EmergencyBrake
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  deployer: string,
+  accumulatorOracle: AccumulatorMultiOracle,
+  timelock: Timelock,
+  cloak: EmergencyBrake
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -23,21 +22,21 @@ export const orchestrateAccumulatorOracleProposal = async (
   proposal.push({
     target: accumulatorOracle.address,
     data: accumulatorOracle.interface.encodeFunctionData('grantRoles', [
-        [id(accumulatorOracle.interface, 'setSource(bytes6,bytes6,uint256,uint256)')],
-        timelock.address
-    ])
+      [id(accumulatorOracle.interface, 'setSource(bytes6,bytes6,uint256,uint256)')],
+      timelock.address,
+    ]),
   })
   console.log(`accumulatorOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: accumulatorOracle.address,
-    data: accumulatorOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    data: accumulatorOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
   console.log(`accumulatorOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: accumulatorOracle.address,
-    data: accumulatorOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
+    data: accumulatorOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
   console.log(`accumulatorOracle.revokeRole(ROOT, deployer)`)
 

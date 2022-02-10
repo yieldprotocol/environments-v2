@@ -14,7 +14,6 @@ import { BigNumber } from 'ethers'
 import { ERC20Mock } from '../../typechain/ERC20Mock'
 import { Cauldron } from '../../typechain/Cauldron'
 import { Ladle } from '../../typechain/Ladle'
-
 ;(async () => {
   const oneUSDC = WAD.div(10 ** 12)
   const newVaults: Array<[string, string, BigNumber, BigNumber]> = new Array([
