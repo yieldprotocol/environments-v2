@@ -22,11 +22,6 @@ const { developer, chainlinkSources, newRateSources, newChiSources } = require(p
     ownerAcc
   )) as unknown as Timelock
 
-  const chainlinkOracle = (await ethers.getContractAt(
-    'ChainlinkMultiOracle',
-    protocol.get(CHAINLINK) as string,
-    ownerAcc
-  )) as unknown as ChainlinkMultiOracle
   const compoundOracle = (await ethers.getContractAt(
     'CompoundMultiOracle',
     protocol.get(COMPOUND) as string,
@@ -37,7 +32,6 @@ const { developer, chainlinkSources, newRateSources, newChiSources } = require(p
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, newChiSources))
   proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, newRateSources))
-  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
 
   if (proposal.length > 0) {
     // Propose, Approve & execute
