@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import {
-  ACCUMULATOR,
+  COMPOUND,
   CHI,
   DAI,
   EOJUN22,
@@ -12,17 +12,21 @@ import {
   RATE,
   secondsIn25Years,
   USDC,
+  WBTC,
+  LINK,
+  WSTETH,
+  ENS,
   WAD,
   YSETH6MJD,
   YSETH6MMS,
   ZERO,
-} from '../../../../../shared/constants'
+} from '../../../../shared/constants'
 
-import * as base_config from '../../../base.arb_rinkeby.config'
+import * as base_config from '../../base.arb_rinkeby.config'
 
-export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const whales: Map<string, string> = base_config.whales.set(ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5')
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const whales: Map<string, string> = base_config.whales
 
 export const assets: Map<string, string> = base_config.assets
 
@@ -31,24 +35,51 @@ export const rateChiSources: Array<[string, string, string, string]> = [
   [ETH, CHI, WAD.toString(), WAD.toString()],
 ]
 
-export const chainlinkUSDSources: Array<[string, string, string]> = []
-
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [[ETH, base_config.joins.get(ETH) as string]]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, DAI, 1400000, 1000000000, 25000, 12],
-  [ETH, USDC, 1400000, 1000000000, 25000, 12],
+  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
+  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
   [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
+
+export const newChiSources: Array<[string, string]> = [
+  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'],
+]
+
+export const newRateSources: Array<[string, string]> = [
+  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'],
+]
+
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
+  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+  [ETH, DAI, 1500000, 250000000, 10000, 12],
+  [ETH, USDC, 1500000, 250000000, 10000, 12],
+  [ETH, WBTC, 1500000, 250000000, 10000, 12],
+  [ETH, LINK, 1500000, 250000000, 10000, 12],
+]
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
+  [ETH, WSTETH, 1000000, 250000000, 10000, 12],
+]
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
+  [ETH, ENS, 1500000, 250000000, 10000, 12],
+])
+
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [
     FYETH2203,
     ETH,
-    base_config.protocol.get(ACCUMULATOR) as string,
+    base_config.protocol.get(COMPOUND) as string,
     base_config.joins.get(ETH) as string,
     EOMAR22,
     'FYETH2203',
@@ -57,7 +88,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   [
     FYETH2206,
     ETH,
-    base_config.protocol.get(ACCUMULATOR) as string,
+    base_config.protocol.get(COMPOUND) as string,
     base_config.joins.get(ETH) as string,
     EOJUN22,
     'FYETH2206',

@@ -16,15 +16,15 @@ $RUN $HERE/../../../newEnvironment/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../../newEnvironment/deployPools.ts # deploy pools
 $RUN $HERE/../../../newEnvironment/deployStrategies.ts # deploy strategies
 
-$RUN $HERE/makeBases.ts # make existing assets into bases - propose
-$RUN $HERE/makeBases.ts # make existing assets into bases - approve
-$RUN $HERE/makeBases.ts # make existing assets into bases - execute
+$RUN $HERE/addAssets.ts # make existing assets into bases and create new base/ilk pairs - propose
+$RUN $HERE/addAssets.ts # make existing assets into bases and create new base/ilk pairs - approve
+$RUN $HERE/addAssets.ts # make existing assets into bases and create new base/ilk pairs - execute
 
 $RUN $HERE/../../../newEnvironment/addSeries.ts # add series - propose
 $RUN $HERE/../../../newEnvironment/addSeries.ts # add series - approve
 $RUN $HERE/../../../newEnvironment/addSeries.ts # add series - execute
 
-$RUN $HERE/../../../initStrategies.ts # orchestrate and initialize strategies - propose
-$RUN $HERE/../../../initStrategies.ts # orchestrate and initialize strategies - approve
-$RUN $HERE/../../../initStrategies.ts # orchestrate and initialize strategies - execute
+$RUN $HERE/../../../newEnvironment/initStrategies.ts # orchestrate and initialize strategies - propose
+$RUN $HERE/../../../newEnvironment/initStrategies.ts # orchestrate and initialize strategies - approve
+$RUN $HERE/../../../newEnvironment/initStrategies.ts # orchestrate and initialize strategies - execute
 

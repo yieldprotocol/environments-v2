@@ -3,11 +3,11 @@ import {
   getOwnerOrImpersonate,
   proposeApproveExecute,
   readAddressMappingIfExists,
-} from '../../../../../../../shared/helpers'
-import { AccumulatorMultiOracle, ChainlinkUSDMultiOracle, Timelock } from '../../../../../../../typechain'
-import { ACCUMULATOR, CHAINLINKUSD } from '../../../../../../../shared/constants'
-import { updateAccumulatorSourcesProposal } from '../../../../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { updateChainlinkUSDSourcesProposal } from '../../../../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
+} from '../../../../../shared/helpers'
+import { AccumulatorMultiOracle, ChainlinkUSDMultiOracle, Timelock } from '../../../../../typechain'
+import { ACCUMULATOR, CHAINLINKUSD } from '../../../../../shared/constants'
+import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSourcesProposal'
+import { updateChainlinkUSDSourcesProposal } from '../../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
 
 const { developer, chainlinkUSDSources, rateChiSources } = require(process.env.CONF as string)
 

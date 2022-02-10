@@ -1,27 +1,42 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+} from '../../../../../shared/helpers'
 
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
+import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
 
 import {
-  AccumulatorMultiOracle,
-  Cauldron,
-  EmergencyBrake,
   IOracle,
-  Ladle,
-  Timelock,
-  Witch,
+  ChainlinkUSDMultiOracle,
+  AccumulatorMultiOracle,
 } from '../../../../../typechain'
-import { ACCUMULATOR } from '../../../../../shared/constants'
+import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
+const { developer, bases } = require(process.env.CONF as string)
+const {
+  chainlinkDebtLimits,
+} = require(process.env.CONF as string)
 
-const { developer, protocol, governance, bases } = require(process.env.CONF as string)
+/**
+ * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
+ */
 
 ;(async () => {
-  const ownerAcc = await getOwnerOrImpersonate(developer)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
+
+  const chainlinkUSDOracle = (await ethers.getContractAt(
+    'ChainlinkUSDMultiOracle',
+    protocol.get('chainlinkUSDOracle') as string,
+    ownerAcc
+  )) as unknown as ChainlinkUSDMultiOracle
   const accumulatorOracle = (await ethers.getContractAt(
     'AccumulatorMultiOracle',
-    protocol.get(ACCUMULATOR) as string,
+    protocol.get('accumulatorOracle') as string,
     ownerAcc
   )) as unknown as AccumulatorMultiOracle
   const cauldron = (await ethers.getContractAt(
@@ -43,8 +58,17 @@ const { developer, protocol, governance, bases } = require(process.env.CONF as s
   )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
+
   proposal = proposal.concat(
     await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
+  )
+
+  proposal = proposal.concat(
+    await updateIlkProposal(
+      chainlinkUSDOracle as unknown as IOracle,
+      cauldron,
+      chainlinkDebtLimits,
+    )
   )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
