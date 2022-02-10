@@ -36,6 +36,22 @@
     [
       "accumulatorOracle",
       "0x0ad9Ef93673B6081c0c3b753CcaaBDdd8d2e7848"
+    ],
+    [
+      "cauldron",
+      "0x23cc87FBEBDD67ccE167Fa9Ec6Ad3b7fE3892E30"
+    ],
+    [
+      "ladle",
+      "0x16E25cf364CeCC305590128335B8f327975d0560"
+    ],
+    [
+      "router",
+      "0x83c4Cb8b9Eb49a8DB87455A5E6bb8f6bb24D42d9"
+    ],
+    [
+      "witch",
+      "0x08173D0885B00BDD640aaE57D05AbB74cd00d669"
     ]
   ]
 }

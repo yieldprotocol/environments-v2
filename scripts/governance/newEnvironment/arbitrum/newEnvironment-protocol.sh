@@ -2,8 +2,8 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/newEnvironment.arb_rinkeby.config
-RUN="npx hardhat run --network arb_rinkeby"
+export CONF=$PWD/$HERE/newEnvironment.arb_mainnet.config
+RUN="npx hardhat run --network arb_mainnet"
 
 # Phase 4: Core
 $RUN $HERE/../deployCauldron.ts
