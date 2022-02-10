@@ -10,7 +10,7 @@ import { IOracle, Cauldron } from '../../../typechain'
 export const updateIlkProposal = async (
   spotOracle: IOracle,
   cauldron: Cauldron,
-  debtLimits: Array<[string, string, number, number, number, number]>,
+  debtLimits: Array<[string, string, number, number, number, number]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

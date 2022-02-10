@@ -71,7 +71,7 @@ export const newCompositeLimits: Array<[string, string, number, number, number, 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, ENS, 1500000, 250000000, 10000, 12],
-])
+]
 
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol

@@ -18,11 +18,7 @@ import {
 } from '../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
 const { developer, deployer, assets, bases } = require(process.env.CONF as string)
-const {
-  chainlinkDebtLimits,
-  uniswapDebtLimits,
-  compositeDebtLimits,
-} = require(process.env.CONF as string)
+const { chainlinkDebtLimits, uniswapDebtLimits, compositeDebtLimits } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
@@ -79,25 +75,11 @@ const {
   )
 
   proposal = proposal.concat(
-    await updateIlkProposal(
-      chainlinkOracle as unknown as IOracle,
-      cauldron,
-      chainlinkDebtLimits,
-    )
+    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, chainlinkDebtLimits)
   )
+  proposal = proposal.concat(await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, uniswapDebtLimits))
   proposal = proposal.concat(
-    await updateIlkProposal(
-      uniswapOracle as unknown as IOracle,
-      cauldron,
-      uniswapDebtLimits,
-    )
-  )
-  proposal = proposal.concat(
-    await updateIlkProposal(
-      compositeOracle as unknown as IOracle,
-      cauldron,
-      compositeDebtLimits,
-    )
+    await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, compositeDebtLimits)
   )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

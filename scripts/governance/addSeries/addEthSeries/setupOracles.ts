@@ -1,9 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-  readAddressMappingIfExists,
-} from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
 import { CompoundMultiOracle, ChainlinkMultiOracle, Timelock } from '../../../../typechain'
 import { COMPOUND, CHAINLINK } from '../../../../shared/constants'
 import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
