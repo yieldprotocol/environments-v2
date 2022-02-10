@@ -54,14 +54,12 @@ export const makeBaseProposal = async (
       },
     ]
 
-    if((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
       proposal.push({
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(
-          `cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`
-      )
+      console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
     }
 
     // Add the asset as a base
