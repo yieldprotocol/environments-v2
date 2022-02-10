@@ -22,13 +22,14 @@ import {
   ZERO,
 } from '../../../../shared/constants'
 
-import * as base_config from '../../base.arb_rinkeby.config'
+import * as base_config from '../../base.mainnet.config'
 
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
 
 export const assets: Map<string, string> = base_config.assets
+export const joins: Map<string, string> = base_config.joins
 
 export const rateChiSources: Array<[string, string, string, string]> = [
   [ETH, RATE, WAD.toString(), WAD.toString()],
@@ -101,7 +102,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYETH2203,
     base_config.assets.get(ETH) as string,
-    base_config.fyTokens.get(FYETH2203) as string,
+    base_config.newFYTokens.get(FYETH2203) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -109,7 +110,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYETH2206,
     base_config.assets.get(ETH) as string,
-    base_config.fyTokens.get(FYETH2206) as string,
+    base_config.newFYTokens.get(FYETH2206) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),

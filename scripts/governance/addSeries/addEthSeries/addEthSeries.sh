@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addEthSeries.mainnet.config
-RUN="npx hardhat run --network mainnet"
+RUN="npx hardhat run --network localhost"
 
 # Add funds to the timelock
 #$RUN $HERE/../../../../loadTimelock.ts
