@@ -13,7 +13,6 @@ import { jsonToMap } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
 import { Timelock } from '../../../typechain/Timelock'
 import { Relay } from '../../../typechain/Relay'
-
 ;(async () => {
   const vaultId = '0x3f9765c9a4601ff812bcff99'
   /* await hre.network.provider.request({

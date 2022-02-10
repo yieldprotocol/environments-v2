@@ -21,7 +21,7 @@ import { deployer, developer } from './yvUSDC/addYVUSDC.mainnet.config'
  * Previously, the YearnOracle should have been deployed, and ROOT access
  * given to the Timelock.
  */
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
@@ -32,8 +32,7 @@ import { deployer, developer } from './yvUSDC/addYVUSDC.mainnet.config'
 
   const yearnOracle = (await ethers.getContractAt(
     'YearnVaultMultiOracle',
-    protocol.get(YEARN) as string,
-
+    protocol.get(YEARN) as string
   )) as unknown as YearnVaultMultiOracle
 
   const cloak = (await ethers.getContractAt(

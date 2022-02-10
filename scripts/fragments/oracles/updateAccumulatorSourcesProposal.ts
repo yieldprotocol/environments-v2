@@ -9,8 +9,8 @@ import { AccumulatorMultiOracle } from '../../../typechain'
 export const updateAccumulatorSourcesProposal = async (
   lendingOracle: AccumulatorMultiOracle,
   newSources: Array<[string, string, string, string]>
-): Promise<Array<{ target: string; data: string }>>  => {
-  const [ ownerAcc ] = await ethers.getSigners()
+): Promise<Array<{ target: string; data: string }>> => {
+  const [ownerAcc] = await ethers.getSigners()
   console.log(`compoundOracle: ${lendingOracle.address}`)
 
   // Build proposal

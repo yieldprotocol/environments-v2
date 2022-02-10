@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { deployPoolView } from '../../fragments/core/libraries/deployPoolView'
 
@@ -14,7 +19,7 @@ const { developer } = require(process.env.CONF as string)
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const yieldMathExtensions = (await ethers.getContractAt(
     'YieldMathExtensions',
@@ -25,5 +30,5 @@ const { developer } = require(process.env.CONF as string)
   const poolView = await deployPoolView(ownerAcc, yieldMathExtensions, protocol)
   protocol.set('poolView', poolView.address)
 
-  writeAddressMap('protocol.json', protocol);
+  writeAddressMap('protocol.json', protocol)
 })()

@@ -13,36 +13,33 @@ import { Timelock } from '../../../typechain/Timelock'
  */
 
 export const orchestrateYearnOracleProposal = async (
-    deployer: string, 
-    yearnOracle: YearnVaultMultiOracle,
-    timelock: Timelock,
-    cloak: EmergencyBrake
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  deployer: string,
+  yearnOracle: YearnVaultMultiOracle,
+  timelock: Timelock,
+  cloak: EmergencyBrake
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
-      target: yearnOracle.address,
-      data: yearnOracle.interface.encodeFunctionData('grantRoles', [
-          [
-              id(yearnOracle.interface, 'setSource(bytes6,bytes6,address)'),
-          ],
-          timelock.address
-      ])
+    target: yearnOracle.address,
+    data: yearnOracle.interface.encodeFunctionData('grantRoles', [
+      [id(yearnOracle.interface, 'setSource(bytes6,bytes6,address)')],
+      timelock.address,
+    ]),
   })
   console.log(`yearnOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
-      target: yearnOracle.address,
-      data: yearnOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    target: yearnOracle.address,
+    data: yearnOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
   console.log(`yearnOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
-      target: yearnOracle.address,
-      data: yearnOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
+    target: yearnOracle.address,
+    data: yearnOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
   console.log(`yearnOracle.revokeRole(ROOT, deployer)`)
 

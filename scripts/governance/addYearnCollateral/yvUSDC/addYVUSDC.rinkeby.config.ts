@@ -5,23 +5,19 @@ export const developer = '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
 export const deployer = '0xE7aa7AF667016837733F3CA3809bdE04697730eF'
 
 export const assets: Map<string, string> = new Map([
-  [USDC,   '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
+  [USDC, '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
   [YVUSDC, '0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B'],
 ])
 
 // underlying, yvToken, address
-export const yearnSources: Array<[string, string, string]> = [
-  [USDC, YVUSDC,  assets.get(YVUSDC) as string]
-]
+export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
 
 // Assets for which we will have a Join
-export const assetsToAdd: Array<[string, string]> = [
-  [YVUSDC, assets.get(YVUSDC) as string],
-]
+export const assetsToAdd: Array<[string, string]> = [[YVUSDC, assets.get(YVUSDC) as string]]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
 export const debtLimits: Array<[string, string, number, number, number, number]> = [
-  [USDC, YVUSDC, 1250000, 1000000,  5000,    6],
+  [USDC, YVUSDC, 1250000, 1000000, 5000, 6],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec

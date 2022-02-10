@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+} from '../../../shared/helpers'
 
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
@@ -9,7 +14,15 @@ import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlks
 
 import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
 
-import { developer, deployer, chainlinkSources, assets, debtLimits, auctionLimits, seriesIlks } from './addMKR.rinkeby.config'
+import {
+  developer,
+  deployer,
+  chainlinkSources,
+  assets,
+  debtLimits,
+  auctionLimits,
+  seriesIlks,
+} from './addMKR.rinkeby.config'
 
 /**
  * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
@@ -21,15 +34,14 @@ import { developer, deployer, chainlinkSources, assets, debtLimits, auctionLimit
  * Make collateral into an Ilk
  * Approve collateral as collateral for all series
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const joins = readAddressMappingIfExists('joins.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const joins = readAddressMappingIfExists('joins.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
@@ -41,16 +53,8 @@ import { developer, deployer, chainlinkSources, assets, debtLimits, auctionLimit
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'Witch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as Witch
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -72,16 +76,18 @@ import { developer, deployer, chainlinkSources, assets, debtLimits, auctionLimit
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
-  proposal = proposal.concat(await makeIlkProposal(
-    ownerAcc,
-    chainlinkOracle as unknown as IOracle,
-    cauldron,
-    witch,
-    cloak,
-    joins,
-    debtLimits,
-    auctionLimits
-  ))
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      chainlinkOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      joins,
+      debtLimits,
+      auctionLimits
+    )
+  )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

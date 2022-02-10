@@ -10,7 +10,6 @@ import * as fs from 'fs'
 import { jsonToMap } from '../../../shared/helpers'
 
 import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
-
 ;(async () => {
   const planHash = '0xae4831012f1830ace893417d820c13e4045d4039d192aff22b5d61ce840ea5af'
   /* await hre.network.provider.request({

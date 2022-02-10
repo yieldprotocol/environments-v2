@@ -13,7 +13,7 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy MKRMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let mkr = (await deployContract(ownerAcc, MKRMockArtifact)) as MKRMock
   console.log(`MKRMock deployed at '${mkr.address}`)

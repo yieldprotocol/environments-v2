@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { deployYieldMathExtensions } from '../../fragments/core/libraries/deployYieldMathExtensions'
 
@@ -14,7 +19,7 @@ const { developer } = require(process.env.CONF as string)
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
 
   const yieldMath = (await ethers.getContractAt(
     'YieldMath',
@@ -25,5 +30,5 @@ const { developer } = require(process.env.CONF as string)
   const yieldMathExtensions = await deployYieldMathExtensions(ownerAcc, yieldMath, protocol)
   protocol.set('yieldMathExtensions', yieldMathExtensions.address)
 
-  writeAddressMap('protocol.json', protocol);
+  writeAddressMap('protocol.json', protocol)
 })()

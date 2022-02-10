@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId, writeAddressMap } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+  writeAddressMap,
+} from '../../../shared/helpers'
 
 import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
@@ -13,20 +18,16 @@ const { developer, strategiesData } = require(process.env.CONF as string)
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json');
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const existingStrategies = readAddressMappingIfExists('strategies.json');
+  const governance = readAddressMappingIfExists('governance.json')
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const existingStrategies = readAddressMappingIfExists('strategies.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
   const safeERC20Namer = (await ethers.getContractAt(
     'SafeERC20Namer',
     protocol.get('safeERC20Namer') as string,
@@ -43,6 +44,15 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
-  const deployedStrategies = await deployStrategies(ownerAcc, existingStrategies, cauldron, ladle, safeERC20Namer, yieldMathExtensions, timelock, strategiesData)
-  writeAddressMap('strategies.json', deployedStrategies);
+  const deployedStrategies = await deployStrategies(
+    ownerAcc,
+    existingStrategies,
+    cauldron,
+    ladle,
+    safeERC20Namer,
+    yieldMathExtensions,
+    timelock,
+    strategiesData
+  )
+  writeAddressMap('strategies.json', deployedStrategies)
 })()

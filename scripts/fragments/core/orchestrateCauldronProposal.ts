@@ -12,12 +12,12 @@ import { Timelock, EmergencyBrake, Cauldron } from '../../../typechain'
  * @dev This script orchestrates the FYTokenFactory
  * The Cloak gets ROOT access. ROOT access is removed from the deployer.
  */
- export const orchestrateCauldronProposal = async (
+export const orchestrateCauldronProposal = async (
   deployer: string,
   cauldron: Cauldron,
   timelock: Timelock,
   cloak: EmergencyBrake
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer

@@ -13,7 +13,7 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy LINKMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let link = (await deployContract(ownerAcc, LINKMockArtifact)) as LINKMock
   console.log(`LINKMock deployed at '${link.address}`)

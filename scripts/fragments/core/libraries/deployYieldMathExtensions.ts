@@ -9,7 +9,7 @@ import { YieldMath, YieldMathExtensions } from '../../../../typechain'
 export const deployYieldMathExtensions = async (
   ownerAcc: any,
   yieldMath: YieldMath,
-  protocol: Map<string, string>,
+  protocol: Map<string, string>
 ): Promise<YieldMathExtensions> => {
   let yieldMathExtensions: YieldMathExtensions
   if (protocol.get('yieldMathExtensions') === undefined) {
@@ -23,9 +23,13 @@ export const deployYieldMathExtensions = async (
     console.log(`YieldMathExtensions deployed at ${yieldMathExtensions.address}`)
     verify(yieldMathExtensions.address, [], getAddressMappingFilePath('yieldMath.js'))
     protocol.set('yieldMathExtensions', yieldMathExtensions.address)
-    writeAddressMap("protocol.json", protocol);
+    writeAddressMap('protocol.json', protocol)
   } else {
-    yieldMathExtensions = (await ethers.getContractAt('YieldMathExtensions', protocol.get('yieldMathExtensions') as string, ownerAcc)) as YieldMathExtensions
+    yieldMathExtensions = (await ethers.getContractAt(
+      'YieldMathExtensions',
+      protocol.get('yieldMathExtensions') as string,
+      ownerAcc
+    )) as YieldMathExtensions
     console.log(`Reusing YieldMathExtensions at ${yieldMathExtensions.address}`)
   }
 

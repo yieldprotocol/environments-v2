@@ -3,7 +3,6 @@ import * as fs from 'fs'
 import { jsonToMap } from '../../shared/helpers'
 
 import { Timelock } from '../../typechain/Timelock'
-
 ;(async () => {
   const proposals: Array<string> = [
     '0x0299ce167d78eb0d527ab8b1ce91228d717ed60bed76e31b432c11fdcff18c03',

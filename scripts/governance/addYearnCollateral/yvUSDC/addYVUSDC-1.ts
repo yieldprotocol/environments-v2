@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../../shared/helpers'
 
 import { deployJoins } from '../../../fragments/assetsAndSeries/deployJoins'
 
@@ -9,12 +14,11 @@ import { developer, assetsToAdd } from './addYVUSDC.rinkeby.config'
 /**
  * @dev This script deploys a Join
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -23,5 +27,5 @@ import { developer, assetsToAdd } from './addYVUSDC.rinkeby.config'
   )) as unknown as Timelock
 
   const joins = await deployJoins(ownerAcc, timelock, assetsToAdd)
-  writeAddressMap('joins.json', joins); // joins.json is a tempporary file
+  writeAddressMap('joins.json', joins) // joins.json is a tempporary file
 })()

@@ -7,10 +7,10 @@ import { Timelock, EmergencyBrake } from '../../../../typechain'
  */
 
 export const orchestrateCloakProposal = async (
-    deployer: string,
-    timelock: Timelock,
-    cloak: EmergencyBrake,
-  ): Promise<Array<{ target: string; data: string }>>  => {
+  deployer: string,
+  timelock: Timelock,
+  cloak: EmergencyBrake
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []

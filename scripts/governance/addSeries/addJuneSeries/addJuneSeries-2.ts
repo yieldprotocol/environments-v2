@@ -1,5 +1,12 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId, proposeApproveExecute, verify } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+  proposeApproveExecute,
+  verify,
+} from '../../../../shared/helpers'
 
 import { updatePoolFeesProposal } from '../../../fragments/core/factories/updatePoolFeesProposal'
 import { updateTimeStretchProposal } from '../../../fragments/core/factories/updateTimeStretchProposal'
@@ -11,14 +18,13 @@ import { developer, deployer, poolData, poolFees, timeStretch } from './addJuneS
 /**
  * @dev This script grants the Timelock permission to create pools using the PoolFactory, and creates two pools
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const poolFactory = (await ethers.getContractAt(
     'PoolFactory',
@@ -50,19 +56,19 @@ import { developer, deployer, poolData, poolFees, timeStretch } from './addJuneS
     const pools: Map<string, string> = new Map()
 
     for (let [seriesId, fyTokenAddress] of poolData) {
-      if ((await ethers.provider.getCode(fyTokenAddress)) === '0x') throw `FYToken at ${fyTokenAddress} contains no code`
+      if ((await ethers.provider.getCode(fyTokenAddress)) === '0x')
+        throw `FYToken at ${fyTokenAddress} contains no code`
       else console.log(`Using join at ${fyTokenAddress} for ${seriesId}`)
-      const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc) as unknown as FYToken
+      const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as unknown as FYToken
       const baseAddress = await fyToken.underlying()
 
       const poolAddress = await poolFactory.calculatePoolAddress(baseAddress, fyTokenAddress)
       console.log(`Pool deployed at ${poolAddress}`)
       verify(poolAddress, [], 'safeERC20Namer.js')
-      
+
       pools.set(seriesId, poolAddress)
     }
 
     writeAddressMap('newPools.json', pools) // newPools.json is a temporary file
   }
 })()
-

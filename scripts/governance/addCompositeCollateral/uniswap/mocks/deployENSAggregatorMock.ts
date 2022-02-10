@@ -15,9 +15,9 @@ const { deployContract } = waffle
 
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (chainId !== 42) throw "Only Kovan supported"
+  if (chainId !== 42) throw 'Only Kovan supported'
 
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   const spotSources = jsonToMap(fs.readFileSync('./addresses/kovan/spotSources.json', 'utf8')) as Map<string, string>
   const baseId = ENS
@@ -25,7 +25,11 @@ const { deployContract } = waffle
 
   if (spotSources.get(`${baseId}/${quoteId}`) === undefined) {
     const args: any = [18]
-    const aggregator = (await deployContract(ownerAcc, ChainlinkAggregatorV3MockArtifact, args)) as ChainlinkAggregatorV3Mock
+    const aggregator = (await deployContract(
+      ownerAcc,
+      ChainlinkAggregatorV3MockArtifact,
+      args
+    )) as ChainlinkAggregatorV3Mock
     console.log(`[${baseId}/${quoteId}, '${aggregator.address}'],`)
     verify(aggregator.address, args)
     await aggregator.set('14698870000000000')

@@ -19,7 +19,14 @@ export const updateInitialOfferProposal = async (
     const limits = await witch.limits(ilkId)
     proposal.push({
       target: witch.address,
-      data: witch.interface.encodeFunctionData('setIlk', [ilkId, ilk.duration, initialOffer, limits.line, limits.dust, limits.dec]),
+      data: witch.interface.encodeFunctionData('setIlk', [
+        ilkId,
+        ilk.duration,
+        initialOffer,
+        limits.line,
+        limits.dust,
+        limits.dec,
+      ]),
     })
     console.log(`${bytesToString(ilkId)}: ${ilk.initialOffer} -> ${initialOffer}`)
   }

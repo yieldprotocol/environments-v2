@@ -11,19 +11,16 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
  */
 
 export const governorsToDevelopersProposal = async (
-    timelock: Timelock,
-    cloak: EmergencyBrake,
-    accounts: string[]
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  timelock: Timelock,
+  cloak: EmergencyBrake,
+  accounts: string[]
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of accounts) {
     proposal.push({
       target: timelock.address,
       data: timelock.interface.encodeFunctionData('revokeRoles', [
-        [
-          id(timelock.interface, 'approve(bytes32)'),
-        ],
+        [id(timelock.interface, 'approve(bytes32)')],
         revokedAccount,
       ]),
     })

@@ -8,7 +8,6 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 /**
  * @dev This script revokes the governor privileges from the deployer account.
  */
-
 ;(async () => {
   const deployer: string = '0xA072f81Fea73Ca932aB2B5Eda31Fa29306D58708'
 

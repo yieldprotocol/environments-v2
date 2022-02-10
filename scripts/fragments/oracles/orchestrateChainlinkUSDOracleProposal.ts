@@ -4,18 +4,17 @@ import { ChainlinkUSDMultiOracle, EmergencyBrake, Timelock } from '../../../type
 
 /**
  * @dev This script permissions a ChainlinkUSDMultiOracle
- * 
+ *
  * The Timelock and Cloak get ROOT access. Root access is removed from the deployer.
  * The Timelock gets access to governance functions.
  */
 
 export const orchestrateChainlinkUSDOracleProposal = async (
-    deployer: string, 
-    chainlinkUSDOracle: ChainlinkUSDMultiOracle,
-    timelock: Timelock,
-    cloak: EmergencyBrake
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  deployer: string,
+  chainlinkUSDOracle: ChainlinkUSDMultiOracle,
+  timelock: Timelock,
+  cloak: EmergencyBrake
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -23,21 +22,21 @@ export const orchestrateChainlinkUSDOracleProposal = async (
   proposal.push({
     target: chainlinkUSDOracle.address,
     data: chainlinkUSDOracle.interface.encodeFunctionData('grantRoles', [
-        [id(chainlinkUSDOracle.interface, 'setSource(bytes6,address,address)')],
-        timelock.address
-    ])
+      [id(chainlinkUSDOracle.interface, 'setSource(bytes6,address,address)')],
+      timelock.address,
+    ]),
   })
   console.log(`chainlinkUSDOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: chainlinkUSDOracle.address,
-    data: chainlinkUSDOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    data: chainlinkUSDOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
   console.log(`chainlinkUSDOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: chainlinkUSDOracle.address,
-    data: chainlinkUSDOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
+    data: chainlinkUSDOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
   console.log(`chainlinkUSDOracle.revokeRole(ROOT, deployer)`)
 

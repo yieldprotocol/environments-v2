@@ -13,36 +13,33 @@ import { Timelock } from '../../../typechain/Timelock'
  */
 
 export const orchestrateLidoOracleProposal = async (
-    deployer: string, 
-    lidoOracle: LidoOracle,
-    timelock: Timelock,
-    cloak: EmergencyBrake
-  ): Promise<Array<{ target: string; data: string }>>  => {
-
+  deployer: string,
+  lidoOracle: LidoOracle,
+  timelock: Timelock,
+  cloak: EmergencyBrake
+): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
-      target: lidoOracle.address,
-      data: lidoOracle.interface.encodeFunctionData('grantRoles', [
-          [
-              id(lidoOracle.interface, 'setSource(address)'),
-          ],
-          timelock.address
-      ])
+    target: lidoOracle.address,
+    data: lidoOracle.interface.encodeFunctionData('grantRoles', [
+      [id(lidoOracle.interface, 'setSource(address)')],
+      timelock.address,
+    ]),
   })
   console.log(`lidoOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
-      target: lidoOracle.address,
-      data: lidoOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address])
+    target: lidoOracle.address,
+    data: lidoOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
   console.log(`lidoOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
-      target: lidoOracle.address,
-      data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer])
+    target: lidoOracle.address,
+    data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
   console.log(`lidoOracle.revokeRole(ROOT, deployer)`)
 

@@ -3,14 +3,7 @@ import { ethers, network } from 'hardhat'
 import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import { jsonToMap, stringToBytes6, bytesToBytes32, impersonate, getOriginalChainId } from '../../../../shared/helpers'
-import {
-  ERC20Mock,
-  Cauldron,
-  Ladle,
-  FYToken,
-  Witch,
-  Timelock,
-} from '../../../../typechain'
+import { ERC20Mock, Cauldron, Ladle, FYToken, Witch, Timelock } from '../../../../typechain'
 
 import { YVUSDC, WAD } from '../../../../shared/constants'
 import { IOracle } from '../../../../typechain'
@@ -24,10 +17,7 @@ import { IOracle } from '../../../../typechain'
   // CHANGED THIS NEXT LINE TO LOCALHOST FOR MAINNET FORK TESTING
   // const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
   const path = chainId === 1 ? './addresses/localhost/' : './addresses/kovan/'
-  const seriesIds: Array<string> = [
-    stringToBytes6('0204'),
-    stringToBytes6('0205'),
-  ]
+  const seriesIds: Array<string> = [stringToBytes6('0204'), stringToBytes6('0205')]
 
   // Impersonate YVUSDC whale 0xac2fdf3c54c9f6f4c4fb9473a139aca3e40b7559
   // random whale found on etherscan

@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
@@ -15,7 +20,7 @@ const { deployer, developer } = require(process.env.CONF as string)
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
@@ -29,7 +34,11 @@ const { deployer, developer } = require(process.env.CONF as string)
   )) as unknown as Timelock
 
   // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await orchestrateCloakProposal(deployer as string, timelock, cloak)
+  const proposal: Array<{ target: string; data: string }> = await orchestrateCloakProposal(
+    deployer as string,
+    timelock,
+    cloak
+  )
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

@@ -13,7 +13,6 @@ import { Ladle } from '../../typechain/Ladle'
  *
  * It takes as inputs the governance and protocol json address files.
  */
-
 ;(async () => {
   const fee = WAD.div(31536000) // wei per token per second to maturity. 1% for one year to maturity
   /* await hre.network.provider.request({

@@ -13,9 +13,9 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy ERC20Mock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
-  const args = ["Uniswap", "UNI"]
+  const args = ['Uniswap', 'UNI']
   let link = (await deployContract(ownerAcc, ERC20MockArtifact, args)) as ERC20Mock
   console.log(`ERC20Mock deployed at '${link.address}`)
   verify(link.address, args)

@@ -18,7 +18,7 @@ export const addAssetProposal = async (
   cauldron: Cauldron,
   ladle: Ladle,
   assets: [string, string, string][]
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
@@ -41,10 +41,7 @@ export const addAssetProposal = async (
     proposal.push({
       target: join.address,
       data: join.interface.encodeFunctionData('grantRoles', [
-        [
-          id(join.interface, 'join(address,uint128)'),
-          id(join.interface, 'exit(address,uint128)'),
-        ],
+        [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
         ladle.address,
       ]),
     })

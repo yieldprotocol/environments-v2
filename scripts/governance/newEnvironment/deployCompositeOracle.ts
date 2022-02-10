@@ -1,5 +1,10 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate, getOriginalChainId } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+  getOriginalChainId,
+} from '../../../shared/helpers'
 
 import { deployCompositeOracle } from '../../fragments/oracles/deployCompositeOracle'
 
@@ -14,8 +19,8 @@ const { developer } = require(process.env.CONF as string)
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -26,5 +31,5 @@ const { developer } = require(process.env.CONF as string)
   const compositeOracle = await deployCompositeOracle(ownerAcc, timelock, protocol)
   protocol.set('compositeOracle', compositeOracle.address)
 
-  writeAddressMap('protocol.json', protocol);
+  writeAddressMap('protocol.json', protocol)
 })()

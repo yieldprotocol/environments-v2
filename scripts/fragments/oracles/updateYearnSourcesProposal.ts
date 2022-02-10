@@ -9,7 +9,7 @@ import { YearnVaultMultiOracle } from '../../../typechain'
 export const updateYearnSourcesProposal = async (
   oracle: YearnVaultMultiOracle,
   sources: [string, string, string][]
-): Promise<Array<{ target: string; data: string }>>  => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, yearnVaultId, yvTokenAddress] of sources) {
     if ((await ethers.provider.getCode(yvTokenAddress)) === '0x') throw `Address ${yvTokenAddress} contains no code`
@@ -19,11 +19,7 @@ export const updateYearnSourcesProposal = async (
 
     proposal.push({
       target: oracle.address,
-      data: oracle.interface.encodeFunctionData('setSource', [
-        baseId,
-        yearnVaultId,
-        yvTokenAddress,
-      ]),
+      data: oracle.interface.encodeFunctionData('setSource', [baseId, yearnVaultId, yvTokenAddress]),
     })
   }
 

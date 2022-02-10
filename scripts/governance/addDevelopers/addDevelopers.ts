@@ -13,12 +13,12 @@ import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.c
 /**
  * @dev This script gives developer privileges to one or more accounts.
  */
- ;(async () => {
+;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

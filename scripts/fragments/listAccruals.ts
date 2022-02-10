@@ -13,7 +13,6 @@ import { MAX256 as NOT_MATURE } from '../../shared/constants'
 import { Cauldron } from '../../typechain/Cauldron'
 import { Timelock } from '../../typechain/Timelock'
 import { FYToken } from '../../typechain/FYToken'
-
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>

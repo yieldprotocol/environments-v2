@@ -8,13 +8,12 @@ import { developer, assets } from './addEthSeries.config'
 /**
  * @dev This script loads the Timelock with Ether to initialize pools and strategies
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
-  const governance = readAddressMappingIfExists('governance.json');
+  const governance = readAddressMappingIfExists('governance.json')
 
   const weth = (await ethers.getContractAt(
     'WETH9Mock',
