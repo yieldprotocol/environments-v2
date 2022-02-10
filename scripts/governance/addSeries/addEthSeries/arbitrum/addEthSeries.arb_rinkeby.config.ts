@@ -14,10 +14,10 @@ import {
     YSETH6MJD,
     YSETH6MMS,
     ZERO
-} from '../../../../../../../shared/constants'
-import {readAddressMappingIfExists} from "../../../../../../../shared/helpers";
+} from '../../../../../shared/constants'
+import {readAddressMappingIfExists} from "../../../../../shared/helpers";
 
-import * as base_config from "../../../newEnvironment.arb_rinkeby.config";
+import * as base_config from "../../../base.arb_rinkeby.config";
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
