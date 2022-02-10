@@ -140,12 +140,12 @@ export const yearnDebtLimits: Array<[string, string, number, number, number, num
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [ETH,  3600, 714000,  500000000, 10000, 12],
-  [DAI,  3600, 1000000, 1000000,   5000,  18],
-  [USDC, 3600, 751000,  1000000,   5000,  6],
-  [WBTC, 3600, 666000,  300000,    2100,  4],
-  [LINK, 3600, 600000,  1000000,   300,   18],
-  [UNI,  3600, 600000,  1000000,   100,   18],
+  [ETH,  3600, 714000, 500000000, 10000, 12],
+  [DAI,  3600, 751000, 1000000,   5000,  18],
+  [USDC, 3600, 751000, 1000000,   5000,  6],
+  [WBTC, 3600, 666000, 300000,    2100,  4],
+  [LINK, 3600, 600000, 1000000,   300,   18],
+  [UNI,  3600, 600000, 1000000,   100,   18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -156,7 +156,7 @@ export const compositeAuctionLimits: Array<[string, number, number, number, numb
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
 export const yearnAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [YVUSDC, 3600, 600000, 1000000, 5000, 18],
+  [YVUSDC, 3600, 800000, 1000000, 5000, 18],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
