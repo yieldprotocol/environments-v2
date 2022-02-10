@@ -12,13 +12,13 @@ $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation pa
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - approve
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - execute
 
-$RUN $HERE/../../../../deployFYTokens.ts # deploy fyTokens
-$RUN $HERE/../../../../deployPools.ts # deploy pools
+$RUN $HERE/../../../newEnvironment/deployFYTokens.ts # deploy fyTokens
+$RUN $HERE/../../../newEnvironment/deployPools.ts # deploy pools
 
-$RUN $HERE/../../../addAssets.ts # orchestrate joins, make bases, make ilks - propose
-$RUN $HERE/../../../addAssets.ts # orchestrate joins, make bases, make ilks - approve
-$RUN $HERE/../../../addAssets.ts # orchestrate joins, make bases, make ilks - execute
+$RUN $HERE/makeBases.ts # make existing assets into bases - propose
+$RUN $HERE/makeBases.ts # make existing assets into bases - approve
+$RUN $HERE/makeBases.ts # make existing assets into bases - execute
 
-$RUN $HERE/../../../../addSeries.ts # add series - propose
-$RUN $HERE/../../../../addSeries.ts # add series - approve
-$RUN $HERE/../../../../addSeries.ts # add series - execute
+$RUN $HERE/../../../newEnvironment/addSeries.ts # add series - propose
+$RUN $HERE/../../../newEnvironment/addSeries.ts # add series - approve
+$RUN $HERE/../../../newEnvironment/addSeries.ts # add series - execute

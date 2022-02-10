@@ -17,17 +17,12 @@ import {
   YSETH6MMS,
   ZERO,
 } from '../../../../../shared/constants'
-import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
 import * as base_config from '../../../base.arb_rinkeby.config'
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const whales: Map<string, string> = base_config.whales.set(ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5')
-
-const protocol = readAddressMappingIfExists('protocol.json')
-const joins = readAddressMappingIfExists('joins.json')
-const fyTokens = readAddressMappingIfExists('fyTokens.json')
 
 export const assets: Map<string, string> = base_config.assets
 
@@ -39,7 +34,7 @@ export const rateChiSources: Array<[string, string, string, string]> = [
 export const chainlinkUSDSources: Array<[string, string, string]> = []
 
 // Assets that will be made into a base
-export const bases: Array<[string, string]> = [[ETH, joins.get(ETH) as string]]
+export const bases: Array<[string, string]> = [[ETH, base_config.joins.get(ETH) as string]]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
@@ -48,30 +43,42 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
   [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
 
-// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> =
-  base_config.chainlinkAuctionLimits
-
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYETH2203, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOMAR22, 'FYETH2203', 'FYETH2203'],
-  [FYETH2206, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOJUN22, 'FYETH2206', 'FYETH2206'],
+  [
+    FYETH2203,
+    ETH,
+    base_config.protocol.get(ACCUMULATOR) as string,
+    base_config.joins.get(ETH) as string,
+    EOMAR22,
+    'FYETH2203',
+    'FYETH2203',
+  ],
+  [
+    FYETH2206,
+    ETH,
+    base_config.protocol.get(ACCUMULATOR) as string,
+    base_config.joins.get(ETH) as string,
+    EOJUN22,
+    'FYETH2206',
+    'FYETH2206',
+  ],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [
     FYETH2203,
-    assets.get(ETH) as string,
-    fyTokens.get(FYETH2203) as string,
+    base_config.assets.get(ETH) as string,
+    base_config.fyTokens.get(FYETH2203) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
   [
     FYETH2206,
-    assets.get(ETH) as string,
-    fyTokens.get(FYETH2206) as string,
+    base_config.assets.get(ETH) as string,
+    base_config.fyTokens.get(FYETH2206) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),

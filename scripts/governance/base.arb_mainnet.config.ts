@@ -4,6 +4,7 @@ import { ACCUMULATOR, RATE, CHI } from '../../shared/constants'
 import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../shared/constants'
 
+export const governance = readAddressMappingIfExists('governance.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const joins = readAddressMappingIfExists('joins.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
