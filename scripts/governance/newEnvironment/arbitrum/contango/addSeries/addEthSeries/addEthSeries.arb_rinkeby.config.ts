@@ -45,9 +45,9 @@ export const bases: Array<[string, string]> = [
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-    [ETH, DAI, 1400000, 250000000, 50, 8], // TODO: Is the limit in USD or ETH????
-    [ETH, USDC, 1400000, 250000000, 50, 8], // TODO: Is the limit in USD or ETH????
-    [ETH, ETH, 1000000, 1000000, 0, 8], // Constant 1, no dust
+    [ETH, DAI,  1400000, 1000000000, 1250000, 12],
+    [ETH, USDC, 1400000, 1000000000, 1250000, 12],
+    [ETH, ETH,  1000000, 2500000000, 0,       12], // Constant 1, no dust
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
