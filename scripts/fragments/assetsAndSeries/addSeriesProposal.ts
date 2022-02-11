@@ -43,10 +43,11 @@ export const addSeriesProposal = async (
     else console.log(`Using join at ${joinAddress} for ${baseId}`)
     const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
 
-    const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
-    if (chiOracleAddress === undefined || chiOracleAddress === ZERO_ADDRESS)
-      throw `${baseId} not a base in the Cauldron`
-    else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
+    // This test fails if adding the base in the same proposal. All tests should move on-chain.
+    // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
+    // if (chiOracleAddress === undefined || chiOracleAddress === ZERO_ADDRESS)
+    //   throw `${baseId} not a base in the Cauldron`
+    // else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, Timelock already has ROOT as the deployer

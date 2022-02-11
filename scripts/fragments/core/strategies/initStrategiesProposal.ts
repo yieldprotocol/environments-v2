@@ -15,12 +15,12 @@ export const initStrategiesProposal = async (
   strategies: Map<string, string>,
   ladle: Ladle,
   timelock: Timelock,
-  strategiesInit: Array<[string, string, BigNumber]>
+  strategiesInit: Array<[string, string, string, BigNumber]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, startPoolId, initAmount] of strategiesInit) {
+  for (let [strategyId, startPoolAddress, startPoolId, initAmount] of strategiesInit) {
     const strategyAddress = strategies.get(strategyId) as string
     if ((await ethers.provider.getCode(strategyAddress)) === '0x')
       throw `Address ${strategyAddress} contains no code for a Strategy`
@@ -28,9 +28,10 @@ export const initStrategiesProposal = async (
     const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
     const base: ERC20Mock = (await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc)) as ERC20Mock
 
-    const startPoolAddress = await ladle.pools(startPoolId)
-    if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
-      throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`
+    // The test below doesn't work if the pool is added to the ladle in the same proposal.
+    // const startPoolAddress = await ladle.pools(startPoolId)
+    // if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
+    //   throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`
 
     console.log(`Timelock balance of ${await base.name()} is ${await base.balanceOf(timelock.address)}`)
     proposal.push({

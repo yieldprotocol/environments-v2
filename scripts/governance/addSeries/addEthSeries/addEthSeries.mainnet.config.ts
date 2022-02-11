@@ -29,8 +29,13 @@ export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
 
+export const governance: Map<string, string> = base_config.governance
+export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
+export const newFYTokens: Map<string, string> = base_config.newFYTokens
+export const newPools: Map<string, string> = base_config.newPools
+export const newStrategies: Map<string, string> = base_config.newStrategies
 
 export const rateChiSources: Array<[string, string, string, string]> = [
   [ETH, RATE, WAD.toString(), WAD.toString()],
@@ -79,14 +84,13 @@ export const newUniswapLimits: Array<[string, string, number, number, number, nu
   [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
-
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [
     FYETH2203,
     ETH,
-    base_config.protocol.get(COMPOUND) as string,
-    base_config.joins.get(ETH) as string,
+    protocol.get(COMPOUND) as string,
+    joins.get(ETH) as string,
     EOMAR22,
     'FYETH2203',
     'FYETH2203',
@@ -94,8 +98,8 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   [
     FYETH2206,
     ETH,
-    base_config.protocol.get(COMPOUND) as string,
-    base_config.joins.get(ETH) as string,
+    protocol.get(COMPOUND) as string,
+    joins.get(ETH) as string,
     EOJUN22,
     'FYETH2206',
     'FYETH2206',
@@ -106,16 +110,16 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [
     FYETH2203,
-    base_config.assets.get(ETH) as string,
-    base_config.newFYTokens.get(FYETH2203) as string,
+    assets.get(ETH) as string,
+    newFYTokens.get(FYETH2203) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
   [
     FYETH2206,
-    base_config.assets.get(ETH) as string,
-    base_config.newFYTokens.get(FYETH2206) as string,
+    assets.get(ETH) as string,
+    newFYTokens.get(FYETH2206) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -141,8 +145,8 @@ export const strategiesData: Array<[string, string, string]> = [
 ]
 
 // Input data
-export const strategiesInit: Array<[string, string, BigNumber]> = [
-  // [strategyId, startPoolId, initAmount]
-  [YSETH6MMS, FYETH2203, WAD.div(50)],
-  [YSETH6MJD, FYETH2206, WAD.div(50)],
+export const strategiesInit: Array<[string, string, string, BigNumber]> = [
+  // [strategyId, startPoolAddress, startPoolId, initAmount]
+  [YSETH6MMS, newPools.get(FYETH2203) as string, FYETH2203, WAD.div(50)],
+  [YSETH6MJD, newPools.get(FYETH2206) as string, FYETH2206, WAD.div(50)],
 ]

@@ -4,8 +4,11 @@ import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shar
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
-export const newJoins = readAddressMappingIfExists('joins.json')
-export const newFYTokens = readAddressMappingIfExists('fyTokens.json')
+export const governance = readAddressMappingIfExists('governance.json')
+export const newJoins = readAddressMappingIfExists('newJoins.json')
+export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
+export const newPools = readAddressMappingIfExists('newPools.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
 export const chainId = 4
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
