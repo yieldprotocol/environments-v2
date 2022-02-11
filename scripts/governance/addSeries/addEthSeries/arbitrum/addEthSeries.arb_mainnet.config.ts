@@ -18,11 +18,11 @@ import {
   ZERO,
 } from '../../../../../shared/constants'
 
-import * as base_config from '../../../base.arb_rinkeby.config'
+import * as base_config from '../../../base.arb_mainnet.config'
 
-export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const whales: Map<string, string> = base_config.whales.set(ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5')
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const whales: Map<string, string> = base_config.whales.set(ETH, '0xC7aE076086623ecEA2450e364C838916a043F9a8')
 
 export const assets: Map<string, string> = base_config.assets
 

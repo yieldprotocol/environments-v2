@@ -2,11 +2,11 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/addEthSeries.arb_rinkeby.config
-RUN="npx hardhat run --network arb_rinkeby"
+export CONF=$PWD/$HERE/addEthSeries.arb_mainnet.config
+RUN="npx hardhat run --network localhost"
 
 # Add funds to the timelock
-#$RUN $HERE/../../../../loadTimelock.ts
+$RUN $HERE/../loadTimelock.ts
 
 $RUN $HERE/../../../newEnvironment/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../../newEnvironment/deployPools.ts # deploy pools
