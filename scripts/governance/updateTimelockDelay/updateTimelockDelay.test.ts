@@ -7,7 +7,8 @@ import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { Timelock } from '../../../typechain/Timelock'
-import { developer, newDelayTime, governance } from './updateTimelockDelay.mainnet.config'
+const { developer, newDelayTime, governance } = require(process.env.CONF as string)
+
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 

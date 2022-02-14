@@ -8,8 +8,7 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/he
 import { updateTimelockDelayProposal } from '../../fragments/timelock/updateTimelockDelayProposal'
 import { Timelock } from '../../../typechain'
 
-const { developer, newDelayTime } = require(process.env.CONF as string)
-const { governance } = require(process.env.CONF as string)
+const { developer, newDelayTime, governance } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
