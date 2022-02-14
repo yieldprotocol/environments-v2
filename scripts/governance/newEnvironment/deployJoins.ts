@@ -27,6 +27,6 @@ const { developer, assetsToAdd } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
-  const joins = await deployJoins(ownerAcc, timelock, assetsToAdd)
-  writeAddressMap('joins.json', joins) // joins.json is a tempporary file
+  const newJoins = await deployJoins(ownerAcc, timelock, assetsToAdd)
+  writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file
 })()

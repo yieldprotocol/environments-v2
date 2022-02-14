@@ -32,6 +32,8 @@ export const deployStrategies = async (
     },
   })
 
+  let newStrategies: Map<string, string> = new Map()
+
   for (let [name, symbol, baseId] of strategiesData) {
     const base = (await ethers.getContractAt(
       'ERC20Mock',
@@ -45,7 +47,7 @@ export const deployStrategies = async (
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
       verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
-      strategies.set(symbol, strategy.address)
+      newStrategies.set(symbol, strategy.address)
     } else {
       console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
       strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
@@ -57,5 +59,5 @@ export const deployStrategies = async (
     }
   }
 
-  return strategies
+  return newStrategies
 }

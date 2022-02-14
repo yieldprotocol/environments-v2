@@ -33,6 +33,6 @@ const { developer, fyTokenData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
-  const fyTokens = await deployFYTokens(ownerAcc, timelock, safeERC20Namer, fyTokenData)
-  writeAddressMap('fyTokens.json', fyTokens) // fyTokens.json is a temporary file
+  const newFYTokens = await deployFYTokens(ownerAcc, timelock, safeERC20Namer, fyTokenData)
+  writeAddressMap('newFYTokens.json', newFYTokens) // newFYTokens.json is a temporary file
 })()

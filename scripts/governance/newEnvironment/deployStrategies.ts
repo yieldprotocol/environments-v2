@@ -44,7 +44,7 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
-  const deployedStrategies = await deployStrategies(
+  const newStrategies = await deployStrategies(
     ownerAcc,
     existingStrategies,
     cauldron,
@@ -54,5 +54,5 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     timelock,
     strategiesData
   )
-  writeAddressMap('strategies.json', deployedStrategies)
+  writeAddressMap('newStrategies.json', newStrategies)
 })()
