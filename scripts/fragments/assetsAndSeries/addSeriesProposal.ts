@@ -11,7 +11,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString } from '../../../shared/helpers'
-import { ROOT } from '../../../shared/constants'
+import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
 import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
 
@@ -34,18 +34,20 @@ export const addSeriesProposal = async (
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
-    if (poolAddress === undefined) throw `Pool for ${seriesId} not found`
+    if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
     const joinAddress = (await ladle.joins(baseId)) as string
-    if (joinAddress === undefined) throw `Join for ${baseId} not found`
+    if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
     else console.log(`Using join at ${joinAddress} for ${baseId}`)
     const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
 
-    const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
-    if (chiOracleAddress === undefined) throw `${baseId} not a base in the Cauldron`
-    else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
+    // This test fails if adding the base in the same proposal. All tests should move on-chain.
+    // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
+    // if (chiOracleAddress === undefined || chiOracleAddress === ZERO_ADDRESS)
+    //   throw `${baseId} not a base in the Cauldron`
+    // else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, Timelock already has ROOT as the deployer
@@ -117,11 +119,15 @@ export const addSeriesProposal = async (
       },
     ]
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
-    })
-    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
+    if ((await cloak.plans(await cloak.hash(ladle.address, ladlePlan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
+      })
+      console.log(
+        `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
+      )
+    }
 
     // Register emergency plan to disconnect fyToken from join
     const joinPlan = [
@@ -131,11 +137,13 @@ export const addSeriesProposal = async (
       },
     ]
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
-    })
-    console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
+    if ((await cloak.plans(await cloak.hash(fyToken.address, joinPlan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
+      })
+      console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
+    }
   }
 
   return proposal

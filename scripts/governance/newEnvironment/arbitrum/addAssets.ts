@@ -1,10 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-} from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
 
 import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 // import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
@@ -12,19 +7,23 @@ import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetPro
 import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
 
-import { IOracle, ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
-const { developer, deployer, assets, bases } = require(process.env.CONF as string)
-const { chainlinkDebtLimits, chainlinkAuctionLimits } = require(process.env.CONF as string)
-import { CHAINLINKUSD, ACCUMULATOR } from '../../../../shared/constants'
+import {
+  AccumulatorMultiOracle,
+  Cauldron,
+  ChainlinkUSDMultiOracle,
+  EmergencyBrake,
+  IOracle,
+  Ladle,
+  Timelock,
+  Witch,
+} from '../../../../typechain'
+import { ACCUMULATOR, CHAINLINKUSD } from '../../../../shared/constants'
 
-/**
- * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks and bases accordingly
- */
+const { developer, deployer, assets, bases, chainlinkDebtLimits, chainlinkAuctionLimits } = require(process.env
+  .CONF as string)
+
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
-  let ownerAcc = await getOwnerOrImpersonate(developer)
+  const ownerAcc = await getOwnerOrImpersonate(developer)
 
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
