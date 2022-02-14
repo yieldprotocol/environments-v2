@@ -4,13 +4,15 @@
 
 import { ethers } from 'hardhat'
 
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 import { updateTimelockDelayProposal } from '../../fragments/timelock/updateTimelockDelayProposal'
 import { Timelock } from '../../../typechain'
-import { newDelayTime, developer } from './updateTimelockDelay.mainnet.config'
+
+const { developer, newDelayTime } = require(process.env.CONF as string)
+const { governance } = require(process.env.CONF as string)
+
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const governance = readAddressMappingIfExists('governance.json')
 
   // Contract instantiation
   const timelock = (await ethers.getContractAt(
