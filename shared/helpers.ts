@@ -105,6 +105,7 @@ export const proposeApproveExecute = async (
       // If running on a mainnet fork, impersonating the multisig will work
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+      
       await hre.network.provider.request({
         method: 'hardhat_impersonateAccount',
         params: [multisig],
@@ -125,6 +126,13 @@ export const proposeApproveExecute = async (
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
+    let [ownerAcc] = await ethers.getSigners()
+    const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+    if (on_fork) {
+      // Adding time travel since we have moved the delay to 2 days on mainnet
+      await hre.network.provider.request({method:"evm_increaseTime", params:[60 * 60 * 24 * 2]});
+      await hre.network.provider.request({method:'evm_mine',params:[]})
+    }
     // Execute
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
