@@ -11,7 +11,9 @@ test/env:
 
 build/liquidator:
 	cd modules/liquidator && \
-	yarn && yarn build
+	yarn && yarn build && yarn run hardhat export-abi && \
+	npm run buildRouter && \
+	cargo build
 
 clean/liquidator:
 	cd modules/liquidator && \
@@ -25,13 +27,6 @@ _regression_tests := $(patsubst regression_tests/test_%.ts,regression.%,$(wildca
 
 regression.%:
 	npx hardhat test regression_tests/test_$*.ts
-
-regression.flashLiquidator:
-	pushd modules/liquidator && \
-	npm run buildRouter && \
-	popd && \
-	npx hardhat test regression_tests/test_flashLiquidator.ts
-
 
 build: build/env build/liquidator
 clean: clean/env clean/liquidator

@@ -62,13 +62,9 @@ async function main() {
     logger.setSettings({ suppressStdOutput: true })
   }
 
-  const chain_id = args.chain_id == 31337 ? 1 : args.chain_id // pretend hardhat is mainnet
+  const chain_id = args.chain_id;
   const provider = new providers.JsonRpcProvider(args.rpc_url)
   const router = new AlphaRouter({ chainId: chain_id, provider })
-
-  // logger.info("token in decimals: ", );
-  // logger.info("token out decimals: ", await getDecimals(provider, args.token_out));
-  // return;
 
   const token_in = new Token(chain_id, args.token_in, await getDecimals(provider, args.token_in), '', '')
 
