@@ -157,7 +157,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.approve(ladle.address, posted)
     await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
-    var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, cvx3CrvWhale])
+    var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
 
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, convexYieldWrapper.address, posted),
@@ -165,7 +165,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
     ])
 
-    wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, user2.address])
+    wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [user2.address])
 
     await ladle
       .connect(user2)
@@ -207,9 +207,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await fyToken.connect(user2).transfer(fyToken.address, borrowed)
 
     var unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [cvx3CrvWhale])
-    var preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [
-      ['0x0000000000000000000000000000000000000000', cvx3CrvWhale],
-    ])
+    var preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [cvx3CrvWhale])
 
     await ladle.batch([
       ladle.routeAction(convexYieldWrapper.address, preUnwrapCall),
@@ -218,9 +216,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     ])
 
     unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [user2.address])
-    preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [
-      ['0x0000000000000000000000000000000000000000', user2.address],
-    ])
+    preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [user2.address])
 
     await ladle
       .connect(user2)
@@ -311,7 +307,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.approve(ladle.address, posted)
     await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
-    var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, cvx3CrvWhale])
+    var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
 
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, convexYieldWrapper.address, posted),
@@ -319,7 +315,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
     ])
 
-    wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [join.address, user2.address])
+    wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [user2.address])
 
     await ladle
       .connect(user2)
