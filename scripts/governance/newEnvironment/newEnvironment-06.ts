@@ -2,12 +2,13 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate, getOriginalChainId, getNetworkName } from '../../../shared/helpers'
 
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
+import {grantGovernorProposal} from '../../fragments/permissions/grantGovernorProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
 // import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**
- * @dev This script orchestrates the Cloak
+ * @dev This script orchestratese the Cloak
  */
 
 ;(async () => {
@@ -32,9 +33,11 @@ import { WAD } from '../../../shared/constants'
     ownerAcc
   )) as unknown as Timelock
 
-  // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await orchestrateCloakProposal(deployer as string, timelock, cloak)
-
-  // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  if (getNetworkName() == 'localhost') {
+    const proposal: Array<{ target: string; data: string }> = await grantGovernorProposal(timelock, cloak, governance.get('multisig') as string);
+    // Propose, Approve & execute
+    for (let i = 0; i < 3; i++) {
+      await proposeApproveExecute(timelock, proposal, ownerAcc.address)
+    }
+  }
 })()

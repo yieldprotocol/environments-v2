@@ -93,11 +93,13 @@ export const proposeApproveExecute = async (
   console.log(`Proposal: ${txHash}`)
   // Depending on the proposal state, propose, approve (if in a fork, impersonating the multisig), or execute
   if ((await timelock.proposals(txHash)).state === 0) {
+    console.log("Proposing");
     // Propose
     await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
+    console.log("Approving");
     // Approve, impersonating multisig if in a fork
     let [ownerAcc] = await ethers.getSigners()
     const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
@@ -125,6 +127,7 @@ export const proposeApproveExecute = async (
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
+    console.log("Executing");
     // Execute
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
@@ -279,12 +282,16 @@ export function jsonToMap(json: string): Map<any, any> {
   )
 }
 
+export function getNetworkName(): string {
+  return network.name;
+}
+
 /**
  * Return path to network-specific address mapping file
  * 'government.json' can be resolved to 'addresses/kovan/government.json', for example
  */
 export function getAddressMappingFilePath(file_name: string): string {
-  const full_path = join('addresses', network.name, file_name)
+  const full_path = join("addresses", getNetworkName(), file_name);
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))

@@ -13,24 +13,18 @@ package/
 cache
 artifacts
 node_modules/
-abi/
 abis/
+output/
 typechain/
 deployments/
 
 # Secret files
-.arbiscanKey
 .alchemyKey
 .etherscanKey
 .infuraKey
 .mythxKey
 .secret
 build/
-
-# Accounts
-.multisig
-.executor
-.planner
 
 # Solidity-coverage
 coverage/
@@ -49,5 +43,8 @@ crytic-export/
 # Typescript
 dist/
 
-addresses/localhost/
-.idea/
+# environments-v2  git submodule
+environments-v2/
+
+/target
+
