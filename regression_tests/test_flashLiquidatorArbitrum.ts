@@ -90,6 +90,11 @@ describe("flash liquidator", function () {
         logger.info("Triggering auction");
         // do the 1st run: trigger the auction
         await run_liquidator(fixture, liquidator);
+
+        // wait a few hours for auction to release all collateral
+        await network.provider.send("evm_increaseTime", [7200]);
+        await network.provider.send("evm_mine")
+
         logger.info("Liquidating vaults")
         // 2nd run: liquidate the vault
         const liquidator_logs = await run_liquidator(fixture, liquidator);
