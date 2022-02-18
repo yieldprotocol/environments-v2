@@ -67,6 +67,7 @@ export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
 export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
+export const secondsIn40Years = secondsInOneYear.mul(40) // Seconds in 40 years
 export const ts = ONE64.div(secondsIn25Years)
 
 export const g0 = ONE64 // No fees
