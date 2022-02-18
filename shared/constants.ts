@@ -28,6 +28,7 @@ export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
+export const CVX3CRV    = ethers.utils.formatBytes32String('12').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
