@@ -83,6 +83,7 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 ]
 
 // Assets for which we will have a Join
+// Test in `cauldron.assets(assetId) == address(asset)`
 export const assetsToAdd: Array<[string, string]> = [
   [ETH, assets.get(ETH) as string],
   [DAI, assets.get(DAI) as string],
@@ -96,15 +97,18 @@ export const assetsToAdd: Array<[string, string]> = [
 ]
 
 // Assets for which we will have an Oracle, but not a Join
+// Test in `cauldron.assets(assetId)`
 export const assetsToReserve: Array<[string, string]> = [[STETH, assets.get(STETH) as string]]
 
 // Assets that will be made into a base
+// Test that `cauldron.lendingOracles(assetId) != address(0)`
 export const bases: Array<[string, string]> = [
   [DAI, joins.get(DAI) as string],
   [USDC, joins.get(USDC) as string],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+// Test that `(line, dust, dec,) == cauldron.debt(baseId, inkId)`
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
   [DAI, ETH, 1400000, 2000000, 5000, 18],
   [DAI, DAI, 1000000, 10000000, 0, 18], // Constant 1, no dust
@@ -121,6 +125,7 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+// Test that `(line, dust, dec,) == cauldron.debt(baseId, inkId)`
 export const compositeDebtLimits: Array<[string, string, number, number, number, number]> = [
   [DAI, WSTETH, 1400000, 500000, 5000, 18],
   [USDC, WSTETH, 1400000, 500000, 5000, 6],
@@ -129,6 +134,7 @@ export const compositeDebtLimits: Array<[string, string, number, number, number,
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
+// Test that `(line, dust, dec,) == cauldron.debt(baseId, inkId)`
 export const yearnDebtLimits: Array<[string, string, number, number, number, number]> = [
   [USDC, YVUSDC, 1250000, 1000000, 5000, 6],
 ]
@@ -155,6 +161,7 @@ export const yearnAuctionLimits: Array<[string, number, number, number, number, 
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+// Test in `cauldron.series(seriesId)` that fyToken is not zero, and that the baseId and maturity match.
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYDAI2203, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOMAR22, 'FYDAI2203', 'FYDAI2203'],
   [FYUSDC2203, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOMAR22, 'FYUSDC2203', 'FYUSDC2203'],
@@ -163,6 +170,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 ]
 
 // seriesId, accepted ilks
+// Test that `cauldron.ilks(seriesId, ilkId) == true` for each ilkId listed to a series
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FYUSDC2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
