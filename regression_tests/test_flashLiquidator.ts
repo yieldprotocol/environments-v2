@@ -2,145 +2,37 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { FlashLiquidator, FlashLiquidator__factory } from "../typechain";
 
 import { expect } from "chai";
-import { config, ethers, network, run } from "hardhat";
-import { subtask } from "hardhat/config";
-import { normalizeHardhatNetworkAccountsConfig } from "hardhat/internal/core/providers/util";
+import { ethers, network } from "hardhat";
 
 import { Logger } from "tslog";
 
-import { Readable } from "stream";
-import { createInterface } from "readline";
-// import { readFile, mkdtemp, writeFile } from "fs/promises";
-import { promises as fs } from 'fs';
-import { tmpdir } from "os";
-import { join } from "path";
-import { promisify } from "util";
-import { exec as exec_async } from "child_process";
-import { HardhatNetworkAccountConfig, HardhatNetworkAccountsConfig } from "hardhat/types/config";
-import { TransactionResponse } from "@ethersproject/abstract-provider";
+import { LiquidatorConfig, run_liquidator, TestFixture, testSetUp } from "./utils_liquidator";
+import { hardhat_fork as fork } from "./utils";
 
-const exec = promisify(exec_async);
 
 const logger: Logger = new Logger();
 
-const g_witch = "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061"
+const g_multicall2 = "0x5ba1e12693dc8f9c48aad8770482f4739beed696";
+const g_witch = "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061";
 const g_uni_router_02 = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
-const g_flash_loaner = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const g_flash_loaner = '0xBA12222222228d8Ba445958a75a0704d566BF2C8';
+const g_port = 8550;
 
-async function fork(block_number: number) {
-    const alchemy_key = (await fs.readFile(join(__dirname, "..", '.alchemyKey'))).toString().trim()
-
-    await network.provider.request({
-        method: "hardhat_reset",
-        params: [
-            {
-                forking: {
-                    jsonRpcUrl: `https://eth-mainnet.alchemyapi.io/v2/${alchemy_key}`,
-                    blockNumber: block_number,
-                },
-            },
-        ],
-    });
-}
-
-async function deploy_flash_liquidator(): Promise<[SignerWithAddress, FlashLiquidator]> {
+async function deploy_flash_liquidator(): Promise<[SignerWithAddress, LiquidatorConfig]> {
     const [owner] = await ethers.getSigners() as SignerWithAddress[];
 
     const flFactory = await ethers.getContractFactory("FlashLiquidator") as FlashLiquidator__factory;
 
 
     const liquidator = await flFactory.deploy(g_witch, g_uni_router_02, g_flash_loaner) as FlashLiquidator
-    return [owner, liquidator];
-}
-
-async function run_liquidator(tmp_root: string, liquidator: FlashLiquidator,
-    private_key: string, base_to_debt_threshold: { [name: string]: string } = {}) {
-
-    const config_path = join(tmp_root, "config.json")
-    await fs.writeFile(config_path, JSON.stringify({
-        "Witch": g_witch,
-        "Flash": liquidator.address,
-        "Multicall2": "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
-        "BaseToDebtThreshold": base_to_debt_threshold,
-        "SwapRouter02": g_uni_router_02
-    }, undefined, 2))
-
-    logger.info("Liquidator deployed: ", liquidator.address)
-
-    const private_key_path = join(tmp_root, "private_key")
-    await fs.writeFile(private_key_path, private_key)
-    const cmd = `cargo run -- -c ${config_path} -u http://127.0.0.1:9545/ -C ${network.config.chainId} \
-        -p ${private_key_path} \
-        --gas-boost 10 \
-        --swap-router-binary build/bin/router \
-        --one-shot \
-        --json-log \
-        --file /dev/null`
-
-    let stdout: string;
-    let stderr: string
-    try {
-        const results = await exec(cmd, {
-            cwd: "modules/liquidator",
-            encoding: "utf-8", env: {
-                "RUST_BACKTRACE": "1",
-                "RUST_LOG": "liquidator,yield_liquidator=debug",
-                ...process.env
-            },
-            maxBuffer: 1024 * 1024 * 10
-        })
-        stdout = results.stdout
-        stderr = results.stderr
-    } catch (x) {
-        stdout = (x as any).stdout;
-        stderr = (x as any).stderr;
-    }
-    await fs.writeFile(join(tmp_root, "stdout"), stdout)
-    await fs.writeFile(join(tmp_root, "stderr"), stderr)
-    logger.info("tmp root", tmp_root)
-
-    const rl = createInterface({
-        input: Readable.from(stdout),
-        crlfDelay: Infinity
-    });
-
-    const ret = new Array<any>();
-    for await (const line of rl) {
-        ret.push(JSON.parse(line));
-    }
-    return ret;
+    return [owner, new LiquidatorConfig(g_multicall2, liquidator.address, g_witch, g_uni_router_02, network.config.chainId!, g_port)];
 }
 
 describe("flash liquidator", function () {
-    let tmp_root: string;
-    let private_key: string;
+    let fixture: TestFixture = new TestFixture();
+    fixture.chain_id = 1;
 
-
-    this.beforeAll(async function () {
-        const accounts = normalizeHardhatNetworkAccountsConfig(
-            config.networks[network.name].accounts as HardhatNetworkAccountsConfig
-        );
-
-        private_key = accounts[0].privateKey.slice(2);
-
-        return new Promise((resolve, fail) => {
-            run("node", { silent: true, port:9545 });
-
-            // launch hardhat node so that external processes can access it
-            subtask("node:server-ready", async function (args, _hre, runSuper) {
-                try {
-                    await runSuper(args);
-                    logger.info("node launched");
-                    resolve()
-                } catch {
-                    fail();
-                }
-            })
-        })
-    })
-    this.beforeEach(async function () {
-        tmp_root = await fs.mkdtemp(join(tmpdir(), "flash_liquidator_test"))
-    })
+    testSetUp(this, g_port, fixture);
 
     it("liquidates ENS vaults on Dec-14-2021 (block: 13804681)", async function () {
         this.timeout(1800e3);
@@ -150,7 +42,7 @@ describe("flash liquidator", function () {
 
         const starting_balance = await _owner.getBalance();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
+        const liquidator_logs = await run_liquidator(fixture, liquidator);
 
         let bought = 0;
 
@@ -172,7 +64,7 @@ describe("flash liquidator", function () {
         await fork(13911677)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
+        const liquidator_logs = await run_liquidator(fixture, liquidator);
 
         const vault_not_to_be_auctioned = "00cbb039b7b8103611a9717f";
 
@@ -197,7 +89,7 @@ describe("flash liquidator", function () {
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key, {
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {
             "303200000000": "1000000000"
         });
 
@@ -224,7 +116,7 @@ describe("flash liquidator", function () {
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key, {
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {
             "303100000000": "1000000000000000000000"
         });
 
@@ -263,7 +155,7 @@ describe("flash liquidator", function () {
             await fork(13900485);
             const [_owner, liquidator] = await deploy_flash_liquidator();
 
-            const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
+            const liquidator_logs = await run_liquidator(fixture, liquidator);
 
             let vault_is_liquidated = false;
             for (const log_record of liquidator_logs) {
@@ -284,7 +176,7 @@ describe("flash liquidator", function () {
             await fork(13900364);
             const [_owner, liquidator] = await deploy_flash_liquidator();
 
-            const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
+            const liquidator_logs = await run_liquidator(fixture, liquidator);
 
             let new_vaults_message;
             for (const log_record of liquidator_logs) {
@@ -308,7 +200,7 @@ describe("flash liquidator", function () {
         await fork(14045343);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(tmp_root, liquidator, private_key);
+        const liquidator_logs = await run_liquidator(fixture, liquidator);
 
         const vault_to_be_auctioned = "b50e0c2ce9adb248f755540b";
         let vault_is_liquidated = false;
