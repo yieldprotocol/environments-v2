@@ -97,7 +97,7 @@ impl<M: Middleware> Borrowers<M> {
             .collect::<Vec<_>>();
 
         if new_vaults.len() > 0 {
-            debug!("New vault events: {}", new_vaults.len());
+            debug!("New vaults: {}", new_vaults.len());
         } else {
             trace!("New vaults: {}", new_vaults.len());
         }

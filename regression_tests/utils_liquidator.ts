@@ -58,7 +58,7 @@ export async function run_liquidator(fixture: TestFixture, config: LiquidatorCon
         --file /dev/null`
 
     let stdout: string;
-    let stderr: string
+    let stderr: string;
     try {
         const results = await exec(cmd, {
             cwd: "modules/liquidator",
@@ -72,6 +72,7 @@ export async function run_liquidator(fixture: TestFixture, config: LiquidatorCon
         stdout = results.stdout
         stderr = results.stderr
     } catch (x) {
+        logger.warn("Failed to run the liquidator: ", x);
         stdout = (x as any).stdout;
         stderr = (x as any).stderr;
     }

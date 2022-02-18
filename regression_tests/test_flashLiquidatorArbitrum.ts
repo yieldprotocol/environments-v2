@@ -31,13 +31,13 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, Liquidator
         g_port)];
 }
 
-describe("flash liquidator", function () {
+describe("flash liquidator: Arbitrum", function () {
     let fixture: TestFixture = new TestFixture();
     fixture.chain_id = 42161;
 
     testSetUp(this, g_port, fixture);
 
-    it("liquidates a vaults on Feb-16-2021 (block: 6228926)", async function () {
+    it("liquidates the only vault on Feb-16-2021 (block: 6228926)", async function () {
         this.timeout(1800e3);
 
         await fork(6228926, "arb-mainnet");
