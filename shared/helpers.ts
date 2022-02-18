@@ -90,8 +90,13 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`Proposal: ${txHash}`)
-  // Depending on the proposal state, propose, approve (if in a fork, impersonating the multisig), or execute
+  let [ownerAcc] = await ethers.getSigners()
+  const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+console.log(`Proposal: ${txHash}`)
+  // Depending on the proposal state:
+  // - propose
+  // - approve (if in a fork, impersonating the multisig)
+  // - or execute (if in a fork, applying a time delay)
   if ((await timelock.proposals(txHash)).state === 0) {
     // Propose
     await timelock.propose(proposal)
@@ -99,8 +104,6 @@ export const proposeApproveExecute = async (
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     // Approve, impersonating multisig if in a fork
-    let [ownerAcc] = await ethers.getSigners()
-    const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
     if (on_fork) {
       // If running on a mainnet fork, impersonating the multisig will work
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
@@ -126,8 +129,6 @@ export const proposeApproveExecute = async (
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
-    let [ownerAcc] = await ethers.getSigners()
-    const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
     if (on_fork) {
       // Adding time travel since we have moved the delay to 2 days on mainnet
       await hre.network.provider.request({method:"evm_increaseTime", params:[60 * 60 * 24 * 2]});
