@@ -42,19 +42,19 @@ The only time you might care about extra tooling is when you want to run tests (
 
 ### Build all
 ```
-❯❯❯ make -j build
+make -j build
 ```
 This builds all modules and the main project, in parallel. 
 
 ### Test all
 ```
-❯❯❯ make -j test
+make -j test
 ```
 This runs tests on all modules and the main project, in parallel. 
 
 ### Regression test all
 ```
-❯❯❯ make -j regressions
+make -j regressions
 ```
 This runs regression tests in parallel. Regression tests are scripts in `regression_tests` directory with `test_` prefix.
 
