@@ -183,12 +183,12 @@ impl<M: Middleware> Borrowers<M> {
         for single_vault_maybe in &mut ret {
             if let Ok(single_vault) = single_vault_maybe {
                 if !single_vault.is_collateralized {
-                    info!(vault_id=?hex::encode(single_vault.vault_id), "Potentially undercollaterized vault - checking if it's trivial");
+                    debug!(vault_id=?hex::encode(single_vault.vault_id), "Potentially undercollaterized vault - checking if it's trivial");
                     match cache.is_vault_ignored(single_vault.series_id, single_vault.ilk_id, single_vault.debt)
                         .await
                     {
                         Ok(true) => {
-                            info!(vault_id=?hex::encode(single_vault.vault_id), "should be ignored - marking as NOT undercollaterized");
+                            debug!(vault_id=?hex::encode(single_vault.vault_id), "should be ignored - marking as NOT undercollaterized");
                             single_vault.is_collateralized = true;
                         }
                         Ok(false) => {

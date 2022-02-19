@@ -1,7 +1,7 @@
-all: build test
+all: build
 
 build/env:
-	yarn && yarn build
+	yarn install --immutable && yarn build
 
 clean/env:
 	yarn cache clean
@@ -11,13 +11,13 @@ test/env:
 
 build/liquidator:
 	cd modules/liquidator && \
-	yarn && yarn build && yarn run hardhat export-abi && \
+	yarn install --immutable && yarn build && yarn run hardhat export-abi && \
 	npm run buildRouter && \
 	cargo build
 
 clean/liquidator:
 	cd modules/liquidator && \
-	yarn cache clean && \
+	yarn cache clean
 
 test/liquidator:
 	cd modules/liquidator && \
