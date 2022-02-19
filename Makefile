@@ -9,10 +9,22 @@ clean/env:
 test/env:
 	yarn test
 
-build/liquidator:
+build/liquidator: build/liquidator.router build/liquidator.cargo
 	cd modules/liquidator && \
 	yarn install --immutable && yarn build && yarn run hardhat export-abi && \
 	npm run buildRouter && \
+	cargo build
+
+build/liquidator.yarn:
+	cd modules/liquidator && \
+	yarn install --immutable && yarn build && yarn run hardhat export-abi
+
+build/liquidator.router: build/liquidator.yarn
+	cd modules/liquidator && \
+	npm run buildRouter
+
+build/liquidator.cargo: build/liquidator.yarn
+	cd modules/liquidator && \
 	cargo build
 
 clean/liquidator:
