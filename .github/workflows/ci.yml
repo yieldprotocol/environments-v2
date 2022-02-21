@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Build-and-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
+        run: |
+          cd ${{ github.workspace }}
+          make -j
+
+      - name: Test
+        run: |
+          cd ${{ github.workspace }}
+          make -j test
+      - run: echo "🍏 This job's status is ${{ job.status }}."
