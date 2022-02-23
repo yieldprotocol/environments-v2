@@ -2,9 +2,9 @@ import { ethers, waffle } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
-import JoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
+import Join1155Artifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/Join1155.sol/Join1155.json'
 
-import { Timelock, Join } from '../../../typechain'
+import { Timelock, Join1155 } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -16,11 +16,11 @@ export const deployJoins1155 = async (
   ownerAcc: any,
   timelock: Timelock,
   joinData: Array<[string, number, string]>
-): Promise<Map<string, Join>> => {
-  let joins: Map<string, Join> = new Map()
+): Promise<Map<string, Join1155>> => {
+  let joins: Map<string, Join1155> = new Map()
   for (let [assetId, fCashId, fCashAddress] of joinData) {
-    let join: Join
-    join = (await deployContract(ownerAcc, JoinArtifact, [fCashAddress, fCashId])) as Join
+    let join: Join1155
+    join = (await deployContract(ownerAcc, Join1155Artifact, [fCashAddress, fCashId])) as Join1155
     console.log(`Join deployed at ${join.address} for ${fCashAddress} and ${fCashId}`)
     verify(join.address, [fCashAddress, fCashId])
 

@@ -15,6 +15,7 @@ import "@yield-protocol/vault-v2/contracts/oracles/yearn/IYvToken.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/Join1155.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/Transfer1155Module.sol";
+import "@yield-protocol/vault-v2/contracts/other/notional/ERC1155Mock.sol";
 import "@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/JoinFactory.sol";

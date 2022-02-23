@@ -1,8 +1,9 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network rinkeby"
 HERE=$(dirname $0)
+RUN="npx hardhat run --network localhost"
+export CONF=$PWD/$HERE/addFCash.rinkeby.config
 
 $RUN $HERE/addFCash-1.ts # Deploy Oracle
 $RUN $HERE/addFCash-2.ts # Deploy Module
