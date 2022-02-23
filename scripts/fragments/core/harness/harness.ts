@@ -12,16 +12,7 @@ import {
   Witch,
 } from '../../../../typechain'
 const {
-  assets,
-  joins,
-  chiSources,
-  rateSources,
-  chainlinkSources,
-  bases,
-  chainlinkDebtLimits,
-  compositeDebtLimits,
-  seriesIlks,
-  deployer
+  deployer,
 } = require(process.env.BASE as string)
 export type Proposal = Array<{ target: string; data: string }>
 
@@ -154,17 +145,15 @@ export class Harness {
   }
 
   // Check if the debt config is same as what is passed
-  async checkDebtConfig(debtLimits: Array<[string, string, number, number, number, number]>): Promise<boolean> {
-    var configCorrect: boolean = true
+  async checkDebtConfig(debtLimits: Array<[string, string, number, number, number, number]>) {
     for (const [baseId, ilkId, , line, dust, dec] of debtLimits) {
       var debt = await this.cauldron.debt(baseId, ilkId)
       if (debt['max'].eq(BigNumber.from(line)) && debt['dec'] == dec && debt['min'] == dust) {
         console.log('The debt config is same as passed')
       } else {
-        configCorrect = false
+        console.log(`The debt config for ${baseId} & ${ilkId} is set incorrectly`)
       }
     }
-    return configCorrect
   }
 
   // Check and return the debt config which are different from what is on cauldron
@@ -190,6 +179,9 @@ export class Harness {
     for (const [seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol] of seriesToCheck) {
       var series = await this.cauldron.series(seriesId)
       if (series['fyToken'] != ZERO_ADDRESS && series['baseId'] == underlyingId && series['maturity'] == maturity) {
+        console.log(`FYyToken for series ${series['baseId']} deployed at ${series['fyToken']}`)
+      } else {
+        console.log(`FYyToken for series ${series['baseId']} is not deployed`)
       }
     }
   }
