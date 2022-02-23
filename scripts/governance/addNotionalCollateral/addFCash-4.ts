@@ -6,7 +6,7 @@ import {
   getOwnerOrImpersonate,
 } from '../../../shared/helpers'
 
-import { NOTIONAL } from '../../../shared/constants'
+import { NOTIONAL, FCASH } from '../../../shared/constants'
 
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { orchestrateModuleProposal } from '../../fragments/modules/orchestrateModuleProposal'
@@ -21,7 +21,7 @@ const {
   developer,
   deployer,
   notionalSources,
-  assets,
+  newAssets,
   debtLimits,
   auctionLimits,
   seriesIlks,
@@ -36,7 +36,7 @@ const {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const protocol = readAddressMappingIfExists('protocol.json')
-  const joins = readAddressMappingIfExists('joins.json')
+  const joins = readAddressMappingIfExists('newJoins.json')
   const governance = readAddressMappingIfExists('governance.json')
 
   const notionalOracle = (await ethers.getContractAt(
@@ -63,12 +63,12 @@ const {
 
   let assetsAndJoins: Array<[string, string, string]> = []
   for (let [assetId, joinAddress] of joins) {
-    assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
-    console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
+    assetsAndJoins.push([assetId, newAssets.get(FCASH) as string, joinAddress])
+    console.log(`Using ${newAssets.get(FCASH)} as Join for ${joinAddress}`)
   }
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('transferModule') as string))
+  proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('transfer1155Module') as string))
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
