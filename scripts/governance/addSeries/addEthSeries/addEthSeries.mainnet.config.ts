@@ -60,16 +60,6 @@ export const newRateSources: Array<[string, string]> = [
   [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'],
 ]
 
-
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-  [ETH, DAI, 1500000, 250000000, 10000, 12],
-  [ETH, USDC, 1500000, 250000000, 10000, 12],
-  [ETH, WBTC, 1500000, 250000000, 10000, 12],
-  [ETH, LINK, 1500000, 250000000, 10000, 12],
-]
-
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [WSTETH, ETH, [STETH]],
 ]
