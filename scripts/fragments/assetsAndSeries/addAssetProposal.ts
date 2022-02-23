@@ -16,10 +16,9 @@ import { ZERO_ADDRESS } from '../../../shared/constants'
 import { Harness } from '../core/harness/harness'
 
 export const addAssetProposal = async (
-  harness:Harness,
+  harness: Harness,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
-
   let ownerAcc: any = harness.owner
   let cauldron: Cauldron = harness.cauldron
   let ladle: Ladle = harness.ladle

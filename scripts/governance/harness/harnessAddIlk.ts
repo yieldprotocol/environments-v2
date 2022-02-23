@@ -9,17 +9,15 @@ const { newJoins } = require(process.env.BASE as string)
 /**
  * @dev This script makes asset into an ilk
  */
-
 ;(async () => {
   let harness = await Harness.create()
-  
 
-  let owner = await harness.owner
-  let timelock = await harness.timelock
-  let cloak = await harness.cloak
-  let cauldron = await harness.cauldron
-  let witch = await harness.witch
-  let compositeOracle = await harness.compositeOracle
+  let owner = harness.owner
+  let timelock = harness.timelock
+  let cloak = harness.cloak
+  let cauldron = harness.cauldron
+  let witch = harness.witch
+  let compositeOracle = harness.compositeOracle
   let proposal: Array<{ target: string; data: string }> = []
 
   // Check debt config
@@ -41,7 +39,7 @@ const { newJoins } = require(process.env.BASE as string)
       )
     )
     proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlk))
-    await proposeApproveExecute(timelock, proposal, (await harness).governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, harness.governance.get('multisig') as string)
   } else {
     // Checks if the ilks were added correctly
     await harness.checkIfIlksAddedInSeries(seriesIlks)

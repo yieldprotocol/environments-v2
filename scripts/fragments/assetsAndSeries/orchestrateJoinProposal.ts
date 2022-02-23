@@ -21,10 +21,9 @@ import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
 import { Harness } from '../core/harness/harness'
 
 export const orchestrateJoinProposal = async (
-  harness:Harness,
+  harness: Harness,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
-  
   let ownerAcc: any = harness.owner
   let deployer: string = harness.deployer
   let ladle: Ladle = harness.ladle
