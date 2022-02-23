@@ -35,14 +35,12 @@ describe("flash liquidator: trivial vaults", function () {
     testSetUp(this, g_port, fixture);
 
     it("does not liquidate base==collateral vaults Dec-30-2021 (block: 13911677)", async function () {
-        this.timeout(1800e3);
-
         await fork(13911677)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator);
-
         const vault_not_to_be_auctioned = "00cbb039b7b8103611a9717f";
+
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [vault_not_to_be_auctioned]);
 
         let new_vaults_message;
 
@@ -56,21 +54,20 @@ describe("flash liquidator: trivial vaults", function () {
             }
         }
         // to make sure the bot did something and did not just crash
-        expect(new_vaults_message).to.be.equal("New vaults: 1086");
+        expect(new_vaults_message).to.be.equal("New vaults: 2");
     });
 
     it("does not liquidate <1000 USDC vaults Jan-24-2022 (block: 14070324)", async function () {
-        this.timeout(1800e3);
-
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
-
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {
-            "303200000000": "1000000000"
-        });
 
         const vault_not_to_be_auctioned = "468ff2cb1b8bb57bf932ab3f";
 
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {
+            "303200000000": "1000000000"
+        }, [vault_not_to_be_auctioned]);
+
+
         let new_vaults_message;
 
         for (const log_record of liquidator_logs) {
@@ -83,20 +80,18 @@ describe("flash liquidator: trivial vaults", function () {
             }
         }
         // to make sure the bot did something and did not just crash
-        expect(new_vaults_message).to.be.equal("New vaults: 1397");
+        expect(new_vaults_message).to.be.equal("New vaults: 1");
     });
 
     it("does not liquidate <1000 DAI vaults Jan-24-2022 (block: 14070324)", async function () {
-        this.timeout(1800e3);
-
         await fork(14070324)
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
+        const vault_not_to_be_auctioned = "9f78a0b12bc8152573520d52";
+
         const liquidator_logs = await run_liquidator(fixture, liquidator, {
             "303100000000": "1000000000000000000000"
-        });
-
-        const vault_not_to_be_auctioned = "9f78a0b12bc8152573520d52";
+        }, [vault_not_to_be_auctioned]);
 
         let new_vaults_message;
 
@@ -110,6 +105,6 @@ describe("flash liquidator: trivial vaults", function () {
             }
         }
         // to make sure the bot did something and did not just crash
-        expect(new_vaults_message).to.be.equal("New vaults: 1397");
+        expect(new_vaults_message).to.be.equal("New vaults: 1");
     });
 });
