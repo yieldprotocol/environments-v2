@@ -13,13 +13,17 @@ import { bytesToString } from '../../../shared/helpers'
 
 import { Cauldron, Ladle, Join, ERC20Mock } from '../../../typechain'
 import { ZERO_ADDRESS } from '../../../shared/constants'
+import { Harness } from '../core/harness/harness'
 
 export const addAssetProposal = async (
-  ownerAcc: any,
-  cauldron: Cauldron,
-  ladle: Ladle,
+  harness:Harness,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
+
+  let ownerAcc: any = harness.owner
+  let cauldron: Cauldron = harness.cauldron
+  let ladle: Ladle = harness.ladle
+
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`

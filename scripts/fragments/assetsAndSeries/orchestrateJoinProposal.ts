@@ -18,15 +18,19 @@ import { bytesToString, verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Harness } from '../core/harness/harness'
 
 export const orchestrateJoinProposal = async (
-  ownerAcc: any,
-  deployer: string,
-  ladle: Ladle,
-  timelock: Timelock,
-  cloak: EmergencyBrake,
+  harness:Harness,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
+  
+  let ownerAcc: any = harness.owner
+  let deployer: string = harness.deployer
+  let ladle: Ladle = harness.ladle
+  let timelock: Timelock = harness.timelock
+  let cloak: EmergencyBrake = harness.cloak
+
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch

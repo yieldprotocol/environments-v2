@@ -21,6 +21,7 @@ const {
   chainlinkDebtLimits,
   compositeDebtLimits,
   seriesIlks,
+  deployer
 } = require(process.env.BASE as string)
 export type Proposal = Array<{ target: string; data: string }>
 
@@ -36,6 +37,7 @@ export class Harness {
     readonly pools: Map<string, string>,
     readonly ROOT: string,
     readonly owner: any,
+    readonly deployer: any,
     readonly timelock: Timelock,
     readonly cloak: EmergencyBrake,
     readonly compositeOracle: CompositeMultiOracle,
@@ -59,6 +61,7 @@ export class Harness {
       pools,
       await timelock.ROOT(),
       owner,
+      deployer,
       timelock,
       await getContract<EmergencyBrake>(owner, 'EmergencyBrake', governance.get('cloak')),
       await getContract<CompositeMultiOracle>(owner, 'CompositeMultiOracle', protocol.get('compositeOracle')),
@@ -126,6 +129,7 @@ export class Harness {
     }
   }
 
+  // Check & return ilks which are not added to the respective series
   async getAddableIlksInSeries(ilks: Array<[string, string[]]>): Promise<Array<[string, string[]]>> {
     var validIlks: Array<[string, string[]]> = []
 
@@ -149,7 +153,7 @@ export class Harness {
     return validIlks
   }
 
-  // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+  // Check if the debt config is same as what is passed
   async checkDebtConfig(debtLimits: Array<[string, string, number, number, number, number]>): Promise<boolean> {
     var configCorrect: boolean = true
     for (const [baseId, ilkId, , line, dust, dec] of debtLimits) {
@@ -163,6 +167,7 @@ export class Harness {
     return configCorrect
   }
 
+  // Check and return the debt config which are different from what is on cauldron
   async getDebtConfig(
     debtLimits: Array<[string, string, number, number, number, number]>
   ): Promise<Array<[string, string, number, number, number, number]>> {
@@ -180,7 +185,7 @@ export class Harness {
     return debtConfigs
   }
 
-  // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+  // Check if the supplied fyToken config is present on the cauldron
   async checkFyTokenConfig(seriesToCheck: Array<[string, string, string, string, number, string, string]>) {
     for (const [seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol] of seriesToCheck) {
       var series = await this.cauldron.series(seriesId)
@@ -189,6 +194,7 @@ export class Harness {
     }
   }
 
+  // Check & return the deployable fyToken configurations
   async getDeployableFyTokenConfig(seriesToCheck: Array<[string, string, string, string, number, string, string]>) {
     var deployableFyToken: Array<[string, string, string, string, number, string, string]> = []
     for (const [seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol] of seriesToCheck) {
@@ -202,6 +208,7 @@ export class Harness {
     return deployableFyToken
   }
 
+  // Check if the base are present in cauldron
   async checkIfBase(oracles: Array<[string, string]>) {
     for (const [assetId, join] of oracles) {
       if ((await this.cauldron.lendingOracles(assetId)) != ZERO_ADDRESS) {
@@ -213,6 +220,7 @@ export class Harness {
     }
   }
 
+  // Check & return the assets which could be made into base
   async getBaseableAssets(oracles: Array<[string, string]>): Promise<Array<[string, string]>> {
     var baseAbleAsset: Array<[string, string]> = []
     for (const [assetId, join] of oracles) {

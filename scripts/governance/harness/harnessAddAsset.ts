@@ -11,29 +11,27 @@ const { newJoins } = require(process.env.BASE as string)
 /**
  * @dev This script adds assets to the Cauldron
  */
-
 ;(async () => {
   let harness = await Harness.create()
   // AddAssetTest checks if the desired assets to be added are already present in the cauldron
   // It returns only the assets which are not present in the cauldron
-  let assetsThatCouldbeAdd = await harness.getAddableAssets(assetsToAdd)
-  let owner = await harness.owner
-  let timelock = await harness.timelock
-  let cloak = await harness.cloak
-  let ladle = await harness.ladle
+  let owner = harness.owner
+  let timelock = harness.timelock
   let assetsAndJoins: [string, string, string][] = []
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [assetId, assetAddress] of assetsThatCouldbeAdd) {
+  let assetsThatCouldbeAdded = await harness.getAddableAssets(assetsToAdd)
+
+  for (let [assetId, assetAddress] of assetsThatCouldbeAdded) {
     // Join deployment is here just for this test but would be removed
     var join = newJoins.size == 0 ? ZERO_ADDRESS : (newJoins.get(assetId) as string)
     if (newJoins.size == 0) {
-      const dep = await deployJoins(owner, timelock, assetsThatCouldbeAdd)
+      const dep = await deployJoins(owner, timelock, assetsThatCouldbeAdded)
       join = (dep.get(CVX3CRV) as Join).address
       writeAddressMap('newJoins.json', dep)
     }
     if (join == ZERO_ADDRESS) {
-      const dep = await deployJoins(owner, timelock, assetsThatCouldbeAdd)
+      const dep = await deployJoins(owner, timelock, assetsThatCouldbeAdded)
       join = (dep.get(CVX3CRV) as Join).address
       writeAddressMap('newJoins.json', dep)
     }
@@ -41,17 +39,17 @@ const { newJoins } = require(process.env.BASE as string)
     assetsAndJoins.push([assetId, assetAddress, join])
   }
 
-  if (assetsThatCouldbeAdd.length > 0) {
+  if (assetsThatCouldbeAdded.length > 0) {
     proposal = proposal.concat(
-      await orchestrateJoinProposal(owner, owner.address, ladle, timelock, cloak, assetsAndJoins)
+      await orchestrateJoinProposal(harness, assetsAndJoins)
     )
     proposal = proposal.concat(
-      await addAssetProposal(owner, (await harness).cauldron, (await harness).ladle, assetsAndJoins)
+      await addAssetProposal(harness, assetsAndJoins)
     )
-    await proposeApproveExecute(timelock, proposal, (await harness).governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, harness.governance.get('multisig') as string)
   } else {
-    // Checks if the asset is present in the cauldron
-    ;(await harness).checkAssets(assetsThatCouldbeAdd)
+    // Checks if the asset was added in the cauldron
+    ;(await harness).checkAssets(assetsThatCouldbeAdded)
   }
   
 })()
