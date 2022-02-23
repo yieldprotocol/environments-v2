@@ -39,10 +39,6 @@ const {
   const joins = readAddressMappingIfExists('joins.json')
   const governance = readAddressMappingIfExists('governance.json')
 
-  const transferModule = (await ethers.getContractAt(
-    'Transfer1155Module',
-    protocol.get('transferModule') as string
-  )) as unknown as Transfer1155Module
   const notionalOracle = (await ethers.getContractAt(
     'NotionalMultiOracle',
     protocol.get(NOTIONAL) as string
@@ -72,7 +68,7 @@ const {
   }
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await orchestrateModuleProposal(ladle, transferModule))
+  proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('transferModule') as string))
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))

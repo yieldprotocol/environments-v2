@@ -18,7 +18,7 @@ import { FUSDC2203ID, FUSDC2206ID, FDAI2203ID, FDAI2206ID } from '../../../share
 import { FYUSDC2203, FYUSDC2206, FYDAI2203, FYDAI2206 } from '../../../shared/constants'
 
 export const newAssets: Map<string, string> = new Map([
-  [FCASH, ''],
+  [FCASH, '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'],
 ])
 
 // fcash, notionalId, underlyingId, underlying
@@ -31,7 +31,7 @@ export const notionalSources: Array<[string, string, string, string]> = [
 
 // Assets for which we will have a Join
 // assetId, fCashId, fCash
-export const assetsToAdd: Array<[string, string, string]> = [
+export const assetsToAdd: Array<[string, number, string]> = [
   [FDAI2203,  FDAI2203ID, newAssets.get(FCASH) as string],
   [FDAI2206,  FDAI2206ID, newAssets.get(FCASH) as string],
   [FUSDC2203, FUSDC2203ID, newAssets.get(FCASH) as string],
