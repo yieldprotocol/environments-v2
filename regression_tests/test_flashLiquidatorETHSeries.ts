@@ -51,7 +51,7 @@ describe('flash liquidator: ETH series', function () {
 
   testSetUp(this, g_port, fixture)
 
-  it('liquidates ENS vaults on Dec-14-2021 (block: 13804681)', async function () {
+  it('liquidates the vaults', async function () {
     this.timeout(1800e3)
 
     await fork(14268289)
