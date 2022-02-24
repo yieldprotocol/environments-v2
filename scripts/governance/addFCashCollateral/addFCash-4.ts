@@ -8,6 +8,7 @@ import {
 
 import { NOTIONAL, FCASH } from '../../../shared/constants'
 
+import { orchestrateNotionalOracleProposal } from '../../fragments/oracles/orchestrateNotionalOracleProposal'
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { orchestrateModuleProposal } from '../../fragments/modules/orchestrateModuleProposal'
 import { updateNotionalSourcesProposal } from '../../fragments/oracles/updateNotionalSourcesProposal'
@@ -15,17 +16,19 @@ import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetPropos
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import { Transfer1155Module, IOracle, NotionalMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
+import {
+  Transfer1155Module,
+  IOracle,
+  NotionalMultiOracle,
+  Cauldron,
+  Ladle,
+  Witch,
+  Timelock,
+  EmergencyBrake,
+} from '../../../typechain'
 
-const {
-  developer,
-  deployer,
-  notionalSources,
-  newAssets,
-  debtLimits,
-  auctionLimits,
-  seriesIlks,
-} = require(process.env.CONF as string)
+const { developer, deployer, notionalSources, newAssets, notionalDebtLimits, auctionLimits, seriesIlks } = require(process.env
+  .CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
@@ -68,6 +71,7 @@ const {
   }
 
   let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await orchestrateNotionalOracleProposal(deployer, notionalOracle, timelock, cloak))
   proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('transfer1155Module') as string))
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
@@ -80,7 +84,7 @@ const {
       witch,
       cloak,
       joins,
-      debtLimits,
+      notionalDebtLimits,
       auctionLimits
     )
   )

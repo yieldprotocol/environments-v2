@@ -1,9 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  writeAddressMap,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployTransfer1155Module } from '../../fragments/modules/deployTransfer1155Module'
 
@@ -25,11 +21,7 @@ const { developer, assets } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Cauldron
 
-  const weth = (await ethers.getContractAt(
-    'WETH9Mock',
-    assets.get(ETH) as string,
-    ownerAcc
-  )) as unknown as WETH9Mock
+  const weth = (await ethers.getContractAt('WETH9Mock', assets.get(ETH) as string, ownerAcc)) as unknown as WETH9Mock
 
   const transfer1155Module = await deployTransfer1155Module(ownerAcc, cauldron, weth, protocol)
   protocol.set('transfer1155Module', transfer1155Module.address)

@@ -13,7 +13,8 @@ export const updateNotionalSourcesProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   for (let [fcashAddress, notionalId, underlyingId, underlyingAddress] of sources) {
     if ((await ethers.provider.getCode(fcashAddress)) === '0x') throw `Address ${fcashAddress} contains no code`
-    if ((await ethers.provider.getCode(underlyingAddress)) === '0x') throw `Address ${underlyingAddress} contains no code`
+    if ((await ethers.provider.getCode(underlyingAddress)) === '0x')
+      throw `Address ${underlyingAddress} contains no code`
     console.log(`Setting up ${fcashAddress} as the source for ${notionalId}/${underlyingId} at ${oracle.address}`)
 
     proposal.push({

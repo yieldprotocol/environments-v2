@@ -17,7 +17,10 @@ export const deployTransfer1155Module = async (
 ): Promise<Transfer1155Module> => {
   let transferModule: Transfer1155Module
   if (protocol.get('transferModule') === undefined) {
-    transferModule = (await deployContract(ownerAcc, Transfer1155ModuleArtifact, [cauldron.address, weth.address])) as Transfer1155Module
+    transferModule = (await deployContract(ownerAcc, Transfer1155ModuleArtifact, [
+      cauldron.address,
+      weth.address,
+    ])) as Transfer1155Module
     console.log(`Transfer1155Module deployed at ${transferModule.address}`)
     verify(transferModule.address, [cauldron.address, weth.address])
   } else {
