@@ -11,9 +11,7 @@ import {
   Timelock,
   Witch,
 } from '../../../../typechain'
-const {
-  deployer,
-} = require(process.env.BASE as string)
+
 export type Proposal = Array<{ target: string; data: string }>
 
 /**
@@ -41,7 +39,7 @@ export class Harness {
   async loadAssetData() {}
 
   static async create(): Promise<Harness> {
-    const { governance, protocol, pools, developer } = require(process.env.BASE as string)
+    const { governance, protocol, pools, developer, deployer } = require(process.env.BASE as string)
     const owner = await getOwnerOrImpersonate(developer)
 
     const timelock = await getContract<Timelock>(owner, 'Timelock', governance.get('timelock'))
