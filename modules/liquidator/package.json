@@ -35,6 +35,7 @@
     "@types/mocha": "^9.0.0",
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/smart-order-router": "^2.5.15",
+    "@yield-protocol/hardhat-dapptools": "^0.1.0",
     "@yield-protocol/utils-v2": "2.4.6",
     "@yield-protocol/vault-interfaces": "2.3.2",
     "@yield-protocol/vault-v2": "0.15.0-rc3",

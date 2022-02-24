@@ -358,6 +358,7 @@ impl<M: Middleware> Liquidator<M> {
             //
             // Also, it's safe to unwrap() client().default_sender(): if it's not set, we're in trouble anyways
             .from(self.flash_liquidator.client().default_sender().unwrap());
+        info!(raw_call=?raw_call, vault_id=?hex::encode(vault_id), "Estimating gas for `liquidate` call");
         let gas_estimation = raw_call.estimate_gas().await?;
         let gas = gas_estimation.mul(U256::from(self.gas_boost + 100)).div(100);
         let call = raw_call

@@ -7,13 +7,13 @@ import '@nomiclabs/hardhat-etherscan'
 
 import '@typechain/hardhat'
 
+import '@yield-protocol/hardhat-dapptools'
+
 import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 import 'hardhat-deploy'
-
-// import 'hardhat-dapptools'
 
 
 function nodeUrl(network: any) {

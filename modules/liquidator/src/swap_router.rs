@@ -4,7 +4,7 @@
 use async_process::Command;
 use ethers::prelude::*;
 use thiserror::Error;
-use tracing::instrument;
+use tracing::{info, instrument};
 
 use serde::Deserialize;
 
@@ -62,6 +62,8 @@ impl SwapRouter {
         token_out: Address,
         amount_in: U256,
     ) -> std::result::Result<SwapCalldata, SwapRouterError> {
+        info!(token_in=?token_in, token_out=?token_out, amount_in=?amount_in, "Building calldata for swap");
+
         let out = Command::new(self.router_binary_path.as_str())
             .arg(format!("--rpc_url={}", self.rpc_url))
             .arg(format!("--chain_id={}", self.chain_id))

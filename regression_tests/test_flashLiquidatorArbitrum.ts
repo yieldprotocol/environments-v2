@@ -31,13 +31,13 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, Liquidator
         g_port)];
 }
 
-describe("flash liquidator", function () {
+describe("flash liquidator: Arbitrum", function () {
     let fixture: TestFixture = new TestFixture();
     fixture.chain_id = 42161;
 
     testSetUp(this, g_port, fixture);
 
-    it("liquidates a vaults on Feb-16-2021 (block: 6228926)", async function () {
+    it("liquidates the only vault on Feb-16-2021 (block: 6228926)", async function () {
         this.timeout(1800e3);
 
         await fork(6228926, "arb-mainnet");
@@ -90,6 +90,11 @@ describe("flash liquidator", function () {
         logger.info("Triggering auction");
         // do the 1st run: trigger the auction
         await run_liquidator(fixture, liquidator);
+
+        // wait a few hours for auction to release all collateral
+        await network.provider.send("evm_increaseTime", [7200]);
+        await network.provider.send("evm_mine")
+
         logger.info("Liquidating vaults")
         // 2nd run: liquidate the vault
         const liquidator_logs = await run_liquidator(fixture, liquidator);
