@@ -137,16 +137,20 @@ describe('flash liquidator: ETH series', function () {
     let proposal: Array<{ target: string; data: string }> = []
     proposal = proposal.concat(
       await updateIlkProposal(oracle as unknown as IOracle, cauldron, [
-        [ETH, eth ? ETH : DAI, 4294967295, 2500000000, 0, 12],
+        eth ? [ETH, ETH, 2000000, 2500000000, 0, 12] : [ETH, DAI, 2000000, 1000000000, 1250000, 12],
       ])
     )
     var level = await cauldron.callStatic.level(vaultId)
     console.log('Level before ' + level.toString())
+
+    // Changing the ratio
     await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
     await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
     await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    
     level = await cauldron.callStatic.level(vaultId)
     console.log('Level after ' + level.toString())
+    console.log('before balance ' + (await wEth.balanceOf(_owner.address)).toString())
     const liquidator_logs = await run_liquidator(fixture, liquidator)
     for (const log_record of liquidator_logs) {
       if (log_record['level'] == 'INFO' && log_record['fields']['message'] == 'Submitted buy order') {
@@ -154,8 +158,8 @@ describe('flash liquidator: ETH series', function () {
       }
       expect(log_record['level']).to.not.equal('ERROR') // no errors allowed
     }
+    console.log('after balance ' + (await wEth.balanceOf(_owner.address)).toString())
     expect(bought).to.be.equal(5)
-
     const final_balance = await _owner.getBalance()
     logger.warn('ETH used: ', starting_balance.sub(final_balance).div(1e12).toString(), 'wETH')
   })
