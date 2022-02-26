@@ -1,0 +1,21 @@
+{
+  "dataType": "Map",
+  "value": [
+    [
+      "YSDAI6MMS",
+      "0xDF3FF55C2Fc253f81DC8fDe2dd631e0f1c1d30fD"
+    ],
+    [
+      "YSDAI6MJD",
+      "0xf85A263782F647358638e63FF149Cd8f36d8c3d4"
+    ],
+    [
+      "YSUSDC6MMS",
+      "0x1ef76B2ADC8ba517Db85d7b18E738B822b5ceEe5"
+    ],
+    [
+      "YSUSDC6MJD",
+      "0x41Fcd6D748d65820Dd0f68A688531703C5Fa23C0"
+    ]
+  ]
+}

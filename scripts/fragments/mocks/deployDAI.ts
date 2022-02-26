@@ -1,6 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import { verify } from '../../../shared/helpers'
-import DaiMockArtifact from '../../../artifacts/contracts/mocks/DaiMock.sol/DaiMock.json'
+import DaiMockArtifact from '../../../artifacts/contracts/::mocks/DaiMock.sol/DaiMock.json'
 
 import { DaiMock } from '../../../typechain/DaiMock'
 const { deployContract } = waffle
