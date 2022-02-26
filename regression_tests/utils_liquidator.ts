@@ -138,6 +138,10 @@ export async function deployETHSeries(fixture: TestFixture) {
   try {
     const results = await exec(cmd, {
       maxBuffer: 1024 * 1024 * 10,
+      env: {
+          "USE_ADDRESSES_FOR_NETWORK": "mainnet",
+          ...process.env,
+      }
     })
     stdout = results.stdout
     stderr = results.stderr

@@ -292,7 +292,8 @@ export function jsonToMap(json: string): Map<any, any> {
 }
 
 export function getNetworkName(): string {
-  return network.name;
+  const network_name_override = process.env["USE_ADDRESSES_FOR_NETWORK"];
+  return network_name_override ? network_name_override : network.name;
 }
 
 /**
