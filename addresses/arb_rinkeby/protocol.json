@@ -2,56 +2,48 @@
   "dataType": "Map",
   "value": [
     [
-      "yieldMath",
-      "0x6277F11D4D517bB26eEb82b377de100ccb254159"
-    ],
-    [
-      "yieldMathExtensions",
-      "0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47"
-    ],
-    [
-      "poolView",
-      "0xf38be92223727A594e7b2d4B3044Ee48fa8546E9"
-    ],
-    [
-      "safeERC20Namer",
-      "0x28F95B33c908048E273155D904cCA598AcB27B4D"
-    ],
-    [
-      "timelock",
-      "0x3DcEF67ee7B27ede9dD7643f86F2F971d71E0895"
-    ],
-    [
-      "cloak",
-      "0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71"
-    ],
-    [
-      "chainlinkL2USDOracle",
-      "0x16c1a70252Fd9c88454EEb4957e0232E06f30A93"
-    ],
-    [
-      "chainlinkUSDOracle",
-      "0x16c1a70252Fd9c88454EEb4957e0232E06f30A93"
-    ],
-    [
-      "accumulatorOracle",
-      "0x58A098e581Fc56760552415A372398750d0a7C14"
-    ],
-    [
       "cauldron",
-      "0x2AFFAce3592Bd3C06f224c304201Ab3001682d61"
+      "0x52c4c4256D9263d6C815Db9550a9945330016Da4"
     ],
     [
       "ladle",
-      "0x74a8079af64dDaF026df2caBCE96719681b7E4f9"
+      "0x3a6dFd789327C48220Be5B62e6152244A280D647"
     ],
     [
       "router",
-      "0x61501269df832d765FC08D022BAB31d9c1510607"
+      "0xEd35d59A442274914f1883CdceF4d6714DFfCAA2"
     ],
     [
       "witch",
-      "0x4ABD3bea3cA6f7ac1bEa8e6045cD270266B0c63B"
+      "0xfcabEbD58FA3F042dB23bDd45466B0cc8390A7c2"
+    ],
+    [
+      "chainlinkL2USDOracle",
+      "0xA1e1e005d0b1f942BCeBF8D8e1d827b5ECEC91cb"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0xA1e1e005d0b1f942BCeBF8D8e1d827b5ECEC91cb"
+    ],
+    [
+      "accumulatorOracle",
+      "0x967f4F2043FCFD8b2558F12718A900d6817EDa0e"
+    ],
+    [
+      "yieldMath",
+      "0x39a2fADE655608228faAB2D07C51E005E67cbb9d"
+    ],
+    [
+      "yieldMathExtensions",
+      "0x342BA58d1Ca3b357f2992291EED2e56CaD31C90b"
+    ],
+    [
+      "poolView",
+      "0x3e1a83c17315e7528B477cE6C4D18BcEd543c391"
+    ],
+    [
+      "safeERC20Namer",
+      "0x8A5862c7753E98A3B6AcB366859C71631046CDf8"
     ]
   ]
 }
