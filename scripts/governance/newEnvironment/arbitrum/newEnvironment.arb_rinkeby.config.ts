@@ -26,7 +26,7 @@ export const whales: Map<string, string> = new Map([
 export const assets: Map<string, string> = new Map([
   [ETH, '0xb3B95E6AeE64b403D0586379F0073b0437F85c13'],
   [DAI, '0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca'],
-  [USDC, '0x461B6d0E560C27AD1C383DE0b1a0d1eF13Dcb0E6'],
+  [USDC, '0x93d348ceb1dc15DA3C50542A2CAC5365d506A01f'],
 ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [
