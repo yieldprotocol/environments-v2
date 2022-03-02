@@ -12,7 +12,7 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-import { USDC, DAI, FCASH } from '../../../shared/constants'
+import { USDC, DAI } from '../../../shared/constants'
 import { FUSDC2203, FUSDC2206, FDAI2203, FDAI2206 } from '../../../shared/constants'
 import { FUSDC2203ID, FUSDC2206ID, FDAI2203ID, FDAI2206ID } from '../../../shared/constants'
 import { FYUSDC2203, FYUSDC2206, FYDAI2203, FYDAI2206 } from '../../../shared/constants'

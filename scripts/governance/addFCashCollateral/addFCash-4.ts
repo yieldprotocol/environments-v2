@@ -6,7 +6,7 @@ import {
   getOwnerOrImpersonate,
 } from '../../../shared/helpers'
 
-import { NOTIONAL, FCASH } from '../../../shared/constants'
+import { NOTIONAL } from '../../../shared/constants'
 
 import { orchestrateNotionalOracleProposal } from '../../fragments/oracles/orchestrateNotionalOracleProposal'
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
