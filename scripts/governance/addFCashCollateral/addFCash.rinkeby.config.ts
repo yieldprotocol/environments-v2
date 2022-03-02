@@ -17,23 +17,23 @@ import { FUSDC2203, FUSDC2206, FDAI2203, FDAI2206 } from '../../../shared/consta
 import { FUSDC2203ID, FUSDC2206ID, FDAI2203ID, FDAI2206ID } from '../../../shared/constants'
 import { FYUSDC2203, FYUSDC2206, FYDAI2203, FYDAI2206 } from '../../../shared/constants'
 
-export const newAssets: Map<string, string> = new Map([[FCASH, '0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797']])
+export const fCashAddress = '0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797'
 
 // fcash, notionalId, underlyingId, underlying
 export const notionalSources: Array<[string, string, string, string]> = [
-  [newAssets.get(FCASH) as string, FDAI2203, DAI, assets.get(DAI) as string],
-  [newAssets.get(FCASH) as string, FDAI2206, DAI, assets.get(DAI) as string],
-  [newAssets.get(FCASH) as string, FUSDC2203, USDC, assets.get(USDC) as string],
-  [newAssets.get(FCASH) as string, FUSDC2206, USDC, assets.get(USDC) as string],
+  [fCashAddress, FDAI2203, DAI, assets.get(DAI) as string],
+  [fCashAddress, FDAI2206, DAI, assets.get(DAI) as string],
+  [fCashAddress, FUSDC2203, USDC, assets.get(USDC) as string],
+  [fCashAddress, FUSDC2206, USDC, assets.get(USDC) as string],
 ]
 
 // Assets for which we will have a Join
 // assetId, fCashId, fCash
 export const assetsToAdd: Array<[string, number, string]> = [
-  [FDAI2203, FDAI2203ID, newAssets.get(FCASH) as string],
-  [FDAI2206, FDAI2206ID, newAssets.get(FCASH) as string],
-  [FUSDC2203, FUSDC2203ID, newAssets.get(FCASH) as string],
-  [FUSDC2206, FUSDC2206ID, newAssets.get(FCASH) as string],
+  [FDAI2203, FDAI2203ID, fCashAddress],
+  [FDAI2206, FDAI2206ID, fCashAddress],
+  [FUSDC2203, FUSDC2203ID, fCashAddress],
+  [FUSDC2206, FUSDC2206ID, fCashAddress],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec

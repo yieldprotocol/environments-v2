@@ -27,7 +27,7 @@ import {
   EmergencyBrake,
 } from '../../../typechain'
 
-const { developer, deployer, notionalSources, newAssets, notionalDebtLimits, auctionLimits, seriesIlks } = require(process.env
+const { developer, deployer, notionalSources, fCashAddress, notionalDebtLimits, auctionLimits, seriesIlks } = require(process.env
   .CONF as string)
 
 /**
@@ -66,8 +66,8 @@ const { developer, deployer, notionalSources, newAssets, notionalDebtLimits, auc
 
   let assetsAndJoins: Array<[string, string, string]> = []
   for (let [assetId, joinAddress] of joins) {
-    assetsAndJoins.push([assetId, newAssets.get(FCASH) as string, joinAddress])
-    console.log(`Using ${newAssets.get(FCASH)} as Join for ${joinAddress}`)
+    assetsAndJoins.push([assetId, fCashAddress, joinAddress])
+    console.log(`Using ${fCashAddress} as Join for ${joinAddress}`)
   }
 
   let proposal: Array<{ target: string; data: string }> = []
