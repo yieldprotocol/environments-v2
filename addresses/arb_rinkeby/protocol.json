@@ -2,48 +2,56 @@
   "dataType": "Map",
   "value": [
     [
-      "cauldron",
-      "0x52c4c4256D9263d6C815Db9550a9945330016Da4"
-    ],
-    [
-      "ladle",
-      "0x3a6dFd789327C48220Be5B62e6152244A280D647"
-    ],
-    [
-      "router",
-      "0xEd35d59A442274914f1883CdceF4d6714DFfCAA2"
-    ],
-    [
-      "witch",
-      "0xfcabEbD58FA3F042dB23bDd45466B0cc8390A7c2"
-    ],
-    [
-      "chainlinkL2USDOracle",
-      "0xA1e1e005d0b1f942BCeBF8D8e1d827b5ECEC91cb"
-    ],
-    [
-      "chainlinkUSDOracle",
-      "0xA1e1e005d0b1f942BCeBF8D8e1d827b5ECEC91cb"
-    ],
-    [
-      "accumulatorOracle",
-      "0x967f4F2043FCFD8b2558F12718A900d6817EDa0e"
-    ],
-    [
       "yieldMath",
-      "0x39a2fADE655608228faAB2D07C51E005E67cbb9d"
+      "0x6752E560C89dBF91D8799850dAcb6B9C2Adb24cA"
     ],
     [
       "yieldMathExtensions",
-      "0x342BA58d1Ca3b357f2992291EED2e56CaD31C90b"
+      "0xfD1d9f55e39345C2BB67E41f324A29eC6F24280C"
     ],
     [
       "poolView",
-      "0x3e1a83c17315e7528B477cE6C4D18BcEd543c391"
+      "0xa2419f26A990FFf00c0E1A31570a30F0AEd148fd"
     ],
     [
       "safeERC20Namer",
-      "0x8A5862c7753E98A3B6AcB366859C71631046CDf8"
+      "0x9d5f64731D2103B2Ee87044c3587Dd12b3f0e97D"
+    ],
+    [
+      "timelock",
+      "0xcd1e369ad612a2AC47D0b3bC6f01B64Eb4b2B638"
+    ],
+    [
+      "cloak",
+      "0x7FD6E1E6a9b80A7DE32f17a94FEAD054EB066DE7"
+    ],
+    [
+      "chainlinkL2USDOracle",
+      "0x7ce7E0e70259B49dB886b512088b1A6485657333"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0x7ce7E0e70259B49dB886b512088b1A6485657333"
+    ],
+    [
+      "accumulatorOracle",
+      "0xbBB7870227750119ab1f230c8785Be8C4e0C5f1A"
+    ],
+    [
+      "cauldron",
+      "0x64BA0F1D2E5479BF132936328e8c533c95646fE8"
+    ],
+    [
+      "ladle",
+      "0xC5A62972418195031F931944f9C156d563De1fb4"
+    ],
+    [
+      "router",
+      "0xdC091461981B949cD8BfAe078a4C031AF7383546"
+    ],
+    [
+      "witch",
+      "0xf8eD39321927F5fae30EC33311F1fe596078ccbD"
     ]
   ]
 }
