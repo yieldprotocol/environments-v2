@@ -26,7 +26,11 @@ export const initStrategiesProposal = async (
       throw `Address ${strategyAddress} contains no code for a Strategy`
 
     const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
-    const base: ERC20Mock = (await ethers.getContractAt('contracts/::mocks/ERC20Mock.sol:ERC20Mock', await strategy.base(), ownerAcc)) as ERC20Mock
+    const base: ERC20Mock = (await ethers.getContractAt(
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+      await strategy.base(),
+      ownerAcc
+    )) as ERC20Mock
 
     // The test below doesn't work if the pool is added to the ladle in the same proposal.
     const startPoolAddress1 = await ladle.pools(startPoolAddress)
