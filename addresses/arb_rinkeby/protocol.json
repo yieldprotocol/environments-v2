@@ -44,6 +44,10 @@
     [
       "witch",
       "0xf8eD39321927F5fae30EC33311F1fe596078ccbD"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0x9A9dCa65fa012bD17dc860794d84806c4bB06E6A"
     ]
   ]
 }
