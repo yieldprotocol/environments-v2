@@ -6,7 +6,7 @@ import {
   proposeApproveExecute,
 } from '../../../shared/helpers'
 
-import { grantGovernorProposal } from '../../fragments/permissions/grantGovernorProposal'
+import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { newGovernors, developerToImpersonate } from './addGovernors.rinkeby.config'
 
@@ -32,10 +32,7 @@ import { newGovernors, developerToImpersonate } from './addGovernors.rinkeby.con
     ownerAcc
   )) as unknown as EmergencyBrake
 
-  let proposal: Array<{ target: string; data: string }> = []
-  for (let gov of newGovernors) {
-    proposal = proposal.concat(await grantGovernorProposal(timelock, cloak, gov))
-  }
+  let proposal = await grantGovernorsProposal(timelock, cloak, newGovernors)
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
