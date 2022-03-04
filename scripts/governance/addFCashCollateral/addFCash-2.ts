@@ -8,7 +8,7 @@ import { ETH } from '../../../shared/constants'
 const { developer, assets } = require(process.env.CONF as string)
 
 /**
- * @dev This script deploys the YearnVault Oracle
+ * @dev This script deploys the Transfer1155Module Oracle
  */
 
 ;(async () => {

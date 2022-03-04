@@ -11,7 +11,7 @@ import { NotionalMultiOracle, EmergencyBrake, Timelock } from '../../../typechai
 
 export const orchestrateNotionalOracleProposal = async (
   deployer: string,
-  chainlinkOracle: NotionalMultiOracle,
+  notionalOracle: NotionalMultiOracle,
   timelock: Timelock,
   cloak: EmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -20,25 +20,25 @@ export const orchestrateNotionalOracleProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
-    target: chainlinkOracle.address,
-    data: chainlinkOracle.interface.encodeFunctionData('grantRoles', [
-      [id(chainlinkOracle.interface, 'setSource(bytes6,bytes6,address)')],
+    target: notionalOracle.address,
+    data: notionalOracle.interface.encodeFunctionData('grantRoles', [
+      [id(notionalOracle.interface, 'setSource(bytes6,bytes6,address)')],
       timelock.address,
     ]),
   })
-  console.log(`chainlinkOracle.grantRoles(gov, timelock)`)
+  console.log(`notionalOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
-    target: chainlinkOracle.address,
-    data: chainlinkOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
+    target: notionalOracle.address,
+    data: notionalOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`chainlinkOracle.grantRole(ROOT, cloak)`)
+  console.log(`notionalOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
-    target: chainlinkOracle.address,
-    data: chainlinkOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    target: notionalOracle.address,
+    data: notionalOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`chainlinkOracle.revokeRole(ROOT, deployer)`)
+  console.log(`notionalOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }
