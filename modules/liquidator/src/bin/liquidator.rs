@@ -1,9 +1,9 @@
 use ethers::prelude::*;
-use yield_liquidator::{escalator::GeometricGasPrice, keeper::Keeper, bindings::BaseIdType, swap_router::SwapRouter};
+use yield_liquidator::{escalator::GeometricGasPrice, keeper::Keeper, bindings::{BaseIdType, VaultIdType}, swap_router::SwapRouter};
 
 use gumdrop::Options;
 use serde::Deserialize;
-use std::{convert::{TryFrom, TryInto}, path::PathBuf, sync::Arc, time::Duration, collections::HashMap};
+use std::{convert::{TryFrom, TryInto}, path::PathBuf, sync::Arc, time::Duration, collections::{HashMap, HashSet}};
 use tracing::info;
 use tracing_subscriber::{filter::EnvFilter, fmt::Subscriber};
 
@@ -51,6 +51,9 @@ struct Opts {
     #[options(help = "the block to start watching from")]
     start_block: Option<u64>,
 
+    #[options(help = "number of blocks to look at for each eth_getLogs call")]
+    blocks_per_batch: Option<u64>,
+
     #[options(default="false", help="Use JSON as log format")]
     json_log: bool,
 
@@ -79,7 +82,9 @@ struct Config {
     #[serde(rename = "SwapRouter02")]
     swap_router_02: Address,
     #[serde(rename = "BaseToDebtThreshold")]
-    base_to_debt_threshold: HashMap<String, String>
+    base_to_debt_threshold: HashMap<String, String>,
+    #[serde(rename = "VaultsWhiteList")]
+    vaults_whitelist: Option<HashSet<String>>
 }
 
 fn init_logger(use_json: bool) {
@@ -169,6 +174,12 @@ async fn run<P: JsonRpcClient + 'static>(opts: Opts, provider: Provider<P>) -> a
         })
         .collect();
 
+    let vaults_whitelist: Option<HashSet<VaultIdType>> = cfg.vaults_whitelist.map(|x| x.into_iter()
+        .map(|vault_id_str| {
+            hex::decode(vault_id_str).unwrap().try_into().unwrap()
+        })
+        .collect());
+
     let instance_name = format!("{}.witch={:?}.flash={:?}", opts.instance_name, cfg.witch, cfg.flashloan);
     
     let swap_router = SwapRouter::new(
@@ -194,6 +205,8 @@ async fn run<P: JsonRpcClient + 'static>(opts: Opts, provider: Provider<P>) -> a
         base_to_debt_threshold,
         state,
         swap_router,
+        opts.blocks_per_batch,
+        vaults_whitelist,
         instance_name
     ).await?;
 

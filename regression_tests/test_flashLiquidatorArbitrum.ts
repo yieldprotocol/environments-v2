@@ -28,7 +28,7 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, Liquidator
     logger.info("Liquidator deployed at: ", liquidator.address);
     return [owner, new LiquidatorConfig(g_multicall2, liquidator.address, g_witch, g_uni_router_02,
         network.config.chainId!,
-        g_port)];
+        g_port, 100000)];
 }
 
 describe("flash liquidator: Arbitrum", function () {
@@ -38,13 +38,12 @@ describe("flash liquidator: Arbitrum", function () {
     testSetUp(this, g_port, fixture);
 
     it("liquidates the only vault on Feb-16-2021 (block: 6228926)", async function () {
-        this.timeout(1800e3);
-
         await fork(6228926, "arb-mainnet");
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
         const starting_balance = await _owner.getBalance();
 
+        const vault_created_at_block = 6202673;
         const vauld_id = "300eac7ff309b16b6b62d028";
 
         // the vault is not underwater and the bot won't liquidate it
@@ -89,7 +88,7 @@ describe("flash liquidator: Arbitrum", function () {
 
         logger.info("Triggering auction");
         // do the 1st run: trigger the auction
-        await run_liquidator(fixture, liquidator);
+        await run_liquidator(fixture, liquidator, {});
 
         // wait a few hours for auction to release all collateral
         await network.provider.send("evm_increaseTime", [7200]);
@@ -97,7 +96,7 @@ describe("flash liquidator: Arbitrum", function () {
 
         logger.info("Liquidating vaults")
         // 2nd run: liquidate the vault
-        const liquidator_logs = await run_liquidator(fixture, liquidator);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {});
 
         let bought = 0;
 

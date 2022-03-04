@@ -1,5 +1,9 @@
 all: build
 
+# special job that warms up cargo/yarn caches
+# its sole purpose is efficient caching in CI
+caches: build/env build/liquidator.yarn build/liquidator.cargo
+
 build/env:
 	yarn install --immutable && yarn build
 
@@ -38,7 +42,8 @@ test/liquidator:
 _regression_tests := $(patsubst regression_tests/test_%.ts,regression.%,$(wildcard regression_tests/test_*.ts))
 
 regression.%:
-	npx hardhat test regression_tests/test_$*.ts
+# pass NODE_OPTIONS to increase the node max memory size - it runs OOM in CI otherwise
+	NODE_OPTIONS="--max-old-space-size=4096" npx hardhat test regression_tests/test_$*.ts
 
 build: build/env build/liquidator
 clean: clean/env clean/liquidator
