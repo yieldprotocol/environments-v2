@@ -10,7 +10,7 @@ import { Timelock } from '../../../typechain'
 const { developer, protocol, governance, sequencerFlags } = require(process.env.CONF as string)
 
 /**
- * @dev This script deploys the Ladle
+ * @dev This script deploys the ChainlinkL2USDMultiOracle
  */
 
 ;(async () => {
