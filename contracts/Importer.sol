@@ -4,6 +4,7 @@ pragma solidity ^0.8.1;
 import "@yield-protocol/vault-v2/contracts/oracles/accumulator/AccumulatorMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkUSDMultiOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkL2USDMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/compound/CTokenMultiOracle.sol";

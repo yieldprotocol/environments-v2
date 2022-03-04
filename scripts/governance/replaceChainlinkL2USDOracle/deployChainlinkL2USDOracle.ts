@@ -1,26 +1,20 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
-} from '../../../../shared/helpers'
+} from '../../../shared/helpers'
 
-import { deployChainlinkL2USDOracle } from '../../../fragments/oracles/deployChainlinkL2USDOracle'
-import { CHAINLINKUSD } from '../../../../shared/constants'
-import { Timelock } from '../../../../typechain'
-const { developer, sequencerFlags } = require(process.env.CONF as string)
+import { deployChainlinkL2USDOracle } from '../../fragments/oracles/deployChainlinkL2USDOracle'
+import { CHAINLINKUSD } from '../../../shared/constants'
+import { Timelock } from '../../../typechain'
+const { developer, protocol, governance, sequencerFlags } = require(process.env.CONF as string)
 
 /**
- * @dev This script deploys the Ladle
+ * @dev This script deploys the ChainlinkL2USDMultiOracle
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -31,6 +25,5 @@ const { developer, sequencerFlags } = require(process.env.CONF as string)
   // We are deploying an L2 oracle, but we treat it as the original L1 throughout the code
   const chainlinkUSDOracle = await deployChainlinkL2USDOracle(ownerAcc, timelock, protocol, sequencerFlags)
   protocol.set(CHAINLINKUSD, chainlinkUSDOracle.address)
-
   writeAddressMap('protocol.json', protocol)
 })()

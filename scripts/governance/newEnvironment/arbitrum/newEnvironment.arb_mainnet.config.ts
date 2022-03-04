@@ -37,6 +37,8 @@ export const rateChiSources: Array<[string, string, string, string]> = [
   [USDC, CHI, WAD.toString(), WAD.toString()],
 ]
 
+export const sequencerFlags: string = '0x3C14e07Edd0dC67442FA96f1Ec6999c57E810a83'
+
 export const chainlinkUSDSources: Array<[string, string, string]> = [
   [ETH, assets.get(ETH) as string, '0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612'],
   [DAI, assets.get(DAI) as string, '0xc5C8E77B397E531B8EC06BFb0048328B30E9eCfB'],
