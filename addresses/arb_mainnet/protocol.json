@@ -26,14 +26,6 @@
       "0x84066CAeA6186a02ED74EBF32BF008A47CbE26AD"
     ],
     [
-      "chainlinkL2USDOracle",
-      "0x30e042468e333Fde8E52Dd237673D7412045D2AC"
-    ],
-    [
-      "chainlinkUSDOracle",
-      "0x30e042468e333Fde8E52Dd237673D7412045D2AC"
-    ],
-    [
       "accumulatorOracle",
       "0x0ad9Ef93673B6081c0c3b753CcaaBDdd8d2e7848"
     ],
@@ -52,6 +44,10 @@
     [
       "witch",
       "0x08173D0885B00BDD640aaE57D05AbB74cd00d669"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0x8E9696345632796e7D80fB341fF4a2A60aa39C89"
     ]
   ]
 }
