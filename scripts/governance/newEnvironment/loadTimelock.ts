@@ -20,7 +20,7 @@ const { formatUnits, parseUnits } = ethers.utils
     const whaleAcc = await impersonate(whaleAddress, WAD)
 
     const asset = (await ethers.getContractAt(
-      'ERC20Mock',
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       assets.get(assetId) as string,
       whaleAcc
     )) as unknown as ERC20Mock

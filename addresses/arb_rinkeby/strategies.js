@@ -1,0 +1,1 @@
+module.exports = { SafeERC20Namer: "0x9d5f64731D2103B2Ee87044c3587Dd12b3f0e97D", YieldMathExtensions: "0xfD1d9f55e39345C2BB67E41f324A29eC6F24280C" }
