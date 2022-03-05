@@ -53,13 +53,14 @@ describe("flash liquidator: ENS vaults", function () {
 
         let bought = 0;
 
+
         for (const log_record of liquidator_logs) {
             if (log_record["level"] == "INFO" && log_record["fields"]["message"] == "Submitted buy order") {
                 bought++;
             }
             expect(log_record["level"]).to.not.equal("ERROR"); // no errors allowed
         }
-        expect(bought).to.be.equal(5)
+        expect(bought).to.be.equal(expected_to_liquidate.length);
 
         const final_balance = await _owner.getBalance();
         logger.warn("ETH used: ", starting_balance.sub(final_balance).div(1e12).toString(), "uETH")
@@ -83,6 +84,7 @@ describe("flash liquidator: ENS vaults", function () {
                 }
             }
         }
+
         expect(vault_is_liquidated).to.equal(true);
     })
 });
