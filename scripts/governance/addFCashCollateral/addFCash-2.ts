@@ -1,11 +1,12 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployTransfer1155Module } from '../../fragments/modules/deployTransfer1155Module'
 
 import { Cauldron, WETH9Mock } from '../../../typechain'
 import { ETH } from '../../../shared/constants'
 const { developer, assets } = require(process.env.CONF as string)
+const { protocol } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Transfer1155Module Oracle
@@ -13,7 +14,6 @@ const { developer, assets } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',

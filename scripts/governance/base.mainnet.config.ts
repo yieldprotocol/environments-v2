@@ -10,7 +10,7 @@ export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
-export const chainId = 4
+export const chainId = 1
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = new Map([
