@@ -22,6 +22,7 @@ export const additionalDevelopers: Array<string> = []
 export const additionalGovernors: Array<string> = [
   '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A',
   '0xE7aa7AF667016837733F3CA3809bdE04697730eF',
+  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5',
 ]
 
 export const assets: Map<string, string> = new Map([

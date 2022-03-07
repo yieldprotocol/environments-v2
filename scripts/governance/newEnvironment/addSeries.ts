@@ -26,8 +26,8 @@ const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF 
   const strategies = readAddressMappingIfExists('strategies.json')
 
   // Temporary files with the fyTokens and pools to add
-  const newFYTokens = readAddressMappingIfExists('fyTokens.json')
-  const newPools = readAddressMappingIfExists('pools.json')
+  const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
+  const newPools = readAddressMappingIfExists('newPools.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',

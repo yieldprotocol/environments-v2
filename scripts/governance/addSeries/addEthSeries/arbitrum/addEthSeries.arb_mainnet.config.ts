@@ -32,7 +32,6 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-
 export const rateChiSources: Array<[string, string, string, string]> = [
   [ETH, RATE, WAD.toString(), WAD.toString()],
   [ETH, CHI, WAD.toString(), WAD.toString()],
@@ -52,24 +51,8 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [
-    FYETH2203,
-    ETH,
-    protocol.get(ACCUMULATOR) as string,
-    joins.get(ETH) as string,
-    EOMAR22,
-    'FYETH2203',
-    'FYETH2203',
-  ],
-  [
-    FYETH2206,
-    ETH,
-    protocol.get(ACCUMULATOR) as string,
-    joins.get(ETH) as string,
-    EOJUN22,
-    'FYETH2206',
-    'FYETH2206',
-  ],
+  [FYETH2203, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOMAR22, 'FYETH2203', 'FYETH2203'],
+  [FYETH2206, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOJUN22, 'FYETH2206', 'FYETH2206'],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)

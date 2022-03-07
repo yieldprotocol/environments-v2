@@ -133,7 +133,7 @@ async function main() {
   }
 
   const chain_id = args.chain_id;
-  const provider = new providers.JsonRpcProvider(args.rpc_url)
+  const provider = new providers.JsonRpcProvider({url : args.rpc_url, timeout: 300_000})
   const router = new AlphaRouter({ chainId: chain_id, provider, gasPriceProvider: buildGasPriceProvider(provider, chain_id) })
 
   const token_in = new Token(chain_id, args.token_in, await getDecimals(provider, args.token_in), '', '')

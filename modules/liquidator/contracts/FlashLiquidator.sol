@@ -90,7 +90,7 @@ contract FlashLiquidator is IFlashLoanRecipient {
         // sell the collateral
         uint256 debtToReturn = baseLoan + feeAmounts[0];
         decoded.collateral.safeApprove(address(swapRouter02), collateralReceived);
-        (bool ok, bytes memory swapReturnBytes) = swapRouter02.call(decoded.swapCalldata);
+        (bool ok, ) = swapRouter02.call(decoded.swapCalldata);
         require(ok, "swap failed");
 
         // router can't access collateral anymore

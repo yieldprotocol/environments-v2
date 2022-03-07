@@ -6,10 +6,10 @@ import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../../shared/constants'
 import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../../../shared/constants'
 
-const protocol = readAddressMappingIfExists('protocol.json')
-const joins = readAddressMappingIfExists('joins.json')
-const fyTokens = readAddressMappingIfExists('fyTokens.json')
-
+export const protocol = readAddressMappingIfExists('protocol.json')
+export const joins = readAddressMappingIfExists('newJoins.json')
+const fyTokens = readAddressMappingIfExists('newFYTokens.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const chainId = 421611
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
@@ -17,6 +17,7 @@ export const additionalDevelopers: Array<string> = []
 export const additionalGovernors: Array<string> = [
   '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A',
   '0xE7aa7AF667016837733F3CA3809bdE04697730eF',
+  '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 ]
 export const whales: Map<string, string> = new Map([
   [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
@@ -25,8 +26,8 @@ export const whales: Map<string, string> = new Map([
 
 export const assets: Map<string, string> = new Map([
   [ETH, '0xb3B95E6AeE64b403D0586379F0073b0437F85c13'],
-  [DAI, '0x358871f2F233Ee078743be4D965FAc23Bb0bFeDd'],
-  [USDC, '0x461B6d0E560C27AD1C383DE0b1a0d1eF13Dcb0E6'],
+  [DAI, '0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca'],
+  [USDC, '0x93d348ceb1dc15DA3C50542A2CAC5365d506A01f'],
 ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [

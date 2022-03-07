@@ -8,8 +8,8 @@ export const protocol = base_config.protocol
 export const assets = base_config.assets
 
 export const chainId = 421611
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const sequencerFlags: string = '0x491B1dDA0A8fa069bbC1125133A975BF4e85a91b'
 
 export const chainlinkUSDSources: Array<[string, string, string]> = [

@@ -15,11 +15,7 @@ const { developer, assets } = require(process.env.CONF as string)
 
   const governance = readAddressMappingIfExists('governance.json')
 
-  const weth = (await ethers.getContractAt(
-    'WETH9Mock',
-    assets.get(ETH) as string,
-    ownerAcc
-  )) as unknown as WETH9Mock
+  const weth = (await ethers.getContractAt('WETH9Mock', assets.get(ETH) as string, ownerAcc)) as unknown as WETH9Mock
 
   await weth.deposit({ value: WAD.div(50).mul(4) })
   await weth.transfer(governance.get('timelock') as string, WAD.div(50).mul(4))

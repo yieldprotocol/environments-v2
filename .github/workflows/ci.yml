@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build-and-Test:
+  Build-Test-Regressions:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -19,13 +19,63 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Cache - cargo
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            modules/liquidator/target
+          key: ${{ runner.os }}-cargo2-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo2-
+
+      - name: Cache - yarn root
+        uses: actions/cache@v2
+        with:
+          path: |
+            .yarn
+            node_modules
+            ~/.cache/hardhat-nodejs
+          key: ${{ runner.os }}-yarn-root4-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-root4-
+
+      - name: Cache - yarn modules/liquidator
+        uses: actions/cache@v2
+        with:
+          path: |
+            modules/liquidator/.yarn
+            modules/liquidator/node_modules
+          key: ${{ runner.os }}-yarn-modules-liquidator3-${{ hashFiles('modules/liquidator/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-modules-liquidator3-
+
       - name: Build
         run: |
           cd ${{ github.workspace }}
+          make --version
           make -j
 
       - name: Test
         run: |
           cd ${{ github.workspace }}
           make -j test
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+
+      - name: Regressions
+        env:
+          INFURA_ETHEREUM_MAINNET: ${{ secrets.INFURA_ETHEREUM_MAINNET }}
+          INFURA_ARBITRUM_MAINNET: ${{ secrets.INFURA_ARBITRUM_MAINNET }}
+        run: |
+          cd ${{ github.workspace }}
+          echo "{\"eth-mainnet\": \"$INFURA_ETHEREUM_MAINNET\", \"arb-mainnet\": \"$INFURA_ARBITRUM_MAINNET\"}" > .alchemyKey
+          python -m json.tool .alchemyKey /dev/null
+          make -j2 -Oline regressions
+
+      - name: Upload regression test logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: regression-logs
+          path: /tmp/flash_liquidator_test*
+          retention-days: 5
