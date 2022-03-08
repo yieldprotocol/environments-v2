@@ -28,6 +28,10 @@ export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
+export const FDAI2203 = ethers.utils.formatBytes32String('12').slice(0, 14)
+export const FDAI2206 = ethers.utils.formatBytes32String('13').slice(0, 14)
+export const FUSDC2203 = ethers.utils.formatBytes32String('14').slice(0, 14)
+export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -37,15 +41,16 @@ export const COMPOSITE = 'compositeOracle'
 export const LIDO = 'lidoOracle'
 export const UNISWAP = 'uniswapOracle'
 export const YEARN = 'yearnOracle'
-
-export const CDAI = ethers.utils.formatBytes32String('CDAI').slice(0, 14)
-export const CUSDC = ethers.utils.formatBytes32String('CUSDC').slice(0, 14)
-export const CWBTC = ethers.utils.formatBytes32String('CWBTC').slice(0, 14)
-export const CUSDT = ethers.utils.formatBytes32String('CUSDT').slice(0, 14)
+export const NOTIONAL = 'notionalOracle'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
+
+export const FDAI2203ID = 563371972493313
+export const FDAI2206ID = 563373963149313
+export const FUSDC2203ID = 844846949203969
+export const FUSDC2206ID = 844848939859969
 
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021

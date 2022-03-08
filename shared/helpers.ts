@@ -90,9 +90,8 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  let [ownerAcc] = await ethers.getSigners()
-  const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-console.log(`Proposal: ${txHash}`)
+  const on_fork = hre.network.config.chainId === 31337
+  console.log(`Proposal: ${txHash}`)
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig)

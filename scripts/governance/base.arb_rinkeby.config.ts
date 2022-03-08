@@ -9,6 +9,7 @@ import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../shared/consta
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
+export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')

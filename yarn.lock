@@ -3223,7 +3223,7 @@ __metadata:
     "@yield-protocol/strategy-v2": 0.11.0-rc6
     "@yield-protocol/utils-v2": 2.5.1
     "@yield-protocol/vault-interfaces": ^2.3.2
-    "@yield-protocol/vault-v2": 0.15.0-rc6
+    "@yield-protocol/vault-v2": 0.15.1-notional-rc2
     "@yield-protocol/yieldspace-interfaces": 2.3.0-rc7
     "@yield-protocol/yieldspace-v2": 0.12.0-rc2
     chai: 4.2.0
@@ -3274,10 +3274,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yield-protocol/vault-v2@npm:0.15.0-rc6":
-  version: 0.15.0-rc6
-  resolution: "@yield-protocol/vault-v2@npm:0.15.0-rc6"
-  checksum: 8314e84095b1c61e208f7c60ed325f6282f61ceba5e0231ad81dd374281f1f75895ccdb95ac4338d7aff2bcf39418d3b5734d74b7520ea0af8562d4d792176c2
+"@yield-protocol/vault-v2@npm:0.15.1-notional-rc2":
+  version: 0.15.1-notional-rc2
+  resolution: "@yield-protocol/vault-v2@npm:0.15.1-notional-rc2"
+  checksum: 4320c7de979691df2915b4cd1def01a7b90eb63cdd7ccd74b5ed898dae8c525eeb27f3e3e08291c1fa15cfb36465db0780d56276c86af8adffeff2337c88f33a
   languageName: node
   linkType: hard
 
