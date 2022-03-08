@@ -56,6 +56,14 @@
     [
       "witch",
       "0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F"
+    ],
+    [
+      "notionalOracle",
+      "0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab"
+    ],
+    [
+      "transfer1155Module",
+      "0x39a4f3D170613e609823A699C9e09475E757ede4"
     ]
   ]
 }

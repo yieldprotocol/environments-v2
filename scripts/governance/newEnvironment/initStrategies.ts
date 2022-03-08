@@ -32,12 +32,8 @@ const { developer, strategiesData, strategiesInit, newStrategies } = require(pro
   // Remember to put enough DAI and USDC in the Timelock to initialize strategies
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(
-    await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData)
-  )
-  proposal = proposal.concat(
-    await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit)
-  )
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

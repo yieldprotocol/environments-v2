@@ -39,6 +39,7 @@ coverage.json
 
 # Yarn
 yarn-error.log
+.yarn/install-state.gz
 
 # NPM
 package-lock.json

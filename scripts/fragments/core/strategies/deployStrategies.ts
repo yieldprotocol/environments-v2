@@ -36,7 +36,7 @@ export const deployStrategies = async (
 
   for (let [name, symbol, baseId] of strategiesData) {
     const base = (await ethers.getContractAt(
-      'ERC20Mock',
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       await cauldron.assets(baseId),
       ownerAcc
     )) as unknown as ERC20Mock

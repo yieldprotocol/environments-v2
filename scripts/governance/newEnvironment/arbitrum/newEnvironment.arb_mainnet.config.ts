@@ -16,6 +16,7 @@ export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const additionalDevelopers: Array<string> = [
   '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
   '0xfe90d993367bc93D171A5ED88ab460759DE2bED6',
+  '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 ]
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
@@ -36,6 +37,8 @@ export const rateChiSources: Array<[string, string, string, string]> = [
   [DAI, CHI, WAD.toString(), WAD.toString()],
   [USDC, CHI, WAD.toString(), WAD.toString()],
 ]
+
+export const sequencerFlags: string = '0x3C14e07Edd0dC67442FA96f1Ec6999c57E810a83'
 
 export const chainlinkUSDSources: Array<[string, string, string]> = [
   [ETH, assets.get(ETH) as string, '0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612'],

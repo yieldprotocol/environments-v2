@@ -1,11 +1,7 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-import {
-  IOracle,
-  ChainlinkUSDMultiOracle,
-  AccumulatorMultiOracle,
-} from '../../../../../typechain'
+import { IOracle, ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../../shared/constants'
@@ -84,12 +80,8 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
   // Strategies
-  proposal = proposal.concat(
-    await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData)
-  )
-  proposal = proposal.concat(
-    await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit)
-  )
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
 
   if (proposal.length > 0) {
     // Propose, Approve & execute

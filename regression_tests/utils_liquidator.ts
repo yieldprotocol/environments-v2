@@ -23,7 +23,8 @@ export class LiquidatorConfig {
     readonly witch: string,
     readonly swap_router_v2: string,
     readonly chain_id: number,
-    readonly port: number
+    readonly port: number,
+    readonly blocks_per_batch?: number
   ) {}
 }
 
@@ -36,30 +37,32 @@ export class TestFixture {
 export async function run_liquidator(
   fixture: TestFixture,
   config: LiquidatorConfig,
-  base_to_debt_threshold: { [name: string]: string } = {}
+  base_to_debt_threshold: { [name: string]: string } = {},
+  vaults_whitelist: string[] = []
 ) {
   const config_path = join(fixture.tmp_root, 'config.json')
-  await fs.writeFile(
-    config_path,
-    JSON.stringify(
-      {
-        Witch: config.witch,
-        Flash: config.liquidator,
-        Multicall2: config.multicall2,
-        BaseToDebtThreshold: base_to_debt_threshold,
-        SwapRouter02: config.swap_router_v2,
-      },
-      undefined,
-      2
-    )
-  )
+  const config_json: { [name: string]: any } = {
+    Witch: config.witch,
+    Flash: config.liquidator,
+    Multicall2: config.multicall2,
+    BaseToDebtThreshold: base_to_debt_threshold,
+    SwapRouter02: config.swap_router_v2,
+  }
+  if (vaults_whitelist.length > 0) {
+    config_json['VaultsWhiteList'] = vaults_whitelist
+  }
+  await fs.writeFile(config_path, JSON.stringify(config_json, undefined, 2))
 
   const private_key_path = join(fixture.tmp_root, 'private_key')
   await fs.writeFile(private_key_path, fixture.private_key)
-  const cmd = `cargo run -- -c ${config_path} -u http://127.0.0.1:${config.port}/ -C ${config.chain_id} \
+
+  const blocks_per_batch_arg = config.blocks_per_batch ? `--blocks-per-batch ${config.blocks_per_batch}` : ''
+  const cmd = `target/debug/liquidator -c ${config_path} -u http://127.0.0.1:${config.port}/ -C ${config.chain_id} \
         -p ${private_key_path} \
         --gas-boost 10 \
         --swap-router-binary build/bin/router \
+        --multicall-batch-size 128 \
+        ${blocks_per_batch_arg} \
         --one-shot \
         --json-log \
         --file /dev/null`
@@ -74,6 +77,7 @@ export async function run_liquidator(
         RUST_BACKTRACE: '1',
         RUST_LOG: 'liquidator,yield_liquidator=debug',
         ...process.env,
+        NODE_OPTIONS: '', // NODE_OPTIONS poison downstream processes
       },
       maxBuffer: 1024 * 1024 * 10,
     })
@@ -101,31 +105,14 @@ export async function run_liquidator(
 }
 
 export async function testSetUp(self: Mocha.Suite, http_port: number, fixture: TestFixture) {
+  self.timeout('1h')
+
   self.beforeAll(async function () {
     if (fixture.chain_id != -1) {
       config.networks[network.name].chainId = fixture.chain_id
     }
-    const accounts = normalizeHardhatNetworkAccountsConfig(
-      config.networks[network.name].accounts as HardhatNetworkAccountsConfig
-    )
-
-    fixture.private_key = accounts[0].privateKey.slice(2)
-
-    return new Promise((resolve, fail) => {
-      run('node', { silent: true, port: http_port })
-
-      // launch hardhat node so that external processes can access it
-      subtask('node:server-ready', async function (args, _hre, runSuper) {
-        try {
-          await runSuper(args)
-          logger.info('node launched')
-          resolve()
-        } catch {
-          fail()
-        }
-      })
-    })
   })
+
   self.beforeEach(async function () {
     fixture.tmp_root = await fs.mkdtemp(join(tmpdir(), 'flash_liquidator_test'))
   })
@@ -139,9 +126,9 @@ export async function deployETHSeries(fixture: TestFixture) {
     const results = await exec(cmd, {
       maxBuffer: 1024 * 1024 * 10,
       env: {
-          "USE_ADDRESSES_FOR_NETWORK": "mainnet",
-          ...process.env,
-      }
+        USE_ADDRESSES_FOR_NETWORK: 'mainnet',
+        ...process.env,
+      },
     })
     stdout = results.stdout
     stderr = results.stderr

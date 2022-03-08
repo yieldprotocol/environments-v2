@@ -1,5 +1,5 @@
 use crate::{
-    bindings::{Witch, BaseIdType},
+    bindings::{Witch, BaseIdType, VaultIdType},
     borrowers::{Borrowers, VaultMap},
     cache::ImmutableCache,
     escalator::GeometricGasPrice,
@@ -11,7 +11,7 @@ use ethers::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use std::{
-    collections::HashMap, io::Write, path::PathBuf, sync::Arc, time::SystemTime, time::UNIX_EPOCH,
+    collections::{HashMap, HashSet}, io::Write, path::PathBuf, sync::Arc, time::SystemTime, time::{UNIX_EPOCH, Instant},
 };
 use tokio::time::{sleep, Duration};
 use tracing::{debug_span, info, instrument, trace};
@@ -59,6 +59,8 @@ impl<M: Middleware> Keeper<M> {
         base_to_debt_threshold: HashMap<BaseIdType, u128>,
         state: Option<State>,
         swap_router: SwapRouter,
+        blocks_per_batch: Option<u64>,
+        vaults_whitelist: Option<HashSet<VaultIdType>>,
         instance_name: String,
     ) -> Result<Keeper<M>, M> {
         let (vaults, auctions, last_block) = match state {
@@ -74,6 +76,8 @@ impl<M: Middleware> Keeper<M> {
             multicall_batch_size,
             client.clone(),
             vaults,
+            blocks_per_batch,
+            vaults_whitelist.clone(),
             instance_name.clone(),
         )
         .await;
@@ -90,6 +94,8 @@ impl<M: Middleware> Keeper<M> {
             auctions,
             gas_escalator,
             bump_gas_delay,
+            blocks_per_batch,
+            vaults_whitelist,
             instance_name.clone(),
         )
         .await;
@@ -131,8 +137,17 @@ impl<M: Middleware> Keeper<M> {
 
         let span = debug_span!("run", instance_name = self.instance_name.as_str());
         let _enter = span.enter();
+
+        let mut last_iteration_started_at: Option<Instant> = None;
         loop {
-            sleep(Duration::from_secs(30)).await; // don't spin
+            match last_iteration_started_at {
+                // don't spin
+                Some(instant) if Instant::now() - instant < Duration::from_secs(30) =>
+                    sleep(Duration::from_secs(30) - (Instant::now() - instant)).await,
+                _ => ()
+            };
+            last_iteration_started_at = Some(Instant::now());
+
             match watcher
                 .get_filter_changes::<_, ethers_core::types::H256>(filter_id)
                 .await

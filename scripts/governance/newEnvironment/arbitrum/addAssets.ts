@@ -19,15 +19,21 @@ import {
 } from '../../../../typechain'
 import { ACCUMULATOR, CHAINLINKUSD } from '../../../../shared/constants'
 
-const { developer, deployer, assets, bases, chainlinkDebtLimits, chainlinkAuctionLimits } = require(process.env
-  .CONF as string)
+const {
+  developer,
+  deployer,
+  assets,
+  bases,
+  chainlinkDebtLimits,
+  chainlinkAuctionLimits,
+  joins,
+  protocol,
+} = require(process.env.CONF as string)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
-  const joins = readAddressMappingIfExists('joins.json')
 
   const chainlinkUSDOracle = (await ethers.getContractAt(
     'ChainlinkUSDMultiOracle',

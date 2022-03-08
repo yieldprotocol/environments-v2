@@ -35,16 +35,24 @@ describe("flash liquidator: ENS vaults", function () {
     testSetUp(this, g_port, fixture);
 
     it("liquidates ENS vaults on Dec-14-2021 (block: 13804681)", async function () {
-        this.timeout(1800e3);
 
         await fork(13804681);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
+        const expected_to_liquidate = [
+            "18982d40f1158fdb6086b906",
+            "4e63c3db8b818e75fb41cf2b",
+            "638fe71ed9a58f6642cc27f3",
+            "89ea17518550c6bf7f928ec4",
+            "b19915eed14c3fbcb8f1246d"
+        ]
+
         const starting_balance = await _owner.getBalance();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, expected_to_liquidate);
 
         let bought = 0;
+
 
         for (const log_record of liquidator_logs) {
             if (log_record["level"] == "INFO" && log_record["fields"]["message"] == "Submitted buy order") {
@@ -52,7 +60,7 @@ describe("flash liquidator: ENS vaults", function () {
             }
             expect(log_record["level"]).to.not.equal("ERROR"); // no errors allowed
         }
-        expect(bought).to.be.equal(5)
+        expect(bought).to.be.equal(expected_to_liquidate.length);
 
         const final_balance = await _owner.getBalance();
         logger.warn("ETH used: ", starting_balance.sub(final_balance).div(1e12).toString(), "uETH")
@@ -60,14 +68,13 @@ describe("flash liquidator: ENS vaults", function () {
 
 
     it("liquidates multihop ENS vaults on Jan-20-2022 (block: 14045343)", async function () {
-        this.timeout(1800e3);
-
         await fork(14045343);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator);
-
         const vault_to_be_auctioned = "b50e0c2ce9adb248f755540b";
+
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [vault_to_be_auctioned]);
+
         let vault_is_liquidated = false;
         for (const log_record of liquidator_logs) {
             if (log_record["level"] == "INFO" && log_record["fields"]["message"] == "Submitted buy order") {
@@ -77,6 +84,7 @@ describe("flash liquidator: ENS vaults", function () {
                 }
             }
         }
+
         expect(vault_is_liquidated).to.equal(true);
     })
 });

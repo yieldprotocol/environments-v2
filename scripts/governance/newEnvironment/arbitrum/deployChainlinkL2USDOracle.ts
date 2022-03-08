@@ -9,7 +9,7 @@ import {
 import { deployChainlinkL2USDOracle } from '../../../fragments/oracles/deployChainlinkL2USDOracle'
 import { CHAINLINKUSD } from '../../../../shared/constants'
 import { Timelock } from '../../../../typechain'
-const { developer } = require(process.env.CONF as string)
+const { developer, sequencerFlags } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Ladle
@@ -29,7 +29,7 @@ const { developer } = require(process.env.CONF as string)
   )) as unknown as Timelock
 
   // We are deploying an L2 oracle, but we treat it as the original L1 throughout the code
-  const chainlinkUSDOracle = await deployChainlinkL2USDOracle(ownerAcc, timelock, protocol)
+  const chainlinkUSDOracle = await deployChainlinkL2USDOracle(ownerAcc, timelock, protocol, sequencerFlags)
   protocol.set(CHAINLINKUSD, chainlinkUSDOracle.address)
 
   writeAddressMap('protocol.json', protocol)
