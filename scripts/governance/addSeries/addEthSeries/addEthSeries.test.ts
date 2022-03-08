@@ -30,7 +30,7 @@ import { WSTETH, STETH, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as WstETHMock
   const stEth = (await ethers.getContractAt(
-    'ERC20Mock',
+    'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
     (assets.get(chainId) as Map<string, string>).get(STETH) as string,
     ownerAcc
   )) as unknown as ERC20Mock

@@ -18,7 +18,7 @@ export const updateRateSourcesProposal = async (
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, sourceAddress] of newSources) {
-    const cToken = (await ethers.getContractAt('ERC20Mock', sourceAddress as string, ownerAcc)) as unknown as ERC20Mock
+    const cToken = (await ethers.getContractAt('contracts/::mocks/ERC20Mock.sol:ERC20Mock', sourceAddress as string, ownerAcc)) as unknown as ERC20Mock
     console.log(`Using ${await cToken.name()} at ${sourceAddress}`)
     proposal.push({
       target: lendingOracle.address,
