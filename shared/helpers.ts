@@ -90,7 +90,7 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  const on_fork = hre.network.config.chainId === 31337
+  const on_fork = true
   console.log(`Proposal: ${txHash}`)
   // Depending on the proposal state:
   // - propose

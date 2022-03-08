@@ -44,7 +44,7 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, Liquidator
 
 describe('flash liquidator: ETH series', function () {
   let fixture: TestFixture = new TestFixture()
-  
+  fixture.chain_id = 1
   const wethWhale = '0x2feb1512183545f48f6b9c5b4ebfcaf49cfca6f3'
   const daiWhale = '0x4967ec98748efb98490663a65b16698069a1eb35'
   const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
@@ -52,7 +52,7 @@ describe('flash liquidator: ETH series', function () {
   testSetUp(this, g_port, fixture)
 
   it('liquidates the vaults', async function () {
-    this.timeout(1800e3)
+    this.timeout(3600e3)
 
     await fork(14268289)
 
