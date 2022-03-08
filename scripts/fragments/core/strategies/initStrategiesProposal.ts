@@ -26,6 +26,7 @@ export const initStrategiesProposal = async (
       throw `Address ${strategyAddress} contains no code for a Strategy`
 
     const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
+
     const base: ERC20Mock = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       await strategy.base(),
@@ -33,16 +34,17 @@ export const initStrategiesProposal = async (
     )) as ERC20Mock
 
     // The test below doesn't work if the pool is added to the ladle in the same proposal.
-    const startPoolAddress1 = await ladle.pools(startPoolAddress)
-    if ((await ethers.provider.getCode(startPoolAddress1)) === '0x')
-      throw `Address ${startPoolAddress1} contains no code for the ${startPoolId} Pool`
+    const startPoolAddress1 = await ladle.pools(startPoolId)
+
+    if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
+      throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`
 
     console.log(`Timelock balance of ${await base.name()} is ${await base.balanceOf(timelock.address)}`)
     proposal.push({
       target: strategy.address,
-      data: strategy.interface.encodeFunctionData('setNextPool', [startPoolAddress1, startPoolAddress]),
+      data: strategy.interface.encodeFunctionData('setNextPool', [startPoolAddress, startPoolId]),
     })
-    console.log(`Setting ${startPoolAddress1} as the next pool for ${strategyId}`)
+    console.log(`Setting ${startPoolAddress} as the next pool for ${strategyId}`)
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [strategy.address, startPoolId]),

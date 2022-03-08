@@ -44,7 +44,7 @@ async function deploy_flash_liquidator(): Promise<[SignerWithAddress, Liquidator
 
 describe('flash liquidator: ETH series', function () {
   let fixture: TestFixture = new TestFixture()
-  fixture.chain_id = 31337
+  fixture.chain_id = 1
   const wethWhale = '0x2feb1512183545f48f6b9c5b4ebfcaf49cfca6f3'
   const daiWhale = '0x4967ec98748efb98490663a65b16698069a1eb35'
   const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
@@ -53,11 +53,13 @@ describe('flash liquidator: ETH series', function () {
 
   it('liquidates the vaults', async function () {
     this.timeout(1800e3)
-
+    
     await fork(14268289)
     // Execute the proposal to add ETH as borrowable asset
-    await deployETHSeries(fixture)
-
+    await deployETHSeries(fixture).catch((e) => {
+      throw 'Failed to deploy ETH series'
+    })
+    console.log('Deployed ETH Series')
     let ownerAcc = await getOwnerOrImpersonate(developer)
     let whaleAcc: SignerWithAddress
     let eth: boolean = true
@@ -71,15 +73,18 @@ describe('flash liquidator: ETH series', function () {
       protocol.get('cauldron') as string,
       ownerAcc
     )) as unknown as Cauldron
+
     const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+
     const oracle = (await ethers.getContractAt(
       'ChainlinkMultiOracle',
       protocol.get('chainlinkOracle') as string,
       ownerAcc
     )) as unknown as ChainlinkMultiOracle
+
     const timelock = (await ethers.getContractAt(
       'Timelock',
-      governance.get('timelock') as string,
+      '0x3b870db67a45611CF4723d44487EAF398fAc51E3',
       ownerAcc
     )) as unknown as Timelock
 
@@ -144,10 +149,10 @@ describe('flash liquidator: ETH series', function () {
     console.log('Level before ' + level.toString())
 
     // Changing the ratio
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
-    
+    await proposeApproveExecute(timelock, proposal, '0xd659565b84bcfcb23b02ee13e46cb51429f4558a')
+    await proposeApproveExecute(timelock, proposal, '0xd659565b84bcfcb23b02ee13e46cb51429f4558a')
+    await proposeApproveExecute(timelock, proposal, '0xd659565b84bcfcb23b02ee13e46cb51429f4558a')
+
     level = await cauldron.callStatic.level(vaultId)
     console.log('Level after ' + level.toString())
     console.log('before balance ' + (await wEth.balanceOf(_owner.address)).toString())

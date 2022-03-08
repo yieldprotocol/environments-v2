@@ -111,8 +111,27 @@ export async function testSetUp(self: Mocha.Suite, http_port: number, fixture: T
     if (fixture.chain_id != -1) {
       config.networks[network.name].chainId = fixture.chain_id
     }
-  })
+    const accounts = normalizeHardhatNetworkAccountsConfig(
+      config.networks[network.name].accounts as HardhatNetworkAccountsConfig
+    )
 
+    fixture.private_key = accounts[0].privateKey.slice(2)
+
+    return new Promise((resolve, fail) => {
+      run('node', { silent: true, port: http_port })
+
+      // launch hardhat node so that external processes can access it
+      subtask('node:server-ready', async function (args, _hre, runSuper) {
+        try {
+          await runSuper(args)
+          logger.info('node launched')
+          resolve()
+        } catch {
+          fail()
+        }
+      })
+    })
+  })
   self.beforeEach(async function () {
     fixture.tmp_root = await fs.mkdtemp(join(tmpdir(), 'flash_liquidator_test'))
   })
@@ -122,6 +141,7 @@ export async function deployETHSeries(fixture: TestFixture) {
   const cmd = `./scripts/governance/addSeries/addEthSeries/addEthSeries.sh`
   let stdout: string
   let stderr: string
+  let error: boolean = false
   try {
     const results = await exec(cmd, {
       maxBuffer: 1024 * 1024 * 10,
@@ -136,8 +156,11 @@ export async function deployETHSeries(fixture: TestFixture) {
     logger.warn('Failed to deploy the series: ', x)
     stdout = (x as any).stdout
     stderr = (x as any).stderr
+    error = true
   }
   await fs.writeFile(join(fixture.tmp_root, 'stdout'), stdout)
   await fs.writeFile(join(fixture.tmp_root, 'stderr'), stderr)
   logger.info('tmp root', fixture.tmp_root)
+  if(error)
+  throw 'Deployment failed'
 }
