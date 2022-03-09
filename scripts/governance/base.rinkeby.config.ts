@@ -5,7 +5,6 @@ import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
-export const joins = readAddressMappingIfExists('joins.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
@@ -31,6 +30,18 @@ export const assets: Map<string, string> = new Map([
   [ENS, '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
   [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
   [YVUSDC, '0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B'],
+])
+
+export const joins: Map<string, string> = new Map([
+  [ETH, '0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542'],
+  [DAI, '0x2555E5D167a59b545a25c81899eD15554C83DA0C'],
+  [USDC, '0x7dD9F124C8a15f312CebF81419eC112C22802208'],
+  [WBTC, '0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f'],
+  [WSTETH, '0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c'],
+  [LINK, '0x086B15D7620E7c0758F819E47Fc31F25C3b2815c'],
+  [ENS, '0xbE1560cA39C51Dc380115058509D34dcd29d08a0'],
+  [YVUSDC, '0x606Bda7A8f04e52AdB5a8F2814F40b71c1baAC26'],
+  [UNI, '0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e'],
 ])
 
 export const chiSources: Array<[string, string]> = [
