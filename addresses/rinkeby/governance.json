@@ -3,15 +3,15 @@
   "value": [
     [
       "multisig",
-      "0x5ad7799f02d5a829b2d6fa085e6bd69a872619d5"
+      "0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A"
     ],
     [
       "timelock",
-      "0x448c52C11ee83320DA2bff32300B3193E60cC020"
+      "0x1BE7654F12BFC3ea2C53d05E512033d5a634c2b5"
     ],
     [
       "cloak",
-      "0x2dcE1f65Ca63B95aa9ebE7760A8D32F1DE7e7697"
+      "0x31dd14b0a48939d51852B6e1b8b5F0cdc6Bb5859"
     ]
   ]
 }

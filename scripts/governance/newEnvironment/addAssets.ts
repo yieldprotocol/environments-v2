@@ -41,7 +41,7 @@ const {
 
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
-  const joins = readAddressMappingIfExists('joins.json')
+  const joins = readAddressMappingIfExists('newJoins.json')
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
