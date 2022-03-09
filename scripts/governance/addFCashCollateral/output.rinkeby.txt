@@ -1,0 +1,196 @@
+alberto@alberto-laptop:~/Code/Yield/environments-v2$ ./scripts/governance/addFCashCollateral/addFCash.sh ++ dirname ./scripts/governance/addFCashCollateral/addFCash.sh
++ HERE=./scripts/governance/addFCashCollateral
++ RUN='npx hardhat run --network rinkeby'
++ export CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addFCashCollateral/addFCash.rinkeby.config
++ CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addFCashCollateral/addFCash.rinkeby.config
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-1.ts
+No need to generate any newer typings.
+ChainId: 4
+NotionalMultiOracle deployed at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+npx hardhat verify --network rinkeby 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab  
+notionalOracle.grantRoles(ROOT, timelock)
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-2.ts
+No need to generate any newer typings.
+Transfer1155Module deployed at 0x39a4f3D170613e609823A699C9e09475E757ede4
+npx hardhat verify --network rinkeby 0x39a4f3D170613e609823A699C9e09475E757ede4 0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3 0x67c5279f044A40746017Ae1edD8bb7573273aA8b 
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-3.ts
+No need to generate any newer typings.
+ChainId: 4
+Join deployed at 0x9B95730d2723A1Ca3eCd29790016411540072223 for 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 and 563371972493313
+npx hardhat verify --network rinkeby 0x9B95730d2723A1Ca3eCd29790016411540072223 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 563371972493313 
+join.grantRoles(ROOT, timelock)
+Join deployed at 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133 for 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 and 563373963149313
+npx hardhat verify --network rinkeby 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 563373963149313 
+join.grantRoles(ROOT, timelock)
+Join deployed at 0x3B16A47DaE822F16bE80c8762835456571D494c2 for 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 and 844846949203969
+npx hardhat verify --network rinkeby 0x3B16A47DaE822F16bE80c8762835456571D494c2 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 844846949203969 
+join.grantRoles(ROOT, timelock)
+Join deployed at 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49 for 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 and 844848939859969
+npx hardhat verify --network rinkeby 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 844848939859969 
+join.grantRoles(ROOT, timelock)
++ HERE=./scripts/governance/addFCashCollateral
++ RUN='npx hardhat run --network rinkeby'
++ export CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addFCashCollateral/addFCash.rinkeby.config
++ CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addFCashCollateral/addFCash.rinkeby.config
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-4.ts
+No need to generate any newer typings.
+ChainId: 4
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x9B95730d2723A1Ca3eCd29790016411540072223
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x3B16A47DaE822F16bE80c8762835456571D494c2
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+Adding module 0x39a4f3D170613e609823A699C9e09475E757ede4 to Ladle
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(13)): 0xf9a929d8fc443f9343bd4950cc0e3e236af92caf214999f27a994495317f667e
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(14)): 0xff57751bfe71b028e1326983865ded660d8ff84a071b521df8d646a1b79ec3e3
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(15)): 0x055a6c3d809b3699798b33bbc7768c3887a4ba2da3114b4d5831a8cfc56b41b8
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(16)): 0xb72c93fa4527e42367a3001e61cec92f73f34392a8e7ec4c4bd6458508c5be62
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313300000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313400000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313500000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313600000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x9B95730d2723A1Ca3eCd29790016411540072223
+Adding asset 0x313300000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x9B95730d2723A1Ca3eCd29790016411540072223
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Adding asset 0x313400000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x3B16A47DaE822F16bE80c8762835456571D494c2
+Adding asset 0x313500000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x3B16A47DaE822F16bE80c8762835456571D494c2
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Adding asset 0x313600000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Updating 0x303130350000 series with 0x313300000000 ilks
+addIlks 0105: 0x313300000000
+Updating 0x303130360000 series with 0x313400000000 ilks
+addIlks 0106: 0x313400000000
+Updating 0x303230350000 series with 0x313500000000 ilks
+addIlks 0205: 0x313500000000
+Updating 0x303230360000 series with 0x313600000000 ilks
+addIlks 0206: 0x313600000000
+Proposal: 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767
+Proposing
+Proposed 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-4.ts
+No need to generate any newer typings.
+ChainId: 4
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x9B95730d2723A1Ca3eCd29790016411540072223
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x3B16A47DaE822F16bE80c8762835456571D494c2
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+Adding module 0x39a4f3D170613e609823A699C9e09475E757ede4 to Ladle
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(13)): 0xf9a929d8fc443f9343bd4950cc0e3e236af92caf214999f27a994495317f667e
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(14)): 0xff57751bfe71b028e1326983865ded660d8ff84a071b521df8d646a1b79ec3e3
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(15)): 0x055a6c3d809b3699798b33bbc7768c3887a4ba2da3114b4d5831a8cfc56b41b8
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(16)): 0xb72c93fa4527e42367a3001e61cec92f73f34392a8e7ec4c4bd6458508c5be62
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313300000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313400000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313500000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313600000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x9B95730d2723A1Ca3eCd29790016411540072223
+Adding asset 0x313300000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x9B95730d2723A1Ca3eCd29790016411540072223
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Adding asset 0x313400000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x3B16A47DaE822F16bE80c8762835456571D494c2
+Adding asset 0x313500000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x3B16A47DaE822F16bE80c8762835456571D494c2
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Adding asset 0x313600000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Updating 0x303130350000 series with 0x313300000000 ilks
+addIlks 0105: 0x313300000000
+Updating 0x303130360000 series with 0x313400000000 ilks
+addIlks 0106: 0x313400000000
+Updating 0x303230350000 series with 0x313500000000 ilks
+addIlks 0205: 0x313500000000
+Updating 0x303230360000 series with 0x313600000000 ilks
+addIlks 0206: 0x313600000000
+Proposal: 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767
+Approving
+Approved 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767
++ npx hardhat run --network rinkeby ./scripts/governance/addFCashCollateral/addFCash-4.ts
+No need to generate any newer typings.
+ChainId: 4
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x9B95730d2723A1Ca3eCd29790016411540072223
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0x3B16A47DaE822F16bE80c8762835456571D494c2
+Using 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as Join for 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+Adding module 0x39a4f3D170613e609823A699C9e09475E757ede4 to Ladle
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(13)): 0xf9a929d8fc443f9343bd4950cc0e3e236af92caf214999f27a994495317f667e
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(14)): 0xff57751bfe71b028e1326983865ded660d8ff84a071b521df8d646a1b79ec3e3
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(15)): 0x055a6c3d809b3699798b33bbc7768c3887a4ba2da3114b4d5831a8cfc56b41b8
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(16)): 0xb72c93fa4527e42367a3001e61cec92f73f34392a8e7ec4c4bd6458508c5be62
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313300000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313400000000/0x303100000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313500000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+Setting up 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 as the source for 0x313600000000/0x303200000000 at 0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x9B95730d2723A1Ca3eCd29790016411540072223
+Adding asset 0x313300000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x9B95730d2723A1Ca3eCd29790016411540072223
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+Adding asset 0x313400000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xCD760ecCcc860d28a9Ae5c38ffCB5e3fAAD33133
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0x3B16A47DaE822F16bE80c8762835456571D494c2
+Adding asset 0x313500000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0x3B16A47DaE822F16bE80c8762835456571D494c2
+0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797
+0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Adding asset 0x313600000000 at 0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797 with join 0xE793aE6e5f3dAA62C604a249768B24E0c22B1b49
+Updating 0x303130350000 series with 0x313300000000 ilks
+addIlks 0105: 0x313300000000
+Updating 0x303130360000 series with 0x313400000000 ilks
+addIlks 0106: 0x313400000000
+Updating 0x303230350000 series with 0x313500000000 ilks
+addIlks 0205: 0x313500000000
+Updating 0x303230360000 series with 0x313600000000 ilks
+addIlks 0206: 0x313600000000
+Proposal: 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767
+Executing
+Executed 0xd20dcb967cee8c3c54e5a07b72623300e7a5e71642d539a92c6d0edab52e9767

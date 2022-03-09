@@ -12,7 +12,16 @@ import { orchestrateAddedAssetProposal } from '../../orchestrateAddedAssetPropos
 import { makeIlkProposal } from '../../makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../addIlksToSeriesProposal'
 
-import { Cauldron, Ladle, Witch, Wand, CompositeMultiOracle, LidoOracle, Timelock, EmergencyBrake } from '../../../../typechain'
+import {
+  Cauldron,
+  Ladle,
+  Witch,
+  Wand,
+  CompositeMultiOracle,
+  LidoOracle,
+  Timelock,
+  EmergencyBrake,
+} from '../../../../typechain'
 
 import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constants'
 
@@ -34,7 +43,6 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
  * Make WstETH into an Ilk
  * Approve WstEth as collateral for all series
  */
-
 ;(async () => {
   const CHAINLINK = 'chainlinkOracle'
   const LIDO = 'lidoOracle'
@@ -45,14 +53,14 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
   const wethAddress: string = '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'
   // Input data: baseId, base address, quoteId, quote address, oracle name, source address
   const stEthEthSource: Array<[string, string, string, string, string, string]> = [
-    [STETH, stEthAddress, ETH, wethAddress, CHAINLINK,  '0x545C84A9799dA0c906f3e22595b5d53c9275b9d9'], // https://docs.lido.fi/deployed-contracts
+    [STETH, stEthAddress, ETH, wethAddress, CHAINLINK, '0x545C84A9799dA0c906f3e22595b5d53c9275b9d9'], // https://docs.lido.fi/deployed-contracts
   ]
   // Input data: baseId, quoteId, oracle name
   const compositeSources: Array<[string, string, string]> = [
-    [DAI,    ETH,   CHAINLINK],
-    [USDC,   ETH,   CHAINLINK],
-    [WBTC,   ETH,   CHAINLINK],
-    [STETH,  ETH,   CHAINLINK],
+    [DAI, ETH, CHAINLINK],
+    [USDC, ETH, CHAINLINK],
+    [WBTC, ETH, CHAINLINK],
+    [STETH, ETH, CHAINLINK],
     [WSTETH, STETH, LIDO],
   ]
   // Input data: assetId, assetId, [intermediate assetId]
@@ -61,9 +69,7 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     [WSTETH, USDC, [STETH, ETH]],
   ]
   // Input data: assetId, asset address
-  const assets: Array<[string, string]> = [
-    [WSTETH, wstEthAddress],
-  ]
+  const assets: Array<[string, string]> = [[WSTETH, wstEthAddress]]
   // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
   const ilks: Array<[string, string, string, number, number, number, number, number]> = [
     [DAI, WSTETH, COMPOSITE, 1400000, 714000, 500000, 1, 18],
@@ -88,21 +94,9 @@ import { ETH, DAI, USDC, WBTC, WSTETH, STETH } from '../../../../shared/constant
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'Witch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as Witch
-  const wand = (await ethers.getContractAt(
-    'Wand',
-    protocol.get('wand') as string,
-    ownerAcc
-  )) as unknown as Wand
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
   const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,

@@ -13,7 +13,7 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy stETHMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   let stETH = (await deployContract(ownerAcc, StETHMockArtifact)) as StETHMock
   console.log(`stETHMock deployed at ${stETH.address}`)

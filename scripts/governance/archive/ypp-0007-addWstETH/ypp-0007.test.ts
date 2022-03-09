@@ -26,7 +26,6 @@ import { WSTETH, WAD } from '../../../shared/constants'
  * Make WstETH into an Ilk
  * Approve WstEth as collateral for all series
  */
-
 ;(async () => {
   const wstEthAddress: string = '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' // https://docs.lido.fi/deployed-contracts
   const seriesIds: Array<string> = [
@@ -41,21 +40,13 @@ import { WSTETH, WAD } from '../../../shared/constants'
   const ownerAcc = await getOwnerOrImpersonate(impersonatedAddress)
 
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
-  const wstEth = (await ethers.getContractAt(
-    'ERC20Mock',
-    wstEthAddress,
-    ownerAcc
-  )) as unknown as ERC20Mock
+  const wstEth = (await ethers.getContractAt('ERC20Mock', wstEthAddress, ownerAcc)) as unknown as ERC20Mock
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
 
   const wstEthBalanceBefore = await wstEth.balanceOf(ownerAcc.address)
   console.log(`${wstEthBalanceBefore} wstETH available`)
@@ -64,10 +55,12 @@ import { WSTETH, WAD } from '../../../shared/constants'
     console.log(`series: ${seriesId}`)
     const fyToken = (await ethers.getContractAt(
       'FYToken',
-      (await cauldron.series(seriesId)).fyToken,
+      (
+        await cauldron.series(seriesId)
+      ).fyToken,
       ownerAcc
-      )) as unknown as FYToken
-    
+    )) as unknown as FYToken
+
     const borrowed = BigNumber.from(10).pow(await fyToken.decimals())
     const posted = WAD
 
@@ -83,13 +76,14 @@ import { WSTETH, WAD } from '../../../shared/constants'
     await ladle.pour(vaultId, ownerAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
-    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw "art mismatch"
-    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw "ink mismatch"
-    
+    if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+
     // Repay fyDai and withdraw wstEth
     await fyToken.transfer(fyToken.address, borrowed)
     await ladle.pour(vaultId, ownerAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
-    if ((await wstEth.balanceOf(ownerAcc.address)).toString() !== wstEthBalanceBefore.toString()) throw "balance mismatch"
+    if ((await wstEth.balanceOf(ownerAcc.address)).toString() !== wstEthBalanceBefore.toString())
+      throw 'balance mismatch'
   }
 })()

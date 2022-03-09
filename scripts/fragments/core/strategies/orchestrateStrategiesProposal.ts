@@ -15,8 +15,7 @@ export const orchestrateStrategiesProposal = async (
   strategies: Map<string, string>,
   timelock: Timelock,
   strategiesData: Array<[string, string, string]>
-): Promise<Array<{ target: string; data: string }>>  => {
-
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [name, symbol, baseId] of strategiesData) {
@@ -44,7 +43,6 @@ export const orchestrateStrategiesProposal = async (
       data: strategy.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
     })
     console.log(`strategy(${symbol}).revokeRole(ROOT, deployer)`)
-
   }
 
   return proposal

@@ -15,7 +15,7 @@ const { deployContract } = waffle
 
 ;(async () => {
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy stETHMock on mainnet"
-  const [ ownerAcc ] = await ethers.getSigners();
+  const [ownerAcc] = await ethers.getSigners()
 
   const assets = jsonToMap(fs.readFileSync('./addresses/assets.json', 'utf8')) as Map<string, string>
 

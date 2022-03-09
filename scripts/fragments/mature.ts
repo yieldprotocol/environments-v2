@@ -9,7 +9,6 @@ import { MAX256 as NOT_MATURE } from '../../../shared/constants'
 
 import { Cauldron } from '../../../typechain/Cauldron'
 import { FYToken } from '../../../typechain/FYToken'
-
 ;(async () => {
   // Input data
   const seriesToMature: Array<string> = [

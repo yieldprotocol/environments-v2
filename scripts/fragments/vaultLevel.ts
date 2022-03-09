@@ -3,7 +3,6 @@ import * as fs from 'fs'
 import { jsonToMap } from '../../shared/helpers'
 
 import { Cauldron } from '../../typechain/Cauldron'
-
 ;(async () => {
   const vaultIds: Array<string> = ['0xD825EC6DA9DD2E2F4B119158']
   const [ownerAcc] = await ethers.getSigners()

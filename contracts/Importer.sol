@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.1;
-
 import '@yield-protocol/vault-v2/contracts/oracles/accumulator/AccumulatorMultiOracle.sol';
 import '@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol';
 import '@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkUSDMultiOracle.sol';

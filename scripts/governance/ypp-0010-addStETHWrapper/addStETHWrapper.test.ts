@@ -16,7 +16,7 @@ function almostEqual(x: BigNumber, y: BigNumber, p: BigNumber) {
 }
 
 /**
- * @dev This script tests the stEth, wstEth and LidoWrapHandler integration with the Ladle 
+ * @dev This script tests the stEth, wstEth and LidoWrapHandler integration with the Ladle
  */
 
 describe('LidoWrapHandler', function () {
@@ -30,37 +30,24 @@ describe('LidoWrapHandler', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
     const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
-  
+
     const developer = new Map([
       [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
       [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
     ])
-  
+
     ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
     otherAcc = (await ethers.getSigners())[1]
-  
+
     const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
     const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
-    wstEth = (await ethers.getContractAt(
-      'WstETHMock',
-      assets.get(WSTETH) as string,
-      ownerAcc
-    )) as unknown as WstETHMock
+    wstEth = (await ethers.getContractAt('WstETHMock', assets.get(WSTETH) as string, ownerAcc)) as unknown as WstETHMock
 
-    stEth = (await ethers.getContractAt(
-      'ERC20Mock',
-      assets.get(STETH) as string,
-      ownerAcc
-    )) as unknown as ERC20Mock
+    stEth = (await ethers.getContractAt('ERC20Mock', assets.get(STETH) as string, ownerAcc)) as unknown as ERC20Mock
 
-    ladle = (await ethers.getContractAt(
-      'Ladle',
-      protocol.get('ladle') as string,
-      ownerAcc
-    )) as unknown as Ladle
+    ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
 
     lidoWrapHandler = (await ethers.getContractAt(
       'LidoWrapHandler',
@@ -100,7 +87,7 @@ describe('LidoWrapHandler', function () {
     await ladle.connect(stEthWhaleAcc).transfer(wstEth.address, otherAcc.address, transferred)
     expect(await wstEth.balanceOf(otherAcc.address)).to.equal(balanceBefore.add(transferred))
   })
-  
+
   it('transfers stEth through the Ladle', async () => {
     const transferred = WAD
     const balanceBefore = await stEth.balanceOf(otherAcc.address)

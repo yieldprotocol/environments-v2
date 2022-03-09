@@ -19,7 +19,6 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
  * It takes as inputs the governance and protocol json address files.
  * A plan is recorded in the Cloak to isolate the Wand from the Cauldron, Ladle, Witch and Factories.
  */
-
 ;(async () => {
   const oldWitchAddress = '0x002BcA19F5B4be65CC2d3444e89cEbd036F081c3'
   const baseIds: Array<string> = [DAI, USDC]

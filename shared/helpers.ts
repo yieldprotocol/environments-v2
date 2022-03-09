@@ -1,19 +1,24 @@
 import { ethers, network, run, waffle } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join, dirname } from "path";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
+import { join, dirname } from 'path'
 import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
 
+const paths = new Map([
+  [1, './addresses/mainnet/'],
+  [4, './addresses/rinkeby/'],
+  [42, './addresses/kovan/'],
+])
 
 /** @dev Determines chainId and retrieves address mappings from governance and protocol json files*/
 /** returns a 2 element array of Map's for **governance** and **protocol**, with contract names mapped to addresses */
 export const getGovernanceProtocolAddresses = async (chainId: number): Promise<Map<string, string>[]> => {
-  if (chainId !== 1 && chainId !== 42) throw `Chain id ${chainId} not found. Only Kovan and Mainnet supported`
-  const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
+  if (!paths.get(chainId)) throw `Chain id ${chainId} not found. Only Rinkeby, Kovan and Mainnet supported`
+  const path = paths.get(chainId)
   const governance = jsonToMap(fs.readFileSync(`${path}governance.json`, 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync(`${path}protocol.json`, 'utf8')) as Map<string, string>
   return [governance, protocol]
@@ -85,21 +90,26 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
+  const on_fork = hre.network.config.chainId === 31337
   console.log(`Proposal: ${txHash}`)
-  // Depending on the proposal state, propose, approve (if in a fork, impersonating the multisig), or execute
+  // Depending on the proposal state:
+  // - propose
+  // - approve (if in a fork, impersonating the multisig)
+  // - or execute (if in a fork, applying a time delay)
   if ((await timelock.proposals(txHash)).state === 0) {
+    console.log("Proposing");
     // Propose
     await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
+    console.log("Approving");
     // Approve, impersonating multisig if in a fork
-    let [ownerAcc] = await ethers.getSigners()
-    const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
     if (on_fork) {
       // If running on a mainnet fork, impersonating the multisig will work
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+      
       await hre.network.provider.request({
         method: 'hardhat_impersonateAccount',
         params: [multisig],
@@ -120,6 +130,12 @@ export const proposeApproveExecute = async (
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
+    console.log("Executing");
+    if (on_fork) {
+      // Adding time travel since we have moved the delay to 2 days on mainnet
+      await hre.network.provider.request({method:"evm_increaseTime", params:[60 * 60 * 24 * 2]});
+      await hre.network.provider.request({method:'evm_mine',params:[]})
+    }
     // Execute
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
@@ -230,19 +246,21 @@ export function mapToJson(map: Map<any, any>): string {
       } else {
         return value
       }
-    }, 2);
+    },
+    2
+  )
 }
 
-export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any>|Map<any,any>) {
-  let map = new Map<any, any>();
+export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any> | Map<any, any>) {
+  let map = new Map<any, any>()
   if (map_or_dictionary instanceof Map) {
-    map = map_or_dictionary;
+    map = map_or_dictionary
   } else {
     for (let k in map_or_dictionary) {
-      map.set(k, map_or_dictionary[k]);
+      map.set(k, map_or_dictionary[k])
     }
   }
-  writeFileSync(getAddressMappingFilePath(out_file), mapToJson(map), 'utf8');
+  writeFileSync(getAddressMappingFilePath(out_file), mapToJson(map), 'utf8')
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
@@ -272,54 +290,54 @@ export function jsonToMap(json: string): Map<any, any> {
   )
 }
 
+export function getNetworkName(): string {
+  return network.name;
+}
+
 /**
  * Return path to network-specific address mapping file
  * 'government.json' can be resolved to 'addresses/kovan/government.json', for example
  */
 export function getAddressMappingFilePath(file_name: string): string {
-  const full_path = join("addresses", network.name, file_name);
+  const full_path = join("addresses", getNetworkName(), file_name);
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))
   }
-  return full_path;
+  return full_path
 }
 
 /**
  * Read Map<string, string> from network-specific file
  * If the file does not exist, empty map is returned
  */
-export function readAddressMappingIfExists(file_name: string): Map<string, string>{
-  const full_path = getAddressMappingFilePath(file_name);
+export function readAddressMappingIfExists(file_name: string): Map<string, string> {
+  const full_path = getAddressMappingFilePath(file_name)
   if (existsSync(full_path)) {
-    return jsonToMap(readFileSync(full_path, 'utf8'));
+    return jsonToMap(readFileSync(full_path, 'utf8'))
   }
-  return new Map<string, string>();
-} 
+  return new Map<string, string>()
+}
 
 /**
  * Deploy a contract and verify it
  * Just a type-safe wrapper to deploy/log/verify a contract
  */
 export async function deploy<OutT>(owner: any, artifact: any, constructor_args: any[]) {
-  const ret = (await waffle.deployContract(owner, artifact, constructor_args)) as unknown as OutT;
-  console.log(`[${artifact.contractName}, '${(ret as any).address}']`);
-  verify((ret as any).address, constructor_args);
-  return ret;
+  const ret = (await waffle.deployContract(owner, artifact, constructor_args)) as unknown as OutT
+  console.log(`[${artifact.contractName}, '${(ret as any).address}']`)
+  verify((ret as any).address, constructor_args)
+  return ret
 }
 
 /**
  * Type-safe wrapper around ethers.getContractAt: return deployed instance of a contract
  */
-export async function getContract<OutT>(owner:any, name: string, address: string | undefined): Promise<OutT> {
+export async function getContract<OutT>(owner: any, name: string, address: string | undefined): Promise<OutT> {
   if (address == undefined) {
-    throw new Error(`null address for ${name}`);
+    throw new Error(`null address for ${name}`)
   }
-  return (await ethers.getContractAt(
-    name,
-    address,
-    owner
-  )) as unknown as OutT;
+  return (await ethers.getContractAt(name, address, owner)) as unknown as OutT
 }
 
 /**
@@ -330,31 +348,31 @@ export async function ensureRootAccess(contract: AccessControl, timelock: Timelo
     await contract.grantRole(ROOT, timelock.address)
     console.log(`${contract.address}.grantRoles(ROOT, timelock)`)
     while (!(await contract.hasRole(ROOT, timelock.address))) {}
-  }  
+  }
 }
 
 /**
  * Get an instance of the contract from the mapping file
  * If the contract is not registered there, deploy, register and return it
  */
-export async function getOrDeploy<OutT extends AccessControl>(owner: any, mapping_file: string, key: string,
-    contractName: string, constructor_args: any[], timelock: Timelock): Promise<OutT>{
-  const mapping = readAddressMappingIfExists(mapping_file);
+export async function getOrDeploy<OutT extends AccessControl>(
+  owner: any,
+  mapping_file: string,
+  key: string,
+  contractName: string,
+  constructor_args: any[],
+  timelock: Timelock
+): Promise<OutT> {
+  const mapping = readAddressMappingIfExists(mapping_file)
 
   let ret: OutT
   if (mapping.get(key) === undefined) {
-    ret = await deploy<OutT>(
-      owner, 
-      await hre.artifacts.readArtifact(contractName), 
-      constructor_args);
-    mapping.set(key, ret.address);
-    writeAddressMap(mapping_file, mapping);
+    ret = await deploy<OutT>(owner, await hre.artifacts.readArtifact(contractName), constructor_args)
+    mapping.set(key, ret.address)
+    writeAddressMap(mapping_file, mapping)
   } else {
-    ret = await getContract<OutT>(
-      owner,
-      contractName,
-      mapping.get(key));
+    ret = await getContract<OutT>(owner, contractName, mapping.get(key))
   }
-  await ensureRootAccess(ret, timelock);
-  return ret;
+  await ensureRootAccess(ret, timelock)
+  return ret
 }

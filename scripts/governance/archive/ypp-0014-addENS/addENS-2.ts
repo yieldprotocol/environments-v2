@@ -8,7 +8,13 @@ import { updateSpotSourcesProposal } from '../../fragments/oracles/updateSpotSou
 import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 
-import { CompositeMultiOracle, ChainlinkMultiOracle, UniswapV3Oracle, Timelock, EmergencyBrake } from '../../../typechain'
+import {
+  CompositeMultiOracle,
+  ChainlinkMultiOracle,
+  UniswapV3Oracle,
+  Timelock,
+  EmergencyBrake,
+} from '../../../typechain'
 
 import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
 
@@ -25,7 +31,6 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
  */
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
   const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
   const UNISWAP = 'uniswapOracle'
@@ -56,7 +61,7 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
 
   const developer = new Map([
     [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
+    [4, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
     [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   ])
 
@@ -65,31 +70,31 @@ import { ETH, DAI, USDC, ENS, WAD } from '../../../shared/constants'
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
-  const compositeOracle = ((await ethers.getContractAt(
+  const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown) as CompositeMultiOracle
-  const chainlinkOracle = ((await ethers.getContractAt(
+  )) as unknown as CompositeMultiOracle
+  const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get('chainlinkOracle') as string,
     ownerAcc
-  )) as unknown) as ChainlinkMultiOracle
-  const uniswapOracle = ((await ethers.getContractAt(
+  )) as unknown as ChainlinkMultiOracle
+  const uniswapOracle = (await ethers.getContractAt(
     'UniswapV3Oracle',
     protocol.get('uniswapOracle') as string,
     ownerAcc
-  )) as unknown) as UniswapV3Oracle
-  const cloak = ((await ethers.getContractAt(
+  )) as unknown as UniswapV3Oracle
+  const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
     ownerAcc
-  )) as unknown) as EmergencyBrake
-  const timelock = ((await ethers.getContractAt(
+  )) as unknown as EmergencyBrake
+  const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
-  )) as unknown) as Timelock
+  )) as unknown as Timelock
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateUniswapOracleProposal(ownerAcc, uniswapOracle, timelock, cloak))

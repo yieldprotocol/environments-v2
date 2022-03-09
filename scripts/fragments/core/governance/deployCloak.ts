@@ -1,5 +1,5 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, getOwnerOrImpersonate, verify, writeAddressMap, readAddressMappingIfExists } from '../../../../shared/helpers'
+import { verify, writeAddressMap } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
 import EmergencyBrakeArtifact from '../../../../artifacts/@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol/EmergencyBrake.json'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
@@ -11,26 +11,11 @@ const { deployContract } = waffle
  *
  * It takes as inputs the governance json address file, which is updated.
  */
-
-;(async () => {
-  const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
-
-  const developer = new Map([
-    [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-    [4, '0xf1a6ffa6513d0cC2a5f9185c4174eFDb51ba3b13'],
-    [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  ])
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
-  const governance = readAddressMappingIfExists('governance.json');
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  
+export const deployCloak = async (
+  ownerAcc: any,
+  timelock: Timelock,
+  governance: Map<string, string>
+): Promise<EmergencyBrake> => {
   let cloak: EmergencyBrake
   if (governance.get('cloak') === undefined) {
     cloak = (await deployContract(ownerAcc, EmergencyBrakeArtifact, [
@@ -41,7 +26,7 @@ const { deployContract } = waffle
     verify(cloak.address, [ownerAcc.address, ownerAcc.address]) // Give the planner and executor their roles once set up
 
     governance.set('cloak', cloak.address)
-    writeAddressMap('governance.json', governance);
+    writeAddressMap('governance.json', governance)
   } else {
     cloak = (await ethers.getContractAt(
       'EmergencyBrake',
@@ -55,4 +40,6 @@ const { deployContract } = waffle
     console.log(`cloak.grantRoles(ROOT, timelock)`)
     while (!(await cloak.hasRole(ROOT, timelock.address))) {}
   }
-})()
+
+  return cloak
+}

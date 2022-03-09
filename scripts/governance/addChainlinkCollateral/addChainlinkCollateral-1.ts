@@ -1,29 +1,27 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOriginalChainId, proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  getOriginalChainId,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+} from '../../../shared/helpers'
 
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
 import { Wand, Timelock } from '../../../typechain'
-import { developer, assetToAdd } from './addLINK.config'
+import { developer, assetToAdd } from './addUNI.config'
 
 /**
  * @dev This script adds as an asset.
  */
-
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw "Only Kovan, Rinkeby and Mainnet supported"
 
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
-
-  const wand = (await ethers.getContractAt(
-    'Wand',
-    protocol.get('wand') as string,
-    ownerAcc
-  )) as unknown as Wand
+  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

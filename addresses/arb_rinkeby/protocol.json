@@ -3,59 +3,51 @@
   "value": [
     [
       "yieldMath",
-      "0xd851DE2eC789035B235C9F6ceb231022F9F547aa"
+      "0x6752E560C89dBF91D8799850dAcb6B9C2Adb24cA"
     ],
     [
       "yieldMathExtensions",
-      "0xF579A9449dDE1C7A78C84540500de1A9F9fdE4c0"
+      "0xfD1d9f55e39345C2BB67E41f324A29eC6F24280C"
     ],
     [
       "poolView",
-      "0x9163d3450b268A9354D5ecFc5ccBA1dDa38f4055"
+      "0xa2419f26A990FFf00c0E1A31570a30F0AEd148fd"
     ],
     [
       "safeERC20Namer",
-      "0x335cc59175e96572BaCE7430132AC4f00EDFaf7B"
+      "0x9d5f64731D2103B2Ee87044c3587Dd12b3f0e97D"
+    ],
+    [
+      "timelock",
+      "0xcd1e369ad612a2AC47D0b3bC6f01B64Eb4b2B638"
+    ],
+    [
+      "cloak",
+      "0x7FD6E1E6a9b80A7DE32f17a94FEAD054EB066DE7"
     ],
     [
       "accumulatorOracle",
-      "0x4e4d5AE0240e6C2333C91C3A5c6F2403Af582d0f"
-    ],
-    [
-      "chainlinkUSDOracle",
-      "0xaE956a6cB4D53a08Dc28D6B9E169e07a6e69aE1C"
-    ],
-    [
-      "joinFactory",
-      "0x9AB16234999393436643821d7a6d72c704Be445d"
-    ],
-    [
-      "fyTokenFactory",
-      "0x0F1c36F12FF481bD042e6316eB05cFAcd082684C"
-    ],
-    [
-      "poolFactory",
-      "0x56ef5cEd1506A841A3F9AF08667D468087EEa4db"
+      "0xbBB7870227750119ab1f230c8785Be8C4e0C5f1A"
     ],
     [
       "cauldron",
-      "0xF8dF50d5E8406242FF7f6c4BECE195893Ac15027"
+      "0x64BA0F1D2E5479BF132936328e8c533c95646fE8"
     ],
     [
       "ladle",
-      "0xA1781a4A44815Ce4dBEf2A5E4724B96A8129162c"
+      "0xC5A62972418195031F931944f9C156d563De1fb4"
     ],
     [
       "router",
-      "0xC0932209d93DF81AdD5cC6eB8bd57f41751Df80B"
+      "0xdC091461981B949cD8BfAe078a4C031AF7383546"
     ],
     [
       "witch",
-      "0x56b4cb5838Eb6304DF4252eb53f997bf29a7293d"
+      "0xf8eD39321927F5fae30EC33311F1fe596078ccbD"
     ],
     [
-      "wand",
-      "0x22539EAF520BeDaA5aCC6B413340B7D88c442E98"
+      "chainlinkUSDOracle",
+      "0x9A9dCa65fa012bD17dc860794d84806c4bB06E6A"
     ]
   ]
 }

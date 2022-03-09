@@ -21,9 +21,8 @@ describe('Revoke governor permissions', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
     const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
-  
+
     const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
     governorAcc = await impersonate(governor, WAD)
     multisigAcc = await impersonate(governance.get('multisig') as string, WAD)
@@ -42,15 +41,17 @@ describe('Revoke governor permissions', function () {
   })
 
   it('test', async () => {
-    const proposal: Array<{ target: string; data: string }> = [{ 
-      target: timelock.address,
-      data: timelock.interface.encodeFunctionData('grantRole',['0x00000000', governorAcc.address])
-    }]
+    const proposal: Array<{ target: string; data: string }> = [
+      {
+        target: timelock.address,
+        data: timelock.interface.encodeFunctionData('grantRole', ['0x00000000', governorAcc.address]),
+      },
+    ]
     const hash = await timelock.hash(proposal)
     const hashRepeated = await timelock.hashRepeated(proposal, 1)
     // Try and fail to propose
     await expect(timelock.connect(governorAcc).propose(proposal)).to.be.revertedWith('Access denied')
-    
+
     // Try and fail to proposeRepeated
     await expect(timelock.connect(governorAcc).proposeRepeated(proposal, 1)).to.be.revertedWith('Access denied')
 

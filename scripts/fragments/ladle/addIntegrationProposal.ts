@@ -3,8 +3,8 @@ import { Ladle } from '../../../typechain'
 
 export const addIntegrationProposal = async (
   ladle: Ladle,
-  integration: string,
-): Promise<Array<{ target: string; data: string }>>  => {
+  integration: string
+): Promise<Array<{ target: string; data: string }>> => {
   if ((await ethers.provider.getCode(integration)) === '0x') throw `Address ${integration} contains no code`
 
   const proposal: Array<{ target: string; data: string }> = []
