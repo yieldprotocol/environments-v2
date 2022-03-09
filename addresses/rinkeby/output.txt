@@ -1,20 +1,372 @@
 No need to generate any newer typings.
 ChainId: 4
-Cauldron deployed at 0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3
-npx hardhat verify --network rinkeby 0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3  
+YieldMath deployed at 0xBE396E88D1D49E3877B021CC2C4a301810567fbD
+npx hardhat verify --network rinkeby 0xBE396E88D1D49E3877B021CC2C4a301810567fbD  
+No need to generate any newer typings.
+ChainId: 4
+YieldMathExtensions deployed at 0xC4a51A7546d6c658dF83070f1399864ECcbea81d
+npx hardhat verify --network rinkeby 0xC4a51A7546d6c658dF83070f1399864ECcbea81d  --libraries addresses/rinkeby/yieldMath.js
+No need to generate any newer typings.
+ChainId: 4
+PoolView deployed at 0x0eC4e4e96d63E09CCcE9a7Bcc9Da58d1cb712A47
+npx hardhat verify --network rinkeby 0x0eC4e4e96d63E09CCcE9a7Bcc9Da58d1cb712A47  --libraries addresses/rinkeby/yieldMathExtensions.js
+No need to generate any newer typings.
+ChainId: 4
+SafeERC20Namer deployed at 0x9b1445a38891230dCCEfc9057C8B408360a60B9F
+npx hardhat verify --network rinkeby 0x9b1445a38891230dCCEfc9057C8B408360a60B9F  
+No need to generate any newer typings.
+ChainId: 4
+Timelock deployed at 0x1BE7654F12BFC3ea2C53d05E512033d5a634c2b5
+npx hardhat verify --network rinkeby 0x1BE7654F12BFC3ea2C53d05E512033d5a634c2b5 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 
+No need to generate any newer typings.
+ChainId: 4
+Cloak deployed at 0x31dd14b0a48939d51852B6e1b8b5F0cdc6Bb5859
+npx hardhat verify --network rinkeby 0x31dd14b0a48939d51852B6e1b8b5F0cdc6Bb5859 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 
+cloak.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+rinkeby
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+Proposing
+Proposed 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+No need to generate any newer typings.
+ChainId: 4
+rinkeby
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+Approving
+Approved 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+No need to generate any newer typings.
+ChainId: 4
+rinkeby
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+Executing
+Executed 0xe7f2b68b076230b948ddc2c1dc1db9cb381e73cf1b012bd8776a20200316b1b1
+No need to generate any newer typings.
+ChainId: 4
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+Proposing
+Proposed 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+No need to generate any newer typings.
+ChainId: 4
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+Approving
+Approved 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+No need to generate any newer typings.
+ChainId: 4
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+Executing
+Executed 0x50cb954b970d0c8361e36851d68778a43655de5d541b134dba76763ceea69961
+No need to generate any newer typings.
+ChainId: 4
+ChainlinkMultiOracle deployed at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+npx hardhat verify --network rinkeby 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b  
+chainlinkOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+CompoundMultiOracle deployed at 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+npx hardhat verify --network rinkeby 0xe3D47c23c7EBddF81702421657fF7836d700bDF4  
+compoundOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+CompositeMultiOracle deployed at 0x577DA88C253095b874941dda194a6c59489E644f
+npx hardhat verify --network rinkeby 0x577DA88C253095b874941dda194a6c59489E644f  
+compositeOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+LidoOracle deployed at 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+npx hardhat verify --network rinkeby 0xb0e314734B561eF7079E6D3e78e6F17211178f26 0x3034000000000000000000000000000000000000000000000000000000000000 0x3035000000000000000000000000000000000000000000000000000000000000 
+lidoOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+UniswapV3Oracle deployed at 0x955c6FD1e1312Def99A30923339606bbd8fA0333
+npx hardhat verify --network rinkeby 0x955c6FD1e1312Def99A30923339606bbd8fA0333  
+uniswapOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+YearnVaultMultiOracle deployed at 0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF
+npx hardhat verify --network rinkeby 0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF  
+yearnOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+ChainId: 4
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Chi(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Chi(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Rate(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Rate(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Setting up 0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D as the source for 0x303100000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf as the source for 0x303200000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2431452A0010a43878bF198e170F6319Af6d27F4 as the source for 0x303300000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x17AEAA7aF619Cf60095528cB115fbE22F14dFA44 as the source for 0x303500000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xFABe80711F3ea886C3AC102c81ffC9825E16162E as the source for 0x303600000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x64EB137E967D1788Ce653C4Bdd4E4aD708F50Ae6 as the source for 0x303700000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x5E4FaE1eCCAc5a120e48cC02012aF1aeFF94dACc as the source for 0x313000000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B as the source for 0x303200000000/0x303900000000 at 0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
+Adding 0x303100000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 01/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303200000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 02/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303300000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 03/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303500000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 05/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303400000000/0x303500000000 from 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+pair: 04/05 -> 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+Adding 0x303700000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 07/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+Proposing
+Proposed 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+No need to generate any newer typings.
+ChainId: 4
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Chi(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Chi(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Rate(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Rate(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Setting up 0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D as the source for 0x303100000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf as the source for 0x303200000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2431452A0010a43878bF198e170F6319Af6d27F4 as the source for 0x303300000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x17AEAA7aF619Cf60095528cB115fbE22F14dFA44 as the source for 0x303500000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xFABe80711F3ea886C3AC102c81ffC9825E16162E as the source for 0x303600000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x64EB137E967D1788Ce653C4Bdd4E4aD708F50Ae6 as the source for 0x303700000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x5E4FaE1eCCAc5a120e48cC02012aF1aeFF94dACc as the source for 0x313000000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B as the source for 0x303200000000/0x303900000000 at 0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
+Adding 0x303100000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 01/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303200000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 02/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303300000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 03/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303500000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 05/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303400000000/0x303500000000 from 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+pair: 04/05 -> 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+Adding 0x303700000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 07/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+Approving
+Approved 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+No need to generate any newer typings.
+ChainId: 4
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Chi(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Chi(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+compoundOracle: 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Using Compound Dai 📈 at 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Rate(01): 0x6d7f0754ffeb405d23c51ce938289d4835be3b14
+Using Compound USD Coin 📈 at 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Rate(02): 0x5b281a6dda0b271e91ae35de655ad301c976edb1
+Setting up 0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D as the source for 0x303100000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf as the source for 0x303200000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2431452A0010a43878bF198e170F6319Af6d27F4 as the source for 0x303300000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x17AEAA7aF619Cf60095528cB115fbE22F14dFA44 as the source for 0x303500000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0xFABe80711F3ea886C3AC102c81ffC9825E16162E as the source for 0x303600000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x64EB137E967D1788Ce653C4Bdd4E4aD708F50Ae6 as the source for 0x303700000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x5E4FaE1eCCAc5a120e48cC02012aF1aeFF94dACc as the source for 0x313000000000/0x303000000000 at 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Setting up 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B as the source for 0x303200000000/0x303900000000 at 0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
+Adding 0x303100000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 01/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303200000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 02/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303300000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 03/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303500000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 05/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+Adding 0x303400000000/0x303500000000 from 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+pair: 04/05 -> 0xb0e314734B561eF7079E6D3e78e6F17211178f26
+Adding 0x303700000000/0x303000000000 from 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+pair: 07/00 -> 0xACD6af7bf3555C63686952C65b4a1D5E51c4586b
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+Executing
+Executed 0x35613cbd00577e0e8662017893db503a9d55a1bea332e84aec72cd298d9fa986
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Reusing Cauldron at 0x41e2fdA8923001D0314B4A0399228EA42E8B2fb9
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Using Wrapped Ether at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
+Reusing Ladle at 0x79890f87aF34Ab414d75e2DF6bC25EAE00FA4e4B
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0x042cd45129f971bdc8937237d701f38fc187623832bd87bf7fa99eb439b9146d
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0xf79f1fd98f24bc6325bf1af3679a6f7c8be18f3abe3c33167a4efc4f89b1c9dd
+Proposal: 0xbab5e38d971593e7db04fe75c2ad4b3ce9ecfd5720ddeab8e0f57abed274e579
+Proposing
+Proposed 0xbab5e38d971593e7db04fe75c2ad4b3ce9ecfd5720ddeab8e0f57abed274e579
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0x042cd45129f971bdc8937237d701f38fc187623832bd87bf7fa99eb439b9146d
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0xf79f1fd98f24bc6325bf1af3679a6f7c8be18f3abe3c33167a4efc4f89b1c9dd
+Proposal: 0xbab5e38d971593e7db04fe75c2ad4b3ce9ecfd5720ddeab8e0f57abed274e579
+Approving
+Running on a fork, impersonating multisig at 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Approved 0xbab5e38d971593e7db04fe75c2ad4b3ce9ecfd5720ddeab8e0f57abed274e579
+No need to generate any newer typings.
+ChainId: 4
+Running on a fork, impersonating 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+cauldron.grantRoles(gov, timelock)
+cauldron.grantRole(ROOT, cloak)
+cauldron.revokeRole(ROOT, deployer)
+ladle.grantRoles(gov, timelock)
+ladle.grantRole(ROOT, cloak)
+ladle.revokeRole(ROOT, deployer)
+cauldron.grantRoles(ladle)
+cloak.plan(ladle): 0x042cd45129f971bdc8937237d701f38fc187623832bd87bf7fa99eb439b9146d
+witch.grantRoles(gov, timelock)
+witch.grantRole(ROOT, cloak)
+witch.revokeRole(ROOT, deployer)
+cauldron.grantRoles(witch)
+cloak.plan(witch): 0xf79f1fd98f24bc6325bf1af3679a6f7c8be18f3abe3c33167a4efc4f89b1c9dd
+Proposal: 0xbab5e38d971593e7db04fe75c2ad4b3ce9ecfd5720ddeab8e0f57abed274e579
+Executing
+No need to generate any newer typings.
+ChainId: 4
+Cauldron deployed at 0x01519969787493e250e147cF1373AE0559176550
+npx hardhat verify --network rinkeby 0x01519969787493e250e147cF1373AE0559176550  
 cauldron.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
 Using Wrapped Ether at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
-Ladle deployed at 0x45f502A7358ec631c7a422270922d7dFA142cb9C
-npx hardhat verify --network rinkeby 0x45f502A7358ec631c7a422270922d7dFA142cb9C 0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3 0x67c5279f044A40746017Ae1edD8bb7573273aA8b 
-Router deployed at 0x9Bba4568E6246e859923C107555b6e0d64dB9708
-npx hardhat verify --network rinkeby 0x9Bba4568E6246e859923C107555b6e0d64dB9708  
+Ladle deployed at 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F
+npx hardhat verify --network rinkeby 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 0x01519969787493e250e147cF1373AE0559176550 0x67c5279f044A40746017Ae1edD8bb7573273aA8b 
+Router deployed at 0xe5Ee27E50A6d40AfB92aD97E5eaFAC013ff7669F
+npx hardhat verify --network rinkeby 0xe5Ee27E50A6d40AfB92aD97E5eaFAC013ff7669F  
 ladle.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
-Witch deployed at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-npx hardhat verify --network rinkeby 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F 0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3 0x45f502A7358ec631c7a422270922d7dFA142cb9C 
+Witch deployed at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+npx hardhat verify --network rinkeby 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75 0x01519969787493e250e147cF1373AE0559176550 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 
 witch.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
@@ -25,14 +377,15 @@ ladle.grantRoles(gov, timelock)
 ladle.grantRole(ROOT, cloak)
 ladle.revokeRole(ROOT, deployer)
 cauldron.grantRoles(ladle)
-cloak.plan(ladle): 0xd41449f251134f8bdbab6b326048acff391d1ba7c36bf20c350059b023f6dbb7
+cloak.plan(ladle): 0x1b44fe0ff71ce223cbf8205b32f3bfdeccac2def9c6e836d7428246f08837153
 witch.grantRoles(gov, timelock)
 witch.grantRole(ROOT, cloak)
 witch.revokeRole(ROOT, deployer)
 cauldron.grantRoles(witch)
-cloak.plan(witch): 0x0c13d29511570c98adeb9c9b6d9a1fe130c6e49e5bce98b0c22b2cda3fb95e81
-Proposal: 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
-Proposed 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
+cloak.plan(witch): 0x22a579d491f69f7a4b48605b1c904f4f124d4d6e451a026d1e4ca09e29df83df
+Proposal: 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
+Proposing
+Proposed 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
 No need to generate any newer typings.
 ChainId: 4
 cauldron.grantRoles(gov, timelock)
@@ -42,14 +395,15 @@ ladle.grantRoles(gov, timelock)
 ladle.grantRole(ROOT, cloak)
 ladle.revokeRole(ROOT, deployer)
 cauldron.grantRoles(ladle)
-cloak.plan(ladle): 0xd41449f251134f8bdbab6b326048acff391d1ba7c36bf20c350059b023f6dbb7
+cloak.plan(ladle): 0x1b44fe0ff71ce223cbf8205b32f3bfdeccac2def9c6e836d7428246f08837153
 witch.grantRoles(gov, timelock)
 witch.grantRole(ROOT, cloak)
 witch.revokeRole(ROOT, deployer)
 cauldron.grantRoles(witch)
-cloak.plan(witch): 0x0c13d29511570c98adeb9c9b6d9a1fe130c6e49e5bce98b0c22b2cda3fb95e81
-Proposal: 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
-Approved 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
+cloak.plan(witch): 0x22a579d491f69f7a4b48605b1c904f4f124d4d6e451a026d1e4ca09e29df83df
+Proposal: 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
+Approving
+Approved 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
 No need to generate any newer typings.
 ChainId: 4
 cauldron.grantRoles(gov, timelock)
@@ -59,668 +413,767 @@ ladle.grantRoles(gov, timelock)
 ladle.grantRole(ROOT, cloak)
 ladle.revokeRole(ROOT, deployer)
 cauldron.grantRoles(ladle)
-cloak.plan(ladle): 0xd41449f251134f8bdbab6b326048acff391d1ba7c36bf20c350059b023f6dbb7
+cloak.plan(ladle): 0x1b44fe0ff71ce223cbf8205b32f3bfdeccac2def9c6e836d7428246f08837153
 witch.grantRoles(gov, timelock)
 witch.grantRole(ROOT, cloak)
 witch.revokeRole(ROOT, deployer)
 cauldron.grantRoles(witch)
-cloak.plan(witch): 0x0c13d29511570c98adeb9c9b6d9a1fe130c6e49e5bce98b0c22b2cda3fb95e81
-Proposal: 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
-Executed 0xbf1a7920229167824fe1e83886c32c7d06dd862ce0ce49e629f83b03128183ae
-
+cloak.plan(witch): 0x22a579d491f69f7a4b48605b1c904f4f124d4d6e451a026d1e4ca09e29df83df
+Proposal: 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
+Executing
+Executed 0x234ad56754c796227a37e98f5eb2cfa9f174d66e32864a1b3c722630cb980064
 No need to generate any newer typings.
 ChainId: 4
-Join deployed at 0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542 for 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
-npx hardhat verify --network rinkeby 0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542 0x67c5279f044A40746017Ae1edD8bb7573273aA8b 
+Join deployed at 0xF3Aa2B9bb83e01BE382De81636920B7dc1139117 for 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
+npx hardhat verify --network rinkeby 0xF3Aa2B9bb83e01BE382De81636920B7dc1139117 0x67c5279f044A40746017Ae1edD8bb7573273aA8b 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
-npx hardhat verify --network rinkeby 0x2555E5D167a59b545a25c81899eD15554C83DA0C 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 
+Join deployed at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
+npx hardhat verify --network rinkeby 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
-npx hardhat verify --network rinkeby 0x7dD9F124C8a15f312CebF81419eC112C22802208 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 
+Join deployed at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
+npx hardhat verify --network rinkeby 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f for 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF
-npx hardhat verify --network rinkeby 0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF 
+Join deployed at 0xF6e4D2B0E86596BEEd324190adBF71f4c6826469 for 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF
+npx hardhat verify --network rinkeby 0xF6e4D2B0E86596BEEd324190adBF71f4c6826469 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c for 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
-npx hardhat verify --network rinkeby 0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 
+Join deployed at 0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4 for 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
+npx hardhat verify --network rinkeby 0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0x086B15D7620E7c0758F819E47Fc31F25C3b2815c for 0xfdf099372cded51a9dA9c0431707789f08B06C70
-npx hardhat verify --network rinkeby 0x086B15D7620E7c0758F819E47Fc31F25C3b2815c 0xfdf099372cded51a9dA9c0431707789f08B06C70 
+Join deployed at 0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6 for 0xfdf099372cded51a9dA9c0431707789f08B06C70
+npx hardhat verify --network rinkeby 0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6 0xfdf099372cded51a9dA9c0431707789f08B06C70 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0xbE1560cA39C51Dc380115058509D34dcd29d08a0 for 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78
-npx hardhat verify --network rinkeby 0xbE1560cA39C51Dc380115058509D34dcd29d08a0 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 
+Join deployed at 0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1 for 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78
+npx hardhat verify --network rinkeby 0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 
 join.grantRoles(ROOT, timelock)
-Join deployed at 0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e for 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
-npx hardhat verify --network rinkeby 0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 
+Join deployed at 0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2 for 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
+npx hardhat verify --network rinkeby 0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 
+join.grantRoles(ROOT, timelock)
+Join deployed at 0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca for 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B
+npx hardhat verify --network rinkeby 0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B 
 join.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303130350000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303130350000
-FYToken deployed at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443
-npx hardhat verify --network rinkeby 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 0x303100000000 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 0x2555E5D167a59b545a25c81899eD15554C83DA0C 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303130350000
+Using oracle at 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 for 0x303130350000
+FYToken deployed at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+npx hardhat verify --network rinkeby 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 0x303100000000 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 1648177200 FYDAI2203 FYDAI2203 --libraries safeERC20Namer.js
 fyToken.grantRoles(ROOT, timelock)
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303230350000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303230350000
-FYToken deployed at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb
-npx hardhat verify --network rinkeby 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb 0x303200000000 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 0x7dD9F124C8a15f312CebF81419eC112C22802208 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303230350000
+Using oracle at 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 for 0x303230350000
+FYToken deployed at 0x28F95B33c908048E273155D904cCA598AcB27B4D
+npx hardhat verify --network rinkeby 0x28F95B33c908048E273155D904cCA598AcB27B4D 0x303200000000 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 1648177200 FYUSDC2203 FYUSDC2203 --libraries safeERC20Namer.js
 fyToken.grantRoles(ROOT, timelock)
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303130360000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303130360000
-FYToken deployed at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443
-npx hardhat verify --network rinkeby 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 0x303100000000 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 0x2555E5D167a59b545a25c81899eD15554C83DA0C 1656039600 FYDAI2206 FYDAI2206 --libraries safeERC20Namer.js
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303130360000
+Using oracle at 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 for 0x303130360000
+FYToken deployed at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+npx hardhat verify --network rinkeby 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 0x303100000000 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 1656039600 FYDAI2206 FYDAI2206 --libraries safeERC20Namer.js
 fyToken.grantRoles(ROOT, timelock)
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303230360000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303230360000
-FYToken deployed at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE
-npx hardhat verify --network rinkeby 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE 0x303200000000 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 0x7dD9F124C8a15f312CebF81419eC112C22802208 1656039600 FYUSDC2206 FYUSDC2206 --libraries safeERC20Namer.js
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303230360000
+Using oracle at 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 for 0x303230360000
+FYToken deployed at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+npx hardhat verify --network rinkeby 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 0x303200000000 0xe3D47c23c7EBddF81702421657fF7836d700bDF4 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 1656039600 FYUSDC2206 FYUSDC2206 --libraries safeERC20Namer.js
 fyToken.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
-Reusing PoolFactory at 0x27d3B5648c6dA54cBfa3addB1f5Eadf5cE036bF1
-No need to generate any newer typings.
-ChainId: 4
-poolFactory.grantRoles(gov, timelock)
-poolFactory.grantRole(ROOT, cloak)
-poolFactory.revokeRole(ROOT, deployer)
-Proposal: 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-Proposed 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-No need to generate any newer typings.
-ChainId: 4
-poolFactory.grantRoles(gov, timelock)
-poolFactory.grantRole(ROOT, cloak)
-poolFactory.revokeRole(ROOT, deployer)
-Proposal: 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-Approved 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-No need to generate any newer typings.
-ChainId: 4
-poolFactory.grantRoles(gov, timelock)
-poolFactory.grantRole(ROOT, cloak)
-poolFactory.revokeRole(ROOT, deployer)
-Proposal: 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-Executed 0x144c314c2df605dccbf12de16bf9ad1537e74d8fcb683c5266e3829c6fa8cb07
-No need to generate any newer typings.
-ChainId: 4
-g1 set to 13835058055282163712
-g2 set to 24595658764946068821
-ts set to 23381681843
-Using join at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using join at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using join at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using join at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Proposal: 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-Proposed 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-No need to generate any newer typings.
-ChainId: 4
-g1 set to 13835058055282163712
-g2 set to 24595658764946068821
-ts set to 23381681843
-Using join at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using join at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using join at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using join at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Proposal: 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-Approved 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-No need to generate any newer typings.
-ChainId: 4
-g1 set to 13835058055282163712
-g2 set to 24595658764946068821
-ts set to 23381681843
-Using join at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using join at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using join at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using join at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Proposal: 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-Executed 0x90df0ab5af741eb1019da256f35790b88057150e238f7abff2e504836309b2b5
-Using join at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Pool deployed at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
-npx hardhat verify --network rinkeby 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f  --libraries safeERC20Namer.js
-Using join at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Pool deployed at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
-npx hardhat verify --network rinkeby 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984  --libraries safeERC20Namer.js
-Using join at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Pool deployed at 0x6724515a6924D6A44d3970B85B83C5C1D717d410
-npx hardhat verify --network rinkeby 0x6724515a6924D6A44d3970B85B83C5C1D717d410  --libraries safeERC20Namer.js
-Using join at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Pool deployed at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
-npx hardhat verify --network rinkeby 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F  --libraries safeERC20Namer.js
+Using base at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
+Using fyToken at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+Pool deployed at 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+npx hardhat verify --network rinkeby 0x267492335dACa54753f0CAf9903d81ac8d44B32B 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 23381681843 13835058055282163712 24595658764946068821 --libraries yieldMath.js
+Using base at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
+Using fyToken at 0x28F95B33c908048E273155D904cCA598AcB27B4D
+Pool deployed at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+npx hardhat verify --network rinkeby 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0x28F95B33c908048E273155D904cCA598AcB27B4D 23381681843 13835058055282163712 24595658764946068821 --libraries yieldMath.js
+Using base at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
+Using fyToken at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+Pool deployed at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+npx hardhat verify --network rinkeby 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 23381681843 13835058055282163712 24595658764946068821 --libraries yieldMath.js
+Using base at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
+Using fyToken at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+Pool deployed at 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+npx hardhat verify --network rinkeby 0xf83fbf7C425FBc891DDa42957736f45c06410b51 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 23381681843 13835058055282163712 24595658764946068821 --libraries yieldMath.js
 No need to generate any newer typings.
 ChainId: 4
  AssetId      | Asset Address                            | Join Address
-0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x2555E5D167a59b545a25c81899eD15554C83DA0C
-0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0x7dD9F124C8a15f312CebF81419eC112C22802208
-0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x303900000000,0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B,0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(00)): 0x78b649c1775df3d401c0e622af8616609fe492bb7ec1744515e654ea0c789ddb
+cloak.plan(ladle, join(00)): 0xdf3a671667cdb10a18db3af93eb39ce197a9af0d1813e64e125ad5235f1ed7ed
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(01)): 0x2bf594f2b1cbc4b50ecbdfaa69483124cf4a6621ddf06cb80fead67d74a9ee8d
+cloak.plan(ladle, join(01)): 0xdf40f95fee233cc3c6f84fbf9993f3ec8400befb697cf9d7de56dfb803925ad0
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(02)): 0x32e79c2d8be427f765f65d5b43b172247f53694585d1a1a7c817c44ec13f5c44
+cloak.plan(ladle, join(02)): 0x45e8fef779442e1a656b3d9b1a964c5cc3817c24c35d2fb8288a427b7f596c8e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(03)): 0xe2d6f2a8010501f7260ec95761b71a8c4d7472f053cd924d809442de83d82496
+cloak.plan(ladle, join(03)): 0x3aa8e48841ff2eceb96c90f14075ac6d88620fd658b52f5f0270c0f0b1f0064e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(04)): 0xc6e278ae048911c3d04e545d47661e21b034b43b4c681823485fde2697c1354b
+cloak.plan(ladle, join(04)): 0x6a144f444b09590a9215cb7c21398087bc7d6e58b135c1dd5c0ab0b5c07e5e5e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(06)): 0x86cc274715fff4b643c45850a391331690994bc67db0d67e0ae6403de51267de
+cloak.plan(ladle, join(06)): 0x6ee0f0096b196c58739598adb8c31b3c4a05f3145010ee142a784ba37932f7ad
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(07)): 0x5653c22353f5ff83e3ea0c58af9405639f60a75c5b38ad7fc4aaa22e0bde1b03
+cloak.plan(ladle, join(07)): 0x90e3536966766ae563394d54648ab4a9643e2e2c70563ec41cf04cf3163d2217
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(10)): 0x92f8473139c94a9b63d782f8bd634fe96c763b69ec85600d80032c5bae5aec0f
+cloak.plan(ladle, join(10)): 0x9cc2e06bb5d241c5ca8c15f43935c24fa682db7f25d86aa824629da632c64bc0
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(09)): 0x2720a04093e755505a8741a5ca3bed8962c356457ac8c1309cd9eaf4fdde7570
 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
-0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
+0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
-0x2555E5D167a59b545a25c81899eD15554C83DA0C
-Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x2555E5D167a59b545a25c81899eD15554C83DA0C
+0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
-0x7dD9F124C8a15f312CebF81419eC112C22802208
-Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0x7dD9F124C8a15f312CebF81419eC112C22802208
+0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0xBB0c0f2abb55e371EE28A76226d2ad035E633589
 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF
-0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
+0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
-0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
+0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
 0xfdf099372cded51a9dA9c0431707789f08B06C70
-0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
+0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78
-0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0xbE1560cA39C51Dc380115058509D34dcd29d08a0
+0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
-0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
-Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B
+0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
+Adding asset 0x303900000000 at 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B with join 0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 0x303000000000
-Asset 00 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(00)): 0x3a43b5498d9771ffd91f625b39066148e5d7288819219c3b558309da75463487
+Asset 00 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(00)): 0x9912ff3eda3c71b7e6c6f35cd55c5f2c820f883a310bf8591ec8237cb0768755
 0x303100000000
-Asset 01 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(01)): 0x47a1a654d8746e0b7ec967f060065ffa2c931b3ecd1b506923715e528b378d85
+Asset 01 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(01)): 0x22ef074d7e2db8f705a52d5f1fe692258964e64e8a3e595639a662e27180ee06
 0x303200000000
-Asset 02 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(02)): 0x2a973c324e8b8d49308c0b48937d3cf0ff2b12b71aaa1166007beac936ac1aa2
+Asset 02 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(02)): 0x23df4c0ed82f06c6b669c983a34c84d4f01cd994deee73a5666511dcad575229
 0x303300000000
-Asset 03 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(03)): 0x0b7622234cf93c57addeefbf125709d9cb709cb063f42c3aeb529d7671f9897d
+Asset 03 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(03)): 0x504b0dcf623ae0d159462cb4b92e3bef854d6387b6d2d4fc822969c34898920f
 0x303600000000
-Asset 06 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(06)): 0xed5a7a7510e45443356297b86a2ec91d5815d7ab10dbf5b8ab882a23301e20b9
+Asset 06 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(06)): 0x318d24ddc3eef41c3aabad7d95f28aab93fb19ae2fdea73bfd0a1adb5f42308c
 0x313000000000
-Asset 10 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(10)): 0xcdb5243fb01036e6fa8f0dddc05ab669cec3b75d213d8b19cb4e1ec0dc4e059d
+Asset 10 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(10)): 0x19190317284ff4c0da3f5f6877439304759224a0e07845ed3dedb2b227ca84e9
 0x303400000000
-Asset 04 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(04)): 0x8769b5589848026d6be4c82fa3b2a15de58d1b1828f536fa792ea7702dc6a341
+Asset 04 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(04)): 0x0d765dd37a4d9958838828da2dd40c47e9e3cf80dbfea0fa04c5fc40ab5bdb14
 0x303700000000
-Asset 07 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(07)): 0xdd6e66d52ea692238226b720f0d0c545076b1e62ecfe4cc48776931ef487dc93
-cloak.plan(witch, join(01)): 0xcecade97fc02ad47e4248b28c99fa694076370cc17190f42cfd8205b5ca3804c
-Asset 01 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-cloak.plan(witch, join(02)): 0xa5d166b7f9ea5330704a83187e1d1286b4468ffcf5be0b89c0e51975e36242a7
-Asset 02 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-Proposal: 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
-Proposed 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
+Asset 07 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(07)): 0xf68943f2735d5596e56f651211cf6dcb30b4477e6826c8ea2738867c67a833ac
+0x303900000000
+Asset 09 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(09)): 0xb8e70abcf293d86bd41a6e0f8b6900a3d599a527c28ccde3fb72ac9003ab0e30
+cloak.plan(witch, join(01)): 0x8d68988160bddfcbdd89885eedb2b5082bcc00ca677e0e214b8b20e24200eb97
+Asset 01 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+cloak.plan(witch, join(02)): 0x82082d043249265b79a02c76c26094d8bf15d75516feba842e539189f044ad2d
+Asset 02 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Proposal: 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
+Proposing
+Proposed 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
 No need to generate any newer typings.
 ChainId: 4
  AssetId      | Asset Address                            | Join Address
-0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x2555E5D167a59b545a25c81899eD15554C83DA0C
-0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0x7dD9F124C8a15f312CebF81419eC112C22802208
-0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x303900000000,0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B,0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(00)): 0x78b649c1775df3d401c0e622af8616609fe492bb7ec1744515e654ea0c789ddb
+cloak.plan(ladle, join(00)): 0xdf3a671667cdb10a18db3af93eb39ce197a9af0d1813e64e125ad5235f1ed7ed
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(01)): 0x2bf594f2b1cbc4b50ecbdfaa69483124cf4a6621ddf06cb80fead67d74a9ee8d
+cloak.plan(ladle, join(01)): 0xdf40f95fee233cc3c6f84fbf9993f3ec8400befb697cf9d7de56dfb803925ad0
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(02)): 0x32e79c2d8be427f765f65d5b43b172247f53694585d1a1a7c817c44ec13f5c44
+cloak.plan(ladle, join(02)): 0x45e8fef779442e1a656b3d9b1a964c5cc3817c24c35d2fb8288a427b7f596c8e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(03)): 0xe2d6f2a8010501f7260ec95761b71a8c4d7472f053cd924d809442de83d82496
+cloak.plan(ladle, join(03)): 0x3aa8e48841ff2eceb96c90f14075ac6d88620fd658b52f5f0270c0f0b1f0064e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(04)): 0xc6e278ae048911c3d04e545d47661e21b034b43b4c681823485fde2697c1354b
+cloak.plan(ladle, join(04)): 0x6a144f444b09590a9215cb7c21398087bc7d6e58b135c1dd5c0ab0b5c07e5e5e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(06)): 0x86cc274715fff4b643c45850a391331690994bc67db0d67e0ae6403de51267de
+cloak.plan(ladle, join(06)): 0x6ee0f0096b196c58739598adb8c31b3c4a05f3145010ee142a784ba37932f7ad
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(07)): 0x5653c22353f5ff83e3ea0c58af9405639f60a75c5b38ad7fc4aaa22e0bde1b03
+cloak.plan(ladle, join(07)): 0x90e3536966766ae563394d54648ab4a9643e2e2c70563ec41cf04cf3163d2217
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(10)): 0x92f8473139c94a9b63d782f8bd634fe96c763b69ec85600d80032c5bae5aec0f
+cloak.plan(ladle, join(10)): 0x9cc2e06bb5d241c5ca8c15f43935c24fa682db7f25d86aa824629da632c64bc0
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(09)): 0x2720a04093e755505a8741a5ca3bed8962c356457ac8c1309cd9eaf4fdde7570
 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
-0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
+0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
-0x2555E5D167a59b545a25c81899eD15554C83DA0C
-Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x2555E5D167a59b545a25c81899eD15554C83DA0C
+0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
-0x7dD9F124C8a15f312CebF81419eC112C22802208
-Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0x7dD9F124C8a15f312CebF81419eC112C22802208
+0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0xBB0c0f2abb55e371EE28A76226d2ad035E633589
 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF
-0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
+0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
-0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
+0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
 0xfdf099372cded51a9dA9c0431707789f08B06C70
-0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
+0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78
-0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0xbE1560cA39C51Dc380115058509D34dcd29d08a0
+0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
-0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
-Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B
+0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
+Adding asset 0x303900000000 at 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B with join 0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 0x303000000000
-Asset 00 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(00)): 0x3a43b5498d9771ffd91f625b39066148e5d7288819219c3b558309da75463487
+Asset 00 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(00)): 0x9912ff3eda3c71b7e6c6f35cd55c5f2c820f883a310bf8591ec8237cb0768755
 0x303100000000
-Asset 01 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(01)): 0x47a1a654d8746e0b7ec967f060065ffa2c931b3ecd1b506923715e528b378d85
+Asset 01 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(01)): 0x22ef074d7e2db8f705a52d5f1fe692258964e64e8a3e595639a662e27180ee06
 0x303200000000
-Asset 02 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(02)): 0x2a973c324e8b8d49308c0b48937d3cf0ff2b12b71aaa1166007beac936ac1aa2
+Asset 02 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(02)): 0x23df4c0ed82f06c6b669c983a34c84d4f01cd994deee73a5666511dcad575229
 0x303300000000
-Asset 03 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(03)): 0x0b7622234cf93c57addeefbf125709d9cb709cb063f42c3aeb529d7671f9897d
+Asset 03 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(03)): 0x504b0dcf623ae0d159462cb4b92e3bef854d6387b6d2d4fc822969c34898920f
 0x303600000000
-Asset 06 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(06)): 0xed5a7a7510e45443356297b86a2ec91d5815d7ab10dbf5b8ab882a23301e20b9
+Asset 06 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(06)): 0x318d24ddc3eef41c3aabad7d95f28aab93fb19ae2fdea73bfd0a1adb5f42308c
 0x313000000000
-Asset 10 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(10)): 0xcdb5243fb01036e6fa8f0dddc05ab669cec3b75d213d8b19cb4e1ec0dc4e059d
+Asset 10 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(10)): 0x19190317284ff4c0da3f5f6877439304759224a0e07845ed3dedb2b227ca84e9
 0x303400000000
-Asset 04 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(04)): 0x8769b5589848026d6be4c82fa3b2a15de58d1b1828f536fa792ea7702dc6a341
+Asset 04 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(04)): 0x0d765dd37a4d9958838828da2dd40c47e9e3cf80dbfea0fa04c5fc40ab5bdb14
 0x303700000000
-Asset 07 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(07)): 0xdd6e66d52ea692238226b720f0d0c545076b1e62ecfe4cc48776931ef487dc93
-cloak.plan(witch, join(01)): 0xcecade97fc02ad47e4248b28c99fa694076370cc17190f42cfd8205b5ca3804c
-Asset 01 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-cloak.plan(witch, join(02)): 0xa5d166b7f9ea5330704a83187e1d1286b4468ffcf5be0b89c0e51975e36242a7
-Asset 02 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-Proposal: 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
-Approved 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
+Asset 07 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(07)): 0xf68943f2735d5596e56f651211cf6dcb30b4477e6826c8ea2738867c67a833ac
+0x303900000000
+Asset 09 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(09)): 0xb8e70abcf293d86bd41a6e0f8b6900a3d599a527c28ccde3fb72ac9003ab0e30
+cloak.plan(witch, join(01)): 0x8d68988160bddfcbdd89885eedb2b5082bcc00ca677e0e214b8b20e24200eb97
+Asset 01 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+cloak.plan(witch, join(02)): 0x82082d043249265b79a02c76c26094d8bf15d75516feba842e539189f044ad2d
+Asset 02 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Proposal: 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
+Approving
+Approved 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
 No need to generate any newer typings.
 ChainId: 4
  AssetId      | Asset Address                            | Join Address
-0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x2555E5D167a59b545a25c81899eD15554C83DA0C
-0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0x7dD9F124C8a15f312CebF81419eC112C22802208
-0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x303000000000,0x67c5279f044A40746017Ae1edD8bb7573273aA8b,0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+0x303100000000,0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C,0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+0x303200000000,0xf4aDD9708888e654C042613843f413A8d6aDB8Fe,0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+0x303300000000,0x69A11AA0D394337570d84ce824a1ca6aFA0765DF,0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+0x303400000000,0xf9F4D9e05503D416E95f05831A95ff43c3A01182,0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+0x303600000000,0xfdf099372cded51a9dA9c0431707789f08B06C70,0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+0x303700000000,0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78,0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+0x313000000000,0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x303900000000,0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B,0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(00)): 0x78b649c1775df3d401c0e622af8616609fe492bb7ec1744515e654ea0c789ddb
+cloak.plan(ladle, join(00)): 0xdf3a671667cdb10a18db3af93eb39ce197a9af0d1813e64e125ad5235f1ed7ed
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(01)): 0x2bf594f2b1cbc4b50ecbdfaa69483124cf4a6621ddf06cb80fead67d74a9ee8d
+cloak.plan(ladle, join(01)): 0xdf40f95fee233cc3c6f84fbf9993f3ec8400befb697cf9d7de56dfb803925ad0
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(02)): 0x32e79c2d8be427f765f65d5b43b172247f53694585d1a1a7c817c44ec13f5c44
+cloak.plan(ladle, join(02)): 0x45e8fef779442e1a656b3d9b1a964c5cc3817c24c35d2fb8288a427b7f596c8e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(03)): 0xe2d6f2a8010501f7260ec95761b71a8c4d7472f053cd924d809442de83d82496
+cloak.plan(ladle, join(03)): 0x3aa8e48841ff2eceb96c90f14075ac6d88620fd658b52f5f0270c0f0b1f0064e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(04)): 0xc6e278ae048911c3d04e545d47661e21b034b43b4c681823485fde2697c1354b
+cloak.plan(ladle, join(04)): 0x6a144f444b09590a9215cb7c21398087bc7d6e58b135c1dd5c0ab0b5c07e5e5e
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(06)): 0x86cc274715fff4b643c45850a391331690994bc67db0d67e0ae6403de51267de
+cloak.plan(ladle, join(06)): 0x6ee0f0096b196c58739598adb8c31b3c4a05f3145010ee142a784ba37932f7ad
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(07)): 0x5653c22353f5ff83e3ea0c58af9405639f60a75c5b38ad7fc4aaa22e0bde1b03
+cloak.plan(ladle, join(07)): 0x90e3536966766ae563394d54648ab4a9643e2e2c70563ec41cf04cf3163d2217
 join.revokeRole(ROOT, deployer)
 join.grantRoles(gov, timelock)
 join.grantRole(ROOT, cloak)
-cloak.plan(ladle, join(10)): 0x92f8473139c94a9b63d782f8bd634fe96c763b69ec85600d80032c5bae5aec0f
+cloak.plan(ladle, join(10)): 0x9cc2e06bb5d241c5ca8c15f43935c24fa682db7f25d86aa824629da632c64bc0
+join.revokeRole(ROOT, deployer)
+join.grantRoles(gov, timelock)
+join.grantRole(ROOT, cloak)
+cloak.plan(ladle, join(09)): 0x2720a04093e755505a8741a5ca3bed8962c356457ac8c1309cd9eaf4fdde7570
 0x67c5279f044A40746017Ae1edD8bb7573273aA8b
-0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
-Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542
+0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
+Adding asset 0x303000000000 at 0x67c5279f044A40746017Ae1edD8bb7573273aA8b with join 0xF3Aa2B9bb83e01BE382De81636920B7dc1139117
 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C
-0x2555E5D167a59b545a25c81899eD15554C83DA0C
-Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x2555E5D167a59b545a25c81899eD15554C83DA0C
+0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
+Adding asset 0x303100000000 at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C with join 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1
 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe
-0x7dD9F124C8a15f312CebF81419eC112C22802208
-Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0x7dD9F124C8a15f312CebF81419eC112C22802208
+0xBB0c0f2abb55e371EE28A76226d2ad035E633589
+Adding asset 0x303200000000 at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe with join 0xBB0c0f2abb55e371EE28A76226d2ad035E633589
 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF
-0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
-Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f
+0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
+Adding asset 0x303300000000 at 0x69A11AA0D394337570d84ce824a1ca6aFA0765DF with join 0xF6e4D2B0E86596BEEd324190adBF71f4c6826469
 0xf9F4D9e05503D416E95f05831A95ff43c3A01182
-0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
-Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c
+0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
+Adding asset 0x303400000000 at 0xf9F4D9e05503D416E95f05831A95ff43c3A01182 with join 0x51973e7a17aBE59717B1bEcC8898011c1F53dEd4
 0xfdf099372cded51a9dA9c0431707789f08B06C70
-0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
-Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0x086B15D7620E7c0758F819E47Fc31F25C3b2815c
+0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
+Adding asset 0x303600000000 at 0xfdf099372cded51a9dA9c0431707789f08B06C70 with join 0xDE4B7eE8e94aA3eF68BfD97E3509d6C15d918Aa6
 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78
-0xbE1560cA39C51Dc380115058509D34dcd29d08a0
-Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0xbE1560cA39C51Dc380115058509D34dcd29d08a0
+0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
+Adding asset 0x303700000000 at 0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78 with join 0x049E2f3fD58735c116Ba02cd3eC2E76BC01D40D1
 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
-0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
-Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e
+0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+Adding asset 0x313000000000 at 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 with join 0x1B61eCf40C95c2Cd10B5127562f94081d4e845B2
+0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B
+0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
+Adding asset 0x303900000000 at 0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B with join 0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca
 0x303000000000
-Asset 00 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(00)): 0x3a43b5498d9771ffd91f625b39066148e5d7288819219c3b558309da75463487
+Asset 00 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(00)): 0x9912ff3eda3c71b7e6c6f35cd55c5f2c820f883a310bf8591ec8237cb0768755
 0x303100000000
-Asset 01 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(01)): 0x47a1a654d8746e0b7ec967f060065ffa2c931b3ecd1b506923715e528b378d85
+Asset 01 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(01)): 0x22ef074d7e2db8f705a52d5f1fe692258964e64e8a3e595639a662e27180ee06
 0x303200000000
-Asset 02 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(02)): 0x2a973c324e8b8d49308c0b48937d3cf0ff2b12b71aaa1166007beac936ac1aa2
+Asset 02 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(02)): 0x23df4c0ed82f06c6b669c983a34c84d4f01cd994deee73a5666511dcad575229
 0x303300000000
-Asset 03 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(03)): 0x0b7622234cf93c57addeefbf125709d9cb709cb063f42c3aeb529d7671f9897d
+Asset 03 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(03)): 0x504b0dcf623ae0d159462cb4b92e3bef854d6387b6d2d4fc822969c34898920f
 0x303600000000
-Asset 06 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(06)): 0xed5a7a7510e45443356297b86a2ec91d5815d7ab10dbf5b8ab882a23301e20b9
+Asset 06 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(06)): 0x318d24ddc3eef41c3aabad7d95f28aab93fb19ae2fdea73bfd0a1adb5f42308c
 0x313000000000
-Asset 10 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(10)): 0xcdb5243fb01036e6fa8f0dddc05ab669cec3b75d213d8b19cb4e1ec0dc4e059d
+Asset 10 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(10)): 0x19190317284ff4c0da3f5f6877439304759224a0e07845ed3dedb2b227ca84e9
 0x303400000000
-Asset 04 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(04)): 0x8769b5589848026d6be4c82fa3b2a15de58d1b1828f536fa792ea7702dc6a341
+Asset 04 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(04)): 0x0d765dd37a4d9958838828da2dd40c47e9e3cf80dbfea0fa04c5fc40ab5bdb14
 0x303700000000
-Asset 07 set as ilk on witch at 0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F
-cloak.plan(witch, join(07)): 0xdd6e66d52ea692238226b720f0d0c545076b1e62ecfe4cc48776931ef487dc93
-cloak.plan(witch, join(01)): 0xcecade97fc02ad47e4248b28c99fa694076370cc17190f42cfd8205b5ca3804c
-Asset 01 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-cloak.plan(witch, join(02)): 0xa5d166b7f9ea5330704a83187e1d1286b4468ffcf5be0b89c0e51975e36242a7
-Asset 02 made into base using 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482
-Proposal: 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
-Executed 0xae9c50176a57d74ec8ca0267fe076780a380d747984b7adb4492834ba69249f9
+Asset 07 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(07)): 0xf68943f2735d5596e56f651211cf6dcb30b4477e6826c8ea2738867c67a833ac
+0x303900000000
+Asset 09 set as ilk on witch at 0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75
+cloak.plan(witch, join(09)): 0xb8e70abcf293d86bd41a6e0f8b6900a3d599a527c28ccde3fb72ac9003ab0e30
+cloak.plan(witch, join(01)): 0x8d68988160bddfcbdd89885eedb2b5082bcc00ca677e0e214b8b20e24200eb97
+Asset 01 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+cloak.plan(witch, join(02)): 0x82082d043249265b79a02c76c26094d8bf15d75516feba842e539189f044ad2d
+Asset 02 made into base using 0xe3D47c23c7EBddF81702421657fF7836d700bDF4
+Proposal: 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
+Executing
+Executed 0x76ad1a7ed1d7f3b198490a7e95a41b731e7ea32853775b8da661664243a7fc91
 No need to generate any newer typings.
 ChainId: 4
-Using fyToken at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130350000 for 0x303100000000 using 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443
-Adding 0x303130350000 pool to Ladle using 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
+Using fyToken at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 for 0x303130350000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130350000 for 0x303100000000 using 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+Adding 0x303130350000 pool to Ladle using 0x267492335dACa54753f0CAf9903d81ac8d44B32B
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0105)): 0x3b2c2505d43102b41374487bffc1222d4fb443dede60d3e1154433ae600b8b33
-cloak.plan(fyToken, join(01)): 0xc6920b7bfbc073969c2b733c87d742e55eae5af2f0f3d0fb147b72c4e3fe38a4
-Using fyToken at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230350000 for 0x303200000000 using 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb
-Adding 0x303230350000 pool to Ladle using 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
+cloak.plan(ladle, fyToken(0105)): 0x6ed673725b8348bdc4950808526a28bdd4d15a7488bc2730077e51abc91e4646
+cloak.plan(fyToken, join(01)): 0x36d5dfd71c0f9c8fee9af18ee9f43f06ab1aed8ad9d2e2ce4b1d1fe748e1502e
+Using fyToken at 0x28F95B33c908048E273155D904cCA598AcB27B4D for 0x303230350000
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230350000 for 0x303200000000 using 0x28F95B33c908048E273155D904cCA598AcB27B4D
+Adding 0x303230350000 pool to Ladle using 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0205)): 0xd80fa8af1145ab8e8a696b607cda6e8e23a09d2d19d709410f865b8c6acfb201
-cloak.plan(fyToken, join(02)): 0x5181038b5160ebb30f02284a85196fae00616ba3a5bc60cd42415e8896a35298
-Using fyToken at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130360000 for 0x303100000000 using 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443
-Adding 0x303130360000 pool to Ladle using 0x6724515a6924D6A44d3970B85B83C5C1D717d410
+cloak.plan(ladle, fyToken(0205)): 0xa4b5932dcbe07081d8aaa91229b86370d4175297a26f9e486cede585cb53ac76
+cloak.plan(fyToken, join(02)): 0xed1bc99927182862b92e26751939a9e507f26912211e348c7ff1639060019489
+Using fyToken at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 for 0x303130360000
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130360000 for 0x303100000000 using 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+Adding 0x303130360000 pool to Ladle using 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0106)): 0xef39a564cf845820aeb701b544f386cee5c1b60e1c2d6f47bb9dbb1f427f315f
-cloak.plan(fyToken, join(01)): 0xce5a44651170d60f082bf848f30ec4dee5d1bf2cd2ad052fc408bfe6e37875d3
-Using fyToken at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230360000 for 0x303200000000 using 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE
-Adding 0x303230360000 pool to Ladle using 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
+cloak.plan(ladle, fyToken(0106)): 0xbf763147c686415004b1ede51cd4ae22b5ea1adef95a8ab1704e46f95fd72bf8
+cloak.plan(fyToken, join(01)): 0xb47b8f456dbd0c6410498dc84acd762adeec4cea703f32b77c065d727dd680bd
+Using fyToken at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 for 0x303230360000
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230360000 for 0x303200000000 using 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+Adding 0x303230360000 pool to Ladle using 0xf83fbf7C425FBc891DDa42957736f45c06410b51
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0206)): 0x73c4addf11e759ba9ad10494d2799d7c6d58612e871846444927c0644ad91d17
-cloak.plan(fyToken, join(02)): 0xa8cf1fc480f9b0c3e3d26d74b7f7e118a9147e870a55cc0610f61a9c1e7b8ce3
-Updating 0x303130350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+cloak.plan(ladle, fyToken(0206)): 0x50f7a183b506c1563fe6d1c2ae37c912ae8ab05211fe33b367e818fc9fdbe49e
+cloak.plan(fyToken, join(02)): 0x455e881b163eadeb9f3d1b849db6774795c9d1e8f5c34c5472b613f45e6b8f3e
+Updating 0x303130350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0105: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303130360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+Updating 0x303230350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Updating 0x303130360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0106: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Initializing FYDAI2203LP at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
-Initialized FYDAI2203LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Initializing FYUSDC2203LP at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
-Initialized FYUSDC2203LP with 100000000 base and 48000000 fyToken
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Initializing FYDAI2206LP at 0x6724515a6924D6A44d3970B85B83C5C1D717d410
-Initialized FYDAI2206LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Initializing FYUSDC2206LP at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
-Initialized FYUSDC2206LP with 100000000 base and 48000000 fyToken
-Proposal: 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
-Proposed 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
+Updating 0x303230360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2203LP at 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2203LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2203LP at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2203LP with 100000000 base and 0 fyToken
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2206LP at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2206LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2206LP at 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2206LP with 100000000 base and 0 fyToken
+Proposal: 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
+Proposing
+Proposed 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
 No need to generate any newer typings.
 ChainId: 4
-Using fyToken at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130350000 for 0x303100000000 using 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443
-Adding 0x303130350000 pool to Ladle using 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
+Using fyToken at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 for 0x303130350000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130350000 for 0x303100000000 using 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+Adding 0x303130350000 pool to Ladle using 0x267492335dACa54753f0CAf9903d81ac8d44B32B
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0105)): 0x3b2c2505d43102b41374487bffc1222d4fb443dede60d3e1154433ae600b8b33
-cloak.plan(fyToken, join(01)): 0xc6920b7bfbc073969c2b733c87d742e55eae5af2f0f3d0fb147b72c4e3fe38a4
-Using fyToken at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230350000 for 0x303200000000 using 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb
-Adding 0x303230350000 pool to Ladle using 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
+cloak.plan(ladle, fyToken(0105)): 0x6ed673725b8348bdc4950808526a28bdd4d15a7488bc2730077e51abc91e4646
+cloak.plan(fyToken, join(01)): 0x36d5dfd71c0f9c8fee9af18ee9f43f06ab1aed8ad9d2e2ce4b1d1fe748e1502e
+Using fyToken at 0x28F95B33c908048E273155D904cCA598AcB27B4D for 0x303230350000
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230350000 for 0x303200000000 using 0x28F95B33c908048E273155D904cCA598AcB27B4D
+Adding 0x303230350000 pool to Ladle using 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0205)): 0xd80fa8af1145ab8e8a696b607cda6e8e23a09d2d19d709410f865b8c6acfb201
-cloak.plan(fyToken, join(02)): 0x5181038b5160ebb30f02284a85196fae00616ba3a5bc60cd42415e8896a35298
-Using fyToken at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130360000 for 0x303100000000 using 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443
-Adding 0x303130360000 pool to Ladle using 0x6724515a6924D6A44d3970B85B83C5C1D717d410
+cloak.plan(ladle, fyToken(0205)): 0xa4b5932dcbe07081d8aaa91229b86370d4175297a26f9e486cede585cb53ac76
+cloak.plan(fyToken, join(02)): 0xed1bc99927182862b92e26751939a9e507f26912211e348c7ff1639060019489
+Using fyToken at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 for 0x303130360000
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130360000 for 0x303100000000 using 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+Adding 0x303130360000 pool to Ladle using 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0106)): 0xef39a564cf845820aeb701b544f386cee5c1b60e1c2d6f47bb9dbb1f427f315f
-cloak.plan(fyToken, join(01)): 0xce5a44651170d60f082bf848f30ec4dee5d1bf2cd2ad052fc408bfe6e37875d3
-Using fyToken at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230360000 for 0x303200000000 using 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE
-Adding 0x303230360000 pool to Ladle using 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
+cloak.plan(ladle, fyToken(0106)): 0xbf763147c686415004b1ede51cd4ae22b5ea1adef95a8ab1704e46f95fd72bf8
+cloak.plan(fyToken, join(01)): 0xb47b8f456dbd0c6410498dc84acd762adeec4cea703f32b77c065d727dd680bd
+Using fyToken at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 for 0x303230360000
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230360000 for 0x303200000000 using 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+Adding 0x303230360000 pool to Ladle using 0xf83fbf7C425FBc891DDa42957736f45c06410b51
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0206)): 0x73c4addf11e759ba9ad10494d2799d7c6d58612e871846444927c0644ad91d17
-cloak.plan(fyToken, join(02)): 0xa8cf1fc480f9b0c3e3d26d74b7f7e118a9147e870a55cc0610f61a9c1e7b8ce3
-Updating 0x303130350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+cloak.plan(ladle, fyToken(0206)): 0x50f7a183b506c1563fe6d1c2ae37c912ae8ab05211fe33b367e818fc9fdbe49e
+cloak.plan(fyToken, join(02)): 0x455e881b163eadeb9f3d1b849db6774795c9d1e8f5c34c5472b613f45e6b8f3e
+Updating 0x303130350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0105: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303130360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+Updating 0x303230350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Updating 0x303130360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0106: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Initializing FYDAI2203LP at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
-Initialized FYDAI2203LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Initializing FYUSDC2203LP at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
-Initialized FYUSDC2203LP with 100000000 base and 48000000 fyToken
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Initializing FYDAI2206LP at 0x6724515a6924D6A44d3970B85B83C5C1D717d410
-Initialized FYDAI2206LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Initializing FYUSDC2206LP at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
-Initialized FYUSDC2206LP with 100000000 base and 48000000 fyToken
-Proposal: 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
-Approved 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
+Updating 0x303230360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2203LP at 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2203LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2203LP at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2203LP with 100000000 base and 0 fyToken
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2206LP at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2206LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2206LP at 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2206LP with 100000000 base and 0 fyToken
+Proposal: 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
+Approving
+Approved 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
 No need to generate any newer typings.
 ChainId: 4
-Using fyToken at 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443 for 0x303130350000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130350000 for 0x303100000000 using 0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443
-Adding 0x303130350000 pool to Ladle using 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
+Using fyToken at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 for 0x303130350000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130350000 for 0x303100000000 using 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+Adding 0x303130350000 pool to Ladle using 0x267492335dACa54753f0CAf9903d81ac8d44B32B
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0105)): 0x3b2c2505d43102b41374487bffc1222d4fb443dede60d3e1154433ae600b8b33
-cloak.plan(fyToken, join(01)): 0xc6920b7bfbc073969c2b733c87d742e55eae5af2f0f3d0fb147b72c4e3fe38a4
-Using fyToken at 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb for 0x303230350000
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230350000 for 0x303200000000 using 0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb
-Adding 0x303230350000 pool to Ladle using 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
+cloak.plan(ladle, fyToken(0105)): 0x6ed673725b8348bdc4950808526a28bdd4d15a7488bc2730077e51abc91e4646
+cloak.plan(fyToken, join(01)): 0x36d5dfd71c0f9c8fee9af18ee9f43f06ab1aed8ad9d2e2ce4b1d1fe748e1502e
+Using fyToken at 0x28F95B33c908048E273155D904cCA598AcB27B4D for 0x303230350000
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230350000 for 0x303200000000 using 0x28F95B33c908048E273155D904cCA598AcB27B4D
+Adding 0x303230350000 pool to Ladle using 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0205)): 0xd80fa8af1145ab8e8a696b607cda6e8e23a09d2d19d709410f865b8c6acfb201
-cloak.plan(fyToken, join(02)): 0x5181038b5160ebb30f02284a85196fae00616ba3a5bc60cd42415e8896a35298
-Using fyToken at 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443 for 0x303130360000
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Using join at 0x2555E5D167a59b545a25c81899eD15554C83DA0C for 0x303100000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303100000000
-Adding 0x303130360000 for 0x303100000000 using 0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443
-Adding 0x303130360000 pool to Ladle using 0x6724515a6924D6A44d3970B85B83C5C1D717d410
+cloak.plan(ladle, fyToken(0205)): 0xa4b5932dcbe07081d8aaa91229b86370d4175297a26f9e486cede585cb53ac76
+cloak.plan(fyToken, join(02)): 0xed1bc99927182862b92e26751939a9e507f26912211e348c7ff1639060019489
+Using fyToken at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 for 0x303130360000
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130360000 for 0x303100000000 using 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+Adding 0x303130360000 pool to Ladle using 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0106)): 0xef39a564cf845820aeb701b544f386cee5c1b60e1c2d6f47bb9dbb1f427f315f
-cloak.plan(fyToken, join(01)): 0xce5a44651170d60f082bf848f30ec4dee5d1bf2cd2ad052fc408bfe6e37875d3
-Using fyToken at 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE for 0x303230360000
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Using join at 0x7dD9F124C8a15f312CebF81419eC112C22802208 for 0x303200000000
-Using oracle at 0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482 for 0x303200000000
-Adding 0x303230360000 for 0x303200000000 using 0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE
-Adding 0x303230360000 pool to Ladle using 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
+cloak.plan(ladle, fyToken(0106)): 0xbf763147c686415004b1ede51cd4ae22b5ea1adef95a8ab1704e46f95fd72bf8
+cloak.plan(fyToken, join(01)): 0xb47b8f456dbd0c6410498dc84acd762adeec4cea703f32b77c065d727dd680bd
+Using fyToken at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 for 0x303230360000
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230360000 for 0x303200000000 using 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+Adding 0x303230360000 pool to Ladle using 0xf83fbf7C425FBc891DDa42957736f45c06410b51
 join.grantRoles(join/exit, fyToken)
 fyToken.grantRoles(mint/burn, ladle)
 fyToken.grantRoles(gov, timelock)
 fyToken.revokeRole(ROOT, deployer)
 fyToken.grantRole(ROOT, cloak)
-cloak.plan(ladle, fyToken(0206)): 0x73c4addf11e759ba9ad10494d2799d7c6d58612e871846444927c0644ad91d17
-cloak.plan(fyToken, join(02)): 0xa8cf1fc480f9b0c3e3d26d74b7f7e118a9147e870a55cc0610f61a9c1e7b8ce3
-Updating 0x303130350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+cloak.plan(ladle, fyToken(0206)): 0x50f7a183b506c1563fe6d1c2ae37c912ae8ab05211fe33b367e818fc9fdbe49e
+cloak.plan(fyToken, join(02)): 0x455e881b163eadeb9f3d1b849db6774795c9d1e8f5c34c5472b613f45e6b8f3e
+Updating 0x303130350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0105: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230350000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303130360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
+Updating 0x303230350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Updating 0x303130360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
 addIlks 0106: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Updating 0x303230360000 (0x0000000000000000000000000000000000000000,0x000000000000,0)
-addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
-Using pool at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f for 0x303130350000
-Initializing FYDAI2203LP at 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f
-Initialized FYDAI2203LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 for 0x303230350000
-Initializing FYUSDC2203LP at 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984
-Initialized FYUSDC2203LP with 100000000 base and 48000000 fyToken
-Using pool at 0x6724515a6924D6A44d3970B85B83C5C1D717d410 for 0x303130360000
-Initializing FYDAI2206LP at 0x6724515a6924D6A44d3970B85B83C5C1D717d410
-Initialized FYDAI2206LP with 100000000000000000000 base and 32000000000000000000 fyToken
-Using pool at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F for 0x303230360000
-Initializing FYUSDC2206LP at 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F
-Initialized FYUSDC2206LP with 100000000 base and 48000000 fyToken
-Proposal: 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
-Executed 0x67fb7ec8fa31c2ec4e5b147b75ecc43236e9d0ee972469cbce5a8b9bb95e0df3
+Updating 0x303230360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2203LP at 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2203LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2203LP at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2203LP with 100000000 base and 0 fyToken
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2206LP at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2206LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2206LP at 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2206LP with 100000000 base and 0 fyToken
+Proposal: 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
+Executing
+No need to generate any newer typings.
+ChainId: 4
+Using fyToken at 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47 for 0x303130350000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130350000 for 0x303100000000 using 0x60513f808AEBf5F6D4a9db0c3E8f3F01880dab47
+Adding 0x303130350000 pool to Ladle using 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+join.grantRoles(join/exit, fyToken)
+fyToken.grantRoles(mint/burn, ladle)
+fyToken.grantRoles(gov, timelock)
+fyToken.revokeRole(ROOT, deployer)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0105)): 0x6ed673725b8348bdc4950808526a28bdd4d15a7488bc2730077e51abc91e4646
+cloak.plan(fyToken, join(01)): 0x36d5dfd71c0f9c8fee9af18ee9f43f06ab1aed8ad9d2e2ce4b1d1fe748e1502e
+Using fyToken at 0x28F95B33c908048E273155D904cCA598AcB27B4D for 0x303230350000
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230350000 for 0x303200000000 using 0x28F95B33c908048E273155D904cCA598AcB27B4D
+Adding 0x303230350000 pool to Ladle using 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+join.grantRoles(join/exit, fyToken)
+fyToken.grantRoles(mint/burn, ladle)
+fyToken.grantRoles(gov, timelock)
+fyToken.revokeRole(ROOT, deployer)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0205)): 0xa4b5932dcbe07081d8aaa91229b86370d4175297a26f9e486cede585cb53ac76
+cloak.plan(fyToken, join(02)): 0xed1bc99927182862b92e26751939a9e507f26912211e348c7ff1639060019489
+Using fyToken at 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71 for 0x303130360000
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Using join at 0x6762a3Bc13db0A9EE98A4760056CF08Ca440F0D1 for 0x303100000000
+Adding 0x303130360000 for 0x303100000000 using 0x6b3256Fd41B8E6A2330393EB5eCe0d9eD4F64a71
+Adding 0x303130360000 pool to Ladle using 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+join.grantRoles(join/exit, fyToken)
+fyToken.grantRoles(mint/burn, ladle)
+fyToken.grantRoles(gov, timelock)
+fyToken.revokeRole(ROOT, deployer)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0106)): 0xbf763147c686415004b1ede51cd4ae22b5ea1adef95a8ab1704e46f95fd72bf8
+cloak.plan(fyToken, join(01)): 0xb47b8f456dbd0c6410498dc84acd762adeec4cea703f32b77c065d727dd680bd
+Using fyToken at 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0 for 0x303230360000
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Using join at 0xBB0c0f2abb55e371EE28A76226d2ad035E633589 for 0x303200000000
+Adding 0x303230360000 for 0x303200000000 using 0xEB0304ceE81aF4D0da2C939749996FF83dEF65a0
+Adding 0x303230360000 pool to Ladle using 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+join.grantRoles(join/exit, fyToken)
+fyToken.grantRoles(mint/burn, ladle)
+fyToken.grantRoles(gov, timelock)
+fyToken.revokeRole(ROOT, deployer)
+fyToken.grantRole(ROOT, cloak)
+cloak.plan(ladle, fyToken(0206)): 0x50f7a183b506c1563fe6d1c2ae37c912ae8ab05211fe33b367e818fc9fdbe49e
+cloak.plan(fyToken, join(02)): 0x455e881b163eadeb9f3d1b849db6774795c9d1e8f5c34c5472b613f45e6b8f3e
+Updating 0x303130350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
+addIlks 0105: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
+Updating 0x303230350000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0205: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Updating 0x303130360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000 ilks
+addIlks 0106: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x313000000000
+Updating 0x303230360000 series with 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000 ilks
+addIlks 0206: 0x303000000000,0x303100000000,0x303200000000,0x303300000000,0x303400000000,0x303600000000,0x303700000000,0x303900000000,0x313000000000
+Using pool at 0x267492335dACa54753f0CAf9903d81ac8d44B32B for 0x303130350000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2203LP at 0x267492335dACa54753f0CAf9903d81ac8d44B32B
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2203LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a for 0x303230350000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2203LP at 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2203LP with 100000000 base and 0 fyToken
+Using pool at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 for 0x303130360000
+Timelock balance of 0x303100000000 is 1000000000000000000000
+Transferring 100000000000000000000 of 0x303100000000 from Timelock to Pool
+Initializing FYDAI2206LP at 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40
+Transferring 0 of 0x303100000000 from Timelock to Join
+Initialized FYDAI2206LP with 100000000000000000000 base and 0 fyToken
+Using pool at 0xf83fbf7C425FBc891DDa42957736f45c06410b51 for 0x303230360000
+Timelock balance of 0x303200000000 is 10000000000
+Transferring 100000000 of 0x303200000000 from Timelock to Pool
+Initializing FYUSDC2206LP at 0xf83fbf7C425FBc891DDa42957736f45c06410b51
+Transferring 0 of 0x303200000000 from Timelock to Join
+Initialized FYUSDC2206LP with 100000000 base and 0 fyToken
+Proposal: 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
+Executing
+Executed 0x778d94a19f6c2b1a51ca492c338d5c2e09274c7658d360d49bc98b4716efb9f0
 No need to generate any newer typings.
 ChainId: 4
 Using Dai Stablecoin at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C as base
-Strategy deployed at '0x8468B9154D777Dc4520fDA275d30D8D663841C1d'
-npx hardhat verify --network rinkeby 0x8468B9154D777Dc4520fDA275d30D8D663841C1d Yield Strategy DAI 6M Mar Sep YSDAI6MMS 0x45f502A7358ec631c7a422270922d7dFA142cb9C 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x303100000000 --libraries safeERC20Namer.js
+Strategy deployed at '0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC'
+npx hardhat verify --network rinkeby 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC Yield Strategy DAI 6M Mar Sep YSDAI6MMS 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x303100000000 --libraries safeERC20Namer.js
 strategy.grantRoles(ROOT, timelock)
 Using Dai Stablecoin at 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C as base
-Strategy deployed at '0x6020a656a0421aFd96b02523D17fA23E206CD453'
-npx hardhat verify --network rinkeby 0x6020a656a0421aFd96b02523D17fA23E206CD453 Yield Strategy DAI 6M Jun Dec YSDAI6MJD 0x45f502A7358ec631c7a422270922d7dFA142cb9C 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x303100000000 --libraries safeERC20Namer.js
+Strategy deployed at '0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7'
+npx hardhat verify --network rinkeby 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7 Yield Strategy DAI 6M Jun Dec YSDAI6MJD 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C 0x303100000000 --libraries safeERC20Namer.js
 strategy.grantRoles(ROOT, timelock)
 Using USD Coin at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe as base
-Strategy deployed at '0x1a017DBc08317b105E266139F888c7ae6eDd6a0F'
-npx hardhat verify --network rinkeby 0x1a017DBc08317b105E266139F888c7ae6eDd6a0F Yield Strategy USDC 6M Mar Sep YSUSDC6MMS 0x45f502A7358ec631c7a422270922d7dFA142cb9C 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0x303200000000 --libraries safeERC20Namer.js
+Strategy deployed at '0x5138B42096673b38F5c4935D75117B7B443B7CcB'
+npx hardhat verify --network rinkeby 0x5138B42096673b38F5c4935D75117B7B443B7CcB Yield Strategy USDC 6M Mar Sep YSUSDC6MMS 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0x303200000000 --libraries safeERC20Namer.js
 strategy.grantRoles(ROOT, timelock)
 Using USD Coin at 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe as base
-Strategy deployed at '0xc946e0b5e815a7b22F563a569895663BE54f152A'
-npx hardhat verify --network rinkeby 0xc946e0b5e815a7b22F563a569895663BE54f152A Yield Strategy USDC 6M Jun Dec YSUSDC6MJD 0x45f502A7358ec631c7a422270922d7dFA142cb9C 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0x303200000000 --libraries safeERC20Namer.js
+Strategy deployed at '0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7'
+npx hardhat verify --network rinkeby 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7 Yield Strategy USDC 6M Jun Dec YSUSDC6MJD 0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe 0x303200000000 --libraries safeERC20Namer.js
 strategy.grantRoles(ROOT, timelock)
 No need to generate any newer typings.
 ChainId: 4
@@ -732,132 +1185,116 @@ strategy(YSUSDC6MMS).grantRoles(gov, timelock)
 strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
 strategy(YSUSDC6MJD).grantRoles(gov, timelock)
 strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
-Proposal: 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-Proposed 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-No need to generate any newer typings.
-ChainId: 4
-strategy(YSDAI6MMS).grantRoles(gov, timelock)
-strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
-strategy(YSDAI6MJD).grantRoles(gov, timelock)
-strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MMS).grantRoles(gov, timelock)
-strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MJD).grantRoles(gov, timelock)
-strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
-Proposal: 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-Approved 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-No need to generate any newer typings.
-ChainId: 4
-strategy(YSDAI6MMS).grantRoles(gov, timelock)
-strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
-strategy(YSDAI6MJD).grantRoles(gov, timelock)
-strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MMS).grantRoles(gov, timelock)
-strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MJD).grantRoles(gov, timelock)
-strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
-Proposal: 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-No need to generate any newer typings.
-ChainId: 4
-strategy(YSDAI6MMS).grantRoles(gov, timelock)
-strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
-strategy(YSDAI6MJD).grantRoles(gov, timelock)
-strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MMS).grantRoles(gov, timelock)
-strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MJD).grantRoles(gov, timelock)
-strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
-Proposal: 0x319e51da58a9680701e161a640381e339713caa280b0467b8c5626dc8cc2cc73
-No need to generate any newer typings.
-ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-strategy(YSDAI6MMS).grantRoles(gov, timelock)
-strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
-strategy(YSDAI6MJD).grantRoles(gov, timelock)
-strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MMS).grantRoles(gov, timelock)
-strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
-strategy(YSUSDC6MJD).grantRoles(gov, timelock)
-strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
-Proposal: 0x8784b5aa243e93f390be1951016988405f0611b47ddf11547c05fb21c5f60aa8
-Proposed 0x8784b5aa243e93f390be1951016988405f0611b47ddf11547c05fb21c5f60aa8
-No need to generate any newer typings.
-ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Proposed 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-No need to generate any newer typings.
-ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Running on a fork, impersonating multisig at 0x5ad7799f02d5a829b2d6fa085e6bd69a872619d5
-Approved 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-No need to generate any newer typings.
-ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Executed 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-No need to generate any newer typings.
-ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Setting 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f as the next pool for YSDAI6MMS
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x8468B9154D777Dc4520fDA275d30D8D663841C1d
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x267492335dACa54753f0CAf9903d81ac8d44B32B as the next pool for YSDAI6MMS
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Starting YSDAI6MMS at 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Burning strategy tokens
 Setting YSDAI6MMS as an integration in the Ladle
 Setting YSDAI6MMS as a token in the Ladle
-Setting 0x6724515a6924D6A44d3970B85B83C5C1D717d410 as the next pool for YSDAI6MJD
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x6020a656a0421aFd96b02523D17fA23E206CD453
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 as the next pool for YSDAI6MJD
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Starting YSDAI6MJD at 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Burning strategy tokens
 Setting YSDAI6MJD as an integration in the Ladle
 Setting YSDAI6MJD as a token in the Ladle
-Setting 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 as the next pool for YSUSDC6MMS
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x1a017DBc08317b105E266139F888c7ae6eDd6a0F
+Timelock balance of USD Coin is 9800000000
+Setting 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a as the next pool for YSUSDC6MMS
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Starting YSUSDC6MMS at 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Burning strategy tokens
 Setting YSUSDC6MMS as an integration in the Ladle
 Setting YSUSDC6MMS as a token in the Ladle
-Setting 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F as the next pool for YSUSDC6MJD
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xc946e0b5e815a7b22F563a569895663BE54f152A
+Timelock balance of USD Coin is 9800000000
+Setting 0xf83fbf7C425FBc891DDa42957736f45c06410b51 as the next pool for YSUSDC6MJD
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Starting YSUSDC6MJD at 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Burning strategy tokens
 Setting YSUSDC6MJD as an integration in the Ladle
 Setting YSUSDC6MJD as a token in the Ladle
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Proposed 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
+Proposal: 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09
+Proposing
+Proposed 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09
 No need to generate any newer typings.
 ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Setting 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f as the next pool for YSDAI6MMS
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x8468B9154D777Dc4520fDA275d30D8D663841C1d
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x267492335dACa54753f0CAf9903d81ac8d44B32B as the next pool for YSDAI6MMS
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Starting YSDAI6MMS at 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Burning strategy tokens
 Setting YSDAI6MMS as an integration in the Ladle
 Setting YSDAI6MMS as a token in the Ladle
-Setting 0x6724515a6924D6A44d3970B85B83C5C1D717d410 as the next pool for YSDAI6MJD
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x6020a656a0421aFd96b02523D17fA23E206CD453
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 as the next pool for YSDAI6MJD
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Starting YSDAI6MJD at 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Burning strategy tokens
 Setting YSDAI6MJD as an integration in the Ladle
 Setting YSDAI6MJD as a token in the Ladle
-Setting 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 as the next pool for YSUSDC6MMS
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x1a017DBc08317b105E266139F888c7ae6eDd6a0F
+Timelock balance of USD Coin is 9800000000
+Setting 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a as the next pool for YSUSDC6MMS
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Starting YSUSDC6MMS at 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Burning strategy tokens
 Setting YSUSDC6MMS as an integration in the Ladle
 Setting YSUSDC6MMS as a token in the Ladle
-Setting 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F as the next pool for YSUSDC6MJD
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xc946e0b5e815a7b22F563a569895663BE54f152A
+Timelock balance of USD Coin is 9800000000
+Setting 0xf83fbf7C425FBc891DDa42957736f45c06410b51 as the next pool for YSUSDC6MJD
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Starting YSUSDC6MJD at 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Burning strategy tokens
 Setting YSUSDC6MJD as an integration in the Ladle
 Setting YSUSDC6MJD as a token in the Ladle
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Running on a fork, impersonating multisig at 0x5ad7799f02d5a829b2d6fa085e6bd69a872619d5
-Approved 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
+Proposal: 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09
+Approving
+Approved 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09
 No need to generate any newer typings.
 ChainId: 4
-Running on a fork, impersonating 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
-Setting 0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f as the next pool for YSDAI6MMS
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x8468B9154D777Dc4520fDA275d30D8D663841C1d
+strategy(YSDAI6MMS).grantRoles(gov, timelock)
+strategy(YSDAI6MMS).revokeRole(ROOT, deployer)
+strategy(YSDAI6MJD).grantRoles(gov, timelock)
+strategy(YSDAI6MJD).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MMS).grantRoles(gov, timelock)
+strategy(YSUSDC6MMS).revokeRole(ROOT, deployer)
+strategy(YSUSDC6MJD).grantRoles(gov, timelock)
+strategy(YSUSDC6MJD).revokeRole(ROOT, deployer)
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x267492335dACa54753f0CAf9903d81ac8d44B32B as the next pool for YSDAI6MMS
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Starting YSDAI6MMS at 0x03Aa1A51ECDDe7b64bCBbF6e8D9f376A06d48BaC
+Burning strategy tokens
 Setting YSDAI6MMS as an integration in the Ladle
 Setting YSDAI6MMS as a token in the Ladle
-Setting 0x6724515a6924D6A44d3970B85B83C5C1D717d410 as the next pool for YSDAI6MJD
-Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x6020a656a0421aFd96b02523D17fA23E206CD453
+Timelock balance of Dai Stablecoin is 800000000000000000000
+Setting 0x5D8B6F4bAc0449666BB19fBcd8Bb911F64106d40 as the next pool for YSDAI6MJD
+Transferring 100000000000000000000 of 0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C to 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Starting YSDAI6MJD at 0x9a0Debb95aCCc0a068e2257F4F5Aa6d23bfCC8a7
+Burning strategy tokens
 Setting YSDAI6MJD as an integration in the Ladle
 Setting YSDAI6MJD as a token in the Ladle
-Setting 0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984 as the next pool for YSUSDC6MMS
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x1a017DBc08317b105E266139F888c7ae6eDd6a0F
+Timelock balance of USD Coin is 9800000000
+Setting 0xce5dC08CA25429c135713D2b4c8C3CA732C4D37a as the next pool for YSUSDC6MMS
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Starting YSUSDC6MMS at 0x5138B42096673b38F5c4935D75117B7B443B7CcB
+Burning strategy tokens
 Setting YSUSDC6MMS as an integration in the Ladle
 Setting YSUSDC6MMS as a token in the Ladle
-Setting 0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F as the next pool for YSUSDC6MJD
-Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xc946e0b5e815a7b22F563a569895663BE54f152A
+Timelock balance of USD Coin is 9800000000
+Setting 0xf83fbf7C425FBc891DDa42957736f45c06410b51 as the next pool for YSUSDC6MJD
+Transferring 100000000 of 0xf4aDD9708888e654C042613843f413A8d6aDB8Fe to 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Starting YSUSDC6MJD at 0xbA39587E5F6A63BefCEfE9FB6CF67705a8f13AF7
+Burning strategy tokens
 Setting YSUSDC6MJD as an integration in the Ladle
 Setting YSUSDC6MJD as a token in the Ladle
-Proposal: 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
-Executed 0xc2cda2660da6faeb5f5257d8f418edf714441e8d2f5faead014906f2db9a722b
+Proposal: 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09
+Executing
+Executed 0x933303aa36a455bc2664cdd665a86b1dd0bde990358d7fc5b25b1a8abe443b09

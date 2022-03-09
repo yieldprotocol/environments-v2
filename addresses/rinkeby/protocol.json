@@ -3,67 +3,67 @@
   "value": [
     [
       "yieldMath",
-      "0x6AEe94A96baCDc528D13c230F1fB3e608B75DEcC"
+      "0xBE396E88D1D49E3877B021CC2C4a301810567fbD"
     ],
     [
       "yieldMathExtensions",
-      "0x45dF029725e83bEc95e781E9c25E077616f24218"
+      "0xC4a51A7546d6c658dF83070f1399864ECcbea81d"
     ],
     [
       "poolView",
-      "0x5b03763731ccf9ea5DcF731652C59d6fDbFFbEB7"
+      "0x0eC4e4e96d63E09CCcE9a7Bcc9Da58d1cb712A47"
     ],
     [
       "safeERC20Namer",
-      "0xeF76d796ea2Bb0b2422D4d49cAaE78223379A7c5"
+      "0x9b1445a38891230dCCEfc9057C8B408360a60B9F"
+    ],
+    [
+      "timelock",
+      "0x1BE7654F12BFC3ea2C53d05E512033d5a634c2b5"
+    ],
+    [
+      "cloak",
+      "0x31dd14b0a48939d51852B6e1b8b5F0cdc6Bb5859"
     ],
     [
       "chainlinkOracle",
-      "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+      "0xACD6af7bf3555C63686952C65b4a1D5E51c4586b"
     ],
     [
       "compoundOracle",
-      "0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482"
+      "0xe3D47c23c7EBddF81702421657fF7836d700bDF4"
     ],
     [
       "compositeOracle",
-      "0x8482BF1e17ceF57109F34C259d39d5B9BB9A4e13"
+      "0x577DA88C253095b874941dda194a6c59489E644f"
     ],
     [
       "lidoOracle",
-      "0x7912346eefb55E76BFaff617C808f69C759192ef"
+      "0xb0e314734B561eF7079E6D3e78e6F17211178f26"
     ],
     [
       "uniswapOracle",
-      "0x401c5Cd7E99eB396d0Bb39Be955DfD8063e76676"
+      "0x955c6FD1e1312Def99A30923339606bbd8fA0333"
     ],
     [
       "yearnOracle",
-      "0x88175a3e14F905ecCe464aF2A8E99f26159d4Cb8"
+      "0x392333A9d4CfCC529a7DA3F6021c5dfc6C54e1EF"
     ],
     [
       "cauldron",
-      "0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3"
+      "0x01519969787493e250e147cF1373AE0559176550"
     ],
     [
       "ladle",
-      "0x45f502A7358ec631c7a422270922d7dFA142cb9C"
+      "0xD1A5839E75C57A86FCeDf732DD12f72F05F39B6F"
     ],
     [
       "router",
-      "0x9Bba4568E6246e859923C107555b6e0d64dB9708"
+      "0xe5Ee27E50A6d40AfB92aD97E5eaFAC013ff7669F"
     ],
     [
       "witch",
-      "0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F"
-    ],
-    [
-      "notionalOracle",
-      "0x67Ac817F9433c61c7472BC6B28bE07E1959427Ab"
-    ],
-    [
-      "transfer1155Module",
-      "0x39a4f3D170613e609823A699C9e09475E757ede4"
+      "0x23D5Ae1f2741A01af40CfB7683Ab24dE7AFEfF75"
     ]
   ]
 }
