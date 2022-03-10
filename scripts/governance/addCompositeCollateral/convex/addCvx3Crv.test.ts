@@ -202,12 +202,12 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     // var unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [cvx3CrvWhale])
     // var preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [cvx3CrvWhale])
 
-    await ladle.pour(vaultId, join.address, posted.mul(-1), borrowed.mul(-1))
+    await ladle.pour(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
 
     // unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [user2.address])
     // preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [user2.address])
 
-    await ladle.connect(user2).pour(vaultId2, join.address, posted.mul(-1), borrowed.mul(-1)),
+    await ladle.connect(user2).pour(vaultId2, user2.address, posted.mul(-1), borrowed.mul(-1)),
       console.log(`repaid and withdrawn`)
     const cvx3CrvAfter = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
     console.log(`${cvx3CrvBefore} cvx3Crv before`)
