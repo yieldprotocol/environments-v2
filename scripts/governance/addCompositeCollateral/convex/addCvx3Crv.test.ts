@@ -149,11 +149,11 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     const cvx3CrvBefore = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
 
     // Post CVX3CRV and borrow fyDAI
-    await cvx3Crv.approve(innerLadle.address, posted)
-    await cvx3Crv.connect(user2).approve(innerLadle.address, posted)
+    await cvx3Crv.approve(ladle.address, posted)
+    await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
     // var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
-    console.log((await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, innerLadle.address)).toString())
+    console.log("Allowance "+(await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, ladle.address)).toString())
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, join.address, posted),
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
