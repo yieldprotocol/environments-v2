@@ -31,10 +31,9 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
  * Add the DAI/CVX3CRV/ETH and USDC/CVX3CRV/ETH paths in the Composite Oracle
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
+  
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const governance = readAddressMappingIfExists('governance.json')
   const protocol = readAddressMappingIfExists('protocol.json')
@@ -65,6 +64,6 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
   proposal = proposal.concat(await updateCvx3CrvOracleSourcesProposal(cvx3CrvOracle, cvx3CrvSources))
   proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
-
+  
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

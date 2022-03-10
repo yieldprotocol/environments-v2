@@ -1,35 +1,25 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists, stringToBytes6 } from '../../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, CVX3CRV } from '../../../../shared/constants'
+import {FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, CVX3CRV } from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../shared/constants'
-
+ 
 function bytes6ToBytes32(x: string): string {
   return x + '00'.repeat(26)
 }
 
 const protocol = readAddressMappingIfExists('protocol.json')
 
-export const deployer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-])
+export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
-export const developer: Map<number, string> = new Map([
-  [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-  [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-])
+export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
-export const cvx3CrvAddress = new Map([
-  [1, '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c'],
-]) // https://cvx3Crv.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
+export const crv = '0xd533a949740bb3306d119cc777fa900ba034cd52'
 
-export const crvAddress = new Map([
-  [1, '0xd533a949740bb3306d119cc777fa900ba034cd52'],
-])
+export const cvx3CrvAddress = '0x30d9410ed1d5da1f6c8391af5338c93ab8d4035c' // https://cvx3Crv.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU
+export const cvxBaseRewardPool = '0x689440f2Ff927E1f24c72F1087E1FAF471eCe1c8'
+// export const crvAddress = new Map([[1, '0xd533a949740bb3306d119cc777fa900ba034cd52']])
 
-export const cvxAddress = new Map([
-  [1, '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b'],
-])
+export const cvxAddress = '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b'
 
 export const assets: Map<string, string> = new Map([
   [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
@@ -68,24 +58,21 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 export const assetsToAdd: Array<[string, string]> = [[CVX3CRV, assets.get(CVX3CRV) as string]]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const compositeLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, CVX3CRV, COMPOSITE, 1000000, 600000, 50, 5, 18],
-  [USDC, CVX3CRV, COMPOSITE, 1000000, 600000, 50, 5, 6],
-  [ETH, CVX3CRV, CONVEX3CRV, 1000000, 600000, 250, 10, 18],
+export const compositeDebtLimits: Array<[string, string, number, number, number, number]> = [
+  [DAI, CVX3CRV, 1000000, 50, 5, 18],
+  [USDC, CVX3CRV, 1000000, 50, 5, 6],
+  [ETH, CVX3CRV, 1000000, 250, 10, 18],
+]
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+export const compositeAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [CVX3CRV, 3600, 714000, 500000, 10000, 12],
 ]
 
 // Input data: seriesId, [ilkIds]
-// export const seriesIlks: Array<[string, string[]]> = [
-//   [FYDAI2112, [CVX3CRV]],
-//   [FYDAI2203, [CVX3CRV]],
-//   [FYUSDC2112, [CVX3CRV]],
-//   [FYUSDC2203, [CVX3CRV]],
-//   [FYETH2203, [CVX3CRV]],
-//   [FYETH2206, [CVX3CRV]],
-// ]
 export const seriesIlks: Array<[string, string[]]> = [
-  [stringToBytes6('0104'), [CVX3CRV]],
-  [stringToBytes6('0105'), [CVX3CRV]],
-  [stringToBytes6('0204'), [CVX3CRV]],
-  [stringToBytes6('0205'), [CVX3CRV]],
+  [FYDAI2203, [CVX3CRV]],
+  [FYDAI2206, [CVX3CRV]],
+  [FYUSDC2203, [CVX3CRV]],
+  [FYUSDC2206, [CVX3CRV]],
 ]

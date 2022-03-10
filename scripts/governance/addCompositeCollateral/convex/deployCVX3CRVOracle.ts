@@ -1,11 +1,12 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, writeAddressMap, verify, getOwnerOrImpersonate, bytesToBytes32 } from '../../../shared/helpers'
-import { WSTETH, STETH, CONVEX3CRV } from '../../../shared/constants'
-import { ROOT } from '../../../shared/constants'
-import Cvx3CrvOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol/Cvx3CrvOracle.json'
-import { Cvx3CrvOracle } from '../../../typechain/Cvx3CrvOracle'
-import { Timelock } from '../../../typechain/Timelock'
-import {developer} from '../../governance/addCompositeCollateral/convex/addCvx3Crv.config'
+import { getOriginalChainId, readAddressMappingIfExists, writeAddressMap, verify, getOwnerOrImpersonate, bytesToBytes32 } from '../../../../shared/helpers'
+import { WSTETH, STETH, CONVEX3CRV } from '../../../../shared/constants'
+import { ROOT } from '../../../../shared/constants'
+import Cvx3CrvOracleArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol/Cvx3CrvOracle.json'
+import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
+import { Timelock } from '../../../../typechain/Timelock'
+
+const { developer } = require(process.env.CONF as string)
 const { deployContract } = waffle
 
 /**
@@ -17,10 +18,8 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Rinkeby, Kovan and Mainnet supported'
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   const protocol = readAddressMappingIfExists('protocol.json');
   const governance = readAddressMappingIfExists('governance.json');
 

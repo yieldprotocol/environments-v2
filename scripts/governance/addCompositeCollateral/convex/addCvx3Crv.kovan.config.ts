@@ -83,10 +83,16 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 export const assetsToAdd: Array<[string, string]> = [[CVX3CRV, assets.get(CVX3CRV) as string]]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const compositeLimits: Array<[string, string, string, number, number, number, number, number]> = [
-  [DAI, CVX3CRV, COMPOSITE, 1000000, 600000, 50, 5, 18],
-  [USDC, CVX3CRV, COMPOSITE, 1000000, 600000, 50, 5, 6],
-  [ETH, CVX3CRV, CONVEX3CRV, 1000000, 600000, 250, 10, 18],
+export const compositeLimits: Array<[string, string, number, number, number, number]> = [
+  [DAI, CVX3CRV, 1000000, 50, 5, 18],
+  [USDC, CVX3CRV, 1000000, 50, 5, 6],
+  [ETH, CVX3CRV, 1000000, 250, 10, 18],
+]
+
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+export const compositeAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [CVX3CRV, 3600, 714000, 500000, 10000, 12],
 ]
 
 // Input data: seriesId, [ilkIds]

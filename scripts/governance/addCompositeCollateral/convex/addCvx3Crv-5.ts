@@ -5,25 +5,22 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
 } from '../../../../shared/helpers'
-import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
-import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
 import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
 import { EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
-import { developer, assets } from './addCvx3Crv.config'
+import { developer } from './addCvx3Crv.config'
 
 /**
  * @dev This script:
  * Adds convexLadleModule as amodule to Ladle, to allow `route`
  */
-import { ConvexYieldWrapper } from '../../../../typechain/ConvexYieldWrapper'
+
 import { CVX3CRV } from '../../../../shared/constants'
-import { pointCollateralVaultProposal } from '../../../fragments/utils/pointCollateralVaultProposal'
-import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orchestrateConvexWrapperProposal'
+
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
 
@@ -35,11 +32,7 @@ import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orche
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  const convexYieldWrapper = (await ethers.getContractAt(
-    'ConvexYieldWrapper',
-    protocol.get('convexYieldWrapper') as string,
-    ownerAcc
-  )) as unknown as ConvexYieldWrapper
+  
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -50,12 +43,6 @@ import { orchestrateConvexWrapperProposal } from '../../../fragments/utils/orche
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await addModuleProposal(ladle, convexLadleModuleAddress))
-  proposal = proposal.concat(await addIntegrationProposal(ladle, convexYieldWrapper.address))
-  proposal = proposal.concat(
-    await orchestrateConvexWrapperProposal(ownerAcc.address, convexYieldWrapper, timelock, cloak)
-  )
-  proposal = proposal.concat(await pointCollateralVaultProposal(convexYieldWrapper, join.address))
-  proposal = proposal.concat(await addTokenProposal(ladle, assets.get(CVX3CRV) as string))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
