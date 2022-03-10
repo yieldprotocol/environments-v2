@@ -7,15 +7,15 @@ import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../shared/co
 import { WAD, ONEUSDC, ZERO, ONE64, secondsIn25Years } from '../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json')
-const joins = readAddressMappingIfExists('joins.json')
-const fyTokens = readAddressMappingIfExists('fyTokens.json')
-
+const joins = readAddressMappingIfExists('newJoins.json')
+const fyTokens = readAddressMappingIfExists('newFYTokens.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const chainId = 4
-export const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const developer = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
+export const deployer = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
 export const whales: Map<string, string> = new Map([
-  [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [DAI, '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'],
+  [USDC, '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'],
 ])
 
 export const additionalDevelopers: Array<string> = []
@@ -26,7 +26,7 @@ export const additionalGovernors: Array<string> = [
 ]
 
 export const assets: Map<string, string> = new Map([
-  [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+  [ETH, '0x21a2aea76fc8782604b7f56a1b8cdd4487d78719'],
   [DAI, '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
   [USDC, '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
   [WBTC, '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
