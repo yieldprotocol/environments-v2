@@ -40,7 +40,11 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   const rescueAccount = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
   const deployer = await impersonate('0x3b870db67a45611CF4723d44487EAF398fAc51E3', WAD)
 
-  const cvx3Crv = (await ethers.getContractAt('contracts/::mocks/ERC20Mock.sol:ERC20Mock', cvx3CrvAddress, cvx3CrvWhaleAcc)) as unknown as ERC20Mock
+  const cvx3Crv = (await ethers.getContractAt(
+    'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+    cvx3CrvAddress,
+    cvx3CrvWhaleAcc
+  )) as unknown as ERC20Mock
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
@@ -149,13 +153,11 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.connect(user2).approve(innerLadle.address, posted)
 
     // var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
-// await ladle.transfer(cvx3Crv.address, join.address, posted)
-console.log('here')
-await ladle.batch([
-  ladle.transferAction(cvx3Crv.address, join.address, posted),
-  ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
-])
-console.log('here')
+    console.log((await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, innerLadle.address)).toString())
+    await ladle.batch([
+      ladle.transferAction(cvx3Crv.address, join.address, posted),
+      ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
+    ])
 
     // wrapCall = convexYieldWrapper.interface.encodeFunctionDaconsole.log('here')ta('wrap', [user2.address])
 
