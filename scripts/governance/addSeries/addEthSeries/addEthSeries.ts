@@ -89,7 +89,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
   proposal = proposal.concat(
-    await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, newUniswapLimits)
+    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newUniswapLimits)
   )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
@@ -105,7 +105,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   proposal = proposal.concat(
     await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit)
   )
-
+ 
   // Strategies
   proposal = proposal.concat(
     await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData)
