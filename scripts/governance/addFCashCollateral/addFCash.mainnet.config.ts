@@ -14,7 +14,7 @@ export const newStrategies: Map<string, string> = base_config.newStrategies
 
 import { USDC, DAI } from '../../../shared/constants'
 import { FUSDC2203, FUSDC2206, FDAI2203, FDAI2206 } from '../../../shared/constants'
-import { FUSDC2203ID, FUSDC2206ID, FDAI2203ID, FDAI2206ID } from '../../../shared/constants'
+import { FCASH_MAR22, FCASH_JUN22, FCASH_DAI, FCASH_USDC } from '../../../shared/constants'
 import { FYUSDC2203, FYUSDC2206, FYDAI2203, FYDAI2206 } from '../../../shared/constants'
 
 export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
@@ -29,11 +29,11 @@ export const notionalSources: Array<[string, string, string, string]> = [
 
 // Assets for which we will have a Join
 // assetId, fCashId, fCash
-export const assetsToAdd: Array<[string, number, string]> = [
-  [FDAI2203, FDAI2203ID, fCashAddress],
-  [FDAI2206, FDAI2206ID, fCashAddress],
-  [FUSDC2203, FUSDC2203ID, fCashAddress],
-  [FUSDC2206, FUSDC2206ID, fCashAddress],
+export const assetsToAdd: Array<[string, string, string, number, string]> = [
+  [FDAI2203, fCashAddress, assets.get(DAI) as string, FCASH_MAR22, FCASH_DAI],
+  [FDAI2206, fCashAddress, assets.get(DAI) as string, FCASH_JUN22, FCASH_DAI],
+  [FUSDC2203, fCashAddress, assets.get(USDC) as string, FCASH_MAR22, FCASH_USDC],
+  [FUSDC2206, fCashAddress, assets.get(USDC) as string, FCASH_JUN22, FCASH_USDC],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec

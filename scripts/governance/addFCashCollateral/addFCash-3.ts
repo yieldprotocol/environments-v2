@@ -4,7 +4,7 @@ import {
   getOwnerOrImpersonate,
 } from '../../../shared/helpers'
 
-import { deployJoins1155 } from '../../fragments/assetsAndSeries/deployJoins1155'
+import { deployNotionalJoins } from '../../fragments/assetsAndSeries/deployNotionalJoins'
 
 import { Timelock } from '../../../typechain'
 const { developer, assetsToAdd } = require(process.env.CONF as string)
@@ -23,6 +23,6 @@ const { governance } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
-  const newJoins = await deployJoins1155(ownerAcc, timelock, assetsToAdd)
+  const newJoins = await deployNotionalJoins(ownerAcc, timelock, assetsToAdd)
   writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file
 })()

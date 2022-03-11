@@ -47,6 +47,10 @@ export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 
+export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
+export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
+export const FCASH_DAI = '2'
+export const FCASH_USDC = '3'
 export const FDAI2203ID = 563371972493313
 export const FDAI2206ID = 563373963149313
 export const FUSDC2203ID = 844846949203969
