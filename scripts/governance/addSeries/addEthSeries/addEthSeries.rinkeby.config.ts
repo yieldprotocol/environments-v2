@@ -66,6 +66,7 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [ETH, USDC, 1500000, 250000000, 10000, 12],
   [ETH, WBTC, 1500000, 250000000, 10000, 12],
   [ETH, LINK, 1500000, 250000000, 10000, 12],
+  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [[WSTETH, ETH, [STETH]]]

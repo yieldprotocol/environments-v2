@@ -35,7 +35,6 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
-  console.log(ownerAcc.address)
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
