@@ -36,19 +36,25 @@ export class TestFixture {
     chain_id: number = -1;
 }
 
+type LiquidatorParams = {
+  base_to_debt_threshold?: { [name: string]: string },
+  vaults_whitelist?: string[],
+  logs_prefix?: string
+};
+
 export async function run_liquidator(fixture: TestFixture, config: LiquidatorConfig,
-    base_to_debt_threshold: { [name: string]: string } = {}, vaults_whitelist: string[] = []) {
+  params: LiquidatorParams = {}) {
 
     const config_path = join(fixture.tmp_root, "config.json");
     const config_json: { [name: string]: any } = {
         "Witch": config.witch,
         "Flash": config.liquidator,
         "Multicall2": config.multicall2,
-        "BaseToDebtThreshold": base_to_debt_threshold,
+        "BaseToDebtThreshold": params.base_to_debt_threshold || {},
         "SwapRouter02": config.swap_router_v2
     };
-    if (vaults_whitelist.length > 0) {
-        config_json["VaultsWhiteList"] = vaults_whitelist;
+    if (params.vaults_whitelist && params.vaults_whitelist.length > 0) {
+        config_json["VaultsWhiteList"] = params.vaults_whitelist;
     }
     await fs.writeFile(config_path, JSON.stringify(config_json, undefined, 2));
 
@@ -87,8 +93,9 @@ export async function run_liquidator(fixture: TestFixture, config: LiquidatorCon
         stdout = (x as any).stdout;
         stderr = (x as any).stderr;
     }
-    await fs.writeFile(join(fixture.tmp_root, "stdout"), stdout)
-    await fs.writeFile(join(fixture.tmp_root, "stderr"), stderr)
+    const logs_prefix = params.logs_prefix || "";
+    await fs.writeFile(join(fixture.tmp_root, `${logs_prefix}stdout`), stdout)
+    await fs.writeFile(join(fixture.tmp_root, `${logs_prefix}stderr`), stderr)
     logger.info("tmp root", fixture.tmp_root)
 
     const rl = createInterface({

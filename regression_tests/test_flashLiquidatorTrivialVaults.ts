@@ -40,7 +40,7 @@ describe("flash liquidator: trivial vaults", function () {
 
         const vault_not_to_be_auctioned = "00cbb039b7b8103611a9717f";
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [vault_not_to_be_auctioned]);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, { vaults_whitelist: [vault_not_to_be_auctioned] });
 
         let new_vaults_message;
 
@@ -64,8 +64,11 @@ describe("flash liquidator: trivial vaults", function () {
         const vault_not_to_be_auctioned = "468ff2cb1b8bb57bf932ab3f";
 
         const liquidator_logs = await run_liquidator(fixture, liquidator, {
-            "303200000000": "1000000000"
-        }, [vault_not_to_be_auctioned]);
+            base_to_debt_threshold: {
+                "303200000000": "1000000000"
+            },
+            vaults_whitelist: [vault_not_to_be_auctioned]
+        });
 
 
         let new_vaults_message;
@@ -90,8 +93,11 @@ describe("flash liquidator: trivial vaults", function () {
         const vault_not_to_be_auctioned = "9f78a0b12bc8152573520d52";
 
         const liquidator_logs = await run_liquidator(fixture, liquidator, {
-            "303100000000": "1000000000000000000000"
-        }, [vault_not_to_be_auctioned]);
+            base_to_debt_threshold: {
+                "303100000000": "1000000000000000000000"
+            },
+            vaults_whitelist: [vault_not_to_be_auctioned]
+        });
 
         let new_vaults_message;
 

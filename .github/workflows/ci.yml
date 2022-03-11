@@ -70,7 +70,7 @@ jobs:
           cd ${{ github.workspace }}
           echo "{\"eth-mainnet\": \"$INFURA_ETHEREUM_MAINNET\", \"arb-mainnet\": \"$INFURA_ARBITRUM_MAINNET\"}" > .alchemyKey
           python -m json.tool .alchemyKey /dev/null
-          make -j4 -Oline regressions
+          make -j1 -Oline regressions
 
       - name: Upload regression test logs
         uses: actions/upload-artifact@v2

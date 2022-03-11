@@ -49,7 +49,7 @@ describe("flash liquidator: 90% collateral offer", function () {
         await fork(13900485);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [test_vault_id]);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {vaults_whitelist: [test_vault_id]});
 
         let vault_is_liquidated = false;
         for (const log_record of liquidator_logs) {
@@ -68,7 +68,7 @@ describe("flash liquidator: 90% collateral offer", function () {
         await fork(13900364);
         const [_owner, liquidator] = await deploy_flash_liquidator();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [test_vault_id]);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {vaults_whitelist: [test_vault_id]});
 
         let new_vaults_message;
         for (const log_record of liquidator_logs) {

@@ -49,7 +49,7 @@ describe("flash liquidator: ENS vaults", function () {
 
         const starting_balance = await _owner.getBalance();
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, expected_to_liquidate);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {vaults_whitelist: expected_to_liquidate});
 
         let bought = 0;
 
@@ -73,7 +73,7 @@ describe("flash liquidator: ENS vaults", function () {
 
         const vault_to_be_auctioned = "b50e0c2ce9adb248f755540b";
 
-        const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [vault_to_be_auctioned]);
+        const liquidator_logs = await run_liquidator(fixture, liquidator, {vaults_whitelist: [vault_to_be_auctioned]});
 
         let vault_is_liquidated = false;
         for (const log_record of liquidator_logs) {
