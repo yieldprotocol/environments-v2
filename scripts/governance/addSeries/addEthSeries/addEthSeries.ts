@@ -24,7 +24,7 @@ import { orchestrateStrategiesProposal } from '../../../fragments/core/strategie
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol } = require(process.env.CONF as string)
+const { governance, protocol, chainId } = require(process.env.CONF as string)
 const { newCompositePaths, newRateSources, newChiSources } = require(process.env.CONF as string)
 const { bases, newChainlinkLimits, newUniswapLimits, newCompositeLimits } = require(process.env.CONF as string)
 const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
@@ -35,6 +35,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
+  console.log(ownerAcc.address)
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
@@ -89,7 +90,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
   proposal = proposal.concat(
-    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newUniswapLimits)
+    await updateIlkProposal((chainId == 1 ? uniswapOracle : chainlinkOracle) as unknown as IOracle, cauldron, newUniswapLimits)
   )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)

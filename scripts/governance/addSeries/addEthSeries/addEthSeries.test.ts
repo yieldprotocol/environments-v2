@@ -6,32 +6,28 @@ import {
   readAddressMappingIfExists,
   bytesToBytes32,
   impersonate,
-  getOriginalChainId,
   getOwnerOrImpersonate,
 } from '../../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../../typechain'
-import { developer, whale, newSeries, assets } from './addEthSeries.config'
+const { protocol, developer, whales, fyTokenData, assets } = require(process.env.CONF as string)
+
 import { WSTETH, STETH, WAD } from '../../../../shared/constants'
 
 /**
  * @dev This script tests ENS as a collateral
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   let whaleAcc: SignerWithAddress
-
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const wstEth = (await ethers.getContractAt(
     'WstETHMock',
-    (assets.get(chainId) as Map<string, string>).get(WSTETH) as string,
+    assets.get(WSTETH) as string,
     ownerAcc
   )) as unknown as WstETHMock
   const stEth = (await ethers.getContractAt(
     'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-    (assets.get(chainId) as Map<string, string>).get(STETH) as string,
+    assets.get(STETH) as string,
     ownerAcc
   )) as unknown as ERC20Mock
   const cauldron = (await ethers.getContractAt(
@@ -46,11 +42,11 @@ import { WSTETH, STETH, WAD } from '../../../../shared/constants'
     ownerAcc
   )) as unknown as CompositeMultiOracle
 
-  whaleAcc = await impersonate(whale.get(chainId) as string, WAD)
+  whaleAcc = await impersonate(whales.get(STETH) as string, WAD)
   await stEth.connect(whaleAcc).approve(wstEth.address, WAD.mul(10))
   await wstEth.connect(whaleAcc).wrap(WAD.mul(10))
 
-  for (let [seriesId] of newSeries) {
+  for (let [seriesId] of fyTokenData) {
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
     const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
