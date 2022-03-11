@@ -6,6 +6,7 @@ import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
+export const pools = readAddressMappingIfExists('pools.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
@@ -21,7 +22,7 @@ export const whales: Map<string, string> = new Map([
 ])
 
 export const assets: Map<string, string> = new Map([
-  [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+  [ETH, '0x21a2aea76fc8782604b7f56a1b8cdd4487d78719'],
   [DAI, '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
   [USDC, '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
   [WBTC, '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
