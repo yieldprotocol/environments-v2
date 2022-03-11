@@ -84,14 +84,33 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  timelock: Timelock,
+  raw_timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string
 ) => {
   // Propose, approve, execute
-  const txHash = await timelock.hash(proposal)
+  const txHash = await raw_timelock.hash(proposal)
   const on_fork = true
-  console.log(`Proposal: ${txHash}`)
+  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`);
+
+  let timelock = raw_timelock;
+  if (on_fork) {
+    // If running on a mainnet fork, impersonating the multisig will work
+    if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
+    console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+
+    await hre.network.provider.request({
+      method: 'hardhat_impersonateAccount',
+      params: [multisig],
+    })
+    // Make sure the multisig has Ether
+    await hre.network.provider.request({
+      method: 'hardhat_setBalance',
+      params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
+    })
+    const multisigAcc = await ethers.getSigner(multisig as unknown as string)
+    timelock = await timelock.connect(multisigAcc);
+  }
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig)
@@ -99,46 +118,27 @@ export const proposeApproveExecute = async (
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log("Proposing");
     // Propose
+    // Approve, impersonating multisig if in a fork
     await timelock.propose(proposal)
-    while ((await timelock.proposals(txHash)).state < 1) {}
+
+    while ((await timelock.proposals(txHash)).state < 1) { }
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log("Approving");
     // Approve, impersonating multisig if in a fork
-    if (on_fork) {
-      // If running on a mainnet fork, impersonating the multisig will work
-      if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-      console.log(`Running on a fork, impersonating multisig at ${multisig}`)
-      
-      await hre.network.provider.request({
-        method: 'hardhat_impersonateAccount',
-        params: [multisig],
-      })
-      // Make sure the multisig has Ether
-      await hre.network.provider.request({
-        method: 'hardhat_setBalance',
-        params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
-      })
-      const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-      await timelock.connect(multisigAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-    } else {
-      // On kovan we have approval permissions
-      await timelock.approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-    }
+    await timelock.approve(txHash)
+    while ((await timelock.proposals(txHash)).state < 2) { }
+    console.log(`Approved ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 2) {
     console.log("Executing");
     if (on_fork) {
       // Adding time travel since we have moved the delay to 2 days on mainnet
-      await hre.network.provider.request({method:"evm_increaseTime", params:[60 * 60 * 24 * 2]});
-      await hre.network.provider.request({method:'evm_mine',params:[]})
+      await hre.network.provider.request({ method: "evm_increaseTime", params: [60 * 60 * 24 * 2] });
+      await hre.network.provider.request({ method: 'evm_mine', params: [] })
     }
     // Execute
     await timelock.execute(proposal)
-    while ((await timelock.proposals(txHash)).state > 0) {}
+    while ((await timelock.proposals(txHash)).state > 0) { }
     console.log(`Executed ${txHash}`)
   }
 }
@@ -348,7 +348,7 @@ export async function ensureRootAccess(contract: AccessControl, timelock: Timelo
   if (!(await contract.hasRole(ROOT, timelock.address))) {
     await contract.grantRole(ROOT, timelock.address)
     console.log(`${contract.address}.grantRoles(ROOT, timelock)`)
-    while (!(await contract.hasRole(ROOT, timelock.address))) {}
+    while (!(await contract.hasRole(ROOT, timelock.address))) { }
   }
 }
 

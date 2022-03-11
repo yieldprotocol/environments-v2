@@ -136,31 +136,3 @@ export async function testSetUp(self: Mocha.Suite, http_port: number, fixture: T
         fixture.tmp_root = await fs.mkdtemp(join(tmpdir(), "flash_liquidator_test"))
     })
 }
-
-export async function deployETHSeries(fixture: TestFixture) {
-  const cmd = `./scripts/governance/addSeries/addEthSeries/addEthSeries.sh`
-  let stdout: string
-  let stderr: string
-  let error: boolean = false
-  try {
-    const results = await exec(cmd, {
-      maxBuffer: 1024 * 1024 * 10,
-      env: {
-        USE_ADDRESSES_FOR_NETWORK: 'mainnet',
-        ...process.env,
-      },
-    })
-    stdout = results.stdout
-    stderr = results.stderr
-  } catch (x) {
-    logger.warn('Failed to deploy the series: ', x)
-    stdout = (x as any).stdout
-    stderr = (x as any).stderr
-    error = true
-  }
-  await fs.writeFile(join(fixture.tmp_root, 'stdout'), stdout)
-  await fs.writeFile(join(fixture.tmp_root, 'stderr'), stderr)
-  logger.info('tmp root', fixture.tmp_root)
-  if(error)
-  throw 'Deployment failed'
-}
