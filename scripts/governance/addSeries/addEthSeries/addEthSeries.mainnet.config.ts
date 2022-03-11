@@ -18,6 +18,7 @@ import {
   WSTETH,
   ENS,
   UNI,
+  YVUSDC,
   WAD,
   YSETH6MJD,
   YSETH6MMS,
@@ -26,6 +27,7 @@ import {
 
 import * as base_config from '../../base.mainnet.config'
 
+export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
@@ -57,7 +59,7 @@ export const newChiSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d
 
 export const newRateSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
   [ETH, DAI, 1500000, 250000000, 10000, 12],
@@ -113,8 +115,8 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2206, [ETH, DAI, USDC]],
-  [FYETH2209, [ETH, DAI, USDC]],
+  [FYETH2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYETH2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
