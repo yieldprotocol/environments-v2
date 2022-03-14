@@ -15,7 +15,7 @@ const { deployContract } = waffle
 export const deployNotionalJoins = async (
   ownerAcc: any,
   timelock: Timelock,
-  joinData: Array<[string, number, string]>
+  joinData: Array<[string, string, string, number, string]>
 ): Promise<Map<string, NotionalJoin>> => {
   let joins: Map<string, NotionalJoin> = new Map()
   for (let [assetId, fCashAddress, underlyingAddress, maturity, currencyId] of joinData) {

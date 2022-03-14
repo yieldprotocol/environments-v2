@@ -64,6 +64,10 @@
     [
       "witch",
       "0x92C0aa4922444E6D5a6dFE365Ea1D106Bd9279E2"
+    ],
+    [
+      "notionalOracle",
+      "0x5F5F54757Dd8c04E28F092EDb8013B51F33F4e8F"
     ]
   ]
 }
