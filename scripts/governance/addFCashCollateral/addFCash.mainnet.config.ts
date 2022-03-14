@@ -14,8 +14,8 @@ export const newStrategies: Map<string, string> = base_config.newStrategies
 
 import { USDC, DAI } from '../../../shared/constants'
 import { FUSDC2206, FDAI2206 } from '../../../shared/constants'
-import { FCASH_MAR22, FCASH_JUN22, FCASH_DAI, FCASH_USDC } from '../../../shared/constants'
-import { FYUSDC2203, FYUSDC2206, FYDAI2203, FYDAI2206 } from '../../../shared/constants'
+import { FCASH_JUN22, FCASH_DAI, FCASH_USDC } from '../../../shared/constants'
+import { FYUSDC2206, FYDAI2206 } from '../../../shared/constants'
 
 export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 
