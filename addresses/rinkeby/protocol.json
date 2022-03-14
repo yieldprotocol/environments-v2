@@ -68,6 +68,10 @@
     [
       "notionalOracle",
       "0x5F5F54757Dd8c04E28F092EDb8013B51F33F4e8F"
+    ],
+    [
+      "transfer1155Module",
+      "0x532708fdC78C635162F94F65998E5014CAac34fF"
     ]
   ]
 }
