@@ -12,6 +12,7 @@ import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../ty
 
 import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP } from '../../../../shared/constants'
 
+import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
 import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
 import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
@@ -76,6 +77,10 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+
+  // Module
+  proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('wrapEtherModule') as string))
+
   // Oracles
   proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, newChiSources))
   proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, newRateSources))
