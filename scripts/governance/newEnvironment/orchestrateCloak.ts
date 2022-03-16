@@ -10,7 +10,7 @@ import {
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
-const { developer,deployer } = require(process.env.CONF as string)
+const { developer, deployer } = require(process.env.CONF as string)
 // import { deployer, developer } from './newEnvironment.rinkeby.config'
 
 /**

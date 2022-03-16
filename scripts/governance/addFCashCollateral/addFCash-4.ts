@@ -27,8 +27,15 @@ import {
   EmergencyBrake,
 } from '../../../typechain'
 
-const { developer, deployer, notionalSources, fCashAddress, notionalDebtLimits, auctionLimits, seriesIlks } = require(process.env
-  .CONF as string)
+const {
+  developer,
+  deployer,
+  notionalSources,
+  fCashAddress,
+  notionalDebtLimits,
+  auctionLimits,
+  seriesIlks,
+} = require(process.env.CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
