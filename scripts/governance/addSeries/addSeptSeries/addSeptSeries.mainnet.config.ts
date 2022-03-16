@@ -87,8 +87,8 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), WAD.mul(39)], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), ONEUSDC.mul(24)], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
 ]
 
 // Pool fees to be set in the PoolFactory prior to pool deployment
@@ -105,7 +105,7 @@ export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 // assetId, loanAmount
 export const joinLoans: Array<[string, BigNumber]> = [
   [DAI, WAD.mul(10000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
-  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 82547487593 fyUSDC. Surplus is 235316 817437 USDC.
+  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
 ]
 
 // Ilks to accept for each series

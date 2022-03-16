@@ -21,7 +21,10 @@ const { developer, rollData } = require(process.env.CONF as string)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
     console.log(`Advancing to maturity of pool ${poolAddress} on ${await pool.maturity()}`)
 
-    await ethers.provider.send('evm_mine', [await pool.maturity()])
-    break
+    const blockNumBefore = await ethers.provider.getBlockNumber()
+    const blockBefore = await ethers.provider.getBlock(blockNumBefore)
+    const timestampBefore = blockBefore.timestamp
+    const maturity = await pool.maturity()
+    if (maturity > timestampBefore) await ethers.provider.send('evm_mine', [maturity])
   }
 })()
