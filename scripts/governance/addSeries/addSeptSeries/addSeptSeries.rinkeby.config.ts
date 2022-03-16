@@ -49,18 +49,41 @@ export const joins: Map<string, string> = new Map([
   [USDC, '0x56727B9892042Ae397D319FDebCA7fb47780d525'],
 ])
 
-// seriesId, fyTokenAddress
-export const poolData: Array<[string, string]> = [
-  [FYDAI2209, fyTokens.get(FYDAI2209) as string],
-  [FYUSDC2209, fyTokens.get(FYUSDC2209) as string],
+// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
+  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEPT22, 'FYDAI2209', 'FYDAI2209'],
+  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEPT22, 'FYUSDC2209', 'FYUSDC2209'],
 ]
 
+// Parameters to deploy pools with, a pool being identified by the related seriesId
+// seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
+export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+  [
+    FYDAI2209,
+    assets.get(DAI) as string,
+    fyTokens.get(FYDAI2209) as string,
+    ONE64.div(secondsIn25Years),
+    ONE64.mul(75).div(100),
+    ONE64.mul(100).div(75),
+  ],
+  [
+    FYUSDC2209,
+    assets.get(USDC) as string,
+    fyTokens.get(FYUSDC2209) as string,
+    ONE64.div(secondsIn25Years),
+    ONE64.mul(75).div(100),
+    ONE64.mul(100).div(75),
+  ],
+]
+
+// Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), WAD.mul(32)],
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
 ]
 
+// Pool fees to be set in the PoolFactory prior to pool deployment
 // g1, g2
 export const poolFees: [BigNumber, BigNumber] = [
   ONE64.mul(75).div(100), // Sell base to the pool
@@ -70,24 +93,21 @@ export const poolFees: [BigNumber, BigNumber] = [
 // Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 
+// Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
 // assetId, loanAmount
 export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI, WAD.mul(100)],
-  [USDC, ONEUSDC.mul(100)],
+  [DAI, WAD.mul(10000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
+  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
 ]
 
-// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
-export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEPT22, 'FYDAI2209', 'FYDAI2209'],
-  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEPT22, 'FYUSDC2209', 'FYUSDC2209'],
-]
-
+// Ilks to accept for each series
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC]],
 ]
 
+// Parameters to roll each strategy
 // strategyId, nextSeriesId, minRatio, maxRatio
 export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
   [YSDAI6MMS, FYDAI2209, BigNumber.from(0), MAX256],
