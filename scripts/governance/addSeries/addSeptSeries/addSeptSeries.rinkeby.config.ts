@@ -1,0 +1,95 @@
+import { BigNumber } from 'ethers'
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
+import {
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  UNI,
+  WAD,
+  ONEUSDC,
+  MAX256,
+  ONE64,
+  secondsIn25Years,
+} from '../../../../shared/constants'
+import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
+
+const protocol = readAddressMappingIfExists('protocol.json')
+
+// When deploying the pools, the fyToken should be present already
+const fyTokens = readAddressMappingIfExists('newFYTokens.json')
+
+export const developer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const deployer = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const whales: Map<string, string> = new Map([
+  [ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+  [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
+])
+
+export const assets: Map<string, string> = new Map([
+  [ETH, '0x67c5279f044A40746017Ae1edD8bb7573273aA8b'],
+  [DAI, '0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C'],
+  [USDC, '0xf4aDD9708888e654C042613843f413A8d6aDB8Fe'],
+  [WBTC, '0x69A11AA0D394337570d84ce824a1ca6aFA0765DF'],
+  [WSTETH, '0xf9F4D9e05503D416E95f05831A95ff43c3A01182'],
+  [STETH, '0xE910c4D4802898683De478e57852738e773dBCD9'],
+  [LINK, '0xfdf099372cded51a9dA9c0431707789f08B06C70'],
+  [ENS, '0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78'],
+  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
+])
+
+// assetId, joinAddress
+export const joins: Map<string, string> = new Map([
+  [DAI, '0x96cc8be616fEec55F58A1E647b45c2989AEB4096'],
+  [USDC, '0x56727B9892042Ae397D319FDebCA7fb47780d525'],
+])
+
+// seriesId, fyTokenAddress
+export const poolData: Array<[string, string]> = [
+  [FYDAI2209, fyTokens.get(FYDAI2209) as string],
+  [FYUSDC2209, fyTokens.get(FYUSDC2209) as string],
+]
+
+// seriesId, initAmount
+export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
+  [FYDAI2209, DAI, WAD.mul(100), WAD.mul(32)],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), ONEUSDC.mul(48)],
+]
+
+// g1, g2
+export const poolFees: [BigNumber, BigNumber] = [
+  ONE64.mul(75).div(100), // Sell base to the pool
+  ONE64.mul(100).div(75), // Sell fyToken to the pool
+]
+
+// Time stretch to be set in the PoolFactory prior to pool deployment
+export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
+
+// assetId, loanAmount
+export const joinLoans: Array<[string, BigNumber]> = [
+  [DAI, WAD.mul(100)],
+  [USDC, ONEUSDC.mul(100)],
+]
+
+// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
+  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEPT22, 'FYDAI2209', 'FYDAI2209'],
+  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEPT22, 'FYUSDC2209', 'FYUSDC2209'],
+]
+
+// seriesId, accepted ilks
+export const seriesIlks: Array<[string, string[]]> = [
+  [FYDAI2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+]
+
+// strategyId, nextSeriesId, minRatio, maxRatio
+export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
+  [YSDAI6MMS, FYDAI2209, BigNumber.from(0), MAX256],
+  [YSUSDC6MMS, FYUSDC2209, BigNumber.from(0), MAX256],
+]
