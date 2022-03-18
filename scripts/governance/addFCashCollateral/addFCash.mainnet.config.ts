@@ -34,8 +34,8 @@ export const assetsToAdd: Array<[string, string, string, number, string]> = [
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const notionalDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, FDAI2203, 1100000, 1000000, 5000, 18],
-  [USDC, FUSDC2203, 1100000, 1000000, 5000, 6],
+  [DAI, FDAI2203, 1100000, 100000, 5000, 18],
+  [USDC, FUSDC2203, 1100000, 100000, 5000, 6],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
