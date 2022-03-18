@@ -11,10 +11,10 @@ import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addI
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollStrategiesProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
-// import { developer, deployer, seriesIlks, poolsInit, rollData } from './addSeptSeries.mainnet.config'
+
 const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)
 /**
- * @dev This script deploys two strategies to be used for Ether
+ * @dev This script deploys two series
  */
 ;(async () => {
   const chainId = await getOriginalChainId()

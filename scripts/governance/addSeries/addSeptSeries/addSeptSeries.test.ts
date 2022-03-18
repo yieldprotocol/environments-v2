@@ -9,9 +9,9 @@ import {
   getOriginalChainId,
   getOwnerOrImpersonate,
 } from '../../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../../typechain'
-import { ENS, STETH, WAD } from '../../../../shared/constants'
-const { developer, whale, seriesIlks, assets } = require(process.env.CONF as string)
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle } from '../../../../typechain'
+import { ENS, WAD } from '../../../../shared/constants'
+const { developer, seriesIlks, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script tests ENS as a collateral
@@ -42,6 +42,7 @@ const { developer, whale, seriesIlks, assets } = require(process.env.CONF as str
     ownerAcc
   )) as unknown as CompositeMultiOracle
 
+  // ENS whale
   whaleAcc = await impersonate('0x5a52e96bacdabb82fd05763e25335261b270efcb', WAD)
 
   for (let [seriesId] of seriesIlks) {
