@@ -13,7 +13,7 @@ import { WAD, MAX256, EOMAR22 } from '../../../../shared/constants'
   const blockNumBefore = await ethers.provider.getBlockNumber()
   const blockBefore = await ethers.provider.getBlock(blockNumBefore)
   const timestampBefore = blockBefore.timestamp
-  if (timestampBefore < EOMAR22) await ethers.provider.send('evm_mine', [EOMAR22+1])
+  if (timestampBefore < EOMAR22) await ethers.provider.send('evm_mine', [EOMAR22 + 1])
 
   const protocol = readAddressMappingIfExists('protocol.json')
   const strategies = readAddressMappingIfExists('strategies.json')
