@@ -10,8 +10,8 @@ import {
   getOwnerOrImpersonate,
 } from '../../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../../../../typechain'
-import { WSTETH, STETH, WAD } from '../../../../shared/constants'
-const { developer, whale, newSeries, assets } = require(process.env.CONF as string)
+import { ENS, STETH, WAD } from '../../../../shared/constants'
+const { developer, whale, seriesIlks, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script tests ENS as a collateral
@@ -19,21 +19,17 @@ const { developer, whale, newSeries, assets } = require(process.env.CONF as stri
 ;(async () => {
   const chainId = await getOriginalChainId()
 
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   let whaleAcc: SignerWithAddress
 
   const protocol = readAddressMappingIfExists('protocol.json')
 
-  const wstEth = (await ethers.getContractAt(
-    'WstETHMock',
-    (assets.get(chainId) as Map<string, string>).get(WSTETH) as string,
-    ownerAcc
-  )) as unknown as WstETHMock
-  const stEth = (await ethers.getContractAt(
+  const ens = (await ethers.getContractAt(
     'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-    (assets.get(chainId) as Map<string, string>).get(STETH) as string,
+    assets.get(ENS) as string,
     ownerAcc
   )) as unknown as ERC20Mock
+
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -46,51 +42,48 @@ const { developer, whale, newSeries, assets } = require(process.env.CONF as stri
     ownerAcc
   )) as unknown as CompositeMultiOracle
 
-  whaleAcc = await impersonate(whale.get(chainId) as string, WAD)
-  await stEth.connect(whaleAcc).approve(wstEth.address, WAD.mul(10))
-  await wstEth.connect(whaleAcc).wrap(WAD.mul(10))
+  whaleAcc = await impersonate('0x5a52e96bacdabb82fd05763e25335261b270efcb', WAD)
 
-  for (let [seriesId] of newSeries) {
+  for (let [seriesId] of seriesIlks) {
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
     const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
 
-    const dust = (await cauldron.debt(series.baseId, WSTETH)).min
-    const ratio = (await cauldron.spotOracles(series.baseId, WSTETH)).ratio
+    const dust = (await cauldron.debt(series.baseId, ENS)).min
+    const ratio = (await cauldron.spotOracles(series.baseId, ENS)).ratio
     const borrowed = BigNumber.from(10)
       .pow(await fyToken.decimals())
       .mul(dust)
-      .div(1000000) // `debt` is defined with 12 decimals for Ether
-    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(WSTETH), borrowed))[0]
+    const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ENS), borrowed))[0]
       .mul(ratio)
       .div(1000000)
       .mul(101)
       .div(100) // borrowed * spot * ratio * 1.01 (for margin)
-    const wstEthBalanceBefore = await wstEth.balanceOf(whaleAcc.address)
+    const ensBalanceBefore = await ens.balanceOf(whaleAcc.address)
 
     // Build vault
-    await ladle.build(seriesId, WSTETH, 0)
+    await ladle.connect(whaleAcc).build(seriesId, ENS, 0)
     const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
     const vaultId = logs[logs.length - 1].args.vaultId
     console.log(`vault: ${vaultId}`)
 
-    // Post wstEth and borrow fyETH
-    const wstEthJoinAddress = await ladle.joins(WSTETH)
-    console.log(`posting ${posted} wstETH out of ${await wstEth.balanceOf(whaleAcc.address)}`)
-    await wstEth.connect(whaleAcc).transfer(wstEthJoinAddress, posted)
-    console.log(`borrowing ${borrowed} fyETH`)
-    await ladle.pour(vaultId, whaleAcc.address, posted, borrowed)
+    var name = await fyToken.callStatic.name()
+    // Post ens and borrow
+    const ensJoinAddress = await ladle.joins(ENS)
+    console.log(`posting ${posted} ENS out of ${await ens.balanceOf(whaleAcc.address)}`)
+    await ens.connect(whaleAcc).transfer(ensJoinAddress, posted)
+    console.log(`borrowing ${borrowed} ${name}`)
+    await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
-    // Repay fyEth and withdraw wstEth
+    // Repay fyEth and withdraw ens
     await fyToken.connect(whaleAcc).transfer(fyToken.address, borrowed)
-    console.log(`repaying ${borrowed} fyETH and withdrawing ${posted} wstETH`)
-    await ladle.pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))
+    console.log(`repaying ${borrowed} ${name} and withdrawing ${posted} ENS`)
+    await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
-    if ((await wstEth.balanceOf(whaleAcc.address)).toString() !== wstEthBalanceBefore.toString())
-      throw 'balance mismatch'
+    if ((await ens.balanceOf(whaleAcc.address)).toString() !== ensBalanceBefore.toString()) throw 'balance mismatch'
   }
 })()
