@@ -56,6 +56,10 @@
     [
       "yearnOracle",
       "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+    ],
+    [
+      "wrapEtherModule",
+      "0x22768FCaFe7BB9F03e31cb49823d1Ece30C0b8eA"
     ]
   ]
 }
