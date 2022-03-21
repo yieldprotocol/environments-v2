@@ -102,6 +102,6 @@ Starting YSETH6MJD at 0x831dF23f7278575BA0b136296a285600cD75d076
 Burning strategy tokens
 Setting YSETH6MJD as an integration in the Ladle
 Setting YSETH6MJD as a token in the Ladle
-Proposal: 0x220a6394fcbeee16a2439e7e2c921c2ffa4f731bac8ba9da6c9fb1c6542f53c7
+Proposal: 0xf158440c314c6a979b8a5d91fba72ff3059ec2d4b4788c768f720b43d3449d76
 Proposing
-Proposed 0x220a6394fcbeee16a2439e7e2c921c2ffa4f731bac8ba9da6c9fb1c6542f53c7
+Proposed 0xf158440c314c6a979b8a5d91fba72ff3059ec2d4b4788c768f720b43d3449d76
