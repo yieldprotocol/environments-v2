@@ -8,11 +8,11 @@ import {
 
 import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollStrategiesProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
+import { initPoolsForRollProposal } from '../../../fragments/assetsAndSeries/initPoolsForRollProposal'
 
-const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)
+const { developer, deployer, seriesIlks, poolsInit, rollData, poolsInitForRoll } = require(process.env.CONF as string)
 /**
  * @dev This script deploys two series
  */
@@ -51,7 +51,7 @@ const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
+  proposal = proposal.concat(await initPoolsForRollProposal(ownerAcc, timelock, newPools, poolsInitForRoll))
   proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, strategies, newPools, rollData))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

@@ -87,8 +87,8 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')],
 ]
 
 // Pool fees to be set in the PoolFactory prior to pool deployment
@@ -120,4 +120,9 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
   [YSDAI6MMS, FYDAI2209, BigNumber.from(0), MAX256],
   [YSUSDC6MMS, FYUSDC2209, BigNumber.from(0), MAX256],
+]
+
+export const poolsInitForRoll: Array<[string, string, BigNumber, BigNumber, string, BigNumber]> = [
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376'), '', BigNumber.from('')],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331'), '', BigNumber.from('')],
 ]
