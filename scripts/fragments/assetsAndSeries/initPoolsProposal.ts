@@ -60,9 +60,9 @@ export const initPoolsProposal = async (
     })
     proposal.push({
       target: pool.address,
-      data: pool.interface.encodeFunctionData('sync'),
+      data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
     })
-    console.log(`Initialized ${await pool.symbol()} with ${baseAmount} base and ${fyTokenAmount} fyToken`)
+    
   }
 
   return proposal

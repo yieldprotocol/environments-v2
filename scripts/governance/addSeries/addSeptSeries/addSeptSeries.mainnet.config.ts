@@ -15,7 +15,7 @@ import {
   ONEUSDC,
   MAX256,
   ONE64,
-  secondsIn25Years,
+  secondsIn30Years,
 } from '../../../../shared/constants'
 import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
 
@@ -70,7 +70,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     FYDAI2209,
     assets.get(DAI) as string,
     fyTokens.get(FYDAI2209) as string,
-    ONE64.div(secondsIn25Years),
+    ONE64.div(secondsIn30Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
@@ -78,34 +78,17 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     FYUSDC2209,
     assets.get(USDC) as string,
     fyTokens.get(FYUSDC2209) as string,
-    ONE64.div(secondsIn25Years),
+    ONE64.div(secondsIn30Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
-// seriesId, initAmount
+// seriesId, baseId, baseAmount, fyTokenAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')],
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')],
-]
-
-// Pool fees to be set in the PoolFactory prior to pool deployment
-// g1, g2
-export const poolFees: [BigNumber, BigNumber] = [
-  ONE64.mul(75).div(100), // Sell base to the pool
-  ONE64.mul(100).div(75), // Sell fyToken to the pool
-]
-
-// Time stretch to be set in the PoolFactory prior to pool deployment
-export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
-
-// Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
-// assetId, loanAmount
-export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI, WAD.mul(10000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
-  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
+  [FYDAI2209, DAI, WAD.mul(100), WAD.mul(6)],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), ONEUSDC.mul(4)],
 ]
 
 // Ilks to accept for each series
@@ -120,9 +103,4 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
   [YSDAI6MMS, FYDAI2209, BigNumber.from(0), MAX256],
   [YSUSDC6MMS, FYUSDC2209, BigNumber.from(0), MAX256],
-]
-
-export const poolsInitForRoll: Array<[string, string, BigNumber, BigNumber, string, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376'), '', BigNumber.from('')],
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331'), '', BigNumber.from('')],
 ]
