@@ -20,15 +20,17 @@ const { developer, poolData } = require(process.env.CONF as string)
       ownerAcc
     )) as unknown as ERC20Mock
     console.log(`${await base.callStatic.name()} Balance of pool`, (await base.balanceOf(pool.address)).toString())
-    console.log(`${await base.callStatic.name()} Balance of timelock`, (await base.balanceOf('0x3b870db67a45611CF4723d44487EAF398fAc51E3')).toString())
     console.log(`Virtual Balance of pool`, (await pool.callStatic.getFYTokenBalance()).toString())
     const fyToken = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       fyTokenAddress,
       ownerAcc
     )) as unknown as ERC20Mock
-    console.log(`${await fyToken.callStatic.name()} Balance of pool`, (await fyToken.balanceOf(pool.address)).toString())
-    
+    console.log(
+      `${await fyToken.callStatic.name()} Balance of pool`,
+      (await fyToken.balanceOf(pool.address)).toString()
+    )
+
     console.log('-------------------------------------')
   }
 })()

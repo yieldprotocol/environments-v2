@@ -12,7 +12,7 @@ import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollS
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 
-const { developer, deployer, seriesIlks, poolsInit, rollData, poolsInitForRoll } = require(process.env.CONF as string)
+const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)
 /**
  * @dev This script deploys two series
  */

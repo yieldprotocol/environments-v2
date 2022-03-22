@@ -62,7 +62,6 @@ export const initPoolsProposal = async (
       target: pool.address,
       data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
     })
-    
   }
 
   return proposal
