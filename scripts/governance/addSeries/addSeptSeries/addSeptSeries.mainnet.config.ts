@@ -40,7 +40,7 @@ export const whales: Map<string, string> = new Map([
   [STETH, '0x06920c9fc643de77b99cb7670a944ad31eaaa260'],
   [LINK, '0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39'],
   [ENS, '0x5a52e96bacdabb82fd05763e25335261b270efcb'],
-  [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e']
+  [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
 ])
 
 // Tokens known to the protocol
