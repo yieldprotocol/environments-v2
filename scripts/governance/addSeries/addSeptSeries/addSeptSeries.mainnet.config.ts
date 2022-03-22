@@ -35,6 +35,12 @@ export const whales: Map<string, string> = new Map([
   [ETH, '0x2feb1512183545f48f6b9c5b4ebfcaf49cfca6f3'],
   [DAI, '0x9a315bdf513367c0377fb36545857d12e85813ef'],
   [USDC, '0x5aa653a076c1dbb47cec8c1b4d152444cad91941'],
+  [WBTC, '0xb60c61dbb7456f024f9338c739b02be68e3f545c'],
+  [WSTETH, '0x3991adbdf461d6817734555efdc8ef056fefbf21'],
+  [STETH, '0x06920c9fc643de77b99cb7670a944ad31eaaa260'],
+  [LINK, '0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39'],
+  [ENS, '0x5a52e96bacdabb82fd05763e25335261b270efcb'],
+  [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e']
 ])
 
 // Tokens known to the protocol
@@ -87,8 +93,8 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, baseId, baseAmount, fyTokenAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), WAD.mul(6)],
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), ONEUSDC.mul(4)],
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from(0)],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from(0)],
 ]
 
 // Ilks to accept for each series
