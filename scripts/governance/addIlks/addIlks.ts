@@ -26,9 +26,7 @@ const { developer, governance, protocol, seriesIlks } = require(process.env.CONF
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(
-    await addIlksToSeriesProposal(cauldron, seriesIlks)
-  )
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   if (proposal.length > 0) {
     // Propose, Approve & execute

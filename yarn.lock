@@ -3274,6 +3274,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@yield-protocol/vault-v2@npm:0.15.1":
+  version: 0.15.1
+  resolution: "@yield-protocol/vault-v2@npm:0.15.1"
+  checksum: 1391fcc63dee257f54a896391123b22dad8e0e5a37ca6369db94130a0b9441ec7b5d9bfe808d3c07415c008c206626e43d5c1870451138e8a577f08fad7c76b3
+  languageName: node
+  linkType: hard
+
 "@yield-protocol/yieldspace-interfaces@npm:2.3.0-rc7":
   version: 2.3.0-rc7
   resolution: "@yield-protocol/yieldspace-interfaces@npm:2.3.0-rc7"
