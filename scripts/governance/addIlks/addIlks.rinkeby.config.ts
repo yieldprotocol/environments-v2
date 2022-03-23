@@ -1,11 +1,4 @@
-import {
-  FYETH2203,
-  FYETH2206,
-  WBTC,
-  LINK,
-  WSTETH,
-  ENS,
-} from '../../../shared/constants'
+import { FYETH2203, FYETH2206, WBTC, LINK, WSTETH, ENS } from '../../../shared/constants'
 
 import * as base_config from '../base.rinkeby.config'
 
