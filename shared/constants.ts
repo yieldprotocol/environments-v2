@@ -29,9 +29,11 @@ export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
 export const FDAI2203 = ethers.utils.formatBytes32String('12').slice(0, 14)
-export const FDAI2206 = ethers.utils.formatBytes32String('13').slice(0, 14)
-export const FUSDC2203 = ethers.utils.formatBytes32String('14').slice(0, 14)
+export const FUSDC2203 = ethers.utils.formatBytes32String('13').slice(0, 14)
+export const FDAI2206 = ethers.utils.formatBytes32String('14').slice(0, 14)
 export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
+export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
+export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -48,10 +50,19 @@ export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 
+export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
+export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
+export const FCASH_SEP22 = 1664064000 // 214 * (86400 * 90)
+export const FCASH_DAI = '2'
+export const FCASH_USDC = '3'
+
+// CurrencyId*(16**12)+Maturity*(16**2)+1 = 563371972493313
 export const FDAI2203ID = 563371972493313
 export const FDAI2206ID = 563373963149313
+export const FDAI2209ID = 563375953805313
 export const FUSDC2203ID = 844846949203969
 export const FUSDC2206ID = 844848939859969
+export const FUSDC2209ID = 844850930515969
 
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
