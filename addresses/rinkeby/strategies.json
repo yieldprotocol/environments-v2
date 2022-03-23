@@ -2,6 +2,14 @@
   "dataType": "Map",
   "value": [
     [
+      "YSETH6MMS",
+      "0x1d1fAc22107a39d8D9B925974592399b9BBEb578"
+    ],
+    [
+      "YSETH6MJD",
+      "0x47aBE91E1d3cD31e1C7525Dd32058f8a39C25eB8"
+    ],
+    [
       "YSDAI6MMS",
       "0x3b496A74A44014Fa13278E4664815F3C2f7B3D4D"
     ],

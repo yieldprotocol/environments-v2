@@ -1,9 +1,12 @@
 import { ethers } from 'hardhat'
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
+import {
+  writeAddressMap,
+  getOwnerOrImpersonate,
+} from '../../../../shared/helpers'
 
-import { deployNotionalJoins } from '../../fragments/assetsAndSeries/deployNotionalJoins'
+import { deployNotionalJoins } from '../../../fragments/assetsAndSeries/deployNotionalJoins'
 
-import { Timelock } from '../../../typechain'
+import { Timelock } from '../../../../typechain'
 const { developer, assetsToAdd } = require(process.env.CONF as string)
 const { governance } = require(process.env.CONF as string)
 

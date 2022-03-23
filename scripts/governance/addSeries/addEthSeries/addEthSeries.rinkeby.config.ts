@@ -17,19 +17,19 @@ import {
   STETH,
   WSTETH,
   ENS,
-  UNI,
   YVUSDC,
+  UNI,
   WAD,
   YSETH6MJD,
   YSETH6MMS,
   ZERO,
 } from '../../../../shared/constants'
 
-import * as base_config from '../../base.mainnet.config'
+import * as base_config from '../../base.rinkeby.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const whales: Map<string, string> = base_config.whales
 
 export const governance: Map<string, string> = base_config.governance
@@ -55,18 +55,18 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
   [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
 
-export const newChiSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]
+export const newChiSources: Array<[string, string]> = [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]
 
-export const newRateSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]
+export const newRateSources: Array<[string, string]> = [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]
 
-// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
   [ETH, DAI, 1500000, 250000000, 10000, 12],
   [ETH, USDC, 1500000, 250000000, 10000, 12],
   [ETH, WBTC, 1500000, 250000000, 10000, 12],
   [ETH, LINK, 1500000, 250000000, 10000, 12],
-  [ETH, UNI, 1500000, 250000000, 10000, 12],
+  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [[WSTETH, ETH, [STETH]]]

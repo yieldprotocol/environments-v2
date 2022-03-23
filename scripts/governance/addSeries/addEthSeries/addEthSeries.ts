@@ -24,7 +24,7 @@ import { orchestrateStrategiesProposal } from '../../../fragments/core/strategie
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol } = require(process.env.CONF as string)
+const { governance, protocol, chainId } = require(process.env.CONF as string)
 const { newCompositePaths, newRateSources, newChiSources } = require(process.env.CONF as string)
 const { bases, newChainlinkLimits, newUniswapLimits, newCompositeLimits } = require(process.env.CONF as string)
 const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
@@ -85,11 +85,12 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   proposal = proposal.concat(
     await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
   )
-
   proposal = proposal.concat(
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
-  proposal = proposal.concat(await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, newUniswapLimits))
+  proposal = proposal.concat(
+    await updateIlkProposal((chainId == 1 ? uniswapOracle : chainlinkOracle) as unknown as IOracle, cauldron, newUniswapLimits)
+  )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
@@ -98,12 +99,20 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
   )
-  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
-
+  proposal = proposal.concat(
+    await addIlksToSeriesProposal(cauldron, seriesIlks)
+  )
+  proposal = proposal.concat(
+    await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit)
+  )
+ 
   // Strategies
-  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
-  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
+  proposal = proposal.concat(
+    await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData)
+  )
+  proposal = proposal.concat(
+    await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit)
+  )
 
   if (proposal.length > 0) {
     // Propose, Approve & execute

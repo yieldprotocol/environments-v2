@@ -56,6 +56,14 @@
     [
       "yearnOracle",
       "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+    ],
+    [
+      "notionalOracle",
+      "0x660bB2F1De01AacA46FCD8004e852234Cf65F3fb"
+    ],
+    [
+      "transfer1155Module",
+      "0x97f1d43A217aDD678bB6Dcd3C5D51F40b6729d06"
     ]
   ]
 }
