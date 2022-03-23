@@ -71,12 +71,12 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [[WSTETH, ETH, [STETH]]]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, WSTETH, 1000000, 250000000, 10000, 12],
+  [ETH, WSTETH, 1250000, 250000000, 10000, 12],
 ]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
