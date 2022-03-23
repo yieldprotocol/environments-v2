@@ -20,8 +20,15 @@ export const deployNotionalJoins = async (
   let joins: Map<string, NotionalJoin> = new Map()
   for (let [assetId, fCashAddress, underlyingAddress, maturity, currencyId] of joinData) {
     let join: NotionalJoin
-    join = (await deployContract(ownerAcc, NotionalJoinArtifact, [fCashAddress, underlyingAddress, maturity, currencyId])) as NotionalJoin
-    console.log(`NotionalJoin deployed at ${join.address} for fCash maturing at ${maturity} with currency ${currencyId}`)
+    join = (await deployContract(ownerAcc, NotionalJoinArtifact, [
+      fCashAddress,
+      underlyingAddress,
+      maturity,
+      currencyId,
+    ])) as NotionalJoin
+    console.log(
+      `NotionalJoin deployed at ${join.address} for fCash maturing at ${maturity} with currency ${currencyId}`
+    )
     verify(join.address, [fCashAddress, underlyingAddress, maturity, currencyId])
 
     if (!(await join.hasRole(ROOT, timelock.address))) {
