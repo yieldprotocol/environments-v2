@@ -8,7 +8,7 @@ import {
   ONEUSDC,
   MAX256,
   ONE64,
-  secondsIn25Years,
+  secondsIn30Years,
   ACCUMULATOR,
 } from '../../../../shared/constants'
 import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
@@ -60,7 +60,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     FYDAI2209,
     assets.get(DAI) as string,
     fyTokens.get(FYDAI2209) as string,
-    ONE64.div(secondsIn25Years),
+    ONE64.div(secondsIn30Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
@@ -68,7 +68,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     FYUSDC2209,
     assets.get(USDC) as string,
     fyTokens.get(FYUSDC2209) as string,
-    ONE64.div(secondsIn25Years),
+    ONE64.div(secondsIn30Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
