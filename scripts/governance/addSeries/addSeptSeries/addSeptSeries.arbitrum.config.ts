@@ -12,6 +12,7 @@ import {
   ACCUMULATOR,
 } from '../../../../shared/constants'
 import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
+import { assets as arbAssets, joins as arbJoins } from '../../base.arb_mainnet.config'
 
 const protocol = readAddressMappingIfExists('protocol.json')
 
@@ -32,18 +33,11 @@ export const whales: Map<string, string> = new Map([
 
 // Tokens known to the protocol
 // https://tokenlists.org/token-list?url=https://bridge.arbitrum.io/token-list-42161.json
-export const assets: Map<string, string> = new Map([
-  [ETH, '0x82af49447d8a07e3bd95bd0d56f35241523fbab1'],
-  [DAI, '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1'],
-  [USDC, '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'],
-])
+export const assets: Map<string, string> = arbAssets
 
 // Joins deployed, used in fyTokenData below
 // assetId, joinAddress
-export const joins: Map<string, string> = new Map([
-  [DAI, '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
-  [USDC, '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
-])
+export const joins: Map<string, string> = arbJoins
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
