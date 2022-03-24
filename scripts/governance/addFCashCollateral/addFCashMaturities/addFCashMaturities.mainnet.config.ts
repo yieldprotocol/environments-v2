@@ -20,7 +20,7 @@ import { FYUSDC2206, FYDAI2206, FYUSDC2209, FYDAI2209 } from '../../../../shared
 export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 
 /// @dev The Notional Oracle is fed with Yield Protocol asset pairs to register.
-/// Since we are valuing the fCash at face value, we don't need the Notional fCash ids. 
+/// Since we are valuing the fCash at face value, we don't need the Notional fCash ids.
 /// Note: notionalId (FDAI2203) is the id of an fCash tenor in the Yield Protocol,
 /// while fCashId (FDAI2203ID) is the id of that same tenor in Notional Finance
 /// @param fcash: address of the fCash contract
