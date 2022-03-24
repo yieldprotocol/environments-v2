@@ -49,16 +49,16 @@ export const initPoolsProposal = async (
     console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
 
     // Skew pool
-    // proposal.push({
-    //   target: base.address,
-    //   data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
-    // })
-    // console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
-    // proposal.push({
-    //   target: fyToken.address,
-    //   data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
-    // })
-    // console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
+    proposal.push({
+      target: base.address,
+      data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
+    })
+    console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
+    proposal.push({
+      target: fyToken.address,
+      data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
+    })
+    console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
     // proposal.push({
     //   target: pool.address,
     //   data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
