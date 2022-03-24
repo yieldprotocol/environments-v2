@@ -1,12 +1,11 @@
 import { ethers } from 'hardhat'
-import { seriesIlks } from '../scripts/governance/base.mainnet.config'
 import { Cauldron, Ladle, Router, Witch } from '../typechain'
-import { getContract, getOwnerOrImpersonate } from './helpers'
+import { ZERO_ADDRESS } from './constants'
 import { AssetEntityProxy, NetworksEntityProxy, ProtocolObjectProxy, SeriesEntityProxy } from './proxyCode'
-import { assets } from './starterData'
-import { AssetEntity, NetworksEntity, Protocol, ProtocolObject, SeriesEntity } from './types'
+import { assets, series } from './starterData'
+import { AssetEntity, SeriesEntity } from './types'
 
-export class protocolObject implements ProtocolObject {
+export class protocolObject {
   public protOb: ProtocolObjectProxy
   public networks: NetworksEntityProxy[]
   public cauldron: Cauldron | null
@@ -15,7 +14,7 @@ export class protocolObject implements ProtocolObject {
   public witch: Witch | null
   public developer: any
   public activeNetwork: NetworksEntityProxy | null
-  constructor(proto:ProtocolObjectProxy) {
+  constructor(proto: ProtocolObjectProxy) {
     // Load the file
     // If no file present
     this.protOb = proto
@@ -54,10 +53,10 @@ export class protocolObject implements ProtocolObject {
 
   public async loadData() {
     await this.readAssets(assets)
+    await this.readSeries(series)
   }
 
   public async readAssets(assetIds: AssetEntity[]) {
-    
     if (this.activeNetwork!.config!.cauldron!.asset!.length == 0) {
       for (let index = 0; index < assetIds.length; index++) {
         const element = assetIds[index]
@@ -65,7 +64,7 @@ export class protocolObject implements ProtocolObject {
         let asset = {} as AssetEntityProxy
         asset.assetId = element.assetId
         asset.address = await this.cauldron!.assets(element.assetId)
-        this.activeNetwork!.config!.cauldron!.asset!.push(asset as never);
+        this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
       }
     } else {
       for (let index = 0; index < assetIds.length; index++) {
@@ -90,10 +89,35 @@ export class protocolObject implements ProtocolObject {
     }
   }
 
-  public readSeries(series: SeriesEntity[]) {
-    for (let index = 0; index < series.length; index++) {
-      const element = series[index]
-      if (element.fyToken == undefined || element.fyToken == '') {
+  public async readSeries(series: SeriesEntity[]) {
+    if (this.activeNetwork!.config!.cauldron!.series!.length == 0) {
+      // No data is populated
+      for (let index = 0; index < series.length; index++) {
+        const element = series[index]
+        let seriesItem = {} as SeriesEntityProxy
+        seriesItem.seriesId = element.seriesId
+        let seriesData = await this.cauldron!.series(element.seriesId)
+        if (seriesData.fyToken != ZERO_ADDRESS && seriesData.maturity != 0) {
+          seriesItem.baseId = seriesData.baseId
+          seriesItem.fyToken = seriesData.fyToken
+          seriesItem.maturity = seriesData.maturity
+
+          this.activeNetwork!.config!.cauldron!.series!.push(seriesItem as never)
+        }
+      }
+    } else {
+      for (let index = 0; index < series.length; index++) {
+        const element = series[index]
+        let indexOf = this.activeNetwork!.config!.cauldron!.series!.findIndex(x=>x.seriesId==element.seriesId)
+        if(indexOf==-1){
+          // Series not found
+          // Get data & update
+          let seriesData = await this.cauldron!.series(element.seriesId)
+        }else{
+          // Series found
+          // Check if data is correct
+          // If data is not correct then update
+        }
       }
     }
   }
@@ -105,7 +129,6 @@ export class protocolObject implements ProtocolObject {
       seriesItem.seriesId = element.seriesId
       seriesItem.fyToken = element.fyToken
       seriesItem.baseId = element.baseId
-      seriesItem.maturity = element.maturity
     }
   }
 
