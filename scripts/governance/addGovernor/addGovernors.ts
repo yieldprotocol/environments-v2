@@ -1,21 +1,19 @@
 import { ethers } from 'hardhat'
 import {
   readAddressMappingIfExists,
-  getOriginalChainId,
   getOwnerOrImpersonate,
   proposeApproveExecute,
 } from '../../../shared/helpers'
 
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { newGovernors, developerToImpersonate } from './addGovernors.rinkeby.config'
+const { newGovernors, developerToImpersonate } = require(process.env.CONF as string)
+
 
 /**
  * @dev This script gives governor privileges to one or more accounts.
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 
   const governance = readAddressMappingIfExists('governance.json')
