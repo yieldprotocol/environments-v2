@@ -1,8 +1,8 @@
-import { proposeApproveExecute } from '../../../shared/helpers'
-import { IOracle } from '../../../typechain'
-import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
-import { Harness } from '../../fragments/core/harness/harness'
+import { proposeApproveExecute } from '../../../../../shared/helpers'
+import { IOracle } from '../../../../../typechain'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { Harness } from '../../../../fragments/core/harness/harness'
 const { debtLimits, auctionLimits, seriesIlks } = require(process.env.CONF as string)
 const { newJoins } = require(process.env.BASE as string)
 

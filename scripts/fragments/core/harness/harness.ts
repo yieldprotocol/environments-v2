@@ -223,4 +223,43 @@ export class Harness {
     }
     return baseAbleAsset
   }
+
+  async readProtocolState() {
+    // Read assets
+    // Assets are obtained by querying the cauldron with all asset ids
+    // Read FYTokens
+    // FYToken are obtained by querying the cauldron with all series ids
+    // Read Joins
+    // Joins are obtained by querying the ladle with all asset ids
+    // Read Pools
+    // Pools are obtained by querying the ladle with all series ids
+  }
+
+  async loadPools(seriesIds: []) {
+    for (let index = 0; index < seriesIds.length; index++) {
+      const element = seriesIds[index]
+      await this.ladle.pools(element)
+    }
+  }
+
+  async loadJoins(assetIds: []) {
+    for (let index = 0; index < assetIds.length; index++) {
+      const element = assetIds[index]
+      await this.ladle.joins(element)
+    }
+  }
+
+  async loadFYTokens(seriesIds: []) {
+    for (let index = 0; index < seriesIds.length; index++) {
+      const element = seriesIds[index]
+      await this.cauldron.series(element)
+    }
+  }
+
+  async loadAsset(assetIds: []) {
+    for (let index = 0; index < assetIds.length; index++) {
+      const element = assetIds[index]
+      await this.cauldron.assets(element)
+    }
+  }
 }

@@ -61,6 +61,8 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
-    "latest": "^0.2.0"
+    "class-transformer": "^0.5.1",
+    "latest": "^0.2.0",
+    "reflect-metadata": "^0.1.13"
   }
 }
