@@ -15,8 +15,6 @@ export class protocolObject {
   public developer: any
   public activeNetwork: NetworksEntityProxy | null
   constructor(proto: ProtocolObjectProxy) {
-    // Load the file
-    // If no file present
     this.protOb = proto
     this.networks = proto.networks
     this.cauldron = null
@@ -108,12 +106,12 @@ export class protocolObject {
     } else {
       for (let index = 0; index < series.length; index++) {
         const element = series[index]
-        let indexOf = this.activeNetwork!.config!.cauldron!.series!.findIndex(x=>x.seriesId==element.seriesId)
-        if(indexOf==-1){
+        let indexOf = this.activeNetwork!.config!.cauldron!.series!.findIndex((x) => x.seriesId == element.seriesId)
+        if (indexOf == -1) {
           // Series not found
           // Get data & update
           let seriesData = await this.cauldron!.series(element.seriesId)
-        }else{
+        } else {
           // Series found
           // Check if data is correct
           // If data is not correct then update
