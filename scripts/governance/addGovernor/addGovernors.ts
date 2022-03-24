@@ -1,14 +1,9 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-} from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 const { newGovernors, developerToImpersonate } = require(process.env.CONF as string)
-
 
 /**
  * @dev This script gives governor privileges to one or more accounts.

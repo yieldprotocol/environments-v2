@@ -1,9 +1,6 @@
 import { ethers } from 'hardhat'
 
-import {
-  readAddressMappingIfExists,
-  impersonate,
-} from '../../../shared/helpers'
+import { readAddressMappingIfExists, impersonate } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
@@ -29,7 +26,6 @@ describe('Grant governor permissions', function () {
 
   for (let newGovernor of newGovernors) {
     before(async () => {
-
       const governance = readAddressMappingIfExists('governance.json')
 
       governorAcc = await impersonate(newGovernor, WAD)
