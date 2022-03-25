@@ -1,4 +1,5 @@
 import { ethers } from 'hardhat'
+import * as hre from 'hardhat'
 import { Cauldron, Ladle, Router, Witch } from '../typechain'
 import { ZERO_ADDRESS } from './constants'
 import { bytesToBytes32 } from './helpers'
@@ -11,7 +12,8 @@ import {
 } from './proxyCode'
 import { assets, series } from './starterData'
 import { AssetEntity, SeriesEntity } from './types'
-
+import { readFileSync, writeFileSync } from 'fs'
+import { plainToClass, serialize } from 'class-transformer'
 export class protocolObject {
   public protOb: ProtocolObjectProxy
   public networks: NetworksEntityProxy[]
@@ -21,6 +23,7 @@ export class protocolObject {
   public witch: Witch | null
   public developer: any
   public activeNetwork: NetworksEntityProxy | null
+
   constructor(proto: ProtocolObjectProxy) {
     this.protOb = proto
     this.networks = proto.networks
@@ -30,6 +33,21 @@ export class protocolObject {
     this.witch = null
     this.developer = null
     this.activeNetwork = null
+  }
+
+  public static async LOAD(): Promise<protocolObject> {
+    let protocol = JSON.parse(await readFileSync('./protocolObject/protocolObject2.json', 'utf8'))
+    let protocolObjPrx = plainToClass(ProtocolObjectProxy, protocol)
+    let protocolObj = new protocolObject(protocolObjPrx)
+
+    for (const network of protocolObj.networks) {
+      // TODO: reliable method of detecting network
+      if (hre.network.name == network.name) {
+        await protocolObj.loadProtocol(hre.network.name)
+        break
+      }
+    }
+    return protocolObj
   }
 
   public async loadProtocol(name: string) {
@@ -109,10 +127,10 @@ export class protocolObject {
     for (let index = 0; index < assets.length; index++) {
       const element = assets[index]
       let assetItem = {} as AssetEntityProxy
-
       assetItem.assetId = element.assetId
       assetItem.address = element.address
       assetItem.deploymentTime = element.deploymentTime
+      this.activeNetwork!.config!.cauldron!.asset!.push(assetItem as never)
     }
   }
 
@@ -172,8 +190,12 @@ export class protocolObject {
       const element = series[index]
       let seriesItem = {} as SeriesEntityProxy
       seriesItem.seriesId = element.seriesId
-      seriesItem.fyToken = element.fyToken
+
       seriesItem.baseId = element.baseId
+      seriesItem.fyToken = element.fyToken
+      seriesItem.maturity = parseInt(element.maturity)
+
+      this.activeNetwork!.config!.cauldron!.series!.push(seriesItem as never)
     }
   }
 
@@ -224,5 +246,10 @@ export class protocolObject {
         }
       }
     }
+  }
+
+  public saveObject() {
+    let photos = serialize(this.protOb)
+    writeFileSync('./protocolObject/protocolObject2.json', photos, 'utf8')
   }
 }

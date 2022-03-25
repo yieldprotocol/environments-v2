@@ -14,6 +14,8 @@ import {
   FYDAI2206,
   FYUSDC2203,
   FYUSDC2206,
+  FYDAI2209,
+  FYUSDC2209,
 } from '../shared/constants'
 import { AssetEntity, SeriesEntity } from './types'
 
@@ -35,4 +37,6 @@ export const series: SeriesEntity[] = [
   { seriesId: FYUSDC2203, fyToken: '', baseId: '', maturity: '' },
   { seriesId: FYDAI2206, fyToken: '', baseId: '', maturity: '' },
   { seriesId: FYUSDC2206, fyToken: '', baseId: '', maturity: '' },
+  { seriesId: FYDAI2209, fyToken: '', baseId: '', maturity: '' },
+  { seriesId: FYUSDC2209, fyToken: '', baseId: '', maturity: '' },
 ]

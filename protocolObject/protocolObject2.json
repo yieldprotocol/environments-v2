@@ -1,1 +1,214 @@
-{"networks":[{"name":"mainnet","protocol":{"cauldron":[{"address":"0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867","git":""}],"ladle":[{"address":"0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A","git":""}],"router":[{"address":"0x1bF78bE42cD72bbFCCEEf67dCC0a0E2a0EB5da57","git":""}],"witch":[{"address":"0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061","git":""}]},"config":{"cauldron":{"asset":[{"assetId":"0x303000000000","address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},{"assetId":"0x303100000000","address":"0x6B175474E89094C44Da98b954EedeAC495271d0F"},{"assetId":"0x303200000000","address":"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"},{"assetId":"0x303300000000","address":"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"},{"assetId":"0x303400000000","address":"0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"},{"assetId":"0x303500000000","address":"0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"},{"assetId":"0x303600000000","address":"0x514910771AF9Ca656af840dff83E8264EcF986CA"},{"assetId":"0x303700000000","address":"0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72"},{"assetId":"0x303900000000","address":"0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE"},{"assetId":"0x313000000000","address":"0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"}],"series":[{"seriesId":"0x303130350000","baseId":"0x303100000000","fyToken":"0x30d94Da9ee56d3EF0c97EBa22223784F6bCf37B9","maturity":1648177200},{"seriesId":"0x303230350000","baseId":"0x303200000000","fyToken":"0x33c4F1A98CF0F540D8a1F6119129337eC5973E29","maturity":1648177200},{"seriesId":"0x303130360000","baseId":"0x303100000000","fyToken":"0x2043452d7f1aaed1b5A266EFAa80e2D04872EB88","maturity":1656039600},{"seriesId":"0x303230360000","baseId":"0x303200000000","fyToken":"0x4568bBcf929AB6B4d716F2a3D5A967a1908B4F1C","maturity":1656039600}],"ilks":[{"seriesId":"0x303130350000","ilkId":"0x303000000000"},{"seriesId":"0x303130350000","ilkId":"0x303100000000"},{"seriesId":"0x303130350000","ilkId":"0x303200000000"},{"seriesId":"0x303130350000","ilkId":"0x303300000000"},{"seriesId":"0x303130350000","ilkId":"0x303400000000"},{"seriesId":"0x303130350000","ilkId":"0x303600000000"},{"seriesId":"0x303130350000","ilkId":"0x303700000000"},{"seriesId":"0x303130350000","ilkId":"0x313000000000"},{"seriesId":"0x303230350000","ilkId":"0x303000000000"},{"seriesId":"0x303230350000","ilkId":"0x303100000000"},{"seriesId":"0x303230350000","ilkId":"0x303200000000"},{"seriesId":"0x303230350000","ilkId":"0x303300000000"},{"seriesId":"0x303230350000","ilkId":"0x303400000000"},{"seriesId":"0x303230350000","ilkId":"0x303600000000"},{"seriesId":"0x303230350000","ilkId":"0x303700000000"},{"seriesId":"0x303230350000","ilkId":"0x303900000000"},{"seriesId":"0x303230350000","ilkId":"0x313000000000"},{"seriesId":"0x303130360000","ilkId":"0x303000000000"},{"seriesId":"0x303130360000","ilkId":"0x303100000000"},{"seriesId":"0x303130360000","ilkId":"0x303200000000"},{"seriesId":"0x303130360000","ilkId":"0x303300000000"},{"seriesId":"0x303130360000","ilkId":"0x303400000000"},{"seriesId":"0x303130360000","ilkId":"0x303600000000"},{"seriesId":"0x303130360000","ilkId":"0x303700000000"},{"seriesId":"0x303130360000","ilkId":"0x313000000000"},{"seriesId":"0x303230360000","ilkId":"0x303000000000"},{"seriesId":"0x303230360000","ilkId":"0x303100000000"},{"seriesId":"0x303230360000","ilkId":"0x303200000000"},{"seriesId":"0x303230360000","ilkId":"0x303300000000"},{"seriesId":"0x303230360000","ilkId":"0x303400000000"},{"seriesId":"0x303230360000","ilkId":"0x303600000000"},{"seriesId":"0x303230360000","ilkId":"0x303700000000"},{"seriesId":"0x303230360000","ilkId":"0x303900000000"},{"seriesId":"0x303230360000","ilkId":"0x313000000000"}],"lendingOracle":[],"spotOracles":[]},"ladle":{"joins":[],"pools":[],"modules":[],"integrations":[],"tokens":[]},"witch":{"limits":[]}}},{"name":"rinkeby","protocol":{"cauldron":[],"ladle":[],"router":[],"witch":[]},"config":{"cauldron":{"asset":[],"series":[],"ilks":[],"lendingOracle":[],"spotOracles":[]},"ladle":{"joins":[],"pools":[],"modules":[],"integrations":[],"tokens":[]},"witch":{"limits":[]}}}]}
+{
+  "networks": [
+    {
+      "name": "mainnet",
+      "protocol": {
+        "cauldron": [{ "address": "0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867", "git": "" }],
+        "ladle": [{ "address": "0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A", "git": "" }],
+        "router": [{ "address": "0x1bF78bE42cD72bbFCCEEf67dCC0a0E2a0EB5da57", "git": "" }],
+        "witch": [{ "address": "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061", "git": "" }]
+      },
+      "config": {
+        "cauldron": {
+          "asset": [
+            { "assetId": "0x303000000000", "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" },
+            { "assetId": "0x303100000000", "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F" },
+            { "assetId": "0x303200000000", "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" },
+            { "assetId": "0x303300000000", "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599" },
+            { "assetId": "0x303400000000", "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0" },
+            { "assetId": "0x303500000000", "address": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84" },
+            { "assetId": "0x303600000000", "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA" },
+            { "assetId": "0x303700000000", "address": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72" },
+            { "assetId": "0x303900000000", "address": "0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE" },
+            { "assetId": "0x313000000000", "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984" }
+          ],
+          "series": [
+            {
+              "seriesId": "0x303130350000",
+              "baseId": "0x303100000000",
+              "fyToken": "0x30d94Da9ee56d3EF0c97EBa22223784F6bCf37B9",
+              "maturity": 1648177200
+            },
+            {
+              "seriesId": "0x303230350000",
+              "baseId": "0x303200000000",
+              "fyToken": "0x33c4F1A98CF0F540D8a1F6119129337eC5973E29",
+              "maturity": 1648177200
+            },
+            {
+              "seriesId": "0x303130360000",
+              "baseId": "0x303100000000",
+              "fyToken": "0x2043452d7f1aaed1b5A266EFAa80e2D04872EB88",
+              "maturity": 1656039600
+            },
+            {
+              "seriesId": "0x303230360000",
+              "baseId": "0x303200000000",
+              "fyToken": "0x4568bBcf929AB6B4d716F2a3D5A967a1908B4F1C",
+              "maturity": 1656039600
+            },
+            {
+              "seriesId": "0x303130370000",
+              "baseId": "0x303100000000",
+              "fyToken": "0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb",
+              "maturity": 1664550000
+            },
+            {
+              "seriesId": "0x303230370000",
+              "baseId": "0x303200000000",
+              "fyToken": "0x53C2a1bA37FF3cDaCcb3EA030DB3De39358e5593",
+              "maturity": 1664550000
+            }
+          ],
+          "ilks": [
+            { "seriesId": "0x303130350000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303900000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303900000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303130370000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x303900000000" },
+            { "seriesId": "0x303230370000", "ilkId": "0x313000000000" }
+          ],
+          "lendingOracle": [],
+          "spotOracles": []
+        },
+        "ladle": { "joins": [], "pools": [], "modules": [], "integrations": [], "tokens": [] },
+        "witch": { "limits": [] }
+      }
+    },
+    {
+      "name": "rinkeby",
+      "protocol": {
+        "cauldron": [{ "address": "0xb2cf78ccA863675Ef61a0c696885DED0C833F8f3", "git": "" }],
+        "ladle": [{ "address": "0x45f502A7358ec631c7a422270922d7dFA142cb9C", "git": "" }],
+        "router": [{ "address": "0x9Bba4568E6246e859923C107555b6e0d64dB9708", "git": "" }],
+        "witch": [{ "address": "0x5cEe0925647722e7ed32dcaf5A2DeFD3872Edb6F", "git": "" }]
+      },
+      "config": {
+        "cauldron": {
+          "asset": [
+            { "assetId": "0x303000000000", "address": "0x67c5279f044A40746017Ae1edD8bb7573273aA8b" },
+            { "assetId": "0x303100000000", "address": "0x32E85Fa11a53ac73067881ef7E56d47a3BCe3e2C" },
+            { "assetId": "0x303200000000", "address": "0xf4aDD9708888e654C042613843f413A8d6aDB8Fe" },
+            { "assetId": "0x303300000000", "address": "0x69A11AA0D394337570d84ce824a1ca6aFA0765DF" },
+            { "assetId": "0x303400000000", "address": "0xf9F4D9e05503D416E95f05831A95ff43c3A01182" },
+            { "assetId": "0x303600000000", "address": "0xfdf099372cded51a9dA9c0431707789f08B06C70" },
+            { "assetId": "0x303700000000", "address": "0x5BeAdC789F094741DEaacd5a1499aEd7E9d7FB78" },
+            { "assetId": "0x303900000000", "address": "0x2381d065e83DDdBaCD9B4955d49D5a858AE5957B" },
+            { "assetId": "0x313000000000", "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984" }
+          ],
+          "series": [
+            {
+              "seriesId": "0x303130350000",
+              "baseId": "0x303100000000",
+              "fyToken": "0x1a25E3Bb3FF1D6a84c8918c7c83a93D1db387443",
+              "maturity": 1648177200
+            },
+            {
+              "seriesId": "0x303230350000",
+              "baseId": "0x303200000000",
+              "fyToken": "0x2bB665E8fF1C90dA53Ed59D17AF17FA0F391fecb",
+              "maturity": 1648177200
+            },
+            {
+              "seriesId": "0x303130360000",
+              "baseId": "0x303100000000",
+              "fyToken": "0x02FC2277F50Dd4f4D8B4573A1465e4af0aCf5443",
+              "maturity": 1656039600
+            },
+            {
+              "seriesId": "0x303230360000",
+              "baseId": "0x303200000000",
+              "fyToken": "0xc5FA3007417b0Ed34ce34a8Bc55d70A737b737dE",
+              "maturity": 1656039600
+            }
+          ],
+          "ilks": [
+            { "seriesId": "0x303130350000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303130350000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x303900000000" },
+            { "seriesId": "0x303230350000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303130360000", "ilkId": "0x313000000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303000000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303100000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303200000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303300000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303400000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303600000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303700000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x303900000000" },
+            { "seriesId": "0x303230360000", "ilkId": "0x313000000000" }
+          ],
+          "lendingOracle": [],
+          "spotOracles": []
+        },
+        "ladle": { "joins": [], "pools": [], "modules": [], "integrations": [], "tokens": [] },
+        "witch": { "limits": [] }
+      }
+    }
+  ]
+}
