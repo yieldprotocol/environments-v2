@@ -69,7 +69,6 @@ export class SeriesEntityProxy {
 
 export class IlksEntityProxy {
   public seriesId: string = ''
-  public assetId: string = ''
   public ilkId: string = ''
 }
 

@@ -10,7 +10,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 
   let protocol = JSON.parse(
     await readFileSync(
-      '/Users/praffulsahu/Documents/Crypto/Yield/environments-v2/protocolObject/protocolObject.json',
+      './protocolObject/protocolObject2.json',
       'utf8'
     )
   )
@@ -28,5 +28,6 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
   // Load data into the object based on the set network
   await protocolObj.loadData()
   let photos = serialize(protocolObj.protOb)
-  console.log(photos)
+  
+  writeFileSync('./protocolObject/protocolObject2.json', photos, 'utf8')
 })()

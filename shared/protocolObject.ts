@@ -1,7 +1,14 @@
 import { ethers } from 'hardhat'
 import { Cauldron, Ladle, Router, Witch } from '../typechain'
 import { ZERO_ADDRESS } from './constants'
-import { AssetEntityProxy, NetworksEntityProxy, ProtocolObjectProxy, SeriesEntityProxy } from './proxyCode'
+import { bytesToBytes32 } from './helpers'
+import {
+  AssetEntityProxy,
+  IlksEntityProxy,
+  NetworksEntityProxy,
+  ProtocolObjectProxy,
+  SeriesEntityProxy,
+} from './proxyCode'
 import { assets, series } from './starterData'
 import { AssetEntity, SeriesEntity } from './types'
 
@@ -52,10 +59,12 @@ export class protocolObject {
   public async loadData() {
     await this.readAssets(assets)
     await this.readSeries(series)
+    await this.readIlks(series, assets)
   }
 
   public async readAssets(assetIds: AssetEntity[]) {
     if (this.activeNetwork!.config!.cauldron!.asset!.length == 0) {
+      // No data is present in the protocol object so reading from scratch & adding it
       for (let index = 0; index < assetIds.length; index++) {
         const element = assetIds[index]
         // console.log(await this.cauldron!.assets(element.assetId))
@@ -67,10 +76,30 @@ export class protocolObject {
     } else {
       for (let index = 0; index < assetIds.length; index++) {
         const element = assetIds[index]
-        if (element.address == undefined || element.address == '') {
-          console.log(await this.cauldron!.assets(element.assetId))
+        let indexOf = this.activeNetwork!.config!.cauldron!.asset!.findIndex((x) => x.assetId == element.assetId)
+        let onChainAddress = await this.cauldron!.assets(element.assetId)
+        if (indexOf == -1) {
+          // Asset not found
+          let asset = {} as AssetEntityProxy
+          asset.assetId = element.assetId
+          asset.address = onChainAddress
+          // Add the asset to the assets
+          this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
         } else {
-          // Compare & update
+          // See if the data is good or not in the protocol object
+          if (this.activeNetwork!.config!.cauldron!.asset![indexOf].address != onChainAddress) {
+            this.activeNetwork!.config!.cauldron!.asset![indexOf].address = onChainAddress
+            console.log('updated')
+          }
+        }
+      }
+
+      // Remove any assets which is in our object but not on chain
+      for (let index = 0; index < this.activeNetwork!.config!.cauldron!.asset!.length; index++) {
+        const element = this.activeNetwork!.config!.cauldron!.asset![index]
+        let onChainAddress = await this.cauldron!.assets(element.assetId)
+        if (onChainAddress == ZERO_ADDRESS) {
+          this.activeNetwork!.config!.cauldron!.asset!.splice(index, 1)
         }
       }
     }
@@ -107,14 +136,32 @@ export class protocolObject {
       for (let index = 0; index < series.length; index++) {
         const element = series[index]
         let indexOf = this.activeNetwork!.config!.cauldron!.series!.findIndex((x) => x.seriesId == element.seriesId)
+        let onChainSeriesData = await this.cauldron!.series(element.seriesId)
         if (indexOf == -1) {
           // Series not found
           // Get data & update
-          let seriesData = await this.cauldron!.series(element.seriesId)
+          let seriesItem = {} as SeriesEntityProxy
+          seriesItem.seriesId = element.seriesId
+
+          if (onChainSeriesData.fyToken != ZERO_ADDRESS && onChainSeriesData.maturity != 0) {
+            seriesItem.baseId = onChainSeriesData.baseId
+            seriesItem.fyToken = onChainSeriesData.fyToken
+            seriesItem.maturity = onChainSeriesData.maturity
+
+            this.activeNetwork!.config!.cauldron!.series!.push(seriesItem as never)
+          }
         } else {
           // Series found
-          // Check if data is correct
           // If data is not correct then update
+          if (this.activeNetwork!.config!.cauldron!.series![indexOf].baseId != onChainSeriesData.baseId) {
+            this.activeNetwork!.config!.cauldron!.series![indexOf].baseId = onChainSeriesData.baseId
+          }
+          if (this.activeNetwork!.config!.cauldron!.series![indexOf].fyToken != onChainSeriesData.fyToken) {
+            this.activeNetwork!.config!.cauldron!.series![indexOf].fyToken = onChainSeriesData.fyToken
+          }
+          if (this.activeNetwork!.config!.cauldron!.series![indexOf].maturity != onChainSeriesData.maturity) {
+            this.activeNetwork!.config!.cauldron!.series![indexOf].maturity = onChainSeriesData.maturity
+          }
         }
       }
     }
@@ -130,7 +177,52 @@ export class protocolObject {
     }
   }
 
-  public updateJson() {
-    // Write the data to the file
+  public async readIlks(series: SeriesEntity[], assetIds: AssetEntity[]) {
+    if (this.activeNetwork!.config!.cauldron!.ilks!.length == 0) {
+      for (let seriesIndex = 0; seriesIndex < series.length; seriesIndex++) {
+        for (let baseIndex = 0; baseIndex < assetIds.length; baseIndex++) {
+          let bIlk = await this.cauldron!.ilks(series[seriesIndex].seriesId, assetIds[baseIndex].assetId)
+
+          if (bIlk) {
+            // Add ilk data
+            let ilk = {} as IlksEntityProxy
+
+            ilk.seriesId = series[seriesIndex].seriesId
+            ilk.ilkId = assetIds[baseIndex].assetId
+            this.activeNetwork!.config!.cauldron!.ilks!.push(ilk as never)
+          }
+        }
+      }
+    } else {
+      for (let seriesIndex = 0; seriesIndex < series.length; seriesIndex++) {
+        for (let baseIndex = 0; baseIndex < assetIds.length; baseIndex++) {
+          let bIlk = await this.cauldron!.ilks(series[seriesIndex].seriesId, assetIds[baseIndex].assetId)
+          let indexOf = this.activeNetwork!.config!.cauldron!.ilks!.findIndex(
+            (x) => x.seriesId == series[seriesIndex].seriesId && x.ilkId == assetIds[baseIndex].assetId
+          )
+          if (bIlk && indexOf == -1) {
+            // Add ilk data as ilk is present on chain & not in protocol object
+            let ilk = {} as IlksEntityProxy
+
+            ilk.seriesId = series[seriesIndex].seriesId
+            ilk.ilkId = assetIds[baseIndex].assetId
+            this.activeNetwork!.config!.cauldron!.ilks!.push(ilk as never)
+          }
+          if (!bIlk && indexOf != -1) {
+            // Not ilk but ilk present in protcol object so remove
+            this.activeNetwork!.config!.cauldron!.ilks!.splice(indexOf, 1)
+          }
+        }
+      }
+
+      // Check if we don't have any data which is not valid
+      for (let index = 0; index < this.activeNetwork!.config!.cauldron!.ilks!.length; index++) {
+        const element = this.activeNetwork!.config!.cauldron!.ilks![index]
+        let bIlk = await this.cauldron!.ilks(element.seriesId, element.ilkId)
+        if (!bIlk) {
+          this.activeNetwork!.config!.cauldron!.ilks!.splice(index, 1)
+        }
+      }
+    }
   }
 }
