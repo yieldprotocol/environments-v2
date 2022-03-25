@@ -85,10 +85,10 @@ export class SpotOraclesEntityProxy {
 }
 
 export class LadleProxy {
-  @Type(() => JoinsEntityOrPoolsEntityProxy)
-  public joins: JoinsEntityOrPoolsEntityProxy[] = [] as JoinsEntityOrPoolsEntityProxy[]
-  @Type(() => JoinsEntityOrPoolsEntityProxy)
-  public pools: JoinsEntityOrPoolsEntityProxy[] = [] as JoinsEntityOrPoolsEntityProxy[]
+  @Type(() => JoinsEntityProxy)
+  public joins: JoinsEntityProxy[] = [] as JoinsEntityProxy[]
+  @Type(() => PoolsEntityProxy)
+  public pools: PoolsEntityProxy[] = [] as PoolsEntityProxy[]
   @Type(() => ModulesEntityOrIntegrationsEntityOrTokensEntityProxy)
   public modules: ModulesEntityOrIntegrationsEntityOrTokensEntityProxy[] = [] as ModulesEntityOrIntegrationsEntityOrTokensEntityProxy[]
   @Type(() => ModulesEntityOrIntegrationsEntityOrTokensEntityProxy)
@@ -97,8 +97,12 @@ export class LadleProxy {
   public tokens: ModulesEntityOrIntegrationsEntityOrTokensEntityProxy[] = [] as ModulesEntityOrIntegrationsEntityOrTokensEntityProxy[]
 }
 
-export class JoinsEntityOrPoolsEntityProxy {
+export class JoinsEntityProxy {
   public assetId: string = ''
+  public address: string = ''
+}
+export class PoolsEntityProxy {
+  public seriesId: string = ''
   public address: string = ''
 }
 

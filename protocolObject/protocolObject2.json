@@ -116,7 +116,30 @@
           "lendingOracle": [],
           "spotOracles": []
         },
-        "ladle": { "joins": [], "pools": [], "modules": [], "integrations": [], "tokens": [] },
+        "ladle": {
+          "joins": [
+            { "assetId": "0x303000000000", "address": "0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0" },
+            { "assetId": "0x303100000000", "address": "0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc" },
+            { "assetId": "0x303200000000", "address": "0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4" },
+            { "assetId": "0x303300000000", "address": "0x00De0AEFcd3069d88f85b4F18b144222eaAb92Af" },
+            { "assetId": "0x303400000000", "address": "0x5364d336c2d2391717bD366b29B6F351842D7F82" },
+            { "assetId": "0x303600000000", "address": "0xbDaBb91cDbDc252CBfF3A707819C5f7Ec2B92833" },
+            { "assetId": "0x303700000000", "address": "0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969" },
+            { "assetId": "0x303900000000", "address": "0x403ae7384E89b086Ea2935d5fAFed07465242B38" },
+            { "assetId": "0x313000000000", "address": "0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779" }
+          ],
+          "pools": [
+            { "seriesId": "0x303130350000", "address": "0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA" },
+            { "seriesId": "0x303230350000", "address": "0x80142add3A597b1eD1DE392A56B2cef3d8302797" },
+            { "seriesId": "0x303130360000", "address": "0x5D14Ab14adB3a3D9769a67a1D09634634bdE4C9B" },
+            { "seriesId": "0x303230360000", "address": "0xEf82611C6120185D3BF6e020D1993B49471E7da0" },
+            { "seriesId": "0x303130370000", "address": "0x6BaC09a67Ed1e1f42c29563847F77c28ec3a04FC" },
+            { "seriesId": "0x303230370000", "address": "0xf5Fd5A9Db9CcCc6dc9f5EF1be3A859C39983577C" }
+          ],
+          "modules": [],
+          "integrations": [],
+          "tokens": []
+        },
         "witch": { "limits": [] }
       }
     },
@@ -206,7 +229,24 @@
           "lendingOracle": [],
           "spotOracles": []
         },
-        "ladle": { "joins": [], "pools": [], "modules": [], "integrations": [], "tokens": [] },
+        "ladle": {
+          "joins": [
+            { "assetId": "0x303000000000", "address": "0xA5eaB7aA7bfC437A610Bef73c0591b8ca7D80542" },
+            { "assetId": "0x303100000000", "address": "0x2555E5D167a59b545a25c81899eD15554C83DA0C" },
+            { "assetId": "0x303200000000", "address": "0x7dD9F124C8a15f312CebF81419eC112C22802208" },
+            { "assetId": "0x303300000000", "address": "0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f" },
+            { "assetId": "0x303400000000", "address": "0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c" },
+            { "assetId": "0x303500000000", "address": "0x0000000000000000000000000000000000000000" },
+            { "assetId": "0x303600000000", "address": "0x086B15D7620E7c0758F819E47Fc31F25C3b2815c" },
+            { "assetId": "0x303700000000", "address": "0xbE1560cA39C51Dc380115058509D34dcd29d08a0" },
+            { "assetId": "0x303900000000", "address": "0x606Bda7A8f04e52AdB5a8F2814F40b71c1baAC26" },
+            { "assetId": "0x313000000000", "address": "0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e" }
+          ],
+          "pools": [],
+          "modules": [],
+          "integrations": [],
+          "tokens": []
+        },
         "witch": { "limits": [] }
       }
     }

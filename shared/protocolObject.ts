@@ -6,7 +6,9 @@ import { bytesToBytes32 } from './helpers'
 import {
   AssetEntityProxy,
   IlksEntityProxy,
+  JoinsEntityProxy,
   NetworksEntityProxy,
+  PoolsEntityProxy,
   ProtocolObjectProxy,
   SeriesEntityProxy,
 } from './proxyCode'
@@ -14,6 +16,7 @@ import { assets, series } from './starterData'
 import { AssetEntity, SeriesEntity } from './types'
 import { readFileSync, writeFileSync } from 'fs'
 import { plainToClass, serialize } from 'class-transformer'
+
 export class protocolObject {
   public protOb: ProtocolObjectProxy
   public networks: NetworksEntityProxy[]
@@ -78,6 +81,8 @@ export class protocolObject {
     await this.readAssets(assets)
     await this.readSeries(series)
     await this.readIlks(series, assets)
+    await this.readJoins(assets)
+    await this.readPools(series)
   }
 
   public async readAssets(assetIds: AssetEntity[]) {
@@ -86,28 +91,33 @@ export class protocolObject {
       for (let index = 0; index < assetIds.length; index++) {
         const element = assetIds[index]
         // console.log(await this.cauldron!.assets(element.assetId))
-        let asset = {} as AssetEntityProxy
-        asset.assetId = element.assetId
-        asset.address = await this.cauldron!.assets(element.assetId)
-        this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
+        let onChainAddress = await this.cauldron!.assets(element.assetId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          let asset = {} as AssetEntityProxy
+          asset.assetId = element.assetId
+          asset.address = onChainAddress
+          this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
+        }
       }
     } else {
       for (let index = 0; index < assetIds.length; index++) {
         const element = assetIds[index]
         let indexOf = this.activeNetwork!.config!.cauldron!.asset!.findIndex((x) => x.assetId == element.assetId)
         let onChainAddress = await this.cauldron!.assets(element.assetId)
-        if (indexOf == -1) {
-          // Asset not found
-          let asset = {} as AssetEntityProxy
-          asset.assetId = element.assetId
-          asset.address = onChainAddress
-          // Add the asset to the assets
-          this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
-        } else {
-          // See if the data is good or not in the protocol object
-          if (this.activeNetwork!.config!.cauldron!.asset![indexOf].address != onChainAddress) {
-            this.activeNetwork!.config!.cauldron!.asset![indexOf].address = onChainAddress
-            console.log('updated')
+        if (onChainAddress != ZERO_ADDRESS) {
+          if (indexOf == -1) {
+            // Asset not found
+            let asset = {} as AssetEntityProxy
+            asset.assetId = element.assetId
+            asset.address = onChainAddress
+            // Add the asset to the assets
+            this.activeNetwork!.config!.cauldron!.asset!.push(asset as never)
+          } else {
+            // See if the data is good or not in the protocol object
+            if (this.activeNetwork!.config!.cauldron!.asset![indexOf].address != onChainAddress) {
+              this.activeNetwork!.config!.cauldron!.asset![indexOf].address = onChainAddress
+              console.log('updated')
+            }
           }
         }
       }
@@ -249,7 +259,103 @@ export class protocolObject {
   }
 
   public saveObject() {
-    let photos = serialize(this.protOb)
-    writeFileSync('./protocolObject/protocolObject2.json', photos, 'utf8')
+    let serialized = serialize(this.protOb)
+    writeFileSync('./protocolObject/protocolObject2.json', serialized, 'utf8')
+  }
+
+  public async readJoins(assetIds: AssetEntity[]) {
+    if (this.activeNetwork!.config!.ladle!.joins!.length == 0) {
+      // No data is present in the protocol object so reading from scratch & adding it
+      for (let index = 0; index < assetIds.length; index++) {
+        const element = assetIds[index]
+        // console.log(await this.cauldron!.assets(element.assetId))
+        let onChainAddress = await this.ladle!.joins(element.assetId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          let asset = {} as JoinsEntityProxy
+          asset.assetId = element.assetId
+          asset.address = await this.ladle!.joins(element.assetId)
+          this.activeNetwork!.config!.ladle!.joins!.push(asset as never)
+        }
+      }
+    } else {
+      for (let index = 0; index < assetIds.length; index++) {
+        const element = assetIds[index]
+        let indexOf = this.activeNetwork!.config!.ladle!.joins!.findIndex((x) => x.assetId == element.assetId)
+        let onChainAddress = await this.ladle!.joins(element.assetId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          if (indexOf == -1) {
+            // Asset not found
+            let asset = {} as JoinsEntityProxy
+            asset.assetId = element.assetId
+            asset.address = onChainAddress
+            // Add the asset to the assets
+            this.activeNetwork!.config!.ladle!.joins!.push(asset as never)
+          } else {
+            // See if the data is good or not in the protocol object
+            if (this.activeNetwork!.config!.ladle!.joins![indexOf].address != onChainAddress) {
+              this.activeNetwork!.config!.ladle!.joins![indexOf].address = onChainAddress
+              console.log('updated')
+            }
+          }
+        }
+      }
+
+      // Remove any joinss which is in our object but not on chain
+      for (let index = 0; index < this.activeNetwork!.config!.ladle!.joins!.length; index++) {
+        const element = this.activeNetwork!.config!.ladle!.joins![index]
+        let onChainAddress = await this.ladle!.joins(element.assetId)
+        if (onChainAddress == ZERO_ADDRESS) {
+          this.activeNetwork!.config!.ladle!.joins!.splice(index, 1)
+        }
+      }
+    }
+  }
+
+  public async readPools(seriesIds: SeriesEntity[]) {
+    if (this.activeNetwork!.config!.ladle!.pools!.length == 0) {
+      // No data is present in the protocol object so reading from scratch & adding it
+      for (let index = 0; index < seriesIds.length; index++) {
+        const element = seriesIds[index]
+        // console.log(await this.cauldron!.assets(element.assetId))
+        let onChainAddress = await this.ladle!.pools(element.seriesId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          let asset = {} as PoolsEntityProxy
+          asset.seriesId = element.seriesId
+          asset.address = await this.ladle!.pools(element.seriesId)
+          this.activeNetwork!.config!.ladle!.pools!.push(asset as never)
+        }
+      }
+    } else {
+      for (let index = 0; index < seriesIds.length; index++) {
+        const element = seriesIds[index]
+        let indexOf = this.activeNetwork!.config!.ladle!.pools!.findIndex((x) => x.seriesId == element.seriesId)
+        let onChainAddress = await this.ladle!.pools(element.seriesId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          if (indexOf == -1) {
+            // Asset not found
+            let asset = {} as PoolsEntityProxy
+            asset.seriesId = element.seriesId
+            asset.address = onChainAddress
+            // Add the asset to the assets
+            this.activeNetwork!.config!.ladle!.pools!.push(asset as never)
+          } else {
+            // See if the data is good or not in the protocol object
+            if (this.activeNetwork!.config!.ladle!.pools![indexOf].address != onChainAddress) {
+              this.activeNetwork!.config!.ladle!.pools![indexOf].address = onChainAddress
+              console.log('updated')
+            }
+          }
+        }
+      }
+
+      // Remove any poolss which is in our object but not on chain
+      for (let index = 0; index < this.activeNetwork!.config!.ladle!.pools!.length; index++) {
+        const element = this.activeNetwork!.config!.ladle!.pools![index]
+        let onChainAddress = await this.ladle!.pools(element.seriesId)
+        if (onChainAddress == ZERO_ADDRESS) {
+          this.activeNetwork!.config!.ladle!.pools!.splice(index, 1)
+        }
+      }
+    }
   }
 }
