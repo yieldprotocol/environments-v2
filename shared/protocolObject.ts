@@ -13,7 +13,7 @@ import {
   SeriesEntityProxy,
 } from './proxyCode'
 import { assets, series } from './starterData'
-import { AssetEntity, SeriesEntity } from './types'
+import { AssetEntity, IlksEntity, JoinsEntity, PoolsEntity, SeriesEntity } from './types'
 import { readFileSync, writeFileSync } from 'fs'
 import { plainToClass, serialize } from 'class-transformer'
 
@@ -38,7 +38,8 @@ export class protocolObject {
     this.activeNetwork = null
   }
 
-  public static async LOAD(): Promise<protocolObject> {
+  public static async CREATE(): Promise<protocolObject> {
+    // TODO: Handle what happens when the file doesn't exists
     let protocol = JSON.parse(await readFileSync('./protocolObject/protocolObject2.json', 'utf8'))
     let protocolObjPrx = plainToClass(ProtocolObjectProxy, protocol)
     let protocolObj = new protocolObject(protocolObjPrx)
@@ -53,7 +54,7 @@ export class protocolObject {
     return protocolObj
   }
 
-  public async loadProtocol(name: string) {
+  private async loadProtocol(name: string) {
     let network: NetworksEntityProxy = this.networks.find((x) => x.name == name) as NetworksEntityProxy
     this.activeNetwork = network
     this.cauldron = (await ethers.getContractAt(
@@ -85,6 +86,22 @@ export class protocolObject {
     await this.readPools(series)
   }
 
+  public saveObject() {
+    let serialized = serialize(this.protOb)
+    writeFileSync('./protocolObject/protocolObject2.json', serialized, 'utf8')
+  }
+
+  public async diffData() {
+    await this.diffAssets()
+    await this.diffSeries()
+    await this.diffIlks()
+    await this.diffJoins()
+    await this.diffPools()
+  }
+
+  // -----------------Core functions------------------------
+
+  // ----- Asset -----
   public async readAssets(assetIds: AssetEntity[]) {
     if (this.activeNetwork!.config!.cauldron!.asset!.length == 0) {
       // No data is present in the protocol object so reading from scratch & adding it
@@ -133,6 +150,20 @@ export class protocolObject {
     }
   }
 
+  private async diffAssets() {
+    let misMatchAssets = []
+    for (let index = 0; index < this.activeNetwork!.config!.cauldron!.asset!.length; index++) {
+      const element = this.activeNetwork!.config!.cauldron!.asset![index]
+      let onChainAddress = await this.cauldron!.assets(element.assetId)
+      if (onChainAddress != element.address) {
+        // console.log(`${element.assetId} `)
+        misMatchAssets.push({ asset: element.assetId, onChainAddress: onChainAddress, objAddress: element.address })
+      }
+    }
+    if (misMatchAssets.length > 0) console.table(misMatchAssets)
+    else console.log('All assets are matching')
+  }
+
   public addAssets(assets: AssetEntity[]) {
     for (let index = 0; index < assets.length; index++) {
       const element = assets[index]
@@ -144,7 +175,8 @@ export class protocolObject {
     }
   }
 
-  public async readSeries(series: SeriesEntity[]) {
+  // ----- Series -----
+  private async readSeries(series: SeriesEntity[]) {
     if (this.activeNetwork!.config!.cauldron!.series!.length == 0) {
       // No data is populated
       for (let index = 0; index < series.length; index++) {
@@ -194,13 +226,41 @@ export class protocolObject {
       }
     }
   }
-
+  private async diffSeries() {
+    let misMatch = []
+    for (let index = 0; index < this.activeNetwork!.config!.cauldron!.series!.length; index++) {
+      const element = this.activeNetwork!.config!.cauldron!.series![index]
+      let onChainSeriesData = await this.cauldron!.series(element.seriesId)
+      if (
+        element.baseId != onChainSeriesData.baseId ||
+        element.fyToken != onChainSeriesData.fyToken ||
+        element.maturity != onChainSeriesData.maturity
+      ) {
+        misMatch.push({
+          series: element.seriesId,
+          baseId:
+            element.baseId == onChainSeriesData.baseId
+              ? element.baseId
+              : { obj: element.baseId, onChain: onChainSeriesData.baseId },
+          fyToken:
+            element.fyToken == onChainSeriesData.fyToken
+              ? element.fyToken
+              : { obj: element.fyToken, onChain: onChainSeriesData.fyToken },
+          maturity:
+            element.maturity == onChainSeriesData.maturity
+              ? element.maturity
+              : { obj: element.maturity, onChain: onChainSeriesData.maturity },
+        })
+      }
+    }
+    if (misMatch.length > 0) console.table(misMatch)
+    else console.log('All series are matching')
+  }
   public addSeries(series: SeriesEntity[]) {
     for (let index = 0; index < series.length; index++) {
       const element = series[index]
       let seriesItem = {} as SeriesEntityProxy
       seriesItem.seriesId = element.seriesId
-
       seriesItem.baseId = element.baseId
       seriesItem.fyToken = element.fyToken
       seriesItem.maturity = parseInt(element.maturity)
@@ -209,7 +269,8 @@ export class protocolObject {
     }
   }
 
-  public async readIlks(series: SeriesEntity[], assetIds: AssetEntity[]) {
+  // ----- Ilks -----
+  private async readIlks(series: SeriesEntity[], assetIds: AssetEntity[]) {
     if (this.activeNetwork!.config!.cauldron!.ilks!.length == 0) {
       for (let seriesIndex = 0; seriesIndex < series.length; seriesIndex++) {
         for (let baseIndex = 0; baseIndex < assetIds.length; baseIndex++) {
@@ -257,13 +318,35 @@ export class protocolObject {
       }
     }
   }
+  private async diffIlks() {
+    let misMatch = []
+    for (let index = 0; index < this.activeNetwork!.config!.cauldron!.ilks!.length; index++) {
+      const element = this.activeNetwork!.config!.cauldron!.ilks![index]
+      let bIlkOnChain = await this.cauldron!.ilks(element.seriesId, element.ilkId)
+      if (!bIlkOnChain) {
+        misMatch.push({ series: element.seriesId, ilk: element.ilkId })
+      }
+    }
+    if (misMatch.length > 0) {
+      console.log('Following are present as ilk in object but not on chain')
+      console.table(misMatch)
+    } else {
+      console.log('All ilks are matching')
+    }
+  }
+  public addIlks(ilks: IlksEntity[]) {
+    for (let index = 0; index < ilks.length; index++) {
+      const element = ilks[index]
 
-  public saveObject() {
-    let serialized = serialize(this.protOb)
-    writeFileSync('./protocolObject/protocolObject2.json', serialized, 'utf8')
+      let ilk = {} as IlksEntityProxy
+      ilk.seriesId = element.seriesId
+      ilk.ilkId = element.ilkId
+      this.activeNetwork!.config!.cauldron!.ilks!.push(ilk as never)
+    }
   }
 
-  public async readJoins(assetIds: AssetEntity[]) {
+  // ----- Joins -----
+  private async readJoins(assetIds: AssetEntity[]) {
     if (this.activeNetwork!.config!.ladle!.joins!.length == 0) {
       // No data is present in the protocol object so reading from scratch & adding it
       for (let index = 0; index < assetIds.length; index++) {
@@ -300,7 +383,7 @@ export class protocolObject {
         }
       }
 
-      // Remove any joinss which is in our object but not on chain
+      // Remove any joins which is in our object but not on chain
       for (let index = 0; index < this.activeNetwork!.config!.ladle!.joins!.length; index++) {
         const element = this.activeNetwork!.config!.ladle!.joins![index]
         let onChainAddress = await this.ladle!.joins(element.assetId)
@@ -310,8 +393,31 @@ export class protocolObject {
       }
     }
   }
+  private async diffJoins() {
+    let misMatch = []
+    for (let index = 0; index < this.activeNetwork!.config!.ladle!.joins!.length; index++) {
+      const element = this.activeNetwork!.config!.ladle!.joins![index]
+      let onChainAddress = await this.ladle!.joins(element.assetId)
+      if (onChainAddress != element.address) {
+        misMatch.push({ asset: element.assetId, joinAddressOnObj: element.address, joinAddressOnChain: onChainAddress })
+      }
+    }
+    if (misMatch.length > 0) console.table(misMatch)
+    else console.log('All joins are matching')
+  }
+  public addJoins(joins: JoinsEntity[]) {
+    for (let index = 0; index < joins.length; index++) {
+      const element = joins[index]
 
-  public async readPools(seriesIds: SeriesEntity[]) {
+      let asset = {} as JoinsEntityProxy
+      asset.assetId = element.assetId
+      asset.address = element.address
+      this.activeNetwork!.config!.ladle!.joins!.push(asset as never)
+    }
+  }
+
+  // ----- Pools -----
+  private async readPools(seriesIds: SeriesEntity[]) {
     if (this.activeNetwork!.config!.ladle!.pools!.length == 0) {
       // No data is present in the protocol object so reading from scratch & adding it
       for (let index = 0; index < seriesIds.length; index++) {
@@ -348,7 +454,7 @@ export class protocolObject {
         }
       }
 
-      // Remove any poolss which is in our object but not on chain
+      // Remove any pools which is in our object but not on chain
       for (let index = 0; index < this.activeNetwork!.config!.ladle!.pools!.length; index++) {
         const element = this.activeNetwork!.config!.ladle!.pools![index]
         let onChainAddress = await this.ladle!.pools(element.seriesId)
@@ -356,6 +462,32 @@ export class protocolObject {
           this.activeNetwork!.config!.ladle!.pools!.splice(index, 1)
         }
       }
+    }
+  }
+  private async diffPools() {
+    let misMatch = []
+    for (let index = 0; index < this.activeNetwork!.config!.ladle!.pools!.length; index++) {
+      const element = this.activeNetwork!.config!.ladle!.pools![index]
+      let onChainAddress = await this.ladle!.pools(element.seriesId)
+      if (onChainAddress != element.address) {
+        misMatch.push({
+          seriesId: element.seriesId,
+          joinAddressOnObj: element.address,
+          joinAddressOnChain: onChainAddress,
+        })
+      }
+    }
+    if (misMatch.length > 0) console.table(misMatch)
+    else console.log('All pools are matching')
+  }
+  public addPools(pools: PoolsEntity[]) {
+    for (let index = 0; index < pools.length; index++) {
+      const element = pools[index]
+
+      let asset = {} as PoolsEntityProxy
+      asset.seriesId = element.seriesId
+      asset.address = element.address
+      this.activeNetwork!.config!.ladle!.pools!.push(asset as never)
     }
   }
 }

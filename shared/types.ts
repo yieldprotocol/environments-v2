@@ -41,7 +41,6 @@ export interface SeriesEntity {
 }
 export interface IlksEntity {
   seriesId: string
-  assetId: string
   ilkId: string
 }
 export interface LendingOracleEntity {
@@ -62,7 +61,7 @@ export interface Ladle {
   tokens?: TokensEntity[] | null
 }
 export interface PoolsEntity {
-  assetId: string
+  seriesId: string
   address: string
 }
 export interface JoinsEntity {
