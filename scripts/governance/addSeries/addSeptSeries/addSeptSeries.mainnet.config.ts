@@ -17,7 +17,7 @@ import {
   ONE64,
   secondsIn30Years,
 } from '../../../../shared/constants'
-import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
+import { EOSEP22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json')
 
@@ -65,8 +65,8 @@ export const joins: Map<string, string> = new Map([
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEPT22, 'FYDAI2209', 'FYDAI2209'],
-  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEPT22, 'FYUSDC2209', 'FYUSDC2209'],
+  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEP22, 'FYDAI2209', 'FYDAI2209'],
+  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEP22, 'FYUSDC2209', 'FYUSDC2209'],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
