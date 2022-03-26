@@ -11,17 +11,12 @@ import { IOracle, Cauldron } from '../../../typechain'
 export const updateSpotOracleProposal = async (
   ownerAcc: any,
   cauldron: Cauldron,
-  assetPairs: Array<[string, string, string]>,
+  assetPairs: Array<[string, string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [baseId, ilkId, spotOracleAddress] of assetPairs) {
-
-    const spotOracle = (await ethers.getContractAt(
-      'IOracle',
-      spotOracleAddress,
-      ownerAcc
-    )) as unknown as IOracle
+    const spotOracle = (await ethers.getContractAt('IOracle', spotOracleAddress, ownerAcc)) as unknown as IOracle
 
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
     // console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
@@ -32,7 +27,7 @@ export const updateSpotOracleProposal = async (
 
     // Check the pair already exists in the Cauldron
     if ((await cauldron.spotOracles(baseId, ilkId)).oracle === ZERO_ADDRESS) {
-      throw Error(`Spot oracle for ${baseId}/${ilkId} not set in Cauldron`);
+      throw Error(`Spot oracle for ${baseId}/${ilkId} not set in Cauldron`)
     }
 
     // Set the spot oracle in the Cauldron
@@ -42,7 +37,7 @@ export const updateSpotOracleProposal = async (
         baseId,
         ilkId,
         spotOracle.address,
-        (await cauldron.spotOracles(baseId, ilkId)).ratio
+        (await cauldron.spotOracles(baseId, ilkId)).ratio,
       ]),
     })
     console.log(`Spot oracle for ${baseId}/${ilkId} set to ${spotOracleAddress}`)

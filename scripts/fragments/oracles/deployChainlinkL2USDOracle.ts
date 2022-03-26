@@ -20,11 +20,9 @@ export const deployChainlinkL2USDOracle = async (
 ): Promise<ChainlinkL2USDMultiOracle> => {
   let chainlinkL2USDOracle: ChainlinkL2USDMultiOracle
   if (protocol.get(CHAINLINKUSD) === undefined) {
-    chainlinkL2USDOracle = (await deployContract(
-      ownerAcc,
-      ChainlinkL2USDMultiOracleArtifact,
-      [sequencerFlags]
-    )) as ChainlinkL2USDMultiOracle
+    chainlinkL2USDOracle = (await deployContract(ownerAcc, ChainlinkL2USDMultiOracleArtifact, [
+      sequencerFlags,
+    ])) as ChainlinkL2USDMultiOracle
     console.log(`ChainlinkL2USDMultiOracle deployed at ${chainlinkL2USDOracle.address}`)
     verify(chainlinkL2USDOracle.address, [sequencerFlags])
     protocol.set(CHAINLINKUSD, chainlinkL2USDOracle.address)

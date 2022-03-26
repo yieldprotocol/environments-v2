@@ -15,24 +15,24 @@ const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
  */
 ;(async () => {
   const seriesIlksIds: Array<[string, string, string]> = [
-    [stringToBytes6('0106'), FDAI2206, FDAI2206ID.toString()] ,
+    [stringToBytes6('0106'), FDAI2206, FDAI2206ID.toString()],
     [stringToBytes6('0206'), FUSDC2206, FUSDC2206ID.toString()],
   ]
 
   const fCashWhale = '0x741AA7CFB2c7bF2A1E7D4dA2e3Df6a56cA4131F3'
   const fCashWhaleAcc = await impersonate(fCashWhale, WAD)
 
-  const fCash = (await ethers.getContractAt(
-    'ERC1155Mock',
-    fCashAddress,
-    fCashWhaleAcc
-  )) as unknown as ERC1155Mock
+  const fCash = (await ethers.getContractAt('ERC1155Mock', fCashAddress, fCashWhaleAcc)) as unknown as ERC1155Mock
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
     fCashWhaleAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, fCashWhaleAcc)) as unknown as Ladle
+  const ladle = (await ethers.getContractAt(
+    'Ladle',
+    protocol.get('ladle') as string,
+    fCashWhaleAcc
+  )) as unknown as Ladle
   const oracle = (await ethers.getContractAt(
     'IOracle',
     protocol.get(NOTIONAL) as string,
@@ -41,7 +41,7 @@ const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 
   for (let [seriesId, ilkId, fCashId] of seriesIlksIds) {
     const fCashBalanceBefore = await fCash.balanceOf(fCashWhaleAcc.address, fCashId)
-    console.log(`${fCashBalanceBefore} FCASH${fCashId} available`)  
+    console.log(`${fCashBalanceBefore} FCASH${fCashId} available`)
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
     const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, fCashWhaleAcc)) as unknown as FYToken
@@ -76,6 +76,7 @@ const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
     await fyToken.transfer(fyToken.address, borrowed)
     await ladle.pour(vaultId, fCashWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
     console.log(`repaid and withdrawn`)
-    if ((await fCash.balanceOf(fCashWhaleAcc.address, fCashId)).toString() !== fCashBalanceBefore.toString()) throw 'balance mismatch'
+    if ((await fCash.balanceOf(fCashWhaleAcc.address, fCashId)).toString() !== fCashBalanceBefore.toString())
+      throw 'balance mismatch'
   }
 })()

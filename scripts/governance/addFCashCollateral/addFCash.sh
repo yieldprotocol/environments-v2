@@ -2,8 +2,8 @@
 
 set -eux
 HERE=$(dirname $0)
-RUN="npx hardhat run --network rinkeby"
-export CONF=$PWD/$HERE/addFCash.rinkeby.config
+RUN="npx hardhat run --network mainnet"
+export CONF=$PWD/$HERE/addFCash.mainnet.config
 
 $RUN $HERE/addFCash-1.ts # Deploy Oracle
 $RUN $HERE/addFCash-2.ts # Deploy Module

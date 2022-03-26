@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { orchestrateChainlinkUSDOracleProposal } from '../../fragments/oracles/orchestrateChainlinkUSDOracleProposal'
 import { updateSpotOracleProposal } from '../../fragments/oracles/updateSpotOracleProposal'

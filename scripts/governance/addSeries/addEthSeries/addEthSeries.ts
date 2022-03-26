@@ -12,6 +12,7 @@ import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../ty
 
 import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP } from '../../../../shared/constants'
 
+import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
 import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
 import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
@@ -24,7 +25,7 @@ import { orchestrateStrategiesProposal } from '../../../fragments/core/strategie
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol } = require(process.env.CONF as string)
+const { governance, protocol, chainId } = require(process.env.CONF as string)
 const { newCompositePaths, newRateSources, newChiSources } = require(process.env.CONF as string)
 const { bases, newChainlinkLimits, newUniswapLimits, newCompositeLimits } = require(process.env.CONF as string)
 const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
@@ -76,6 +77,10 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+
+  // Module
+  proposal = proposal.concat(await orchestrateModuleProposal(ladle, protocol.get('wrapEtherModule') as string))
+
   // Oracles
   proposal = proposal.concat(await updateChiSourcesProposal(compoundOracle, newChiSources))
   proposal = proposal.concat(await updateRateSourcesProposal(compoundOracle, newRateSources))
@@ -85,11 +90,16 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   proposal = proposal.concat(
     await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
   )
-
   proposal = proposal.concat(
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
-  proposal = proposal.concat(await updateIlkProposal(uniswapOracle as unknown as IOracle, cauldron, newUniswapLimits))
+  proposal = proposal.concat(
+    await updateIlkProposal(
+      (chainId == 1 ? uniswapOracle : chainlinkOracle) as unknown as IOracle,
+      cauldron,
+      newUniswapLimits
+    )
+  )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )

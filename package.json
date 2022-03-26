@@ -10,8 +10,8 @@
     "test:deploy": "hardhat deploy --tags DeployTest",
     "coverage": "hardhat coverage",
     "lint:sol": "solhint -f table contracts/*.sol",
-    "lint:ts": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" --check",
-    "lint:ts:fix": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" --write",
+    "lint:ts": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --check",
+    "lint:ts:fix": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --write",
     "prepublishOnly": "npx tsdx build --tsconfig ./tsconfig-publish.json"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "@yield-protocol/strategy-v2": "0.11.0-rc6",
     "@yield-protocol/utils-v2": "2.5.1",
     "@yield-protocol/vault-interfaces": "^2.3.2",
-    "@yield-protocol/vault-v2": "0.15.1-notional-rc2",
+    "@yield-protocol/vault-v2": "0.15.1",
     "@yield-protocol/yieldspace-interfaces": "2.3.0-rc7",
     "@yield-protocol/yieldspace-v2": "0.12.0-rc2",
     "chai": "4.2.0",
