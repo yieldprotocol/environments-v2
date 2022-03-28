@@ -42,58 +42,72 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
 export const rateChiSources: Array<[string, string, string, string]> = [
-//  [FRAX, RATE, WAD.toString(), WAD.toString()],
-//  [FRAX, CHI, WAD.toString(), WAD.toString()],
+  //  [FRAX, RATE, WAD.toString(), WAD.toString()],
+  //  [FRAX, CHI, WAD.toString(), WAD.toString()],
 ]
 
 // Assets that will be made into a base
-export const bases: Array<[string, string]> = [
-  [FRAX, base_config.joins.get(FRAX) as string]
-]
+export const bases: Array<[string, string]> = [[FRAX, base_config.joins.get(FRAX) as string]]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-//  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
-//  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
-//  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+  //  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
+  //  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
+  //  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
 
 export const newChiSources: Array<[string, string]> = [
-//  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
+  //  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
 ]
 
 export const newRateSources: Array<[string, string]> = [
-//  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
+  //  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-//  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-//  [ETH, DAI, 1500000, 250000000, 10000, 12],
-//  [ETH, USDC, 1500000, 250000000, 10000, 12],
-//  [ETH, WBTC, 1500000, 250000000, 10000, 12],
-//  [ETH, LINK, 1500000, 250000000, 10000, 12],
-//  [ETH, UNI, 1500000, 250000000, 10000, 12],
+  //  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+  //  [ETH, DAI, 1500000, 250000000, 10000, 12],
+  //  [ETH, USDC, 1500000, 250000000, 10000, 12],
+  //  [ETH, WBTC, 1500000, 250000000, 10000, 12],
+  //  [ETH, LINK, 1500000, 250000000, 10000, 12],
+  //  [ETH, UNI, 1500000, 250000000, 10000, 12],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
-//  [WSTETH, ETH, [STETH]]
+  //  [WSTETH, ETH, [STETH]]
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-//  [ETH, WSTETH, 1250000, 250000000, 10000, 12],
+  //  [ETH, WSTETH, 1250000, 250000000, 10000, 12],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
-//  [ETH, ENS, 1500000, 250000000, 10000, 12],
+  //  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYFRAX2209, FRAX, protocol.get(ACCUMULATOR) as string, joins.get(FRAX) as string, EOSEP22, 'FYFRAX2209', 'FYFRAX2209'],
-  [FYFRAX2303, FRAX, protocol.get(ACCUMULATOR) as string, joins.get(FRAX) as string, EOMAR23, 'FYFRAX2303', 'FYFRAX2303'],
+  [
+    FYFRAX2209,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(FRAX) as string,
+    EOSEP22,
+    'FYFRAX2209',
+    'FYFRAX2209',
+  ],
+  [
+    FYFRAX2303,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(FRAX) as string,
+    EOMAR23,
+    'FYFRAX2303',
+    'FYFRAX2303',
+  ],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
@@ -131,7 +145,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const strategiesData: Array<[string, string, string]> = [
   // name, symbol, baseId
   ['Yield Strategy FRAX 1Y Even', YSFRAX1YEV, FRAX],
-  ['Yield Strategy FRAX 1Y Odd',  YSFRAX1YOD, FRAX],
+  ['Yield Strategy FRAX 1Y Odd', YSFRAX1YOD, FRAX],
 ]
 
 // Input data
