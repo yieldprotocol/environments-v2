@@ -58,11 +58,11 @@ export const initPoolsProposal = async (
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
     })
-    proposal.push({
-      target: pool.address,
-      data: pool.interface.encodeFunctionData('sync'),
-    })
-    console.log(`Initialized ${await pool.symbol()} with ${baseAmount} base and ${fyTokenAmount} fyToken`)
+    console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
+    // proposal.push({
+    //   target: pool.address,
+    //   data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
+    // })
   }
 
   return proposal

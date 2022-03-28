@@ -64,6 +64,7 @@ export const FUSDC2203ID = 844846949203969
 export const FUSDC2206ID = 844848939859969
 export const FUSDC2209ID = 844850930515969
 
+// Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
 export const FYETH2209 = ethers.utils.formatBytes32String('0007').slice(0, 14) // End of 6th quarter from 1st January 2021
@@ -87,6 +88,7 @@ export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
 export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
+export const secondsIn30Years = secondsInOneYear.mul(30) // Seconds in 30 years
 export const secondsIn40Years = secondsInOneYear.mul(40) // Seconds in 40 years
 export const ts = ONE64.div(secondsIn25Years)
 
