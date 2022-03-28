@@ -1,10 +1,10 @@
 import { ethers } from 'hardhat'
 
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists, stringToBytes6, bytesToBytes32, impersonate } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, bytesToBytes32, impersonate } from '../../../../shared/helpers'
 import { ERC1155Mock, Cauldron, Ladle, FYToken, IOracle } from '../../../../typechain'
 
-import { FDAI2209, FUSDC2209, FDAI2209ID, FUSDC2209ID, WAD, NOTIONAL } from '../../../../shared/constants'
+import { FYDAI2206, FDAI2206, FDAI2206ID, FYUSDC2206, FUSDC2206, FUSDC2206ID, WAD, NOTIONAL } from '../../../../shared/constants'
 
 // const { protocol, fCashAddress } = require(process.env.CONF as string)
 const protocol = readAddressMappingIfExists('protocol.json')
@@ -15,31 +15,34 @@ const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
  */
 ;(async () => {
   const seriesIlksIds: Array<[string, string, string]> = [
-    [stringToBytes6('0109'), FDAI2209, FDAI2209ID.toString()],
-    [stringToBytes6('0209'), FUSDC2209, FUSDC2209ID.toString()],
+    [FYDAI2206, FDAI2206, FDAI2206ID.toString()],
+    [FYUSDC2206, FUSDC2206, FUSDC2206ID.toString()],
   ]
 
-  const fCashWhale = '0x741AA7CFB2c7bF2A1E7D4dA2e3Df6a56cA4131F3'
-  const fCashWhaleAcc = await impersonate(fCashWhale, WAD)
-
-  const fCash = (await ethers.getContractAt('ERC1155Mock', fCashAddress, fCashWhaleAcc)) as unknown as ERC1155Mock
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    fCashWhaleAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol.get('ladle') as string,
-    fCashWhaleAcc
-  )) as unknown as Ladle
-  const oracle = (await ethers.getContractAt(
-    'IOracle',
-    protocol.get(NOTIONAL) as string,
-    fCashWhaleAcc
-  )) as unknown as IOracle
+  const fCashWhales: Map<string, string> = new Map([
+    [FDAI2206ID.toString(), '0xa4aad96bdf6396ddbe55ad3b376bb6f27e431203'],
+    [FUSDC2206ID.toString(), '0x1c48c959562beb01edcc08f0a037eb97f299ea66'],
+  ])
 
   for (let [seriesId, ilkId, fCashId] of seriesIlksIds) {
+    const fCashWhaleAcc = await impersonate(fCashWhales.get(fCashId) as string, WAD)
+    const fCash = (await ethers.getContractAt('ERC1155Mock', fCashAddress, fCashWhaleAcc)) as unknown as ERC1155Mock
+    const cauldron = (await ethers.getContractAt(
+      'Cauldron',
+      protocol.get('cauldron') as string,
+      fCashWhaleAcc
+    )) as unknown as Cauldron
+    const ladle = (await ethers.getContractAt(
+      'Ladle',
+      protocol.get('ladle') as string,
+      fCashWhaleAcc
+    )) as unknown as Ladle
+    const oracle = (await ethers.getContractAt(
+      'IOracle',
+      protocol.get(NOTIONAL) as string,
+      fCashWhaleAcc
+    )) as unknown as IOracle
+
     const fCashBalanceBefore = await fCash.balanceOf(fCashWhaleAcc.address, fCashId)
     console.log(`${fCashBalanceBefore} FCASH${fCashId} available`)
     console.log(`series: ${seriesId}`)
