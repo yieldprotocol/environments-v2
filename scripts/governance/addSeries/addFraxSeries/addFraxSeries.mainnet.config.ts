@@ -100,7 +100,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [
     FYFRAX2209,
-    assets.get(ETH) as string,
+    assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2209) as string,
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
@@ -108,7 +108,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   ],
   [
     FYFRAX2303,
-    assets.get(ETH) as string,
+    assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2303) as string,
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
@@ -124,8 +124,8 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-//  [FYFRAX2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-//  [FYFRAX2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
