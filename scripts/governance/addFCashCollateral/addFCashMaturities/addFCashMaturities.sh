@@ -2,8 +2,8 @@
 
 set -eux
 HERE=$(dirname $0)
-RUN="npx hardhat run --network rinkeby"
-export CONF=$PWD/$HERE/addFCash.rinkeby.config
+RUN="npx hardhat run --network localhost"
+export CONF=$PWD/$HERE/addFCashMaturities.mainnet.config
 
 $RUN $HERE/../deployNotionalJoins.ts # Deploy Joins
 
