@@ -16,7 +16,6 @@ import { developer } from './addCvx3Crv.config'
 
 import { CVX3CRV } from '../../../../shared/constants'
 import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
-
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
@@ -28,7 +27,11 @@ import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal
   const convexLadleModuleAddress: string = protocol.get('convexLadleModule') as string
 
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as unknown as Cauldron
+  const cauldron = (await ethers.getContractAt(
+    'Cauldron',
+    protocol.get('cauldron') as string,
+    ownerAcc
+  )) as unknown as Cauldron
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

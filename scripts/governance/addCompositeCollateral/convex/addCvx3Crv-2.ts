@@ -30,10 +30,7 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
  * Add the Chainlink Oracle as the DAI/ETH and USDC/ETH sources in the Composite Oracle
  * Add the DAI/CVX3CRV/ETH and USDC/CVX3CRV/ETH paths in the Composite Oracle
  */
-;
-(async () => {
-  
-
+;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const governance = readAddressMappingIfExists('governance.json')
@@ -65,8 +62,6 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
   proposal = proposal.concat(await updateCvx3CrvOracleSourcesProposal(cvx3CrvOracle, cvx3CrvSources))
   proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
-  
-  
-  
+
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
