@@ -29,14 +29,14 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
-  const seriesIds: Array<string> = [FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206]
+  const seriesIds: Array<string> = [FYDAI2206, FYUSDC2206]
   const protocol = readAddressMappingIfExists('protocol.json')
 
   // Impersonate cvx3Crv whale 0xd7a029db2585553978190db5e85ec724aa4df23f
   const cvx3CrvWhale = '0xf5b9a5159cb45efcba4f499b7b19667eaa649134'
   const cvx3CrvWhaleAcc = await impersonate(cvx3CrvWhale, WAD)
 
-  const user2 = await impersonate('0x689440f2ff927e1f24c72f1087e1faf471ece1c8', WAD)
+  const user2 = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
   const rescueAccount = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
   const deployer = await impersonate('0x3b870db67a45611CF4723d44487EAF398fAc51E3', WAD)
 
@@ -153,7 +153,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
     // var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
-    console.log("Allowance "+(await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, ladle.address)).toString())
+    console.log('Allowance ' + (await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, ladle.address)).toString())
     await ladle.batch([
       ladle.transferAction(cvx3Crv.address, join.address, posted),
       ladle.pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
@@ -176,6 +176,10 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     console.log('Borrowed Successfully')
     var crvBefore = await crv.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
+    console.log(await join.earned(cvx3CrvWhaleAcc.address))
+    console.log(await join.earned(user2.address))
+    await network.provider.send('evm_increaseTime', [86400 * 14])
+    await network.provider.send('evm_mine')
     // Claim CVX & CRV reward
     console.log('Claiming Reward')
     await join.getReward(cvx3CrvWhaleAcc.address)

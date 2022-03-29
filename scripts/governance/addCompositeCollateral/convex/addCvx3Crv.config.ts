@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists, stringToBytes6 } from '../../../../shared/helpers'
 import {FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, CVX3CRV } from '../../../../shared/constants'
 import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../shared/constants'
- 
+
 function bytes6ToBytes32(x: string): string {
   return x + '00'.repeat(26)
 }
@@ -71,8 +71,8 @@ export const compositeAuctionLimits: Array<[string, number, number, number, numb
 
 // Input data: seriesId, [ilkIds]
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2203, [CVX3CRV]],
+  // [FYDAI2203, [CVX3CRV]],
   [FYDAI2206, [CVX3CRV]],
-  [FYUSDC2203, [CVX3CRV]],
+  // [FYUSDC2203, [CVX3CRV]],
   [FYUSDC2206, [CVX3CRV]],
 ]

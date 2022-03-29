@@ -6,7 +6,7 @@ import {
   getOriginalChainId,
 } from '../../../../shared/helpers'
 import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
-import { EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
+import { Cauldron, EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
 import { developer } from './addCvx3Crv.config'
 
 /**
@@ -15,6 +15,7 @@ import { developer } from './addCvx3Crv.config'
  */
 
 import { CVX3CRV } from '../../../../shared/constants'
+import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
 
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -27,12 +28,13 @@ import { CVX3CRV } from '../../../../shared/constants'
   const convexLadleModuleAddress: string = protocol.get('convexLadleModule') as string
 
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as unknown as Cauldron
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-  
+
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -43,6 +45,6 @@ import { CVX3CRV } from '../../../../shared/constants'
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await addModuleProposal(ladle, convexLadleModuleAddress))
-
+  proposal = proposal.concat(await removeLadlePermissionsProposal(cauldron, ladle))
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

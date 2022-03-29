@@ -61,13 +61,14 @@ const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(proc
   )) as unknown as Timelock
 
   let assetsAndJoins: [string, string, string][] = []
-  console.log(` AssetId      | Asset Address                            | Join Address`)
-
+  // console.log(` AssetId      | Asset Address                            | Join Address`)
+  let tableData = []
   for (let [assetId, joinAddress] of joins) {
     assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
-    console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
+    // console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
+    tableData.push({ AssetId: assetId, 'Asset Address': assets.get(assetId) as string, 'Join Address': joinAddress })
   }
-
+  console.table(tableData)
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
