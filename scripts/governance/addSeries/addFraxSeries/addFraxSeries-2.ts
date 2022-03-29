@@ -13,39 +13,24 @@ import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../ty
 
 import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../shared/constants'
 
-import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
-import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
-import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../fragments/assetsAndSeries/updateIlkProposal'
 import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
-import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { updateUniswapSourcesProposal } from '../../../fragments/oracles/updateUniswapSourcesProposal'
-import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateSpotOracleProposal } from '../../../fragments/oracles/updateSpotOracleProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol, chainId } = require(process.env.CONF as string)
-const { newCompositePaths, newRateSources, newChiSources, rateChiSources,compositeSources } = require(process.env.CONF as string)
-const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits,newJoins } = require(process.env.CONF as string)
+const { assetsToAdd, newJoins } = require(process.env.CONF as string)
 const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
-const { strategiesData, strategiesInit, newStrategies,chainlinkSources } = require(process.env.CONF as string)
+const { strategiesData, strategiesInit, newStrategies } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
-  
+
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get(CHAINLINK) as string,
@@ -96,33 +81,16 @@ const { strategiesData, strategiesInit, newStrategies,chainlinkSources } = requi
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  // Oracles
-  proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
-  proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
-  proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
-  
-  proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
-  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
+  // Series
+  proposal = proposal.concat(
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
+  )
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
-  // Bases and Ilks
-  proposal = proposal.concat(
-    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
-  )
-  proposal = proposal.concat(
-    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
-  )
-  // proposal = proposal.concat(
-  //   await updateIlkProposal(
-  //     (chainId == 1 ? uniswapOracle : chainlinkOracle) as unknown as IOracle,
-  //     cauldron,
-  //     newUniswapLimits
-  //   )
-  // )
-  proposal = proposal.concat(
-    await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
-  )
+  // Strategies
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
 
   if (proposal.length > 0) {
     // Propose, Approve & execute

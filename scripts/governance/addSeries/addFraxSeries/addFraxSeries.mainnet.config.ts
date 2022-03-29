@@ -24,7 +24,10 @@ import {
   YSFRAX1YEV,
   YSFRAX1YOD,
   ZERO,
+  CHAINLINK,
+  COMPOSITE,
 } from '../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
 import * as base_config from '../../base.mainnet.config'
 
@@ -40,50 +43,65 @@ export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
+export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoins.json')
 
 export const rateChiSources: Array<[string, string, string, string]> = [
-  //  [FRAX, RATE, WAD.toString(), WAD.toString()],
-  //  [FRAX, CHI, WAD.toString(), WAD.toString()],
+  [FRAX, RATE, WAD.toString(), WAD.toString()],
+  [FRAX, CHI, WAD.toString(), WAD.toString()],
 ]
 
 // Assets that will be made into a base
-export const bases: Array<[string, string]> = [[FRAX, base_config.joins.get(FRAX) as string]]
+export const bases: Array<[string, string]> = [[FRAX, newJoins.get(FRAX) as string]]
 
+export const assetsToAdd: Map<string, string> = new Map([[FRAX, assets.get(FRAX) as string]])
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  //  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
-  //  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
-  //  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+  [FRAX, DAI, 1400000, 1000000000, 1250000, 12],
+  [FRAX, USDC, 1400000, 1000000000, 1250000, 12],
+  [FRAX, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
 ]
 
-export const newChiSources: Array<[string, string]> = [
-  //  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
+export const chainlinkSources: Array<[string, string, string, string, string]> = [
+  [FRAX, assets.get(FRAX) as string, ETH, assets.get(ETH) as string, '0x14d04Fff8D21bd62987a5cE9ce543d2F1edF5D3E'],
 ]
 
-export const newRateSources: Array<[string, string]> = [
-  //  [ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']
-]
+export const newChiSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUMULATOR) as string]]
 
-// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
-export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  //  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-  //  [ETH, DAI, 1500000, 250000000, 10000, 12],
-  //  [ETH, USDC, 1500000, 250000000, 10000, 12],
-  //  [ETH, WBTC, 1500000, 250000000, 10000, 12],
-  //  [ETH, LINK, 1500000, 250000000, 10000, 12],
-  //  [ETH, UNI, 1500000, 250000000, 10000, 12],
+export const newRateSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUMULATOR) as string]]
+
+export const compositeSources: Array<[string, string, string]> = [
+  [FRAX, ETH, protocol.get(CHAINLINK) as string],
+  [LINK, ETH, protocol.get(CHAINLINK) as string],
+  [UNI, ETH, protocol.get(CHAINLINK) as string],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
-  //  [WSTETH, ETH, [STETH]]
+  [FRAX, USDC, [ETH]],
+  [FRAX, DAI, [ETH]],
+  [FRAX, ENS, [ETH]],
+  [FRAX, LINK, [ETH]],
+  [FRAX, UNI, [ETH]],
+  [FRAX, WBTC, [ETH]],
+  [FRAX, WSTETH, [ETH,STETH]],
 ]
 
-// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
+export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
+  [FRAX, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+]
+
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  //  [ETH, WSTETH, 1250000, 250000000, 10000, 12],
+  [FRAX, WSTETH, 1250000, 250000000, 10000, 12],
+  [FRAX, USDC, 1500000, 250000000, 10000, 12],
+  [FRAX, DAI, 1500000, 250000000, 10000, 12],
+  [FRAX, ENS, 1500000, 250000000, 10000, 12],
+  [FRAX, LINK, 1500000, 250000000, 10000, 12],
+  [FRAX, UNI, 1500000, 250000000, 10000, 12],
+  [FRAX, WBTC, 1500000, 250000000, 10000, 12],
 ]
 
-// Input data: baseId, ilkId, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
   //  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
@@ -94,7 +112,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     FYFRAX2209,
     FRAX,
     protocol.get(ACCUMULATOR) as string,
-    joins.get(FRAX) as string,
+    newJoins.get(FRAX) as string,
     EOSEP22,
     'FYFRAX2209',
     'FYFRAX2209',
@@ -103,7 +121,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     FYFRAX2303,
     FRAX,
     protocol.get(ACCUMULATOR) as string,
-    joins.get(FRAX) as string,
+    newJoins.get(FRAX) as string,
     EOMAR23,
     'FYFRAX2303',
     'FYFRAX2303',
