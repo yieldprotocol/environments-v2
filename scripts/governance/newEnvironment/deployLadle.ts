@@ -1,15 +1,14 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 import { ETH } from '../../../shared/constants'
 
 import { deployLadle } from '../../fragments/core/deployLadle'
 
 import { WETH9Mock } from '../../../typechain'
+const { protocol, governance } = require(process.env.CONF as string)
 const { developer, assets } = require(process.env.CONF as string)
 
 /**
@@ -17,11 +16,7 @@ const { developer, assets } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const weth9 = (await ethers.getContractAt(
     'WETH9Mock',

@@ -1,13 +1,10 @@
-import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { deploySafeERC20Namer } from '../../fragments/core/libraries/deploySafeERC20Namer'
-
+const { protocol } = require(process.env.CONF as string)
 const { developer } = require(process.env.CONF as string)
 
 /**
@@ -15,10 +12,8 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const safeERC20Namer = await deploySafeERC20Namer(ownerAcc, protocol)
   protocol.set('safeERC20Namer', safeERC20Namer.address)

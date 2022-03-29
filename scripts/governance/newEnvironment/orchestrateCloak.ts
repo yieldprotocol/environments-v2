@@ -1,15 +1,14 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-  getOriginalChainId,
   getNetworkName,
 } from '../../../shared/helpers'
 
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
+const { governance } = require(process.env.CONF as string)
 const { developer, deployer } = require(process.env.CONF as string)
 // import { deployer, developer } from './newEnvironment.rinkeby.config'
 
@@ -17,14 +16,12 @@ const { developer, deployer } = require(process.env.CONF as string)
  * @dev This script orchestrates the Cloak
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   // const config = await import(`./newEnvironment.${getNetworkName()}.config`)
   // const { deployer, developer } = config
   console.log(getNetworkName())
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
 
-  const governance = readAddressMappingIfExists('governance.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

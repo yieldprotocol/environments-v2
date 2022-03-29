@@ -26,14 +26,13 @@ const {
   bases,
   chainlinkDebtLimits,
   chainlinkAuctionLimits,
-  joins,
+  newJoins,
   protocol,
+  governance,
 } = require(process.env.CONF as string)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const governance = readAddressMappingIfExists('governance.json')
 
   const chainlinkUSDOracle = (await ethers.getContractAt(
     'ChainlinkUSDMultiOracle',
@@ -66,7 +65,7 @@ const {
   let assetsAndJoins: [string, string, string][] = []
   console.log(` AssetId      | Asset Address                            | Join Address`)
 
-  for (let [assetId, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
     console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
   }
@@ -81,7 +80,7 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       chainlinkDebtLimits,
       chainlinkAuctionLimits
     )

@@ -1,14 +1,13 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   getOwnerOrImpersonate,
-  getOriginalChainId,
   proposeApproveExecute,
 } from '../../../shared/helpers'
 
 import { grantDevelopersProposal } from '../../fragments/permissions/grantDevelopersProposal'
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
+const { governance } = require(process.env.CONF as string)
 const { developer, additionalDevelopers, additionalGovernors } = require(process.env.CONF as string)
 
 /**
@@ -16,10 +15,8 @@ const { developer, additionalDevelopers, additionalGovernors } = require(process
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

@@ -2,12 +2,12 @@ import { ethers } from 'hardhat'
 import {
   readAddressMappingIfExists,
   getOwnerOrImpersonate,
-  getOriginalChainId,
   writeAddressMap,
 } from '../../../shared/helpers'
 
 import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
+const { protocol, governance } = require(process.env.CONF as string)
 const { developer, strategiesData } = require(process.env.CONF as string)
 
 /**
@@ -15,11 +15,8 @@ const { developer, strategiesData } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json')
-  const protocol = readAddressMappingIfExists('protocol.json')
   const existingStrategies = readAddressMappingIfExists('strategies.json')
 
   const cauldron = (await ethers.getContractAt(

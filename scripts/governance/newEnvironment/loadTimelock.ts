@@ -1,7 +1,8 @@
 import { ethers } from 'hardhat'
-import { impersonate, readAddressMappingIfExists } from '../../../shared/helpers'
+import { impersonate } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 import { ERC20Mock } from '../../../typechain'
+const { governance } = require(process.env.CONF as string)
 const { assets, whales } = require(process.env.CONF as string)
 
 const { formatUnits, parseUnits } = ethers.utils
@@ -11,7 +12,6 @@ const { formatUnits, parseUnits } = ethers.utils
  */
 
 ;(async () => {
-  const governance = readAddressMappingIfExists('governance.json')
 
   const [ownerAcc] = await ethers.getSigners()
   const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'

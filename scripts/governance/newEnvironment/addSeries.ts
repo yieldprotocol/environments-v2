@@ -1,8 +1,6 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   getOwnerOrImpersonate,
-  getOriginalChainId,
   proposeApproveExecute,
 } from '../../../shared/helpers'
 
@@ -10,6 +8,7 @@ import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProp
 import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
+const { protocol, governance, newFYTokens, newPools } = require(process.env.CONF as string)
 const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF as string)
 
 /**
@@ -17,17 +16,7 @@ const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF 
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
-  const strategies = readAddressMappingIfExists('strategies.json')
-
-  // Temporary files with the fyTokens and pools to add
-  const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
-  const newPools = readAddressMappingIfExists('newPools.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',

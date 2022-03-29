@@ -1,7 +1,5 @@
 import { ethers } from 'hardhat'
 import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
 } from '../../../shared/helpers'
@@ -20,6 +18,7 @@ import {
   CompoundMultiOracle,
 } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
+const { protocol, governance, newJoins } = require(process.env.CONF as string)
 const { developer, deployer, assets, bases } = require(process.env.CONF as string)
 const {
   chainlinkDebtLimits,
@@ -35,13 +34,7 @@ const {
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
-  const joins = readAddressMappingIfExists('newJoins.json')
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
@@ -84,7 +77,7 @@ const {
   let assetsAndJoins: [string, string, string][] = []
   console.log(` AssetId      | Asset Address                            | Join Address`)
 
-  for (let [assetId, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
     console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
   }
@@ -99,7 +92,7 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       chainlinkDebtLimits,
       chainlinkAuctionLimits
     )
@@ -111,7 +104,7 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       compositeDebtLimits,
       compositeAuctionLimits
     )
@@ -123,7 +116,7 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       yearnDebtLimits,
       yearnAuctionLimits
     )

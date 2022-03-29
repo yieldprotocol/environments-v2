@@ -22,11 +22,8 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json')
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

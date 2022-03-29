@@ -1,9 +1,7 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { orchestrateCauldronProposal } from '../../fragments/core/orchestrateCauldronProposal'
@@ -12,6 +10,7 @@ import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchP
 
 import { Timelock, EmergencyBrake } from '../../../typechain'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
+const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
 
 /**
@@ -19,11 +18,8 @@ const { deployer, developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json')
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

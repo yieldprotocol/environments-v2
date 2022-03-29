@@ -1,14 +1,13 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { deployYieldMathExtensions } from '../../fragments/core/libraries/deployYieldMathExtensions'
 
 import { YieldMath } from '../../../typechain'
+const { protocol } = require(process.env.CONF as string)
 const { developer } = require(process.env.CONF as string)
 
 /**
@@ -16,10 +15,8 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const yieldMath = (await ethers.getContractAt(
     'YieldMath',

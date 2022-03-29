@@ -16,11 +16,8 @@ const { developer, sequencerFlags } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

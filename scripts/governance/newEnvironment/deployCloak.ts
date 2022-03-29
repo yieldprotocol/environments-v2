@@ -1,13 +1,12 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { deployCloak } from '../../fragments/core/governance/deployCloak'
 import { Timelock } from '../../../typechain'
+const { protocol, governance } = require(process.env.CONF as string)
 const { developer } = require(process.env.CONF as string)
 
 /**
@@ -15,11 +14,7 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',

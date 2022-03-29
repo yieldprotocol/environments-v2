@@ -1,10 +1,7 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
 import {
-  readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { orchestrateChainlinkOracleProposal } from '../../fragments/oracles/orchestrateChainlinkOracleProposal'
@@ -31,7 +28,7 @@ import {
   LidoOracle,
   YearnVaultMultiOracle,
 } from '../../../typechain'
-import { WAD } from '../../../shared/constants'
+const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
 const {
   chainlinkSources,
@@ -49,11 +46,8 @@ const {
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const governance = readAddressMappingIfExists('governance.json')
-  const protocol = readAddressMappingIfExists('protocol.json')
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

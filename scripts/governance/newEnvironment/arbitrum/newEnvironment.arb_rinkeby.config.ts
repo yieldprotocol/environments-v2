@@ -6,10 +6,17 @@ import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../../../shared/constants'
 import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../../../shared/constants'
 
-export const protocol = readAddressMappingIfExists('protocol.json')
-export const joins = readAddressMappingIfExists('newJoins.json')
-const fyTokens = readAddressMappingIfExists('newFYTokens.json')
-export const newStrategies = readAddressMappingIfExists('newStrategies.json')
+import * as base_config from '../base.arb_rinkeby.config'
+
+export const governance: Map<string, string> = base_config.governance
+export const protocol: Map<string, string> = base_config.protocol
+export const assets: Map<string, string> = base_config.assets
+export const joins: Map<string, string> = base_config.joins
+export const newJoins: Map<string, string> = base_config.newJoins
+export const newFYTokens: Map<string, string> = base_config.newFYTokens
+export const newPools: Map<string, string> = base_config.newPools
+export const newStrategies: Map<string, string> = base_config.newStrategies
+
 export const chainId = 421611
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
@@ -22,12 +29,6 @@ export const additionalGovernors: Array<string> = [
 export const whales: Map<string, string> = new Map([
   [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
   [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-])
-
-export const assets: Map<string, string> = new Map([
-  [ETH, '0xb3B95E6AeE64b403D0586379F0073b0437F85c13'],
-  [DAI, '0x5616b989e20fAf966b0C337e8af1EC63Cc0faaca'],
-  [USDC, '0x93d348ceb1dc15DA3C50542A2CAC5365d506A01f'],
 ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [
@@ -57,8 +58,8 @@ export const assetsToReserve: Array<[string, string]> = []
 
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [
-  [DAI, joins.get(DAI) as string],
-  [USDC, joins.get(USDC) as string],
+  [DAI, newJoins.get(DAI) as string],
+  [USDC, newJoins.get(USDC) as string],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
@@ -80,22 +81,22 @@ export const chainlinkAuctionLimits: Array<[string, number, number, number, numb
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2203, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EOMAR22, 'FYDAI2203', 'FYDAI2203'],
+  [FYDAI2203, DAI, protocol.get(ACCUMULATOR) as string, newJoins.get(DAI) as string, EOMAR22, 'FYDAI2203', 'FYDAI2203'],
   [
     FYUSDC2203,
     USDC,
     protocol.get(ACCUMULATOR) as string,
-    joins.get(USDC) as string,
+    newJoins.get(USDC) as string,
     EOMAR22,
     'FYUSDC2203',
     'FYUSDC2203',
   ],
-  [FYDAI2206, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EOJUN22, 'FYDAI2206', 'FYDAI2206'],
+  [FYDAI2206, DAI, protocol.get(ACCUMULATOR) as string, newJoins.get(DAI) as string, EOJUN22, 'FYDAI2206', 'FYDAI2206'],
   [
     FYUSDC2206,
     USDC,
     protocol.get(ACCUMULATOR) as string,
-    joins.get(USDC) as string,
+    newJoins.get(USDC) as string,
     EOJUN22,
     'FYUSDC2206',
     'FYUSDC2206',
@@ -115,7 +116,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYDAI2203,
     assets.get(DAI) as string,
-    fyTokens.get(FYDAI2203) as string,
+    newFYTokens.get(FYDAI2203) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -123,7 +124,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYUSDC2203,
     assets.get(USDC) as string,
-    fyTokens.get(FYUSDC2203) as string,
+    newFYTokens.get(FYUSDC2203) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -131,7 +132,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYDAI2206,
     assets.get(DAI) as string,
-    fyTokens.get(FYDAI2206) as string,
+    newFYTokens.get(FYDAI2206) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -139,7 +140,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
   [
     FYUSDC2206,
     assets.get(USDC) as string,
-    fyTokens.get(FYUSDC2206) as string,
+    newFYTokens.get(FYUSDC2206) as string,
     ONE64.div(secondsIn25Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),

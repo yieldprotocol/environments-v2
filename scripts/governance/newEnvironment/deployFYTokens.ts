@@ -1,13 +1,12 @@
 import { ethers } from 'hardhat'
 import {
-  readAddressMappingIfExists,
   writeAddressMap,
   getOwnerOrImpersonate,
-  getOriginalChainId,
 } from '../../../shared/helpers'
 
 import { deployFYTokens } from '../../fragments/assetsAndSeries/deployFYTokens'
 import { SafeERC20Namer, Timelock } from '../../../typechain'
+const { protocol, governance } = require(process.env.CONF as string)
 const { developer, fyTokenData } = require(process.env.CONF as string)
 
 /**
@@ -15,12 +14,7 @@ const { developer, fyTokenData } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const safeERC20Namer = (await ethers.getContractAt(
     'SafeERC20Namer',
