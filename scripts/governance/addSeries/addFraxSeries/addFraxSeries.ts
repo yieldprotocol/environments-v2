@@ -35,17 +35,18 @@ import { updateSpotOracleProposal } from '../../../fragments/oracles/updateSpotO
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol, chainId } = require(process.env.CONF as string)
-const { newCompositePaths, newRateSources, newChiSources, rateChiSources,compositeSources } = require(process.env.CONF as string)
-const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits,newJoins } = require(process.env.CONF as string)
+const { newCompositePaths, newRateSources, newChiSources, rateChiSources, compositeSources } = require(process.env
+  .CONF as string)
+const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
 const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
-const { strategiesData, strategiesInit, newStrategies,chainlinkSources } = require(process.env.CONF as string)
+const { strategiesData, strategiesInit, newStrategies, chainlinkSources } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
-  
+
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get(CHAINLINK) as string,
@@ -100,7 +101,7 @@ const { strategiesData, strategiesInit, newStrategies,chainlinkSources } = requi
   proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
-  
+
   proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 

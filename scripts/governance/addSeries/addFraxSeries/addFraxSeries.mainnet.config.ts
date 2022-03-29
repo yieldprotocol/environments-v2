@@ -54,12 +54,6 @@ export const rateChiSources: Array<[string, string, string, string]> = [
 export const bases: Array<[string, string]> = [[FRAX, newJoins.get(FRAX) as string]]
 
 export const assetsToAdd: Map<string, string> = new Map([[FRAX, assets.get(FRAX) as string]])
-// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
-export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, DAI, 1400000, 1000000000, 1250000, 12],
-  [FRAX, USDC, 1400000, 1000000000, 1250000, 12],
-  [FRAX, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-]
 
 export const chainlinkSources: Array<[string, string, string, string, string]> = [
   [FRAX, assets.get(FRAX) as string, ETH, assets.get(ETH) as string, '0x14d04Fff8D21bd62987a5cE9ce543d2F1edF5D3E'],
@@ -82,23 +76,23 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [FRAX, LINK, [ETH]],
   [FRAX, UNI, [ETH]],
   [FRAX, WBTC, [ETH]],
-  [FRAX, WSTETH, [ETH,STETH]],
+  [FRAX, WSTETH, [ETH, STETH]],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
+  [FRAX, ETH, 1400000, 2000000, 5000, 18],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, WSTETH, 1250000, 250000000, 10000, 12],
-  [FRAX, USDC, 1500000, 250000000, 10000, 12],
-  [FRAX, DAI, 1500000, 250000000, 10000, 12],
-  [FRAX, ENS, 1500000, 250000000, 10000, 12],
-  [FRAX, LINK, 1500000, 250000000, 10000, 12],
-  [FRAX, UNI, 1500000, 250000000, 10000, 12],
-  [FRAX, WBTC, 1500000, 250000000, 10000, 12],
+  [FRAX, WSTETH, 1250000, 250000000, 10000, 18],
+  [FRAX, USDC, 1500000, 250000000, 10000, 18],
+  [FRAX, DAI, 1500000, 250000000, 10000, 18],
+  [FRAX, ENS, 1500000, 250000000, 10000, 18],
+  [FRAX, LINK, 1500000, 250000000, 10000, 18],
+  [FRAX, UNI, 1500000, 250000000, 10000, 18],
+  [FRAX, WBTC, 1500000, 250000000, 10000, 18],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
