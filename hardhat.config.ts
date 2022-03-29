@@ -120,7 +120,7 @@ module.exports = {
     },
     rinkeby: {
       accounts,
-      gasPrice: 2000000000,
+      gasPrice: 5000000000,
       timeout: 600000,
       url: alchemyNodeUrl('rinkeby')
     },
