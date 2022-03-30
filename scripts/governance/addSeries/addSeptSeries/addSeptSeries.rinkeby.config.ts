@@ -10,13 +10,14 @@ import {
   LINK,
   ENS,
   UNI,
+  YVUSDC,
   WAD,
   ONEUSDC,
   MAX256,
   ONE64,
   secondsIn25Years,
 } from '../../../../shared/constants'
-import { EOSEPT22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
+import { EOSEP22, FYDAI2209, FYUSDC2209, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
 
 const protocol = readAddressMappingIfExists('protocol.json')
 
@@ -45,14 +46,14 @@ export const assets: Map<string, string> = new Map([
 
 // assetId, joinAddress
 export const joins: Map<string, string> = new Map([
-  [DAI, '0x96cc8be616fEec55F58A1E647b45c2989AEB4096'],
-  [USDC, '0x56727B9892042Ae397D319FDebCA7fb47780d525'],
+  [DAI, '0xbd9b36A87f8da13fb88bB2Fd02fe247e9f641D20'],
+  [USDC, '0x015041d4C46aa908850cf897e237592f2B1aa699'],
 ])
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEPT22, 'FYDAI2209', 'FYDAI2209'],
-  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEPT22, 'FYUSDC2209', 'FYUSDC2209'],
+  [FYDAI2209, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOSEP22, 'FYDAI2209', 'FYDAI2209'],
+  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOSEP22, 'FYUSDC2209', 'FYUSDC2209'],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
@@ -79,8 +80,8 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('1247273046550689376')], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
-  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('1304331')], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+  [FYDAI2209, DAI, WAD.mul(100), BigNumber.from('0')],
+  [FYUSDC2209, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
 ]
 
 // Pool fees to be set in the PoolFactory prior to pool deployment
@@ -95,10 +96,10 @@ export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 
 // Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
 // assetId, loanAmount
-export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI, WAD.mul(10000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
-  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
-]
+// export const joinLoans: Array<[string, BigNumber]> = [
+//   [DAI, WAD.mul(10000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
+//   [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
+// ]
 
 // Ilks to accept for each series
 // seriesId, accepted ilks
