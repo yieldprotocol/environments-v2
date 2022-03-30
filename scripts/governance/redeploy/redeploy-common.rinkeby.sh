@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/newEnvironment.rinkeby.config
+export CONF=$PWD/$HERE/redeploy.rinkeby.config
 RUN="npx hardhat run --network rinkeby"
 
 # Phase 1: Libraries

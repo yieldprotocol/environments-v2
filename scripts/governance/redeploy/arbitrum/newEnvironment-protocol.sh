@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/newEnvironment.arb_rinkeby.config
+export CONF=$PWD/$HERE/redeploy.arb_rinkeby.config
 RUN="npx hardhat run --network arb_rinkeby"
 
 # Phase 4: Core

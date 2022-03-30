@@ -6,13 +6,13 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 import { WAD } from '../../../shared/constants'
 const { governance } = require(process.env.CONF as string)
 const { developer, deployer } = require(process.env.CONF as string)
-// import { deployer, developer } from './newEnvironment.rinkeby.config'
+// import { deployer, developer } from './redeploy.rinkeby.config'
 
 /**
  * @dev This script orchestrates the Cloak
  */
 ;(async () => {
-  // const config = await import(`./newEnvironment.${getNetworkName()}.config`)
+  // const config = await import(`./redeploy.${getNetworkName()}.config`)
   // const { deployer, developer } = config
   console.log(getNetworkName())
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)

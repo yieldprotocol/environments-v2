@@ -64,6 +64,10 @@
     [
       "witch",
       "0x2CEFcB458Ad3da4E880F11611CE7AFA81afe059e"
+    ],
+    [
+      "wrapEtherModule",
+      "0x6C688D4257204FEe0Fce47d3feb9AE81e8B86283"
     ]
   ]
 }
