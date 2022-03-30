@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/newEnvironment.rinkeby.config
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network rinkeby"
 
 # Phase 4: Core
 $RUN $HERE/deployCauldron.ts
@@ -18,11 +18,9 @@ $RUN $HERE/orchestrateCore.ts # orchestrate core - execute
 $RUN $HERE/deployJoins.ts # deploy joins
 $RUN $HERE/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/deployPools.ts # deploy pools
-
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - propose
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - approve
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - execute
-
 $RUN $HERE/addSeries.ts # add series - propose
 $RUN $HERE/addSeries.ts # add series - approve
 $RUN $HERE/addSeries.ts # add series - execute

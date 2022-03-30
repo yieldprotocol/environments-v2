@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/newEnvironment.rinkeby.config
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network rinkeby"
 
 # Phase 1: Libraries
 $RUN $HERE/deployYieldMath.ts
