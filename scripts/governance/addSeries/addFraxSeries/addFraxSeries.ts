@@ -1,45 +1,32 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 
 import {
   IOracle,
   ChainlinkMultiOracle,
   CompositeMultiOracle,
   UniswapV3Oracle,
-  CompoundMultiOracle,
   AccumulatorMultiOracle,
 } from '../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
 
-import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../shared/constants'
+import { COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../shared/constants'
 
-import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
-import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
-import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
 import { updateIlkProposal } from '../../../fragments/assetsAndSeries/updateIlkProposal'
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
 import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSourcesProposal'
 import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
 import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { updateUniswapSourcesProposal } from '../../../fragments/oracles/updateUniswapSourcesProposal'
 import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateSpotOracleProposal } from '../../../fragments/oracles/updateSpotOracleProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol, chainId } = require(process.env.CONF as string)
-const { newCompositePaths, newRateSources, newChiSources, rateChiSources, compositeSources } = require(process.env
-  .CONF as string)
+const { governance, protocol } = require(process.env.CONF as string)
+const { newCompositePaths, rateChiSources, compositeSources } = require(process.env.CONF as string)
 const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
-const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
-const { strategiesData, strategiesInit, newStrategies, chainlinkSources } = require(process.env.CONF as string)
+const { chainlinkSources } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
@@ -114,13 +101,7 @@ const { strategiesData, strategiesInit, newStrategies, chainlinkSources } = requ
   proposal = proposal.concat(
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
-  // proposal = proposal.concat(
-  //   await updateIlkProposal(
-  //     (chainId == 1 ? uniswapOracle : chainlinkOracle) as unknown as IOracle,
-  //     cauldron,
-  //     newUniswapLimits
-  //   )
-  // )
+
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )

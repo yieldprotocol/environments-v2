@@ -166,3 +166,8 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   [YSFRAX1YEV, newPools.get(FYFRAX2209) as string, FYFRAX2209, WAD],
   [YSFRAX1YOD, newPools.get(FYFRAX2303) as string, FYFRAX2303, WAD],
 ]
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [FRAX, 3600, 1000000, 1000000, 5000, 18],
+]
