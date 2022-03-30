@@ -70,6 +70,7 @@ export const compositeSources: Array<[string, string, string]> = [
 export const compositePaths: Array<[string, string, Array<string>]> = [
   [WSTETH, DAI, [STETH, ETH]],
   [WSTETH, USDC, [STETH, ETH]],
+  [WSTETH, ETH, [STETH]],
   [ENS, DAI, [ETH]],
   [ENS, USDC, [ETH]],
 ]
@@ -104,6 +105,7 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
   [ETH, USDC, 1500000, 250000000, 10000, 12],
   [ETH, WBTC, 1500000, 250000000, 10000, 12],
   [ETH, LINK, 1500000, 250000000, 10000, 12],
+  [ETH, UNI, 1500000, 250000000, 10000, 12],
   [ETH, ENS, 1500000, 250000000, 10000, 12],
   [DAI, ETH, 1400000, 2000000, 5000, 18],
   [DAI, DAI, 1000000, 10000000, 0, 18], // Constant 1, no dust
