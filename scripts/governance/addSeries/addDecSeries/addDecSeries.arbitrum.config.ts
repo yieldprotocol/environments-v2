@@ -11,7 +11,7 @@ import {
   secondsIn30Years,
   ACCUMULATOR,
 } from '../../../../shared/constants'
-import { EODec22, FYDAI2212, FYUSDC2212, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
+import { EODEC22, FYDAI2212, FYUSDC2212, YSDAI6MMS, YSUSDC6MMS, COMPOUND } from '../../../../shared/constants'
 import { assets as arbAssets, joins as arbJoins } from '../../base.arb_mainnet.config'
 
 const protocol = readAddressMappingIfExists('protocol.json')
@@ -41,13 +41,13 @@ export const joins: Map<string, string> = arbJoins
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2212, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EODec22, 'FYDAI2212', 'FYDAI2212'],
+  [FYDAI2212, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
   [
     FYUSDC2212,
     USDC,
     protocol.get(ACCUMULATOR) as string,
     joins.get(USDC) as string,
-    EODec22,
+    EODEC22,
     'FYUSDC2212',
     'FYUSDC2212',
   ],
