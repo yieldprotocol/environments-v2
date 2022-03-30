@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  writeAddressMap,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployCloak } from '../../fragments/core/governance/deployCloak'
 import { Timelock } from '../../../typechain'

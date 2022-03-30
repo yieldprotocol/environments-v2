@@ -2,7 +2,16 @@ import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC } from '../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../../shared/constants'
-import { FYETH2206, FYDAI2206, FYUSDC2206, FYETH2209, FYDAI2209, FYUSDC2209, EOJUN22, EOSEP22 } from '../../../shared/constants'
+import {
+  FYETH2206,
+  FYDAI2206,
+  FYUSDC2206,
+  FYETH2209,
+  FYDAI2209,
+  FYUSDC2209,
+  EOJUN22,
+  EOSEP22,
+} from '../../../shared/constants'
 import { YSETH6MMS, YSDAI6MMS, YSUSDC6MMS, YSETH6MJD, YSDAI6MJD, YSUSDC6MJD } from '../../../shared/constants'
 import { WAD, ONEUSDC, ZERO, ONE64, secondsIn25Years, secondsIn40Years } from '../../../shared/constants'
 
@@ -164,10 +173,26 @@ export const yearnAuctionLimits: Array<[string, number, number, number, number, 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYDAI2206, DAI, protocol.get(COMPOUND) as string, newJoins.get(DAI) as string, EOJUN22, 'FYDAI2206', 'FYDAI2206'],
-  [FYUSDC2206, USDC, protocol.get(COMPOUND) as string, newJoins.get(USDC) as string, EOJUN22, 'FYUSDC2206', 'FYUSDC2206'],
+  [
+    FYUSDC2206,
+    USDC,
+    protocol.get(COMPOUND) as string,
+    newJoins.get(USDC) as string,
+    EOJUN22,
+    'FYUSDC2206',
+    'FYUSDC2206',
+  ],
   [FYETH2206, ETH, protocol.get(COMPOUND) as string, newJoins.get(ETH) as string, EOJUN22, 'FYETH2206', 'FYETH2206'],
   [FYDAI2209, DAI, protocol.get(COMPOUND) as string, newJoins.get(DAI) as string, EOSEP22, 'FYDAI2209', 'FYDAI2209'],
-  [FYUSDC2209, USDC, protocol.get(COMPOUND) as string, newJoins.get(USDC) as string, EOSEP22, 'FYUSDC2209', 'FYUSDC2209'],
+  [
+    FYUSDC2209,
+    USDC,
+    protocol.get(COMPOUND) as string,
+    newJoins.get(USDC) as string,
+    EOSEP22,
+    'FYUSDC2209',
+    'FYUSDC2209',
+  ],
   [FYETH2209, ETH, protocol.get(COMPOUND) as string, newJoins.get(ETH) as string, EOSEP22, 'FYETH2209', 'FYETH2209'],
 ]
 

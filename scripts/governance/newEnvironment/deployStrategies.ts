@@ -1,9 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  getOwnerOrImpersonate,
-  writeAddressMap,
-} from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, writeAddressMap } from '../../../shared/helpers'
 
 import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
 import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
@@ -15,7 +11,6 @@ const { developer, strategiesData } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const existingStrategies = readAddressMappingIfExists('strategies.json')
 

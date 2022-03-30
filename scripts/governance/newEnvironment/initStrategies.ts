@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-} from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 
 import { orchestrateStrategiesProposal } from '../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { initStrategiesProposal } from '../../fragments/core/strategies/initStrategiesProposal'
@@ -15,7 +12,6 @@ const { developer, strategiesData, strategiesInit, newStrategies } = require(pro
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle

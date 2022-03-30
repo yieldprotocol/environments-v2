@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-} from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 
 import { grantDevelopersProposal } from '../../fragments/permissions/grantDevelopersProposal'
 import { grantGovernorsProposal } from '../../fragments/permissions/grantGovernorsProposal'
@@ -15,7 +12,6 @@ const { developer, additionalDevelopers, additionalGovernors } = require(process
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const timelock = (await ethers.getContractAt(

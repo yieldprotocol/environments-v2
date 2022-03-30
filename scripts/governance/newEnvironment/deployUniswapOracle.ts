@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  writeAddressMap,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployUniswapOracle } from '../../fragments/oracles/deployUniswapOracle'
 import { Timelock } from '../../../typechain'
@@ -14,7 +11,6 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const timelock = (await ethers.getContractAt(

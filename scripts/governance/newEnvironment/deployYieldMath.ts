@@ -1,7 +1,4 @@
-import {
-  writeAddressMap,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployYieldMath } from '../../fragments/core/libraries/deployYieldMath'
 
@@ -13,7 +10,6 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const yieldMath = await deployYieldMath(ownerAcc, protocol)

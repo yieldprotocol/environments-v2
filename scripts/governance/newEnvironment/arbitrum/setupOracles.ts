@@ -22,7 +22,6 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const cloak = (await ethers.getContractAt(

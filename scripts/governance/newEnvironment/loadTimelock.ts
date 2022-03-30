@@ -12,7 +12,6 @@ const { formatUnits, parseUnits } = ethers.utils
  */
 
 ;(async () => {
-
   const [ownerAcc] = await ethers.getSigners()
   const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
 

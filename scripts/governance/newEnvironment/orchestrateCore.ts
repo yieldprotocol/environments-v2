@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { orchestrateCauldronProposal } from '../../fragments/core/orchestrateCauldronProposal'
 import { orchestrateLadleProposal } from '../../fragments/core/orchestrateLadleProposal'
@@ -18,7 +15,6 @@ const { deployer, developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const cloak = (await ethers.getContractAt(

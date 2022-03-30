@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-} from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 
 import { addSeriesProposal } from '../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'

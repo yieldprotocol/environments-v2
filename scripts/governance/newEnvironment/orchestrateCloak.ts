@@ -1,9 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-  getNetworkName,
-} from '../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate, getNetworkName } from '../../../shared/helpers'
 
 import { orchestrateCloakProposal } from '../../fragments/core/governance/orchestrateCloakProposal'
 import { Timelock, EmergencyBrake } from '../../../typechain'
@@ -16,12 +12,10 @@ const { developer, deployer } = require(process.env.CONF as string)
  * @dev This script orchestrates the Cloak
  */
 ;(async () => {
-
   // const config = await import(`./newEnvironment.${getNetworkName()}.config`)
   // const { deployer, developer } = config
   console.log(getNetworkName())
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
-
 
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',

@@ -1,7 +1,4 @@
-import {
-  writeAddressMap,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deploySafeERC20Namer } from '../../fragments/core/libraries/deploySafeERC20Namer'
 const { protocol } = require(process.env.CONF as string)
@@ -12,7 +9,6 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const safeERC20Namer = await deploySafeERC20Namer(ownerAcc, protocol)

@@ -1,8 +1,5 @@
 import { ethers } from 'hardhat'
-import {
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { orchestrateChainlinkOracleProposal } from '../../fragments/oracles/orchestrateChainlinkOracleProposal'
 import { orchestrateCompoundOracleProposal } from '../../fragments/oracles/orchestrateCompoundOracleProposal'
@@ -46,7 +43,6 @@ const {
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const cloak = (await ethers.getContractAt(
