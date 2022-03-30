@@ -1,13 +1,13 @@
 import { BigNumber } from 'ethers'
 import {
-  COMPOUND,
+  ACCUMULATOR,
   CHI,
   DAI,
-  EOJUN22,
   EOSEP22,
+  EOMAR23,
   ETH,
-  FYETH2206,
-  FYETH2209,
+  FYFRAX2209,
+  FYFRAX2303,
   ONE64,
   RATE,
   secondsIn40Years,
@@ -17,19 +17,23 @@ import {
   STETH,
   WSTETH,
   ENS,
-  YVUSDC,
   UNI,
+  YVUSDC,
+  FRAX,
   WAD,
-  YSETH6MJD,
-  YSETH6MMS,
+  YSFRAX1YEV,
+  YSFRAX1YOD,
   ZERO,
+  CHAINLINK,
+  COMPOSITE,
 } from '../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
 import * as base_config from '../../base.rinkeby.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const deployer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
 export const whales: Map<string, string> = base_config.whales
 
 export const governance: Map<string, string> = base_config.governance
@@ -39,68 +43,99 @@ export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
+export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoins.json')
 
 export const rateChiSources: Array<[string, string, string, string]> = [
-  [ETH, RATE, WAD.toString(), WAD.toString()],
-  [ETH, CHI, WAD.toString(), WAD.toString()],
+  [FRAX, RATE, WAD.toString(), WAD.toString()],
+  [FRAX, CHI, WAD.toString(), WAD.toString()],
 ]
 
 // Assets that will be made into a base
-export const bases: Array<[string, string]> = [[ETH, base_config.joins.get(ETH) as string]]
+export const bases: Array<[string, string]> = [[FRAX, newJoins.get(FRAX) as string]]
+
+export const assetsToAdd: Map<string, string> = new Map([[FRAX, protocol.get('fraxMock') as string]])
+
+export const chainlinkSources: Array<[string, string, string, string, string]> = [
+  [FRAX, protocol.get('fraxMock') as string, ETH, assets.get(ETH) as string, protocol.get('fraxOracleMock') as string],
+]
+
+export const newChiSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUMULATOR) as string]]
+
+export const newRateSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUMULATOR) as string]]
+
+export const compositeSources: Array<[string, string, string]> = [
+  [FRAX, ETH, protocol.get(CHAINLINK) as string],
+  [LINK, ETH, protocol.get(CHAINLINK) as string],
+  [UNI, ETH, protocol.get(CHAINLINK) as string],
+]
+
+export const newCompositePaths: Array<[string, string, Array<string>]> = [
+  [FRAX, USDC, [ETH]],
+  [FRAX, DAI, [ETH]],
+  [FRAX, ENS, [ETH]],
+  [FRAX, LINK, [ETH]],
+  [FRAX, UNI, [ETH]],
+  [FRAX, WBTC, [ETH]],
+  [FRAX, WSTETH, [ETH, STETH]],
+]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
-export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
-  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
-  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-]
-
-export const newChiSources: Array<[string, string]> = [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]
-
-export const newRateSources: Array<[string, string]> = [[ETH, '0xd6801a1dffcd0a410336ef88def4320d6df1883e']]
-
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-  [ETH, DAI, 1500000, 250000000, 10000, 12],
-  [ETH, USDC, 1500000, 250000000, 10000, 12],
-  [ETH, WBTC, 1500000, 250000000, 10000, 12],
-  [ETH, LINK, 1500000, 250000000, 10000, 12],
-  [ETH, ENS, 1500000, 250000000, 10000, 12],
+  [FRAX, ETH, 1400000, 2000000, 5000, 18],
 ]
 
-export const newCompositePaths: Array<[string, string, Array<string>]> = [[WSTETH, ETH, [STETH]]]
-
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, WSTETH, 1000000, 250000000, 10000, 12],
+  [FRAX, WSTETH, 1250000, 250000000, 10000, 18],
+  [FRAX, USDC, 1500000, 250000000, 10000, 18],
+  [FRAX, DAI, 1500000, 250000000, 10000, 18],
+  [FRAX, ENS, 1500000, 250000000, 10000, 18],
+  [FRAX, LINK, 1500000, 250000000, 10000, 18],
+  [FRAX, UNI, 1500000, 250000000, 10000, 18],
+  [FRAX, WBTC, 1500000, 250000000, 10000, 18],
 ]
 
-// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
+// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, ENS, 1500000, 250000000, 10000, 12],
+  //  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYETH2206, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EOJUN22, 'FYETH2206', 'FYETH2206'],
-  [FYETH2209, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EOSEP22, 'FYETH2209', 'FYETH2209'],
+  [
+    FYFRAX2209,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    newJoins.get(FRAX) as string,
+    EOSEP22,
+    'FYFRAX2209',
+    'FYFRAX2209',
+  ],
+  [
+    FYFRAX2303,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    newJoins.get(FRAX) as string,
+    EOMAR23,
+    'FYFRAX2303',
+    'FYFRAX2303',
+  ],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [
-    FYETH2206,
-    assets.get(ETH) as string,
-    newFYTokens.get(FYETH2206) as string,
+    FYFRAX2209,
+    protocol.get('fraxMock') as string,
+    newFYTokens.get(FYFRAX2209) as string,
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
   [
-    FYETH2209,
-    assets.get(ETH) as string,
-    newFYTokens.get(FYETH2209) as string,
+    FYFRAX2303,
+    protocol.get('fraxMock') as string,
+    newFYTokens.get(FYFRAX2303) as string,
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
@@ -109,25 +144,25 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYETH2206, ETH, WAD.div(50), ZERO],
-  [FYETH2209, ETH, WAD.div(50), ZERO],
+  [FYFRAX2209, FRAX, WAD, ZERO],
+  [FYFRAX2303, FRAX, WAD, ZERO],
 ]
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYETH2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 export const strategiesData: Array<[string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH],
-  ['Yield Strategy ETH 6M Jun Dec', YSETH6MJD, ETH],
+  ['Yield Strategy FRAX 1Y Even', YSFRAX1YEV, FRAX],
+  ['Yield Strategy FRAX 1Y Odd', YSFRAX1YOD, FRAX],
 ]
 
 // Input data
 export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
-  [YSETH6MMS, newPools.get(FYETH2209) as string, FYETH2209, WAD.div(50)],
-  [YSETH6MJD, newPools.get(FYETH2206) as string, FYETH2206, WAD.div(50)],
+  [YSFRAX1YEV, newPools.get(FYFRAX2209) as string, FYFRAX2209, WAD],
+  [YSFRAX1YOD, newPools.get(FYFRAX2303) as string, FYFRAX2303, WAD],
 ]

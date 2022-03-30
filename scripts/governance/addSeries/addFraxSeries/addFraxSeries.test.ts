@@ -6,20 +6,19 @@ import {
   readAddressMappingIfExists,
   bytesToBytes32,
   impersonate,
-  getOriginalChainId,
   getOwnerOrImpersonate,
+  getOriginalChainId,
 } from '../../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle } from '../../../../typechain'
-import { ENS, ETH, STETH, WAD, WSTETH } from '../../../../shared/constants'
+import { UNI, WAD } from '../../../../shared/constants'
 const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
 
 /**
- * @dev This script tests ENS as a collateral
+ * @dev This script tests all the collateral for borrowing FRAX
  */
 ;(async () => {
   const chainId = await getOriginalChainId()
-
-  let ownerAcc = await getOwnerOrImpersonate(developer)
+  let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
   let whaleAcc: SignerWithAddress
 
   const protocol = readAddressMappingIfExists('protocol.json')
@@ -36,8 +35,6 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
     ownerAcc
   )) as unknown as CompositeMultiOracle
 
-  // ENS whale
-
   for (let [seriesId, ilks] of seriesIlks) {
     for (const ilk of ilks) {
       var collateral = (await ethers.getContractAt(
@@ -45,7 +42,9 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
         assets.get(ilk) as string,
         ownerAcc
       )) as unknown as ERC20Mock
+
       whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
+      if (chainId != 1 && ilk != UNI) await collateral.connect(ownerAcc).mint(whaleAcc.address, WAD.mul(1000))
       console.log(`series: ${seriesId}`)
       const series = await cauldron.series(seriesId)
       const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
@@ -80,7 +79,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
       if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
-      // Repay fyEth and withdraw collateral
+      // Repay fyFRAX and withdraw collateral
       await fyToken.connect(whaleAcc).transfer(fyToken.address, borrowed)
       console.log(`repaying ${borrowed} ${name} and withdrawing ${posted} ilk`)
       await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))

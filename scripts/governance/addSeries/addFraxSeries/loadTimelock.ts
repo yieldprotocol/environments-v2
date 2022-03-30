@@ -1,15 +1,9 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  getOwnerOrImpersonate,
-  getOriginalChainId,
-  impersonate,
-} from '../../../../shared/helpers'
-
-import { ERC20Mock, Pool, WETH9Mock } from '../../../../typechain'
-import { ETH, WAD } from '../../../../shared/constants'
-const { developer, assets } = require(process.env.CONF as string)
-const { whales, poolsInit } = require(process.env.CONF as string)
+import { readAddressMappingIfExists, getOriginalChainId, impersonate } from '../../../../shared/helpers'
+import * as hre from 'hardhat'
+import { ERC20Mock, Pool } from '../../../../typechain'
+import { WAD } from '../../../../shared/constants'
+const { poolsInit } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
@@ -20,7 +14,7 @@ const { whales, poolsInit } = require(process.env.CONF as string)
   const governance = readAddressMappingIfExists('governance.json')
 
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
-    const whaleAcc = await impersonate('0x183d0dc5867c01bfb1dbbc41d6a9d3de6e044626')
+    const whaleAcc = await impersonate('0x183d0dc5867c01bfb1dbbc41d6a9d3de6e044626', WAD)
     const pools = readAddressMappingIfExists('newPools.json')
     const poolAddress = pools.get(seriesId) as string
 
@@ -32,7 +26,12 @@ const { whales, poolsInit } = require(process.env.CONF as string)
       baseAddress,
       whaleAcc
     )) as unknown as ERC20Mock
-    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).mul(4))
-    console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
+    if (chainId !== 1) {
+      await base.connect(whaleAcc).mint(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).mul(4))
+      console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
+    } else if (hre.network.name == 'localhost') {
+      await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).mul(4))
+      console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
+    }
   }
 })()
