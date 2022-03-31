@@ -4,7 +4,16 @@ import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists, bytesToBytes32, impersonate } from '../../../../shared/helpers'
 import { ERC1155Mock, Cauldron, Ladle, FYToken, IOracle } from '../../../../typechain'
 
-import { FYDAI2206, FDAI2206, FDAI2206ID, FYUSDC2206, FUSDC2206, FUSDC2206ID, WAD, NOTIONAL } from '../../../../shared/constants'
+import {
+  FYDAI2206,
+  FDAI2206,
+  FDAI2206ID,
+  FYUSDC2206,
+  FUSDC2206,
+  FUSDC2206ID,
+  WAD,
+  NOTIONAL,
+} from '../../../../shared/constants'
 
 // const { protocol, fCashAddress } = require(process.env.CONF as string)
 const protocol = readAddressMappingIfExists('protocol.json')
