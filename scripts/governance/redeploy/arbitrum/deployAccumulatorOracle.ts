@@ -4,7 +4,7 @@ import { readAddressMappingIfExists, writeAddressMap, getOwnerOrImpersonate } fr
 import { deployAccumulatorOracle } from '../../../fragments/oracles/deployAccumulatorOracle'
 
 import { Timelock } from '../../../../typechain'
-const { developer,protocol,governance } = require(process.env.CONF as string)
+const { developer, protocol, governance } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Accumulator Oracle

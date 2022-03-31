@@ -26,6 +26,7 @@ import {
   ZERO,
   CHAINLINK,
   COMPOSITE,
+  YEARN,
 } from '../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
@@ -67,6 +68,8 @@ export const compositeSources: Array<[string, string, string]> = [
   [FRAX, ETH, protocol.get(CHAINLINK) as string],
   [LINK, ETH, protocol.get(CHAINLINK) as string],
   [UNI, ETH, protocol.get(CHAINLINK) as string],
+  [USDC, ETH, protocol.get(CHAINLINK) as string],
+  [USDC, YVUSDC, protocol.get(YEARN) as string],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
@@ -77,27 +80,33 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [FRAX, UNI, [ETH]],
   [FRAX, WBTC, [ETH]],
   [FRAX, WSTETH, [ETH, STETH]],
+  [FRAX, YVUSDC, [ETH, USDC]],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, ETH, 1400000, 2000000, 5000, 18],
+  [FRAX, ETH, 1400000, 500000, 5000, 18],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, WSTETH, 1250000, 250000000, 10000, 18],
-  [FRAX, USDC, 1500000, 250000000, 10000, 18],
-  [FRAX, DAI, 1500000, 250000000, 10000, 18],
-  [FRAX, ENS, 1500000, 250000000, 10000, 18],
-  [FRAX, LINK, 1500000, 250000000, 10000, 18],
-  [FRAX, UNI, 1500000, 250000000, 10000, 18],
-  [FRAX, WBTC, 1500000, 250000000, 10000, 18],
+  [FRAX, WSTETH, 1400000, 500000, 5000, 18],
+  [FRAX, USDC, 1330000, 100000, 5000, 18],
+  [FRAX, DAI, 1330000, 100000, 5000, 18],
+  [FRAX, ENS, 1670000, 2000000, 5000, 18],
+  [FRAX, LINK, 1670000, 1000000, 5000, 18],
+  [FRAX, UNI, 1670000, 1000000, 5000, 18],
+  [FRAX, WBTC, 1500000, 100000, 5000, 18],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const newUniswapLimits: Array<[string, string, number, number, number, number]> = [
   //  [ETH, ENS, 1500000, 250000000, 10000, 12],
+]
+
+// Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
+export const yearnDebtLimits: Array<[string, string, number, number, number, number]> = [
+  [FRAX, YVUSDC, 1250000, 1000000, 5000, 6],
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
