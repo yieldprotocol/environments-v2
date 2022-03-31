@@ -67,14 +67,14 @@ export const newRateSources: Array<[string, string]> = [[FRAX, protocol.get(ACCU
 export const compositeSources: Array<[string, string, string]> = [
   [FRAX, ETH, protocol.get(CHAINLINK) as string],
   [USDC, ETH, protocol.get(CHAINLINK) as string],
-  [USDC, YVUSDC, protocol.get(YEARN) as string],
+  // [USDC, YVUSDC, protocol.get(YEARN) as string],
 ]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [FRAX, USDC, [ETH]],
   [FRAX, ENS, [ETH]],
   [FRAX, WSTETH, [ETH, STETH]],
-  [FRAX, YVUSDC, [ETH, USDC]],
+  // [FRAX, YVUSDC, [ETH, USDC]],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
@@ -98,9 +98,9 @@ export const newUniswapLimits: Array<[string, string, number, number, number, nu
   //  [ETH, ENS, 1500000, 250000000, 10000, 12],
 ]
 
-export const yearnDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, YVUSDC, 1250000, 1000000, 5000, 6],
-]
+// export const yearnDebtLimits: Array<[string, string, number, number, number, number]> = [
+//   [FRAX, YVUSDC, 1250000, 1000000, 5000, 6],
+// ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
