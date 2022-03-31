@@ -51,31 +51,23 @@
     ],
     [
       "cauldron",
-      "0x040803C41fE50aDdda170b2d3facF7F1F7FF0855"
+      "0x84EFA55faA9d774B4846c7a51c1C470232DFE50f"
     ],
     [
       "ladle",
-      "0xc5A458D816D26f57750940992ae9D85af23B86A7"
+      "0xAE53c79926cb960feA17aF2369DE10938f5D0d52"
     ],
     [
       "router",
-      "0x53Ecd17E11EaC333b770882861606941a4352452"
+      "0x47b66C5b4F0dD72a11CD0E450d46E1EAa2Ca420f"
     ],
     [
       "witch",
-      "0x92C0aa4922444E6D5a6dFE365Ea1D106Bd9279E2"
+      "0x2CEFcB458Ad3da4E880F11611CE7AFA81afe059e"
     ],
     [
       "wrapEtherModule",
-      "0xd6AdA52c4A04895c3Ef4668a1defd186ccD5aC44"
-    ],
-    [
-      "notionalOracle",
-      "0x5F5F54757Dd8c04E28F092EDb8013B51F33F4e8F"
-    ],
-    [
-      "transfer1155Module",
-      "0x532708fdC78C635162F94F65998E5014CAac34fF"
+      "0x6C688D4257204FEe0Fce47d3feb9AE81e8B86283"
     ]
   ]
 }
