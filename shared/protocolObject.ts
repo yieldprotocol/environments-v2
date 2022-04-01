@@ -1,22 +1,25 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
-import { Cauldron, Ladle, Router, Witch } from '../typechain'
+import { Cauldron, EmergencyBrake, Ladle, Router, Timelock, Witch } from '../typechain'
 import { ZERO_ADDRESS } from './constants'
-import { bytesToBytes32 } from './helpers'
+import { bytesToBytes32, getOriginalChainId, getOwnerOrImpersonate } from './helpers'
 import {
   AssetEntityProxy,
   IlksEntityProxy,
   JoinsEntityProxy,
+  LendingOracleEntityProxy,
   NetworksEntityProxy,
   PoolsEntityProxy,
   ProtocolObjectProxy,
   SeriesEntityProxy,
+  SpotOraclesEntityProxy,
 } from './proxyCode'
-import { assets, series } from './starterData'
-import { AssetEntity, IlksEntity, JoinsEntity, PoolsEntity, SeriesEntity } from './types'
+import { assets, networkNames, series } from './starterData'
+import { AssetEntity, IlksEntity, JoinsEntity, PoolsEntity, SeriesEntity, SpotOraclesEntity } from './types'
 import { readFileSync, writeFileSync } from 'fs'
 import { plainToClass, serialize } from 'class-transformer'
-
+import { SpotOracleStruct } from '../typechain/ICauldron'
+const { developer, deployer } = require(process.env.CONF as string)
 export class protocolObject {
   public protOb: ProtocolObjectProxy
   public networks: NetworksEntityProxy[]
@@ -24,8 +27,13 @@ export class protocolObject {
   public ladle: Ladle | null
   public router: Router | null
   public witch: Witch | null
-  public developer: any
+  public timelock: Timelock | null
+  public cloak: EmergencyBrake | null
+  public dev: any
+  public dep: string
   public activeNetwork: NetworksEntityProxy | null
+
+  public multisig: any
 
   constructor(proto: ProtocolObjectProxy) {
     this.protOb = proto
@@ -34,8 +42,11 @@ export class protocolObject {
     this.ladle = null
     this.router = null
     this.witch = null
-    this.developer = null
+    this.dev = null
+    this.cloak = null
+    this.timelock = null
     this.activeNetwork = null
+    this.dep = ''
   }
 
   public static async CREATE(): Promise<protocolObject> {
@@ -43,39 +54,55 @@ export class protocolObject {
     let protocol = JSON.parse(await readFileSync('./protocolObject/protocolObject2.json', 'utf8'))
     let protocolObjPrx = plainToClass(ProtocolObjectProxy, protocol)
     let protocolObj = new protocolObject(protocolObjPrx)
+    // console.log('here')
+    const chainId = await getOriginalChainId()
+    // console.log(chainId)
+    await protocolObj.loadProtocol(networkNames.get(chainId) as string)
 
-    for (const network of protocolObj.networks) {
-      // TODO: reliable method of detecting network
-      if (hre.network.name == network.name) {
-        await protocolObj.loadProtocol(hre.network.name)
-        break
-      }
-    }
     return protocolObj
   }
 
   private async loadProtocol(name: string) {
     let network: NetworksEntityProxy = this.networks.find((x) => x.name == name) as NetworksEntityProxy
     this.activeNetwork = network
+    this.multisig = network.multisig
+    this.dep = deployer
+    this.dev = await getOwnerOrImpersonate(developer)
+
     this.cauldron = (await ethers.getContractAt(
       'Cauldron',
-      network.protocol.cauldron[network.protocol.cauldron.length - 1].address
+      network.protocol.cauldron[network.protocol.cauldron.length - 1].address,
+      this.dev
     )) as Cauldron
-
     this.ladle = (await ethers.getContractAt(
       'Ladle',
-      network.protocol.ladle[network.protocol.ladle.length - 1].address
+      network.protocol.ladle[network.protocol.ladle.length - 1].address,
+      this.dev
     )) as Ladle
 
     this.router = (await ethers.getContractAt(
       'Router',
-      network.protocol.router[network.protocol.router.length - 1].address
+      network.protocol.router[network.protocol.router.length - 1].address,
+      this.dev
     )) as Router
 
     this.witch = (await ethers.getContractAt(
       'Witch',
-      network.protocol.witch[network.protocol.witch.length - 1].address
+      network.protocol.witch[network.protocol.witch.length - 1].address,
+      this.dev
     )) as Witch
+
+    this.timelock = (await ethers.getContractAt(
+      'Timelock',
+      network.protocol.timelock[network.protocol.timelock.length - 1].address,
+      this.dev
+    )) as Timelock
+
+    this.cloak = (await ethers.getContractAt(
+      'EmergencyBrake',
+      network.protocol.cloak[network.protocol.cloak.length - 1].address,
+      this.dev
+    )) as EmergencyBrake
   }
 
   public async loadData() {
@@ -84,6 +111,8 @@ export class protocolObject {
     await this.readIlks(series, assets)
     await this.readJoins(assets)
     await this.readPools(series)
+    await this.readLendingOracles(assets)
+    await this.readSpotOracles(assets)
   }
 
   public saveObject() {
@@ -97,6 +126,15 @@ export class protocolObject {
     await this.diffIlks()
     await this.diffJoins()
     await this.diffPools()
+    await this.diffLendingOracles()
+    await this.diffSpotOracles()
+  }
+
+  // Utility function
+  public getJoin(assetId: string): string {
+    let join = this.activeNetwork!.config!.ladle!.joins!.find((x) => x.assetId == assetId)
+    if (join == undefined) return ZERO_ADDRESS
+    return join!.address
   }
 
   // -----------------Core functions------------------------
@@ -150,7 +188,7 @@ export class protocolObject {
     }
   }
 
-  private async diffAssets() {
+  public async diffAssets() {
     let misMatchAssets = []
     for (let index = 0; index < this.activeNetwork!.config!.cauldron!.asset!.length; index++) {
       const element = this.activeNetwork!.config!.cauldron!.asset![index]
@@ -173,6 +211,34 @@ export class protocolObject {
       assetItem.deploymentTime = element.deploymentTime
       this.activeNetwork!.config!.cauldron!.asset!.push(assetItem as never)
     }
+  }
+
+  public async getAddableAssets(assets: AssetEntity[]): Promise<AssetEntity[]> {
+    let addableAssets: AssetEntityProxy[] = []
+    var address: String
+    for (const asset of assets) {
+      // Get the address for the asset in cauldron
+      address = await this.cauldron!.assets!(asset.assetId)
+
+      // If asset address is present no need to add
+      if (address == asset.address) {
+        console.log(`Asset ${asset.assetId} is already present in the cauldron`)
+      } else {
+        // If address is zero it is absent in the cauldron
+        if (address == ZERO_ADDRESS) {
+          // TODO: Add on-chain check to see if right address?
+          addableAssets.push(asset)
+          console.log(`Asset ${asset.assetId} can be added to cauldron`)
+        } else {
+          console.log(`Asset ${asset.assetId} present with a different address ${address}`)
+        }
+      }
+    }
+    if (addableAssets.length < 1) {
+      console.table(assets)
+      throw 'No addable assets!'
+    }
+    return addableAssets
   }
 
   // ----- Series -----
@@ -342,6 +408,176 @@ export class protocolObject {
       ilk.seriesId = element.seriesId
       ilk.ilkId = element.ilkId
       this.activeNetwork!.config!.cauldron!.ilks!.push(ilk as never)
+    }
+  }
+
+  // ----- Lending Oracles -----
+  public async readLendingOracles(assetIds: AssetEntity[]) {
+    if (this.activeNetwork!.config!.cauldron!.lendingOracle!.length == 0) {
+      // No data is present in the protocol object so reading from scratch & adding it
+      for (let index = 0; index < assetIds.length; index++) {
+        // console.log(await this.cauldron!.assets(element.assetId))
+        let onChainAddress = await this.cauldron!.lendingOracles(assetIds[index].assetId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          let asset = {} as LendingOracleEntityProxy
+          asset.id = assetIds[index].assetId
+          asset.address = onChainAddress
+          this.activeNetwork!.config!.cauldron!.lendingOracle!.push(asset as never)
+        }
+      }
+    } else {
+      for (let index = 0; index < assetIds.length; index++) {
+        const element = assetIds[index]
+        let indexOf = this.activeNetwork!.config!.cauldron!.lendingOracle!.findIndex((x) => x.id == element.assetId)
+        let onChainAddress = await this.cauldron!.lendingOracles(element.assetId)
+        if (onChainAddress != ZERO_ADDRESS) {
+          if (indexOf == -1) {
+            // Asset not found
+            let asset = {} as LendingOracleEntityProxy
+            asset.id = element.assetId
+            asset.address = onChainAddress
+            // Add the asset to the assets
+            this.activeNetwork!.config!.cauldron!.lendingOracle!.push(asset as never)
+          } else {
+            // See if the data is good or not in the protocol object
+            if (this.activeNetwork!.config!.cauldron!.lendingOracle![indexOf].address != onChainAddress) {
+              this.activeNetwork!.config!.cauldron!.lendingOracle![indexOf].address = onChainAddress
+              console.log('updated')
+            }
+          }
+        }
+      }
+
+      // Remove any assets which is in our object but not on chain
+      for (let index = 0; index < this.activeNetwork!.config!.cauldron!.lendingOracle!.length; index++) {
+        const element = this.activeNetwork!.config!.cauldron!.lendingOracle![index]
+        let onChainAddress = await this.cauldron!.lendingOracles(element.id)
+        if (onChainAddress == ZERO_ADDRESS) {
+          this.activeNetwork!.config!.cauldron!.lendingOracle!.splice(index, 1)
+        }
+      }
+    }
+  }
+
+  private async diffLendingOracles() {
+    let misMatchLendingOracles = []
+    for (let index = 0; index < this.activeNetwork!.config!.cauldron!.lendingOracle!.length; index++) {
+      const element = this.activeNetwork!.config!.cauldron!.lendingOracle![index]
+      let onChainAddress = await this.cauldron!.lendingOracles(element.id)
+      if (onChainAddress != element.address) {
+        // console.log(`${element.id} `)
+        misMatchLendingOracles.push({ asset: element.id, onChainAddress: onChainAddress, objAddress: element.address })
+      }
+    }
+    if (misMatchLendingOracles.length > 0) console.table(misMatchLendingOracles)
+    else console.log('All lendingOracles are matching')
+  }
+
+  public addLendingOracles(assets: AssetEntity[]) {
+    for (let index = 0; index < assets.length; index++) {
+      const element = assets[index]
+      let assetItem = {} as AssetEntityProxy
+      assetItem.assetId = element.assetId
+      assetItem.address = element.address
+      assetItem.deploymentTime = element.deploymentTime
+      this.activeNetwork!.config!.cauldron!.lendingOracle!.push(assetItem as never)
+    }
+  }
+
+  // ----- Spot Oracles -----
+  private async readSpotOracles(assetIds: AssetEntity[]) {
+    if (this.activeNetwork!.config!.cauldron!.spotOracles!.length == 0) {
+      for (let seriesIndex = 0; seriesIndex < assetIds.length; seriesIndex++) {
+        for (let baseIndex = 0; baseIndex < assetIds.length; baseIndex++) {
+          if (seriesIndex == baseIndex) continue
+          let spotOracleData = (await this.cauldron!.spotOracles(
+            assetIds[seriesIndex].assetId,
+            assetIds[baseIndex].assetId
+          )) as SpotOracleStruct
+
+          if (spotOracleData.oracle != ZERO_ADDRESS) {
+            let spotOracle = {} as SpotOraclesEntityProxy
+            spotOracle.asset1 = assetIds[seriesIndex].assetId
+            spotOracle.asset2 = assetIds[baseIndex].assetId
+            spotOracle.oracleAddress = spotOracleData.oracle
+            // spotOracle.ratio = spotOracleData.ratio//BigNumberish issue
+            this.activeNetwork!.config!.cauldron!.spotOracles!.push(spotOracle as never)
+          }
+        }
+      }
+    } else {
+      for (let seriesIndex = 0; seriesIndex < assetIds.length; seriesIndex++) {
+        for (let baseIndex = 0; baseIndex < assetIds.length; baseIndex++) {
+          if (seriesIndex == baseIndex) continue
+          let onChainSpotOracleData = (await this.cauldron!.spotOracles(
+            assetIds[seriesIndex].assetId,
+            assetIds[baseIndex].assetId
+          )) as SpotOracleStruct
+
+          let indexOf = this.activeNetwork!.config!.cauldron!.spotOracles!.findIndex(
+            (x) => x.asset1 == assetIds[seriesIndex].assetId && x.asset2 == assetIds[baseIndex].assetId
+          )
+          if (onChainSpotOracleData.oracle != ZERO_ADDRESS && indexOf == -1) {
+            // Add data as it is present on chain & not in protocol object
+            let spotOracle = {} as SpotOraclesEntityProxy
+            spotOracle.asset1 = assetIds[seriesIndex].assetId
+            spotOracle.asset2 = assetIds[baseIndex].assetId
+            spotOracle.oracleAddress = onChainSpotOracleData.oracle
+            // spotOracle.ratio = spotOracleData.ratio//BigNumberish issue
+            this.activeNetwork!.config!.cauldron!.spotOracles!.push(spotOracle as never)
+          }
+          if (onChainSpotOracleData.oracle == ZERO_ADDRESS && indexOf != -1) {
+            // Not spot oracle but present in protcol object so remove
+            this.activeNetwork!.config!.cauldron!.spotOracles!.splice(indexOf, 1)
+          }
+        }
+      }
+
+      // Check if we don't have any data which is not valid
+      for (let index = 0; index < this.activeNetwork!.config!.cauldron!.spotOracles!.length; index++) {
+        const element = this.activeNetwork!.config!.cauldron!.spotOracles![index]
+        let onChainSpotOracleData = (await this.cauldron!.spotOracles(
+          element.asset1,
+          element.asset2
+        )) as SpotOracleStruct
+        if (onChainSpotOracleData.oracle == ZERO_ADDRESS) {
+          this.activeNetwork!.config!.cauldron!.ilks!.splice(index, 1)
+        }
+      }
+    }
+  }
+  private async diffSpotOracles() {
+    let misMatch = []
+    for (let index = 0; index < this.activeNetwork!.config!.cauldron!.spotOracles!.length; index++) {
+      const element = this.activeNetwork!.config!.cauldron!.spotOracles![index]
+      let onChainSpotOracleData = (await this.cauldron!.spotOracles(element.asset1, element.asset2)) as SpotOracleStruct
+      if (onChainSpotOracleData.oracle != element.oracleAddress) {
+        misMatch.push({
+          asset1: element.asset1,
+          asset2: element.asset2,
+          objAddress: element.oracleAddress,
+          onChainAddress: onChainSpotOracleData.oracle,
+        })
+      }
+    }
+    if (misMatch.length > 0) {
+      console.log('Following are present as spot oracles in object but not on chain')
+      console.table(misMatch)
+    } else {
+      console.log('All spotOracles are matching')
+    }
+  }
+
+  public addSpotOracles(spotOracles: SpotOraclesEntity[]) {
+    for (let index = 0; index < spotOracles.length; index++) {
+      const element = spotOracles[index]
+
+      let spotOracle = {} as SpotOraclesEntityProxy
+      spotOracle.asset1 = element.asset1
+      spotOracle.asset2 = element.asset2
+      spotOracle.oracleAddress = element.oracleAddress
+      // spotOracle.ratio = spotOracleData.ratio//BigNumberish issue
+      this.activeNetwork!.config!.cauldron!.spotOracles!.push(spotOracle as never)
     }
   }
 

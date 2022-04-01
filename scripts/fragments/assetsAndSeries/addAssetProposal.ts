@@ -14,26 +14,29 @@ import { bytesToString } from '../../../shared/helpers'
 import { Cauldron, Ladle, Join, ERC20Mock } from '../../../typechain'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { Harness } from '../core/harness/harness'
+import { protocolObject } from '../../../shared/protocolObject'
 
 export const addAssetProposal = async (
-  harness: Harness,
+  protocol: protocolObject,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
-  let ownerAcc: any = harness.owner
-  let cauldron: Cauldron = harness.cauldron
-  let ladle: Ladle = harness.ladle
+  let ownerAcc: any = protocol.dev
+  let cauldron: Cauldron = protocol.cauldron!
+  let ladle: Ladle = protocol.ladle!
 
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
-    const asset = (await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)) as unknown as ERC20Mock
-    //console.log(`Using ${await asset.name()} at ${assetAddress}`)
-    console.log(assetAddress)
+    const asset = (await ethers.getContractAt(
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+      assetAddress as string,
+      ownerAcc
+    )) as unknown as ERC20Mock
+    console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
     const join: Join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
     //console.log(`Using ${await asset.name()} join at ${joinAddress}`)
-    console.log(joinAddress)
 
     if ((await cauldron.assets(assetId)) === ZERO_ADDRESS) {
       // Add asset to Cauldron

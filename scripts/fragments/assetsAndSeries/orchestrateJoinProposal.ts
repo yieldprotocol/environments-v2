@@ -19,16 +19,17 @@ import { ROOT } from '../../../shared/constants'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
 import { Harness } from '../core/harness/harness'
+import { protocolObject } from '../../../shared/protocolObject'
 
 export const orchestrateJoinProposal = async (
-  harness: Harness,
+  protocol: protocolObject,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
-  let ownerAcc: any = harness.owner
-  let deployer: string = harness.deployer
-  let ladle: Ladle = harness.ladle
-  let timelock: Timelock = harness.timelock
-  let cloak: EmergencyBrake = harness.cloak
+  let ownerAcc: any = protocol.dev!
+  let deployer: string = protocol.dep!
+  let ladle: Ladle = protocol.ladle!
+  let timelock: Timelock = protocol.timelock!
+  let cloak: EmergencyBrake = protocol.cloak!
 
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
@@ -39,13 +40,13 @@ export const orchestrateJoinProposal = async (
     const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
 
     proposal.push({
-      target: join.address,
+      target: joinAddress,
       data: join.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
     })
     console.log(`join.revokeRole(ROOT, deployer)`)
 
     proposal.push({
-      target: join.address,
+      target: joinAddress,
       data: join.interface.encodeFunctionData('grantRoles', [
         [id(join.interface, 'setFlashFeeFactor(uint256)')],
         timelock.address,
@@ -54,14 +55,14 @@ export const orchestrateJoinProposal = async (
     console.log(`join.grantRoles(gov, timelock)`)
 
     proposal.push({
-      target: join.address,
+      target: joinAddress,
       data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
     })
     console.log(`join.grantRole(ROOT, cloak)`)
 
     const plan = [
       {
-        contact: join.address,
+        contact: joinAddress,
         signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
       },
     ]

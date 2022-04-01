@@ -6,7 +6,9 @@
         "cauldron": [{ "address": "0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867", "git": "" }],
         "ladle": [{ "address": "0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A", "git": "" }],
         "router": [{ "address": "0x1bF78bE42cD72bbFCCEEf67dCC0a0E2a0EB5da57", "git": "" }],
-        "witch": [{ "address": "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061", "git": "" }]
+        "witch": [{ "address": "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061", "git": "" }],
+        "timelock": [{ "address": "0x3b870db67a45611CF4723d44487EAF398fAc51E3", "git": "" }],
+        "cloak": [{ "address": "0xaa7B33685e9730B4D700b8F3F190EcA5EC4cf106", "git": "" }]
       },
       "config": {
         "cauldron": {
@@ -113,8 +115,123 @@
             { "seriesId": "0x303230370000", "ilkId": "0x303900000000" },
             { "seriesId": "0x303230370000", "ilkId": "0x313000000000" }
           ],
-          "lendingOracle": [],
-          "spotOracles": []
+          "lendingOracle": [
+            { "id": "0x303000000000", "address": "0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c" },
+            { "id": "0x303100000000", "address": "0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c" },
+            { "id": "0x303200000000", "address": "0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c" }
+          ],
+          "spotOracles": [
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303100000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303200000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303300000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303400000000",
+              "oracleAddress": "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303600000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x303700000000",
+              "oracleAddress": "0x358538ea4F52Ac15C551f88C701696f6d9b38F3C"
+            },
+            {
+              "asset1": "0x303000000000",
+              "asset2": "0x313000000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303000000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303200000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303300000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303400000000",
+              "oracleAddress": "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303600000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303700000000",
+              "oracleAddress": "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x313000000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303000000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303100000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303300000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303400000000",
+              "oracleAddress": "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303600000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303700000000",
+              "oracleAddress": "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303900000000",
+              "oracleAddress": "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x313000000000",
+              "oracleAddress": "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
+            }
+          ]
         },
         "ladle": {
           "joins": [
@@ -141,7 +258,8 @@
           "tokens": []
         },
         "witch": { "limits": [] }
-      }
+      },
+      "multisig": "0xd659565b84bcfcb23b02ee13e46cb51429f4558a"
     },
     {
       "name": "rinkeby",
@@ -226,8 +344,87 @@
             { "seriesId": "0x303230360000", "ilkId": "0x303900000000" },
             { "seriesId": "0x303230360000", "ilkId": "0x313000000000" }
           ],
-          "lendingOracle": [],
-          "spotOracles": []
+          "lendingOracle": [
+            { "id": "0x303100000000", "address": "0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482" },
+            { "id": "0x303200000000", "address": "0xeCA876c39DF7b75281Ea78eB35912fa1CC8f9482" }
+          ],
+          "spotOracles": [
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303000000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303200000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303300000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303400000000",
+              "oracleAddress": "0x8482BF1e17ceF57109F34C259d39d5B9BB9A4e13"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303600000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x303700000000",
+              "oracleAddress": "0x8482BF1e17ceF57109F34C259d39d5B9BB9A4e13"
+            },
+            {
+              "asset1": "0x303100000000",
+              "asset2": "0x313000000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303000000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303100000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303300000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303400000000",
+              "oracleAddress": "0x8482BF1e17ceF57109F34C259d39d5B9BB9A4e13"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303600000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303700000000",
+              "oracleAddress": "0x8482BF1e17ceF57109F34C259d39d5B9BB9A4e13"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x303900000000",
+              "oracleAddress": "0x88175a3e14F905ecCe464aF2A8E99f26159d4Cb8"
+            },
+            {
+              "asset1": "0x303200000000",
+              "asset2": "0x313000000000",
+              "oracleAddress": "0xBDBF01Ee32485aF94e316C395765F5Af2bf4b4dB"
+            }
+          ]
         },
         "ladle": {
           "joins": [
@@ -236,19 +433,24 @@
             { "assetId": "0x303200000000", "address": "0x7dD9F124C8a15f312CebF81419eC112C22802208" },
             { "assetId": "0x303300000000", "address": "0xBb8Db325D6B06A44E96E44C6e2eBc7ad22628B3f" },
             { "assetId": "0x303400000000", "address": "0xBd337F2191b5C50E426C8eD73B72c2ddFbD8eD5c" },
-            { "assetId": "0x303500000000", "address": "0x0000000000000000000000000000000000000000" },
             { "assetId": "0x303600000000", "address": "0x086B15D7620E7c0758F819E47Fc31F25C3b2815c" },
             { "assetId": "0x303700000000", "address": "0xbE1560cA39C51Dc380115058509D34dcd29d08a0" },
             { "assetId": "0x303900000000", "address": "0x606Bda7A8f04e52AdB5a8F2814F40b71c1baAC26" },
             { "assetId": "0x313000000000", "address": "0xB890D7Bf5102Ea81492D7Ae6872F1cC3a62e052e" }
           ],
-          "pools": [],
+          "pools": [
+            { "seriesId": "0x303130350000", "address": "0x49C8F9aD8d5443382c6C278ad21B6C4Bab742b1f" },
+            { "seriesId": "0x303230350000", "address": "0x52Db7C8d1d4A366A6E84e8b43adCB62213C13984" },
+            { "seriesId": "0x303130360000", "address": "0x6724515a6924D6A44d3970B85B83C5C1D717d410" },
+            { "seriesId": "0x303230360000", "address": "0x08C6EfAC33Ee27531a3c8B570feBA5278ac2008F" }
+          ],
           "modules": [],
           "integrations": [],
           "tokens": []
         },
         "witch": { "limits": [] }
-      }
+      },
+      "multisig": "0x5ad7799f02d5a829b2d6fa085e6bd69a872619d5"
     }
   ]
 }

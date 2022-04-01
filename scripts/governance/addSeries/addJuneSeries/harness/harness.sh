@@ -9,4 +9,3 @@ RUN="npx hardhat run --network localhost"
 $RUN $HERE/harnessAddAsset.ts # Propose
 $RUN $HERE/harnessAddAsset.ts # Approve
 $RUN $HERE/harnessAddAsset.ts # Execute
-$RUN $HERE/harnessAddAsset.ts # Check

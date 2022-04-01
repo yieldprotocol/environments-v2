@@ -84,33 +84,33 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  timelock: Timelock,
+  timelock: any,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  let [ownerAcc] = await ethers.getSigners()
-  const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-console.log(`Proposal: ${txHash}`)
+  const on_fork = hre.network.config.chainId === 31337
+  console.log(`Proposal: ${txHash}`)
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig)
   // - or execute (if in a fork, applying a time delay)
   if ((await timelock.proposals(txHash)).state === 0) {
-    console.log("Proposing");
+    console.log('Proposing')
     // Propose
     await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
+    return 'proposed'
   } else if ((await timelock.proposals(txHash)).state === 1) {
-    console.log("Approving");
+    console.log('Approving')
     // Approve, impersonating multisig if in a fork
     if (on_fork) {
       // If running on a mainnet fork, impersonating the multisig will work
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       console.log(`Running on a fork, impersonating multisig at ${multisig}`)
-      
+
       await hre.network.provider.request({
         method: 'hardhat_impersonateAccount',
         params: [multisig],
@@ -123,24 +123,25 @@ console.log(`Proposal: ${txHash}`)
       const multisigAcc = await ethers.getSigner(multisig as unknown as string)
       await timelock.connect(multisigAcc).approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
     } else {
       // On kovan we have approval permissions
       await timelock.approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
     }
+    console.log(`Approved ${txHash}`)
+    return 'Approved'
   } else if ((await timelock.proposals(txHash)).state === 2) {
-    console.log("Executing");
+    console.log('Executing')
     if (on_fork) {
       // Adding time travel since we have moved the delay to 2 days on mainnet
-      await hre.network.provider.request({method:"evm_increaseTime", params:[60 * 60 * 24 * 2]});
-      await hre.network.provider.request({method:'evm_mine',params:[]})
+      await hre.network.provider.request({ method: 'evm_increaseTime', params: [60 * 60 * 24 * 2] })
+      await hre.network.provider.request({ method: 'evm_mine', params: [] })
     }
     // Execute
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
+    return 'executed'
   }
 }
 
@@ -292,7 +293,7 @@ export function jsonToMap(json: string): Map<any, any> {
 }
 
 export function getNetworkName(): string {
-  return network.name;
+  return network.name
 }
 
 /**
@@ -300,7 +301,7 @@ export function getNetworkName(): string {
  * 'government.json' can be resolved to 'addresses/kovan/government.json', for example
  */
 export function getAddressMappingFilePath(file_name: string): string {
-  const full_path = join("addresses", getNetworkName(), file_name);
+  const full_path = join('addresses', getNetworkName(), file_name)
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))

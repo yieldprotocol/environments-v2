@@ -5,6 +5,7 @@ import { ROOT } from '../../../shared/constants'
 import JoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 
 import { ERC20Mock, Timelock, Join } from '../../../typechain'
+import { AssetEntity } from '../../../shared/types'
 
 const { deployContract } = waffle
 
@@ -14,15 +15,16 @@ const { deployContract } = waffle
 
 export const deployJoins = async (
   ownerAcc: any,
-  timelock: Timelock,
-  joinData: Array<[string, string]>
+  timelock: any,
+  joinData: Array<AssetEntity>
 ): Promise<Map<string, Join>> => {
   let joins: Map<string, Join> = new Map()
-  for (let [assetId, assetAddress] of joinData) {
+
+  for (const asset of joinData) {
     let join: Join
-    join = (await deployContract(ownerAcc, JoinArtifact, [assetAddress])) as Join
-    console.log(`Join deployed at ${join.address} for ${assetAddress}`)
-    verify(join.address, [assetAddress])
+    join = (await deployContract(ownerAcc, JoinArtifact, [asset.address])) as Join
+    console.log(`Join deployed at ${join.address} for ${asset.address}`)
+    verify(join.address, [asset.address])
 
     if (!(await join.hasRole(ROOT, timelock.address))) {
       await join.grantRole(ROOT, timelock.address)
@@ -30,7 +32,7 @@ export const deployJoins = async (
       while (!(await join.hasRole(ROOT, timelock.address))) {}
     }
 
-    joins.set(assetId, join)
+    joins.set(asset.assetId, join)
   }
 
   return joins

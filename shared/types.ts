@@ -11,6 +11,8 @@ export interface Protocol {
   ladle?: ProtocolEntity[] | null
   router?: ProtocolEntity[] | null
   witch?: ProtocolEntity[] | null
+  timelock?: ProtocolEntity[] | null
+  cloak?: ProtocolEntity[] | null
 }
 export interface ProtocolEntity {
   address: string
@@ -51,7 +53,7 @@ export interface SpotOraclesEntity {
   asset1: string
   asset2: string
   oracleAddress: string
-  ratio: string
+  ratio: number
 }
 export interface Ladle {
   joins?: JoinsEntity[] | null
@@ -89,3 +91,8 @@ export interface LimitsEntity {
   dec: number
   sum: number
 }
+
+// Debt limits
+// Oracle related
+// Setting composites
+// Setting composite paths

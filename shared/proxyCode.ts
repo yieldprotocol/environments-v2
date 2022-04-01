@@ -10,6 +10,7 @@ export class NetworksEntityProxy {
   public name: string = ''
   public protocol: ProtocolProxy = {} as ProtocolProxy
   public config: ConfigProxy = {} as ConfigProxy
+  public multisig: string = ''
 }
 
 export class ProtocolProxy {
@@ -24,6 +25,12 @@ export class ProtocolProxy {
 
   @Type(() => ProtocolEntity)
   public witch: ProtocolEntity[] = [] as ProtocolEntity[]
+
+  @Type(() => ProtocolEntity)
+  public timelock: ProtocolEntity[] = [] as ProtocolEntity[]
+
+  @Type(() => ProtocolEntity)
+  public cloak: ProtocolEntity[] = [] as ProtocolEntity[]
 }
 
 export class ProtocolEntity {

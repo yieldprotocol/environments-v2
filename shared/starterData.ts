@@ -40,3 +40,12 @@ export const series: SeriesEntity[] = [
   { seriesId: FYDAI2209, fyToken: '', baseId: '', maturity: '' },
   { seriesId: FYUSDC2209, fyToken: '', baseId: '', maturity: '' },
 ]
+
+export const networkNames: Map<number, string> = new Map([
+  [1, 'mainnet'],
+  [3, 'ropsten'],
+  [4, 'rinkeby'],
+  [5, 'goerli'],
+  [42161, 'arb_mainnet'],
+  [421611, 'arb_rinkeby'],
+])

@@ -1,8 +1,9 @@
-import { CVX3CRV, DAI, USDC, WSTETH } from '../../../shared/constants'
-import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../shared/constants'
-export const { assets, developer } = require(process.env.BASE as string)
+import { CVX3CRV, DAI, USDC, WSTETH } from '../../../../../shared/constants'
+import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../../../../shared/constants'
+import { AssetEntity, SeriesEntity } from '../../../../../shared/types'
+export const { assets, developer, deployer } = require(process.env.BASE as string)
 
-export const assetsToAdd: Array<[string, string]> = [[CVX3CRV, assets.get(CVX3CRV) as string]]
+// export const assetsToAdd: Array<[string, string]> = [[CVX3CRV, assets.get(CVX3CRV) as string]]
 
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2203, [CVX3CRV]],
@@ -26,3 +27,5 @@ export const compositeDebtLimits: Array<[string, string, number, number, number,
   [DAI, WSTETH, 1400000, 500000, 5000, 18],
   [USDC, WSTETH, 1400000, 500000, 5000, 6],
 ]
+
+export const assetsToAdd: AssetEntity[] = [{ assetId: CVX3CRV, address: assets.get(CVX3CRV), deploymentTime: '' }]
