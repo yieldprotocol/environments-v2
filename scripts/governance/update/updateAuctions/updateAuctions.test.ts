@@ -9,8 +9,8 @@ import {
   getOriginalChainId,
   bytesToString,
   readAddressMappingIfExists,
-} from '../../../shared/helpers'
-import { Witch } from '../../../typechain/Witch'
+} from '../../../../shared/helpers'
+import { Witch } from '../../../../typechain/Witch'
 import { newLimits, developer } from './updateAuctions.mainnet.config'
 ;(async () => {
   const chainId = await getOriginalChainId()

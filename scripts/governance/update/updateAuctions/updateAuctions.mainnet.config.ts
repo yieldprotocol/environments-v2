@@ -1,4 +1,4 @@
-import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC } from '../../../../shared/constants'
 
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
