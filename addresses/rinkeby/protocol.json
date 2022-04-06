@@ -64,6 +64,42 @@
     [
       "transfer1155Module",
       "0x39a4f3D170613e609823A699C9e09475E757ede4"
+    ],
+    [
+      "curvePoolMock",
+      "0x3C0eB38bfe7Aa69Ba753CEb500C581e80D76Aa84"
+    ],
+    [
+      "crvMock",
+      "0x342BA58d1Ca3b357f2992291EED2e56CaD31C90b"
+    ],
+    [
+      "cvxMock",
+      "0x3e1a83c17315e7528B477cE6C4D18BcEd543c391"
+    ],
+    [
+      "cvx3CrvMock",
+      "0x8A5862c7753E98A3B6AcB366859C71631046CDf8"
+    ],
+    [
+      "convexPoolMock",
+      "0x73CF4103eeFDf633DE4E74BA7D6278B3fa9CB2Fe"
+    ],
+    [
+      "usdtEthAggregator",
+      "0x568bA7ed5cb5A426276FB32D5861B10e7759fB85"
+    ],
+    [
+      "convexYieldWrapper",
+      "0xEb1710f3cBEefa2Baf0d17AA47e71D656139989F"
+    ],
+    [
+      "convexLadleModule",
+      "0x9Bf195997581C99cef8be95a3a816Ca19Cf1A3e6"
+    ],
+    [
+      "cvx3CrvOracle",
+      "0xB7Ea53dB91EeC2725557d01441ee64F748868c18"
     ]
   ]
 }

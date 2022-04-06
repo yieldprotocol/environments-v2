@@ -7,7 +7,6 @@ import {
 } from '../../../../shared/helpers'
 import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
 import { Cauldron, EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
-import { developer } from './addCvx3Crv.config'
 
 /**
  * @dev This script:
@@ -16,6 +15,7 @@ import { developer } from './addCvx3Crv.config'
 
 import { CVX3CRV } from '../../../../shared/constants'
 import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
+const { developer } = require(process.env.CONF as string)
 ;(async () => {
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'

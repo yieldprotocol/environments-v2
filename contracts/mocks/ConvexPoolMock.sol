@@ -60,4 +60,8 @@ contract ConvexPoolMock {
 
         return true;
     }
+
+    function extraRewardsLength() public view returns (uint256) {
+        return 0;
+    }
 }

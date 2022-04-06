@@ -1,5 +1,12 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, writeAddressMap, verify, getOwnerOrImpersonate, bytesToBytes32 } from '../../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  writeAddressMap,
+  verify,
+  getOwnerOrImpersonate,
+  bytesToBytes32,
+} from '../../../../shared/helpers'
 import { WSTETH, STETH, CONVEX3CRV } from '../../../../shared/constants'
 import { ROOT } from '../../../../shared/constants'
 import Cvx3CrvOracleArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol/Cvx3CrvOracle.json'
@@ -18,10 +25,9 @@ const { deployContract } = waffle
  */
 
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const protocol = readAddressMappingIfExists('protocol.json');
-  const governance = readAddressMappingIfExists('governance.json');
+  const protocol = readAddressMappingIfExists('protocol.json')
+  const governance = readAddressMappingIfExists('governance.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -31,19 +37,24 @@ const { deployContract } = waffle
 
   let cvx3CrvOracle: Cvx3CrvOracle
   if (protocol.get(CONVEX3CRV) === undefined) {
-      cvx3CrvOracle = (await deployContract(ownerAcc, Cvx3CrvOracleArtifact)) as Cvx3CrvOracle
-      console.log(`cvx3CrvOracle deployed at ${cvx3CrvOracle.address}`)
-      
-      verify(cvx3CrvOracle.address, [bytesToBytes32(WSTETH), bytesToBytes32(STETH)])
-      protocol.set(CONVEX3CRV, cvx3CrvOracle.address)
-      writeAddressMap("protocol.json", protocol);
+    cvx3CrvOracle = (await deployContract(ownerAcc, Cvx3CrvOracleArtifact)) as Cvx3CrvOracle
+    console.log(`cvx3CrvOracle deployed at ${cvx3CrvOracle.address}`)
+
+    verify(cvx3CrvOracle.address, [])
+    protocol.set(CONVEX3CRV, cvx3CrvOracle.address)
+    writeAddressMap('protocol.json', protocol)
   } else {
-      cvx3CrvOracle = (await ethers.getContractAt('Cvx3CrvOracle', protocol.get(CONVEX3CRV) as string, ownerAcc)) as unknown as Cvx3CrvOracle
-      console.log(`Reusing cvx3CrvOracle at ${cvx3CrvOracle.address}`)
+    cvx3CrvOracle = (await ethers.getContractAt(
+      'Cvx3CrvOracle',
+      protocol.get(CONVEX3CRV) as string,
+      ownerAcc
+    )) as unknown as Cvx3CrvOracle
+    console.log(`Reusing cvx3CrvOracle at ${cvx3CrvOracle.address}`)
   }
 
   if (!(await cvx3CrvOracle.hasRole(ROOT, timelock.address))) {
-      await cvx3CrvOracle.grantRole(ROOT, timelock.address); console.log(`cvx3CrvOracle.grantRoles(ROOT, timelock)`)
-      while (!(await cvx3CrvOracle.hasRole(ROOT, timelock.address))) { }
+    await cvx3CrvOracle.grantRole(ROOT, timelock.address)
+    console.log(`cvx3CrvOracle.grantRoles(ROOT, timelock)`)
+    while (!(await cvx3CrvOracle.hasRole(ROOT, timelock.address))) {}
   }
 })()

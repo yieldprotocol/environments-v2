@@ -15,9 +15,7 @@ import { CompositeMultiOracle, Timelock, EmergencyBrake } from '../../../../type
 import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
 import { COMPOSITE, CONVEX3CRV, WAD } from '../../../../shared/constants'
 
-import { developer } from './addCvx3Crv.config'
-import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.config'
-
+const { cvx3CrvSources, compositeSources, compositePaths, developer } = require(process.env.CONF as string)
 /**
  * @dev This script configures the Cvx3crv price feed
  * Previously, the Cvx3crvOracle should have been deployed, and ROOT access
@@ -25,7 +23,6 @@ import { cvx3CrvSources, compositeSources, compositePaths } from './addCvx3Crv.c
  * Deploy the Cvx3crv oracle
  * --- You are here ---
  * Configure the permissions for the Cvx3crv Oracle
- * Add the YVUSDC/USDC yvToken as the YVUSDC/USDC source in the Yearn Oracle
  * Add the Cvx3crv Oracle as the CVX3CRV/ETH source in the Composite Oracle
  * Add the Chainlink Oracle as the DAI/ETH and USDC/ETH sources in the Composite Oracle
  * Add the DAI/CVX3CRV/ETH and USDC/CVX3CRV/ETH paths in the Composite Oracle
