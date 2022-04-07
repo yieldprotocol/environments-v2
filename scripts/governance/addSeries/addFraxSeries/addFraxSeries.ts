@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute, stringToBytes6 } from '../../../../shared/helpers'
 
 import {
   IOracle,
@@ -7,6 +7,7 @@ import {
   CompositeMultiOracle,
   UniswapV3Oracle,
   AccumulatorMultiOracle,
+  OnChainTest,
 } from '../../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
 
@@ -21,10 +22,26 @@ import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orch
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
 import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
+import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
+import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { onChainTestProposal } from '../../../fragments/utils/onChainTestProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
-const { newCompositePaths, rateChiSources, compositeSources } = require(process.env.CONF as string)
+const {
+  newCompositePaths,
+  rateChiSources,
+  compositeSources,
+  newFYTokens,
+  newPools,
+  seriesIlks,
+  poolsInit,
+  newStrategies,
+  strategiesData,
+  strategiesInit,
+} = require(process.env.CONF as string)
 const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
 const { chainlinkSources } = require(process.env.CONF as string)
 
@@ -72,12 +89,22 @@ const { chainlinkSources } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Timelock
 
+  const onChainTest = (await ethers.getContractAt(
+    'OnChainTest',
+    protocol.get('onChainTest') as string,
+    ownerAcc
+  )) as unknown as OnChainTest
+
   let assetsAndJoins: [string, string, string][] = []
   // console.log(` AssetId      | Asset Address                            | Join Address`)
 
   for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, assetsToAdd.get(assetId) as string, joinAddress])
     // console.log(`${[assetId, bases.get(assetId) as string, joinAddress]}`)
+    // await onChainTest['valueEquator(bytes,bytes)'](assetsToAdd.get(assetId) as string,assetsToAdd.get(assetId) as string)
+    // await onChainTest['valueEquator(bytes,address,bytes)'](cauldron.interface.encodeFunctionData('assets', [assetId]),
+    // cauldron.address,
+    // assetsToAdd.get(assetId) as string)
   }
   console.table(assetsAndJoins)
 
@@ -101,11 +128,21 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(
     await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
   )
-
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
 
+  // // Series
+  proposal = proposal.concat(
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, newJoins)
+  )
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
+
+  // Strategies
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
+  proposal = proposal.concat(await onChainTestProposal(cauldron, onChainTest, assetsAndJoins))
   if (proposal.length > 0) {
     // Propose, Approve & execute
     await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

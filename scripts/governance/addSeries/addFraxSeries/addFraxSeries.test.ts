@@ -46,6 +46,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
       if (chainId != 1 && ilk != UNI) await collateral.connect(ownerAcc).mint(whaleAcc.address, WAD.mul(1000))
       console.log(`series: ${seriesId}`)
+      console.log(`ilk: ${ilk}`)
       const series = await cauldron.series(seriesId)
       const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
 

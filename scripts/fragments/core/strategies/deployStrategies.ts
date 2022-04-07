@@ -23,7 +23,7 @@ export const deployStrategies = async (
   safeERC20Namer: SafeERC20Namer,
   yieldMathExtensions: YieldMathExtensions,
   timelock: Timelock,
-  strategiesData: Array<[string, string, string]>
+  strategiesData: Array<[string, string, string, string, string]>
 ): Promise<Map<string, string>> => {
   const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {
@@ -34,19 +34,19 @@ export const deployStrategies = async (
 
   let newStrategies: Map<string, string> = new Map()
 
-  for (let [name, symbol, baseId] of strategiesData) {
+  for (let [name, symbol, baseId, join, baseAddress] of strategiesData) {
     const base = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      await cauldron.assets(baseId),
+      baseAddress,
       ownerAcc
     )) as unknown as ERC20Mock
     console.log(`Using ${await base.name()} at ${base.address} as base`)
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
-      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
+      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId, join)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
-      verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
+      verify(strategy.address, [name, symbol, ladle.address, base.address, baseId, join], 'safeERC20Namer.js')
       newStrategies.set(symbol, strategy.address)
     } else {
       console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
