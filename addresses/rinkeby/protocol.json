@@ -68,6 +68,22 @@
     [
       "wrapEtherModule",
       "0x6C688D4257204FEe0Fce47d3feb9AE81e8B86283"
+    ],
+    [
+      "fraxOracleMock",
+      "0x89773373401E5912d6edecB4EA5f5f7648DbA912"
+    ],
+    [
+      "fraxMock",
+      "0x07f6fa8db062d41e922f06734d9e659900f7f97e"
+    ],
+    [
+      "accumulatorOracle",
+      "0x474016c70da96AEf5c78cF2a549F1Ef1cC9bfdC3"
+    ],
+    [
+      "onChainTest",
+      "0x526a16c25149F0723616989aA7332FEbf206ED11"
     ]
   ]
 }
