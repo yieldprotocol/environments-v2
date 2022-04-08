@@ -3221,7 +3221,7 @@ __metadata:
     "@typechain/hardhat": ^3.0.0
     "@types/mocha": ^8.0.0
     "@yield-protocol/strategy-v2": 0.11.0-rc6
-    "@yield-protocol/utils-v2": 2.5.1
+    "@yield-protocol/utils-v2": 2.5.2
     "@yield-protocol/vault-interfaces": ^2.3.2
     "@yield-protocol/vault-v2": 0.15.1
     "@yield-protocol/yieldspace-interfaces": 2.3.0-rc7
@@ -3257,7 +3257,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yield-protocol/utils-v2@npm:2.5.1, @yield-protocol/utils-v2@npm:^2.4.2":
+"@yield-protocol/utils-v2@npm:2.5.2":
+  version: 2.5.2
+  resolution: "@yield-protocol/utils-v2@npm:2.5.2"
+  dependencies:
+    ethereumjs-util: ^7.0.8
+    ethers: ^5.0.7
+  checksum: 4f2f0515666c60daac71b5b3d609d31acde875ccdd39f54d5214292ebec209af0b06ae37ae9cc35ef0974d82f13d30b932b73a4024134c81202dcdfdb90adcec
+  languageName: node
+  linkType: hard
+
+"@yield-protocol/utils-v2@npm:^2.4.2":
   version: 2.5.1
   resolution: "@yield-protocol/utils-v2@npm:2.5.1"
   dependencies:
