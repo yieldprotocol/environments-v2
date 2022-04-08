@@ -1,15 +1,7 @@
 import { ethers } from 'hardhat'
 import { verify } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
-import {
-  Cauldron,
-  Ladle,
-  Strategy,
-  ERC20Mock,
-  Timelock,
-  SafeERC20Namer,
-  YieldMathExtensions,
-} from '../../../../typechain'
+import { Cauldron, Ladle, Strategy, Timelock, SafeERC20Namer, YieldMathExtensions } from '../../../../typechain'
 
 /**
  * @dev This script deploys strategies
@@ -35,22 +27,22 @@ export const deployStrategies = async (
   let newStrategies: Map<string, string> = new Map()
 
   for (let [name, symbol, baseId] of strategiesData) {
-    const base = (await ethers.getContractAt(
+    const base = await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       await cauldron.assets(baseId),
       ownerAcc
-    )) as unknown as ERC20Mock
+    )
     console.log(`Using ${await base.name()} at ${base.address} as base`)
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
-      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)) as Strategy
+      strategy = await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId)
       console.log(`Strategy deployed at '${strategy.address}'`)
       verify(strategy.address, [name, symbol, ladle.address, base.address, baseId], 'safeERC20Namer.js')
       newStrategies.set(symbol, strategy.address)
     } else {
       console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
-      strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
+      strategy = await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)
     }
     if (!(await strategy.hasRole(ROOT, timelock.address))) {
       await strategy.grantRole(ROOT, timelock.address)

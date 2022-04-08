@@ -1,16 +1,10 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  getOwnerOrImpersonate,
-  verify,
-  readAddressMappingIfExists,
-  writeAddressMap,
-} from '../../../shared/helpers'
+import { verify, writeAddressMap } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
 import CauldronArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Cauldron.sol/Cauldron.json'
 
-import { Cauldron, Timelock } from '../../../typechain'
+import { Cauldron } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -23,11 +17,7 @@ export const deployCauldron = async (
   protocol: Map<string, string>,
   governance: Map<string, string>
 ): Promise<Cauldron> => {
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let cauldron: Cauldron
   if (protocol.get('cauldron') === undefined) {
@@ -37,7 +27,7 @@ export const deployCauldron = async (
     protocol.set('cauldron', cauldron.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
+    cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
     console.log(`Reusing Cauldron at ${cauldron.address}`)
   }
   if (!(await cauldron.hasRole(ROOT, timelock.address))) {

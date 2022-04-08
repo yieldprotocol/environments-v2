@@ -3,10 +3,8 @@
  */
 
 import { ethers } from 'hardhat'
-
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../shared/helpers'
 import { updateWitchLimitsInitialOfferProposal } from '../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
-import { Witch, Timelock } from '../../../typechain'
 import { newLimits, developer } from './updateAuctions.mainnet.config'
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
@@ -14,13 +12,9 @@ import { newLimits, developer } from './updateAuctions.mainnet.config'
   const protocol = readAddressMappingIfExists('protocol.json')
 
   // Contract instantiation
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

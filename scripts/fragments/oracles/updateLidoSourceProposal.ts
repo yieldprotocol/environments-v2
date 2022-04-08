@@ -6,7 +6,7 @@ import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
 import { WAD, WSTETH, STETH } from '../../../shared/constants'
 
-import { LidoOracle, IWstETH } from '../../../typechain'
+import { LidoOracle } from '../../../typechain'
 
 export const updateLidoSourceProposal = async (
   lidoOracle: LidoOracle,
@@ -17,7 +17,7 @@ export const updateLidoSourceProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   if ((await ethers.provider.getCode(source)) === '0x') throw `Address ${source} contains no code`
 
-  const wstEth = (await ethers.getContractAt('IWstETH', source, ownerAcc)) as unknown as IWstETH
+  const wstEth = await ethers.getContractAt('IWstETH', source, ownerAcc)
 
   console.log(
     `Current rate for ${bytesToString(STETH)}/${bytesToString(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(

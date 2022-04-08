@@ -1,14 +1,7 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  getOwnerOrImpersonate,
-  verify,
-  writeAddressMap,
-  readAddressMappingIfExists,
-} from '../../../../shared/helpers'
-
+import { verify, writeAddressMap } from '../../../../shared/helpers'
 import TimelockArtifact from '../../../../artifacts/@yield-protocol/utils-v2/contracts/utils/Timelock.sol/Timelock.json'
-import { Timelock } from '../../../../typechain/Timelock'
+import { Timelock } from '../../../../typechain'
 
 const { deployContract } = waffle
 
@@ -28,11 +21,7 @@ export const deployTimelock = async (ownerAcc: any, governance: Map<string, stri
     governance.set('timelock', timelock.address)
     writeAddressMap('governance.json', governance)
   } else {
-    timelock = (await ethers.getContractAt(
-      'Timelock',
-      governance.get('timelock') as string,
-      ownerAcc
-    )) as unknown as Timelock
+    timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
     console.log(`Reusing Timelock at ${timelock.address}`)
   }
 

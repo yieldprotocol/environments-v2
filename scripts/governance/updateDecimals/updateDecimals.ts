@@ -7,10 +7,8 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-
 import { getOwnerOrImpersonate, getOriginalChainId, jsonToMap, proposeApproveExecute } from '../../../shared/helpers'
-import { updateDecimalsProposal } from '../../limits/updateDecimalsProposal'
-import { Cauldron, Timelock } from '../../../typechain'
+import { updateDecimalsProposal } from '../../fragments/limits/updateDecimalsProposal'
 import { newLimits } from './updateDecimals.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -28,17 +26,9 @@ import { newLimits } from './updateDecimals.config'
   const governance = jsonToMap(fs.readFileSync(path + 'governance.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = await updateDecimalsProposal(cauldron, newLimits)

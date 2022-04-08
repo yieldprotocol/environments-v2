@@ -24,11 +24,7 @@ export const deployWrapEtherModule = async (
     console.log(`WrapEtherModule deployed at ${transferModule.address}`)
     verify(transferModule.address, [cauldron.address, weth.address])
   } else {
-    transferModule = (await ethers.getContractAt(
-      'WrapEtherModule',
-      protocol.get('transferModule') as string,
-      ownerAcc
-    )) as unknown as WrapEtherModule
+    transferModule = await ethers.getContractAt('WrapEtherModule', protocol.get('transferModule') as string, ownerAcc)
     console.log(`Reusing WrapEtherModule at ${transferModule.address}`)
   }
 

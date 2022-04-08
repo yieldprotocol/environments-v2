@@ -8,12 +8,11 @@
  * A plan is recorded in the Cloak to isolate the FYToken from the Ladle.
  */
 
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../shared/helpers'
+import { ethers } from 'hardhat'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
-
-import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
+import { bytesToString } from '../../../shared/helpers'
+import { Cauldron, EmergencyBrake, Ladle, Timelock } from '../../../typechain'
 
 export const addSeriesProposal = async (
   ownerAcc: any,
@@ -29,19 +28,19 @@ export const addSeriesProposal = async (
 
   for (let [seriesId, fyTokenAddress] of newFYTokens) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
-    const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
+    const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)
 
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
-    const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
+    const pool = await ethers.getContractAt('Pool', poolAddress, ownerAcc)
 
-    const joinAddress = (await ladle.joins(baseId)) as string
+    const joinAddress = await ladle.joins(baseId)
     if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
     else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', await ladle.joins(baseId), ownerAcc)
 
     // This test fails if adding the base in the same proposal. All tests should move on-chain.
     // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string

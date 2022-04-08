@@ -1,20 +1,11 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-  getOriginalChainId,
-} from '../../../../shared/helpers'
-
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
 import { orchestrateChainlinkUSDOracleProposal } from '../../../fragments/oracles/orchestrateChainlinkUSDOracleProposal'
 import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
 import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSourcesProposal'
 import { updateChainlinkUSDSourcesProposal } from '../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
-
-import { Timelock, EmergencyBrake } from '../../../../typechain'
-import { ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../shared/constants'
-const { deployer, developer } = require(process.env.CONF as string)
+const { deployer, developer, governance, protocol } = require(process.env.CONF as string)
 const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as string)
 
 /**
@@ -24,27 +15,19 @@ const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as stri
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const chainlinkUSDOracle = (await ethers.getContractAt(
+  const chainlinkUSDOracle = await ethers.getContractAt(
     'ChainlinkUSDMultiOracle',
     protocol.get(CHAINLINKUSD) as string,
     ownerAcc
-  )) as unknown as ChainlinkUSDMultiOracle
-  const accumulatorOracle = (await ethers.getContractAt(
+  )
+  const accumulatorOracle = await ethers.getContractAt(
     'AccumulatorMultiOracle',
     protocol.get(ACCUMULATOR) as string,
     ownerAcc
-  )) as unknown as AccumulatorMultiOracle
+  )
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

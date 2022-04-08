@@ -6,7 +6,7 @@ import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
 import { CHI } from '../../../shared/constants'
 
-import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
+import { CompoundMultiOracle } from '../../../typechain'
 
 export const updateChiSourcesProposal = async (
   lendingOracle: CompoundMultiOracle,
@@ -18,11 +18,11 @@ export const updateChiSourcesProposal = async (
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, sourceAddress] of newSources) {
-    const cToken = (await ethers.getContractAt(
+    const cToken = await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       sourceAddress as string,
       ownerAcc
-    )) as unknown as ERC20Mock
+    )
     console.log(`Using ${await cToken.name()} at ${sourceAddress}`)
     proposal.push({
       target: lendingOracle.address,

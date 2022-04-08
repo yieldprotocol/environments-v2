@@ -1,17 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-  bytesToBytes32,
-} from '../../../shared/helpers'
-import { ROOT } from '../../../shared/constants'
 import YearnVaultMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/yearn/YearnVaultMultiOracle.sol/YearnVaultMultiOracle.json'
-
-import { YearnVaultMultiOracle } from '../../../typechain/YearnVaultMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { ROOT } from '../../../shared/constants'
+import { verify, writeAddressMap } from '../../../shared/helpers'
+import { Timelock, YearnVaultMultiOracle } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -35,11 +26,7 @@ export const deployYearnOracle = async (
     protocol.set('yearnOracle', yearnOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    yearnOracle = (await ethers.getContractAt(
-      'YearnVaultMultiOracle',
-      protocol.get('yearnOracle') as string,
-      ownerAcc
-    )) as unknown as YearnVaultMultiOracle
+    yearnOracle = await ethers.getContractAt('YearnVaultMultiOracle', protocol.get('yearnOracle') as string, ownerAcc)
     console.log(`Reusing YearnVaultMultiOracle at ${yearnOracle.address}`)
   }
   if (!(await yearnOracle.hasRole(ROOT, timelock.address))) {

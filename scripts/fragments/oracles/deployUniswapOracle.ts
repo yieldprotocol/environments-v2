@@ -1,16 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
-import { ROOT } from '../../../shared/constants'
 import UniswapV3OracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/uniswap/UniswapV3Oracle.sol/UniswapV3Oracle.json'
-
-import { UniswapV3Oracle } from '../../../typechain/UniswapV3Oracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { ROOT } from '../../../shared/constants'
+import { verify, writeAddressMap } from '../../../shared/helpers'
+import { Timelock, UniswapV3Oracle } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -34,11 +26,7 @@ export const deployUniswapOracle = async (
     protocol.set('uniswapOracle', uniswapOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    uniswapOracle = (await ethers.getContractAt(
-      'UniswapV3Oracle',
-      protocol.get('uniswapOracle') as string,
-      ownerAcc
-    )) as unknown as UniswapV3Oracle
+    uniswapOracle = await ethers.getContractAt('UniswapV3Oracle', protocol.get('uniswapOracle') as string, ownerAcc)
     console.log(`Reusing UniswapV3Oracle at ${uniswapOracle.address}`)
   }
   if (!(await uniswapOracle.hasRole(ROOT, timelock.address))) {

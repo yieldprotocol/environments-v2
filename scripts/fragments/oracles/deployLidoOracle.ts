@@ -1,18 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-  bytesToBytes32,
-} from '../../../shared/helpers'
-import { WSTETH, STETH } from '../../../shared/constants'
-import { ROOT } from '../../../shared/constants'
 import LidoOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol/LidoOracle.json'
-
-import { LidoOracle } from '../../../typechain/LidoOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { ROOT, STETH, WSTETH } from '../../../shared/constants'
+import { bytesToBytes32, verify, writeAddressMap } from '../../../shared/helpers'
+import { LidoOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -39,11 +29,7 @@ export const deployLidoOracle = async (
     protocol.set('lidoOracle', lidoOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    lidoOracle = (await ethers.getContractAt(
-      'LidoOracle',
-      protocol.get('lidoOracle') as string,
-      ownerAcc
-    )) as unknown as LidoOracle
+    lidoOracle = await ethers.getContractAt('LidoOracle', protocol.get('lidoOracle') as string, ownerAcc)
     console.log(`Reusing LidoOracle at ${lidoOracle.address}`)
   }
   if (!(await lidoOracle.hasRole(ROOT, timelock.address))) {

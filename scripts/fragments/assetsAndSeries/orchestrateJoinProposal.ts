@@ -14,10 +14,10 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, verify } from '../../../shared/helpers'
+import { bytesToString } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Ladle, Timelock, EmergencyBrake } from '../../../typechain'
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
@@ -33,7 +33,7 @@ export const orchestrateJoinProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [assetId, assetAddress, joinAddress] of assets) {
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
 
     proposal.push({
       target: join.address,

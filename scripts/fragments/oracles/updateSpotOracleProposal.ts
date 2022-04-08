@@ -6,7 +6,7 @@ import { ethers } from 'hardhat'
 import { bytesToBytes32 } from '../../../shared/helpers'
 import { WAD, ZERO_ADDRESS } from '../../../shared/constants'
 
-import { IOracle, Cauldron } from '../../../typechain'
+import { Cauldron } from '../../../typechain'
 
 export const updateSpotOracleProposal = async (
   ownerAcc: any,
@@ -16,7 +16,7 @@ export const updateSpotOracleProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [baseId, ilkId, spotOracleAddress] of assetPairs) {
-    const spotOracle = (await ethers.getContractAt('IOracle', spotOracleAddress, ownerAcc)) as unknown as IOracle
+    const spotOracle = await ethers.getContractAt('IOracle', spotOracleAddress, ownerAcc)
 
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
     // console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)

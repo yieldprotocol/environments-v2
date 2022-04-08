@@ -18,18 +18,18 @@ export const deployYieldMathExtensions = async (
         YieldMath: yieldMath.address,
       },
     })
-    yieldMathExtensions = (await YieldMathExtensionsFactory.deploy()) as unknown as YieldMathExtensions
+    yieldMathExtensions = await YieldMathExtensionsFactory.deploy()
     await yieldMathExtensions.deployed()
     console.log(`YieldMathExtensions deployed at ${yieldMathExtensions.address}`)
     verify(yieldMathExtensions.address, [], getAddressMappingFilePath('yieldMath.js'))
     protocol.set('yieldMathExtensions', yieldMathExtensions.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    yieldMathExtensions = (await ethers.getContractAt(
+    yieldMathExtensions = await ethers.getContractAt(
       'YieldMathExtensions',
       protocol.get('yieldMathExtensions') as string,
       ownerAcc
-    )) as YieldMathExtensions
+    )
     console.log(`Reusing YieldMathExtensions at ${yieldMathExtensions.address}`)
   }
 

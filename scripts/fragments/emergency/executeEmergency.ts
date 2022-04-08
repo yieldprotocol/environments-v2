@@ -8,8 +8,6 @@ import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
 import { jsonToMap } from '../../../shared/helpers'
-
-import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 ;(async () => {
   const planHash = '0xae4831012f1830ace893417d820c13e4045d4039d192aff22b5d61ce840ea5af'
   /* await hre.network.provider.request({
@@ -21,11 +19,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
 
   // Execute
   await cloak.execute(planHash)

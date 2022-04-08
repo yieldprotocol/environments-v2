@@ -1,16 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 import ChainlinkMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol/ChainlinkMultiOracle.json'
-
-import { ChainlinkMultiOracle } from '../../../typechain/ChainlinkMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { ChainlinkMultiOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -30,11 +22,11 @@ export const deployChainlinkOracle = async (
     protocol.set('chainlinkOracle', chainlinkOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    chainlinkOracle = (await ethers.getContractAt(
+    chainlinkOracle = await ethers.getContractAt(
       'ChainlinkMultiOracle',
       protocol.get('chainlinkOracle') as string,
       ownerAcc
-    )) as unknown as ChainlinkMultiOracle
+    )
     console.log(`Reusing ChainlinkMultiOracle at ${chainlinkOracle.address}`)
   }
   if (!(await chainlinkOracle.hasRole(ROOT, timelock.address))) {

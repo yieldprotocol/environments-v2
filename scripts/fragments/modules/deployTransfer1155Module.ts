@@ -24,11 +24,11 @@ export const deployTransfer1155Module = async (
     console.log(`Transfer1155Module deployed at ${transferModule.address}`)
     verify(transferModule.address, [cauldron.address, weth.address])
   } else {
-    transferModule = (await ethers.getContractAt(
+    transferModule = await ethers.getContractAt(
       'Transfer1155Module',
       protocol.get('transferModule') as string,
       ownerAcc
-    )) as unknown as Transfer1155Module
+    )
     console.log(`Reusing Transfer1155Module at ${transferModule.address}`)
   }
 

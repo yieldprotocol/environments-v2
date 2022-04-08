@@ -6,9 +6,7 @@
 
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-
 import { bytesToString, jsonToMap, getOriginalChainId, getOwnerOrImpersonate } from '../../../shared/helpers'
-import { Cauldron } from '../../../typechain/Cauldron'
 import { newLimits } from './updateDecimals.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -25,11 +23,7 @@ import { newLimits } from './updateDecimals.config'
   const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   for (let [baseId, ilkId, max, min, dec] of newLimits) {
     const debt = await cauldron.debt(baseId, ilkId)
     if (debt.max.toString() === max.toString())

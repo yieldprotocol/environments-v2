@@ -28,11 +28,7 @@ export const deployCloak = async (
     governance.set('cloak', cloak.address)
     writeAddressMap('governance.json', governance)
   } else {
-    cloak = (await ethers.getContractAt(
-      'EmergencyBrake',
-      governance.get('cloak') as string,
-      ownerAcc
-    )) as unknown as EmergencyBrake
+    cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
     console.log(`Reusing Cloak at ${cloak.address}`)
   }
   if (!(await cloak.hasRole(ROOT, timelock.address))) {

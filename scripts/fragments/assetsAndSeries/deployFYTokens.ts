@@ -1,4 +1,4 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 

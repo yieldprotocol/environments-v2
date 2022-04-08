@@ -5,10 +5,8 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
 } from '../../../shared/helpers'
-
 import { addTokenProposal } from '../../fragments/ladle/addTokenProposal'
 import { addIntegrationProposal } from '../../fragments/ladle/addIntegrationProposal'
-import { Cauldron, Ladle, Timelock } from '../../../typechain'
 import { STETH, WSTETH } from '../../../shared/constants'
 import { developer } from './addStETHWrapper.config'
 
@@ -26,22 +24,14 @@ import { developer } from './addStETHWrapper.config'
   const governance = readAddressMappingIfExists('governance.json')
 
   const lidoWrapHandlerAddress: string = protocol.get('lidoWrapHandler') as string
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const wstEthAddress = await cauldron.assets(WSTETH)
   const stEthAddress = await cauldron.assets(STETH)
   console.log(`Using wstETH at ${wstEthAddress}`)
   console.log(`Using stETH at ${stEthAddress}`)
 
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await addTokenProposal(ladle, wstEthAddress))

@@ -3,14 +3,12 @@
  */
 
 import { ethers } from 'hardhat'
-
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
   bytesToString,
   readAddressMappingIfExists,
 } from '../../../shared/helpers'
-import { Witch } from '../../../typechain/Witch'
 import { newLimits, developer } from './updateAuctions.mainnet.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -20,7 +18,7 @@ import { newLimits, developer } from './updateAuctions.mainnet.config'
   const protocol = readAddressMappingIfExists('protocol.json')
 
   // Contract instantiation
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
 
   console.log(`Limits:`)
   for (let [ilkId, initialOffer, line, dust, dec] of newLimits) {

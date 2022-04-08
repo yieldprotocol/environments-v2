@@ -1,8 +1,6 @@
 import { ethers } from 'hardhat'
 import { verify, writeAddressMap, getAddressMappingFilePath } from '../../../../shared/helpers'
-
-import { YieldMathExtensions } from '../../../../typechain/YieldMathExtensions'
-import { PoolView } from '../../../../typechain/PoolView'
+import { PoolView, YieldMathExtensions } from '../../../../typechain'
 
 /**
  * @dev This script deploys the PoolView library
@@ -19,14 +17,14 @@ export const deployPoolView = async (
         YieldMathExtensions: yieldMathExtensions.address,
       },
     })
-    poolView = (await PoolViewFactory.deploy()) as unknown as PoolView
+    poolView = await PoolViewFactory.deploy()
     await poolView.deployed()
     console.log(`PoolView deployed at ${poolView.address}`)
     verify(poolView.address, [], getAddressMappingFilePath('yieldMathExtensions.js'))
     protocol.set('poolView', poolView.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    poolView = (await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)) as PoolView
+    poolView = await ethers.getContractAt('PoolView', protocol.get('poolView') as string, ownerAcc)
     console.log(`Reusing PoolView at ${poolView.address}`)
   }
 

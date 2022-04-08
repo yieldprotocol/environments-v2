@@ -12,7 +12,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
 import { CHI, RATE } from '../../../shared/constants'
 
-import { Ladle, Cauldron, Witch, Join, EmergencyBrake, IOracle } from '../../../typechain'
+import { Ladle, Cauldron, Witch, EmergencyBrake, IOracle } from '../../../typechain'
 
 export const makeBaseProposal = async (
   ownerAcc: any,
@@ -25,7 +25,7 @@ export const makeBaseProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, joinAddress] of bases) {
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
     proposal.push({

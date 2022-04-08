@@ -1,5 +1,4 @@
 import { ethers } from 'hardhat'
-
 import { BigNumber } from 'ethers'
 import {
   getOriginalChainId,
@@ -8,8 +7,7 @@ import {
   impersonate,
   getOwnerOrImpersonate,
 } from '../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../typechain'
-import { developer, whale, assetToAdd, seriesIlks } from './addUNI.config'
+import { developer, whale, assetToAdd, seriesIlks } from '../addChainlinkCollateral/addUNI.config'
 import { WAD } from '../../../shared/constants'
 
 /**
@@ -24,18 +22,10 @@ import { WAD } from '../../../shared/constants'
   const protocol = readAddressMappingIfExists('protocol.json')
 
   const [assetId, assetAddress] = assetToAdd.get(chainId) as [string, string]
-  const asset = (await ethers.getContractAt('ERC20Mock', assetAddress, ownerAcc)) as unknown as ERC20Mock
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const oracle = (await ethers.getContractAt(
-    'ChainlinkMultiOracle',
-    protocol.get('chainlinkOracle') as string,
-    ownerAcc
-  )) as unknown as ChainlinkMultiOracle
+  const asset = await ethers.getContractAt('ERC20Mock', assetAddress, ownerAcc)
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
+  const oracle = await ethers.getContractAt('ChainlinkMultiOracle', protocol.get('chainlinkOracle') as string, ownerAcc)
 
   // If using a mock, make a whale yourself :)
   let whaleAcc = await impersonate(whale.get(chainId) as string, WAD)
@@ -46,7 +36,7 @@ import { WAD } from '../../../shared/constants'
   for (let [seriesId] of seriesIlks) {
     console.log(`series: ${seriesId}`)
     const series = await cauldron.series(seriesId)
-    const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
+    const fyToken = await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)
 
     const dust = (await cauldron.debt(series.baseId, assetId)).min
     const ratio = (await cauldron.spotOracles(series.baseId, assetId)).ratio

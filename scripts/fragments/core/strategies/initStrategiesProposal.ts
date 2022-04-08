@@ -5,10 +5,10 @@
  */
 
 import { ethers } from 'hardhat'
-import { ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
+import { MAX256 } from '../../../../shared/constants'
 import { BigNumber } from 'ethers'
 
-import { ERC20Mock, Strategy, Ladle, Timelock } from '../../../../typechain'
+import { Ladle, Timelock } from '../../../../typechain'
 
 export const initStrategiesProposal = async (
   ownerAcc: any,
@@ -25,12 +25,12 @@ export const initStrategiesProposal = async (
     if ((await ethers.provider.getCode(strategyAddress)) === '0x')
       throw `Address ${strategyAddress} contains no code for a Strategy`
 
-    const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
-    const base: ERC20Mock = (await ethers.getContractAt(
+    const strategy = await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)
+    const base = await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       await strategy.base(),
       ownerAcc
-    )) as ERC20Mock
+    )
 
     if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
       throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`

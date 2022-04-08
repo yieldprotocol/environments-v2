@@ -2,9 +2,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import * as fs from 'fs'
 import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId, impersonate } from '../../../shared/helpers'
-
-import { Ladle, ERC20Mock, WstETHMock, LidoWrapHandler } from '../../../typechain'
-
+import { Ladle, ERC20Mock, LidoWrapHandler } from '../../../typechain'
 import { WSTETH, STETH, WAD, MAX256 } from '../../../shared/constants'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
@@ -43,17 +41,13 @@ describe('LidoWrapHandler', function () {
     const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
     const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
-    wstEth = (await ethers.getContractAt('WstETHMock', assets.get(WSTETH) as string, ownerAcc)) as unknown as WstETHMock
+    wstEth = await ethers.getContractAt('WstETHMock', assets.get(WSTETH) as string, ownerAcc)
 
-    stEth = (await ethers.getContractAt('ERC20Mock', assets.get(STETH) as string, ownerAcc)) as unknown as ERC20Mock
+    stEth = await ethers.getContractAt('ERC20Mock', assets.get(STETH) as string, ownerAcc)
 
-    ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+    ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
-    lidoWrapHandler = (await ethers.getContractAt(
-      'LidoWrapHandler',
-      protocol.get('lidoWrapHandler') as string,
-      ownerAcc
-    )) as unknown as LidoWrapHandler
+    lidoWrapHandler = await ethers.getContractAt('LidoWrapHandler', protocol.get('lidoWrapHandler') as string, ownerAcc)
 
     if (chainId === 1) {
       // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2

@@ -1,17 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-  bytesToBytes32,
-} from '../../../shared/helpers'
+import { writeAddressMap, verify } from '../../../shared/helpers'
 import { ROOT, NOTIONAL } from '../../../shared/constants'
 import NotionalMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol/NotionalMultiOracle.json'
-
-import { NotionalMultiOracle } from '../../../typechain/NotionalMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { NotionalMultiOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -35,11 +26,7 @@ export const deployNotionalOracle = async (
     protocol.set(NOTIONAL, notionalOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    notionalOracle = (await ethers.getContractAt(
-      'NotionalMultiOracle',
-      protocol.get(NOTIONAL) as string,
-      ownerAcc
-    )) as unknown as NotionalMultiOracle
+    notionalOracle = await ethers.getContractAt('NotionalMultiOracle', protocol.get(NOTIONAL) as string, ownerAcc)
     console.log(`Reusing NotionalMultiOracle at ${notionalOracle.address}`)
   }
   if (!(await notionalOracle.hasRole(ROOT, timelock.address))) {

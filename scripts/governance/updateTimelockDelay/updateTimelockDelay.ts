@@ -3,10 +3,8 @@
  */
 
 import { ethers } from 'hardhat'
-
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
 import { updateTimelockDelayProposal } from '../../fragments/timelock/updateTimelockDelayProposal'
-import { Timelock } from '../../../typechain'
 
 const { developer, newDelayTime, governance } = require(process.env.CONF as string)
 
@@ -14,11 +12,7 @@ const { developer, newDelayTime, governance } = require(process.env.CONF as stri
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

@@ -11,7 +11,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 
-import { IOracle, Cauldron, Ladle, Witch, Join, EmergencyBrake } from '../../../typechain'
+import { IOracle, Cauldron, Witch, EmergencyBrake } from '../../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any,
@@ -27,7 +27,7 @@ export const makeIlkProposal = async (
 
   for (let [ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec] of auctionLimits) {
     console.log(ilkId)
-    const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)
 
     // Configure auction limits for the ilk on the witch
     proposal.push({

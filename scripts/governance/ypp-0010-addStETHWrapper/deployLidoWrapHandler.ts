@@ -7,9 +7,8 @@ import {
   writeAddressMap,
   verify,
 } from '../../../shared/helpers'
-
 import LidoWrapHandlerArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol/LidoWrapHandler.json'
-import { LidoWrapHandler, Cauldron } from '../../../typechain'
+import { LidoWrapHandler } from '../../../typechain'
 import { developer } from './addStETHWrapper.config'
 
 const { deployContract } = waffle
@@ -24,11 +23,7 @@ const { deployContract } = waffle
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
   const protocol = readAddressMappingIfExists('protocol.json')
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const wstEthAddress = await cauldron.assets(WSTETH)
   const stEthAddress = await cauldron.assets(STETH)
   console.log(`Using wstETH at ${wstEthAddress}`)
@@ -45,11 +40,7 @@ const { deployContract } = waffle
     protocol.set('lidoWrapHandler', lidoWrapHandler.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    lidoWrapHandler = (await ethers.getContractAt(
-      'LidoWrapHandler',
-      protocol.get('lidoWrapHandler') as string,
-      ownerAcc
-    )) as unknown as LidoWrapHandler
+    lidoWrapHandler = await ethers.getContractAt('LidoWrapHandler', protocol.get('lidoWrapHandler') as string, ownerAcc)
     console.log(`Reusing LidoWrapHandler at ${lidoWrapHandler.address}`)
   }
   return lidoWrapHandler

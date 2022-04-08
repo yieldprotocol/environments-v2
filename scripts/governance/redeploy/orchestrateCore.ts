@@ -1,12 +1,9 @@
 import { ethers } from 'hardhat'
 import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
-
 import { orchestrateCauldronProposal } from '../../fragments/core/orchestrateCauldronProposal'
 import { orchestrateLadleProposal } from '../../fragments/core/orchestrateLadleProposal'
 import { orchestrateWitchProposal } from '../../fragments/core/orchestrateWitchProposal'
 
-import { Timelock, EmergencyBrake } from '../../../typechain'
-import { Cauldron, Ladle, Witch } from '../../../typechain'
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
 
@@ -17,24 +14,12 @@ const { deployer, developer } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

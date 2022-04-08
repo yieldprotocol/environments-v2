@@ -1,16 +1,8 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
 import { jsonToMap, bytesToString } from '../../../shared/helpers'
-
-import { Ladle } from '../../../typechain/Ladle'
-import { Wand } from '../../../typechain/Wand'
-import { Timelock } from '../../../typechain/Timelock'
-import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
-import { Join } from '../../../typechain/Join'
-import { FYToken } from '../../../typechain/FYToken'
-import { Strategy } from '../../../typechain/Strategy'
 ;(async () => {
   /* await hre.network.provider.request({
     method: "hardhat_impersonateAccount",
@@ -25,18 +17,10 @@ import { Strategy } from '../../../typechain/Strategy'
   const pools = jsonToMap(fs.readFileSync('./addresses/pools.json', 'utf8')) as Map<string, string>
   const strategies = jsonToMap(fs.readFileSync('./addresses/strategies.json', 'utf8')) as Map<string, string>
 
-  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal.push({
@@ -56,7 +40,7 @@ import { Strategy } from '../../../typechain/Strategy'
 
   for (let assetId of joins.keys()) {
     const joinAddress = joins.get(assetId) as string
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as unknown as Join
+    const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
 
     proposal.push({
       target: ladle.address,
@@ -87,11 +71,7 @@ import { Strategy } from '../../../typechain/Strategy'
   }
 
   for (let seriesId of fyTokens.keys()) {
-    const fyToken = (await ethers.getContractAt(
-      'FYToken',
-      fyTokens.get(seriesId) as string,
-      ownerAcc
-    )) as unknown as FYToken
+    const fyToken = await ethers.getContractAt('FYToken', fyTokens.get(seriesId) as string, ownerAcc)
 
     proposal.push({
       target: fyToken.address,
@@ -124,11 +104,7 @@ import { Strategy } from '../../../typechain/Strategy'
   }
 
   for (let symbol of strategies.keys()) {
-    const strategy = (await ethers.getContractAt(
-      'Strategy',
-      strategies.get(symbol) as string,
-      ownerAcc
-    )) as unknown as Strategy
+    const strategy = await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)
 
     proposal.push({
       target: ladle.address,

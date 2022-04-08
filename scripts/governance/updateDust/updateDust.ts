@@ -5,7 +5,6 @@
  */
 
 import { ethers } from 'hardhat'
-
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
@@ -13,7 +12,6 @@ import {
   readAddressMappingIfExists,
 } from '../../../shared/helpers'
 import { updateDustProposal } from '../../fragments/limits/updateDustProposal'
-import { Cauldron, Timelock } from '../../../typechain'
 import { newMin, developer } from './updateDust.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -24,17 +22,9 @@ import { newMin, developer } from './updateDust.config'
   const protocol = readAddressMappingIfExists('protocol.json')
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newMin)

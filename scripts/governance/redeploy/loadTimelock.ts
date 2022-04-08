@@ -1,7 +1,6 @@
 import { ethers } from 'hardhat'
 import { impersonate } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
-import { ERC20Mock } from '../../../typechain'
 const { governance } = require(process.env.CONF as string)
 const { assets, whales } = require(process.env.CONF as string)
 
@@ -18,11 +17,11 @@ const { formatUnits, parseUnits } = ethers.utils
   for (let [assetId, whaleAddress] of whales) {
     const whaleAcc = await impersonate(whaleAddress, WAD)
 
-    const asset = (await ethers.getContractAt(
+    const asset = await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       assets.get(assetId) as string,
       whaleAcc
-    )) as unknown as ERC20Mock
+    )
     const decimals = await asset.decimals()
     const initAmount = parseUnits('1000', decimals)
 

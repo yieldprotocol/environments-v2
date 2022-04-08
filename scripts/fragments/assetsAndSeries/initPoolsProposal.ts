@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 
-import { ERC20Mock, Pool, FYToken, Join, Timelock } from '../../../typechain'
+import { Timelock } from '../../../typechain'
 
 export const initPoolsProposal = async (
   ownerAcc: any,
@@ -23,14 +23,10 @@ export const initPoolsProposal = async (
     const poolAddress = newPools.get(seriesId) as string
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
-    const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
-    const fyToken: FYToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc)) as FYToken
-    const base: ERC20Mock = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      await pool.base(),
-      ownerAcc
-    )) as ERC20Mock
-    const join: Join = (await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)) as Join
+    const pool = await ethers.getContractAt('Pool', poolAddress, ownerAcc)
+    const fyToken = await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc)
+    const base = await ethers.getContractAt('contracts/::mocks/ERC20Mock.sol:ERC20Mock', await pool.base(), ownerAcc)
+    const join = await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)
 
     // Supply pool with a hundred tokens of underlying for initialization
     console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)

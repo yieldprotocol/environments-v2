@@ -1,10 +1,8 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
-import { verify, mapToJson, jsonToMap } from '../shared/helpers'
-
-import RelayArtifact from '../artifacts/@yield-protocol/utils-v2/contracts/utils/Relay.sol/Relay.json'
-import { Relay } from '../typechain/Relay'
-import { Timelock } from '../typechain/Timelock'
+import RelayArtifact from '../../../artifacts/@yield-protocol/utils-v2/contracts/utils/Relay.sol/Relay.json'
+import { Relay } from '../../../typechain'
+import { jsonToMap, mapToJson, verify } from '../../../shared/helpers'
 
 const { deployContract } = waffle
 
@@ -27,11 +25,7 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
   fs.writeFileSync('./addresses/governance.json', mapToJson(governance), 'utf8')
 
   // Give the relay full powers to the Timelock. ONLY FOR TESTING
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

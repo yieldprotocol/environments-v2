@@ -1,8 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { jsonToMap } from '../../shared/helpers'
-
-import { Timelock } from '../../typechain/Timelock'
 ;(async () => {
   const proposals: Array<string> = [
     '0x0299ce167d78eb0d527ab8b1ce91228d717ed60bed76e31b432c11fdcff18c03',
@@ -42,11 +40,7 @@ import { Timelock } from '../../typechain/Timelock'
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   for (let proposal of proposals) {
     console.log(`${proposal}: ${(await timelock.proposals(proposal)).toString()}`)

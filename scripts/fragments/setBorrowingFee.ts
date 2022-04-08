@@ -4,10 +4,6 @@ import * as hre from 'hardhat'
 import { jsonToMap } from '../../shared/helpers'
 import { WAD } from '../../shared/constants'
 
-import { Timelock } from '../../typechain/Timelock'
-import { Relay } from '../../typechain/Relay'
-import { Ladle } from '../../typechain/Ladle'
-
 /**
  * @dev This script sets the borrowing fee at the ladle
  *
@@ -24,12 +20,8 @@ import { Ladle } from '../../typechain/Ladle'
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
   const proposal: Array<{ target: string; data: string }> = []
   proposal.push({

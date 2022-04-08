@@ -7,7 +7,6 @@ import {
 } from '../../../shared/helpers'
 
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
-import { Wand, Timelock } from '../../../typechain'
 import { developer, assetToAdd } from './addUNI.config'
 
 /**
@@ -21,12 +20,8 @@ import { developer, assetToAdd } from './addUNI.config'
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
 
-  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as unknown as Wand
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let proposal = await addAssetProposal(ownerAcc, wand, [assetToAdd.get(chainId) as [string, string]])
 

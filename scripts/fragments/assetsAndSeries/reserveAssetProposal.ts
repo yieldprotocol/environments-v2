@@ -11,7 +11,7 @@
 import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
 
-import { Cauldron, ERC20Mock } from '../../../typechain'
+import { Cauldron } from '../../../typechain'
 
 export const reserveAssetProposal = async (
   ownerAcc: any,
@@ -20,7 +20,7 @@ export const reserveAssetProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress] of assets) {
-    const asset = (await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)) as unknown as ERC20Mock
+    const asset = await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)
     console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     proposal.push({

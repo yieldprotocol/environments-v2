@@ -4,7 +4,7 @@ import { ROOT } from '../../../shared/constants'
 
 import LadleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Ladle.sol/Ladle.json'
 
-import { WETH9Mock, Timelock, Cauldron, Ladle } from '../../../typechain'
+import { WETH9Mock, Ladle } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -22,16 +22,8 @@ export const deployLadle = async (
 ): Promise<Ladle> => {
   console.log(`Using ${await weth9.name()} at ${weth9.address}`)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
   let ladle: Ladle
   if (protocol.get('ladle') === undefined) {
@@ -43,7 +35,7 @@ export const deployLadle = async (
     console.log(`Router deployed at ${router}`)
     verify(router, [])
   } else {
-    ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
+    ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
     console.log(`Reusing Ladle at ${ladle.address}`)
   }
   if (!(await ladle.hasRole(ROOT, timelock.address))) {

@@ -8,7 +8,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../../shared/constants'
-import { Timelock, Strategy } from '../../../../typechain'
+import { Timelock } from '../../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
   ownerAcc: any,
@@ -19,7 +19,7 @@ export const orchestrateStrategiesProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [name, symbol, baseId] of strategiesData) {
-    const strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
+    const strategy = await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)
 
     proposal.push({
       target: strategy.address,

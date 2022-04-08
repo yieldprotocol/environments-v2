@@ -5,7 +5,6 @@
  */
 
 import { ethers } from 'hardhat'
-
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
@@ -13,7 +12,6 @@ import {
   getGovernanceProtocolAddresses,
 } from '../../../shared/helpers'
 import { updateCeilingProposal } from '../../fragments/limits/updateCeilingProposal'
-import { Cauldron, Timelock } from '../../../typechain'
 import { newLimits, developer } from './updateCeiling.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -21,17 +19,9 @@ import { newLimits, developer } from './updateCeiling.config'
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

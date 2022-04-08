@@ -7,13 +7,9 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { WAD, ETH, DAI, USDC, WBTC } from '../../shared/constants'
+import { WAD, DAI } from '../../shared/constants'
 import { jsonToMap, stringToBytes6 } from '../../shared/helpers'
 import { BigNumber } from 'ethers'
-
-import { ERC20Mock } from '../../typechain/ERC20Mock'
-import { Cauldron } from '../../typechain/Cauldron'
-import { Ladle } from '../../typechain/Ladle'
 ;(async () => {
   const oneUSDC = WAD.div(10 ** 12)
   const newVaults: Array<[string, string, BigNumber, BigNumber]> = new Array([
@@ -35,17 +31,13 @@ import { Ladle } from '../../typechain/Ladle'
   const protocol = jsonToMap(fs.readFileSync('./addresses/protocol.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
   const filter = cauldron.filters.VaultBuilt(null, null, null, null)
   for (let [seriesId, ilkId, ink, art] of newVaults) {
-    const join = (await ladle.joins(ilkId)) as string
-    const ilk = (await ethers.getContractAt('ERC20Mock', assets.get(ilkId) as string, ownerAcc)) as unknown as ERC20Mock
+    const join = await ladle.joins(ilkId)
+    const ilk = await ethers.getContractAt('ERC20Mock', assets.get(ilkId) as string, ownerAcc)
 
     console.log(`Approving ${ladle.address} to take ${ink.toString()} ${await ilk.symbol()}`)
     if ((await ilk.allowance(ownerAcc.address, ladle.address)).toString() !== ink.toString()) {

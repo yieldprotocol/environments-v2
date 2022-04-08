@@ -1,23 +1,11 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
-
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-// import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
-
-import {
-  AccumulatorMultiOracle,
-  Cauldron,
-  ChainlinkUSDMultiOracle,
-  EmergencyBrake,
-  IOracle,
-  Ladle,
-  Timelock,
-  Witch,
-} from '../../../../typechain'
 import { ACCUMULATOR, CHAINLINKUSD } from '../../../../shared/constants'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { IOracle } from '../../../../typechain'
+import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
+import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
+import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 
 const {
   developer,
@@ -34,33 +22,21 @@ const {
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const chainlinkUSDOracle = (await ethers.getContractAt(
+  const chainlinkUSDOracle = await ethers.getContractAt(
     'ChainlinkUSDMultiOracle',
     protocol.get(CHAINLINKUSD) as string,
     ownerAcc
-  )) as unknown as ChainlinkUSDMultiOracle
-  const accumulatorOracle = (await ethers.getContractAt(
+  )
+  const accumulatorOracle = await ethers.getContractAt(
     'AccumulatorMultiOracle',
     protocol.get(ACCUMULATOR) as string,
     ownerAcc
-  )) as unknown as AccumulatorMultiOracle
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  )
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let assetsAndJoins: [string, string, string][] = []
   console.log(` AssetId      | Asset Address                            | Join Address`)

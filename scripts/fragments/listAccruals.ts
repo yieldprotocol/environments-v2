@@ -9,10 +9,6 @@ import * as fs from 'fs'
 import { BigNumber } from 'ethers'
 import { jsonToMap, bytesToString } from '../../shared/helpers'
 import { MAX256 as NOT_MATURE } from '../../shared/constants'
-
-import { Cauldron } from '../../typechain/Cauldron'
-import { Timelock } from '../../typechain/Timelock'
-import { FYToken } from '../../typechain/FYToken'
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
@@ -20,11 +16,7 @@ import { FYToken } from '../../typechain/FYToken'
   const fyTokens = jsonToMap(fs.readFileSync('./addresses/fyTokens.json', 'utf8')) as Map<string, string>
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
   console.log('\nRate:')
   for (let [seriesId, fyTokenAddress] of fyTokens) {
@@ -40,7 +32,7 @@ import { FYToken } from '../../typechain/FYToken'
 
   console.log('\nChi:')
   for (let [seriesId, fyTokenAddress] of fyTokens) {
-    const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress as string, ownerAcc)) as unknown as FYToken
+    const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress as string, ownerAcc)
     if ((await fyToken.chiAtMaturity()).eq(NOT_MATURE))
       console.log(`${bytesToString(seriesId)}(${fyTokenAddress}): Not mature`)
     else

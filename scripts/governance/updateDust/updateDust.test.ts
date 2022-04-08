@@ -5,14 +5,12 @@
  */
 
 import { ethers } from 'hardhat'
-
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
   bytesToString,
   getGovernanceProtocolAddresses,
 } from '../../../shared/helpers'
-import { Cauldron } from '../../../typechain/Cauldron'
 import { newMin, developer } from './updateDust.config'
 ;(async () => {
   const chainId = await getOriginalChainId()
@@ -20,11 +18,7 @@ import { newMin, developer } from './updateDust.config'
   let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   for (let [baseId, ilkId, minDebt] of newMin) {
     const debt = await cauldron.debt(baseId, ilkId)
     if (debt.min.toString() === minDebt.toString())

@@ -1,16 +1,10 @@
 import { ethers, waffle } from 'hardhat'
-import {
-  getOriginalChainId,
-  getOwnerOrImpersonate,
-  verify,
-  readAddressMappingIfExists,
-  writeAddressMap,
-} from '../../../shared/helpers'
+import { verify, writeAddressMap } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
 import WitchArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Witch.sol/Witch.json'
 
-import { Witch, Timelock } from '../../../typechain'
+import { Witch } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -23,11 +17,7 @@ export const deployWitch = async (
   protocol: Map<string, string>,
   governance: Map<string, string>
 ): Promise<Witch> => {
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let witch: Witch
   if (protocol.get('witch') === undefined) {
@@ -40,7 +30,7 @@ export const deployWitch = async (
     protocol.set('witch', witch.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as Witch
+    witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
   }
   if (!(await witch.hasRole(ROOT, timelock.address))) {
     await witch.grantRole(ROOT, timelock.address)

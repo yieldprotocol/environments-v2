@@ -1,6 +1,5 @@
 import { ethers } from 'hardhat'
 import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/helpers'
-
 import { orchestrateChainlinkOracleProposal } from '../../fragments/oracles/orchestrateChainlinkOracleProposal'
 import { orchestrateCompoundOracleProposal } from '../../fragments/oracles/orchestrateCompoundOracleProposal'
 import { orchestrateCompositeOracleProposal } from '../../fragments/oracles/orchestrateCompositeOracleProposal'
@@ -16,15 +15,6 @@ import { updateYearnSourcesProposal } from '../../fragments/oracles/updateYearnS
 import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 
-import { Timelock, EmergencyBrake } from '../../../typechain'
-import {
-  ChainlinkMultiOracle,
-  CompoundMultiOracle,
-  CompositeMultiOracle,
-  UniswapV3Oracle,
-  LidoOracle,
-  YearnVaultMultiOracle,
-} from '../../../typechain'
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
 const {
@@ -45,47 +35,31 @@ const {
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const chainlinkOracle = (await ethers.getContractAt(
+  const chainlinkOracle = await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get('chainlinkOracle') as string,
     ownerAcc
-  )) as unknown as ChainlinkMultiOracle
-  const compoundOracle = (await ethers.getContractAt(
+  )
+  const compoundOracle = await ethers.getContractAt(
     'CompoundMultiOracle',
     protocol.get('compoundOracle') as string,
     ownerAcc
-  )) as unknown as CompoundMultiOracle
-  const compositeOracle = (await ethers.getContractAt(
+  )
+  const compositeOracle = await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,
     ownerAcc
-  )) as unknown as CompositeMultiOracle
-  const uniswapOracle = (await ethers.getContractAt(
-    'UniswapV3Oracle',
-    protocol.get('uniswapOracle') as string,
-    ownerAcc
-  )) as unknown as UniswapV3Oracle
-  const lidoOracle = (await ethers.getContractAt(
-    'LidoOracle',
-    protocol.get('lidoOracle') as string,
-    ownerAcc
-  )) as unknown as LidoOracle
-  const yearnOracle = (await ethers.getContractAt(
+  )
+  const uniswapOracle = await ethers.getContractAt('UniswapV3Oracle', protocol.get('uniswapOracle') as string, ownerAcc)
+  const lidoOracle = await ethers.getContractAt('LidoOracle', protocol.get('lidoOracle') as string, ownerAcc)
+  const yearnOracle = await ethers.getContractAt(
     'YearnVaultMultiOracle',
     protocol.get('yearnOracle') as string,
     ownerAcc
-  )) as unknown as YearnVaultMultiOracle
+  )
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []

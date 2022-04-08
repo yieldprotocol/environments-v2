@@ -1,10 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import { writeAddressMap, verify } from '../../../shared/helpers'
+import { verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 import AccumulatorMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/accumulator/AccumulatorMultiOracle.sol/AccumulatorMultiOracle.json'
-
-import { AccumulatorMultiOracle } from '../../../typechain/AccumulatorMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { AccumulatorMultiOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -22,11 +20,11 @@ export const deployAccumulatorOracle = async (
     console.log(`AccumulatorMultiOracle deployed at ${accumulatorOracle.address}`)
     verify(accumulatorOracle.address, [])
   } else {
-    accumulatorOracle = (await ethers.getContractAt(
+    accumulatorOracle = await ethers.getContractAt(
       'AccumulatorMultiOracle',
       protocol.get('accumulatorOracle') as string,
       ownerAcc
-    )) as unknown as AccumulatorMultiOracle
+    )
     console.log(`Reusing AccumulatorMultiOracle at ${accumulatorOracle.address}`)
   }
   if (!(await accumulatorOracle.hasRole(ROOT, timelock.address))) {

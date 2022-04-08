@@ -6,7 +6,6 @@
 
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { Pool, Strategy } from '../../../../typechain'
 
 export const rollStrategiesProposal = async (
   ownerAcc: any,
@@ -21,13 +20,13 @@ export const rollStrategiesProposal = async (
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
     else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)
-    const strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
+    const strategy = await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)
     const seriesId = await strategy.seriesId()
 
     const poolAddress = newPools.get(nextSeriesId)
     if (poolAddress === undefined) throw `Pool for ${nextSeriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${nextSeriesId}`)
-    const nextPool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
+    const nextPool = await ethers.getContractAt('Pool', poolAddress, ownerAcc)
 
     proposal.push({
       target: strategy.address,

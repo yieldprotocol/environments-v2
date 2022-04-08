@@ -1,17 +1,9 @@
 import { ethers, waffle } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+import { writeAddressMap, verify } from '../../../shared/helpers'
 
 import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
-
-import { CompositeMultiOracle } from '../../../typechain/CompositeMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { CompositeMultiOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -36,11 +28,11 @@ export const deployCompositeOracle = async (
     protocol.set('compositeOracle', compositeOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    compositeOracle = (await ethers.getContractAt(
+    compositeOracle = await ethers.getContractAt(
       'CompositeMultiOracle',
       protocol.get('compositeOracle') as string,
       ownerAcc
-    )) as unknown as CompositeMultiOracle
+    )
     console.log(`Reusing CompositeMultiOracle at ${compositeOracle.address}`)
   }
   if (!(await compositeOracle.hasRole(ROOT, timelock.address))) {

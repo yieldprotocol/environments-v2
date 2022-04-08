@@ -1,15 +1,9 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  writeAddressMap,
-  getOwnerOrImpersonate,
-  getOriginalChainId,
-} from '../../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
 import { deployAccumulatorOracle } from '../../../fragments/oracles/deployAccumulatorOracle'
 
-import { Timelock } from '../../../../typechain'
-const { developer } = require(process.env.CONF as string)
+const { developer, governance, protocol } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys the Ladle
@@ -18,11 +12,7 @@ const { developer } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   const accumulatorOracle = await deployAccumulatorOracle(ownerAcc, timelock, protocol)
   protocol.set('accumulatorOracle', accumulatorOracle.address)

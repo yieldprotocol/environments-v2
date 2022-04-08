@@ -2,13 +2,9 @@ import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { getContract, readAddressMappingIfExists, verify, writeAddressMap } from '../../shared/helpers'
 import { BigNumber } from 'ethers'
-
 import { WAD, ZERO_ADDRESS } from '../../shared/constants'
-
-import { Strategy } from '../../typechain/Strategy'
-import { ERC20Mock } from '../../typechain/ERC20Mock'
-import { DeployedContext, Proposal } from '../core/contexts'
-import { Strategy__factory } from '../../typechain'
+import { ERC20Mock, Strategy } from '../../typechain'
+import { DeployedContext, Proposal } from './core/contexts'
 
 const STRATEGIES_FILE = 'strategies.json'
 
@@ -29,12 +25,12 @@ export async function deployStrategy(ctx: DeployedContext, strategyData: Strateg
   console.log(`Using ${await base.name()} at ${base.address} as base`)
 
   const strategies = readAddressMappingIfExists(STRATEGIES_FILE)
-  const strategyFactory = (await ethers.getContractFactory('Strategy', {
+  const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {
       SafeERC20Namer: ctx.protocol.get('safeERC20Namer')!,
       YieldMathExtensions: ctx.protocol.get('yieldMathExtensions')!,
     },
-  })) as Strategy__factory
+  })
 
   let strategy: Strategy
   if (strategies.has(strategyData.symbol)) {

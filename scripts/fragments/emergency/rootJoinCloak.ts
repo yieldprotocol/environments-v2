@@ -2,9 +2,6 @@ import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import { jsonToMap, bytesToString } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
-import { Join } from '../../../typechain/Join'
-import { Timelock } from '../../../typechain/Timelock'
-import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 
 /**
  * @dev This script gives ROOT access from all Joins to the Cloak
@@ -16,20 +13,12 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
   const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
 
   const proposal: Array<{ target: string; data: string }> = []
   for (let assetId of joins.keys()) {
-    const join = (await ethers.getContractAt('Join', joins.get(assetId) as string, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joins.get(assetId) as string, ownerAcc)
     proposal.push({
       target: cloak.address,
       data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),

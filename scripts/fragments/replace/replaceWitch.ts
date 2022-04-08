@@ -5,14 +5,6 @@ import { id } from '@yield-protocol/utils-v2'
 import { jsonToMap, stringToBytes32, bytesToString } from '../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC } from '../../../shared/constants'
 
-import { Cauldron } from '../../../typechain/Cauldron'
-import { Join } from '../../../typechain/Join'
-import { Wand } from '../../../typechain/Wand'
-import { Witch } from '../../../typechain/Witch'
-
-import { Timelock } from '../../../typechain/Timelock'
-import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
-
 /**
  * @dev This script points the Wand to a new Witch
  *
@@ -34,27 +26,15 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
   const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf8')) as Map<string, string>
   const joins = jsonToMap(fs.readFileSync('./addresses/joins.json', 'utf8')) as Map<string, string>
 
-  const wand = (await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)) as Wand
+  const wand = await ethers.getContractAt('Wand', protocol.get('wand') as string, ownerAcc)
 
   // Since the new Witch should be deployed and its address stored in protocol.json, we read it from there.
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
-  const oldWitch = (await ethers.getContractAt('Witch', oldWitchAddress, ownerAcc)) as unknown as Witch
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
+  const oldWitch = await ethers.getContractAt('Witch', oldWitchAddress, ownerAcc)
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
 
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -77,7 +57,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 
   // Add existing bases
   for (let baseId of baseIds) {
-    const join = (await ethers.getContractAt('Join', joins.get(baseId) as string, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joins.get(baseId) as string, ownerAcc)
 
     proposal.push({
       target: join.address,
@@ -115,7 +95,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
 
   // Add existing ilks
   for (let ilkId of ilkIds) {
-    const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)
     const ilk = await oldWitch.ilks(ilkId)
 
     proposal.push({
