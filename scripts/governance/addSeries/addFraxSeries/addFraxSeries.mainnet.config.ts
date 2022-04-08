@@ -3,11 +3,11 @@ import {
   ACCUMULATOR,
   CHI,
   DAI,
+  EOJUN22,
   EOSEP22,
-  EOMAR23,
   ETH,
+  FYFRAX2206,
   FYFRAX2209,
-  FYFRAX2303,
   ONE64,
   RATE,
   secondsIn40Years,
@@ -18,15 +18,12 @@ import {
   WSTETH,
   ENS,
   UNI,
-  YVUSDC,
   FRAX,
   WAD,
-  YSFRAX1YEV,
-  YSFRAX1YOD,
+  YSFRAX6MMS,
+  YSFRAX6MJD,
   ZERO,
   CHAINLINK,
-  COMPOSITE,
-  YEARN,
 } from '../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
@@ -93,6 +90,15 @@ export const newCompositeLimits: Array<[string, string, number, number, number, 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [
+    FYFRAX2206,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    newJoins.get(FRAX) as string,
+    EOJUN22,
+    'FYFRAX2206',
+    'FYFRAX2206',
+  ],
+  [
     FYFRAX2209,
     FRAX,
     protocol.get(ACCUMULATOR) as string,
@@ -100,20 +106,19 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     EOSEP22,
     'FYFRAX2209',
     'FYFRAX2209',
-  ],
-  [
-    FYFRAX2303,
-    FRAX,
-    protocol.get(ACCUMULATOR) as string,
-    newJoins.get(FRAX) as string,
-    EOMAR23,
-    'FYFRAX2303',
-    'FYFRAX2303',
-  ],
+  ]
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
 export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+  [
+    FYFRAX2206,
+    assets.get(FRAX) as string,
+    newFYTokens.get(FYFRAX2206) as string,
+    ONE64.div(secondsIn40Years),
+    ONE64.mul(75).div(100),
+    ONE64.mul(100).div(75),
+  ],
   [
     FYFRAX2209,
     assets.get(FRAX) as string,
@@ -121,40 +126,32 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
-  ],
-  [
-    FYFRAX2303,
-    assets.get(FRAX) as string,
-    newFYTokens.get(FYFRAX2303) as string,
-    ONE64.div(secondsIn40Years),
-    ONE64.mul(75).div(100),
-    ONE64.mul(100).div(75),
-  ],
+  ]
 ]
 
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
+  [FYFRAX2206, FRAX, WAD, ZERO],
   [FYFRAX2209, FRAX, WAD, ZERO],
-  [FYFRAX2303, FRAX, WAD, ZERO],
 ]
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
+  [FYFRAX2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FYFRAX2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYFRAX2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy FRAX 1Y Even', YSFRAX1YEV, FRAX, newJoins.get(FRAX) as string, assets.get(FRAX) as string],
-  ['Yield Strategy FRAX 1Y Odd', YSFRAX1YOD, FRAX, newJoins.get(FRAX) as string, assets.get(FRAX) as string],
+  ['Yield Strategy FRAX 6M Mar Sep', YSFRAX6MMS, FRAX, newJoins.get(FRAX) as string, assets.get(FRAX) as string],
+  ['Yield Strategy FRAX 6M Jun Dec', YSFRAX6MJD, FRAX, newJoins.get(FRAX) as string, assets.get(FRAX) as string],
 ]
 
 // Input data
 export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
-  [YSFRAX1YEV, newPools.get(FYFRAX2209) as string, FYFRAX2209, WAD],
-  [YSFRAX1YOD, newPools.get(FYFRAX2303) as string, FYFRAX2303, WAD],
+  [YSFRAX6MMS, newPools.get(FYFRAX2209) as string, FYFRAX2209, WAD],
+  [YSFRAX6MJD, newPools.get(FYFRAX2206) as string, FYFRAX2206, WAD],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec

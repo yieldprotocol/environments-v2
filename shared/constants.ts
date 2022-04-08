@@ -84,8 +84,8 @@ export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
+export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14)
 export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14)
-export const FYFRAX2303 = ethers.utils.formatBytes32String('0309').slice(0, 14)
 export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
@@ -94,8 +94,8 @@ export const YSUSDC6MMS = 'YSUSDC6MMS' // Yield Strategy USDC 6M Mar Sep
 export const YSUSDC6MJD = 'YSUSDC6MJD' // Yield Strategy USDC 6M Jun Dec
 export const YSETH6MMS = 'YSETH6MMS' // Yield Strategy ETH 6M Mar Sep
 export const YSETH6MJD = 'YSETH6MJD' // Yield Strategy ETH 6M Jun Dec
-export const YSFRAX1YEV = 'YSFRAX1YEV' // Yield Strategy FRAX 1Y Even
-export const YSFRAX1YOD = 'YSFRAX1YOD' // Yield Strategy FRAX 1Y Odd
+export const YSFRAX6MMS = 'YSFRAX6MMS' // Yield Strategy FRAX 6M Mar Sep
+export const YSFRAX6MJD = 'YSFRAX6MJD' // Yield Strategy FRAX 6M Jun Dec
 
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
