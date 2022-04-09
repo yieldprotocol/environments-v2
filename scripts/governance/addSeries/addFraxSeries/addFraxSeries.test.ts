@@ -9,8 +9,8 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
 } from '../../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle } from '../../../../typechain'
-import { UNI, WAD } from '../../../../shared/constants'
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, ChainlinkMultiOracle } from '../../../../typechain'
+import { ENS, UNI, WAD, WSTETH } from '../../../../shared/constants'
 const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
 
 /**
@@ -29,12 +29,8 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
     ownerAcc
   )) as unknown as Cauldron
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const oracle = (await ethers.getContractAt(
-    'CompositeMultiOracle',
-    protocol.get('compositeOracle') as string,
-    ownerAcc
-  )) as unknown as CompositeMultiOracle
 
+  let oracle
   for (let [seriesId, ilks] of seriesIlks) {
     for (const ilk of ilks) {
       var collateral = (await ethers.getContractAt(
@@ -42,6 +38,19 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
         assets.get(ilk) as string,
         ownerAcc
       )) as unknown as ERC20Mock
+
+      if (ilk == ENS || ilk == WSTETH)
+        oracle = (await ethers.getContractAt(
+          'CompositeMultiOracle',
+          protocol.get('compositeOracle') as string,
+          ownerAcc
+        )) as unknown as CompositeMultiOracle
+      else
+        oracle = (await ethers.getContractAt(
+          'ChainlinkMultiOracle',
+          protocol.get('chainlinkOracle') as string,
+          ownerAcc
+        )) as unknown as ChainlinkMultiOracle
 
       whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
       if (chainId != 1 && ilk != UNI) await collateral.connect(ownerAcc).mint(whaleAcc.address, WAD.mul(1000))
