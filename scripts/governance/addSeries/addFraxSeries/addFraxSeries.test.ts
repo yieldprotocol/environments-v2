@@ -10,7 +10,7 @@ import {
   getOriginalChainId,
 } from '../../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, ChainlinkMultiOracle } from '../../../../typechain'
-import { ENS, UNI, WAD, WSTETH } from '../../../../shared/constants'
+import { ENS, FRAX, FYETH2206, FYETH2209, UNI, WAD, WSTETH } from '../../../../shared/constants'
 const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
 
 /**
@@ -33,11 +33,18 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
   let oracle
   for (let [seriesId, ilks] of seriesIlks) {
     for (const ilk of ilks) {
-      var collateral = (await ethers.getContractAt(
-        'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-        assets.get(ilk) as string,
-        ownerAcc
-      )) as unknown as ERC20Mock
+      if (ilk == FRAX && chainId != 1)
+        var collateral = (await ethers.getContractAt(
+          'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+          protocol.get('fraxMock') as string,
+          ownerAcc
+        )) as unknown as ERC20Mock
+      else
+        var collateral = (await ethers.getContractAt(
+          'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+          assets.get(ilk) as string,
+          ownerAcc
+        )) as unknown as ERC20Mock
 
       if (ilk == ENS || ilk == WSTETH)
         oracle = (await ethers.getContractAt(
@@ -54,6 +61,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
 
       whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
       if (chainId != 1 && ilk != UNI) await collateral.connect(ownerAcc).mint(whaleAcc.address, WAD.mul(1000))
+      if (chainId != 1 && ilk == FRAX) await collateral.connect(ownerAcc).mint(whaleAcc.address, WAD.mul(1000))
       console.log(`series: ${seriesId}`)
       console.log(`ilk: ${ilk}`)
       const series = await cauldron.series(seriesId)
@@ -61,9 +69,10 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
 
       const dust = (await cauldron.debt(series.baseId, ilk)).min
       const ratio = (await cauldron.spotOracles(series.baseId, ilk)).ratio
-      const borrowed = BigNumber.from(10)
+      var borrowed = BigNumber.from(10)
         .pow(await fyToken.decimals())
         .mul(dust)
+      if (seriesId == FYETH2206 || seriesId == FYETH2209) borrowed = borrowed.div(1000000)
       const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ilk), borrowed))[0]
         .mul(ratio)
         .div(1000000)

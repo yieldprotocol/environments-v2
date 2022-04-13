@@ -24,6 +24,12 @@ import {
   YSFRAX6MJD,
   ZERO,
   CHAINLINK,
+  FYETH2206,
+  FYUSDC2206,
+  FYDAI2206,
+  FYDAI2209,
+  FYETH2209,
+  FYUSDC2209,
 } from '../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
@@ -61,9 +67,7 @@ export const newChiSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUM
 
 export const newRateSources: Array<[string, string]> = [[FRAX, protocol.get(ACCUMULATOR) as string]]
 
-export const compositeSources: Array<[string, string, string]> = [
-  [FRAX, ETH, protocol.get(CHAINLINK) as string],
-]
+export const compositeSources: Array<[string, string, string]> = [[FRAX, ETH, protocol.get(CHAINLINK) as string]]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [FRAX, ENS, [ETH]],
@@ -79,6 +83,9 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [FRAX, WBTC, 1500000, 1000000, 5000, 18],
   [FRAX, LINK, 1670000, 1000000, 5000, 18],
   [FRAX, UNI, 1670000, 1000000, 5000, 18],
+  [DAI, FRAX, 1330000, 100000, 5000, 18],
+  [USDC, FRAX, 1330000, 100000, 5000, 6],
+  [ETH, FRAX, 1500000, 250000000, 10000, 12],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
@@ -106,7 +113,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     EOSEP22,
     'FYFRAX2209',
     'FYFRAX2209',
-  ]
+  ],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
@@ -126,7 +133,7 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     ONE64.div(secondsIn40Years),
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
-  ]
+  ],
 ]
 
 // seriesId, initAmount
@@ -137,8 +144,14 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYFRAX2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYFRAX2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2206, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2209, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYETH2206, [FRAX]],
+  [FYETH2209, [FRAX]],
+  [FYDAI2206, [FRAX]],
+  [FYDAI2209, [FRAX]],
+  [FYUSDC2206, [FRAX]],
+  [FYUSDC2209, [FRAX]],
 ]
 
 export const strategiesData: Array<[string, string, string, string, string]> = [

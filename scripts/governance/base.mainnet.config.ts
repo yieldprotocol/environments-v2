@@ -24,6 +24,7 @@ export const whales: Map<string, string> = new Map([
   [ENS, '0xd7a029db2585553978190db5e85ec724aa4df23f'],
   [YVUSDC, '0x5934807cc0654d46755ebd2848840b616256c6ef'],
   [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
+  [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
 ])
 
 export const assets: Map<string, string> = new Map([
