@@ -16,7 +16,7 @@ import {
   ConvexJoin,
   ConvexModule__factory,
 } from '../../../../typechain'
-
+import { ConvexJoinInterface } from '../../../../typechain/ConvexJoin'
 import { CVX3CRV, WAD, FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206 } from '../../../../shared/constants'
 // import { cvx3CrvAddress, crv as crvAddress, cvxAddress } from './addCvx3Crv.config'
 const { cvx3CrvAddress, crv, cvxAddress } = require(process.env.CONF as string)
@@ -37,7 +37,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   const cvx3CrvWhale = '0xf5b9a5159cb45efcba4f499b7b19667eaa649134'
   const cvx3CrvWhaleAcc = await impersonate(cvx3CrvWhale, WAD)
 
-  const user2 = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
+  const user2 = await impersonate('0x689440f2ff927e1f24c72f1087e1faf471ece1c8', WAD)
   const rescueAccount = await impersonate('0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A', WAD)
   const deployer = await impersonate('0x3b870db67a45611CF4723d44487EAF398fAc51E3', WAD)
 
@@ -95,12 +95,11 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
   // If Kovan then provide necessary tokens to the whale & pool
   if (chainId === 4) {
     await cvx3Crv.mint(cvx3CrvWhale, ethers.utils.parseEther('100000'))
+    await cvx3Crv.mint(user2.address, ethers.utils.parseEther('200000'))
     await crvToken.mint(protocol.get('convexPoolMock') as string, ethers.utils.parseEther('100000'))
     await cvx.mint(protocol.get('convexPoolMock') as string, ethers.utils.parseEther('100000'))
   }
-
-  await cvx3Crv.transfer(user2.address, ethers.utils.parseEther('10'))
-
+  await cvx3Crv.connect(user2).transfer(cvx3CrvWhale, ethers.utils.parseEther('100000'))
   const cvx3CrvBalanceBefore = await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)
   console.log(`${cvx3CrvBalanceBefore} cvx3Crv available`)
 
@@ -135,7 +134,6 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
       ladle.buildAction(seriesId, CVX3CRV),
       ladle.moduleCallAction(convexLadleModule.address, addVaultCall),
     ])
-
     await ladle
       .connect(user2)
       .batch([
@@ -153,29 +151,34 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await cvx3Crv.connect(cvx3CrvWhaleAcc).approve(ladle.address, posted)
     await cvx3Crv.connect(user2).approve(ladle.address, posted)
 
-    // var wrapCall = convexYieldWrapper.interface.encodeFunctionData('wrap', [cvx3CrvWhale])
+    let checkpoint = join.interface.encodeFunctionData('checkpoint', [cvx3CrvWhale])
+    
     console.log('Allowance ' + (await cvx3Crv.allowance(cvx3CrvWhaleAcc.address, ladle.address)).toString())
-    // await cvx3Crv.connect(cvx3CrvWhaleAcc).transfer(join.address, posted)
-    await ladle.connect(cvx3CrvWhaleAcc).batch([
-      ladle.connect(cvx3CrvWhaleAcc).transferAction(cvx3Crv.address, join.address, posted),
-      // ladle.connect(cvx3CrvWhaleAcc).pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
-    ])
-    // console.log('here')
-    await ladle.connect(cvx3CrvWhaleAcc).pour(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed)
-    // wrapCall = convexYieldWrapper.interface.encodeFunctionDaconsole.log('here')ta('wrap', [user2.address])
+    
+    await ladle
+      .connect(cvx3CrvWhaleAcc)
+      .batch([
+        ladle.connect(cvx3CrvWhaleAcc).transferAction(cvx3Crv.address, join.address, posted),
+        ladle.connect(cvx3CrvWhaleAcc).pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
+        
+      ])
 
+    
+    
+    checkpoint = join.interface.encodeFunctionData('checkpoint', [user2.address])
     await ladle
       .connect(user2)
       .batch([
         ladle.connect(user2).transferAction(cvx3Crv.address, join.address, posted),
         ladle.connect(user2).pourAction(vaultId2, user2.address, posted, borrowed),
+        
       ])
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
     if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
-    if ((await cauldron.balances(vaultId2)).art.toString() !== borrowed.toString()) throw 'art mismatch'
-    if ((await cauldron.balances(vaultId2)).ink.toString() !== posted.toString()) throw 'ink mismatch'
+    // if ((await cauldron.balances(vaultId2)).art.toString() !== borrowed.toString()) throw 'art mismatch'
+    // if ((await cauldron.balances(vaultId2)).ink.toString() !== posted.toString()) throw 'ink mismatch'
     console.log('Borrowed Successfully')
     var crvBefore = await crvToken.balanceOf(cvx3CrvWhaleAcc.address)
     var cvxBefore = await cvx.balanceOf(cvx3CrvWhaleAcc.address)
@@ -206,17 +209,24 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     await fyToken.transfer(fyToken.address, borrowed)
     await fyToken.connect(user2).transfer(fyToken.address, borrowed)
 
-    // var unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [cvx3CrvWhale])
-    // var preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [cvx3CrvWhale])
     await join.getReward(cvx3CrvWhaleAcc.address)
     await join.getReward(user2.address)
-    await ladle.pour(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1))
-
-    // unwrapCall = convexYieldWrapper.interface.encodeFunctionData('unwrap', [user2.address])
-    // preUnwrapCall = convexYieldWrapper.interface.encodeFunctionData('user_checkpoint', [user2.address])
-
-    await ladle.connect(user2).pour(vaultId2, user2.address, posted.mul(-1), borrowed.mul(-1)),
-      console.log(`repaid and withdrawn`)
+    checkpoint = join.interface.encodeFunctionData('checkpoint', [cvx3CrvWhale])
+    await ladle
+      .connect(cvx3CrvWhaleAcc)
+      .batch([
+        ladle.connect(cvx3CrvWhaleAcc).routeAction(join.address, checkpoint),
+        ladle.connect(cvx3CrvWhaleAcc).pourAction(vaultId, cvx3CrvWhaleAcc.address, posted.mul(-1), borrowed.mul(-1)),
+      ])
+    checkpoint = join.interface.encodeFunctionData('checkpoint', [user2.address])
+    await ladle
+      .connect(user2)
+      .batch([
+        ladle.connect(user2).routeAction(join.address, checkpoint),
+        ladle.connect(user2).pourAction(vaultId2, user2.address, posted.mul(-1), borrowed.mul(-1)),
+      ])
+    
+    console.log(`repaid and withdrawn`)
     const cvx3CrvAfter = (await cvx3Crv.balanceOf(cvx3CrvWhaleAcc.address)).toString()
     console.log(`${cvx3CrvBefore} cvx3Crv before`)
     console.log(`${cvx3CrvAfter} cvx3Crv after`)
@@ -243,9 +253,7 @@ import { ConvexModule } from '../../../../typechain/ConvexModule'
     if (crvBefore.gt(crvAfter)) throw 'Reward claim failed'
     if (cvxBefore.gt(cvxAfter)) throw 'Reward claim failed'
     console.log('Claimed leftover reward')
-    // console.log((await crv.balanceOf(join.address)).toString())
   }
-  console.log('Amount CRV left in wrapper: ' + (await crvToken.balanceOf(join.address)).toString())
-  console.log('Amount CVX left in wrapper: ' + (await cvx.balanceOf(join.address)).toString())
-  console.log('Join CRV balance' + (await crvToken.balanceOf(join.address)).toString())
+  console.log('Amount CRV left in join: ' + (await crvToken.balanceOf(join.address)).toString())
+  console.log('Amount CVX left in join: ' + (await cvx.balanceOf(join.address)).toString())
 })()
