@@ -28,6 +28,7 @@ import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsP
 import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
 import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
 import { onChainTestProposal } from '../../../fragments/utils/onChainTestProposal'
+import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const {
@@ -42,7 +43,8 @@ const {
   strategiesData,
   strategiesInit,
 } = require(process.env.CONF as string)
-const { bases, newChainlinkLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
+const { bases, newChainlinkLimits, chainlinkAuctionLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process
+  .env.CONF as string)
 const { chainlinkSources } = require(process.env.CONF as string)
 
 /**
@@ -125,9 +127,23 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(
     await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
   )
+
   proposal = proposal.concat(
-    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
+    await makeIlkProposal(
+      ownerAcc,
+      chainlinkOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      newJoins,
+      newChainlinkLimits,
+      chainlinkAuctionLimits
+    )
   )
+
+  // proposal = proposal.concat(
+  //   await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
+  // )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )

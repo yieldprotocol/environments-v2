@@ -78,14 +78,14 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
   [FRAX, FRAX, 1000000, 5000000, 5000, 18],
   [FRAX, ETH, 1400000, 1000000, 5000, 18],
-  [FRAX, DAI, 1330000, 1000000, 5000, 18],
-  [FRAX, USDC, 1330000, 1000000, 5000, 18],
+  [FRAX, DAI, 1100000, 1000000, 5000, 18],
+  [FRAX, USDC, 1100000, 1000000, 5000, 18],
   [FRAX, WBTC, 1500000, 1000000, 5000, 18],
   [FRAX, LINK, 1670000, 1000000, 5000, 18],
   [FRAX, UNI, 1670000, 1000000, 5000, 18],
-  [DAI, FRAX, 1330000, 100000, 5000, 18],
-  [USDC, FRAX, 1330000, 100000, 5000, 6],
-  [ETH, FRAX, 1500000, 250000000, 10000, 12],
+  [DAI, FRAX, 1100000, 100000, 5000, 18],
+  [USDC, FRAX, 1100000, 100000, 5000, 6],
+  [ETH, FRAX, 1400000, 1000000, 5000, 12],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
