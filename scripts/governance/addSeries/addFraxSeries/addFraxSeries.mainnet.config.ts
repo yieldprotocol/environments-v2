@@ -10,7 +10,7 @@ import {
   FYFRAX2209,
   ONE64,
   RATE,
-  secondsIn40Years,
+  secondsInOneYear,
   USDC,
   WBTC,
   LINK,
@@ -49,8 +49,13 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoins.json')
 
+/// @notice Configuration of the acummulator
+/// @param asset Asset for an acummulator
+/// @param type Type for an acummulator
+/// @param start Initial value for the acummulator
+/// @param increasePerSecond Acummulator multiplier, per second
 export const rateChiSources: Array<[string, string, string, string]> = [
-  [FRAX, RATE, WAD.toString(), WAD.toString()],
+  [FRAX, RATE, WAD.toString(), '1000000001546067000'],
   [FRAX, CHI, WAD.toString(), WAD.toString()],
 ]
 
@@ -122,17 +127,17 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     FYFRAX2206,
     assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2206) as string,
-    ONE64.div(secondsIn40Years),
-    ONE64.mul(75).div(100),
-    ONE64.mul(100).div(75),
+    ONE64.div(secondsInOneYear.mul(37)),
+    ONE64.mul(80).div(100),
+    ONE64.mul(100).div(80),
   ],
   [
     FYFRAX2209,
     assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2209) as string,
-    ONE64.div(secondsIn40Years),
-    ONE64.mul(75).div(100),
-    ONE64.mul(100).div(75),
+    ONE64.div(secondsInOneYear.mul(37)),
+    ONE64.mul(80).div(100),
+    ONE64.mul(100).div(80),
   ],
 ]
 
