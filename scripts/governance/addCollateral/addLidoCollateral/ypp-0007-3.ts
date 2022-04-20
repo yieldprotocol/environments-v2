@@ -1,11 +1,11 @@
 import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { jsonToMap, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../shared/helpers'
 
 import { addAssetProposal } from '../../addAssetProposal'
 import { reserveAssetProposal } from '../../reserveAssetProposal'
-import { Cauldron, Wand, Timelock } from '../../../../typechain'
-import { WSTETH, STETH } from '../../../../shared/constants'
+import { Cauldron, Wand, Timelock } from '../../../../../typechain'
+import { WSTETH, STETH } from '../../../../../shared/constants'
 
 /**
  * @dev This script adds WstETH as an asset to the Cauldron as part of ypp-0007.

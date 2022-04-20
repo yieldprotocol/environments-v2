@@ -7,10 +7,10 @@ import {
   bytesToBytes32,
   impersonate,
   getOwnerOrImpersonate,
-} from '../../../shared/helpers'
-import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../typechain'
+} from '../../../../../shared/helpers'
+import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../../../typechain'
 import { developer, whale, assetToAdd, seriesIlks } from './addUNI.config'
-import { WAD } from '../../../shared/constants'
+import { WAD } from '../../../../../shared/constants'
 
 /**
  * @dev This script tests an asset as a collateral

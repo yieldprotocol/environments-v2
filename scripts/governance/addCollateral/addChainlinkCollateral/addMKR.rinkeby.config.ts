@@ -2,8 +2,8 @@
  * @dev Input file for adding MKR as a collateral
  */
 
-import { ETH, DAI, USDC, MKR } from '../../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203 } from '../../../shared/constants'
+import { ETH, DAI, USDC, MKR } from '../../../../../shared/constants'
+import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203 } from '../../../../../shared/constants'
 
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'

@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
-import { deployChainlinkL2USDOracle } from '../../fragments/oracles/deployChainlinkL2USDOracle'
-import { CHAINLINKUSD } from '../../../shared/constants'
-import { Timelock } from '../../../typechain'
+import { deployChainlinkL2USDOracle } from '../../../fragments/oracles/deployChainlinkL2USDOracle'
+import { CHAINLINKUSD } from '../../../../shared/constants'
+import { Timelock } from '../../../../typechain'
 const { developer, protocol, governance, sequencerFlags } = require(process.env.CONF as string)
 
 /**
