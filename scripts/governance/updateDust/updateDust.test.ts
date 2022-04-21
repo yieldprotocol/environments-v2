@@ -13,11 +13,10 @@ import {
   getGovernanceProtocolAddresses,
 } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
-import { newMin, developer } from './updateDust.config'
+const { protocol, developer, newMin } = require(process.env.CONF as string)
+
 ;(async () => {
-  const chainId = await getOriginalChainId()
-  const [governance, protocol] = await getGovernanceProtocolAddresses(chainId)
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
   const cauldron = (await ethers.getContractAt(

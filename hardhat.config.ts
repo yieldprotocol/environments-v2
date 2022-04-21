@@ -133,7 +133,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
-      gasPrice: 50000000000,
+      gasPrice: 90000000000,
       gasMultiplier: 1.1,
       timeout: 60000000,
       url: infuraNodeUrl('mainnet')
