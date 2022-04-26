@@ -6,9 +6,9 @@ import {
   verify,
 } from '../../../../shared/helpers'
 
-import StEthConverterArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/utils/StEthConverter.sol/StEthConverter.json'
-import { StEthConverter, Cauldron } from '../../../../typechain'
-const { developer, protocol } = require(process.env.CONF as string)
+import StEthConverterArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/other/lido/StEthConverter.sol/StEthConverter.json'
+import { StEthConverter } from '../../../../typechain'
+const { developer, protocol, assets } = require(process.env.CONF as string)
 
 const { deployContract } = waffle
 
@@ -19,13 +19,8 @@ const { deployContract } = waffle
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const wstEthAddress = await cauldron.assets(WSTETH)
-  const stEthAddress = await cauldron.assets(STETH)
+  const wstEthAddress = assets.get(WSTETH) as string
+  const stEthAddress = assets.get(STETH) as string
   console.log(`Using wstETH at ${wstEthAddress}`)
   console.log(`Using stETH at ${stEthAddress}`)
 
