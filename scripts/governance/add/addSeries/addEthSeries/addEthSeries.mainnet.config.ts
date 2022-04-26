@@ -48,13 +48,6 @@ export const rateChiSources: Array<[string, string, string, string]> = [
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [[ETH, base_config.joins.get(ETH) as string]]
 
-// Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
-export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, DAI, 1400000, 1000000000, 1250000, 12],
-  [ETH, USDC, 1400000, 1000000000, 1250000, 12],
-  [ETH, ETH, 1000000, 2500000000, 0, 12], // Constant 1, no dust
-]
-
 export const newChiSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]
 
 export const newRateSources: Array<[string, string]> = [[ETH, '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5']]

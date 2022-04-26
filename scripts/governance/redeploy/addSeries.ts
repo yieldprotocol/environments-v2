@@ -6,7 +6,7 @@ import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlks
 import { initPoolsProposal } from '../../fragments/assetsAndSeries/initPoolsProposal'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
 const { protocol, governance, newFYTokens, newPools } = require(process.env.CONF as string)
-const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF as string)
+const { developer, deployer, seriesIlks, poolsInit, newJoins } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates fyToken, registers them as series in the Cauldron, initializes pools, and registers them in the Ladle
@@ -34,7 +34,7 @@ const { developer, deployer, seriesIlks, poolsInit } = require(process.env.CONF 
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, newJoins)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))

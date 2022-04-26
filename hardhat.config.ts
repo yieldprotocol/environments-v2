@@ -9,7 +9,6 @@ import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
-import 'hardhat-deploy'
 
 function infuraNodeUrl(network: any) {
   let infuraKey

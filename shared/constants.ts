@@ -34,6 +34,7 @@ export const FDAI2206 = ethers.utils.formatBytes32String('14').slice(0, 14)
 export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
 export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
 export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
+export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -50,6 +51,7 @@ export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
+export const EOMAR23 = 1680271200 // Friday, Mar 31 2023 14:00:00 GMT+0000
 
 export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
 export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
@@ -82,6 +84,10 @@ export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
+export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
+export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
 export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
@@ -90,6 +96,8 @@ export const YSUSDC6MMS = 'YSUSDC6MMS' // Yield Strategy USDC 6M Mar Sep
 export const YSUSDC6MJD = 'YSUSDC6MJD' // Yield Strategy USDC 6M Jun Dec
 export const YSETH6MMS = 'YSETH6MMS' // Yield Strategy ETH 6M Mar Sep
 export const YSETH6MJD = 'YSETH6MJD' // Yield Strategy ETH 6M Jun Dec
+export const YSFRAX6MMS = 'YSFRAX6MMS' // Yield Strategy FRAX 6M Mar Sep
+export const YSFRAX6MJD = 'YSFRAX6MJD' // Yield Strategy FRAX 6M Jun Dec
 
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)

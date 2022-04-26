@@ -68,6 +68,14 @@
     [
       "transfer1155Module",
       "0x97f1d43A217aDD678bB6Dcd3C5D51F40b6729d06"
+    ],
+    [
+      "accumulatorOracle",
+      "0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC"
+    ],
+    [
+      "onChainTest",
+      "0xCDcEa3eBC084f24a25AD6f18fD678B0c6b33843d"
     ]
   ]
 }

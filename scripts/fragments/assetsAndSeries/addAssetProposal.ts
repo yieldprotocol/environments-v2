@@ -28,8 +28,7 @@ export const addAssetProposal = async (
       assetAddress as string,
       ownerAcc
     )) as unknown as ERC20Mock
-    //console.log(`Using ${await asset.name()} at ${assetAddress}`)
-    console.log(assetAddress)
+    console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
     const join: Join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
