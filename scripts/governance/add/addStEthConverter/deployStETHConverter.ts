@@ -1,10 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import { WSTETH, STETH } from '../../../../shared/constants'
-import {
-  getOwnerOrImpersonate,
-  writeAddressMap,
-  verify,
-} from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, writeAddressMap, verify } from '../../../../shared/helpers'
 
 import StEthConverterArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/other/lido/StEthConverter.sol/StEthConverter.json'
 import { StEthConverter } from '../../../../typechain'
