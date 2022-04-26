@@ -84,8 +84,10 @@ export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
-export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14)
-export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14)
+export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
+export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
 export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
