@@ -13,6 +13,4 @@ export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 
 // Input data: baseId, ilkId, line, dust, dec
-export const newMin: Array<[string, string, number]> = [
-  [FRAX, FRAX, 0],
-]
+export const newMin: Array<[string, string, number]> = [[FRAX, FRAX, 0]]

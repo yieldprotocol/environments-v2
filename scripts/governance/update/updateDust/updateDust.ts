@@ -16,7 +16,6 @@ import { updateDustProposal } from '../../fragments/limits/updateDustProposal'
 import { Cauldron, Timelock } from '../../../typechain'
 const { governance, protocol, developer, newMin } = require(process.env.CONF as string)
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
