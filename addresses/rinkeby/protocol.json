@@ -68,6 +68,10 @@
     [
       "wrapEtherModule",
       "0x6C688D4257204FEe0Fce47d3feb9AE81e8B86283"
+    ],
+    [
+      "stEthConverter",
+      "0x64BA0F1D2E5479BF132936328e8c533c95646fE8"
     ]
   ]
 }
