@@ -1,8 +1,8 @@
 import { ethers, waffle } from 'hardhat'
 
-import { verify } from '../../../../shared/helpers'
-import { ISourceMock } from '../../../../typechain/ISourceMock'
-import ChainlinkAggregatorV3MockArtifact from '../../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
+import { verify } from '../../../../../../shared/helpers'
+import { ISourceMock } from '../../../../../../typechain/ISourceMock'
+import ChainlinkAggregatorV3MockArtifact from '../../../../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 
 const { deployContract } = waffle
 
@@ -13,7 +13,7 @@ const { deployContract } = waffle
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
 
-  const value = 4802398859596785
+  const value = '111208620000000000'
   const args: any = [18]
   const aggregator = (await deployContract(ownerAcc, ChainlinkAggregatorV3MockArtifact, args)) as ISourceMock
   verify(aggregator.address, args)

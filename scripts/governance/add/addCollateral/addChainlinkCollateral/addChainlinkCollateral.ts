@@ -1,47 +1,32 @@
 import { ethers } from 'hardhat'
 import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+} from '../../../../../shared/helpers'
 
-import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
-import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSourcesProposal'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
+import { IOracle, ChainlinkMultiOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
-import {
+const {
   developer,
   deployer,
+  protocol,
+  governance,
+  newJoins,
   chainlinkSources,
   assets,
   debtLimits,
   auctionLimits,
   seriesIlks,
-} from './addMKR.rinkeby.config'
+} = require(process.env.CONF as string)
 
-/**
- * @dev This script configures the Yield Protocol to use a collateral with a Chainlink oracle vs. ETH.
- * Previously, the collateral should have been added as an asset with the Wand.
- * Add collateral as an asset
- * --- You are here ---
- * Add the collateral/ETH source to the Chainlink Oracle
- * Permission the collateral Join
- * Make collateral into an Ilk
- * Approve collateral as collateral for all series
- */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const joins = readAddressMappingIfExists('joins.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
@@ -67,7 +52,7 @@ import {
   )) as unknown as Timelock
 
   let assetsAndJoins: Array<[string, string, string]> = []
-  for (let [assetId, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
     console.log(`${[assetId, assets.get(assetId) as string, joinAddress]}`)
   }
@@ -83,7 +68,7 @@ import {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       debtLimits,
       auctionLimits
     )

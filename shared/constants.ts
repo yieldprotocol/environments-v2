@@ -35,6 +35,7 @@ export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
 export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
 export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
 export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
+export const GNO = ethers.utils.formatBytes32String('20').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -75,20 +76,23 @@ export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) /
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
 export const FYETH2209 = ethers.utils.formatBytes32String('0007').slice(0, 14)
 export const FYETH2212 = ethers.utils.formatBytes32String('0008').slice(0, 14)
+
 export const FYDAI2112 = ethers.utils.formatBytes32String('0104').slice(0, 14)
 export const FYDAI2203 = ethers.utils.formatBytes32String('0105').slice(0, 14)
 export const FYDAI2206 = ethers.utils.formatBytes32String('0106').slice(0, 14)
 export const FYDAI2209 = ethers.utils.formatBytes32String('0107').slice(0, 14)
 export const FYDAI2212 = ethers.utils.formatBytes32String('0108').slice(0, 14)
+
 export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
+export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
+
 export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
 export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
 export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
 export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
-export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
