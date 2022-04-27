@@ -3220,12 +3220,12 @@ __metadata:
     "@typechain/ethers-v5": ^8.0.5
     "@typechain/hardhat": ^3.0.0
     "@types/mocha": ^8.0.0
-    "@yield-protocol/strategy-v2": 0.11.0-rc6
+    "@yield-protocol/strategy-v2": 0.11.2
     "@yield-protocol/utils-v2": 2.5.1
-    "@yield-protocol/vault-interfaces": ^2.3.2
-    "@yield-protocol/vault-v2": 0.16.1-rc0
-    "@yield-protocol/yieldspace-interfaces": 2.3.0-rc7
-    "@yield-protocol/yieldspace-v2": 0.12.0-rc2
+    "@yield-protocol/vault-interfaces": ^2.4.1
+    "@yield-protocol/vault-v2": 0.16.1-rc1
+    "@yield-protocol/yieldspace-interfaces": 2.3.2
+    "@yield-protocol/yieldspace-v2": 0.12.2
     chai: 4.2.0
     dss-interfaces: 0.1.1
     erc3156: ^0.4.8
@@ -3250,10 +3250,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@yield-protocol/strategy-v2@npm:0.11.0-rc6":
-  version: 0.11.0-rc6
-  resolution: "@yield-protocol/strategy-v2@npm:0.11.0-rc6"
-  checksum: 90ee1139ba194ead5c45532b0f9dae6484e79df39d03df560fa45c2c210a48646b1725f895c2d9f37a5e2d59b6682288813edb56ac2b4f1f38ee1903b38a8782
+"@yield-protocol/strategy-v2@npm:0.11.2":
+  version: 0.11.2
+  resolution: "@yield-protocol/strategy-v2@npm:0.11.2"
+  checksum: 6a0177b9855204228d44c6341e675988122bb3b2b6bcd348997fe377d1361cc17289fb18372095cdb6dd9d9a14b52dae5ef41301b7ecc2f8992ccfd33d3eb46f
   languageName: node
   linkType: hard
 
@@ -3267,31 +3267,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yield-protocol/vault-interfaces@npm:^2.3.0-rc4, @yield-protocol/vault-interfaces@npm:^2.3.2":
+"@yield-protocol/vault-interfaces@npm:^2.3.0-rc4":
   version: 2.3.3
   resolution: "@yield-protocol/vault-interfaces@npm:2.3.3"
   checksum: c8fa92655b53725b6214d82a4298f1ff3901121bb13a7110bd878df3f3a9380f11a7e949543c9394a7cf6d92883c6a6f095413c04844650b704b790865ad5c01
   languageName: node
   linkType: hard
 
-"@yield-protocol/vault-v2@npm:0.16.1-rc0":
-  version: 0.16.1-rc0
-  resolution: "@yield-protocol/vault-v2@npm:0.16.1-rc0"
-  checksum: 2a915f4cb52985eb12b31879d21f058ee8199a4f6622f11ee355e6758fe957279cd6ce9c7b35d001e88997aa0fc0241eff12713ebd5409611b74a84e62f6cfaf
+"@yield-protocol/vault-interfaces@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@yield-protocol/vault-interfaces@npm:2.4.1"
+  checksum: 4fac989e26794b69af95a924e23cecf349d9cf8b972ee3321f41b508a1f8f024ca6732e291bdd9d2f0a045ca2cf16935677cd4c33cdc8a455995e7ae4fda1226
   languageName: node
   linkType: hard
 
-"@yield-protocol/yieldspace-interfaces@npm:2.3.0-rc7":
-  version: 2.3.0-rc7
-  resolution: "@yield-protocol/yieldspace-interfaces@npm:2.3.0-rc7"
-  checksum: 9ce895747f5c70be49e3cac45c77341301d95e76b2019fad84dd6c8824facd75e373efd6d66216faba07bbcf5abb982de306ac2c7e1c9e8c5f216dc2231671b9
+"@yield-protocol/vault-v2@npm:0.16.1-rc1":
+  version: 0.16.1-rc1
+  resolution: "@yield-protocol/vault-v2@npm:0.16.1-rc1"
+  checksum: 6970dd0cd098ac7272c22d54712fd4b3ef6afa1397d9f3be9fd33cec8f5604d29abf0605c113be3b10e02f09b6c3c056cae47039c247a94ae738994d476621a0
   languageName: node
   linkType: hard
 
-"@yield-protocol/yieldspace-v2@npm:0.12.0-rc2":
-  version: 0.12.0-rc2
-  resolution: "@yield-protocol/yieldspace-v2@npm:0.12.0-rc2"
-  checksum: c3e643a4cb40482a79c61e3f763008fb91ca464f9fe587affb86a734efb93b480ca45aed12ba5b9f914534f1d9a012c84c6bf823ea15872b4dd7a1d770a5dbf3
+"@yield-protocol/yieldspace-interfaces@npm:2.3.2":
+  version: 2.3.2
+  resolution: "@yield-protocol/yieldspace-interfaces@npm:2.3.2"
+  checksum: 7c7f908abe5064fed1067160cfc9167a236063632bff1a73a66df9ba12bbb02dbf1c67ea5be56b487abcb102342dcdf90979bbece96f25858e1b8492eb65f6be
+  languageName: node
+  linkType: hard
+
+"@yield-protocol/yieldspace-v2@npm:0.12.2":
+  version: 0.12.2
+  resolution: "@yield-protocol/yieldspace-v2@npm:0.12.2"
+  checksum: 5c648a9659ff4c2a019b208880701319ef1dcf6c944a95e58e392452372a6750ad5293caecbf52493075bb9d38bd3b26d469266b19c537958a4c3a00b452d3c3
   languageName: node
   linkType: hard
 
