@@ -1,6 +1,32 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, COMPOUND, EOJUN22, EOSEP22, FYDAI2206, FYDAI2209, FYETH2206, FYETH2209, FYUSDC2206, FYUSDC2209, ONE64, secondsIn25Years, secondsIn40Years, YSETH6MJD, YSETH6MMS, ZERO } from '../../../shared/constants'
+import {
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  UNI,
+  YVUSDC,
+  COMPOUND,
+  EOJUN22,
+  EOSEP22,
+  FYDAI2206,
+  FYDAI2209,
+  FYETH2206,
+  FYETH2209,
+  FYUSDC2206,
+  FYUSDC2209,
+  ONE64,
+  secondsIn25Years,
+  secondsIn40Years,
+  YSETH6MJD,
+  YSETH6MMS,
+  ZERO,
+} from '../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
@@ -16,45 +42,16 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const whales: Map<string, string> = base_config.whales
+export const assets: Map<string, string> = base_config.assets
+export const chiSources: Array<[string, string]> = base_config.chiSources
+export const rateSources: Array<[string, string]> = base_config.rateSources
+export const chainlinkSources: Array<[string, string, string, string, string]> = base_config.chainlinkSources
+
 export const additionalDevelopers: Array<string> = []
 export const additionalGovernors: Array<string> = [
   '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A',
   '0xE7aa7AF667016837733F3CA3809bdE04697730eF',
   '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5',
-]
-export const assets: Map<string, string> = new Map([
-  [ETH, '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
-  [DAI, '0xaFCdc724EB8781Ee721863db1B15939675996484'],
-  [USDC, '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
-  [WBTC, '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
-  [WSTETH, '0xC55a98C1b3B0942883bB37df9716bea42d7d5009'],
-  [STETH, '0xD516492bb58F07bc91c972DCCB2DF654653d4D33'],
-  [LINK, '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
-  [ENS, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
-  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  [YVUSDC,'0x3CFDf9646dBC385E47DC07869626Ea36BE7bA3a2']
-])
-
-export const chiSources: Array<[string, string]> = [
-  [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
-  [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']
-]
-
-export const rateSources: Array<[string, string]> = [
-  [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
-  [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']
-]
-
-export const chainlinkSources: Array<[string, string, string, string, string]> = [
-  [DAI, assets.get(DAI) as string, ETH, assets.get(ETH) as string, '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
-  [USDC, assets.get(USDC) as string, ETH, assets.get(ETH) as string, '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
-  [WBTC, assets.get(WBTC) as string, ETH, assets.get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-  [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, '0xd23BF69104cC640E68ebeE83B9833d6Db6F220E6'],
-  [LINK, assets.get(LINK) as string, ETH, assets.get(ETH) as string, '0x3Af8C569ab77af5230596Acf0E8c2F9351d24C38'],
-  [ENS, assets.get(ENS) as string, ETH, assets.get(ETH) as string, '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4'],
-  [UNI, assets.get(UNI) as string, ETH, assets.get(ETH) as string, '0xC0E69E49D98D26D52f7505Af1dF8b3009168f945'],
 ]
 
 // token0, token1, address, twapInterval
@@ -66,14 +63,7 @@ export const lidoSource = assets.get(WSTETH) as string
 // underlying, yvToken, address
 export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
 
-export const compositeSources: Array<[string, string, string]> = [
-  [DAI, ETH, protocol.get(CHAINLINK) as string],
-  [USDC, ETH, protocol.get(CHAINLINK) as string],
-  [WBTC, ETH, protocol.get(CHAINLINK) as string],
-  [STETH, ETH, protocol.get(CHAINLINK) as string],
-  [WSTETH, STETH, protocol.get(LIDO) as string],
-  [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on rinkeby
-]
+export const compositeSources: Array<[string, string, string]> = base_config.compositeSources
 
 export const compositePaths: Array<[string, string, Array<string>]> = [
   [WSTETH, DAI, [STETH, ETH]],
@@ -93,7 +83,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [LINK, assets.get(LINK) as string],
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
-  [YVUSDC, assets.get(YVUSDC) as string],
+  // [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join

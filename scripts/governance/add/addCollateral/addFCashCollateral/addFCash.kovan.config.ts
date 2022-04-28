@@ -1,4 +1,4 @@
-import * as base_config from '../../../base.rinkeby.config'
+import * as base_config from '../../../base.kovan.config'
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'

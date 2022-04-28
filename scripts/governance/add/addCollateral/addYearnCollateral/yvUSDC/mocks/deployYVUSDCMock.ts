@@ -1,11 +1,11 @@
 import { ethers, waffle } from 'hardhat'
-import { verify } from '../../../../../shared/helpers'
+import { verify } from '../../../../../../../shared/helpers'
 
-import YvTokenMockArtifact from '../../../../../artifacts/contracts/mocks/YvTokenMock.sol/YvTokenMock.json'
-import { YvTokenMock } from '../../../../../typechain/YvTokenMock'
+import YvTokenMockArtifact from '../../../../../../../artifacts/contracts/::mocks/YvTokenMock.sol/YvTokenMock.json'
+import { YvTokenMock } from '../../../../../../../typechain/YvTokenMock'
 
-import { USDC } from '../../../../../shared/constants'
-import { assets } from './../addYVUSDC.mainnet.config'
+import { USDC } from '../../../../../../../shared/constants'
+import { assets } from './../addYVUSDC.kovan.config'
 
 const { deployContract } = waffle
 

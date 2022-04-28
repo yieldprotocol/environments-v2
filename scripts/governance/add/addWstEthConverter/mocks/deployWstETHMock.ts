@@ -1,18 +1,19 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
-import { verify } from '../../../../shared/helpers'
+import { verify } from '../../../../../shared/helpers'
 
-import WstETHMockArtifact from '../../../../artifacts/contracts/mocks/WstETHMock.sol/WstETHMock.json'
-import { WstETHMock } from '../../../../typechain/WstETHMock'
+import WstETHMockArtifact from '../../../../../artifacts/contracts/::mocks/WstETHMock.sol/WstETHMock.json'
+import { WstETHMock } from '../../../../../typechain/WstETHMock'
+import { STETH } from '../../../../../shared/constants'
 
 const { deployContract } = waffle
-
+const { assets } = require(process.env.CONF as string)
 /**
  * @dev This script deploys the WstETHMock contract
  */
 
 ;(async () => {
-  const stEthAddress = '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'
+  const stEthAddress = assets.get(STETH) as string //'0x7188e9DBdDf607474a44c653C693Aab99dB92a16'
 
   if (hre.network.name === 'mainnet') throw "You shouldn't deploy WstETHMock on mainnet"
   const [ownerAcc] = await ethers.getSigners()
