@@ -18,7 +18,7 @@ import "@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.so
 import "@yield-protocol/vault-v2/contracts/other/notional/Transfer1155Module.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/ERC1155Mock.sol";
 import "@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol";
-import "@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol";
+import "@yield-protocol/vault-v2/contracts/other/lido/StEthConverter.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/FYToken.sol";
 import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
