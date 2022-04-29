@@ -1,12 +1,10 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC } from '../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../shared/constants'
-import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX } from '../../shared/constants'
+import { CHAINLINK, COMPOSITE, LIDO } from '../../shared/constants'
 
 export const chainId = 42
-export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const developer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
+export const deployer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
@@ -18,28 +16,31 @@ export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
 export const whales: Map<string, string> = new Map([
-  [ETH, ''],
-  [DAI, '0x20918f71e99c09ae2ac3e33dbde33457d3be01f4'],
-  [USDC, '0x75c0c372da875a4fc78e8a37f58618a6d18904e8'],
-  [WBTC, '0xc6b4e749605a10d3434bc85a797062fad3dee280'],
-  [WSTETH, '0x62a3d8a878beef2ba024bbc26c5be9d2ee4dde7e'],
-  [STETH, '0x06f405e5a760b8cde3a48f96105659cedf62da63'],
-  [LINK, '0xe4ddb4233513498b5aa79b98bea473b01b101a67'],
-  [ENS, ''],
-  [YVUSDC, ''],
-  [UNI, '0x5f98ee67c319880b925d83400b26ba4188c5523f'],
+  [ETH, developer],
+  [DAI, developer],
+  [USDC, developer],
+  [WBTC, developer],
+  [WSTETH, developer],
+  [STETH, developer],
+  [LINK, developer],
+  [ENS, developer],
+  [UNI, developer],
+  [YVUSDC, developer],
+  [FRAX, developer],
 ])
 
 export const assets: Map<string, string> = new Map([
-  [ETH, ''],
-  [DAI, '0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844'],
-  [USDC, '0x07865c6E87B9F70255377e024ace6630C1Eaa37F'],
-  [WBTC, '0xC04B0d3107736C32e19F1c62b2aF67BE61d63a05'],
-  [WSTETH, '0x6320cD32aA674d2898A68ec82e869385Fc5f7E2f'],
-  [STETH, '0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F'],
-  [LINK, '0x326c977e6efc84e512bb9c30f76e30c160ed06fb'],
-  [ENS, ''],
-  [UNI, '0x6be1a99c215872cea33217b0f4bad63f186ddfac'],
+  [ETH, protocol.get('wethMock') as string],
+  [DAI, protocol.get('daiMock') as string],
+  [USDC, protocol.get('usdcMock') as string],
+  [WBTC, protocol.get('wbtcMock') as string],
+  [WSTETH, protocol.get('wstethMock') as string],
+  [STETH, protocol.get('stETHMock') as string],
+  [LINK, protocol.get('linkMock') as string],
+  [ENS, protocol.get('ensMock') as string],
+  [UNI, protocol.get('uniMock') as string],
+  [YVUSDC, protocol.get('yvUSDCMock') as string],
+  [FRAX, protocol.get('fraxMock') as string],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -55,13 +56,13 @@ export const rateSources: Array<[string, string]> = [
 ]
 
 export const chainlinkSources: Array<[string, string, string, string, string]> = [
-  [DAI, assets.get(DAI) as string, ETH, assets.get(ETH) as string, ''],
-  [USDC, assets.get(USDC) as string, ETH, assets.get(ETH) as string, ''],
-  [WBTC, assets.get(WBTC) as string, ETH, assets.get(ETH) as string, ''],
-  [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, ''],
-  [LINK, assets.get(LINK) as string, ETH, assets.get(ETH) as string, ''],
-  [ENS, assets.get(ENS) as string, ETH, assets.get(ETH) as string, ''],
-  [UNI, assets.get(UNI) as string, ETH, assets.get(ETH) as string, ''],
+  [DAI, assets.get(DAI) as string, ETH, assets.get(ETH) as string, protocol.get(DAI + 'Mock') as string],
+  [USDC, assets.get(USDC) as string, ETH, assets.get(ETH) as string, protocol.get(USDC + 'Mock') as string],
+  [WBTC, assets.get(WBTC) as string, ETH, assets.get(ETH) as string, protocol.get(WBTC + 'Mock') as string],
+  [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, protocol.get(STETH + 'Mock') as string],
+  [LINK, assets.get(LINK) as string, ETH, assets.get(ETH) as string, protocol.get(LINK + 'Mock') as string],
+  [ENS, assets.get(ENS) as string, ETH, assets.get(ETH) as string, protocol.get(ENS + 'Mock') as string],
+  [UNI, assets.get(UNI) as string, ETH, assets.get(ETH) as string, protocol.get(UNI + 'Mock') as string],
 ]
 
 // token0, token1, address, twapInterval

@@ -1,6 +1,32 @@
 import { BigNumber } from 'ethers'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, COMPOUND, EOJUN22, EOSEP22, FYDAI2206, FYDAI2209, FYETH2206, FYETH2209, FYUSDC2206, FYUSDC2209, ONE64, secondsIn25Years, secondsIn40Years, YSETH6MJD, YSETH6MMS, ZERO } from '../../../shared/constants'
+import {
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  UNI,
+  YVUSDC,
+  COMPOUND,
+  EOJUN22,
+  EOSEP22,
+  FYDAI2206,
+  FYDAI2209,
+  FYETH2206,
+  FYETH2209,
+  FYUSDC2206,
+  FYUSDC2209,
+  ONE64,
+  secondsIn25Years,
+  secondsIn40Years,
+  YSETH6MJD,
+  YSETH6MMS,
+  ZERO,
+} from '../../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
 import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
@@ -32,19 +58,19 @@ export const assets: Map<string, string> = new Map([
   [LINK, '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
   [ENS, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
   [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  [YVUSDC,'0x3CFDf9646dBC385E47DC07869626Ea36BE7bA3a2']
+  [YVUSDC, '0x3CFDf9646dBC385E47DC07869626Ea36BE7bA3a2'],
 ])
 
 export const chiSources: Array<[string, string]> = [
   [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
   [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']
+  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72'],
 ]
 
 export const rateSources: Array<[string, string]> = [
   [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
   [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72']
+  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72'],
 ]
 
 export const chainlinkSources: Array<[string, string, string, string, string]> = [

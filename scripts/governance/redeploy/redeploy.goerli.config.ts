@@ -27,14 +27,14 @@ import {
   YSETH6MMS,
   ZERO,
 } from '../../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../../shared/constants'
+
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
 
-import * as base_config from '../base.rinkeby.config'
+import * as base_config from '../base.goerli.config'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const chainId = 42
 export const developer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
 export const deployer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
@@ -83,7 +83,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [LINK, assets.get(LINK) as string],
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
-  // [YVUSDC, assets.get(YVUSDC) as string],
+  [YVUSDC, assets.get(YVUSDC) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
@@ -257,14 +257,14 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYUSDC2209, USDC, ONEUSDC.mul(100), ZERO],
 ]
 
-export const strategiesData: Array<[string, string, string]> = [
+export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH],
-  ['Yield Strategy ETH 6M Jun Dec', YSETH6MJD, ETH],
-  ['Yield Strategy DAI 6M Mar Sep', YSDAI6MMS, DAI],
-  ['Yield Strategy DAI 6M Jun Dec', YSDAI6MJD, DAI],
-  ['Yield Strategy USDC 6M Mar Sep', YSUSDC6MMS, USDC],
-  ['Yield Strategy USDC 6M Jun Dec', YSUSDC6MJD, USDC],
+  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH, newJoins.get(ETH) as string, assets.get(ETH) as string],
+  ['Yield Strategy ETH 6M Jun Dec', YSETH6MJD, ETH, newJoins.get(ETH) as string, assets.get(ETH) as string],
+  ['Yield Strategy DAI 6M Mar Sep', YSDAI6MMS, DAI, newJoins.get(DAI) as string, assets.get(DAI) as string],
+  ['Yield Strategy DAI 6M Jun Dec', YSDAI6MJD, DAI, newJoins.get(DAI) as string, assets.get(DAI) as string],
+  ['Yield Strategy USDC 6M Mar Sep', YSUSDC6MMS, USDC, newJoins.get(USDC) as string, assets.get(USDC) as string],
+  ['Yield Strategy USDC 6M Jun Dec', YSUSDC6MJD, USDC, newJoins.get(USDC) as string, assets.get(USDC) as string],
 ]
 
 // Input data
@@ -276,4 +276,15 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   [YSDAI6MJD, newPools.get(FYDAI2206) as string, FYDAI2206, WAD.mul(100)],
   [YSUSDC6MMS, newPools.get(FYUSDC2209) as string, FYUSDC2209, ONEUSDC.mul(100)],
   [YSUSDC6MJD, newPools.get(FYUSDC2206) as string, FYUSDC2206, ONEUSDC.mul(100)],
+]
+
+// decimal, baseId, quoteId, aggregator set
+export const chainLinkAnswers: Array<[number, string, string]> = [
+  [18, DAI, '341800000000000'],
+  [18, USDC, '341447981529958'],
+  [18, WBTC, '13581728000000000000'],
+  [18, STETH, '13581728000000000000'],
+  [18, LINK, '4353800658981643'],
+  [18, ENS, '14698870000000000'],
+  [18, UNI, '2850020000000000'],
 ]
