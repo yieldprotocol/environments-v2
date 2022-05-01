@@ -9,9 +9,8 @@ import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
-import 'hardhat-deploy'
 
-function nodeUrl(network: any) {
+function infuraNodeUrl(network: any) {
   let infuraKey
   try {
     infuraKey = fs.readFileSync(path.resolve(__dirname, '.infuraKey')).toString().trim()
@@ -20,6 +19,17 @@ function nodeUrl(network: any) {
   }
   return `https://${network}.infura.io/v3/${infuraKey}`
 }
+
+function alchemyNodeUrl(network: any) {
+  let alchemyKey
+  try {
+    alchemyKey = fs.readFileSync(path.resolve(__dirname, '.alchemyKey')).toString().trim()
+  } catch (e) {
+    alchemyKey = ''
+  }
+  return `https://eth-${network}.alchemyapi.io/v2/${alchemyKey}`
+}
+
 
 function arbNodeUrl(network: string) {
   switch (network) {
@@ -93,38 +103,40 @@ module.exports = {
     },
     ropsten: {
       accounts,
-      url: nodeUrl('ropsten')
+      url: infuraNodeUrl('ropsten')
     },
     goerli: {
       accounts,
       gasPrice: 1000000000,
       timeout: 600000,
-      url: nodeUrl('goerli'),
+      url: infuraNodeUrl('goerli'),
     },
     kovan: {
       accounts,
       gasPrice: 1000000000,
       timeout: 600000,
-      url: nodeUrl('kovan')
+      url: infuraNodeUrl('kovan')
     },
     rinkeby: {
       accounts,
       gasPrice: 2000000000,
+      gasMultiplier: 1.1,
       timeout: 600000,
-      url: nodeUrl('rinkeby')
+      url: alchemyNodeUrl('rinkeby')
     },
     arb_rinkeby: {
       accounts,
       url: arbNodeUrl('rinkeby'),
-      gasPrice: 1000000000,
+      gasPrice: 3000000000,
       chainId: 421611,
       timeout: 60000
     },
     mainnet: {
       accounts,
-      gasPrice: 100000000000,
+      gasPrice: 50000000000,
+      gasMultiplier: 1.1,
       timeout: 60000000,
-      url: nodeUrl('mainnet')
+      url: infuraNodeUrl('mainnet')
     },
     arb_mainnet: {
       accounts,

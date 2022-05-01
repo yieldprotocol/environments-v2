@@ -29,10 +29,13 @@ export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI    = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
 export const FDAI2203 = ethers.utils.formatBytes32String('12').slice(0, 14)
-export const FDAI2206 = ethers.utils.formatBytes32String('13').slice(0, 14)
-export const FUSDC2203 = ethers.utils.formatBytes32String('14').slice(0, 14)
+export const FUSDC2203 = ethers.utils.formatBytes32String('13').slice(0, 14)
+export const FDAI2206 = ethers.utils.formatBytes32String('14').slice(0, 14)
 export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
-export const CVX3CRV    = ethers.utils.formatBytes32String('18').slice(0, 14)
+export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
+export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
+export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
+export const CVX3CRV    = ethers.utils.formatBytes32String('19').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -48,20 +51,46 @@ export const NOTIONAL = 'notionalOracle'
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
+export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
+export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
+export const EOMAR23 = 1680271200 // Friday, Mar 31 2023 14:00:00 GMT+0000
 
+export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
+export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
+export const FCASH_SEP22 = 1664064000 // 214 * (86400 * 90)
+export const FCASH_DEC22 = 1671840000 // 215 * (86400 * 90)
+export const FCASH_DAI = '2'
+export const FCASH_USDC = '3'
+
+// CurrencyId*(16**12)+Maturity*(16**2)+1 = 563371972493313
 export const FDAI2203ID = 563371972493313
 export const FDAI2206ID = 563373963149313
+export const FDAI2209ID = 563375953805313
+export const FDAI2212ID = 563377944461313
 export const FUSDC2203ID = 844846949203969
 export const FUSDC2206ID = 844848939859969
+export const FUSDC2209ID = 844850930515969
+export const FUSDC2212ID = 844852921171969
 
+// Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
+export const FYETH2209 = ethers.utils.formatBytes32String('0007').slice(0, 14)
+export const FYETH2212 = ethers.utils.formatBytes32String('0008').slice(0, 14)
 export const FYDAI2112 = ethers.utils.formatBytes32String('0104').slice(0, 14)
 export const FYDAI2203 = ethers.utils.formatBytes32String('0105').slice(0, 14)
 export const FYDAI2206 = ethers.utils.formatBytes32String('0106').slice(0, 14)
+export const FYDAI2209 = ethers.utils.formatBytes32String('0107').slice(0, 14)
+export const FYDAI2212 = ethers.utils.formatBytes32String('0108').slice(0, 14)
 export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
+export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
+export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
+export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
+export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
+export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
@@ -69,11 +98,14 @@ export const YSUSDC6MMS = 'YSUSDC6MMS' // Yield Strategy USDC 6M Mar Sep
 export const YSUSDC6MJD = 'YSUSDC6MJD' // Yield Strategy USDC 6M Jun Dec
 export const YSETH6MMS = 'YSETH6MMS' // Yield Strategy ETH 6M Mar Sep
 export const YSETH6MJD = 'YSETH6MJD' // Yield Strategy ETH 6M Jun Dec
+export const YSFRAX6MMS = 'YSFRAX6MMS' // Yield Strategy FRAX 6M Mar Sep
+export const YSFRAX6MJD = 'YSFRAX6MJD' // Yield Strategy FRAX 6M Jun Dec
 
 export const ONE64 = BigNumber.from('18446744073709551616') // In 64.64 format
 export const secondsInOneYear = BigNumber.from(31557600)
 export const secondsInTenYears = secondsInOneYear.mul(10) // Seconds in 10 years
 export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
+export const secondsIn30Years = secondsInOneYear.mul(30) // Seconds in 30 years
 export const secondsIn40Years = secondsInOneYear.mul(40) // Seconds in 40 years
 export const ts = ONE64.div(secondsIn25Years)
 

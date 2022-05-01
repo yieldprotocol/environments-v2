@@ -20,6 +20,7 @@ export const additionalDevelopers: Array<string> = [
 ]
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
+  [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
   [DAI, '0xa5a33ab9063395a90ccbea2d86a62eccf27b5742'],
   [USDC, '0xba12222222228d8ba445958a75a0704d566bf2c8'],
 ])

@@ -1,0 +1,56 @@
+alberto@alberto-laptop:~/Code/Yield/environments-v2$ ./scripts/governance/addSeries/addFraxSeries/addFraxSeries.sh 
+++ dirname ./scripts/governance/addSeries/addFraxSeries/addFraxSeries.sh
++ HERE=./scripts/governance/addSeries/addFraxSeries
++ export CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addSeries/addFraxSeries/addFraxSeries.mainnet.config
++ CONF=/home/alberto/Code/Yield/environments-v2/./scripts/governance/addSeries/addFraxSeries/addFraxSeries.mainnet.config
++ RUN='npx hardhat run --network mainnet'
++ npx hardhat run --network mainnet ./scripts/governance/addSeries/addFraxSeries/../../redeploy/arbitrum/deployAccumulatorOracle.ts
+No need to generate any newer typings.
+AccumulatorMultiOracle deployed at 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC
+npx hardhat verify --network mainnet 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC  
+accumulatorOracle.grantRoles(ROOT, timelock)
++ npx hardhat run --network mainnet ./scripts/governance/addSeries/addFraxSeries/../../redeploy/deployJoins.ts
+No need to generate any newer typings.
+Join deployed at 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 for 0x853d955aCEf822Db058eb8505911ED77F175b99e
+npx hardhat verify --network mainnet 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 0x853d955aCEf822Db058eb8505911ED77F175b99e 
+join.grantRoles(ROOT, timelock)
++ npx hardhat run --network mainnet ./scripts/governance/addSeries/addFraxSeries/../../redeploy/deployFYTokens.ts
+No need to generate any newer typings.
+Using join at 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 for 0x303330360000
+Using oracle at 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC for 0x303330360000
+FYToken deployed at 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24
+npx hardhat verify --network mainnet 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24 0x313800000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 1656039600 FYFRAX2206 FYFRAX2206 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
+Using join at 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 for 0x303330370000
+Using oracle at 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC for 0x303330370000
+FYToken deployed at 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7
+npx hardhat verify --network mainnet 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7 0x313800000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 1664550000 FYFRAX2209 FYFRAX2209 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
++ npx hardhat run --network mainnet ./scripts/governance/addSeries/addFraxSeries/../../redeploy/deployPools.ts
+No need to generate any newer typings.
+Using base at 0x853d955aCEf822Db058eb8505911ED77F175b99e
+Using fyToken at 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24
+Pool deployed at 0x285F789AC6D1DCf13a9E6f9d4190DfcA108DDf59
+npx hardhat verify --network mainnet 0x285F789AC6D1DCf13a9E6f9d4190DfcA108DDf59 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24 14613551152 13835058055282163712 24595658764946068821 --libraries yieldMath.js
+Using base at 0x853d955aCEf822Db058eb8505911ED77F175b99e
+Using fyToken at 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7
+Pool deployed at 0x761ecd9898F82f9C950D89F1D848cfC1CC444052
+npx hardhat verify --network mainnet 0x761ecd9898F82f9C950D89F1D848cfC1CC444052 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7 14613551152 13835058055282163712 24595658764946068821 --libraries yieldMath.js
+No need to generate any newer typings.
+Using Frax at 0x853d955aCEf822Db058eb8505911ED77F175b99e as base
+Strategy deployed at '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'
+npx hardhat verify --network mainnet 0x1565F539E96c4d440c38979dbc86Fd711C995DD6 Yield Strategy FRAX 6M Mar Sep YSFRAX6MMS 0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x313800000000 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+Using Frax at 0x853d955aCEf822Db058eb8505911ED77F175b99e as base
+Strategy deployed at '0x47cC34188A2869dAA1cE821C8758AA8442715831'
+npx hardhat verify --network mainnet 0x47cC34188A2869dAA1cE821C8758AA8442715831 Yield Strategy FRAX 6M Jun Dec YSFRAX6MJD 0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x313800000000 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 --libraries safeERC20Namer.js
+strategy.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+Using base at 0x853d955aCEf822Db058eb8505911ED77F175b99e
+Using fyToken at 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24
+Pool deployed at 0xA4d45197E3261721B8A8d901489Df5d4D2E79eD7
+npx hardhat verify --network mainnet 0xA4d45197E3261721B8A8d901489Df5d4D2E79eD7 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x7F0dD461D77F84cDd3ceD46F9D550e35F1969a24 15798433678 14757395258967641292 23058430092136939520 --libraries yieldMath.js
+Using base at 0x853d955aCEf822Db058eb8505911ED77F175b99e
+Using fyToken at 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7
+Pool deployed at 0x4b32C37Be5949e77ba3726E863a030BD77942A97
+npx hardhat verify --network mainnet 0x4b32C37Be5949e77ba3726E863a030BD77942A97 0x853d955aCEf822Db058eb8505911ED77F175b99e 0x3353E1E2976DBbc191a739871faA8E6E9D2622c7 15798433678 14757395258967641292 23058430092136939520 --libraries yieldMath.js

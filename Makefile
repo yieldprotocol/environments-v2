@@ -1,11 +1,10 @@
 all: build
 
-# special job that warms up cargo/yarn caches
-# its sole purpose is efficient caching in CI
-caches: build/env build/liquidator.yarn build/liquidator.cargo
+node_modules/.installed: yarn.lock
+	yarn install --immutable && cp yarn.lock node_modules/.installed
 
-build/env:
-	yarn install --immutable && yarn build
+build/env: node_modules/.installed
+	yarn build
 
 clean/env:
 	yarn cache clean
@@ -19,9 +18,13 @@ build/liquidator: build/liquidator.router build/liquidator.cargo
 	npm run buildRouter && \
 	cargo build
 
-build/liquidator.yarn:
+modules/liquidator/node_modules/.installed: modules/liquidator/yarn.lock
 	cd modules/liquidator && \
-	yarn install --immutable && yarn build && yarn run hardhat export-abi
+		yarn install --immutable  && cp yarn.lock node_modules/.installed
+
+build/liquidator.yarn: modules/liquidator/node_modules/.installed
+	cd modules/liquidator && \
+	yarn build && yarn run hardhat export-abi
 
 build/liquidator.router: build/liquidator.yarn
 	cd modules/liquidator && \
