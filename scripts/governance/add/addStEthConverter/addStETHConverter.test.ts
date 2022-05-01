@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import * as fs from 'fs'
-import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId, impersonate } from '../../../shared/helpers'
+import { jsonToMap, getOwnerOrImpersonate, getOriginalChainId, impersonate } from '../../../../shared/helpers'
 
-import { Ladle, ERC20Mock, WstETHMock, LidoWrapHandler } from '../../../typechain'
+import { Ladle, ERC20Mock, WstETHMock, StEthConverter } from '../../../../typechain'
 
-import { WSTETH, STETH, WAD, MAX256 } from '../../../shared/constants'
+import { WSTETH, STETH, WAD, MAX256 } from '../../../../shared/constants'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
 
@@ -16,14 +16,14 @@ function almostEqual(x: BigNumber, y: BigNumber, p: BigNumber) {
 }
 
 /**
- * @dev This script tests the stEth, wstEth and LidoWrapHandler integration with the Ladle
+ * @dev This script tests the stEth, wstEth and StEthConverter integration with the Ladle
  */
 
-describe('LidoWrapHandler', function () {
+describe('StEthConverter', function () {
   let wstEth: ERC20Mock
   let stEth: ERC20Mock
   let ladle: Ladle
-  let lidoWrapHandler: LidoWrapHandler
+  let stEthConverter: StEthConverter
   let ownerAcc: SignerWithAddress
   let stEthWhaleAcc: SignerWithAddress
   let otherAcc: SignerWithAddress
@@ -49,11 +49,11 @@ describe('LidoWrapHandler', function () {
 
     ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
 
-    lidoWrapHandler = (await ethers.getContractAt(
-      'LidoWrapHandler',
-      protocol.get('lidoWrapHandler') as string,
+    stEthConverter = (await ethers.getContractAt(
+      'StEthConverter',
+      protocol.get('stEthConverter') as string,
       ownerAcc
-    )) as unknown as LidoWrapHandler
+    )) as unknown as StEthConverter
 
     if (chainId === 1) {
       // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
@@ -70,13 +70,13 @@ describe('LidoWrapHandler', function () {
 
   it('routes calls through the Ladle', async () => {
     // Make sure there is something in the wrapper
-    await stEth.connect(stEthWhaleAcc).transfer(lidoWrapHandler.address, WAD)
-    const toWrap = await stEth.balanceOf(lidoWrapHandler.address)
+    await stEth.connect(stEthWhaleAcc).transfer(stEthConverter.address, WAD)
+    const toWrap = await stEth.balanceOf(stEthConverter.address)
     const toObtain = await wstEth.getWstETHByStETH(toWrap)
 
     const balanceBefore = await wstEth.balanceOf(otherAcc.address)
-    const wrapCall = lidoWrapHandler.interface.encodeFunctionData('wrap', [otherAcc.address])
-    await ladle.connect(stEthWhaleAcc).route(lidoWrapHandler.address, wrapCall)
+    const wrapCall = stEthConverter.interface.encodeFunctionData('wrap', [otherAcc.address])
+    await ladle.connect(stEthWhaleAcc).route(stEthConverter.address, wrapCall)
     expect(await wstEth.balanceOf(otherAcc.address)).to.equal(balanceBefore.add(toObtain))
   })
 
