@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists, stringToBytes6 } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, stringToBytes6 } from '../../../../../../shared/helpers'
 import {
   ETH,
   DAI,
@@ -14,8 +14,8 @@ import {
   FYUSDC2206,
   UNI,
   YVUSDC,
-} from '../../../../shared/constants'
-import { CONVEX3CRV } from '../../../../shared/constants'
+} from '../../../../../../shared/constants'
+import { CONVEX3CRV } from '../../../../../../shared/constants'
 
 function bytes6ToBytes32(x: string): string {
   return x + '00'.repeat(26)

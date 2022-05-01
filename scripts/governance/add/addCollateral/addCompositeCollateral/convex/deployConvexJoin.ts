@@ -1,11 +1,16 @@
 import { ethers, waffle } from 'hardhat'
-import { getOwnerOrImpersonate, readAddressMappingIfExists, verify, writeAddressMap } from '../../../../shared/helpers'
-import { ROOT } from '../../../../shared/constants'
+import {
+  getOwnerOrImpersonate,
+  readAddressMappingIfExists,
+  verify,
+  writeAddressMap,
+} from '../../../../../../shared/helpers'
+import { ROOT } from '../../../../../../shared/constants'
 
-import ConvexJoinArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/other/convex/ConvexJoin.sol/ConvexJoin.json'
+import ConvexJoinArtifact from '../../../../../../artifacts/@yield-protocol/vault-v2/contracts/other/convex/ConvexJoin.sol/ConvexJoin.json'
 
-import { ERC20Mock, ConvexJoin } from '../../../../typechain'
-import { CVX3CRV } from '../../../../shared/constants'
+import { ERC20Mock, ConvexJoin } from '../../../../../../typechain'
+import { CVX3CRV } from '../../../../../../shared/constants'
 
 const { deployContract } = waffle
 const { developer, cvxBaseRewardPool, crv, cvx3CrvAddress, cvxAddress } = require(process.env.CONF as string)

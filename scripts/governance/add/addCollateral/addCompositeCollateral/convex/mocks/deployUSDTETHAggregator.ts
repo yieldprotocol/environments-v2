@@ -1,9 +1,14 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, verify, writeAddressMap } from '../../../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  verify,
+  writeAddressMap,
+} from '../../../../../../../shared/helpers'
 
-import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
+import ChainlinkAggregatorV3MockArtifact from '../../../../../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 
-import { ISourceMock } from '../../../../../typechain/ISourceMock'
+import { ISourceMock } from '../../../../../../../typechain/ISourceMock'
 
 const { deployContract } = waffle
 

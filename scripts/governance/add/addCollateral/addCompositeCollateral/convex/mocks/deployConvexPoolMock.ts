@@ -1,8 +1,13 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, verify, writeAddressMap } from '../../../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  verify,
+  writeAddressMap,
+} from '../../../../../../../shared/helpers'
 
-import ConvexPoolMockArtifact from '../../../../../artifacts/contracts/mocks/ConvexPoolMock.sol/ConvexPoolMock.json'
-import { ConvexPoolMock } from '../../../../../typechain/ConvexPoolMock'
+import ConvexPoolMockArtifact from '../../../../../../../artifacts/contracts/mocks/ConvexPoolMock.sol/ConvexPoolMock.json'
+import { ConvexPoolMock } from '../../../../../../../typechain/ConvexPoolMock'
 
 const { deployContract } = waffle
 

@@ -4,16 +4,16 @@ import {
   proposeApproveExecute,
   getOwnerOrImpersonate,
   getOriginalChainId,
-} from '../../../../shared/helpers'
+} from '../../../../../../shared/helpers'
 
-import { orchestrateCvx3CrvOracleProposal } from '../../../fragments/oracles/orchestrateCvx3CrvOracleProposal'
-import { updateCvx3CrvOracleSourcesProposal } from '../../../fragments/oracles/updateCvx3CrvOracleSourcesProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
+import { orchestrateCvx3CrvOracleProposal } from '../../../../../fragments/oracles/orchestrateCvx3CrvOracleProposal'
+import { updateCvx3CrvOracleSourcesProposal } from '../../../../../fragments/oracles/updateCvx3CrvOracleSourcesProposal'
+import { updateCompositeSourcesProposal } from '../../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updateCompositePathsProposal } from '../../../../../fragments/oracles/updateCompositePathsProposal'
 
-import { CompositeMultiOracle, Timelock, EmergencyBrake } from '../../../../typechain'
-import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
-import { COMPOSITE, CONVEX3CRV, WAD } from '../../../../shared/constants'
+import { CompositeMultiOracle, Timelock, EmergencyBrake } from '../../../../../../typechain'
+import { Cvx3CrvOracle } from '../../../../../../typechain/Cvx3CrvOracle'
+import { COMPOSITE, CONVEX3CRV, WAD } from '../../../../../../shared/constants'
 
 const { cvx3CrvSources, compositeSources, compositePaths, developer } = require(process.env.CONF as string)
 /**

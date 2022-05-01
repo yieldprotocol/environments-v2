@@ -4,16 +4,16 @@ import {
   proposeApproveExecute,
   getOwnerOrImpersonate,
   getOriginalChainId,
-} from '../../../../shared/helpers'
-import { addModuleProposal } from '../../../fragments/ladle/addModuleProposal'
-import { Cauldron, EmergencyBrake, Join, Ladle, Timelock } from '../../../../typechain'
+} from '../../../../../../shared/helpers'
+import { addModuleProposal } from '../../../../../fragments/ladle/addModuleProposal'
+import { Cauldron, EmergencyBrake, Join, Ladle, Timelock } from '../../../../../../typechain'
 
 /**
  * @dev This script:
  * Adds convexLadleModule as amodule to Ladle, to allow `route`
  */
 
-import { CVX3CRV } from '../../../../shared/constants'
+import { CVX3CRV } from '../../../../../../shared/constants'
 import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
 const { developer } = require(process.env.CONF as string)
 ;(async () => {

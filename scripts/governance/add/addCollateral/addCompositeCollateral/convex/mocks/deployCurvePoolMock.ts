@@ -1,8 +1,13 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, verify, writeAddressMap } from '../../../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  verify,
+  writeAddressMap,
+} from '../../../../../../../shared/helpers'
 
-import CurvePoolMockArtifact from '../../../../../artifacts/contracts/mocks/CurvePoolMock.sol/CurvePoolMock.json'
-import { CurvePoolMock } from '../../../../../typechain/CurvePoolMock'
+import CurvePoolMockArtifact from '../../../../../../../artifacts/contracts/mocks/CurvePoolMock.sol/CurvePoolMock.json'
+import { CurvePoolMock } from '../../../../../../../typechain/CurvePoolMock'
 
 const { deployContract } = waffle
 
@@ -17,7 +22,6 @@ const { deployContract } = waffle
   const protocol = readAddressMappingIfExists('protocol.json')
   let curvePoolMock: CurvePoolMock
   if (protocol.get('curvePoolMock') === undefined) {
-    
     curvePoolMock = (await deployContract(ownerAcc, CurvePoolMockArtifact)) as CurvePoolMock
     console.log(`CurvePoolMock deployed at '${curvePoolMock.address}`)
     verify(curvePoolMock.address, [])

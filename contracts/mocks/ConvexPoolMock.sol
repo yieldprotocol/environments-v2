@@ -2,7 +2,7 @@
 pragma solidity 0.8.6;
 
 import '@yield-protocol/utils-v2/contracts/token/ERC20.sol';
-import '@yield-protocol/vault-interfaces/DataTypes.sol';
+import '@yield-protocol/vault-interfaces/src/DataTypes.sol';
 import '@yield-protocol/utils-v2/contracts/token/TransferHelper.sol';
 
 contract ConvexPoolMock {
@@ -28,8 +28,8 @@ contract ConvexPoolMock {
     /// @param _claimExtras Whether to claim the extra rewards
     /// @return true if reward was sent
     function getReward(address _account, bool _claimExtras) public returns (bool) {
-        rewardToken.transfer(_account, 1e18); //Fixed reward transfer
-        cvx.transfer(_account, 1e18);
+        rewardToken.transfer(_account, _balances[msg.sender]); //Fixed reward transfer
+        cvx.transfer(_account, _balances[msg.sender]);
         return true;
     }
 

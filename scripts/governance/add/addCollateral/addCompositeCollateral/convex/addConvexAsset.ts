@@ -1,10 +1,14 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import {
+  readAddressMappingIfExists,
+  proposeApproveExecute,
+  getOwnerOrImpersonate,
+} from '../../../../../../shared/helpers'
 
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
 import {
   IOracle,
@@ -15,10 +19,10 @@ import {
   Witch,
   Timelock,
   EmergencyBrake,
-} from '../../../../typechain'
-import { CVX3CRV } from '../../../../shared/constants'
-import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
-import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
+} from '../../../../../../typechain'
+import { CVX3CRV } from '../../../../../../shared/constants'
+import { addTokenProposal } from '../../../../../fragments/ladle/addTokenProposal'
+import { addIntegrationProposal } from '../../../../../fragments/ladle/addIntegrationProposal'
 
 const { developer, deployer, assets } = require(process.env.CONF as string)
 const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(process.env.CONF as string)
@@ -87,6 +91,6 @@ const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(proc
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await addTokenProposal(ladle, assets.get(CVX3CRV) as string))
-  proposal = proposal.concat(await addIntegrationProposal(ladle,joins.get(CVX3CRV) as string))
+  proposal = proposal.concat(await addIntegrationProposal(ladle, joins.get(CVX3CRV) as string))
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

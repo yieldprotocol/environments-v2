@@ -1,8 +1,13 @@
 import { ethers, waffle } from 'hardhat'
-import { getOriginalChainId, readAddressMappingIfExists, verify, writeAddressMap } from '../../../../../shared/helpers'
+import {
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  verify,
+  writeAddressMap,
+} from '../../../../../../../shared/helpers'
 
-import CVXMockArtifact from '../../../../../artifacts/contracts/mocks/CVXMock.sol/CVXMock.json'
-import { CVXMock } from '../../../../../typechain/CVXMock'
+import CVXMockArtifact from '../../../../../../../artifacts/contracts/mocks/CVXMock.sol/CVXMock.json'
+import { CVXMock } from '../../../../../../../typechain/CVXMock'
 
 const { deployContract } = waffle
 

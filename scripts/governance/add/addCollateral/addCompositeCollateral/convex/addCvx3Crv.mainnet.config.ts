@@ -1,7 +1,21 @@
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists, stringToBytes6 } from '../../../../shared/helpers'
-import {FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, CVX3CRV } from '../../../../shared/constants'
-import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../shared/constants'
+import { readAddressMappingIfExists, stringToBytes6 } from '../../../../../../shared/helpers'
+import {
+  FYDAI2203,
+  FYDAI2206,
+  FYUSDC2203,
+  FYUSDC2206,
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  CVX3CRV,
+} from '../../../../../../shared/constants'
+import { CHAINLINK, COMPOSITE, CONVEX3CRV } from '../../../../../../shared/constants'
 
 function bytes6ToBytes32(x: string): string {
   return x + '00'.repeat(26)
@@ -59,9 +73,9 @@ export const assetsToAdd: Array<[string, string]> = [[CVX3CRV, assets.get(CVX3CR
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const compositeDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, CVX3CRV, 1000000, 50, 5, 18],
-  [USDC, CVX3CRV, 1000000, 50, 5, 6],
-  [ETH, CVX3CRV, 1000000, 250, 10, 18],
+  [DAI, CVX3CRV, 1000000, 10000, 500, 18],
+  [USDC, CVX3CRV, 1000000, 10000, 500, 6],
+  [ETH, CVX3CRV, 1000000, 20000, 500, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec

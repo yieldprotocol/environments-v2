@@ -3,10 +3,10 @@
 pragma solidity 0.8.6;
 
 import '@yield-protocol/utils-v2/contracts/token/ERC20.sol';
-import '@yield-protocol/vault-interfaces/DataTypes.sol';
+import '@yield-protocol/vault-interfaces/src/DataTypes.sol';
 import '@yield-protocol/utils-v2/contracts/token/TransferHelper.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-
+import '@yield-protocol/vault-v2/contracts/other/convex/interfaces/IRewardStaking.sol';
 struct Balances {
     uint128 art; // Debt amount
     uint128 ink; // Collateral amount
@@ -26,29 +26,7 @@ interface ICauldron {
     function vaults(bytes12 vault) external view returns (Vault memory);
 }
 
-interface IRewardStaking {
-    function stakeFor(address, uint256) external;
 
-    function stake(uint256) external;
-
-    function withdraw(uint256 amount, bool claim) external;
-
-    function withdrawAndUnwrap(uint256 amount, bool claim) external;
-
-    function earned(address account) external view returns (uint256);
-
-    function getReward() external;
-
-    function getReward(address _account, bool _claimExtras) external;
-
-    function extraRewardsLength() external view returns (uint256);
-
-    function extraRewards(uint256 _pid) external view returns (address);
-
-    function rewardToken() external view returns (address);
-
-    function balanceOf(address _account) external view returns (uint256);
-}
 
 contract ConvexYieldWrapperMock is ERC20, AccessControl {
     using TransferHelper for IERC20;

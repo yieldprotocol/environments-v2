@@ -6,12 +6,12 @@ import {
   verify,
   getOwnerOrImpersonate,
   bytesToBytes32,
-} from '../../../../shared/helpers'
-import { WSTETH, STETH, CONVEX3CRV } from '../../../../shared/constants'
-import { ROOT } from '../../../../shared/constants'
-import Cvx3CrvOracleArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol/Cvx3CrvOracle.json'
-import { Cvx3CrvOracle } from '../../../../typechain/Cvx3CrvOracle'
-import { Timelock } from '../../../../typechain/Timelock'
+} from '../../../../../../shared/helpers'
+import { WSTETH, STETH, CONVEX3CRV } from '../../../../../../shared/constants'
+import { ROOT } from '../../../../../../shared/constants'
+import Cvx3CrvOracleArtifact from '../../../../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol/Cvx3CrvOracle.json'
+import { Cvx3CrvOracle } from '../../../../../../typechain/Cvx3CrvOracle'
+import { Timelock } from '../../../../../../typechain/Timelock'
 
 const { developer } = require(process.env.CONF as string)
 const { deployContract } = waffle
