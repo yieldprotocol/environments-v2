@@ -33,9 +33,6 @@ export const initStrategiesProposal = async (
       ownerAcc
     )) as ERC20Mock
 
-    // The test below doesn't work if the pool is added to the ladle in the same proposal.
-    const startPoolAddress1 = await ladle.pools(startPoolId)
-
     if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
       throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`
 
@@ -47,19 +44,19 @@ export const initStrategiesProposal = async (
     console.log(`Setting ${startPoolAddress} as the next pool for ${strategyId}`)
     proposal.push({
       target: base.address,
-      data: base.interface.encodeFunctionData('transfer', [strategy.address, startPoolId]),
+      data: base.interface.encodeFunctionData('transfer', [strategy.address, initAmount]),
     })
-    console.log(`Transferring ${startPoolId} of ${base.address} to ${strategy.address}`)
+    console.log(`Transferring ${initAmount} of ${base.address} to ${strategy.address}`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('startPool', [0, MAX256]),
     })
     console.log(`Starting ${strategyId} at ${strategy.address}`)
     // The fragment below only works with pools that have been initialized with underlying only
-    proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('transfer', [ZERO_ADDRESS, startPoolId]), // Burn the strategy tokens minted
-    })
+    // proposal.push({
+    //   target: strategy.address,
+    //   data: strategy.interface.encodeFunctionData('transfer', [ZERO_ADDRESS, initAmount]), // Burn the strategy tokens minted
+    // })
     console.log(`Burning strategy tokens`)
     proposal.push({
       target: ladle.address,

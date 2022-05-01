@@ -23,7 +23,8 @@ export const addSeriesProposal = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
-  newPools: Map<string, string> // seriesId, poolAddress
+  newPools: Map<string, string>, // seriesId, poolAddress
+  newJoins: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -38,10 +39,10 @@ export const addSeriesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    const joinAddress = (await ladle.joins(baseId)) as string
-    if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
-    else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', (await ladle.joins(baseId)) as string, ownerAcc)) as Join
+    // const joinAddress = (await ladle.joins(baseId)) as string
+    // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
+    // else console.log(`Using join at ${joinAddress} for ${baseId}`)
+    const join = (await ethers.getContractAt('Join', newJoins.get(baseId) as string, ownerAcc)) as Join
 
     // This test fails if adding the base in the same proposal. All tests should move on-chain.
     // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string

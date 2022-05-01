@@ -1,6 +1,6 @@
 import { ethers, waffle } from 'hardhat'
 import { verify } from '../../../shared/helpers'
-import WETH9MockArtifact from '../../../artifacts/contracts/mocks/WETH9Mock.sol/WETH9Mock.json'
+import WETH9MockArtifact from '../../../artifacts/contracts/::mocks/WETH9Mock.sol/WETH9Mock.json'
 
 import { WETH9Mock } from '../../../typechain/WETH9Mock'
 const { deployContract } = waffle

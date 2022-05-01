@@ -209,7 +209,12 @@ impl<M: Middleware> Borrowers<M> {
             // for each chunk, make a multicall2 call
             .map(|ids_chunk: Vec<VaultIdType>| async {
                 let calls = self.get_vault_info_chunk_generate_multicall_args(&ids_chunk);
-                let chunk_response = self.multicall2.try_aggregate(false, calls).call().await;
+                let mut attempts_left = 5;
+                let mut chunk_response = self.multicall2.try_aggregate(false, calls.clone()).call().await;
+                while chunk_response.is_err() && attempts_left > 0 {
+                    chunk_response = self.multicall2.try_aggregate(false, calls.clone()).call().await;
+                    attempts_left -= 1;
+                }
 
                 match self.get_vault_info_chunk_parse_response(ids_chunk, chunk_response) {
                     Ok(response) => response,
