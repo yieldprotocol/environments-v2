@@ -19,13 +19,27 @@ import {
   Witch,
   Timelock,
   EmergencyBrake,
+  Cvx3CrvOracle,
 } from '../../../../../../typechain'
-import { CVX3CRV } from '../../../../../../shared/constants'
+import { CONVEX3CRV, CVX3CRV } from '../../../../../../shared/constants'
 import { addTokenProposal } from '../../../../../fragments/ladle/addTokenProposal'
 import { addIntegrationProposal } from '../../../../../fragments/ladle/addIntegrationProposal'
+import { addModuleProposal } from '../../../../../fragments/ladle/addModuleProposal'
+import { orchestrateCvx3CrvOracleProposal } from '../../../../../fragments/oracles/orchestrateCvx3CrvOracleProposal'
+import { updateCompositePathsProposal } from '../../../../../fragments/oracles/updateCompositePathsProposal'
+import { updateCompositeSourcesProposal } from '../../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updateCvx3CrvOracleSourcesProposal } from '../../../../../fragments/oracles/updateCvx3CrvOracleSourcesProposal'
+import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
 
 const { developer, deployer, assets } = require(process.env.CONF as string)
-const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(process.env.CONF as string)
+const {
+  compositeDebtLimits,
+  compositeAuctionLimits,
+  seriesIlks,
+  cvx3CrvSources,
+  compositeSources,
+  compositePaths,
+} = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates joins, adds assets to the Cauldron, and makes them into ilks
@@ -64,7 +78,11 @@ const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(proc
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-
+  const cvx3CrvOracle = (await ethers.getContractAt(
+    'Cvx3CrvOracle',
+    protocol.get(CONVEX3CRV) as string,
+    ownerAcc
+  )) as unknown as Cvx3CrvOracle
   let assetsAndJoins: [string, string, string][] = []
   // console.log(` AssetId      | Asset Address                            | Join Address`)
   let tableData = []
@@ -74,7 +92,19 @@ const { compositeDebtLimits, compositeAuctionLimits, seriesIlks } = require(proc
     tableData.push({ AssetId: assetId, 'Asset Address': assets.get(assetId) as string, 'Join Address': joinAddress })
   }
   console.table(tableData)
+
+  const convexLadleModuleAddress: string = protocol.get('convexLadleModule') as string
+
   let proposal: Array<{ target: string; data: string }> = []
+
+  proposal = proposal.concat(await orchestrateCvx3CrvOracleProposal(ownerAcc.address, cvx3CrvOracle, timelock, cloak))
+  proposal = proposal.concat(await updateCvx3CrvOracleSourcesProposal(cvx3CrvOracle, cvx3CrvSources))
+  proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
+  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
+
+  proposal = proposal.concat(await addModuleProposal(ladle, convexLadleModuleAddress))
+  proposal = proposal.concat(await removeLadlePermissionsProposal(cauldron, ladle))
+
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   proposal = proposal.concat(
