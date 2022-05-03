@@ -1,12 +1,10 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC } from '../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP } from '../../shared/constants'
-import { FYDAI2112, FYDAI2203, FYUSDC2112, FYUSDC2203, EODEC21, EOMAR22 } from '../../shared/constants'
-import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX } from '../../shared/constants'
+import { CHAINLINK, COMPOSITE, LIDO } from '../../shared/constants'
 
 export const chainId = 42
-export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
-export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
+export const developer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
+export const deployer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
@@ -18,51 +16,53 @@ export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
 export const whales: Map<string, string> = new Map([
-  [ETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [DAI, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [USDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [WBTC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [WSTETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [STETH, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [LINK, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [ENS, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [YVUSDC, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-  [UNI, '0x41653c7d61609d856f29355e404f310ec4142cfb'],
+  [ETH, developer],
+  [DAI, developer],
+  [USDC, developer],
+  [WBTC, developer],
+  [WSTETH, developer],
+  [STETH, developer],
+  [LINK, developer],
+  [ENS, developer],
+  [UNI, developer],
+  [YVUSDC, developer],
+  [FRAX, developer],
 ])
 
 export const assets: Map<string, string> = new Map([
-  [ETH, '0x55C0458edF1D8E07DF9FB44B8960AecC515B4492'],
-  [DAI, '0xaFCdc724EB8781Ee721863db1B15939675996484'],
-  [USDC, '0xeaCB3AAB4CA68F1e6f38D56bC5FCc499B76B4e2D'],
-  [WBTC, '0xD5FafCE68897bdb55fA11Dd77858Df7a9a458D92'],
-  [WSTETH, '0x273325FeB84B5FBCD6ebdd5862FE2FCB0a02FE7C'],
-  [STETH, '0x7188e9DBdDf607474a44c653C693Aab99dB92a16'],
-  [LINK, '0xB62FCB2ef1d1819aED135F567859b080ddFe1008'],
-  [ENS, '0xA24b97c7617cc40dCc122F6dF813584A604a6C28'],
-  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  [YVUSDC, '0x3CFDf9646dBC385E47DC07869626Ea36BE7bA3a2'],
+  [ETH, protocol.get('wethMock') as string],
+  [DAI, protocol.get('daiMock') as string],
+  [USDC, protocol.get('usdcMock') as string],
+  [WBTC, protocol.get('wbtcMock') as string],
+  [WSTETH, protocol.get('wstethMock') as string],
+  [STETH, protocol.get('stETHMock') as string],
+  [LINK, protocol.get('linkMock') as string],
+  [ENS, protocol.get('ensMock') as string],
+  [UNI, protocol.get('uniMock') as string],
+  [YVUSDC, protocol.get('yvUSDCMock') as string],
+  [FRAX, protocol.get('fraxMock') as string],
 ])
 
 export const chiSources: Array<[string, string]> = [
-  [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
-  [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72'],
+  [DAI, '0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb'],
+  [USDC, '0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0'],
+  [ETH, '0x20572e4c090f15667cf7378e16fad2ea0e2f3eff'],
 ]
 
 export const rateSources: Array<[string, string]> = [
-  [DAI, '0xf0d0eb522cfa50b716b3b1604c4f0fa6f04376ad'],
-  [USDC, '0x4a92e71227d294f041bd82dd8f78591b75140d63'],
-  [ETH, '0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72'],
+  [DAI, '0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb'],
+  [USDC, '0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0'],
+  [ETH, '0x20572e4c090f15667cf7378e16fad2ea0e2f3eff'],
 ]
 
 export const chainlinkSources: Array<[string, string, string, string, string]> = [
-  [DAI, assets.get(DAI) as string, ETH, assets.get(ETH) as string, '0x22B58f1EbEDfCA50feF632bD73368b2FdA96D541'],
-  [USDC, assets.get(USDC) as string, ETH, assets.get(ETH) as string, '0x64EaC61A2DFda2c3Fa04eED49AA33D021AeC8838'],
-  [WBTC, assets.get(WBTC) as string, ETH, assets.get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-  [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, '0xF7904a295A029a3aBDFFB6F12755974a958C7C25'],
-  [LINK, assets.get(LINK) as string, ETH, assets.get(ETH) as string, '0x3Af8C569ab77af5230596Acf0E8c2F9351d24C38'],
-  [ENS, assets.get(ENS) as string, ETH, assets.get(ETH) as string, '0x19d7cCdB7B4caE085d3Fda330A01D139d7243Be4'],
-  [UNI, assets.get(UNI) as string, ETH, assets.get(ETH) as string, '0xC0E69E49D98D26D52f7505Af1dF8b3009168f945'],
+  [DAI, assets.get(DAI) as string, ETH, assets.get(ETH) as string, protocol.get(DAI + 'Mock') as string],
+  [USDC, assets.get(USDC) as string, ETH, assets.get(ETH) as string, protocol.get(USDC + 'Mock') as string],
+  [WBTC, assets.get(WBTC) as string, ETH, assets.get(ETH) as string, protocol.get(WBTC + 'Mock') as string],
+  [STETH, assets.get(STETH) as string, ETH, assets.get(ETH) as string, protocol.get(STETH + 'Mock') as string],
+  [LINK, assets.get(LINK) as string, ETH, assets.get(ETH) as string, protocol.get(LINK + 'Mock') as string],
+  [ENS, assets.get(ENS) as string, ETH, assets.get(ETH) as string, protocol.get(ENS + 'Mock') as string],
+  [UNI, assets.get(UNI) as string, ETH, assets.get(ETH) as string, protocol.get(UNI + 'Mock') as string],
 ]
 
 // token0, token1, address, twapInterval
@@ -70,14 +70,14 @@ export const uniswapSources: Array<[string, string, string, number]> = [] // We 
 
 // The lidoSource is the wstETH contract
 export const lidoSource: string = assets.get(WSTETH) as string
-export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
+
 export const compositeSources: Array<[string, string, string]> = [
   [DAI, ETH, protocol.get(CHAINLINK) as string],
   [USDC, ETH, protocol.get(CHAINLINK) as string],
   [WBTC, ETH, protocol.get(CHAINLINK) as string],
   [STETH, ETH, protocol.get(CHAINLINK) as string],
   [WSTETH, STETH, protocol.get(LIDO) as string],
-  [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on kovan
+  [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on goerli
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [

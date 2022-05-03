@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network rinkeby"
+RUN="npx hardhat run --network localhost"
 HERE=$(dirname $0)
 
 # $RUN scripts/fragments/oracles/deployYearnOracle.ts

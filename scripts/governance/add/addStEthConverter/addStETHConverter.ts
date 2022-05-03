@@ -4,13 +4,12 @@ import {
   proposeApproveExecute,
   getOwnerOrImpersonate,
   getOriginalChainId,
-} from '../../../shared/helpers'
+} from '../../../../shared/helpers'
 
-import { addTokenProposal } from '../../fragments/ladle/addTokenProposal'
-import { addIntegrationProposal } from '../../fragments/ladle/addIntegrationProposal'
-import { Cauldron, Ladle, Timelock } from '../../../typechain'
-import { STETH, WSTETH } from '../../../shared/constants'
-import { developer } from './addStETHConverter.config'
+import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
+import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
+import { Cauldron, Ladle, Timelock } from '../../../../typechain'
+import { STETH, WSTETH } from '../../../../shared/constants'
 
 const { developer, governance, protocol } = require(process.env.CONF as string)
 
