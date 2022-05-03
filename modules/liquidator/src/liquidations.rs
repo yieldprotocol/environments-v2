@@ -226,6 +226,7 @@ impl<M: Middleware> Liquidator<M> {
                         .await {
                             Ok(tx) => {
                                 replacement_tx.1 = *tx;
+                                replacement_tx.2 = now;
                             },
                             Err(x) => {
                                 error!(tx=?replacement_tx, err=?x, "Failed to replace transaction: dropping it");
@@ -301,10 +302,16 @@ impl<M: Middleware> Liquidator<M> {
         let block_number: U64 = self.client.get_block_number()
             .await
             .map_err(ContractError::MiddlewareError)?;
-        let block = self.client.get_block(block_number)
+        let mut maybe_block = None;
+        let mut attempts = 10;
+        while maybe_block.is_none() && attempts > 0 {
+            maybe_block = self.client.get_block(block_number)
             .await
             .map_err(ContractError::MiddlewareError)?;
-        let block_timestamp = block.unwrap().timestamp;
+            attempts -= 1;
+        }
+
+        let block_timestamp = maybe_block.unwrap().timestamp;
 
         for vault_id in all_auctions {
             self.auctions.insert(vault_id, true);
@@ -315,10 +322,10 @@ impl<M: Middleware> Liquidator<M> {
                     if !is_still_valid {
                         info!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(), "Removing no longer valid auction");
                         self.auctions.remove(&vault_id);
-                    }        
+                    }
                 }
                 Err(x) => {
-                    error!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(), 
+                    error!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(),
                         error=?x, "Failed to buy");
                 }
             }
