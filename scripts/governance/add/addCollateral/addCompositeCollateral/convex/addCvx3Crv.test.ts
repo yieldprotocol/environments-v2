@@ -6,16 +6,8 @@ import {
   getOriginalChainId,
   readAddressMappingIfExists,
 } from '../../../../../../shared/helpers'
-import {
-  ERC20Mock,
-  Cauldron,
-  Ladle,
-  FYToken,
-  CompositeMultiOracle,
-  ConvexJoin,
-  IRewardStaking,
-} from '../../../../../../typechain'
-import { CVX3CRV, WAD, FYDAI2206, FYUSDC2206 } from '../../../../../../shared/constants'
+import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, ConvexJoin } from '../../../../../../typechain'
+import { CVX3CRV, WAD, FYDAI2206, FYUSDC2206, FYDAI2209, FYUSDC2209 } from '../../../../../../shared/constants'
 const { cvx3CrvAddress, crv, cvxAddress, cvxBaseRewardPool } = require(process.env.CONF as string)
 /**
  * @dev This script tests cvx3Crv as a collateral
@@ -27,7 +19,7 @@ import { ConvexModule } from '../../../../../../typechain/ConvexModule'
   const chainId = await getOriginalChainId()
   if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
 
-  const seriesIds: Array<string> = [FYDAI2206, FYUSDC2206]
+  const seriesIds: Array<string> = [FYDAI2206, FYDAI2209, FYUSDC2206, FYUSDC2209]
   const protocol = readAddressMappingIfExists('protocol.json')
 
   // Impersonate cvx3Crv whale 0xd7a029db2585553978190db5e85ec724aa4df23f
@@ -123,13 +115,13 @@ import { ConvexModule } from '../../../../../../typechain/ConvexModule'
     // Build vault
     await ladle.batch([
       ladle.buildAction(seriesId, CVX3CRV),
-      ladle.moduleCall(convexLadleModule.address, addVaultCall),
+      ladle.moduleCallAction(convexLadleModule.address, addVaultCall),
     ])
     await ladle
       .connect(user2)
       .batch([
         ladle.connect(user2).buildAction(seriesId, CVX3CRV),
-        ladle.connect(user2).moduleCall(convexLadleModule.address, addVaultCall),
+        ladle.connect(user2).moduleCallAction(convexLadleModule.address, addVaultCall),
       ])
 
     const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
@@ -149,7 +141,7 @@ import { ConvexModule } from '../../../../../../typechain/ConvexModule'
     await ladle
       .connect(cvx3CrvWhaleAcc)
       .batch([
-        ladle.connect(cvx3CrvWhaleAcc).transfer(cvx3Crv.address, join.address, posted),
+        ladle.connect(cvx3CrvWhaleAcc).transferAction(cvx3Crv.address, join.address, posted),
         ladle.connect(cvx3CrvWhaleAcc).pourAction(vaultId, cvx3CrvWhaleAcc.address, posted, borrowed),
       ])
 
@@ -157,7 +149,7 @@ import { ConvexModule } from '../../../../../../typechain/ConvexModule'
     await ladle
       .connect(user2)
       .batch([
-        ladle.connect(user2).transfer(cvx3Crv.address, join.address, posted),
+        ladle.connect(user2).transferAction(cvx3Crv.address, join.address, posted),
         ladle.connect(user2).pourAction(vaultId2, user2.address, posted, borrowed),
       ])
 

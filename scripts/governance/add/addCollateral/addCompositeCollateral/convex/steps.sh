@@ -12,4 +12,3 @@ $RUN $HERE/deployConvexJoin.ts
 $RUN $HERE/addConvexAsset.ts
 $RUN $HERE/addConvexAsset.ts
 $RUN $HERE/addConvexAsset.ts
-$RUN $HERE/addCvx3Crv.test.ts
