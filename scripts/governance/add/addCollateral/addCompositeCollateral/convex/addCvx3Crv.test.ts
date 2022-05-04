@@ -17,7 +17,8 @@ import { LadleWrapper } from '../../../../../../shared/ladleWrapper'
 import { ConvexModule } from '../../../../../../typechain/ConvexModule'
 ;(async () => {
   const chainId = await getOriginalChainId()
-  if (!(chainId === 1 || chainId === 4 || chainId === 42)) throw 'Only Kovan, Rinkeby and Mainnet supported'
+  if (!(chainId === 1 || chainId === 4 || chainId === 42 || chainId === 5))
+    throw 'Only Kovan, Rinkeby and Mainnet supported'
 
   const seriesIds: Array<string> = [FYDAI2206, FYDAI2209, FYUSDC2206, FYUSDC2209]
   const protocol = readAddressMappingIfExists('protocol.json')
@@ -75,7 +76,7 @@ import { ConvexModule } from '../../../../../../typechain/ConvexModule'
   )) as unknown as ERC20Mock
 
   // If Kovan then provide necessary tokens to the whale & pool
-  if (chainId === 4) {
+  if (chainId === 4 || chainId === 5) {
     await cvx3Crv.mint(cvx3CrvWhale, ethers.utils.parseEther('1000000000000000000'))
     await cvx3Crv.mint(jumbo.address, ethers.utils.parseEther('1000000000000000000'))
     await crvToken.mint(protocol.get('convexPoolMock') as string, ethers.utils.parseEther('1000000000000000000'))

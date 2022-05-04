@@ -1,4 +1,4 @@
-import { ETH, CVX3CRV } from '../../../../../../shared/constants'
+import { ETH, CVX3CRV, DAI, USDC } from '../../../../../../shared/constants'
 import { CONVEX3CRV } from '../../../../../../shared/constants'
 import * as base_config from '../../../../base.goerli.config'
 import * as convex_base_config from './addCvx3Crv.config'
@@ -33,8 +33,8 @@ export const cvx3CrvSources: [string, string, string, string, string, string] = 
   bytes6ToBytes32(CVX3CRV),
   bytes6ToBytes32(ETH),
   protocol.get('curvePoolMock') as string,
-  '0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D',//TODO: Deploy chainlink
-  '0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf',//TODO: Deploy chainlink oracle
+  protocol.get(DAI + 'Mock') as string,//TODO: Deploy chainlink
+  protocol.get(USDC + 'Mock') as string,//TODO: Deploy chainlink oracle
   protocol.get('usdtEthAggregator') as string,
 ]
 
