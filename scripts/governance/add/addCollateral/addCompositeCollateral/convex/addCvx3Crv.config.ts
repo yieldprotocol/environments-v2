@@ -26,8 +26,8 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const compositeDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, CVX3CRV, 1000000, 10000, 500, 18],
-  [USDC, CVX3CRV, 1000000, 10000, 500, 6],
+  [DAI, CVX3CRV, 1111111, 1000000, 5000, 18],
+  [USDC, CVX3CRV, 1111111, 1000000, 5000, 6],
 ]
 
 /// @notice Ilks to accept for series
@@ -49,5 +49,5 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const compositeAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [CVX3CRV, 3600, 714000, 500000, 10000, 12],
+  [CVX3CRV, 3600, 900000, 10000000, 5000, 18],
 ]
