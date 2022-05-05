@@ -34,7 +34,7 @@ export const assets: Map<string, string> = new Map([
   [DAI, protocol.get('daiMock') as string],
   [USDC, protocol.get('usdcMock') as string],
   [WBTC, protocol.get('wbtcMock') as string],
-  [WSTETH, protocol.get('wstethMock') as string],
+  [WSTETH, protocol.get('wstETHMock') as string],
   [STETH, protocol.get('stETHMock') as string],
   [LINK, protocol.get('linkMock') as string],
   [ENS, protocol.get('ensMock') as string],
