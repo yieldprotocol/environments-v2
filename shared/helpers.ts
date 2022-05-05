@@ -143,6 +143,81 @@ export const proposeApproveExecute = async (
   }
 }
 
+/**
+ * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
+ * depending on the proposal state in the timelock.
+ * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
+ */
+ export const proposeApproveExecuteTenderly = async (
+  timelock: Timelock,
+  proposal: Array<{ target: string; data: string }>,
+  multisig?: string
+) => {
+  // Propose, approve, execute
+  const txHash = await timelock.hash(proposal)
+  const on_fork = hre.network.config.chainId === 31337
+  console.log(`Proposal: ${txHash}`)
+  // Depending on the proposal state:
+  // - propose
+  // - approve (if in a fork, impersonating the multisig)
+  // - or execute (if in a fork, applying a time delay)
+  let dev = await ethers.getSigner('0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB')
+  if ((await timelock.proposals(txHash)).state === 0) {
+    console.log('Proposing')
+    // Propose
+    await timelock.connect(dev).propose(proposal)
+    while ((await timelock.proposals(txHash)).state < 1) {}
+    console.log(`Proposed ${txHash}`)
+  } else if ((await timelock.proposals(txHash)).state === 1) {
+    console.log('Approving')
+    // Approve, impersonating multisig if in a fork
+    if (on_fork) {
+      // If running on a mainnet fork, impersonating the multisig will work
+      if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
+      console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+
+      await hre.network.provider.request({
+        method: 'hardhat_impersonateAccount',
+        params: [multisig],
+      })
+      // Make sure the multisig has Ether
+      await hre.network.provider.request({
+        method: 'hardhat_setBalance',
+        params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
+      })
+      const multisigAcc = await ethers.getSigner(multisig as unknown as string)
+      await timelock.connect(multisigAcc).approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) {}
+      console.log(`Approved ${txHash}`)
+    } else {
+      // On kovan we have approval permissions
+      dev = await ethers.getSigner('0xd659565b84bcfcb23b02ee13e46cb51429f4558a')
+      await timelock.connect(dev).approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) {}
+      console.log(`Approved ${txHash}`)
+    }
+  } else if ((await timelock.proposals(txHash)).state === 2) {
+    console.log('Executing')
+    if (on_fork) {
+      // Adding time travel since we have moved the delay to 2 days on mainnet
+      await hre.network.provider.request({ method: 'evm_increaseTime', params: [60 * 60 * 24 * 2] })
+      await hre.network.provider.request({ method: 'evm_mine', params: [] })
+    }
+
+    const params = [
+      ethers.utils.hexValue(24 * 60 * 60*2) // hex encoded number of seconds
+    ];
+
+    await ethers.provider.send('evm_increaseTime', params)
+    // Execute
+    dev = await ethers.getSigner('0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB')
+    // console.log(proposal)
+    await timelock.connect(dev).execute(proposal)
+    while ((await timelock.proposals(txHash)).state > 0) {}
+    console.log(`Executed ${txHash}`)
+  }
+}
+
 export const transferFromFunder = async (
   tokenAddress: string,
   recipientAddress: string,

@@ -24,9 +24,9 @@
     "@typechain/ethers-v5": "^8.0.5",
     "@typechain/hardhat": "^3.0.0",
     "@types/mocha": "^8.0.0",
-    "@yield-protocol/vault-interfaces": "2.3.2",
     "@yield-protocol/strategy-v2": "0.11.2",
     "@yield-protocol/utils-v2": "2.5.1",
+    "@yield-protocol/vault-interfaces": "^2.4.1",
     "@yield-protocol/vault-v2": "0.16.1-rc1",
     "@yield-protocol/yieldspace-interfaces": "2.3.2",
     "@yield-protocol/yieldspace-v2": "0.12.2",
@@ -63,3 +63,4 @@
     "latest": "^0.2.0"
   }
 }
+
