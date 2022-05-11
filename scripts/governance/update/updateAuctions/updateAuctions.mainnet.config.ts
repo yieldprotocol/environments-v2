@@ -2,7 +2,6 @@ import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC, FRAX } from '../.
 
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
-// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 /// @notice Limits to be used in an auction
 /// @param base identifier (bytes6 tag)
 /// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
