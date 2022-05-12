@@ -20,7 +20,6 @@ const { deployContract } = waffle
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(deployer)
-
   const cauldron = protocol.get('cauldron') as string
   const timelock = governance.get('timelock') as string
   let giver: Giver
