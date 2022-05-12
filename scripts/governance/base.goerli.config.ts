@@ -4,7 +4,7 @@ import { CHAINLINK, COMPOSITE, LIDO } from '../../shared/constants'
 
 export const chainId = 42
 export const developer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
-export const deployer: string = '0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A'
+export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
