@@ -1,5 +1,5 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX } from '../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX, ACCUMULATOR } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO } from '../../shared/constants'
 
 export const chainId = 42
@@ -47,12 +47,14 @@ export const chiSources: Array<[string, string]> = [
   [DAI, '0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb'],
   [USDC, '0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0'],
   [ETH, '0x20572e4c090f15667cf7378e16fad2ea0e2f3eff'],
+  [FRAX, protocol.get(ACCUMULATOR) as string],
 ]
 
 export const rateSources: Array<[string, string]> = [
   [DAI, '0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb'],
   [USDC, '0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0'],
   [ETH, '0x20572e4c090f15667cf7378e16fad2ea0e2f3eff'],
+  [FRAX, protocol.get(ACCUMULATOR) as string],
 ]
 
 export const chainlinkSources: Array<[string, string, string, string, string]> = [
@@ -78,6 +80,9 @@ export const compositeSources: Array<[string, string, string]> = [
   [STETH, ETH, protocol.get(CHAINLINK) as string],
   [WSTETH, STETH, protocol.get(LIDO) as string],
   [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on goerli
+  [FRAX, ETH, protocol.get(CHAINLINK) as string],
+  [UNI, ETH, protocol.get(CHAINLINK) as string],
+  [LINK, ETH, protocol.get(CHAINLINK) as string],
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [
@@ -85,6 +90,8 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
   [WSTETH, USDC, [STETH, ETH]],
   [ENS, DAI, [ETH]],
   [ENS, USDC, [ETH]],
+  [FRAX, ENS, [ETH]],
+  [FRAX, WSTETH, [ETH, STETH]],
 ]
 
 // Assets for which we will have a Join
@@ -102,7 +109,7 @@ export const assetsToAdd: Array<[string, string]> = [
 // Assets for which we will have an Oracle, but not a Join
 export const assetsToReserve: Array<[string, string]> = [[STETH, assets.get(STETH) as string]]
 
-export const bases: Array<string> = [DAI, USDC]
+export const bases: Array<string> = [DAI, USDC, FRAX]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
 export const chainlinkLimits: Array<[string, string, string, number, number, number, number, number]> = [
