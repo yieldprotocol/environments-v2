@@ -118,10 +118,11 @@ export const proposeApproveExecute = async (
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
     // Propose
-    // Approve, impersonating multisig if in a fork
-    await timelock.propose(proposal)
-
-    while ((await timelock.proposals(txHash)).state < 1) { }
+    let [ownerAcc] = await ethers.getSigners()
+    console.log(`Developer: ${ownerAcc.address}\n`)
+    const tx = await timelock.propose(proposal)
+    console.log(`Calldata:\n${tx.data}\n`)
+    while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')

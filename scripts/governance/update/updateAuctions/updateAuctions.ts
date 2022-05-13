@@ -4,9 +4,9 @@
 
 import { ethers } from 'hardhat'
 
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../shared/helpers'
-import { updateWitchLimitsInitialOfferProposal } from '../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
-import { Witch, Timelock } from '../../../typechain'
+import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
+import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
+import { Witch, Timelock } from '../../../../typechain'
 import { newLimits, developer } from './updateAuctions.mainnet.config'
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
