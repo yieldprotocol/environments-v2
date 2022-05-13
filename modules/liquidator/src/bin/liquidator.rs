@@ -165,7 +165,7 @@ async fn run<P: JsonRpcClient + 'static>(opts: Opts, provider: Provider<P>) -> a
 
     let mut gas_escalator = GeometricGasPrice::new();
     gas_escalator.coefficient = 1.12501;
-    gas_escalator.every_secs = 5; // TODO: Make this be 90s
+    gas_escalator.every_secs = 20;
     gas_escalator.max_price = Some(U256::from(5000 * 1e9 as u64)); // 5k gwei
 
     let base_to_debt_threshold: HashMap<BaseIdType, u128> = cfg.base_to_debt_threshold.iter()
