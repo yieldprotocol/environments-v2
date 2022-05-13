@@ -14,8 +14,11 @@ use ethers_core::types::transaction::eip2718::TypedTransaction;
 use ethers::{
     prelude::*,
 };
+use futures_util::{
+    stream::{self, StreamExt},
+};
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fmt, ops::Mul, sync::Arc, time::{Instant, SystemTime}, convert::TryInto};
+use std::{collections::{HashMap, HashSet}, fmt, ops::Mul, sync::Arc, time::{Instant, SystemTime}, convert::TryInto};
 use tracing::{debug, debug_span, error, info, trace, warn, instrument};
 
 pub type AuctionMap = HashMap<VaultIdType, bool>;
@@ -36,6 +39,8 @@ pub struct Liquidator<M> {
     /// our RPC endpoint
     multicall: Multicall<M>,
 
+    client: Arc<M>,
+
     // uniswap swap router
     swap_router: SwapRouter,
 
@@ -52,6 +57,9 @@ pub struct Liquidator<M> {
     pending_auctions: HashMap<VaultIdType, PendingTransaction>,
     gas_escalator: GeometricGasPrice,
     bump_gas_delay: u64,
+
+    blocks_per_batch: Option<u64>,
+    vaults_whitelist: Option<HashSet<VaultIdType>>,
 
     instance_name: String
 }
@@ -107,6 +115,8 @@ impl<M: Middleware> Liquidator<M> {
         auctions: AuctionMap,
         gas_escalator: GeometricGasPrice,
         bump_gas_delay: u64,
+        blocks_per_batch: Option<u64>,
+        vaults_whitelist: Option<HashSet<VaultIdType>>,
         instance_name: String
     ) -> Self {
         let multicall = Multicall::new(client.clone(), multicall)
@@ -118,6 +128,7 @@ impl<M: Middleware> Liquidator<M> {
             liquidator: Witch::new(liquidator, client.clone()),
             flash_liquidator: FlashLiquidator::new(flashloan, client.clone()),
             multicall,
+            client: client.clone(),
             swap_router,
             min_ratio,
             gas_boost,
@@ -128,6 +139,8 @@ impl<M: Middleware> Liquidator<M> {
             pending_auctions: HashMap::new(),
             gas_escalator,
             bump_gas_delay,
+            blocks_per_batch,
+            vaults_whitelist,
             instance_name
         }
     }
@@ -213,6 +226,7 @@ impl<M: Middleware> Liquidator<M> {
                         .await {
                             Ok(tx) => {
                                 replacement_tx.1 = *tx;
+                                replacement_tx.2 = now;
                             },
                             Err(x) => {
                                 error!(tx=?replacement_tx, err=?x, "Failed to replace transaction: dropping it");
@@ -231,6 +245,23 @@ impl<M: Middleware> Liquidator<M> {
         Ok(())
     }
 
+    async fn get_new_auctioned_vaults(
+        &self,
+        from_block: u64,
+        to_block: u64,
+    ) -> Result<Vec<VaultIdType>, M> {
+        debug!(from_block, to_block, "fetching auctioned vaults ids from logs");
+        Ok(self
+            .liquidator
+            .auctioned_filter()
+            .from_block(from_block)
+            .to_block(to_block)
+            .query()
+            .await?
+            .iter()
+            .map(|x| x.vault_id).collect::<Vec<_>>())
+    }
+
     /// Sends a bid for any of the liquidation auctions.
     #[instrument(skip(self, from_block, to_block, cache), fields(self.instance_name))]
     pub async fn buy_opportunities(
@@ -241,33 +272,60 @@ impl<M: Middleware> Liquidator<M> {
         cache: &mut ImmutableCache<M>
     ) -> Result<(), M> {
         let all_auctions = {
-            let liquidations = self
-                .liquidator
-                .auctioned_filter()
-                .from_block(from_block)
-                .to_block(to_block)
-                .query()
-                .await?;
-            let new_liquidations = liquidations
-                .iter()
-                .map(|x| x.vault_id).collect::<Vec<_>>();
+            let step_size = self
+            .blocks_per_batch
+            .unwrap_or(to_block.as_u64() - from_block.as_u64() + 1);
+
+            let new_vaults_ids_chunked: Vec<Result<Vec<VaultIdType>, M>> = stream::iter(
+                (from_block.as_u64()..to_block.as_u64()).step_by(step_size.try_into().unwrap()),
+            )
+            .map(|block_start| self.get_new_auctioned_vaults(block_start, block_start + step_size - 1))
+            .buffer_unordered(10)
+            .collect()
+            .await;
+    
+            let new_liquidations = new_vaults_ids_chunked
+                .into_iter()
+                .try_fold(vec![], |accumulator, new_ids| {
+                    new_ids.map(|ids| [accumulator, ids].concat())
+                })?
+                .into_iter()
+                .filter(|vault_id| {
+                    (&self.vaults_whitelist).as_ref().map_or(true, |x| x.contains(vault_id))
+                })
+                .collect();
             merge(new_liquidations, &self.auctions)
         };
 
         info!(count=all_auctions.len(), instance_name=self.instance_name.as_str(), "Liquidations collected");
+
+        let block_number: U64 = self.client.get_block_number()
+            .await
+            .map_err(ContractError::MiddlewareError)?;
+        let mut maybe_block = None;
+        let mut attempts = 10;
+        while maybe_block.is_none() && attempts > 0 {
+            maybe_block = self.client.get_block(block_number)
+            .await
+            .map_err(ContractError::MiddlewareError)?;
+            attempts -= 1;
+        }
+
+        let block_timestamp = maybe_block.unwrap().timestamp;
+
         for vault_id in all_auctions {
             self.auctions.insert(vault_id, true);
 
             trace!(vault_id=?hex::encode(vault_id), "Buying");
-            match self.buy(vault_id, Instant::now(), gas_price, cache).await {
+            match self.buy(vault_id, Instant::now(), block_timestamp.as_u64(), gas_price, cache).await {
                 Ok(is_still_valid) => {
                     if !is_still_valid {
                         info!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(), "Removing no longer valid auction");
                         self.auctions.remove(&vault_id);
-                    }        
+                    }
                 }
                 Err(x) => {
-                    error!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(), 
+                    error!(vault_id=?hex::encode(vault_id), instance_name=self.instance_name.as_str(),
                         error=?x, "Failed to buy");
                 }
             }
@@ -283,7 +341,7 @@ impl<M: Middleware> Liquidator<M> {
     ///  - Result<false>: auction is no longer valid, we need to forget about it
     ///  - Result<true>: auction is still valid
     #[instrument(skip(self, cache), fields(self.instance_name))]
-    async fn buy(&mut self, vault_id: VaultIdType, now: Instant, gas_price: U256,
+    async fn buy(&mut self, vault_id: VaultIdType, now: Instant, block_timestamp: u64, gas_price: U256,
         cache: &mut ImmutableCache<M>) -> Result<bool, M> {
         // only iterate over users that do not have active auctions
         if let Some(pending_tx) = self.pending_auctions.get(&vault_id) {
@@ -292,7 +350,7 @@ impl<M: Middleware> Liquidator<M> {
         }
 
         // Get the vault's info
-        let auction = match self.get_auction(vault_id, cache).await {
+        let auction = match self.get_auction(vault_id, block_timestamp, cache).await {
             Ok(Some(x)) => x,
             Ok(None) => {
                 // auction is not valid
@@ -469,7 +527,7 @@ impl<M: Middleware> Liquidator<M> {
         }
     }
 
-    async fn get_auction(&mut self, vault_id: VaultIdType, cache: &mut ImmutableCache<M>) -> Result<Option<Auction>, M> {
+    async fn get_auction(&mut self, vault_id: VaultIdType, block_timestamp: u64, cache: &mut ImmutableCache<M>) -> Result<Option<Auction>, M> {
         let (_, series_id, ilk_id) = self.cauldron.vaults(vault_id).call().await?;
         let balances_fn = self.cauldron.balances(vault_id);
         let auction_fn = self.liquidator.auctions(vault_id);
@@ -495,9 +553,10 @@ impl<M: Middleware> Liquidator<M> {
             info!(vault_id=?hex::encode(vault_id), "vault is trivial or ignored - not auctioning");
             return Ok(None);
         }
+
         let current_offer: u16 = 
             match SystemTime::now().duration_since(SystemTime::UNIX_EPOCH) {
-                    Ok(x) => self.current_offer(x.as_secs(), 
+                    Ok(_) => self.current_offer(block_timestamp,
                     u64::from(auction_start), 
                     u64::from(duration), initial_offer)
                         .unwrap_or(0),
@@ -507,11 +566,12 @@ impl<M: Middleware> Liquidator<M> {
                     }
                 };
 
-        trace!(
+        debug!(
             vault_id=?hex::encode(vault_id),
             debt=?art,
             ratio=?ratio_u256,
             current_offer=current_offer,
+            target_offer=self.target_collateral_offer,
             "Fetched auction details"
         );
 

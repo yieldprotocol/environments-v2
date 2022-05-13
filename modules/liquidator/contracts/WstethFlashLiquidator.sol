@@ -92,7 +92,7 @@ contract WstethFlashLiquidator is FlashLiquidator {
         } else {
             address swapRouter_ = swapRouter02;
             WETH.safeApprove(address(swapRouter_), ethReceived);
-            (bool ok, bytes memory swapReturnBytes) = swapRouter02.call(decoded.swapCalldata);
+            (bool ok, ) = swapRouter02.call(decoded.swapCalldata);
             require(ok, "swap failed");
         }
 

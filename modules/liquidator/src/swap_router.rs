@@ -62,24 +62,21 @@ impl SwapRouter {
         token_out: Address,
         amount_in: U256,
     ) -> std::result::Result<SwapCalldata, SwapRouterError> {
-        info!(token_in=?token_in, token_out=?token_out, amount_in=?amount_in, "Building calldata for swap");
-
-        let out = Command::new(self.router_binary_path.as_str())
+        let mut cmd = Command::new(self.router_binary_path.as_str());
+        cmd
             .arg(format!("--rpc_url={}", self.rpc_url))
             .arg(format!("--chain_id={}", self.chain_id))
             .arg(format!("--from_address={:?}", self.flash_liquidator))
             .arg(format!("--token_in={:?}", token_in))
             .arg(format!("--token_out={:?}", token_out))
             .arg(format!("--amount_out={}", amount_in))
-            .arg(format!("--silent"))
-            .output()
-            .await
-            .map_err(|io_error| {
-                SwapRouterError::RouterError(format!(
-                    "Failed to call external router: {:}",
-                    io_error
-                ))
-            })?;
+            .arg(format!("--silent"));
+
+        info!(token_in=?token_in, token_out=?token_out, amount_in=?amount_in, cmd=?cmd, "Building calldata for swap");
+
+        let out = cmd.output().await.map_err(|io_error| {
+            SwapRouterError::RouterError(format!("Failed to call external router: {:}", io_error))
+        })?;
         if out.status.success() {
             return stdout_to_swap(&out.stdout);
         } else {
@@ -147,6 +144,10 @@ mod tests {
             .await;
         // assert_eq!(maybe_swap.is_ok(), true);
         let swap = maybe_swap.unwrap();
-        assert_eq!(swap.calldata.len() > 4, true, "calldata should be at least 4 bytes long");
+        assert_eq!(
+            swap.calldata.len() > 4,
+            true,
+            "calldata should be at least 4 bytes long"
+        );
     }
 }

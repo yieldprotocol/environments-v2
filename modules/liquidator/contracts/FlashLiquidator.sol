@@ -2,8 +2,8 @@
 
 pragma solidity >=0.8.6;
 
-import "@yield-protocol/vault-interfaces/ICauldron.sol";
-import "@yield-protocol/vault-interfaces/IWitch.sol";
+import "@yield-protocol/vault-interfaces/src/ICauldron.sol";
+import "@yield-protocol/vault-interfaces/src/IWitch.sol";
 import "uniswapv3-oracle/contracts/uniswapv0.8/IUniswapV3Pool.sol";
 import "uniswapv3-oracle/contracts/uniswapv0.8/PoolAddress.sol";
 import "./UniswapTransferHelper.sol";
@@ -90,7 +90,7 @@ contract FlashLiquidator is IFlashLoanRecipient {
         // sell the collateral
         uint256 debtToReturn = baseLoan + feeAmounts[0];
         decoded.collateral.safeApprove(address(swapRouter02), collateralReceived);
-        (bool ok, bytes memory swapReturnBytes) = swapRouter02.call(decoded.swapCalldata);
+        (bool ok, ) = swapRouter02.call(decoded.swapCalldata);
         require(ok, "swap failed");
 
         // router can't access collateral anymore

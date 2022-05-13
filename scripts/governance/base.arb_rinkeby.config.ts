@@ -7,8 +7,13 @@ import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD } from '../../shared/const
 import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../shared/constants'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
+export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('joins.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
+export const newJoins = readAddressMappingIfExists('newJoins.json')
+export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
+export const newPools = readAddressMappingIfExists('newPools.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
 export const chainId = 421611
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'

@@ -4,13 +4,19 @@
 //! positions and observing their debt healthiness.
 use crate::{
     bindings::Cauldron, bindings::IMulticall2, bindings::IMulticall2Call, bindings::IlkIdType,
-    bindings::SeriesIdType, bindings::VaultIdType, bindings::Witch, Result, cache::ImmutableCache,
+    bindings::SeriesIdType, bindings::VaultIdType, bindings::Witch, cache::ImmutableCache, Result,
 };
 
 use ethers::prelude::*;
-use futures_util::stream::{self, StreamExt};
+use futures_util::{
+    stream::{self, StreamExt},
+};
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, sync::Arc};
+use std::{
+    collections::{HashMap, HashSet},
+    convert::TryInto,
+    sync::Arc,
+};
 use tracing::{debug, debug_span, info, instrument, trace, warn};
 
 pub type VaultMap = HashMap<VaultIdType, Vault>;
@@ -30,6 +36,8 @@ pub struct Borrowers<M> {
     multicall2: IMulticall2<M>,
     multicall_batch_size: usize,
 
+    blocks_per_batch: Option<u64>,
+    vaults_whitelist: Option<HashSet<VaultIdType>>,
     instance_name: String,
 }
 
@@ -62,6 +70,8 @@ impl<M: Middleware> Borrowers<M> {
         multicall_batch_size: usize,
         client: Arc<M>,
         vaults: HashMap<VaultIdType, Vault>,
+        blocks_per_batch: Option<u64>,
+        vaults_whitelist: Option<HashSet<VaultIdType>>,
         instance_name: String,
     ) -> Self {
         let multicall2 = IMulticall2::new(multicall2, client.clone());
@@ -71,21 +81,19 @@ impl<M: Middleware> Borrowers<M> {
             vaults,
             multicall2,
             multicall_batch_size,
+            blocks_per_batch,
+            vaults_whitelist,
             instance_name,
         }
     }
 
-    /// Gets any new borrowers which may have joined the system since we last
-    /// made this call and then proceeds to get the latest account details for
-    /// each user
-    #[instrument(skip(self, cache), fields(self.instance_name))]
-    pub async fn update_vaults(&mut self, from_block: U64, to_block: U64, cache: &mut ImmutableCache<M>) -> Result<(), M> {
-        let span = debug_span!("monitoring");
-        let _enter = span.enter();
-
-        // get the new vaults
-        // TODO: Improve this logic to be more optimized
-        let new_vaults = self
+    async fn get_new_vault_ids(
+        &self,
+        from_block: u64,
+        to_block: u64,
+    ) -> Result<Vec<VaultIdType>, M> {
+        debug!(from_block, to_block, "fetching vault ids from logs");
+        Ok(self
             .cauldron
             .vault_poured_filter()
             .from_block(from_block)
@@ -94,7 +102,46 @@ impl<M: Middleware> Borrowers<M> {
             .await?
             .into_iter()
             .map(|x| x.vault_id)
-            .collect::<Vec<_>>();
+            .collect::<Vec<_>>())
+    }
+
+    /// Gets any new borrowers which may have joined the system since we last
+    /// made this call and then proceeds to get the latest account details for
+    /// each user
+    #[instrument(skip(self, cache), fields(self.instance_name))]
+    pub async fn update_vaults(
+        &mut self,
+        from_block: U64,
+        to_block: U64,
+        cache: &mut ImmutableCache<M>,
+    ) -> Result<(), M> {
+        let span = debug_span!("monitoring");
+        let _enter = span.enter();
+
+        // get the new vaults
+        // TODO: Improve this logic to be more optimized
+        let step_size = self
+            .blocks_per_batch
+            .unwrap_or(to_block.as_u64() - from_block.as_u64() + 1);
+
+        let new_vaults_ids_chunked: Vec<Result<Vec<VaultIdType>, M>> = stream::iter(
+            (from_block.as_u64()..to_block.as_u64()).step_by(step_size.try_into().unwrap()),
+        )
+        .map(|block_start| self.get_new_vault_ids(block_start, block_start + step_size - 1))
+        .buffer_unordered(10)
+        .collect()
+        .await;
+
+        let new_vaults: Vec<VaultIdType> = new_vaults_ids_chunked
+            .into_iter()
+            .try_fold(vec![], |accumulator, new_ids| {
+                new_ids.map(|ids| [accumulator, ids].concat())
+            })?
+            .into_iter()
+            .filter(|vault_id| {
+                (&self.vaults_whitelist).as_ref().map_or(true, |x| x.contains(vault_id))
+            })
+            .collect();
 
         if new_vaults.len() > 0 {
             debug!("New vaults: {}", new_vaults.len());
@@ -149,16 +196,25 @@ impl<M: Middleware> Borrowers<M> {
     /// Last multicall will have 2 * 3 = 6 internal calls
     ///
     #[instrument(skip(self, vault_ids, cache), fields(self.instance_name))]
-    pub async fn get_vault_info(&mut self, vault_ids: &[VaultIdType], cache: &mut ImmutableCache<M>) -> Vec<Result<Vault, M>> {
+    pub async fn get_vault_info(
+        &mut self,
+        vault_ids: &[VaultIdType],
+        cache: &mut ImmutableCache<M>,
+    ) -> Vec<Result<Vault, M>> {
         let mut ret: Vec<_> = stream::iter(vault_ids)
             // split to chunks
             .chunks(self.multicall_batch_size)
             // technicality: 'materialize' slices, so that the next step can be async
             .map(|x| x.iter().map(|a| **a).collect())
             // for each chunk, make a multicall2 call
-            .then(|ids_chunk: Vec<VaultIdType>| async {
+            .map(|ids_chunk: Vec<VaultIdType>| async {
                 let calls = self.get_vault_info_chunk_generate_multicall_args(&ids_chunk);
-                let chunk_response = self.multicall2.try_aggregate(false, calls).call().await;
+                let mut attempts_left = 5;
+                let mut chunk_response = self.multicall2.try_aggregate(false, calls.clone()).call().await;
+                while chunk_response.is_err() && attempts_left > 0 {
+                    chunk_response = self.multicall2.try_aggregate(false, calls.clone()).call().await;
+                    attempts_left -= 1;
+                }
 
                 match self.get_vault_info_chunk_parse_response(ids_chunk, chunk_response) {
                     Ok(response) => response,
@@ -172,6 +228,7 @@ impl<M: Middleware> Borrowers<M> {
                     }
                 }
             })
+            .buffered(10)
             // glue back chunk responses
             .flat_map(|x| stream::iter(x))
             .collect()
@@ -184,7 +241,12 @@ impl<M: Middleware> Borrowers<M> {
             if let Ok(single_vault) = single_vault_maybe {
                 if !single_vault.is_collateralized {
                     debug!(vault_id=?hex::encode(single_vault.vault_id), "Potentially undercollaterized vault - checking if it's trivial");
-                    match cache.is_vault_ignored(single_vault.series_id, single_vault.ilk_id, single_vault.debt)
+                    match cache
+                        .is_vault_ignored(
+                            single_vault.series_id,
+                            single_vault.ilk_id,
+                            single_vault.debt,
+                        )
                         .await
                     {
                         Ok(true) => {

@@ -56,6 +56,34 @@
     [
       "yearnOracle",
       "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+    ],
+    [
+      "wrapEtherModule",
+      "0x22768FCaFe7BB9F03e31cb49823d1Ece30C0b8eA"
+    ],
+    [
+      "notionalOracle",
+      "0x660bB2F1De01AacA46FCD8004e852234Cf65F3fb"
+    ],
+    [
+      "transfer1155Module",
+      "0x97f1d43A217aDD678bB6Dcd3C5D51F40b6729d06"
+    ],
+    [
+      "accumulatorOracle",
+      "0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC"
+    ],
+    [
+      "onChainTest",
+      "0xCDcEa3eBC084f24a25AD6f18fD678B0c6b33843d"
+    ],
+    [
+      "convexLadleModule",
+      "0xD5B43b2550751d372025d048553352ac60f27151"
+    ],
+    [
+      "cvx3CrvOracle",
+      "0x52e860327bCc464014259A7cD16DaA5763d7Dc99"
     ]
   ]
 }

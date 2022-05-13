@@ -20,6 +20,7 @@ export const additionalDevelopers: Array<string> = [
 ]
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
+  [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
   [DAI, '0xa5a33ab9063395a90ccbea2d86a62eccf27b5742'],
   [USDC, '0xba12222222228d8ba445958a75a0704d566bf2c8'],
 ])
@@ -32,9 +33,9 @@ export const assets: Map<string, string> = new Map([
 ])
 
 export const joins: Map<string, string> = new Map([
-  [ETH,    '0xaf93a04d5D8D85F69AF65ED66A9717DB0796fB10'],
-  [DAI,    '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
-  [USDC,   '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
+  [ETH, '0xaf93a04d5D8D85F69AF65ED66A9717DB0796fB10'],
+  [DAI, '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
+  [USDC, '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
 ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [

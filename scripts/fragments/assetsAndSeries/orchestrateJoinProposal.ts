@@ -45,13 +45,13 @@ export const orchestrateJoinProposal = async (
     })
     console.log(`join.revokeRole(ROOT, deployer)`)
 
-    proposal.push({
-      target: joinAddress,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'setFlashFeeFactor(uint256)')],
-        timelock.address,
-      ]),
-    })
+    // proposal.push({
+    //   target: join.address,
+    //   data: join.interface.encodeFunctionData('grantRoles', [
+    //     [id(join.interface, 'setFlashFeeFactor(uint256)')],
+    //     timelock.address,
+    //   ]),
+    // })
     console.log(`join.grantRoles(gov, timelock)`)
 
     proposal.push({
