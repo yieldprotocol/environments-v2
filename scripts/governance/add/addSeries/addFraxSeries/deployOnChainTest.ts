@@ -1,8 +1,8 @@
 import { ethers, waffle } from 'hardhat'
-import { verify, readAddressMappingIfExists, writeAddressMap } from '../../../../shared/helpers'
+import { verify, readAddressMappingIfExists, writeAddressMap } from '../../../../../shared/helpers'
 
-import OnChainTestArtifact from '../../../../artifacts/@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol/OnChainTest.json'
-import { OnChainTest } from '../../../../typechain/OnChainTest'
+import OnChainTestArtifact from '../../../../../artifacts/@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol/OnChainTest.json'
+import { OnChainTest } from '../../../../../typechain/OnChainTest'
 
 const { deployContract } = waffle
 
