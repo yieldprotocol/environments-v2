@@ -9,10 +9,10 @@ import { Logger } from 'tslog'
 import { LiquidatorConfig, run_liquidator, TestFixture, testSetUp } from './utils_liquidator'
 import { hardhat_fork as fork } from './utils'
 
-import { exec as exec_async } from "child_process";
-import { promises as fs } from 'fs';
-import { join } from "path";
-import { promisify } from "util";
+import { exec as exec_async } from 'child_process'
+import { promises as fs } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
 
 import {
   readAddressMappingIfExists,
@@ -24,10 +24,14 @@ import {
 } from '../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, CompositeMultiOracle, WstETHMock } from '../typechain'
 import { WSTETH, STETH, ETH, WAD, DAI, FYETH2203 } from '../shared/constants'
-import { assets, developer, governance } from '../scripts/governance/addSeries/addEthSeries/addEthSeries.mainnet.config'
+import {
+  assets,
+  developer,
+  governance,
+} from '../scripts/governance/add/addSeries/addEthSeries/addEthSeries.mainnet.config'
 import { updateIlkProposal } from '../scripts/fragments/assetsAndSeries/updateIlkProposal'
 
-const exec = promisify(exec_async);
+const exec = promisify(exec_async)
 
 const logger: Logger = new Logger()
 
@@ -38,7 +42,6 @@ const g_flash_loaner = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
 const g_port = 8545
 
 const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-
 
 async function deploy_flash_liquidator(): Promise<[SignerWithAddress, LiquidatorConfig]> {
   const [owner] = (await ethers.getSigners()) as SignerWithAddress[]
@@ -76,8 +79,7 @@ async function deployETHSeries(fixture: TestFixture) {
   await fs.writeFile(join(fixture.tmp_root, 'add_series_stdout'), stdout)
   await fs.writeFile(join(fixture.tmp_root, 'add_series_stderr'), stderr)
   logger.info('tmp root', fixture.tmp_root)
-  if(error)
-  throw 'Deployment failed'
+  if (error) throw 'Deployment failed'
 }
 
 async function pourAndBorrow(): Promise<[SignerWithAddress, LiquidatorConfig, string]> {
@@ -88,7 +90,7 @@ async function pourAndBorrow(): Promise<[SignerWithAddress, LiquidatorConfig, st
   let whaleAcc: SignerWithAddress
   let eth: boolean = false
 
-  process.env["USE_ADDRESSES_FOR_NETWORK"] = "mainnet"
+  process.env['USE_ADDRESSES_FOR_NETWORK'] = 'mainnet'
   const protocol = readAddressMappingIfExists('protocol.json')
 
   const wEth = (await ethers.getContractAt('ERC20Mock', WETH, ownerAcc)) as unknown as ERC20Mock
@@ -172,7 +174,7 @@ async function pourAndBorrow(): Promise<[SignerWithAddress, LiquidatorConfig, st
   logger.info('Level after ' + level.toString())
   logger.info('before balance ' + (await wEth.balanceOf(_owner.address)).toString())
 
-  return [_owner, liquidator, vaultId.substring(2)];
+  return [_owner, liquidator, vaultId.substring(2)]
 }
 
 describe('flash liquidator: ETH series', function () {
@@ -192,15 +194,16 @@ describe('flash liquidator: ETH series', function () {
     })
     logger.info('Deployed ETH Series')
 
-    const [_owner, liquidator, vaultId] = await pourAndBorrow();
+    const [_owner, liquidator, vaultId] = await pourAndBorrow()
 
     const starting_balance = await _owner.getBalance()
 
     logger.info('Liquidator Run')
+    let vaults: any = [vaultId]
     await run_liquidator(fixture, liquidator, {
-      logs_prefix: "auction.",
-      vaults_whitelist: [vaultId]
-    });
+      logs_prefix: 'auction.',
+      vaults_whitelist: vaults,
+    })
     logger.info('Liquidator Run End')
 
     // wait a few hours for auction to release all collateral
@@ -209,8 +212,8 @@ describe('flash liquidator: ETH series', function () {
 
     let bought = 0
     const liquidator_logs = await run_liquidator(fixture, liquidator, {
-      logs_prefix: "liquidate.",
-      vaults_whitelist: [vaultId]
+      logs_prefix: 'liquidate.',
+      vaults_whitelist: vaults,
     })
     for (const log_record of liquidator_logs) {
       if (log_record['level'] == 'INFO' && log_record['fields']['message'] == 'Submitted buy order') {
