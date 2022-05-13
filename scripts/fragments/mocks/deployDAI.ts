@@ -24,7 +24,7 @@ const { developer } = require(process.env.CONF as string)
   let daiMock: DaiMock
 
   if (protocol.get('daiMock') === undefined) {
-    daiMock = (await deployContract(ownerAcc, DaiMockArtifact,[5])) as DaiMock
+    daiMock = (await deployContract(ownerAcc, DaiMockArtifact, [5])) as DaiMock
     console.log(`daiMock deployed at '${daiMock.address}`)
     //Write the address to the file
     verify(daiMock.address, [5])

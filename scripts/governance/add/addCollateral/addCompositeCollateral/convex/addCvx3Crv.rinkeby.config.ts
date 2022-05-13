@@ -42,9 +42,7 @@ export const cvx3CrvSources: [string, string, string, string, string, string] = 
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [
-  [CVX3CRV, ETH, protocol.get(CONVEX3CRV) as string],
-]
+export const compositeSources: Array<[string, string, string]> = [[CVX3CRV, ETH, protocol.get(CONVEX3CRV) as string]]
 
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)

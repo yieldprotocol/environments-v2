@@ -18,7 +18,7 @@ const { developer, assets } = require(process.env.CONF as string)
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const protocol = readAddressMappingIfExists('protocol.json')
   let usdcMock: ERC20Mock
-  
+
   for (let [assetId, assetAddress] of assets) {
     usdcMock = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
