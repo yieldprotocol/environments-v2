@@ -39,7 +39,7 @@ const {
   compositeSources,
   compositePaths,
   yearnSources,
-  rateChiSources
+  rateChiSources,
 } = require(process.env.CONF as string)
 
 /**

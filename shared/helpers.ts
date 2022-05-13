@@ -91,9 +91,9 @@ export const proposeApproveExecute = async (
   // Propose, approve, execute
   const txHash = await raw_timelock.hash(proposal)
   const on_fork = true
-  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`);
+  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
 
-  let timelock = raw_timelock;
+  let timelock = raw_timelock
   if (on_fork) {
     // If running on a mainnet fork, impersonating the multisig will work
     if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
@@ -109,7 +109,7 @@ export const proposeApproveExecute = async (
       params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
     })
     const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-    timelock = await timelock.connect(multisigAcc);
+    timelock = await timelock.connect(multisigAcc)
   }
   // Depending on the proposal state:
   // - propose
@@ -160,7 +160,7 @@ export const proposeApproveExecute = async (
     }
     // Execute
     await timelock.execute(proposal)
-    while ((await timelock.proposals(txHash)).state > 0) { }
+    while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
   }
 }
@@ -369,7 +369,7 @@ export async function ensureRootAccess(contract: AccessControl, timelock: Timelo
   if (!(await contract.hasRole(ROOT, timelock.address))) {
     await contract.grantRole(ROOT, timelock.address)
     console.log(`${contract.address}.grantRoles(ROOT, timelock)`)
-    while (!(await contract.hasRole(ROOT, timelock.address))) { }
+    while (!(await contract.hasRole(ROOT, timelock.address))) {}
   }
 }
 
