@@ -112,7 +112,7 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, FRAX, 1000000, 5000000, 5000, 18],
+  [FRAX, FRAX, 1000000, 5000000, 0, 18],
   [FRAX, ETH, 1400000, 1000000, 5000, 18],
   [FRAX, DAI, 1100000, 1000000, 5000, 18],
   [FRAX, USDC, 1100000, 1000000, 5000, 18],

@@ -1,11 +1,17 @@
 import { ethers, waffle } from 'hardhat'
-import { verify, getOriginalChainId, readAddressMappingIfExists, writeAddressMap } from '../../../../../shared/helpers'
+import {
+  verify,
+  getOriginalChainId,
+  readAddressMappingIfExists,
+  writeAddressMap,
+  getOwnerOrImpersonate,
+} from '../../../../../shared/helpers'
 
 import ERC20MockArtifact from '../../../../../artifacts/contracts/::mocks/ERC20Mock.sol/ERC20Mock.json'
 import { ERC20Mock } from '../../../../../typechain/ERC20Mock'
 
 const { deployContract } = waffle
-
+const { developer } = require(process.env.CONF as string)
 /**
  * @dev This script deploys the FraxMock contract
  */
@@ -14,7 +20,7 @@ const { deployContract } = waffle
   const chainId = await getOriginalChainId()
   if (chainId === 1) throw "You shouldn't deploy FraxMock on mainnet"
 
-  const [ownerAcc] = await ethers.getSigners()
+  let ownerAcc = await getOwnerOrImpersonate(developer)
   const protocol = readAddressMappingIfExists('protocol.json')
   let fraxMock: ERC20Mock
 
@@ -28,7 +34,7 @@ const { deployContract } = waffle
     writeAddressMap('protocol.json', protocol)
   } else {
     fraxMock = (await ethers.getContractAt(
-      'FraxMock',
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       protocol.get('fraxMock') as string,
       ownerAcc
     )) as unknown as ERC20Mock

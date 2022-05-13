@@ -26,7 +26,7 @@ export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
 //      There is also another yvUSDC token (api 0.3.0) that we are not using found here:
 //      https://etherscan.io/token/0x5f18c75abdae578b483e5f43f12a39cf75b973a9 <<NOT USING THIS ONE
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
-export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
+export const UNI    = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
 export const FDAI2203 = ethers.utils.formatBytes32String('12').slice(0, 14)
 export const FUSDC2203 = ethers.utils.formatBytes32String('13').slice(0, 14)
@@ -35,14 +35,16 @@ export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
 export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
 export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
 export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
+export const CVX3CRV    = ethers.utils.formatBytes32String('19').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
 export const ACCUMULATOR = 'accumulatorOracle'
 export const COMPOUND = 'compoundOracle'
 export const COMPOSITE = 'compositeOracle'
-export const LIDO = 'lidoOracle'
-export const UNISWAP = 'uniswapOracle'
+export const LIDO      = 'lidoOracle'
+export const UNISWAP   = 'uniswapOracle'
+export const CONVEX3CRV    = 'cvx3CrvOracle'
 export const YEARN = 'yearnOracle'
 export const NOTIONAL = 'notionalOracle'
 

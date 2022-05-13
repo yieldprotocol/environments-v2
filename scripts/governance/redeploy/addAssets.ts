@@ -4,6 +4,7 @@ import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/he
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 // import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
+import { reserveAssetProposal } from '../../fragments/assetsAndSeries/reserveAssetProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 
@@ -16,7 +17,7 @@ import {
 } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
 const { protocol, governance, newJoins } = require(process.env.CONF as string)
-const { developer, deployer, assets, bases } = require(process.env.CONF as string)
+const { developer, deployer, assets, bases, assetsToReserve } = require(process.env.CONF as string)
 const {
   chainlinkDebtLimits,
   compositeDebtLimits,
@@ -81,6 +82,7 @@ const {
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
+  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   proposal = proposal.concat(
     await makeIlkProposal(
