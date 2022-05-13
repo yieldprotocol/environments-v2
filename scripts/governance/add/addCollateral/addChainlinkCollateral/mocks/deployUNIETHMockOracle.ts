@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 
 import { verify } from '../../../../shared/helpers'
 import { ISourceMock } from '../../../../typechain/ISourceMock'
-import ChainlinkAggregatorV3MockArtifact from '../../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
+import ChainlinkAggregatorV3MockArtifact from '../../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 
 const { deployContract } = waffle
 

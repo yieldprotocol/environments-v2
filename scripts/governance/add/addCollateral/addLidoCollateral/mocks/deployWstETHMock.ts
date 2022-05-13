@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { WSTETH, STETH } from '../../../../shared/constants'
 import { mapToJson, jsonToMap, verify } from '../../../../shared/helpers'
 
-import WstETHMockArtifact from '../../../../../artifacts/contracts/mocks/WstETHMock.sol/WstETHMock.json'
+import WstETHMockArtifact from '../../../../../artifacts/contracts/::mocks/WstETHMock.sol/WstETHMock.json'
 import { WstETHMock } from '../../../../typechain/WstETHMock'
 
 const { deployContract } = waffle

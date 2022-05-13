@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { ETH, STETH } from '../../../../shared/constants'
 import { mapToJson, jsonToMap, verify } from '../../../../shared/helpers'
 
-import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
+import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 import { ChainlinkAggregatorV3Mock } from '../../../../typechain'
 
 const { deployContract } = waffle

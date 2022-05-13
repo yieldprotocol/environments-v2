@@ -6,7 +6,7 @@ import {
   writeAddressMap,
 } from '../../../../../../../shared/helpers'
 
-import ConvexYieldWrapperMockArtifact from '../../../../../../../artifacts/contracts/mocks/ConvexYieldWrapperMock.sol/ConvexYieldWrapperMock.json'
+import ConvexYieldWrapperMockArtifact from '../../../../../../../artifacts/contracts/::mocks/ConvexYieldWrapperMock.sol/ConvexYieldWrapperMock.json'
 import { ConvexYieldWrapperMock } from '../../../../../../../typechain/ConvexYieldWrapperMock'
 import { CVX3CRV, ROOT } from '../../../../../../../shared/constants'
 import { Ladle, Join } from '../../../../../../../typechain'
