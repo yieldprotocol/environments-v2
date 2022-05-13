@@ -20,19 +20,19 @@ const { assets, protocol } = require(process.env.CONF as string)
 
   let wstETH: WstETHMock
   const args = [stEthAddress]
-  if (protocol.get('wstethMock') === undefined) {
+  if (protocol.get('wstETHMock') === undefined) {
     wstETH = (await deployContract(ownerAcc, WstETHMockArtifact, args)) as WstETHMock
     console.log(`wstETHMock, '${wstETH.address}`)
     verify(wstETH.address, args)
-    protocol.set('wstethMock', wstETH.address)
+    protocol.set('wstETHMock', wstETH.address)
     writeAddressMap('protocol.json', protocol)
     await wstETH.set('1046430920451237951')
   } else {
     wstETH = (await ethers.getContractAt(
       'WstETHMock',
-      protocol.get('wstethMock') as string,
+      protocol.get('wstETHMock') as string,
       ownerAcc
     )) as unknown as WstETHMock
-    console.log(`Reusing wstethMock at ${wstETH.address}`)
+    console.log(`Reusing wstETHMock at ${wstETH.address}`)
   }
 })()

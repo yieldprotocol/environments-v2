@@ -26,6 +26,15 @@ import {
   YSETH6MJD,
   YSETH6MMS,
   ZERO,
+  FRAX,
+  ACCUMULATOR,
+  CHI,
+  EOMAR23,
+  FYFRAX2206,
+  FYFRAX2209,
+  RATE,
+  YSFRAX6MJD,
+  YSFRAX6MMS,
 } from '../../../shared/constants'
 
 import { YSDAI6MMS, YSDAI6MJD, YSUSDC6MMS, YSUSDC6MJD, WAD, ONEUSDC } from '../../../shared/constants'
@@ -73,6 +82,11 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
   [ENS, USDC, [ETH]],
 ]
 
+export const rateChiSources: Array<[string, string, string, string]> = [
+  [FRAX, RATE, WAD.toString(), WAD.toString()],
+  [FRAX, CHI, WAD.toString(), WAD.toString()],
+]
+
 // Assets for which we will have a Join
 export const assetsToAdd: Array<[string, string]> = [
   [ETH, assets.get(ETH) as string],
@@ -84,6 +98,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
   [YVUSDC, assets.get(YVUSDC) as string],
+  [FRAX, protocol.get('fraxMock') as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
@@ -95,6 +110,9 @@ export const bases: Array<[string, string]> = [
   [DAI, newJoins.get(DAI) as string],
   [USDC, newJoins.get(USDC) as string],
 ]
+
+// Assets that will be made into a base with lending rate from accumulator
+export const accumulatorBases: Array<[string, string]> = [[FRAX, newJoins.get(FRAX) as string]]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
 export const chainlinkDebtLimits: Array<[string, string, number, number, number, number]> = [
@@ -117,6 +135,16 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
   [USDC, WBTC, 1500000, 100000, 5000, 6], // Via ETH
   [USDC, LINK, 1670000, 1000000, 5000, 6],
   [USDC, UNI, 1670000, 1000000, 5000, 6],
+  [FRAX, FRAX, 1000000, 5000000, 0, 18],
+  [FRAX, ETH, 1400000, 1000000, 5000, 18],
+  [FRAX, DAI, 1100000, 1000000, 5000, 18],
+  [FRAX, USDC, 1100000, 1000000, 5000, 18],
+  [FRAX, WBTC, 1500000, 1000000, 5000, 18],
+  [FRAX, LINK, 1670000, 1000000, 5000, 18],
+  [FRAX, UNI, 1670000, 1000000, 5000, 18],
+  [DAI, FRAX, 1100000, 100000, 5000, 18],
+  [USDC, FRAX, 1100000, 100000, 5000, 6],
+  [ETH, FRAX, 1400000, 1000000, 5000, 12],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec
@@ -126,6 +154,8 @@ export const compositeDebtLimits: Array<[string, string, number, number, number,
   [USDC, WSTETH, 1400000, 500000, 5000, 6],
   [DAI, ENS, 1670000, 2000000, 5000, 18],
   [USDC, ENS, 1670000, 2000000, 5000, 6],
+  [FRAX, WSTETH, 1400000, 1000000, 5000, 18],
+  [FRAX, ENS, 1670000, 1000000, 5000, 18],
 ]
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), inv(ratio), line, dust, dec
@@ -146,6 +176,7 @@ export const chainlinkAuctionLimits: Array<[string, number, number, number, numb
   [WBTC, 3600, 666000, 300000, 2100, 4],
   [LINK, 3600, 600000, 1000000, 300, 18],
   [UNI, 3600, 600000, 1000000, 100, 18],
+  [FRAX, 3600, 1000000, 1000000, 5000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -183,16 +214,36 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     'FYUSDC2209',
   ],
   [FYETH2209, ETH, protocol.get(COMPOUND) as string, newJoins.get(ETH) as string, EOSEP22, 'FYETH2209', 'FYETH2209'],
+  [
+    FYFRAX2209,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    newJoins.get(FRAX) as string,
+    EOSEP22,
+    'FYFRAX2209',
+    'FYFRAX2209',
+  ],
+  [
+    FYFRAX2206,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    newJoins.get(FRAX) as string,
+    EOMAR23,
+    'FYFRAX2206',
+    'FYFRAX2206',
+  ],
 ]
 
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYDAI2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
-  [FYETH2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYDAI2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2209, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
+  [FYETH2206, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYDAI2206, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2206, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
+  [FYETH2209, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYDAI2209, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDC2209, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
+  [FYFRAX2209, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYFRAX2206, [FRAX, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
@@ -245,6 +296,22 @@ export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigN
     ONE64.mul(75).div(100),
     ONE64.mul(100).div(75),
   ],
+  [
+    FYFRAX2209,
+    protocol.get('fraxMock') as string,
+    newFYTokens.get(FYFRAX2209) as string,
+    ONE64.div(secondsIn40Years),
+    ONE64.mul(75).div(100),
+    ONE64.mul(100).div(75),
+  ],
+  [
+    FYFRAX2206,
+    protocol.get('fraxMock') as string,
+    newFYTokens.get(FYFRAX2206) as string,
+    ONE64.div(secondsIn40Years),
+    ONE64.mul(75).div(100),
+    ONE64.mul(100).div(75),
+  ],
 ]
 
 // seriesId, initAmount
@@ -255,6 +322,8 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYETH2209, ETH, WAD.div(50), ZERO],
   [FYDAI2209, DAI, WAD.mul(100), ZERO],
   [FYUSDC2209, USDC, ONEUSDC.mul(100), ZERO],
+  [FYFRAX2209, FRAX, WAD, ZERO],
+  [FYFRAX2206, FRAX, WAD, ZERO],
 ]
 
 export const strategiesData: Array<[string, string, string, string, string]> = [
@@ -265,6 +334,20 @@ export const strategiesData: Array<[string, string, string, string, string]> = [
   ['Yield Strategy DAI 6M Jun Dec', YSDAI6MJD, DAI, newJoins.get(DAI) as string, assets.get(DAI) as string],
   ['Yield Strategy USDC 6M Mar Sep', YSUSDC6MMS, USDC, newJoins.get(USDC) as string, assets.get(USDC) as string],
   ['Yield Strategy USDC 6M Jun Dec', YSUSDC6MJD, USDC, newJoins.get(USDC) as string, assets.get(USDC) as string],
+  [
+    'Yield Strategy FRAX 6M Mar Sep',
+    YSFRAX6MMS,
+    FRAX,
+    newJoins.get(FRAX) as string,
+    protocol.get('fraxMock') as string,
+  ],
+  [
+    'Yield Strategy FRAX 6M Jun Dec',
+    YSFRAX6MJD,
+    FRAX,
+    newJoins.get(FRAX) as string,
+    protocol.get('fraxMock') as string,
+  ],
 ]
 
 // Input data
@@ -276,6 +359,8 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   [YSDAI6MJD, newPools.get(FYDAI2206) as string, FYDAI2206, WAD.mul(100)],
   [YSUSDC6MMS, newPools.get(FYUSDC2209) as string, FYUSDC2209, ONEUSDC.mul(100)],
   [YSUSDC6MJD, newPools.get(FYUSDC2206) as string, FYUSDC2206, ONEUSDC.mul(100)],
+  [YSFRAX6MMS, newPools.get(FYFRAX2209) as string, FYFRAX2209, WAD],
+  [YSFRAX6MJD, newPools.get(FYFRAX2206) as string, FYFRAX2206, WAD],
 ]
 
 // decimal, baseId, quoteId, aggregator set

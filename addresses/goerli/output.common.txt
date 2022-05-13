@@ -1,0 +1,278 @@
+Generating typings for: 152 artifacts in dir: typechain for target: ethers-v5
+Successfully generated 236 typings!
+Compiled 146 Solidity files successfully
+YieldMath deployed at 0x597146616fb4211bB2FB608D70CF37dE2FcD97dd
+npx hardhat verify --network goerli 0x597146616fb4211bB2FB608D70CF37dE2FcD97dd  
+No need to generate any newer typings.
+YieldMathExtensions deployed at 0x8877639Ff207e63E74d13e838e4B8ae730Bc2670
+npx hardhat verify --network goerli 0x8877639Ff207e63E74d13e838e4B8ae730Bc2670  --libraries addresses/goerli/yieldMath.js
+No need to generate any newer typings.
+PoolView deployed at 0x47ce1D3951816a2ead751F1A744B1955cD477Df2
+npx hardhat verify --network goerli 0x47ce1D3951816a2ead751F1A744B1955cD477Df2  --libraries addresses/goerli/yieldMathExtensions.js
+No need to generate any newer typings.
+SafeERC20Namer deployed at 0xe8d3F6b4A35e3B1787eE64B1B4bb81185798C480
+npx hardhat verify --network goerli 0xe8d3F6b4A35e3B1787eE64B1B4bb81185798C480  
+No need to generate any newer typings.
+Timelock deployed at 0x72a5ec78D06dE00FbeE9Ee6AeffD77Cf6DA67DC8
+npx hardhat verify --network goerli 0x72a5ec78D06dE00FbeE9Ee6AeffD77Cf6DA67DC8 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 
+No need to generate any newer typings.
+Cloak deployed at 0xcCcbF05A78Bb5e3033AEd3d434e912B1035D17D5
+npx hardhat verify --network goerli 0xcCcbF05A78Bb5e3033AEd3d434e912B1035D17D5 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A 
+cloak.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+Proposing
+Proposed 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+No need to generate any newer typings.
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+Approving
+Approved 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+No need to generate any newer typings.
+cloak.revokeRole(ROOT, deployer)
+cloak.grantRoles(gov, timelock)
+Proposal: 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+Executing
+Executed 0xcf243bd2092e3c77f9bd9f253595363ef3d263e9c0e4b0ad182fc778f33eb127
+No need to generate any newer typings.
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+Proposing
+Proposed 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+No need to generate any newer typings.
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+Approving
+Approved 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+No need to generate any newer typings.
+Granted governor 0x7ffB5DeB7eb13020aa848bED9DE9222E8F42Fd9A
+Granted governor 0xE7aa7AF667016837733F3CA3809bdE04697730eF
+Granted governor 0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5
+Proposal: 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+Approving
+Approved 0x9eacc7317e628e76762c648f4be963c4d3e54f477effaa85a83ab5d0074c095d
+No need to generate any newer typings.
+ChainlinkMultiOracle deployed at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+npx hardhat verify --network goerli 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68  
+chainlinkOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+CompoundMultiOracle deployed at 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+npx hardhat verify --network goerli 0xC6EDBfFb3e998abB792BB7A03160Af9171927287  
+compoundOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+CompositeMultiOracle deployed at 0x3Ee221CD96BEaf3aD6EaB8AF4c05C5BEEbd902ed
+npx hardhat verify --network goerli 0x3Ee221CD96BEaf3aD6EaB8AF4c05C5BEEbd902ed  
+compositeOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+LidoOracle deployed at 0x2F2254c230f22839B9c471727C459e99338ea85B
+npx hardhat verify --network goerli 0x2F2254c230f22839B9c471727C459e99338ea85B 0x3034000000000000000000000000000000000000000000000000000000000000 0x3035000000000000000000000000000000000000000000000000000000000000 
+lidoOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+UniswapV3Oracle deployed at 0x20280467A98Fd2C30C388e3CC9186EDaAaa54983
+npx hardhat verify --network goerli 0x20280467A98Fd2C30C388e3CC9186EDaAaa54983  
+uniswapOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+Reusing UniswapV3Oracle at 0x20280467A98Fd2C30C388e3CC9186EDaAaa54983
+No need to generate any newer typings.
+YearnVaultMultiOracle deployed at 0x691dB8F78413C0D2623FCA3dd71029EbC08a1603
+npx hardhat verify --network goerli 0x691dB8F78413C0D2623FCA3dd71029EbC08a1603  
+yearnOracle.grantRoles(ROOT, timelock)
+No need to generate any newer typings.
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Chi(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Chi(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Chi(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Rate(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Rate(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Rate(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Setting up 0xb51ddfA9aB165792697094aa49b8d87685401C5D as the source for 0x303100000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xff0D2B979dC3468D14c529b5921eB6ea3Cc9857A as the source for 0x303200000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x60E329801c43f48461fBE632FDFe6328Ce871ff8 as the source for 0x303300000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xb0FeFdd76BA3cACB18dDB881f191d510f6df3503 as the source for 0x303500000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x9F7DA69191ceE975e3F8e59e4AFe171421623984 as the source for 0x303600000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x2b0210DE38ccC1aC6d1717203fB8555fA07F26D6 as the source for 0x303700000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x0673781880A91c881BAF3aC2Fd1b26d8745c4520 as the source for 0x313000000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xBE4e83556535d801375f384F22c831BF1D8A8856 as the source for 0x303200000000/0x303900000000 at 0x691dB8F78413C0D2623FCA3dd71029EbC08a1603
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x944763f01Ff9FcD8E191c710d8C700378E268a8d
+Adding 0x303100000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 01/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303200000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 02/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303300000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 03/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303500000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 05/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303400000000/0x303500000000 from 0x2F2254c230f22839B9c471727C459e99338ea85B
+pair: 04/05 -> 0x2F2254c230f22839B9c471727C459e99338ea85B
+Adding 0x303700000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 07/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 04/00 -> 0x303500000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
+Proposing
+Proposed 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
+No need to generate any newer typings.
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Chi(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Chi(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Chi(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Rate(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Rate(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Rate(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Setting up 0xb51ddfA9aB165792697094aa49b8d87685401C5D as the source for 0x303100000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xff0D2B979dC3468D14c529b5921eB6ea3Cc9857A as the source for 0x303200000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x60E329801c43f48461fBE632FDFe6328Ce871ff8 as the source for 0x303300000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xb0FeFdd76BA3cACB18dDB881f191d510f6df3503 as the source for 0x303500000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x9F7DA69191ceE975e3F8e59e4AFe171421623984 as the source for 0x303600000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x2b0210DE38ccC1aC6d1717203fB8555fA07F26D6 as the source for 0x303700000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x0673781880A91c881BAF3aC2Fd1b26d8745c4520 as the source for 0x313000000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xBE4e83556535d801375f384F22c831BF1D8A8856 as the source for 0x303200000000/0x303900000000 at 0x691dB8F78413C0D2623FCA3dd71029EbC08a1603
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x944763f01Ff9FcD8E191c710d8C700378E268a8d
+Adding 0x303100000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 01/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303200000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 02/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303300000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 03/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303500000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 05/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303400000000/0x303500000000 from 0x2F2254c230f22839B9c471727C459e99338ea85B
+pair: 04/05 -> 0x2F2254c230f22839B9c471727C459e99338ea85B
+Adding 0x303700000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 07/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 04/00 -> 0x303500000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
+Approving
+Approved 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
+No need to generate any newer typings.
+chainlinkOracle.grantRoles(gov, timelock)
+chainlinkOracle.grantRole(ROOT, cloak)
+chainlinkOracle.revokeRole(ROOT, deployer)
+compoundOracle.grantRoles(gov, timelock)
+compoundOracle.grantRole(ROOT, cloak)
+compoundOracle.revokeRole(ROOT, deployer)
+compositeOracle.grantRoles(gov, timelock)
+compositeOracle.grantRole(ROOT, cloak)
+compositeOracle.revokeRole(ROOT, deployer)
+uniswapOracle.grantRoles(gov, timelock)
+uniswapOracle.grantRole(ROOT, cloak)
+uniswapOracle.revokeRole(ROOT, deployer)
+yearnOracle.grantRoles(gov, timelock)
+yearnOracle.grantRole(ROOT, cloak)
+yearnOracle.revokeRole(ROOT, deployer)
+lidoOracle.grantRoles(gov, timelock)
+lidoOracle.grantRole(ROOT, cloak)
+lidoOracle.revokeRole(ROOT, deployer)
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Chi(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Chi(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Chi(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+compoundOracle: 0xC6EDBfFb3e998abB792BB7A03160Af9171927287
+Using Compound MultiCollateral DAI 📈 at 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Rate(01): 0x822397d9a55d0fefd20f5c4bcab33c5f65bd28eb
+Using Compound USD Coin 📈 at 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Rate(02): 0xcec4a43ebb02f9b80916f1c718338169d6d5c1f0
+Using Compound Ether 📈 at 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Rate(00): 0x20572e4c090f15667cf7378e16fad2ea0e2f3eff
+Setting up 0xb51ddfA9aB165792697094aa49b8d87685401C5D as the source for 0x303100000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xff0D2B979dC3468D14c529b5921eB6ea3Cc9857A as the source for 0x303200000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x60E329801c43f48461fBE632FDFe6328Ce871ff8 as the source for 0x303300000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xb0FeFdd76BA3cACB18dDB881f191d510f6df3503 as the source for 0x303500000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x9F7DA69191ceE975e3F8e59e4AFe171421623984 as the source for 0x303600000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x2b0210DE38ccC1aC6d1717203fB8555fA07F26D6 as the source for 0x303700000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0x0673781880A91c881BAF3aC2Fd1b26d8745c4520 as the source for 0x313000000000/0x303000000000 at 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Setting up 0xBE4e83556535d801375f384F22c831BF1D8A8856 as the source for 0x303200000000/0x303900000000 at 0x691dB8F78413C0D2623FCA3dd71029EbC08a1603
+Current rate for 05/04: 955629254121030572
+Current rate for 04/05: 1046430920451237951
+source: 05/04 -> 0x944763f01Ff9FcD8E191c710d8C700378E268a8d
+Adding 0x303100000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 01/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303200000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 02/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303300000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 03/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303500000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 05/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+Adding 0x303400000000/0x303500000000 from 0x2F2254c230f22839B9c471727C459e99338ea85B
+pair: 04/05 -> 0x2F2254c230f22839B9c471727C459e99338ea85B
+Adding 0x303700000000/0x303000000000 from 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+pair: 07/00 -> 0xaF9E20f4b75dd7bdBFb792AA1918558fCEDbcb68
+[path: 04/01 -> 0x303500000000,0x303000000000],
+[path: 04/02 -> 0x303500000000,0x303000000000],
+[path: 04/00 -> 0x303500000000],
+[path: 07/01 -> 0x303000000000],
+[path: 07/02 -> 0x303000000000],
+Proposal: 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
+Executing
+Executed 0x7e7e5f73279ecd0fc3ab94033efdf35f35dac3de524ad3f877be09e155cae19e
