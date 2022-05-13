@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 import { verify } from '../../../../shared/helpers'
 
-import MKRMockArtifact from '../../../../artifacts/contracts/mocks/MKRMock.sol/MKRMock.json'
+import MKRMockArtifact from '../../../../artifacts/contracts/::mocks/MKRMock.sol/MKRMock.json'
 import { MKRMock } from '../../../../typechain/MKRMock'
 
 const { deployContract } = waffle
