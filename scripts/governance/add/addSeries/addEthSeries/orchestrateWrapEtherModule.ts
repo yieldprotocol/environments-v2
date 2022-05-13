@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
 
-import { Ladle, Timelock } from '../../../../typechain'
+import { Ladle, Timelock } from '../../../../../typechain'
 
-import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
+import { orchestrateModuleProposal } from '../../../../fragments/modules/orchestrateModuleProposal'
 
 const { developer, governance, protocol } = require(process.env.CONF as string)
 

@@ -20,7 +20,11 @@ export const reserveAssetProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress] of assets) {
-    const asset = (await ethers.getContractAt('ERC20Mock', assetAddress as string, ownerAcc)) as unknown as ERC20Mock
+    const asset = (await ethers.getContractAt(
+      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+      assetAddress as string,
+      ownerAcc
+    )) as unknown as ERC20Mock
     console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     proposal.push({

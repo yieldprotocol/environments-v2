@@ -26,6 +26,7 @@ export const initStrategiesProposal = async (
       throw `Address ${strategyAddress} contains no code for a Strategy`
 
     const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
+
     const base: ERC20Mock = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
       await strategy.base(),
