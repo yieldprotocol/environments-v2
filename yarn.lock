@@ -2113,7 +2113,7 @@
   "resolved" "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   "version" "1.1.0"
 
-"@yield-protocol/strategy-v2@^0.11.2":
+"@yield-protocol/strategy-v2@0.11.2":
   "integrity" "sha512-yRnNh8gpAMa7yP19xL+X+lePhLeggNHl5qn7vlXAsqh0HOQEt7VMU5h93xsvQAcxQb7mdCUDWsYUwNkzrgjsFQ=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-0.11.2.tgz"
   "version" "0.11.2"
@@ -2126,7 +2126,7 @@
     "ethereumjs-util" "^7.0.8"
     "ethers" "^5.0.7"
 
-"@yield-protocol/vault-interfaces@^2.3.0-rc4", "@yield-protocol/vault-interfaces@^2.4.1":
+"@yield-protocol/vault-interfaces@^2.3.0-rc4", "@yield-protocol/vault-interfaces@2.4.1":
   "integrity" "sha512-qqyBx6DERbkMhRTEVxvxr0OVVyxVyEq1rw/bfFjR/rW1xRAVufF+IQiyR5EFo807i/cW0MVjxt1KPVZGSyrLHA=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.4.1.tgz"
   "version" "2.4.1"
@@ -2136,12 +2136,12 @@
   "resolved" "file:../vault-v2-2/yield-protocol-vault-v2-0.16.0.tgz"
   "version" "0.16.0"
 
-"@yield-protocol/yieldspace-interfaces@^2.3.2":
+"@yield-protocol/yieldspace-interfaces@2.3.2":
   "integrity" "sha512-8U43J4lfWnkagCTKi/JGdG4DAP69kwfCC85NAUUxb51gPGuZLSmfzm1UjroCPC5jQN4Nw0tCvIMKjIEYK0jaZw=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-interfaces/-/yieldspace-interfaces-2.3.2.tgz"
   "version" "2.3.2"
 
-"@yield-protocol/yieldspace-v2@^0.12.2":
+"@yield-protocol/yieldspace-v2@0.12.2":
   "integrity" "sha512-2PvnhQvszxsxyM5E2TYb0KKyJOjPUGculyV1STxbdRy+P58KNc5Fd40lpM+7AqftXlecLUa1j0aUle09qz7m+Q=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-v2/-/yieldspace-v2-0.12.2.tgz"
   "version" "0.12.2"
@@ -2498,6 +2498,9 @@
   dependencies:
     "safer-buffer" "~2.1.0"
 
+"assert-plus@^0.2.0":
+  "version" "0.2.0"
+
 "assert-plus@^1.0.0", "assert-plus@1.0.0":
   "version" "1.0.0"
 
@@ -2530,6 +2533,9 @@
     "dezalgo" "^1.0.2"
 
 "async@^1.4.2":
+  "version" "1.5.2"
+
+"async@^1.5.2":
   "version" "1.5.2"
 
 "async@^2.0.1", "async@^2.1.2", "async@^2.4.0", "async@^2.5.0":
@@ -2565,10 +2571,16 @@
 "await-semaphore@^0.1.3":
   "version" "0.1.3"
 
+"aws-sign2@~0.6.0":
+  "version" "0.6.0"
+
 "aws-sign2@~0.7.0":
   "version" "0.7.0"
 
-"aws4@^1.2.1", "aws4@^1.8.0":
+"aws4@^1.2.1":
+  "version" "1.4.1"
+
+"aws4@^1.8.0":
   "version" "1.11.0"
 
 "axe-core@^4.3.5":
@@ -3096,6 +3108,9 @@
   dependencies:
     "precond" "0.2"
 
+"balanced-match@^0.4.1":
+  "version" "0.4.2"
+
 "balanced-match@^1.0.0":
   "version" "1.0.2"
 
@@ -3150,6 +3165,11 @@
   "version" "1.1.5"
   dependencies:
     "safe-buffer" "^5.0.1"
+
+"bl@~1.1.2":
+  "version" "1.1.2"
+  dependencies:
+    "readable-stream" "~2.0.5"
 
 "blakejs@^1.1.0":
   "version" "1.1.1"
@@ -3215,6 +3235,17 @@
     "qs" "6.7.0"
     "raw-body" "2.4.0"
     "type-is" "~1.6.17"
+
+"boom@2.x.x":
+  "version" "2.10.1"
+  dependencies:
+    "hoek" "2.x.x"
+
+"brace-expansion@^1.0.0":
+  "version" "1.1.6"
+  dependencies:
+    "balanced-match" "^0.4.1"
+    "concat-map" "0.0.1"
 
 "brace-expansion@^1.1.7":
   "version" "1.1.11"
@@ -3342,6 +3373,9 @@
 "buffer-from@^1.0.0", "buffer-from@1.x":
   "version" "1.1.2"
 
+"buffer-shims@^1.0.0":
+  "version" "1.0.0"
+
 "buffer-to-arraybuffer@^0.0.5":
   "version" "0.0.5"
 
@@ -3363,6 +3397,9 @@
   "version" "4.0.6"
   dependencies:
     "node-gyp-build" "^4.3.0"
+
+"builtin-modules@^1.0.0":
+  "version" "1.1.0"
 
 "builtin-modules@^3.1.0":
   "version" "3.2.0"
@@ -3769,8 +3806,13 @@
     "strip-ansi" "^3.0.0"
     "wcwidth" "^1.0.0"
 
-"combined-stream@^1.0.5", "combined-stream@^1.0.6", "combined-stream@^1.0.8", "combined-stream@~1.0.5", "combined-stream@~1.0.6":
+"combined-stream@^1.0.5", "combined-stream@^1.0.6", "combined-stream@^1.0.8", "combined-stream@~1.0.6":
   "version" "1.0.8"
+  dependencies:
+    "delayed-stream" "~1.0.0"
+
+"combined-stream@~1.0.5":
+  "version" "1.0.5"
   dependencies:
     "delayed-stream" "~1.0.0"
 
@@ -3806,7 +3848,9 @@
   "version" "2.20.3"
 
 "commander@^2.9.0":
-  "version" "2.20.3"
+  "version" "2.9.0"
+  dependencies:
+    "graceful-readlink" ">= 1.0.0"
 
 "commander@2.18.0":
   "version" "2.18.0"
@@ -4000,6 +4044,11 @@
 
 "crypt@>= 0.0.1":
   "version" "0.0.2"
+
+"cryptiles@2.x.x":
+  "version" "2.0.5"
+  dependencies:
+    "boom" "2.x.x"
 
 "crypto-browserify@3.12.0":
   "version" "3.12.0"
@@ -5483,7 +5532,10 @@
     "assign-symbols" "^1.0.0"
     "is-extendable" "^1.0.1"
 
-"extend@~3.0.0", "extend@~3.0.2":
+"extend@~3.0.0":
+  "version" "3.0.0"
+
+"extend@~3.0.2":
   "version" "3.0.2"
 
 "external-editor@^3.0.3":
@@ -5507,6 +5559,9 @@
 
 "extsprintf@^1.2.0", "extsprintf@1.3.0":
   "version" "1.3.0"
+
+"extsprintf@1.0.2":
+  "version" "1.0.2"
 
 "fake-merkle-patricia-tree@^1.0.1":
   "version" "1.0.1"
@@ -5716,18 +5771,11 @@
     "mime-types" "^2.1.12"
 
 "form-data@~1.0.0-rc4":
-  "version" "1.0.1"
+  "version" "1.0.0-rc4"
   dependencies:
-    "async" "^2.0.1"
+    "async" "^1.5.2"
     "combined-stream" "^1.0.5"
-    "mime-types" "^2.1.11"
-
-"form-data@~2.1.1":
-  "version" "2.1.4"
-  dependencies:
-    "asynckit" "^0.4.0"
-    "combined-stream" "^1.0.5"
-    "mime-types" "^2.1.12"
+    "mime-types" "^2.1.10"
 
 "form-data@~2.3.2":
   "version" "2.3.3"
@@ -5870,7 +5918,7 @@
     "fstream-ignore" "^1.0.0"
     "inherits" "2"
 
-"fstream@^1.0.0", "fstream@^1.0.12", "fstream@~1.0.10":
+"fstream@^1.0.0", "fstream@^1.0.2", "fstream@~1.0.10":
   "version" "1.0.10"
   dependencies:
     "graceful-fs" "^4.1.2"
@@ -5930,17 +5978,13 @@
     "lodash.padend" "^4.1.0"
     "lodash.padstart" "^4.1.0"
 
-"gauge@~2.7.3":
-  "version" "2.7.4"
+"generate-function@^2.0.0":
+  "version" "2.0.0"
+
+"generate-object-property@^1.1.0":
+  "version" "1.2.0"
   dependencies:
-    "aproba" "^1.0.3"
-    "console-control-strings" "^1.0.0"
-    "has-unicode" "^2.0.0"
-    "object-assign" "^4.1.0"
-    "signal-exit" "^3.0.0"
-    "string-width" "^1.0.1"
-    "strip-ansi" "^3.0.1"
-    "wide-align" "^1.1.0"
+    "is-property" "^1.0.0"
 
 "gensync@^1.0.0-beta.2":
   "version" "1.0.0-beta.2"
@@ -6039,13 +6083,23 @@
     "once" "^1.3.0"
     "path-is-absolute" "^1.0.0"
 
-"glob@^7.0.0", "glob@^7.0.3", "glob@^7.1.1", "glob@^7.1.2", "glob@^7.1.3", "glob@^7.1.4", "glob@^7.1.6", "glob@7.2.0":
+"glob@^7.0.0", "glob@^7.1.1", "glob@^7.1.2", "glob@^7.1.3", "glob@^7.1.4", "glob@^7.1.6", "glob@7.2.0":
   "version" "7.2.0"
   dependencies:
     "fs.realpath" "^1.0.0"
     "inflight" "^1.0.4"
     "inherits" "2"
     "minimatch" "^3.0.4"
+    "once" "^1.3.0"
+    "path-is-absolute" "^1.0.0"
+
+"glob@^7.0.3", "glob@~7.0.6":
+  "version" "7.0.6"
+  dependencies:
+    "fs.realpath" "^1.0.0"
+    "inflight" "^1.0.4"
+    "inherits" "2"
+    "minimatch" "^3.0.2"
     "once" "^1.3.0"
     "path-is-absolute" "^1.0.0"
 
@@ -6056,16 +6110,6 @@
     "inflight" "^1.0.4"
     "inherits" "2"
     "minimatch" "^3.0.4"
-    "once" "^1.3.0"
-    "path-is-absolute" "^1.0.0"
-
-"glob@~7.0.6":
-  "version" "7.0.6"
-  dependencies:
-    "fs.realpath" "^1.0.0"
-    "inflight" "^1.0.4"
-    "inherits" "2"
-    "minimatch" "^3.0.2"
     "once" "^1.3.0"
     "path-is-absolute" "^1.0.0"
 
@@ -6173,7 +6217,10 @@
   "version" "4.2.9"
 
 "graceful-fs@~4.1.6":
-  "version" "4.1.15"
+  "version" "4.1.6"
+
+"graceful-readlink@>= 1.0.0":
+  "version" "1.0.1"
 
 "growl@1.10.5":
   "version" "1.10.5"
@@ -6204,12 +6251,6 @@
     "commander" "^2.9.0"
     "is-my-json-valid" "^2.12.4"
     "pinkie-promise" "^2.0.0"
-
-"har-validator@~4.2.1":
-  "version" "4.2.1"
-  dependencies:
-    "ajv" "^4.9.1"
-    "har-schema" "^1.0.5"
 
 "har-validator@~5.1.3":
   "version" "5.1.5"
@@ -6375,6 +6416,14 @@
     "inherits" "^2.0.3"
     "minimalistic-assert" "^1.0.0"
 
+"hawk@~3.1.3":
+  "version" "3.1.3"
+  dependencies:
+    "boom" "2.x.x"
+    "cryptiles" "2.x.x"
+    "hoek" "2.x.x"
+    "sntp" "1.x.x"
+
 "he@1.2.0":
   "version" "1.2.0"
 
@@ -6394,6 +6443,9 @@
     "hash.js" "^1.0.3"
     "minimalistic-assert" "^1.0.0"
     "minimalistic-crypto-utils" "^1.0.1"
+
+"hoek@2.x.x":
+  "version" "2.16.3"
 
 "home-or-tmp@^2.0.0":
   "version" "2.0.0"
@@ -6451,6 +6503,13 @@
   "version" "3.0.2"
   dependencies:
     "@types/node" "^10.0.3"
+
+"http-signature@~1.1.0":
+  "version" "1.1.1"
+  dependencies:
+    "assert-plus" "^0.2.0"
+    "jsprim" "^1.2.2"
+    "sshpk" "^1.7.0"
 
 "http-signature@~1.2.0":
   "version" "1.2.0"
@@ -6678,6 +6737,11 @@
 "is-buffer@~2.0.3":
   "version" "2.0.5"
 
+"is-builtin-module@^1.0.0":
+  "version" "1.0.0"
+  dependencies:
+    "builtin-modules" "^1.0.0"
+
 "is-callable@^1.1.3", "is-callable@^1.2.2":
   "version" "1.2.2"
 
@@ -6784,6 +6848,14 @@
 "is-module@^1.0.0":
   "version" "1.0.0"
 
+"is-my-json-valid@^2.12.4":
+  "version" "2.13.1"
+  dependencies:
+    "generate-function" "^2.0.0"
+    "generate-object-property" "^1.1.0"
+    "jsonpointer" "2.0.0"
+    "xtend" "^4.0.0"
+
 "is-negative-zero@^2.0.0":
   "version" "2.0.1"
 
@@ -6818,6 +6890,9 @@
   "version" "2.0.4"
   dependencies:
     "isobject" "^3.0.1"
+
+"is-property@^1.0.0":
+  "version" "1.0.2"
 
 "is-reference@^1.1.2":
   "version" "1.2.1"
@@ -6907,6 +6982,9 @@
 
 "isarray@0.0.1":
   "version" "0.0.1"
+
+"isexe@^1.1.1":
+  "version" "1.1.2"
 
 "isexe@^2.0.0":
   "version" "2.0.0"
@@ -7293,6 +7371,14 @@
     "import-local" "^3.0.2"
     "jest-cli" "^25.5.4"
 
+"jju@^1.1.0":
+  "version" "1.3.0"
+
+"jodid25519@^1.0.0":
+  "version" "1.0.2"
+  dependencies:
+    "jsbn" "~0.1.0"
+
 "jpjs@^1.2.1":
   "version" "1.2.1"
 
@@ -7378,6 +7464,11 @@
 "json-parse-even-better-errors@^2.3.0":
   "version" "2.3.1"
 
+"json-parse-helpfulerror@^1.0.2":
+  "version" "1.0.3"
+  dependencies:
+    "jju" "^1.1.0"
+
 "json-rpc-engine@^3.4.0", "json-rpc-engine@^3.6.0":
   "version" "3.8.0"
   dependencies:
@@ -7404,6 +7495,9 @@
 
 "json-schema-traverse@^0.4.1":
   "version" "0.4.1"
+
+"json-schema@0.2.2":
+  "version" "0.2.2"
 
 "json-schema@0.2.3":
   "version" "0.2.3"
@@ -7458,6 +7552,9 @@
 
 "jsonify@~0.0.0":
   "version" "0.0.0"
+
+"jsonpointer@2.0.0":
+  "version" "2.0.0"
 
 "jsonschema@^1.2.4":
   "version" "1.4.0"
@@ -7881,7 +7978,7 @@
     "yallist" "^4.0.0"
 
 "lru-cache@~4.0.1":
-  "version" "4.0.2"
+  "version" "4.0.1"
   dependencies:
     "pseudomap" "^1.0.1"
     "yallist" "^2.0.0"
@@ -8051,13 +8148,21 @@
     "bn.js" "^4.0.0"
     "brorand" "^1.0.1"
 
+"mime-db@~1.23.0":
+  "version" "1.23.0"
+
 "mime-db@1.45.0":
   "version" "1.45.0"
 
 "mime-db@1.51.0":
   "version" "1.51.0"
 
-"mime-types@^2.1.11", "mime-types@^2.1.12", "mime-types@^2.1.16", "mime-types@~2.1.19", "mime-types@~2.1.24", "mime-types@~2.1.34", "mime-types@~2.1.7":
+"mime-types@^2.1.10", "mime-types@~2.1.7":
+  "version" "2.1.11"
+  dependencies:
+    "mime-db" "~1.23.0"
+
+"mime-types@^2.1.12", "mime-types@^2.1.16", "mime-types@~2.1.19", "mime-types@~2.1.24", "mime-types@~2.1.34":
   "version" "2.1.34"
   dependencies:
     "mime-db" "1.51.0"
@@ -8085,15 +8190,10 @@
 "minimalistic-crypto-utils@^1.0.0", "minimalistic-crypto-utils@^1.0.1":
   "version" "1.0.1"
 
-"minimatch@^3.0.0", "minimatch@~3.0.3":
-  "version" "3.0.8"
+"minimatch@^3.0.0", "minimatch@^3.0.2", "minimatch@~3.0.3":
+  "version" "3.0.3"
   dependencies:
-    "brace-expansion" "^1.1.7"
-
-"minimatch@^3.0.2", "minimatch@^3.0.4":
-  "version" "3.1.2"
-  dependencies:
-    "brace-expansion" "^1.1.7"
+    "brace-expansion" "^1.0.0"
 
 "minimatch@^3.0.4", "minimatch@2 || 3":
   "version" "3.1.2"
@@ -8360,7 +8460,7 @@
   "version" "4.3.0"
 
 "node-gyp@~3.6.0":
-  "version" "3.6.3"
+  "version" "3.6.0"
   dependencies:
     "fstream" "^1.0.0"
     "glob" "^7.0.3"
@@ -8370,7 +8470,7 @@
     "nopt" "2 || 3"
     "npmlog" "0 || 1 || 2 || 3 || 4"
     "osenv" "0"
-    "request" ">=2.9.0 <2.82.0"
+    "request" "2"
     "rimraf" "2"
     "semver" "~5.3.0"
     "tar" "^2.0.0"
@@ -8390,6 +8490,9 @@
 
 "node-releases@^2.0.2":
   "version" "2.0.2"
+
+"node-uuid@~1.4.7":
+  "version" "1.4.7"
 
 "nofilter@^1.0.4":
   "version" "1.0.4"
@@ -8424,7 +8527,7 @@
     "validate-npm-package-license" "^3.0.1"
 
 "normalize-package-data@~1.0.1 || ^2.0.0", "normalize-package-data@~2.3.5":
-  "version" "2.3.8"
+  "version" "2.3.5"
   dependencies:
     "hosted-git-info" "^2.1.4"
     "is-builtin-module" "^1.0.0"
@@ -8452,7 +8555,7 @@
     "semver" "^2.3.0 || 3.x || 4 || 5"
 
 "npm-package-arg@^3.0.0 || ^4.0.0", "npm-package-arg@^4.0.0", "npm-package-arg@~4.1.0":
-  "version" "4.1.1"
+  "version" "4.1.0"
   dependencies:
     "hosted-git-info" "^2.1.4"
     "semver" "4 || 5"
@@ -8558,20 +8661,12 @@
     "wrappy" "~1.0.2"
     "write-file-atomic" "~1.1.4"
 
-"npmlog@~2.0.0 || ~3.1.0", "npmlog@~2.0.4", "npmlog@0.1 || 1 || 2":
+"npmlog@~2.0.0 || ~3.1.0", "npmlog@~2.0.4", "npmlog@0 || 1 || 2 || 3 || 4", "npmlog@0.1 || 1 || 2":
   "version" "2.0.4"
   dependencies:
     "ansi" "~0.3.1"
     "are-we-there-yet" "~1.1.2"
     "gauge" "~1.2.5"
-
-"npmlog@0 || 1 || 2 || 3 || 4":
-  "version" "4.1.2"
-  dependencies:
-    "are-we-there-yet" "~1.1.2"
-    "console-control-strings" "~1.1.0"
-    "gauge" "~2.7.3"
-    "set-blocking" "~2.0.0"
 
 "number-is-nan@^1.0.0":
   "version" "1.0.1"
@@ -8584,6 +8679,9 @@
 
 "nwsapi@^2.2.0":
   "version" "2.2.0"
+
+"oauth-sign@~0.8.1":
+  "version" "0.8.2"
 
 "oauth-sign@~0.9.0":
   "version" "0.9.0"
@@ -9025,9 +9123,6 @@
     "safe-buffer" "^5.0.1"
     "sha.js" "^2.4.8"
 
-"performance-now@^0.2.0":
-  "version" "0.2.0"
-
 "performance-now@^2.1.0":
   "version" "2.1.0"
 
@@ -9264,10 +9359,7 @@
     "side-channel" "^1.0.4"
 
 "qs@~6.2.0":
-  "version" "6.2.4"
-
-"qs@~6.4.0":
-  "version" "6.4.1"
+  "version" "6.2.1"
 
 "qs@~6.5.2":
   "version" "6.5.2"
@@ -9339,12 +9431,11 @@
     "graceful-fs" "^4.1.2"
 
 "read-package-json@^2.0.0", "read-package-json@~2.0.4", "read-package-json@1 || 2":
-  "version" "2.0.13"
+  "version" "2.0.4"
   dependencies:
-    "glob" "^7.1.1"
-    "json-parse-better-errors" "^1.0.1"
+    "glob" "^6.0.0"
+    "json-parse-helpfulerror" "^1.0.2"
     "normalize-package-data" "^2.0.0"
-    "slash" "^1.0.0"
   optionalDependencies:
     "graceful-fs" "^4.1.2"
 
@@ -9450,6 +9541,16 @@
     "string_decoder" "~0.10.x"
 
 "readable-stream@~2.0.0":
+  "version" "2.0.6"
+  dependencies:
+    "core-util-is" "~1.0.0"
+    "inherits" "~2.0.1"
+    "isarray" "~1.0.0"
+    "process-nextick-args" "~1.0.6"
+    "string_decoder" "~0.10.x"
+    "util-deprecate" "~1.0.1"
+
+"readable-stream@~2.0.5":
   "version" "2.0.6"
   dependencies:
     "core-util-is" "~1.0.0"
@@ -9645,7 +9746,7 @@
     "tunnel-agent" "^0.6.0"
     "uuid" "^3.3.2"
 
-"request@^2.74.0", "request@~2.74.0":
+"request@^2.74.0", "request@~2.74.0", "request@2":
   "version" "2.74.0"
   dependencies:
     "aws-sign2" "~0.6.0"
@@ -9669,32 +9770,6 @@
     "stringstream" "~0.0.4"
     "tough-cookie" "~2.3.0"
     "tunnel-agent" "~0.4.1"
-
-"request@>=2.9.0 <2.82.0":
-  "version" "2.81.0"
-  dependencies:
-    "aws-sign2" "~0.6.0"
-    "aws4" "^1.2.1"
-    "caseless" "~0.12.0"
-    "combined-stream" "~1.0.5"
-    "extend" "~3.0.0"
-    "forever-agent" "~0.6.1"
-    "form-data" "~2.1.1"
-    "har-validator" "~4.2.1"
-    "hawk" "~3.1.3"
-    "http-signature" "~1.1.0"
-    "is-typedarray" "~1.0.0"
-    "isstream" "~0.1.2"
-    "json-stringify-safe" "~5.0.1"
-    "mime-types" "~2.1.7"
-    "oauth-sign" "~0.8.1"
-    "performance-now" "^0.2.0"
-    "qs" "~6.4.0"
-    "safe-buffer" "^5.0.1"
-    "stringstream" "~0.0.4"
-    "tough-cookie" "~2.3.0"
-    "tunnel-agent" "^0.6.0"
-    "uuid" "^3.0.0"
 
 "require-directory@^2.1.1":
   "version" "2.1.1"
@@ -9989,7 +10064,7 @@
   "version" "1.1.0"
 
 "semver@^2.3.0 || 3.x || 4 || 5", "semver@~5.1.0", "semver@2 >=2.2.1 || 3.x || 4 || 5", "semver@2.x || 3.x || 4 || 5":
-  "version" "5.1.1"
+  "version" "5.1.0"
 
 "semver@^5.3.0":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
@@ -10111,7 +10186,7 @@
     "request" "^2.79.0"
     "xhr" "^2.3.3"
 
-"set-blocking@^2.0.0", "set-blocking@~2.0.0":
+"set-blocking@^2.0.0":
   "version" "2.0.0"
 
 "set-immediate-shim@^1.0.1":
@@ -10248,6 +10323,11 @@
     "source-map" "^0.5.6"
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
+
+"sntp@1.x.x":
+  "version" "1.0.9"
+  dependencies:
+    "hoek" "2.x.x"
 
 "solc@^0.4.20":
   "integrity" "sha512-o+c6FpkiHd+HPjmjEVpQgH7fqZ14tJpXhho+/bQXlXbliLIS/xjXb42Vxh+qQY1WCSTMQ0+a5vR9vi0MfhU6mA=="
@@ -10591,6 +10671,9 @@
     "call-bind" "^1.0.2"
     "define-properties" "^1.1.3"
 
+"stringstream@~0.0.4":
+  "version" "0.0.5"
+
 "strip-ansi@^3.0.0", "strip-ansi@^3.0.1", "strip-ansi@~3.0.1":
   "integrity" "sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8="
   "resolved" "https://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.1.tgz"
@@ -10762,10 +10845,10 @@
     "through" "~2.3.8"
 
 "tar@^2.0.0", "tar@~2.2.1":
-  "version" "2.2.2"
+  "version" "2.2.1"
   dependencies:
     "block-stream" "*"
-    "fstream" "^1.0.12"
+    "fstream" "^1.0.2"
     "inherits" "2"
 
 "tar@^4.0.2":
@@ -10923,9 +11006,7 @@
     "punycode" "^2.1.1"
 
 "tough-cookie@~2.3.0":
-  "version" "2.3.4"
-  dependencies:
-    "punycode" "^1.4.1"
+  "version" "2.3.1"
 
 "tough-cookie@~2.5.0":
   "version" "2.5.0"
@@ -11115,6 +11196,9 @@
 
 "tweetnacl@^1.0.3":
   "version" "1.0.3"
+
+"tweetnacl@~0.13.0":
+  "version" "0.13.3"
 
 "tweetnacl@~0.14.0":
   "version" "0.14.5"
@@ -11365,7 +11449,7 @@
 "utils-merge@1.0.1":
   "version" "1.0.1"
 
-"uuid@^3.0.0", "uuid@^3.3.2":
+"uuid@^3.3.2":
   "version" "3.4.0"
 
 "uuid@^8.3.2":
@@ -11416,6 +11500,11 @@
     "assert-plus" "^1.0.0"
     "core-util-is" "1.0.2"
     "extsprintf" "^1.2.0"
+
+"verror@1.3.6":
+  "version" "1.3.6"
+  dependencies:
+    "extsprintf" "1.0.2"
 
 "w3c-hr-time@^1.0.1":
   "version" "1.0.2"
@@ -11960,15 +12049,10 @@
   dependencies:
     "isexe" "^2.0.0"
 
-"which@~1.2.11":
-  "version" "1.2.14"
+"which@~1.2.11", "which@1":
+  "version" "1.2.11"
   dependencies:
-    "isexe" "^2.0.0"
-
-"which@1":
-  "version" "1.3.1"
-  dependencies:
-    "isexe" "^2.0.0"
+    "isexe" "^1.1.1"
 
 "which@2.0.2":
   "integrity" "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA=="
@@ -12146,7 +12230,7 @@
   "version" "0.0.6"
 
 "yallist@^2.0.0":
-  "version" "2.1.2"
+  "version" "2.0.0"
 
 "yallist@^3.0.0", "yallist@^3.0.2", "yallist@^3.0.3", "yallist@^3.1.1":
   "version" "3.1.1"

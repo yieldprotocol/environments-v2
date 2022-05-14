@@ -34,3 +34,7 @@ import "@yield-protocol/utils-v2/contracts/utils/Timelock.sol";
 import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 import "@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol";
 import "@yield-protocol/strategy-v2/contracts/Strategy.sol";
+import '@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol';
+import '@yield-protocol/vault-v2/contracts/utils/convex/ConvexModule.sol';
+// import '@yield-protocol/vault-v2/contracts/utils/convex/ConvexJoin.sol';
+// import '@yield-protocol/vault-v2/contracts/utils/lido/StEthConverter.sol';

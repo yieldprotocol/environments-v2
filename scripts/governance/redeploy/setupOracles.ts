@@ -16,7 +16,7 @@ import { updateYearnSourcesProposal } from '../../fragments/oracles/updateYearnS
 import { updateCompositeSourcesProposal } from '../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../fragments/oracles/updateCompositePathsProposal'
 
-import { Timelock, EmergencyBrake } from '../../../typechain'
+import { Timelock, EmergencyBrake, AccumulatorMultiOracle } from '../../../typechain'
 import {
   ChainlinkMultiOracle,
   CompoundMultiOracle,
@@ -25,6 +25,9 @@ import {
   LidoOracle,
   YearnVaultMultiOracle,
 } from '../../../typechain'
+import { ACCUMULATOR } from '../../../shared/constants'
+import { orchestrateAccumulatorOracleProposal } from '../../fragments/oracles/orchestrateAccumulatorOracleProposal'
+import { updateAccumulatorSourcesProposal } from '../../fragments/oracles/updateAccumulatorSourcesProposal'
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
 const {
@@ -36,6 +39,7 @@ const {
   compositeSources,
   compositePaths,
   yearnSources,
+  rateChiSources,
 } = require(process.env.CONF as string)
 
 /**
@@ -86,6 +90,11 @@ const {
     protocol.get('yearnOracle') as string,
     ownerAcc
   )) as unknown as YearnVaultMultiOracle
+  const accumulatorOracle = (await ethers.getContractAt(
+    'AccumulatorMultiOracle',
+    protocol.get(ACCUMULATOR) as string,
+    ownerAcc
+  )) as unknown as AccumulatorMultiOracle
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
@@ -103,6 +112,8 @@ const {
   proposal = proposal.concat(await updateLidoSourceProposal(lidoOracle, lidoSource))
   proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, compositePaths))
+  proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
+  proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

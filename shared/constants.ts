@@ -35,6 +35,7 @@ export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
 export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
 export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
 export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
+export const CVX3CRV = ethers.utils.formatBytes32String('19').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -43,6 +44,7 @@ export const COMPOUND = 'compoundOracle'
 export const COMPOSITE = 'compositeOracle'
 export const LIDO = 'lidoOracle'
 export const UNISWAP = 'uniswapOracle'
+export const CONVEX3CRV = 'cvx3CrvOracle'
 export const YEARN = 'yearnOracle'
 export const NOTIONAL = 'notionalOracle'
 

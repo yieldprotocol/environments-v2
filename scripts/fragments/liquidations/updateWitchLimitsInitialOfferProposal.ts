@@ -8,7 +8,7 @@ import { Witch } from '../../../typechain'
 
 export const updateWitchLimitsInitialOfferProposal = async (
   witch: Witch,
-  newLimits: [string, number, number, number, number][]
+  newLimits: [string, string, number, number, number][]
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

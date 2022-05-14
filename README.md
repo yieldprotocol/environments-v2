@@ -1,16 +1,17 @@
 External contract links:
- - [Yearn Vault deployed token contracts](https://yearn.github.io/yearn-devdocs/getting-started/products/yvaults/vault-tokens) -- [github](https://github.com/yearn/yearn-vaults/blob/main/contracts/Vault.vy)
- - [Curve deployed contract addresses](https://curve.readthedocs.io/ref-addresses.html) -- [github](https://github.com/curvefi/curve-contract/tree/master/contracts)
- - [Lido deployed contracts (stEth and wstEth)](https://docs.lido.fi/deployed-contracts)
+
+- [Yearn Vault deployed token contracts](https://yearn.github.io/yearn-devdocs/getting-started/products/yvaults/vault-tokens) -- [github](https://github.com/yearn/yearn-vaults/blob/main/contracts/Vault.vy)
+- [Curve deployed contract addresses](https://curve.readthedocs.io/ref-addresses.html) -- [github](https://github.com/curvefi/curve-contract/tree/master/contracts)
+- [Lido deployed contracts (stEth and wstEth)](https://docs.lido.fi/deployed-contracts)
 
 ---
 
 Start a local environment:
-`npx hardhat node` 
+`npx hardhat node`
 
-OPTIONAL: Start a mainnet forked env: 
+OPTIONAL: Start a mainnet forked env:
 `npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/1Ywbr_Hku2pWR5BTgV9hxyoGaDWX0AoF`
-*currently a bit tempramental, use cautiously
+\*currently a bit tempramental, use cautiously
 
 then run the environment of choice, eg.
 `npx hardhat run ./environments/development.ts --network localhost`

@@ -2,44 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes6",
-        "name": "seriesId",
-        "type": "bytes6"
-      }
-    ],
-    "name": "accrual",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes6",
-        "name": "assetsId",
-        "type": "bytes6"
-      }
-    ],
-    "name": "assets",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes12",
         "name": "vault",
         "type": "bytes12"
@@ -60,7 +22,7 @@
             "type": "uint128"
           }
         ],
-        "internalType": "struct DataTypes.Balances",
+        "internalType": "struct Balances",
         "name": "",
         "type": "tuple"
       }
@@ -672,7 +634,7 @@
             "type": "bytes6"
           }
         ],
-        "internalType": "struct DataTypes.Vault",
+        "internalType": "struct Vault",
         "name": "",
         "type": "tuple"
       }

@@ -76,6 +76,14 @@
     [
       "onChainTest",
       "0xCDcEa3eBC084f24a25AD6f18fD678B0c6b33843d"
+    ],
+    [
+      "convexLadleModule",
+      "0xD5B43b2550751d372025d048553352ac60f27151"
+    ],
+    [
+      "cvx3CrvOracle",
+      "0x52e860327bCc464014259A7cD16DaA5763d7Dc99"
     ]
   ]
 }

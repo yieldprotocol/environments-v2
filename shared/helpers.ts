@@ -84,14 +84,33 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  timelock: Timelock,
+  raw_timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string
 ) => {
   // Propose, approve, execute
-  const txHash = await timelock.hash(proposal)
-  const on_fork = hre.network.config.chainId === 31337
-  console.log(`Proposal: ${txHash}`)
+  const txHash = await raw_timelock.hash(proposal)
+  const on_fork = true
+  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
+
+  let timelock = raw_timelock
+  if (on_fork) {
+    // If running on a mainnet fork, impersonating the multisig will work
+    if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
+    console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+
+    await hre.network.provider.request({
+      method: 'hardhat_impersonateAccount',
+      params: [multisig],
+    })
+    // Make sure the multisig has Ether
+    await hre.network.provider.request({
+      method: 'hardhat_setBalance',
+      params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
+    })
+    const multisigAcc = await ethers.getSigner(multisig as unknown as string)
+    timelock = await timelock.connect(multisigAcc)
+  }
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig)
@@ -99,7 +118,10 @@ export const proposeApproveExecute = async (
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
     // Propose
-    await timelock.propose(proposal)
+    let [ownerAcc] = await ethers.getSigners()
+    console.log(`Developer: ${ownerAcc.address}\n`)
+    const tx = await timelock.propose(proposal)
+    console.log(`Calldata:\n${tx.data}\n`)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {

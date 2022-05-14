@@ -2,7 +2,7 @@
  * @dev Input file for updateDust.ts
  */
 
-import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS } from '../../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS } from '../../../../shared/constants'
 
 export const developer: Map<number, string> = new Map([
   [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],

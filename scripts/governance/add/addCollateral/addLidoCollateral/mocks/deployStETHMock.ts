@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { STETH } from '../../../../shared/constants'
 import { mapToJson, jsonToMap, verify } from '../../../../shared/helpers'
 
-import ERC20MockArtifact from '../../../../../artifacts/contracts/mocks/ERC20Mock.sol/ERC20Mock.json'
+import ERC20MockArtifact from '../../../../../artifacts/contracts/::mocks/ERC20Mock.sol/ERC20Mock.json'
 import { ERC20Mock } from '../../../../typechain/ERC20Mock'
 
 const { deployContract } = waffle
