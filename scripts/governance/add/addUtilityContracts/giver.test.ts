@@ -8,7 +8,7 @@ const { developer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
-import { blacklistIlk } from './blacklistIlk'
+import { banIlk } from './banIlk'
 
 /**
  * @dev This script tests the giver contract
@@ -47,9 +47,9 @@ describe('Giver', function () {
   })
 
   it('Blacklist an asset', async () => {
-    await blacklistIlk()
-    await blacklistIlk()
-    await blacklistIlk()
+    await banIlk()
+    await banIlk()
+    await banIlk()
     expect(await giver.ilkBlacklist(DAI)).to.be.true
   })
 

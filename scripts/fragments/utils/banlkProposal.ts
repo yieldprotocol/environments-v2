@@ -1,18 +1,19 @@
 import { Giver } from '../../../typechain'
 /**
- * @dev This script blacklists an ilk on giver contract
+ * @dev This script bans an ilk on giver contract
  */
-export const blacklistIlkProposal = async (
+export const banIlkProposal = async (
   giver: Giver,
-  blacklistIlk: string
+  banIlk: string,
+  banState: boolean
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: giver.address,
-    data: giver.interface.encodeFunctionData('blacklistIlk', [blacklistIlk]),
+    data: giver.interface.encodeFunctionData('banIlk', [banIlk, banState]),
   })
-  console.log(`giver.blacklistIlk(${blacklistIlk})`)
+  console.log(`giver.banIlk(${banIlk},${banState})`)
 
   return proposal
 }

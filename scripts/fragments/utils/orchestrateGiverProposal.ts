@@ -25,7 +25,7 @@ export const orchestrateGiverProposal = async (
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('grantRoles', [
-      [id(giver.interface, 'blacklistIlk(bytes6)')],
+      [id(giver.interface, 'banIlk(bytes6,bool)')],
       timelock.address,
     ]),
   })
