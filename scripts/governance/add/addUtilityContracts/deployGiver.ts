@@ -10,8 +10,8 @@ import {
 import GiverArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/utils/Giver.sol/Giver.json'
 import { Giver } from '../../../../typechain'
 import { ROOT } from '../../../../shared/constants'
-const { developer,deployer } = require(process.env.CONF as string)
-const { protocol,governance } = require(process.env.CONF as string)
+const { developer, deployer } = require(process.env.CONF as string)
+const { protocol, governance } = require(process.env.CONF as string)
 const { deployContract } = waffle
 
 /**
@@ -39,7 +39,7 @@ const { deployContract } = waffle
     console.log(`giver.grantRoles(ROOT, timelock)`)
     while (!(await giver.hasRole(ROOT, timelock))) {}
   }
-  
+
   if (!(await giver.hasRole(ROOT, deployer))) {
     await giver.revokeRole(ROOT, deployer)
     console.log(`giver.revokeRole(ROOT, deployer)`)

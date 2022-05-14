@@ -3,7 +3,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 /**
  * @dev This script orchestrates the giver
- * The giver gets give access on cauldron. timelock gets access to blacklistIlk.
+ * The giver gets give access on cauldron. timelock gets access to banIlk.
  * Revokes the ROOT role of deployer
  */
 export const orchestrateGiverProposal = async (
@@ -29,7 +29,7 @@ export const orchestrateGiverProposal = async (
       timelock.address,
     ]),
   })
-  console.log(`timelock.grantRoles('giver', blacklistIlk)`)
+  console.log(`timelock.grantRoles('giver', banIlk)`)
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
