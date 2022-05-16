@@ -33,8 +33,8 @@ export const cvx3CrvSources: [string, string, string, string, string, string] = 
   bytes6ToBytes32(CVX3CRV),
   bytes6ToBytes32(ETH),
   protocol.get('curvePoolMock') as string,
-  protocol.get(DAI + 'Mock') as string,//TODO: Deploy chainlink
-  protocol.get(USDC + 'Mock') as string,//TODO: Deploy chainlink oracle
+  protocol.get(DAI + 'Mock') as string, //TODO: Deploy chainlink
+  protocol.get(USDC + 'Mock') as string, //TODO: Deploy chainlink oracle
   protocol.get('usdtEthAggregator') as string,
 ]
 
@@ -42,9 +42,7 @@ export const cvx3CrvSources: [string, string, string, string, string, string] = 
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [
-  [CVX3CRV, ETH, protocol.get(CONVEX3CRV) as string],
-]
+export const compositeSources: Array<[string, string, string]> = [[CVX3CRV, ETH, protocol.get(CONVEX3CRV) as string]]
 
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)

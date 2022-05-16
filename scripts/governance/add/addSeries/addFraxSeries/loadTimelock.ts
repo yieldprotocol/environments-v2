@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOriginalChainId, impersonate } from '../../../../shared/helpers'
+import { readAddressMappingIfExists, getOriginalChainId, impersonate } from '../../../../../shared/helpers'
 import * as hre from 'hardhat'
-import { ERC20Mock, Pool } from '../../../../typechain'
-import { WAD } from '../../../../shared/constants'
+import { ERC20Mock, Pool } from '../../../../../typechain'
+import { WAD } from '../../../../../shared/constants'
 const { poolsInit } = require(process.env.CONF as string)
 
 /**

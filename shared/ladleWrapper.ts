@@ -7,18 +7,18 @@ export class LadleWrapper {
   address: string
 
   pool = new ethers.utils.Interface([
-    "function sellBase(address to, uint128 min)",
-    "function sellFYToken(address to, uint128 min)",
-    "function mint(address to, bool, uint256 minTokensMinted)",
-    "function mintWithBase(address to, uint256 fyTokenToBuy, uint256 minTokensMinted)",
-    "function burnForBase(address to, uint256 minBaseOut)",
-    "function burn(address to, uint256 minBaseOut, uint256 minFYTokenOut)",
-  ]);
+    'function sellBase(address to, uint128 min)',
+    'function sellFYToken(address to, uint128 min)',
+    'function mint(address to, bool, uint256 minTokensMinted)',
+    'function mintWithBase(address to, uint256 fyTokenToBuy, uint256 minTokensMinted)',
+    'function burnForBase(address to, uint256 minBaseOut)',
+    'function burn(address to, uint256 minBaseOut, uint256 minFYTokenOut)',
+  ])
 
   tlmModule = new ethers.utils.Interface([
-    "function approve(bytes6 seriesId)",
-    "function sell(bytes6 seriesId, address to, uint256 fyDaiToSell)",
-  ]);
+    'function approve(bytes6 seriesId)',
+    'function sell(bytes6 seriesId, address to, uint256 fyDaiToSell)',
+  ])
 
   constructor(ladle: Ladle) {
     this.ladle = ladle
@@ -130,7 +130,13 @@ export class LadleWrapper {
     return this.ladle.interface.encodeFunctionData('serve', [vaultId, to, ink, base, max])
   }
 
-  public async serve(vaultId: string, to: string, ink: BigNumberish, base: BigNumberish, max: BigNumberish): Promise<ContractTransaction> {
+  public async serve(
+    vaultId: string,
+    to: string,
+    ink: BigNumberish,
+    base: BigNumberish,
+    max: BigNumberish
+  ): Promise<ContractTransaction> {
     return this.ladle.serve(vaultId, to, ink, base, max)
   }
 
@@ -146,7 +152,12 @@ export class LadleWrapper {
     return this.ladle.interface.encodeFunctionData('repayVault', [vaultId, to, ink, max])
   }
 
-  public async repayVault(vaultId: string, to: string, ink: BigNumberish, max: BigNumberish): Promise<ContractTransaction> {
+  public async repayVault(
+    vaultId: string,
+    to: string,
+    ink: BigNumberish,
+    max: BigNumberish
+  ): Promise<ContractTransaction> {
     return this.ladle.repayVault(vaultId, to, ink, max)
   }
 
@@ -178,27 +189,71 @@ export class LadleWrapper {
     return this.ladle.interface.encodeFunctionData('roll', [vaultId, newSeriesId, loan, max])
   }
 
-  public async roll(vaultId: string, newSeriesId: string, loan: BigNumberish, max: BigNumberish): Promise<ContractTransaction> {
+  public async roll(
+    vaultId: string,
+    newSeriesId: string,
+    loan: BigNumberish,
+    max: BigNumberish
+  ): Promise<ContractTransaction> {
     return this.ladle.roll(vaultId, newSeriesId, loan, max)
   }
 
-  public forwardPermitAction(token: string, spender: string, amount: BigNumberish, deadline: BigNumberish, v: BigNumberish, r: Buffer, s: Buffer): string {
-    return this.ladle.interface.encodeFunctionData('forwardPermit',
-      [token, spender, amount, deadline, v, r, s]
-    )
+  public forwardPermitAction(
+    token: string,
+    spender: string,
+    amount: BigNumberish,
+    deadline: BigNumberish,
+    v: BigNumberish,
+    r: Buffer,
+    s: Buffer
+  ): string {
+    return this.ladle.interface.encodeFunctionData('forwardPermit', [token, spender, amount, deadline, v, r, s])
   }
 
-  public async forwardPermit(token: string, spender: string, amount: BigNumberish, deadline: BigNumberish, v: BigNumberish, r: Buffer, s: Buffer): Promise<ContractTransaction> {
+  public async forwardPermit(
+    token: string,
+    spender: string,
+    amount: BigNumberish,
+    deadline: BigNumberish,
+    v: BigNumberish,
+    r: Buffer,
+    s: Buffer
+  ): Promise<ContractTransaction> {
     return this.ladle.forwardPermit(token, spender, amount, deadline, v, r, s)
   }
 
-  public forwardDaiPermitAction(token: string, spender: string, nonce: BigNumberish, deadline: BigNumberish, approved: boolean, v: BigNumberish, r: Buffer, s: Buffer): string {
-    return this.ladle.interface.encodeFunctionData('forwardDaiPermit',
-      [token, spender, nonce, deadline, approved, v, r, s]
-    )
+  public forwardDaiPermitAction(
+    token: string,
+    spender: string,
+    nonce: BigNumberish,
+    deadline: BigNumberish,
+    approved: boolean,
+    v: BigNumberish,
+    r: Buffer,
+    s: Buffer
+  ): string {
+    return this.ladle.interface.encodeFunctionData('forwardDaiPermit', [
+      token,
+      spender,
+      nonce,
+      deadline,
+      approved,
+      v,
+      r,
+      s,
+    ])
   }
 
-  public async forwardDaiPermit(token: string, spender: string, nonce: BigNumberish, deadline: BigNumberish, approved: boolean, v: BigNumberish, r: Buffer, s: Buffer): Promise<ContractTransaction> {
+  public async forwardDaiPermit(
+    token: string,
+    spender: string,
+    nonce: BigNumberish,
+    deadline: BigNumberish,
+    approved: boolean,
+    v: BigNumberish,
+    r: Buffer,
+    s: Buffer
+  ): Promise<ContractTransaction> {
     return this.ladle.forwardDaiPermit(token, spender, nonce, deadline, approved, v, r, s)
   }
 
@@ -251,12 +306,10 @@ export class LadleWrapper {
   }
 
   public sellBaseAction(pool: string, receiver: string, min: BigNumberish): string {
-    return this.ladle.interface.encodeFunctionData('route',
-      [
-        pool,
-        this.pool.encodeFunctionData('sellBase', [receiver, min])
-      ]
-    )
+    return this.ladle.interface.encodeFunctionData('route', [
+      pool,
+      this.pool.encodeFunctionData('sellBase', [receiver, min]),
+    ])
   }
 
   public async sellBase(pool: string, receiver: string, min: BigNumberish): Promise<ContractTransaction> {
@@ -264,38 +317,45 @@ export class LadleWrapper {
   }
 
   public sellFYTokenAction(pool: string, receiver: string, min: BigNumberish): string {
-    return this.ladle.interface.encodeFunctionData('route',
-      [
-        pool,
-        this.pool.encodeFunctionData('sellFYToken', [receiver, min])
-      ]
-    )
+    return this.ladle.interface.encodeFunctionData('route', [
+      pool,
+      this.pool.encodeFunctionData('sellFYToken', [receiver, min]),
+    ])
   }
 
   public async sellFYToken(pool: string, receiver: string, min: BigNumberish): Promise<ContractTransaction> {
     return this.ladle.route(pool, this.pool.encodeFunctionData('sellFYToken', [receiver, min]))
   }
 
-  public mintWithBaseAction(pool: string, receiver: string, fyTokenToBuy: BigNumberish, minTokensMinted: BigNumberish): string {
-    return this.ladle.interface.encodeFunctionData('route',
-      [
-        pool,
-        this.pool.encodeFunctionData('mintWithBase', [receiver, fyTokenToBuy, minTokensMinted])
-      ]
-    )
+  public mintWithBaseAction(
+    pool: string,
+    receiver: string,
+    fyTokenToBuy: BigNumberish,
+    minTokensMinted: BigNumberish
+  ): string {
+    return this.ladle.interface.encodeFunctionData('route', [
+      pool,
+      this.pool.encodeFunctionData('mintWithBase', [receiver, fyTokenToBuy, minTokensMinted]),
+    ])
   }
 
-  public async mintWithBase(pool: string, receiver: string, fyTokenToBuy: BigNumberish, minTokensMinted: BigNumberish): Promise<ContractTransaction> {
-    return this.ladle.route(pool, this.pool.encodeFunctionData('mintWithBase', [receiver, fyTokenToBuy, minTokensMinted]))
+  public async mintWithBase(
+    pool: string,
+    receiver: string,
+    fyTokenToBuy: BigNumberish,
+    minTokensMinted: BigNumberish
+  ): Promise<ContractTransaction> {
+    return this.ladle.route(
+      pool,
+      this.pool.encodeFunctionData('mintWithBase', [receiver, fyTokenToBuy, minTokensMinted])
+    )
   }
 
   public burnForBaseAction(pool: string, receiver: string, minBaseOut: BigNumberish): string {
-    return this.ladle.interface.encodeFunctionData('route',
-      [
-        pool,
-        this.pool.encodeFunctionData('burnForBase', [receiver, minBaseOut])
-      ]
-    )
+    return this.ladle.interface.encodeFunctionData('route', [
+      pool,
+      this.pool.encodeFunctionData('burnForBase', [receiver, minBaseOut]),
+    ])
   }
 
   public async burnForBase(pool: string, receiver: string, minBaseOut: BigNumberish): Promise<ContractTransaction> {
@@ -305,9 +365,7 @@ export class LadleWrapper {
   public tlmApproveAction(tlmModuleAddress: string, seriesId: string): string {
     const tlmApproveCall = this.tlmModule.encodeFunctionData('approve', [seriesId])
 
-    return this.ladle.interface.encodeFunctionData('moduleCall',
-      [tlmModuleAddress, tlmApproveCall]
-    )
+    return this.ladle.interface.encodeFunctionData('moduleCall', [tlmModuleAddress, tlmApproveCall])
   }
 
   public async tlmApprove(tlmModuleAddress: string, seriesId: string): Promise<ContractTransaction> {
@@ -317,9 +375,7 @@ export class LadleWrapper {
 
   public tlmSellAction(tlmModuleAddress: string, seriesId: string, receiver: string, amount: BigNumberish): string {
     const tlmSellCall = this.tlmModule.encodeFunctionData('sell', [seriesId, receiver, amount])
-    return this.ladle.interface.encodeFunctionData('moduleCall',
-      [tlmModuleAddress, tlmSellCall]
-    )
+    return this.ladle.interface.encodeFunctionData('moduleCall', [tlmModuleAddress, tlmSellCall])
   }
 
   // public async tlmSell(tlmModuleAddress: string, seriesId: string, receiver: string, amount: BigNumberish): Promise<ContractTransaction> {
@@ -327,4 +383,3 @@ export class LadleWrapper {
   //   return this.ladle.tlmSell(tlmModuleAddress, tlmSellCall)
   // }
 }
-  

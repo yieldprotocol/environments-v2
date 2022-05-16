@@ -21,7 +21,7 @@ const { protocol, developer } = require(process.env.CONF as string)
 
   let stETH: StETHMock
 
-  if (protocol.get('wstethMock') === undefined) {
+  if (protocol.get('wstETHMock') === undefined) {
     stETH = (await deployContract(ownerAcc, StETHMockArtifact)) as StETHMock
     console.log(`stETHMock, '${stETH.address}`)
     verify(stETH.address, [])

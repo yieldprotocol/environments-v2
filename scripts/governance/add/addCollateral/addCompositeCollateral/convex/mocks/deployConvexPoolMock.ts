@@ -6,7 +6,7 @@ import {
   writeAddressMap,
 } from '../../../../../../../shared/helpers'
 
-import ConvexPoolMockArtifact from '../../../../../../../artifacts/contracts/mocks/ConvexPoolMock.sol/ConvexPoolMock.json'
+import ConvexPoolMockArtifact from '../../../../../../../artifacts/contracts/::mocks/ConvexPoolMock.sol/ConvexPoolMock.json'
 import { ConvexPoolMock } from '../../../../../../../typechain/ConvexPoolMock'
 
 const { deployContract } = waffle

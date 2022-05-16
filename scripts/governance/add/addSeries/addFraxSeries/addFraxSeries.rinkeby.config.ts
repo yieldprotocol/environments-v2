@@ -30,10 +30,10 @@ import {
   FYETH2209,
   FYUSDC2206,
   FYUSDC2209,
-} from '../../../../shared/constants'
-import { readAddressMappingIfExists } from '../../../../shared/helpers'
+} from '../../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-import * as base_config from '../../base.rinkeby.config'
+import * as base_config from '../../../base.rinkeby.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'

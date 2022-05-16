@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/redeploy.goerli.config
-RUN="npx hardhat run --network goerli"
+RUN="npx hardhat run --network localhost"
 
 # Phase 1: Libraries
 $RUN $HERE/deployYieldMath.ts
@@ -28,6 +28,7 @@ $RUN $HERE/deployCompositeOracle.ts
 $RUN $HERE/deployLidoOracle.ts
 $RUN $HERE/deployUniswapOracle.ts
 $RUN $HERE/deployYearnOracle.ts
+$RUN $HERE/arbitrum/deployAccumulatorOracle.ts
 
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - propose
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - approve

@@ -101,8 +101,8 @@ module.exports = {
       blockGasLimit: 300_000_000,
     },
     localhost: {
-      chainId: 31337,
-      timeout: 600000,
+      // chainId: 31337,
+      timeout: 600000
     },
     ropsten: {
       accounts,

@@ -89,22 +89,26 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  timelock: Timelock,
+  raw_timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string
 ) => {
   // Propose, approve, execute
-  const txHash = await timelock.hash(proposal)
+  const txHash = await raw_timelock.hash(proposal)
   const on_fork = hre.network.config.chainId === 31337 || hre.network.name === 'tenderly'
   console.log(`Proposal: ${txHash}`)
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig)
   // - or execute (if in a fork, applying a time delay)
+  let timelock = raw_timelock
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
     // Propose
-    await timelock.propose(proposal)
+    let [ownerAcc] = await ethers.getSigners()
+    console.log(`Developer: ${ownerAcc.address}\n`)
+    const tx = await timelock.propose(proposal)
+    console.log(`Calldata:\n${tx.data}\n`)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {

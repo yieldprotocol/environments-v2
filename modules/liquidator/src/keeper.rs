@@ -1,20 +1,27 @@
 use crate::{
-    bindings::{Witch, BaseIdType, VaultIdType},
+    bindings::{BaseIdType, VaultIdType, Witch},
     borrowers::{Borrowers, VaultMap},
     cache::ImmutableCache,
     escalator::GeometricGasPrice,
     liquidations::{AuctionMap, Liquidator},
-    Result, swap_router::SwapRouter,
+    swap_router::SwapRouter,
+    Result,
 };
 
 use ethers::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use std::{
-    collections::{HashMap, HashSet}, io::Write, path::PathBuf, sync::Arc, time::SystemTime, time::{UNIX_EPOCH, Instant},
+    collections::{HashMap, HashSet},
+    io::Write,
+    path::PathBuf,
+    sync::Arc,
+    time::SystemTime,
+    time::{Instant, UNIX_EPOCH},
 };
 use tokio::time::{sleep, Duration};
-use tracing::{debug_span, info, instrument, trace};
+use tracing::{debug_span, info, instrument, trace, warn};
+use tryhard::{retry_fn, RetryFutureConfig};
 
 #[serde_as]
 #[derive(Serialize, Deserialize, Default)]
@@ -101,11 +108,12 @@ impl<M: Middleware> Keeper<M> {
         .await;
 
         let cache = ImmutableCache::new(
-            client.clone(), 
-            controller, 
-            HashMap::new(), 
+            client.clone(),
+            controller,
+            HashMap::new(),
             base_to_debt_threshold,
-            instance_name.clone())
+            instance_name.clone(),
+        )
         .await;
 
         Ok(Self {
@@ -119,14 +127,18 @@ impl<M: Middleware> Keeper<M> {
     }
 
     pub async fn run(&mut self, fname: PathBuf, start_block: Option<u64>) -> Result<(), M> {
+        let retry_config = RetryFutureConfig::new(10)
+            .exponential_backoff(Duration::from_secs(1))
+            .max_delay(Duration::from_secs(30));
+
         // Create the initial list of borrowers from the start_block, if provided
         if let Some(start_block) = start_block {
             self.last_block = start_block.into();
         }
 
         let watcher = self.client.clone();
-        let mut filter_id = watcher
-            .new_filter(FilterKind::NewBlocks)
+        let mut filter_id = retry_fn(|| watcher.new_filter(FilterKind::NewBlocks))
+            .with_config(retry_config)
             .await
             .map_err(ContractError::MiddlewareError)?;
 
@@ -139,12 +151,15 @@ impl<M: Middleware> Keeper<M> {
         let _enter = span.enter();
 
         let mut last_iteration_started_at: Option<Instant> = None;
+        let mut failures_in_row = 0;
+
         loop {
             match last_iteration_started_at {
                 // don't spin
-                Some(instant) if Instant::now() - instant < Duration::from_secs(30) =>
-                    sleep(Duration::from_secs(30) - (Instant::now() - instant)).await,
-                _ => ()
+                Some(instant) if Instant::now() - instant < Duration::from_secs(30) => {
+                    sleep(Duration::from_secs(30) - (Instant::now() - instant)).await
+                }
+                _ => (),
             };
             last_iteration_started_at = Some(Instant::now());
 
@@ -154,9 +169,8 @@ impl<M: Middleware> Keeper<M> {
             {
                 Ok(_results) => {
                     err_count = 0;
-                    let block_number = self
-                        .client
-                        .get_block_number()
+                    let block_number = retry_fn(|| self.client.get_block_number())
+                        .with_config(retry_config)
                         .await
                         .map_err(ContractError::MiddlewareError)?;
 
@@ -168,9 +182,8 @@ impl<M: Middleware> Keeper<M> {
                     }
 
                     maybe_last_block_number = Some(block_number.as_u64());
-                    match self
-                        .client
-                        .get_block(block_number)
+                    match retry_fn(|| self.client.get_block(block_number))
+                        .with_config(retry_config)
                         .await
                         .map_err(ContractError::MiddlewareError)?
                     {
@@ -220,14 +233,27 @@ impl<M: Middleware> Keeper<M> {
                     }
 
                     // run the logic for this block
-                    self.on_block(block_number).await?;
+                    match self.on_block(block_number).await {
+                        Ok(_) => {
+                            failures_in_row = 0;
 
-                    // update our last block
-                    self.last_block = block_number;
+                            // update our last block
+                            self.last_block = block_number;
 
-                    // Log once every 10 blocks
-                    if let Some(file) = file.take() {
-                        self.log(file);
+                            // Log once every 10 blocks
+                            if let Some(file) = file.take() {
+                                self.log(file);
+                            }
+                        }
+                        Err(x) => {
+                            warn!(err=?x, "Failed to process block");
+                            maybe_last_block_number = None;
+                            failures_in_row += 1;
+                            if failures_in_row >= 10 {
+                                return Err(x);
+                            }
+                            continue;
+                        }
                     }
                 }
                 Err(_x) => {
@@ -237,8 +263,8 @@ impl<M: Middleware> Keeper<M> {
                             String::from("can't query filter"),
                         )));
                     }
-                    filter_id = watcher
-                        .new_filter(FilterKind::NewBlocks)
+                    filter_id = retry_fn(|| watcher.new_filter(FilterKind::NewBlocks))
+                        .with_config(retry_config)
                         .await
                         .map_err(ContractError::MiddlewareError)?;
                 }

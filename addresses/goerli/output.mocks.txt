@@ -1,0 +1,62 @@
+No need to generate any newer typings.
+ChainId: 5
+usdcMock deployed at '0xDd5F34950354434338e036E414eD652B9CE8829A
+npx hardhat verify --network goerli 0xDd5F34950354434338e036E414eD652B9CE8829A  
+No need to generate any newer typings.
+YvUSDCMock, '0xBE4e83556535d801375f384F22c831BF1D8A8856
+npx hardhat verify --network goerli 0xBE4e83556535d801375f384F22c831BF1D8A8856 USDC yVault yvUSDC 6 0xDd5F34950354434338e036E414eD652B9CE8829A 
+No need to generate any newer typings.
+ENSMock, '0x31931814f83f7DF070dF0a8a7B156c6c8a668211
+npx hardhat verify --network goerli 0x31931814f83f7DF070dF0a8a7B156c6c8a668211 Ethereum Name Service ENS 
+No need to generate any newer typings.
+ChainId: 5
+linkMock deployed at '0x36ACc840478CB273A423AB17c57eBa0BF14653e5
+npx hardhat verify --network goerli 0x36ACc840478CB273A423AB17c57eBa0BF14653e5  
+No need to generate any newer typings.
+ChainId: 5
+uniMock deployed at '0xd181578aDd5705807E1784131d357f055bB60110
+npx hardhat verify --network goerli 0xd181578aDd5705807E1784131d357f055bB60110 Uniswap UNI 
+No need to generate any newer typings.
+stETHMock, '0xD97CDf9350fA6ceB3fF4b0FC1f0Bbafc9DBc5D1A
+npx hardhat verify --network goerli 0xD97CDf9350fA6ceB3fF4b0FC1f0Bbafc9DBc5D1A  
+No need to generate any newer typings.
+wstETHMock, '0x944763f01Ff9FcD8E191c710d8C700378E268a8d
+npx hardhat verify --network goerli 0x944763f01Ff9FcD8E191c710d8C700378E268a8d 0xD97CDf9350fA6ceB3fF4b0FC1f0Bbafc9DBc5D1A 
+No need to generate any newer typings.
+[0x303500000000/0x303000000000, '0x7Cb7dc9285a27BF2fF38D95cFEf9A4f68f216Fc6'],
+npx hardhat verify --network goerli 0x7Cb7dc9285a27BF2fF38D95cFEf9A4f68f216Fc6 18 
+No need to generate any newer typings.
+ChainId: 5
+[0x313800000000/0x303000000000, '0xCA196B5f97A440D42Bd09160fd1eb16f758b9A8C'],
+npx hardhat verify --network goerli 0xCA196B5f97A440D42Bd09160fd1eb16f758b9A8C 18 
+No need to generate any newer typings.
+ChainId: 5
+FraxMock deployed at '0x5291eff77d74ea6a54451ebFd215D5AafB0Cb443
+npx hardhat verify --network goerli 0x5291eff77d74ea6a54451ebFd215D5AafB0Cb443 Frax (FRAX) FRAX 
+No need to generate any newer typings.
+wethMock, '0x94D31F062fBF7fAaD1f253DCe9Bedd16B243E8b1
+npx hardhat verify --network goerli 0x94D31F062fBF7fAaD1f253DCe9Bedd16B243E8b1  
+No need to generate any newer typings.
+ChainId: 5
+wbtcMock deployed at '0x59Cc2517fbC36C2Fc12a9900BeD16D788956bE02
+npx hardhat verify --network goerli 0x59Cc2517fbC36C2Fc12a9900BeD16D788956bE02  
+No need to generate any newer typings.
+ChainId: 5
+daiMock deployed at '0x40E6F42Af4B8D8909Fa6e2d2C6EA31c999C1314f
+npx hardhat verify --network goerli 0x40E6F42Af4B8D8909Fa6e2d2C6EA31c999C1314f 5 
+No need to generate any newer typings.
+[0x303100000000/0x303000000000, '0xb51ddfA9aB165792697094aa49b8d87685401C5D'],
+npx hardhat verify --network goerli 0xb51ddfA9aB165792697094aa49b8d87685401C5D 18 
+[0x303200000000/0x303000000000, '0xff0D2B979dC3468D14c529b5921eB6ea3Cc9857A'],
+npx hardhat verify --network goerli 0xff0D2B979dC3468D14c529b5921eB6ea3Cc9857A 18 
+[0x303300000000/0x303000000000, '0x60E329801c43f48461fBE632FDFe6328Ce871ff8'],
+npx hardhat verify --network goerli 0x60E329801c43f48461fBE632FDFe6328Ce871ff8 18 
+[0x303500000000/0x303000000000, '0xb0FeFdd76BA3cACB18dDB881f191d510f6df3503'],
+npx hardhat verify --network goerli 0xb0FeFdd76BA3cACB18dDB881f191d510f6df3503 18 
+[0x303600000000/0x303000000000, '0x9F7DA69191ceE975e3F8e59e4AFe171421623984'],
+npx hardhat verify --network goerli 0x9F7DA69191ceE975e3F8e59e4AFe171421623984 18 
+[0x303700000000/0x303000000000, '0x2b0210DE38ccC1aC6d1717203fB8555fA07F26D6'],
+npx hardhat verify --network goerli 0x2b0210DE38ccC1aC6d1717203fB8555fA07F26D6 18 
+[0x313000000000/0x303000000000, '0x0673781880A91c881BAF3aC2Fd1b26d8745c4520'],
+npx hardhat verify --network goerli 0x0673781880A91c881BAF3aC2Fd1b26d8745c4520 18 
+No need to generate any newer typings.

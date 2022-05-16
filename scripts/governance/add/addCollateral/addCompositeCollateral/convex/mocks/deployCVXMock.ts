@@ -6,7 +6,7 @@ import {
   writeAddressMap,
 } from '../../../../../../../shared/helpers'
 
-import CVXMockArtifact from '../../../../../../../artifacts/contracts/mocks/CVXMock.sol/CVXMock.json'
+import CVXMockArtifact from '../../../../../../../artifacts/contracts/::mocks/CVXMock.sol/CVXMock.json'
 import { CVXMock } from '../../../../../../../typechain/CVXMock'
 
 const { deployContract } = waffle

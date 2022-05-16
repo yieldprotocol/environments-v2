@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/updateDust.mainnet.config
+export CONF=$PWD/$HERE/updateDust.config
 RUN="npx hardhat run --network mainnet"
 
 # $RUN $HERE/updateDust.ts

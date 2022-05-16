@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, stringToBytes6 } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute, stringToBytes6 } from '../../../../../shared/helpers'
 
 import {
   IOracle,
@@ -8,27 +8,27 @@ import {
   UniswapV3Oracle,
   AccumulatorMultiOracle,
   OnChainTest,
-} from '../../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
+} from '../../../../../typechain'
+import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
-import { COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../shared/constants'
+import { COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../../shared/constants'
 
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../fragments/assetsAndSeries/updateIlkProposal'
-import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
-import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
-import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { onChainTestProposal } from '../../../fragments/utils/onChainTestProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
+import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
+import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSourcesProposal'
+import { orchestrateAccumulatorOracleProposal } from '../../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
+import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSourcesProposal'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
+import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
+import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { onChainTestProposal } from '../../../../fragments/utils/onChainTestProposal'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const {
