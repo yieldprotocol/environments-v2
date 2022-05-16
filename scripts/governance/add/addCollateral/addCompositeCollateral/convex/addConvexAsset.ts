@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import {
   readAddressMappingIfExists,
-  proposeApproveExecuteTenderly,
+  proposeApproveExecute,
   getOwnerOrImpersonate,
 } from '../../../../../../shared/helpers'
 
@@ -122,5 +122,5 @@ const {
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await addTokenProposal(ladle, assets.get(CVX3CRV) as string))
   proposal = proposal.concat(await addIntegrationProposal(ladle, joins.get(CVX3CRV) as string))
-  await proposeApproveExecuteTenderly(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
