@@ -7,7 +7,9 @@ import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
 import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
 import { Witch, Timelock } from '../../../../typechain'
-import { newLimits, developer } from './updateAuctions.mainnet.config'
+
+const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)
+
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const governance = readAddressMappingIfExists('governance.json')

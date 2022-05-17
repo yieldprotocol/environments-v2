@@ -141,7 +141,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 1000000000,
+      gasPrice: 500000000,
       chainId: 42161,
       timeout: 60000
     },
