@@ -169,25 +169,25 @@ export const yearnDebtLimits: Array<[string, string, number, number, number, num
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [ETH, 3600, 714000, 500000000, 10000, 12],
-  [DAI, 3600, 751000, 1000000, 5000, 18],
-  [USDC, 3600, 751000, 1000000, 5000, 6],
-  [WBTC, 3600, 666000, 300000, 2100, 4],
-  [LINK, 3600, 600000, 1000000, 300, 18],
-  [UNI, 3600, 600000, 1000000, 100, 18],
-  [FRAX, 3600, 1000000, 1000000, 5000, 18],
+export const chainlinkAuctionLimits: Array<[string, number, string, number, number, number]> = [
+  [ETH, 3600, '720000000000000000', 32500000000, 1500000, 12], // DAI/ETH is 72% LTV
+  [DAI, 3600, '760000000000000000', 100000000, 5000, 18], // USDC/DAI is 76% LTV
+  [USDC, 3600, '760000000000000000', 100000000, 5000, 6], // DAI/USDC is 76% LTV
+  [WBTC, 3600, '670000000000000000', 25000000, 1200, 4], // ETH/WBTC is 67% LTV
+  [LINK, 3600, '670000000000000000', 6000000, 300, 18], // ETH/LINK is 67% LTV
+  [UNI, 3600, '670000000000000000', 10000000, 400, 18], // ETH/UNI is 67% LTV
+  [FRAX, 3600, '910000000000000000', 100000000, 400, 18], // DAI/FRAX is 91% LTV
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-export const compositeAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [WSTETH, 3600, 714000, 500000, 10000, 12],
-  [ENS, 3600, 600000, 2000000, 300, 18],
+export const compositeAuctionLimits: Array<[string, number, string, number, number, number]> = [
+  [WSTETH, 3600, '800000000000000000', 32500000000, 1500000, 12], // ETH/WSTETH is 80% LTV
+  [ENS, 3600, '670000000000000000', 5000000, 250, 18], // ETH/ENS is 67% LTV
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
-export const yearnAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [YVUSDC, 3600, 800000, 1000000, 5000, 18],
+export const yearnAuctionLimits: Array<[string, number, string, number, number, number]> = [
+  [YVUSDC, 3600, '800000000000000000', 10000000, 5000, 6], // USDC/YVUSDC is 80% LTV
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol

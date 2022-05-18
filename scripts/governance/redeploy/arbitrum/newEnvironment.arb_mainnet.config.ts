@@ -73,10 +73,10 @@ export const chainlinkDebtLimits: Array<[string, string, number, number, number,
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [ETH, 3600, 714000, 3250000000, 30000, 12],
-  [DAI, 3600, 751000, 1000000, 100, 18],
-  [USDC, 3600, 751000, 1000000, 100, 6],
+export const chainlinkAuctionLimits: Array<[string, number, string, number, number, number]> = [
+  [ETH, 3600, '720000000000000000', 32500000000, 30000, 12], // DAI/ETH is 72% LTV
+  [DAI, 3600, '760000000000000000', 100000000, 100, 18], // USDC/DAI is 76% LTV
+  [USDC, 3600, '760000000000000000', 100000000, 100, 6], // DAI/USDC is 76% LTV
 ]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
