@@ -49,7 +49,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const compositeAuctionLimits: Array<[string, number, string, number, number, number]> = [
-  [CVX3CRV, 3600, "900000000000000000", 10000000, 5000, 18],
+  [CVX3CRV, 3600, '900000000000000000', 10000000, 5000, 18],
 ]
 
 /// @notice Initialoffers to be used in an auction
