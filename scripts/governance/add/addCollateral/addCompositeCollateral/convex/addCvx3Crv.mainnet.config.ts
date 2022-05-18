@@ -15,6 +15,7 @@ export const assets: Map<string, string> = base_config.assets.set(CVX3CRV, '0x30
 export const compositePaths = convex_base_config.compositePaths
 export const compositeDebtLimits = convex_base_config.compositeDebtLimits
 export const compositeAuctionLimits = convex_base_config.compositeAuctionLimits
+export const initalOffers = convex_base_config.initalOffers
 export const seriesIlks = convex_base_config.seriesIlks
 export const crv = '0xd533a949740bb3306d119cc777fa900ba034cd52'
 

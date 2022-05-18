@@ -21,7 +21,7 @@ export const makeIlkProposal = async (
   cloak: EmergencyBrake,
   joins: Map<string, string>,
   debtLimits: Array<[string, string, number, number, number, number]>,
-  auctionLimits: Array<[string, number, number, number, number, number]>
+  auctionLimits: Array<[string, number, string, number, number, number]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

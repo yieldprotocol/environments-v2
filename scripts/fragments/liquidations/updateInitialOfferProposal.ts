@@ -10,10 +10,10 @@ import { Witch } from '../../../typechain'
 
 export const updateInitialOfferProposal = async (
   witch: Witch,
-  newInitialOffer: [string, number][]
+  newInitialOffer: [string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-
+  console.log(newInitialOffer)
   for (let [ilkId, initialOffer] of newInitialOffer) {
     const ilk = await witch.ilks(ilkId)
     const limits = await witch.limits(ilkId)
