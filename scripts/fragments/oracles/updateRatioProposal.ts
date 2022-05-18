@@ -23,12 +23,7 @@ export const updateRatioProposal = async (
     // Set the spot oracle in the Cauldron
     proposal.push({
       target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('setSpotOracle', [
-        baseId,
-        ilkId,
-        spotOracle,
-        ratio,
-      ]),
+      data: cauldron.interface.encodeFunctionData('setSpotOracle', [baseId, ilkId, spotOracle, ratio]),
     })
     console.log(`Collateralization ratio for ${baseId}/${ilkId} set to ${ratio}`)
   }
