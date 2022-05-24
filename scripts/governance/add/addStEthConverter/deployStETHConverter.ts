@@ -38,6 +38,4 @@ const { deployContract } = waffle
     )) as unknown as StEthConverter
     console.log(`Reusing StEthConverter at ${stEthConverter.address}`)
   }
-  protocol.set('stEthConverter')
-  writeAddressMap('protocol.json', protocol)
 })()

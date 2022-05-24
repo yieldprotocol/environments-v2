@@ -84,6 +84,10 @@
     [
       "cvx3CrvOracle",
       "0x52e860327bCc464014259A7cD16DaA5763d7Dc99"
+    ],
+    [
+      "stEthConverter",
+      "0x93D232213cCA6e5e7105199ABD8590293C3eb106"
     ]
   ]
 }

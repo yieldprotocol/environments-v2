@@ -8,7 +8,7 @@ import { Ladle, ERC20Mock, WstETHMock, StEthConverter } from '../../../../typech
 import { WSTETH, STETH, WAD, MAX256 } from '../../../../shared/constants'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
-const { developer, assets, protocol,whales } = require(process.env.CONF as string)
+const { developer, assets, protocol, whales } = require(process.env.CONF as string)
 
 function almostEqual(x: BigNumber, y: BigNumber, p: BigNumber) {
   // Check that abs(x - y) < p:
@@ -48,7 +48,6 @@ describe('StEthConverter', function () {
     )) as unknown as StEthConverter
 
     if (chainId === 1) {
-      
       // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
       const stEthWhale = whales.get(STETH) as string
       stEthWhaleAcc = await impersonate(stEthWhale, WAD)
