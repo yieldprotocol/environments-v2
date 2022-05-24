@@ -152,6 +152,10 @@
     [
       "accumulatorOracle",
       "0xbf04598518F54002Eea741A2828880502cE8384d"
+    ],
+    [
+      "stEthConverter",
+      "0xeFdDCD5bAf76a66cC2544C1BDA2C4C288a5be3E8"
     ]
   ]
 }
