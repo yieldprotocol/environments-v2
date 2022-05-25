@@ -8,6 +8,7 @@ import { Ladle, ERC20Mock, WstETHMock, StEthConverter } from '../../../../typech
 import { WSTETH, STETH, WAD, MAX256 } from '../../../../shared/constants'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
+const { developer, assets, protocol, whales } = require(process.env.CONF as string)
 
 function almostEqual(x: BigNumber, y: BigNumber, p: BigNumber) {
   // Check that abs(x - y) < p:
@@ -20,7 +21,7 @@ function almostEqual(x: BigNumber, y: BigNumber, p: BigNumber) {
  */
 
 describe('StEthConverter', function () {
-  let wstEth: ERC20Mock
+  let wstEth: WstETHMock
   let stEth: ERC20Mock
   let ladle: Ladle
   let stEthConverter: StEthConverter
@@ -30,18 +31,9 @@ describe('StEthConverter', function () {
 
   before(async () => {
     const chainId = await getOriginalChainId()
-    const path = chainId === 1 ? './addresses/mainnet/' : './addresses/kovan/'
 
-    const developer = new Map([
-      [1, '0xC7aE076086623ecEA2450e364C838916a043F9a8'],
-      [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
-    ])
-
-    ownerAcc = await getOwnerOrImpersonate(developer.get(chainId) as string, WAD)
+    ownerAcc = await getOwnerOrImpersonate(developer, WAD)
     otherAcc = (await ethers.getSigners())[1]
-
-    const protocol = jsonToMap(fs.readFileSync(path + 'protocol.json', 'utf8')) as Map<string, string>
-    const assets = jsonToMap(fs.readFileSync(path + 'assets.json', 'utf8')) as Map<string, string>
 
     wstEth = (await ethers.getContractAt('WstETHMock', assets.get(WSTETH) as string, ownerAcc)) as unknown as WstETHMock
 
@@ -57,7 +49,7 @@ describe('StEthConverter', function () {
 
     if (chainId === 1) {
       // Impersonate stETH whale 0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2
-      const stEthWhale = '0x35e3564c86bc0b5548a3be3a9a1e71eb1455fad2'
+      const stEthWhale = whales.get(STETH) as string
       stEthWhaleAcc = await impersonate(stEthWhale, WAD)
       await stEth.connect(stEthWhaleAcc).approve(wstEth.address, WAD)
       await wstEth.connect(stEthWhaleAcc).wrap(WAD)
