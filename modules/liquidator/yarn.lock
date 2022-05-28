@@ -2453,13 +2453,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yield-protocol/vault-interfaces@npm:2.3.2":
-  version: 2.3.2
-  resolution: "@yield-protocol/vault-interfaces@npm:2.3.2"
-  checksum: 98fd01d16c99efd58235f458d64b2e3e26a70ec840a857080164dc48de7e08483a029c300f2cd1a0da8ac04736414edbb74b3116227a9de3664eff9fccc33d6c
-  languageName: node
-  linkType: hard
-
 "@yield-protocol/vault-interfaces@npm:^2.3.0-rc4":
   version: 2.3.0-rc6
   resolution: "@yield-protocol/vault-interfaces@npm:2.3.0-rc6"
@@ -2467,10 +2460,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yield-protocol/vault-v2@npm:0.15.0-rc3":
-  version: 0.15.0-rc3
-  resolution: "@yield-protocol/vault-v2@npm:0.15.0-rc3"
-  checksum: 2547b20f0607c1826ba37f9deed09191fe457541a12de4d0ef16b4822e1f682b37de03e9337eea7b93a5ad0be1cc5a4bb884e627fdde93d2bdaf0046aa5dbced
+"@yield-protocol/vault-interfaces@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@yield-protocol/vault-interfaces@npm:2.4.1"
+  checksum: 4fac989e26794b69af95a924e23cecf349d9cf8b972ee3321f41b508a1f8f024ca6732e291bdd9d2f0a045ca2cf16935677cd4c33cdc8a455995e7ae4fda1226
+  languageName: node
+  linkType: hard
+
+"@yield-protocol/vault-v2@npm:^0.16.6":
+  version: 0.16.6
+  resolution: "@yield-protocol/vault-v2@npm:0.16.6"
+  checksum: e583c4fb1a5d9433347afbd799152c6821ac7824bb06450a943f89d2a04b5d988105ab2d7f608a4b0aa48bd711c6bdf851f8fe04aba9c22101ee8e4b67ee746c
   languageName: node
   linkType: hard
 
@@ -2494,8 +2494,8 @@ __metadata:
     "@uniswap/smart-order-router": ^2.5.15
     "@yield-protocol/hardhat-dapptools": ^0.1.0
     "@yield-protocol/utils-v2": 2.4.6
-    "@yield-protocol/vault-interfaces": 2.3.2
-    "@yield-protocol/vault-v2": 0.15.0-rc3
+    "@yield-protocol/vault-interfaces": ^2.4.1
+    "@yield-protocol/vault-v2": ^0.16.6
     chai: 4.2.0
     dss-interfaces: 0.1.1
     erc3156: ^0.4.8
