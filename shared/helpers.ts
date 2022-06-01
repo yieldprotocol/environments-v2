@@ -322,6 +322,7 @@ export function getNetworkName(): string {
  */
 export function getAddressMappingFilePath(file_name: string): string {
   const full_path = join('addresses', getNetworkName(), file_name)
+  console.log("full_path", full_path)
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))

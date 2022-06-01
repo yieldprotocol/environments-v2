@@ -3,6 +3,7 @@ import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployFYTokens } from '../../fragments/assetsAndSeries/deployFYTokens'
 import { SafeERC20Namer, Timelock } from '../../../typechain'
+
 const { protocol, governance } = require(process.env.CONF as string)
 const { developer, fyTokenData } = require(process.env.CONF as string)
 
@@ -12,12 +13,11 @@ const { developer, fyTokenData } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
   const safeERC20Namer = (await ethers.getContractAt(
     'SafeERC20Namer',
     protocol.get('safeERC20Namer') as string,
     ownerAcc
-  )) as unknown as SafeERC20Namer
+    )) as unknown as SafeERC20Namer
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

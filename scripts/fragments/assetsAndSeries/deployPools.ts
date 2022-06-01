@@ -13,11 +13,12 @@ export const deployPools = async (
   yieldMathLibrary: YieldMath,
   poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]>
 ): Promise<Map<string, Pool>> => {
-  const PoolFactory = await ethers.getContractFactory('Pool', {
-    libraries: {
-      YieldMath: yieldMathLibrary.address,
-    },
-  })
+  const PoolFactory = await ethers.getContractFactory('Pool')
+  // const PoolFactory = await ethers.getContractFactory('Pool', {
+  //   libraries: {
+  //     YieldMath: yieldMathLibrary.address,
+  //   },
+  // })
 
   let pools: Map<string, Pool> = new Map()
   for (let [seriesId, baseAddress, fyTokenAddress, ts, g1, g2] of poolData) {

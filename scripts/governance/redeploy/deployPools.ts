@@ -20,5 +20,5 @@ const { developer, poolData } = require(process.env.CONF as string)
   )) as unknown as YieldMath
 
   const newPools = await deployPools(ownerAcc, yieldMath, poolData)
-  writeAddressMap('newPools.json', newPools) // newPools.json is a tempporary file
+  writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
 })()
