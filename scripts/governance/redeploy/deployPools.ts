@@ -14,7 +14,7 @@ const { developer, poolData } = require(process.env.CONF as string)
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const yieldMath = (await ethers.getContractAt(
-    'YieldMath',
+    '@yield-protocol/yieldspace-tv/src/YieldMath.sol:YieldMath',
     protocol.get('yieldMath') as string,
     ownerAcc
   )) as unknown as YieldMath

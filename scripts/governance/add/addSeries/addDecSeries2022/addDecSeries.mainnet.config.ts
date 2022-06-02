@@ -72,22 +72,20 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee), g2 (Sell fyToken to the pool fee)
-export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+export const poolData: Array<[string, string, string, BigNumber, BigNumber]> = [
   [
     FYDAI2212,
     assets.get(DAI) as string,
     fyTokens.get(FYDAI2212) as string,
     ONE64.div(secondsIn30Years),
-    ONE64.mul(75).div(100),
-    ONE64.mul(100).div(75),
+    BigNumber.from(100), //TODO: we need to supply uint16
   ],
   [
     FYUSDC2212,
     assets.get(USDC) as string,
     fyTokens.get(FYUSDC2212) as string,
     ONE64.div(secondsIn30Years),
-    ONE64.mul(75).div(100),
-    ONE64.mul(100).div(75),
+    BigNumber.from(100), //TODO: we need to supply uint16
   ],
 ]
 
