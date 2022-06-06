@@ -15,6 +15,8 @@ export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
+console.log(`Join(ETH): ${joins.get(ETH)}`)
+
 export const whales: Map<string, string> = new Map([
   [ETH, developer],
   [DAI, developer],
