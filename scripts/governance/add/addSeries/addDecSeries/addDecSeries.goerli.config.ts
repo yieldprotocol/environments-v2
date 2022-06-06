@@ -27,10 +27,16 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
+// Time stretch to be set in the PoolFactory prior to pool deployment
+export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
+
+// Sell base to the pool fee, as fp4
+export const g1: number = 7500
+
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYETH2212, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EODEC22, 'FYETH2212', 'FYETH2212'],
-  [FYDAI2212, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
+//  [FYETH2212, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EODEC22, 'FYETH2212', 'FYETH2212'],
+//  [FYDAI2212, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
   [FYUSDC2212, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EODEC22, 'FYUSDC2212', 'FYUSDC2212'],
   [FYFRAX2212, FRAX, protocol.get(ACCUMULATOR) as string, joins.get(FRAX) as string, EODEC22, 'FYFRAX2212', 'FYFRAX2212'],
 ]
@@ -38,33 +44,26 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const yvPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [
-    FYETH2212,
-    assets.get(ETH) as string,
-    newFYTokens.get(FYETH2212) as string,
-    ONE64.div(secondsIn25Years),
-    7500,
-  ],
-  [
-    FYDAI2212,
-    assets.get(DAI) as string,
-    newFYTokens.get(FYDAI2212) as string,
-    ONE64.div(secondsIn25Years),
-    7500,
-  ],
+//  [
+//    FYETH2212,
+//    assets.get(YVETH) as string,
+//    newFYTokens.get(FYETH2212) as string,
+//    timeStretch,
+//    g1,
+//  ],
+//  [
+//    FYDAI2212,
+//    assets.get(YVDAI) as string,
+//    newFYTokens.get(FYDAI2212) as string,
+//    timeStretch,
+//    g1,
+//  ],
   [
     FYUSDC2212,
-    assets.get(USDC) as string,
+    assets.get(YVUSDC) as string,
     newFYTokens.get(FYUSDC2212) as string,
-    ONE64.div(secondsIn25Years),
-    7500,
-  ],
-  [
-    FYFRAX2212,
-    assets.get(FRAX) as string,
-    newFYTokens.get(FYFRAX2212) as string,
-    ONE64.div(secondsIn25Years),
-    7500,
+    timeStretch,
+    g1,
   ],
 ]
 
@@ -75,29 +74,19 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
     FYFRAX2212,
     assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2212) as string,
-    ONE64.div(secondsIn25Years),
-    7500,
+    timeStretch,
+    g1,
   ],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYETH2212, DAI, WAD.div(10), BigNumber.from('0')],
-  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
+//  [FYETH2212, ETH, WAD.div(10), BigNumber.from('0')],
+//  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
   [FYUSDC2212, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
   [FYFRAX2212, FRAX, WAD.mul(100), BigNumber.from('0')],
 ]
-
-// Pool fees to be set in the PoolFactory prior to pool deployment
-// g1, g2
-export const poolFees: [BigNumber, BigNumber] = [
-  ONE64.mul(75).div(100), // Sell base to the pool
-  ONE64.mul(100).div(75), // Sell fyToken to the pool
-]
-
-// Time stretch to be set in the PoolFactory prior to pool deployment
-export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 
 // Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
 // assetId, loanAmount
