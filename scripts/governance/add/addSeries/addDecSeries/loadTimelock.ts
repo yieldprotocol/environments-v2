@@ -1,21 +1,16 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
-import { WAD } from '../../../../shared/constants'
-import { ERC20Mock, Pool } from '../../../../typechain'
-const { whales, poolsInit } = require(process.env.CONF as string)
+import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../../shared/helpers'
+import { WAD } from '../../../../../shared/constants'
+import { ERC20Mock, Pool } from '../../../../../typechain'
+const { governance, whales, newPools, poolsInit } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
-  const governance = readAddressMappingIfExists('governance.json')
-
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
     const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
-    const pools = readAddressMappingIfExists('newPools.json')
-    const poolAddress = pools.get(seriesId) as string
+    const poolAddress = newPools.get(seriesId) as string
 
     const pool = (await ethers.getContractAt('Pool', poolAddress, whaleAcc)) as Pool
     const baseAddress = await pool.base()

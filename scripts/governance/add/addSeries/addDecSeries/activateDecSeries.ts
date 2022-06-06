@@ -4,30 +4,23 @@ import {
   getOwnerOrImpersonate,
   getOriginalChainId,
   proposeApproveExecute,
-} from '../../../../shared/helpers'
+} from '../../../../../shared/helpers'
 
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { rollStrategiesProposal } from '../../../fragments/core/strategies/rollStrategiesProposal'
-import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../typechain'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
+import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../../typechain'
+
+import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { rollStrategiesProposal } from '../../../../fragments/core/strategies/rollStrategiesProposal'
+import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
 
 const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)
+const { protocol, governance, strategies, joins, newPools, newFYTokens } = require(process.env.CONF as string)
 /**
  * @dev This script deploys two series
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
-  const strategies = readAddressMappingIfExists('strategies.json')
-
-  // Temporary files with the fyTokens and pools to add
-  const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
-  const newPools = readAddressMappingIfExists('newPools.json')
 
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
@@ -48,7 +41,7 @@ const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
