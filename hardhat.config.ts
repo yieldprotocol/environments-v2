@@ -95,7 +95,8 @@ module.exports = {
     hardhat: {
       accounts,
       chainId: 31337,
-      blockGasLimit: 300_000_000
+      blockGasLimit: 300_000_000,
+      loggingEnabled: true,
     },
     localhost: {
       // chainId: 31337,
