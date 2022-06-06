@@ -6,9 +6,9 @@ export CONF=$PWD/$HERE/redeploy.goerli.config
 RUN="npx hardhat run --network localhost"
 
 # Phase 4: Core
-$RUN $HERE/deployCauldron.ts
-$RUN $HERE/deployLadle.ts # deploy Ladle, using WETH9 from the config file
-$RUN $HERE/deployWitch.ts
+$RUN $HERE/../deploy/deployCauldron.ts
+$RUN $HERE/../deploy/deployLadle.ts # deploy Ladle, using WETH9 from the config file
+$RUN $HERE/../deploy/deployWitch.ts
 $RUN $HERE/../addSeries/addFraxSeries/deployOnChainTest.ts
 $RUN $HERE/orchestrateCore.ts # orchestrate core - propose
 $RUN $HERE/orchestrateCore.ts # orchestrate core - approve
@@ -21,10 +21,10 @@ $RUN $HERE/../add/addSeries/addEthSeries/orchestrateWrapEtherModule.ts
 $RUN $HERE/../add/addSeries/addEthSeries/orchestrateWrapEtherModule.ts
 
 # Phase 6: Assets, Series, Strategies
-$RUN $HERE/deployJoins.ts # deploy joins
-$RUN $HERE/deployFYTokens.ts # deploy fyTokens
-$RUN $HERE/deployPools.ts # deploy pools
-$RUN $HERE/deployStrategies.ts # deploy strategies (needs to be after adding assets)
+$RUN $HERE/../deploy/deployJoins.ts # deploy joins
+$RUN $HERE/../deploy/deployFYTokens.ts # deploy fyTokens
+$RUN $HERE/../deploy/deployPools.ts # deploy pools
+$RUN $HERE/../deploy/deployStrategies.ts # deploy strategies (needs to be after adding assets)
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - propose
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - approve
 $RUN $HERE/addAssets.ts # orchestrate joins, make bases, make ilks - execute
