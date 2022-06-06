@@ -51,6 +51,7 @@ export const joins: Map<string, string> = new Map([
   [ENS, '0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969'],
   [YVUSDC, '0x403ae7384E89b086Ea2935d5fAFed07465242B38'],
   [UNI, '0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779'],
+  [FRAX, '0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464'],
 ])
 
 export const chiSources: Array<[string, string]> = [

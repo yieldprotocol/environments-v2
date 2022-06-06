@@ -111,18 +111,12 @@ module.exports = {
       timeout: 600000,
       url: infuraNodeUrl('goerli'),
     },
-    kovan: {
+    tenderly: {
       accounts,
-      gasPrice: 1000000000,
-      timeout: 600000,
-      url: infuraNodeUrl('kovan')
-    },
-    rinkeby: {
-      accounts,
-      gasPrice: 2000000000,
+      gasPrice: 50000000000,
       gasMultiplier: 1.1,
-      timeout: 600000,
-      url: alchemyNodeUrl('rinkeby')
+      timeout: 60000000,
+      url: "https://rpc.tenderly.co/fork/7cf5705e-3833-45d8-b65d-d0c05a336929"
     },
     arb_rinkeby: {
       accounts,
