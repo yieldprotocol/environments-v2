@@ -40,29 +40,16 @@ import {
   const joins = readAddressMappingIfExists('joins.json')
   const governance = readAddressMappingIfExists('governance.json')
 
-
   const chainlinkOracle = await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get('chainlinkOracle') as string,
     ownerAcc
   )
-  const cauldron = await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
   const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
-  const cloak = await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )
-  const timelock = await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   let assetsAndJoins: Array<[string, string, string]> = []
   for (let [assetId, joinAddress] of joins) {
