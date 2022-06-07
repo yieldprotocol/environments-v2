@@ -90,7 +90,7 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await raw_timelock.hash(proposal)
-  const on_fork = false
+  const on_fork = true
   console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
 
   let timelock = raw_timelock
