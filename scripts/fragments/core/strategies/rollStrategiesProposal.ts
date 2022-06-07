@@ -18,6 +18,7 @@ export const rollStrategiesProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [strategyId, nextSeriesId, minRatio, maxRatio] of rollData) {
+    console.log(`StrategyId: ${strategyId}`)
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
     else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)

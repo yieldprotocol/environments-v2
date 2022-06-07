@@ -90,7 +90,7 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await raw_timelock.hash(proposal)
-  const on_fork = true
+  const on_fork = false
   console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
 
   let timelock = raw_timelock
@@ -322,7 +322,7 @@ export function getNetworkName(): string {
  */
 export function getAddressMappingFilePath(file_name: string): string {
   const full_path = join('addresses', getNetworkName(), file_name)
-  console.log("full_path", full_path)
+  // console.log("full_path", full_path)
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))

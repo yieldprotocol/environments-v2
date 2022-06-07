@@ -22,7 +22,7 @@ export const addSeriesProposal = async (
   ladle: Ladle,
   timelock: Timelock,
   cloak: EmergencyBrake,
-  joins: Map<string, string> // assetId, joinAddress
+  joins: Map<string, string>, // assetId, joinAddress
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
   newPools: Map<string, string>, // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -67,6 +67,8 @@ export const addSeriesProposal = async (
       data: ladle.interface.encodeFunctionData('addPool', [seriesId, pool.address]),
     })
     console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
+
+    // ==== Orchestrate fyToken ====
 
     // Allow the fyToken to pull from the base join for redemption, and to push to mint with underlying
     proposal.push({
@@ -145,6 +147,24 @@ export const addSeriesProposal = async (
       })
       console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
     }
+
+    // ==== Orchestrate pool ====
+
+    // Remove ROOT in pool from deployer
+    proposal.push({
+      target: pool.address,
+      data: pool.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    })
+    console.log(`pool.revokeRole(ROOT, deployer)`)
+
+    proposal.push({
+      target: pool.address,
+      data: pool.interface.encodeFunctionData('grantRoles', [
+        [id(pool.interface, 'init(address,address,uint256,uint256)'), id(pool.interface, 'setFees(uint16)')],
+        timelock.address,
+      ]),
+    })
+    console.log(`pool.grantRoles(gov, timelock)`)
   }
 
   return proposal

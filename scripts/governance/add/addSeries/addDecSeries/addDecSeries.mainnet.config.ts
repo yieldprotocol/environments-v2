@@ -23,6 +23,7 @@ export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
+export const strategies: Map<string, string> = base_config.strategies
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools

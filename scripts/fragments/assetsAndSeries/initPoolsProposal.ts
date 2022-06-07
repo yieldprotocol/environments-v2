@@ -44,25 +44,27 @@ export const initPoolsProposal = async (
     // Initialize pool
     proposal.push({
       target: pool.address,
-      data: pool.interface.encodeFunctionData('mint', [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
+      data: pool.interface.encodeFunctionData('init', [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
     console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
 
-    // Skew pool
-    proposal.push({
-      target: base.address,
-      data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
-    })
-    console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
-    proposal.push({
-      target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
-    })
-    console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
-    // proposal.push({
-    //   target: pool.address,
-    //   data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
-    // })
+    if (!fyTokenAmount.isZero()) {
+      // Skew pool
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
+      })
+      console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
+      proposal.push({
+        target: fyToken.address,
+        data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
+      })
+      console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
+      proposal.push({
+        target: pool.address,
+        data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
+      })
+    }
   }
 
   return proposal

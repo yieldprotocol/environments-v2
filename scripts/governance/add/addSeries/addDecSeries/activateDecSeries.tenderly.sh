@@ -8,6 +8,6 @@ RUN="npx hardhat run --network tenderly"
 # $RUN $HERE/loadTimelock.ts
 # $RUN $HERE/advanceToMaturity.ts
 # 
-# $RUN $HERE/activateDecSeries.ts
+$RUN $HERE/activateDecSeries.ts
 # $RUN $HERE/activateDecSeries.ts
 # $RUN $HERE/activateDecSeries.ts
