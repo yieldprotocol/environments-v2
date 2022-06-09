@@ -12,13 +12,12 @@ export const rollStrategiesProposal = async (
   ownerAcc: any,
   strategies: Map<string, string>, // strategyId, strategyAddress
   newPools: Map<string, string>, // seriesId, poolAddress
-  rollData: Array<[string, string, BigNumber, BigNumber]>
+  rollData: Array<[string, string, BigNumber, BigNumber, boolean]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, nextSeriesId, minRatio, maxRatio] of rollData) {
-    console.log(`StrategyId: ${strategyId}`)
+  for (let [strategyId, nextSeriesId, minRatio, maxRatio, fix] of rollData) {
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
     else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)
@@ -39,6 +38,13 @@ export const rollStrategiesProposal = async (
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
     })
+    if (fix) {
+      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
+      })
+    }
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('startPool', [minRatio, maxRatio]),

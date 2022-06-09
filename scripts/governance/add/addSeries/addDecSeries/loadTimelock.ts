@@ -20,7 +20,7 @@ const { governance, whales, newPools, poolsInit } = require(process.env.CONF as 
       baseAddress,
       whaleAcc
     )) as unknown as ERC20Mock
-    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount))
+    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
     console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
   }
 })()
