@@ -24,7 +24,7 @@ export const addSeriesProposal = async (
   cloak: EmergencyBrake,
   joins: Map<string, string>, // assetId, joinAddress
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
-  newPools: Map<string, string>, // seriesId, poolAddress
+  newPools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

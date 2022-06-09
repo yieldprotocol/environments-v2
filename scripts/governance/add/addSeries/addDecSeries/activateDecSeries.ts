@@ -19,7 +19,6 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
  * @dev This script deploys two series
  */
 ;(async () => {
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const cauldron = (await ethers.getContractAt(

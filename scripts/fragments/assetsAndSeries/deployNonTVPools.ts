@@ -16,12 +16,14 @@ export const deployNonTVPools = async (
   yieldMathLibrary: YieldMath,
   poolData: Array<[string, string, string, BigNumber, number]>
 ): Promise<Map<string, Pool>> => {
-  
-  const PoolNonTvFactory = await ethers.getContractFactory('@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolNonTv.sol:PoolNonTv', {
-    libraries: {
-      YieldMath: yieldMathLibrary.address,
-    },
-  })
+  const PoolNonTvFactory = await ethers.getContractFactory(
+    '@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolNonTv.sol:PoolNonTv',
+    {
+      libraries: {
+        YieldMath: yieldMathLibrary.address,
+      },
+    }
+  )
 
   let pools: Map<string, Pool> = new Map()
   for (let [seriesId, baseAddress, fyTokenAddress, ts, g1] of poolData) {

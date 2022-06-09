@@ -1,11 +1,5 @@
 import { BigNumber } from 'ethers'
-import {
-  WAD,
-  ONEUSDC,
-  MAX256,
-  ONE64,
-  secondsIn25Years,
-} from '../../../../../shared/constants'
+import { WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../../shared/constants'
 import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC } from '../../../../../shared/constants'
 import { EODEC22 } from '../../../../../shared/constants'
 import { FYETH2212, FYDAI2212, FYUSDC2212, FYFRAX2212 } from '../../../../../shared/constants'
@@ -37,55 +31,45 @@ export const g1: number = 7500
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYETH2212, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EODEC22, 'FYETH2212', 'FYETH2212'],
-// TODO: Manage to source 100 DAI from somewhere
-//  [FYDAI2212, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
+  // TODO: Manage to source 100 DAI from somewhere
+  //  [FYDAI2212, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
   [FYUSDC2212, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EODEC22, 'FYUSDC2212', 'FYUSDC2212'],
-  [FYFRAX2212, FRAX, protocol.get(ACCUMULATOR) as string, joins.get(FRAX) as string, EODEC22, 'FYFRAX2212', 'FYFRAX2212'],
+  [
+    FYFRAX2212,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(FRAX) as string,
+    EODEC22,
+    'FYFRAX2212',
+    'FYFRAX2212',
+  ],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const yvPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [
-    FYUSDC2212,
-    assets.get(YVUSDC) as string,
-    newFYTokens.get(FYUSDC2212) as string,
-    timeStretch,
-    g1,
-  ],
+  [FYUSDC2212, assets.get(YVUSDC) as string, newFYTokens.get(FYUSDC2212) as string, timeStretch, g1],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [
-    FYETH2212,
-    assets.get(ETH) as string,
-    newFYTokens.get(FYETH2212) as string,
-    timeStretch,
-    g1,
-  ],
-//  [
-//    FYDAI2212,
-//    assets.get(DAI) as string,
-//    newFYTokens.get(FYDAI2212) as string,
-//    timeStretch,
-//    g1,
-//  ],
-  [
-    FYFRAX2212,
-    assets.get(FRAX) as string,
-    newFYTokens.get(FYFRAX2212) as string,
-    timeStretch,
-    g1,
-  ],
+  [FYETH2212, assets.get(ETH) as string, newFYTokens.get(FYETH2212) as string, timeStretch, g1],
+  //  [
+  //    FYDAI2212,
+  //    assets.get(DAI) as string,
+  //    newFYTokens.get(FYDAI2212) as string,
+  //    timeStretch,
+  //    g1,
+  //  ],
+  [FYFRAX2212, assets.get(FRAX) as string, newFYTokens.get(FYFRAX2212) as string, timeStretch, g1],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYETH2212, ETH, WAD.div(10), BigNumber.from('0')],
-//  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
+  //  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
   [FYUSDC2212, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
   [FYFRAX2212, FRAX, WAD.mul(100), BigNumber.from('0')],
 ]
@@ -101,7 +85,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
   [FYETH2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-//  [FYDAI2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+  //  [FYDAI2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
   [FYUSDC2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC]],
   [FYFRAX2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
 ]
@@ -110,7 +94,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 // strategyId, nextSeriesId, minRatio, maxRatio
 export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
   [YSETH6MJD, FYETH2212, BigNumber.from(0), MAX256],
-//  [YSDAI6MJD, FYDAI2212, BigNumber.from(0), MAX256],
+  //  [YSDAI6MJD, FYDAI2212, BigNumber.from(0), MAX256],
   [YSUSDC6MJD, FYUSDC2212, BigNumber.from(0), MAX256],
   [YSFRAX6MJD, FYFRAX2212, BigNumber.from(0), MAX256],
 ]

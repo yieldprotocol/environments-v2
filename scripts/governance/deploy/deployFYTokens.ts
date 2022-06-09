@@ -17,7 +17,7 @@ const { developer, fyTokenData } = require(process.env.CONF as string)
     'SafeERC20Namer',
     protocol.get('safeERC20Namer') as string,
     ownerAcc
-    )) as unknown as SafeERC20Namer
+  )) as unknown as SafeERC20Namer
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

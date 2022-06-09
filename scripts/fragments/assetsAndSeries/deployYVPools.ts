@@ -16,12 +16,14 @@ export const deployYVPools = async (
   yieldMathLibrary: YieldMath,
   poolData: Array<[string, string, string, BigNumber, number]>
 ): Promise<Map<string, Pool>> => {
-  
-  const PoolYearnVaultFactory = await ethers.getContractFactory('@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolYearnVault.sol:PoolYearnVault', {
-    libraries: {
-      YieldMath: yieldMathLibrary.address,
-    },
-  })
+  const PoolYearnVaultFactory = await ethers.getContractFactory(
+    '@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolYearnVault.sol:PoolYearnVault',
+    {
+      libraries: {
+        YieldMath: yieldMathLibrary.address,
+      },
+    }
+  )
 
   let pools: Map<string, Pool> = new Map()
   for (let [seriesId, baseAddress, fyTokenAddress, ts, g1] of poolData) {
