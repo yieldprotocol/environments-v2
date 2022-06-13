@@ -12,7 +12,11 @@
     "lint:sol": "solhint -f table contracts/*.sol",
     "lint:ts": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --check",
     "lint:ts:fix": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --write",
-    "prepublishOnly": "npx tsdx build --tsconfig ./tsconfig-publish.json"
+    "prepublishOnly": "npx tsdx build --tsconfig ./tsconfig-publish.json",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "{scripts,shared,regression_tests, test}/**/*.ts": "prettier --write"
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.0.15",
@@ -21,8 +25,8 @@
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.1.0",
     "@truffle/hdwallet-provider": "^1.0.40",
-    "@typechain/ethers-v5": "^8.0.5",
-    "@typechain/hardhat": "^3.0.0",
+    "@typechain/ethers-v5": "^10.0.0",
+    "@typechain/hardhat": "^6.0.0",
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "0.11.3",
     "@yield-protocol/utils-v2": "2.5.2",
@@ -38,6 +42,8 @@
     "hardhat-abi-exporter": "^2.0.3",
     "hardhat-contract-sizer": "^2.0.3",
     "hardhat-gas-reporter": "^1.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.0",
     "mocha": "^7.1.0",
     "prettier": "^2.0.5",
     "solhint": "^3.3.3",
@@ -45,8 +51,8 @@
     "ts-node": "^8.10.2",
     "tsdx": "^0.14.1",
     "tslog": "^3.3.0",
-    "typechain": "^6.0.5",
-    "typescript": "^3.9.7",
+    "typechain": "^8.0.0",
+    "typescript": "^4.6.3",
     "uniswapv3-oracle": "^1.0.1",
     "yargs": "^17.0.1"
   },
