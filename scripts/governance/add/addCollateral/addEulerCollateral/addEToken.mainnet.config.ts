@@ -11,7 +11,7 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-import { DAI, EDAI, FYDAI2203 } from '../../../../../shared/constants'
+import { DAI, EDAI, FYDAI2209 } from '../../../../../shared/constants'
 
 export const assets: Map<string, string> = new Map([[EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC']])
 
@@ -32,4 +32,4 @@ export const auctionLimits: Array<[string, number, number, number, number, numbe
 ]
 
 // Input data: seriesId, [ilkIds]
-export const seriesIlks: Array<[string, string[]]> = [[FYDAI2203, [EDAI]]]
+export const seriesIlks: Array<[string, string[]]> = [[FYDAI2209, [EDAI]]]
