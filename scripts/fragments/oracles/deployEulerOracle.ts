@@ -9,9 +9,7 @@ import {
 } from '../../../shared/helpers'
 import { ROOT, EULER } from '../../../shared/constants'
 import ETokenMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/euler/ETokenMultiOracle.sol/ETokenMultiOracle.json'
-
-import { ETokenMultiOracle } from '../../../typechain/ETokenMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
+import { ETokenMultiOracle, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 
