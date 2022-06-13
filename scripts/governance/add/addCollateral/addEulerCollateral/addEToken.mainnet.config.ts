@@ -23,7 +23,7 @@ export const assetsToAdd: Array<[string, string]> = [[EDAI, assets.get(EDAI) as 
 
 // Input data: baseId, ilkId, oracle name, ratio (1000000 == 100%), line, dust, dec
 export const debtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, EDAI, 1250000, 1000000, 5000, 6],
+  [DAI, EDAI, 1250000, 1000000, 5000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
