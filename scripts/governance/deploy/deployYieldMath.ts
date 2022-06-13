@@ -1,4 +1,4 @@
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { writeAddressMap, writeVerificationHelper, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployYieldMath } from '../../fragments/core/libraries/deployYieldMath'
 
@@ -16,4 +16,5 @@ const { developer } = require(process.env.CONF as string)
   protocol.set('yieldMath', yieldMath.address)
 
   writeAddressMap('protocol.json', protocol)
+  writeVerificationHelper('YieldMath', yieldMath.address)
 })()

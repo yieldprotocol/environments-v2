@@ -273,6 +273,10 @@ export function mapToJson(map: Map<any, any>): string {
   )
 }
 
+export function writeVerificationHelper(contract: string, address: string) {
+  writeFileSync(join('addresses', getNetworkName(), `${contract}.js`), `module.exports = { ${contract}: "${address}" }`)
+}
+
 export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any> | Map<any, any>) {
   let map = readAddressMappingIfExists(out_file)
   if (map_or_dictionary instanceof Map) {

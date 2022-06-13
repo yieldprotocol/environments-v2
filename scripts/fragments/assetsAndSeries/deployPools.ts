@@ -29,7 +29,7 @@ export const deployPools = async (
 
     const pool = (await PoolFactory.deploy(baseAddress, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
-    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString()], 'yieldMath.js')
+    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
 
     pools.set(seriesId, pool)
   }

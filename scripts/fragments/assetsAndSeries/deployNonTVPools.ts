@@ -35,7 +35,7 @@ export const deployNonTVPools = async (
 
     const pool = (await PoolNonTvFactory.deploy(baseAddress, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
-    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString()], 'yieldMath.js')
+    verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
 
     if (!(await pool.hasRole(ROOT, timelock.address))) {
       await pool.grantRole(ROOT, timelock.address)
