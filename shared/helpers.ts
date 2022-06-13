@@ -274,9 +274,9 @@ export function mapToJson(map: Map<any, any>): string {
 }
 
 export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any> | Map<any, any>) {
-  let map = new Map<any, any>()
+  let map = readAddressMappingIfExists(out_file)
   if (map_or_dictionary instanceof Map) {
-    map = map_or_dictionary
+    map = new Map([...map, ...map_or_dictionary])
   } else {
     for (let k in map_or_dictionary) {
       map.set(k, map_or_dictionary[k])

@@ -1,11 +1,22 @@
 "multisig","0xd659565b84bcfcb23b02ee13e46cb51429f4558a"],[
 "timelock","0x3b870db67a45611CF4723d44487EAF398fAc51E3"],[
 "ladle", "0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A"
-dai whale: 0x5d38b4e4783e34e2301a2a36c39a03c45798c4dd
+export const whales: Map<string, string> = new Map([
+  [ETH, '0xf04a5cc80b1e94c69b48f5ee68a08cd2f09a7c3e'],
+  [DAI, '0x5d38b4e4783e34e2301a2a36c39a03c45798c4dd'],
+  [USDC, '0xcffad3200574698b78f32232aa9d63eabd290703'],
+  [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
+
+export const assets: Map<string, string> = new Map([
+  [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
+  [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
+  [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
+  [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
+
 dai join: 0x4fe92119cdf873cf8826f4e6ecfd4e578e3d44dc
 
 developer: 0xC7aE076086623ecEA2450e364C838916a043F9a8
-block: 14934535
+block: 14938908
 execute: 0xbaae8abf
 maturity: 1656630001
 +3 days: 1656889201

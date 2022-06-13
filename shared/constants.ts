@@ -36,6 +36,9 @@ export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
 export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
 export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
 export const CVX3CRV = ethers.utils.formatBytes32String('19').slice(0, 14)
+export const EWETH = ethers.utils.formatBytes32String('20').slice(0, 14)
+export const EDAI = ethers.utils.formatBytes32String('21').slice(0, 14)
+export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
