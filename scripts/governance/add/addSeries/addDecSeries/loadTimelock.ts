@@ -1,3 +1,4 @@
+import * as hre from 'hardhat'
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../../shared/helpers'
 import { WAD } from '../../../../../shared/constants'
@@ -9,18 +10,24 @@ const { governance, whales, newPools, poolsInit } = require(process.env.CONF as 
  */
 ;(async () => {
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
-    const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
     const poolAddress = newPools.get(seriesId) as string
-
-    const pool = (await ethers.getContractAt('Pool', poolAddress, whaleAcc)) as Pool
+    const pool = (await ethers.getContractAt('Pool', poolAddress)) as Pool
     const baseAddress = await pool.base()
-
     const base = (await ethers.getContractAt(
       'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      baseAddress,
-      whaleAcc
+      baseAddress
     )) as unknown as ERC20Mock
-    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
+
+    if (hre.network.name === 'tenderly') {
+      const whaleSigner = await ethers.getSigner(whales.get(baseId))
+      await base
+        .connect(whaleSigner)
+        .transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
+    } else {
+      // not tenderly fork:
+      const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
+      await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
+    }
     console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
   }
 })()
