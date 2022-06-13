@@ -199,3 +199,5 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
 ]
+
+export const eulerAddress = '0xee385a1e2f0bfe79d795a9ac680c4ab89033abab'

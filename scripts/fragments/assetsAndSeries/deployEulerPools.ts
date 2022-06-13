@@ -14,7 +14,7 @@ export const deployEulerPools = async (
   ownerAcc: any,
   timelock: Timelock,
   yieldMathLibrary: YieldMath,
-  poolData: Array<[string, string, string, BigNumber, number]>
+  poolData: Array<[string, string, string, string, BigNumber, number]>
 ): Promise<Map<string, Pool>> => {
   const PoolEulerFactory = await ethers.getContractFactory(
     '@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolEuler.sol:PoolEuler',
@@ -26,14 +26,17 @@ export const deployEulerPools = async (
   )
 
   let pools: Map<string, Pool> = new Map()
-  for (let [seriesId, baseAddress, fyTokenAddress, ts, g1] of poolData) {
+  for (let [seriesId, eulerAddress, baseAddress, fyTokenAddress, ts, g1] of poolData) {
+    if ((await ethers.provider.getCode(eulerAddress)) === '0x') throw `Contract at ${eulerAddress} contains no code`
+    else console.log(`Using main Euler contract at ${eulerAddress}`)
+
     if ((await ethers.provider.getCode(baseAddress)) === '0x') throw `Contract at ${baseAddress} contains no code`
     else console.log(`Using base at ${baseAddress}`)
 
     if ((await ethers.provider.getCode(fyTokenAddress)) === '0x') throw `Contract at ${fyTokenAddress} contains no code`
     else console.log(`Using fyToken at ${fyTokenAddress}`)
 
-    const pool = (await PoolEulerFactory.deploy(baseAddress, fyTokenAddress, ts, g1)) as unknown as Pool
+    const pool = (await PoolEulerFactory.deploy(eulerAddress, baseAddress, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
     verify(pool.address, [baseAddress, fyTokenAddress, ts.toString(), g1.toString()], 'yieldMath.js')
 
