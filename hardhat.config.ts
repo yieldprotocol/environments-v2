@@ -62,7 +62,7 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 1000,
+        runs: 500,
       }
     }
   },
@@ -115,7 +115,6 @@ module.exports = {
     tenderly: {
       accounts,
       gasPrice: 50000000000,
-      gasMultiplier: 1.1,
       timeout: 60000000,
       url: "https://rpc.tenderly.co/fork/935740ae-abd2-41c3-bda7-d03f8b102c29"
     },

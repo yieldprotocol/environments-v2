@@ -18,16 +18,9 @@ const { governance, whales, newPools, poolsInit } = require(process.env.CONF as 
       baseAddress
     )) as unknown as ERC20Mock
 
-    if (hre.network.name === 'tenderly') {
-      const whaleSigner = await ethers.getSigner(whales.get(baseId))
-      await base
-        .connect(whaleSigner)
-        .transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
-    } else {
-      // not tenderly fork:
-      const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
-      await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
-    }
+    const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
+    await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
+
     console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
   }
 })()

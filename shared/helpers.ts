@@ -61,21 +61,23 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
   return ownerAcc
 }
 
-/** @dev Impersonate an account and optionally add some ether to it */
+/** @dev Impersonate an account and optionally add some ether to it. Works for hardhat or tenderly. */
 export const impersonate = async (account: string, balance?: BigNumber) => {
-  await hre.network.provider.request({
-    method: 'hardhat_impersonateAccount',
-    params: [account],
-  })
-  const ownerAcc = await ethers.getSigner(account)
+  if (network.name !== 'tenderly') {
+    await hre.network.provider.request({
+      method: 'hardhat_impersonateAccount',
+      params: [account],
+    })
+  }
 
   if (balance !== undefined) {
     await hre.network.provider.request({
-      method: 'hardhat_setBalance',
-      params: [account, '0x1000000000000000000000'], // ethers.utils.hexlify(balance)?
+      method: hre.network.name === 'tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
+      params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
     })
   }
-  return ownerAcc
+
+  return await ethers.getSigner(account)
 }
 
 /**
