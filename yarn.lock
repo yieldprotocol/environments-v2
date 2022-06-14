@@ -2535,15 +2535,15 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.4.1.tgz"
   integrity sha512-qqyBx6DERbkMhRTEVxvxr0OVVyxVyEq1rw/bfFjR/rW1xRAVufF+IQiyR5EFo807i/cW0MVjxt1KPVZGSyrLHA==
 
-"@yield-protocol/vault-v2@0.17.0-rc15":
-  version "0.17.0-rc15"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.17.0-rc15.tgz#fd19b3fa714515241a03943a5d74e5681efc1daf"
-  integrity sha512-DofvuwZY/l7irvBljMfSpnrHSYtg/YkRDyNRr1ZwPwf20Vx88sWE0x8eoV9IiYyrDnyTJ1NN0PYH7/v+UDjz9w==
+"@yield-protocol/vault-v2@0.17.0-rc16":
+  version "0.17.0-rc16"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.17.0-rc16.tgz#3d068c7da7876a4349aae457b6063460d618e88b"
+  integrity sha512-oASRb7nvExy1FX9EJsf62odVzb8AQ46cu2z5srqaYQwlwP5b9QYSaKbrwx0RtDjfFD3mKIZRrgGZ87GW1zlNdA==
 
-"@yield-protocol/yieldspace-tv@^0.1.1-rc13":
-  version "0.1.1-rc13"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.1-rc13.tgz#cb8a068e43358cad08e69011dd0f7fa5bb7fbfef"
-  integrity sha512-U04xTYp21HLw9166/iPvaaKXhW11FrIVPDN1zpuB97Wwf/tGTC+1zcL8eXc72Ve8cCU0mk66Nm2cuAoW2mQjug==
+"@yield-protocol/yieldspace-tv@^0.1.1-rc15":
+  version "0.1.1-rc15"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.1-rc15.tgz#fc016c5cdab0f8c7374683f70b98b30d7d12bdec"
+  integrity sha512-UllgEwgbadG6E9oV64+ARaymsp7YdS+hC892xSnep+UnvLze0BcgRawYKRZ4jyBs6BhehYWcRjANJ6+rnsHplA==
 
 abab@^2.0.0:
   version "2.0.6"
