@@ -7,6 +7,7 @@ import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 const paths = new Map([
   [1, './addresses/mainnet/'],
@@ -77,7 +78,20 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
     })
   }
 
+  console.log(`Impersonated ${account}`)
   return await ethers.getSigner(account)
+}
+
+/** @dev Advance time by a number of seconds */
+export const advanceTime = async (time: number) => {
+  if (hre.network.name === 'tenderly') {
+    await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
+    await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+  } else {
+    await network.provider.send('evm_increaseTime', [time])
+    await network.provider.send('evm_mine', [])
+  }
+  console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
 
 /**
@@ -86,82 +100,53 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  raw_timelock: Timelock,
+  timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string
 ) => {
   // Propose, approve, execute
-  const txHash = await raw_timelock.hash(proposal)
+  const txHash = await timelock.hash(proposal)
   const on_fork = false
   console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
 
-  let timelock = raw_timelock
-  if (on_fork) {
-    // If running on a mainnet fork, impersonating the multisig will work
-    if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-    console.log(`Running on a fork, impersonating multisig at ${multisig}`)
-
-    await hre.network.provider.request({
-      method: 'hardhat_impersonateAccount',
-      params: [multisig],
-    })
-    // Make sure the multisig has Ether
-    await hre.network.provider.request({
-      method: 'hardhat_setBalance',
-      params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
-    })
-    const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-    timelock = await timelock.connect(multisigAcc)
-  }
   // Depending on the proposal state:
   // - propose
-  // - approve (if in a fork, impersonating the multisig)
-  // - or execute (if in a fork, applying a time delay)
+  // - approve (if in a fork, impersonating the multisig, and advancing time three days afterwards)
+  // - or execute
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
     // Propose
-    let [ownerAcc] = await ethers.getSigners()
-    console.log(`Developer: ${ownerAcc.address}\n`)
-    const tx = await timelock.propose(proposal)
-    console.log(`Calldata:\n${tx.data}\n`)
+    let [signerAcc] = await ethers.getSigners()
+    console.log(`Developer: ${signerAcc.address}\n`)
+    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')
+    let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
-    if (on_fork) {
-      // If running on a mainnet fork, impersonating the multisig will work
+    if (on_fork || network.name === 'tenderly') {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-      console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+      signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
 
-      await hre.network.provider.request({
-        method: 'hardhat_impersonateAccount',
-        params: [multisig],
-      })
-      // Make sure the multisig has Ether
-      await hre.network.provider.request({
-        method: 'hardhat_setBalance',
-        params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
-      })
-      const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-      await timelock.connect(multisigAcc).approve(txHash)
+      await timelock.connect(signerAcc).approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}
       console.log(`Approved ${txHash}`)
+
+      // Since we are in a testing environment, let's advance time
+      advanceTime(3 * 24 * 60 * 60)
     } else {
       // On kovan we have approval permissions
-      await timelock.approve(txHash)
+      signerAcc = (await ethers.getSigners())[0]
+      await timelock.connect(signerAcc).approve(txHash)
       while ((await timelock.proposals(txHash)).state < 2) {}
       console.log(`Approved ${txHash}`)
     }
   } else if ((await timelock.proposals(txHash)).state === 2) {
     console.log('Executing')
-    if (on_fork) {
-      // Adding time travel since we have moved the delay to 2 days on mainnet
-      await hre.network.provider.request({ method: 'evm_increaseTime', params: [60 * 60 * 24 * 2] })
-      await hre.network.provider.request({ method: 'evm_mine', params: [] })
-    }
     // Execute
-    await timelock.execute(proposal)
+    let [signerAcc] = await ethers.getSigners()
+    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
   }

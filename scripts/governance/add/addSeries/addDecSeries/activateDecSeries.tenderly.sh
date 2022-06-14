@@ -7,8 +7,9 @@ RUN="npx hardhat run --network tenderly"
 
 $RUN $HERE/loadTimelock.ts
 $RUN $HERE/joinLoan.ts
-# $RUN $HERE/advanceToMaturity.ts
-# 
+$RUN $HERE/advanceTimeTwoWeeks.ts
+# $RUN $HERE/advanceTimeThreeDays.ts
+
 # $RUN $HERE/activateDecSeries.ts
 # $RUN $HERE/activateDecSeries.ts
-# $RUN $HERE/activateDecSeries.ts
+$RUN $HERE/activateDecSeries.ts

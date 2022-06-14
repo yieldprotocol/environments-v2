@@ -84,8 +84,8 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, number
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  //  [FYETH2212, ETH, WAD.div(10), BigNumber.from('0')],
-  //  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
+  [FYETH2212, ETH, WAD.div(10), BigNumber.from('0')],
+  [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
   [FYUSDC2212, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
   [FYFRAX2212, FRAX, WAD.mul(100), BigNumber.from('0')],
 ]
@@ -113,8 +113,8 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param maxRatio
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, BigNumber, boolean]> = [
-  //  [YSETH6MJD, FYETH2212, BigNumber.from(0), MAX256, true],
-  //  [YSDAI6MJD, FYDAI2212, BigNumber.from(0), MAX256, true],
+  [YSETH6MJD, FYETH2212, BigNumber.from(0), MAX256, true],
+  [YSDAI6MJD, FYDAI2212, BigNumber.from(0), MAX256, true],
   [YSUSDC6MJD, FYUSDC2212, BigNumber.from(0), MAX256, true],
   [YSFRAX6MJD, FYFRAX2212, BigNumber.from(0), MAX256, false],
 ]

@@ -116,7 +116,7 @@ module.exports = {
       accounts,
       gasPrice: 50000000000,
       timeout: 60000000,
-      url: "https://rpc.tenderly.co/fork/935740ae-abd2-41c3-bda7-d03f8b102c29"
+      url: " https://rpc.tenderly.co/fork/30e21373-5a31-4dc9-ba45-c4c1190629cc"
     },
     arb_rinkeby: {
       accounts,
