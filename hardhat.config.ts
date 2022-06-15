@@ -99,7 +99,7 @@ module.exports = {
       loggingEnabled: true,
     },
     localhost: {
-      // chainId: 31337,
+      chainId: 42069,
       timeout: 600000
     },
     ropsten: {
@@ -116,7 +116,7 @@ module.exports = {
       accounts,
       gasPrice: 50000000000,
       timeout: 60000000,
-      url: " https://rpc.tenderly.co/fork/30e21373-5a31-4dc9-ba45-c4c1190629cc"
+      url: "https://rpc.tenderly.co/fork/53524bcd-8e01-46f1-8e54-b72b376cf179"
     },
     arb_rinkeby: {
       accounts,
