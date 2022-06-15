@@ -72,10 +72,11 @@ contract JoinLoanWand is IERC3156FlashBorrower {
         IFYToken fyToken = pool.fyToken();
         require (fyToken != IFYToken(address(0)), "FYToken not ready");
 
-        token_.safeTransfer(join, amount);
+        token_.safeTransfer(join, amount);                  // Fund the join for the fyToken mint
         fyToken.mintWithUnderlying(address(this), amount);  // Sending the FYToken straight into the pool might mess with the roll
         strategy.endPool();                                 // This drains the join
         strategy.startPool(0, type(uint256).max);           // We skip the slippage check, because we run only on fresh pools
+        fyToken.transfer(address(pool), amount);            // Send fyToken to pool for unwind. No need of safeTransfer for fyToken.
         pool.sellFYToken(address(this), 0);                 // Recover what we can, we skip the slippage check, because we run only on fresh pools
         uint256 repayment = amount + fee;
         token_.approve(msg.sender, repayment);              // Safe only because we hold no funds
