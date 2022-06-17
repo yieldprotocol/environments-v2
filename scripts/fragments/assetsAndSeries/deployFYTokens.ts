@@ -1,7 +1,8 @@
 import { ethers, waffle } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
-
+import '@tenderly/hardhat-tenderly'
+import * as hre from 'hardhat'
 import { Timelock, FYToken, SafeERC20Namer } from '../../../typechain'
 
 /**
@@ -41,6 +42,16 @@ export const deployFYTokens = async (
       symbol
     )) as unknown as FYToken
     await fyToken.deployed()
+
+    await hre.tenderly.persistArtifacts({
+      name: 'FYToken',
+      address: fyToken.address,
+    })
+
+    await hre.tenderly.verify({
+      name: 'FYToken',
+      address: fyToken.address,
+    })
     console.log(`FYToken deployed at ${fyToken.address}`)
     verify(fyToken.address, args, 'safeERC20Namer.js')
 

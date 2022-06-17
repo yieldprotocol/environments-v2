@@ -4,6 +4,7 @@ import * as path from 'path'
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-etherscan'
 import '@typechain/hardhat'
+import "@tenderly/hardhat-tenderly"
 
 import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
@@ -113,10 +114,11 @@ module.exports = {
       url: infuraNodeUrl('goerli'),
     },
     tenderly: {
+      chainId: 1,
       accounts,
       gasPrice: 50000000000,
       timeout: 60000000,
-      url: "https://rpc.tenderly.co/fork/53524bcd-8e01-46f1-8e54-b72b376cf179"
+      url: "https://rpc.tenderly.co/fork/593ffd26-8264-4789-8752-792f7a3b172b"
     },
     arb_rinkeby: {
       accounts,
@@ -142,6 +144,11 @@ module.exports = {
     coverage: {
       url: 'http://127.0.0.1:8555',
     },
+  },
+  tenderly: {
+    project: "test",
+    username: "richie",
+    forkNetwork: "1",
   },
   etherscan: {
     apiKey: etherscanKey
