@@ -117,7 +117,8 @@ export const proposeApproveExecute = async (
     // Propose
     let [signerAcc] = await ethers.getSigners()
     console.log(`Developer: ${signerAcc.address}\n`)
-    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
+    console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
+    await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
