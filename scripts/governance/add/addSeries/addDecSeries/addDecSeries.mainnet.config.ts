@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../../shared/constants'
+import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../../shared/constants'
 import {
   ETH,
   DAI,
@@ -38,6 +38,7 @@ export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 export const eulerAddress = base_config.eulerAddress
+export const flashMintModule = '0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853'
 
 // Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
@@ -109,12 +110,12 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// Parameters to roll each strategy
 /// @param strategyId
 /// @param nextSeriesId
-/// @param minRatio
-/// @param maxRatio
+/// @param buffer Amount of base sent to the Roller to make up for market losses when using a flash loan for rolling
+/// @param lender ERC3156 flash lender used for rolling
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
-export const rollData: Array<[string, string, BigNumber, BigNumber, boolean]> = [
-  [YSETH6MJD, FYETH2212, BigNumber.from(0), MAX256, true],
-  [YSDAI6MJD, FYDAI2212, BigNumber.from(0), MAX256, true],
-  [YSUSDC6MJD, FYUSDC2212, BigNumber.from(0), MAX256, true],
-  [YSFRAX6MJD, FYFRAX2212, BigNumber.from(0), MAX256, false],
+export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
+  [YSETH6MJD, FYETH2212, ZERO, ZERO_ADDRESS, true],
+  [YSDAI6MJD, FYDAI2212, WAD.mul(100000), flashMintModule, true],
+  [YSUSDC6MJD, FYUSDC2212, ZERO, ZERO_ADDRESS, true],
+  [YSFRAX6MJD, FYFRAX2212, ZERO, ZERO_ADDRESS, false],
 ]

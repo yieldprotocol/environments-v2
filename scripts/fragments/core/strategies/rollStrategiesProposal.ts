@@ -6,18 +6,21 @@
 
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { Pool, Strategy } from '../../../../typechain'
+import { Pool, Strategy, Timelock } from '../../../../typechain'
+import { ZERO, ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
 
 export const rollStrategiesProposal = async (
   ownerAcc: any,
+  protocol: Map<string, string>,
   strategies: Map<string, string>, // strategyId, strategyAddress
   newPools: Map<string, string>, // seriesId, poolAddress
-  rollData: Array<[string, string, BigNumber, BigNumber, boolean]>
+  timelock: Timelock,
+  rollData: Array<[string, string, BigNumber, string, boolean]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, nextSeriesId, minRatio, maxRatio, fix] of rollData) {
+  for (let [strategyId, nextSeriesId, buffer, lenderAddress, fix] of rollData) {
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
     else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)
@@ -29,10 +32,6 @@ export const rollStrategiesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${nextSeriesId}`)
     const nextPool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('endPool'),
-    })
     console.log(`Strategy ${strategyId} divested from ${seriesId}`)
     proposal.push({
       target: strategy.address,
@@ -45,10 +44,23 @@ export const rollStrategiesProposal = async (
         data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
       })
     }
+    const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+    const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
+
     proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('startPool', [minRatio, maxRatio]),
+      target: base.address,
+      data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
     })
+    proposal.push({
+      target: roller.address,
+      data: roller.interface.encodeFunctionData('roll', [
+        strategy.address,
+        lenderAddress === ZERO_ADDRESS ? ZERO : MAX256,
+        lenderAddress,
+        timelock.address,
+      ]),
+    })
+
     console.log(`Strategy ${strategyId} rolled onto ${nextSeriesId}`)
   }
 

@@ -6,8 +6,9 @@ import {
   proposeApproveExecute,
 } from '../../../../../shared/helpers'
 
-import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../../typechain'
+import { Cauldron, Ladle, Roller, EmergencyBrake, Timelock } from '../../../../../typechain'
 
+import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestrateRollerProposal'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { rollStrategiesProposal } from '../../../../fragments/core/strategies/rollStrategiesProposal'
@@ -27,6 +28,7 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
     ownerAcc
   )) as unknown as Cauldron
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const roller = (await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)) as unknown as Roller
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
@@ -39,12 +41,13 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
   )) as unknown as EmergencyBrake
 
   let proposal: Array<{ target: string; data: string }> = []
+  proposal = proposal.concat(await orchestrateRollerProposal(deployer, strategies, roller, timelock, cloak, rollData))
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
-  proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, strategies, newPools, rollData))
+  proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, protocol, strategies, newPools, timelock, rollData))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

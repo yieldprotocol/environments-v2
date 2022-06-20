@@ -99,7 +99,6 @@ module.exports = {
       loggingEnabled: true,
     },
     localhost: {
-      chainId: 42069,
       timeout: 600000
     },
     ropsten: {

@@ -1,9 +1,8 @@
-import * as hre from 'hardhat'
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../../shared/helpers'
+import { impersonate } from '../../../../../shared/helpers'
 import { WAD } from '../../../../../shared/constants'
 import { ERC20Mock, Pool } from '../../../../../typechain'
-const { governance, whales, newPools, poolsInit } = require(process.env.CONF as string)
+const { governance, whales, strategies, newPools, poolsInit, rollData } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
@@ -21,6 +20,31 @@ const { governance, whales, newPools, poolsInit } = require(process.env.CONF as 
     const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
     await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
 
-    console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()}`)
+    console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()} to init pools`)
+  }
+
+  for (let [strategyId, nextSeriesId, buffer, lenderAddress, fix] of rollData) {
+    if (!buffer.isZero() || fix) {
+      const strategyAddress = strategies.get(strategyId)
+      if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
+      else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)
+      const strategy = await ethers.getContractAt('Strategy', strategyAddress)
+      const baseAddress = await strategy.base()
+      const baseId = await strategy.baseId()
+      const base = (await ethers.getContractAt(
+        'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+        baseAddress
+      )) as unknown as ERC20Mock
+
+      const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
+      if (!buffer.isZero()) {
+        await base.connect(whaleAcc).transfer(governance.get('timelock') as string, buffer)
+        console.log(`Loaded Timelock with ${buffer} of ${await base.symbol()} as roll buffer`)
+      }
+      if (fix) {
+        await base.connect(whaleAcc).transfer(governance.get('timelock') as string, 1)
+        console.log(`Loaded Timelock with 1 of ${await base.symbol()} for the strategy roll tv fix`)
+      }
+    }
   }
 })()

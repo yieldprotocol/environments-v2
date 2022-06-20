@@ -106,8 +106,7 @@ export const proposeApproveExecute = async (
 ) => {
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  const on_fork = false
-  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
+  console.log(`Proposal: ${txHash}`)
 
   // Depending on the proposal state:
   // - propose
@@ -125,7 +124,7 @@ export const proposeApproveExecute = async (
     console.log('Approving')
     let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
-    if (on_fork || network.name === 'tenderly') {
+    if (network.name === 'localhost' || network.name === 'tenderly') {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
 
