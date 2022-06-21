@@ -42,7 +42,7 @@ export const assetsToAdd: Array<[string, string]> = [
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const debtLimits: Array<[string, string, number, number, number, number]> = [
   [DAI, EDAI, 1_100_000, 1_000_000, 5000, 18], // 110%
-  [USDC, EUSDC, 1_100_000, 1_000_000, 5000, 18], // 110%
+  [USDC, EUSDC, 1_100_000, 1_000_000, 5000, 6], // 110%
   [ETH, EWETH, 1_100_000, 1_000_000, 5000, 15], // 110%. 5000 ETH with 15 decimals => 5 ETH. 1M ETH with 15 decimals => 1000 ETH
 ]
 
