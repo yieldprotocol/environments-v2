@@ -10,13 +10,9 @@ export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
+export const assets: Map<string, string> = base_config.assets
 
-import { DAI, EDAI, FYDAI2209 } from '../../../../../shared/constants'
-
-/// @notice Mapping of an eToken to its contract address
-/// @param eToken id (bytes6 tag)
-/// @param Address of the eToken contract
-export const assets: Map<string, string> = new Map([[EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC']])
+import { DAI, EDAI, FYDAI2209, FYDAI2212 } from '../../../../../shared/constants'
 
 /// @notice Oracle sources to be added to ETokenMultiOracle
 /// @param underlying asset id (bytes6 tag)

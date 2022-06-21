@@ -1,5 +1,5 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX } from '../../shared/constants'
+import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX, EDAI } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 
@@ -39,6 +39,7 @@ export const assets: Map<string, string> = new Map([
   [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
   [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
   [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
+  [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
 ])
 
 export const joins: Map<string, string> = new Map([
