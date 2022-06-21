@@ -50,4 +50,7 @@ export const auctionLimits: Array<[string, number, number, number, number, numbe
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tag)
-export const seriesIlks: Array<[string, string[]]> = [[FYDAI2209, [EDAI]]]
+export const seriesIlks: Array<[string, string[]]> = [
+  [FYDAI2209, [EDAI]],
+  [FYDAI2212, [EDAI]],
+]
