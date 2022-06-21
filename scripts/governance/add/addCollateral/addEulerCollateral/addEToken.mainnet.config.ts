@@ -33,7 +33,7 @@ export const assetsToAdd: Array<[string, string]> = [[EDAI, assets.get(EDAI) as 
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const debtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, EDAI, 1250000, 1000000, 5000, 18],
+  [DAI, EDAI, 1_100_000, 1_000_000, 5000, 18], // 110%
 ]
 
 /// @notice Limits to be used in an auction
@@ -44,7 +44,7 @@ export const debtLimits: Array<[string, string, number, number, number, number]>
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const auctionLimits: Array<[string, number, number, number, number, number]> = [
-  [EDAI, 3600, 600000, 1000000, 2, 18],
+  [EDAI, 3600, 910_000, 10_000_000, 5000, 18], // 91% = 1/110%
 ]
 
 /// @notice Ilks to accept for series
