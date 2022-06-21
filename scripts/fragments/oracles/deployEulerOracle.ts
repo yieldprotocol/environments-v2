@@ -30,8 +30,6 @@ export const deployEulerOracle = async (
     eulerOracle = (await deployContract(ownerAcc, ETokenMultiOracleArtifact, [])) as ETokenMultiOracle
     console.log(`ETokenMultiOracle deployed at ${eulerOracle.address}`)
     verify(eulerOracle.address, [])
-    protocol.set(EULER, eulerOracle.address)
-    writeAddressMap('protocol.json', protocol)
   } else {
     eulerOracle = (await ethers.getContractAt(
       'ETokenMultiOracle',

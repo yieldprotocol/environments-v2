@@ -4,6 +4,7 @@ import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/he
 import { deployEulerOracle } from '../../../../fragments/oracles/deployEulerOracle'
 
 import { Timelock } from '../../../../../typechain'
+import { EULER } from '../../../../../shared/constants'
 const { developer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 
@@ -21,7 +22,7 @@ const { governance, protocol } = require(process.env.CONF as string)
   )) as unknown as Timelock
 
   const eulerOracle = await deployEulerOracle(ownerAcc, timelock, protocol)
-  protocol.set('eulerOracle', eulerOracle.address)
+  protocol.set(EULER, eulerOracle.address)
 
   writeAddressMap('protocol.json', protocol)
 })()
