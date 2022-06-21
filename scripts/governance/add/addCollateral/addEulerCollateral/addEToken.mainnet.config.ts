@@ -12,7 +12,7 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 export const assets: Map<string, string> = base_config.assets
 
-import { DAI, EDAI, EUSDC, FYDAI2209, FYUSDC2209, USDC } from '../../../../../shared/constants'
+import { DAI, EDAI, ETH, EUSDC, EWETH, FYDAI2209, FYETH2209, FYUSDC2209, USDC } from '../../../../../shared/constants'
 
 /// @notice Oracle sources to be added to ETokenMultiOracle
 /// @param underlying asset id (bytes6 tag)
@@ -21,6 +21,7 @@ import { DAI, EDAI, EUSDC, FYDAI2209, FYUSDC2209, USDC } from '../../../../../sh
 export const eulerSources: Array<[string, string, string]> = [
   [DAI, EDAI, assets.get(EDAI) as string],
   [USDC, EUSDC, assets.get(EUSDC) as string],
+  [ETH, EWETH, assets.get(EWETH) as string],
 ]
 
 /// @notice Assets for which we will have a Join
@@ -29,6 +30,7 @@ export const eulerSources: Array<[string, string, string]> = [
 export const assetsToAdd: Array<[string, string]> = [
   [EDAI, assets.get(EDAI) as string],
   [EUSDC, assets.get(EUSDC) as string],
+  [EWETH, assets.get(EWETH) as string],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the ETokenMultiOracle
@@ -41,6 +43,7 @@ export const assetsToAdd: Array<[string, string]> = [
 export const debtLimits: Array<[string, string, number, number, number, number]> = [
   [DAI, EDAI, 1_100_000, 1_000_000, 5000, 18], // 110%
   [USDC, EUSDC, 1_100_000, 1_000_000, 5000, 18], // 110%
+  [ETH, EWETH, 1_100_000, 1_000_000, 5000, 15], // 110%. 5000 ETH with 15 decimals => 5 ETH. 1M ETH with 15 decimals => 1000 ETH
 ]
 
 /// @notice Limits to be used in an auction
@@ -53,6 +56,7 @@ export const debtLimits: Array<[string, string, number, number, number, number]>
 export const auctionLimits: Array<[string, number, number, number, number, number]> = [
   [EDAI, 3600, 910_000, 10_000_000, 5000, 18], // 91% = 1/110%
   [EUSDC, 3600, 910_000, 10_000_000, 5000, 18], // 91% = 1/110%
+  [EWETH, 3600, 910_000, 10_000_000, 5000, 15],
 ]
 
 /// @notice Ilks to accept for series
@@ -61,4 +65,5 @@ export const auctionLimits: Array<[string, number, number, number, number, numbe
 export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2209, [EDAI]],
   [FYUSDC2209, [EUSDC]],
+  [FYETH2209, [EWETH]],
 ]
