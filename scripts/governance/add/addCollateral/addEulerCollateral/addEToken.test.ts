@@ -1,55 +1,55 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
-import { EDAI, EULER, FYDAI2209, WAD } from '../../../../../shared/constants'
+import { EDAI, EULER, EUSDC, EWETH, FYDAI2209, FYETH2209, FYUSDC2209, WAD } from '../../../../../shared/constants'
 import { bytesToBytes32, impersonate, readAddressMappingIfExists } from '../../../../../shared/helpers'
 import {
-  Cauldron,
   Cauldron__factory,
   ERC20Mock__factory,
   FYToken__factory,
   IOracle__factory,
   Ladle__factory,
 } from '../../../../../typechain'
-import { IERC20__factory } from '../../../../../typechain/factories/@yield-protocol/utils-v2/contracts/token'
+import { assets, whales } from '../../../base.mainnet.config'
 
 const protocol: Map<string, string> = readAddressMappingIfExists('protocol.json')
-const eDaiAddress = '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'
-const eDaiWhaleAddress = '0xb84cd93582cf94b0625c740f7ea441e33bc6fd6c'
 
 /**
  * @dev This script tests FCASH as a collateral
  */
 ;(async () => {
-  const user = await impersonate(eDaiWhaleAddress, WAD)
-  const seriesIlks: Array<[string, string]> = [[FYDAI2209, EDAI]]
-  const cauldron = Cauldron__factory.connect(protocol.get('cauldron')!, user)
-  const ladle = Ladle__factory.connect(protocol.get('ladle')!, user)
-  const oracle = IOracle__factory.connect(protocol.get(EULER)!, user)
-  const eDAI = ERC20Mock__factory.connect(eDaiAddress, user)
+  const seriesIlks: Array<[string, string]> = [
+    [FYDAI2209, EDAI],
+    [FYUSDC2209, EUSDC],
+    [FYETH2209, EWETH],
+  ]
 
   for (let [seriesId, ilkId] of seriesIlks) {
-    const eDaiBalanceBefore = await eDAI.balanceOf(user.address)
-    console.log(`eDai balance before: ${eDaiBalanceBefore}`)
-    console.log(`series: ${seriesId}`)
+    const whale = await impersonate(whales.get(ilkId)!, WAD)
+    const ilkERC20 = ERC20Mock__factory.connect(assets.get(ilkId)!, whale)
+    const ilkBalanceBefore = await ilkERC20.balanceOf(whale.address)
+    const ilkERC20name = await ilkERC20.symbol()
+    const ilkERC20Decimals = await ilkERC20.decimals()
+    console.log(`${ilkERC20name} balance before: ${ethers.utils.formatUnits(ilkBalanceBefore, ilkERC20Decimals)}`)
+    const cauldron = Cauldron__factory.connect(protocol.get('cauldron')!, whale)
+    console.log(`series: ${seriesId}: ${Buffer.from(seriesId.substring(2), 'hex')}`)
     const series = await cauldron.series(seriesId)
-    const fyToken = FYToken__factory.connect(series.fyToken, user)
+    const fyToken = FYToken__factory.connect(series.fyToken, whale)
 
-    const dust = (await cauldron.debt(series.baseId, ilkId)).min
-    console.log(`dust: ${dust}`)
+    const debt = await cauldron.debt(series.baseId, ilkId)
     console.log(`debt: ${await cauldron.debt(series.baseId, ilkId)}`)
     const ratio = (await cauldron.spotOracles(series.baseId, ilkId)).ratio
     console.log(`ratio: ${ratio}`)
-    const borrowed = BigNumber.from(10)
-      .pow(await fyToken.decimals())
-      .mul(dust)
-    console.log(`borrowed: ${borrowed}`)
-
+    const borrowed = BigNumber.from(10).pow(debt.dec).mul(debt.min)
+    console.log(`borrowed: ${borrowed} (${ethers.utils.formatUnits(borrowed, await fyToken.decimals())})`)
+    const oracle = IOracle__factory.connect(protocol.get(EULER)!, whale)
     const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ilkId), borrowed))[0]
       .mul(ratio)
       .div(1000000)
       .mul(101)
       .div(100) // borrowed * spot * ratio * 1.01 (for margin)
-    console.log(`posted: ${posted}`)
+    console.log(`posted: ${posted} (${ethers.utils.formatUnits(posted, ilkERC20Decimals)})`)
+
+    const ladle = Ladle__factory.connect(protocol.get('ladle')!, whale)
 
     // Build vault
     await ladle.build(seriesId, ilkId, 0)
@@ -59,9 +59,9 @@ const eDaiWhaleAddress = '0xb84cd93582cf94b0625c740f7ea441e33bc6fd6c'
 
     // Post EDAI and borrow fyDAI
     const joinAddress = await ladle.joins(ilkId)
-    await eDAI.transfer(joinAddress, posted)
-    console.log(`transfered ${posted} eDAI to join at: ${joinAddress}`)
-    await ladle.pour(vaultId, user.address, posted, borrowed)
+    await ilkERC20.transfer(joinAddress, posted)
+    console.log(`transfered ${posted} ${ilkERC20name} to join at: ${joinAddress}`)
+    await ladle.pour(vaultId, whale.address, posted, borrowed)
     console.log('posted and borrowed')
 
     if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
@@ -69,9 +69,9 @@ const eDaiWhaleAddress = '0xb84cd93582cf94b0625c740f7ea441e33bc6fd6c'
 
     // Repay fyDai and withdraw fCash
     await fyToken.transfer(fyToken.address, borrowed)
-    await ladle.pour(vaultId, user.address, posted.mul(-1), borrowed.mul(-1))
+    await ladle.pour(vaultId, whale.address, posted.mul(-1), borrowed.mul(-1))
     console.log('repaid and withdrawn')
-    if ((await eDAI.balanceOf(user.address)).toString() !== eDaiBalanceBefore.toString()) {
+    if ((await ilkERC20.balanceOf(whale.address)).toString() !== ilkBalanceBefore.toString()) {
       throw 'balance mismatch'
     }
   }
