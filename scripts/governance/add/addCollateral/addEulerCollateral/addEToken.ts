@@ -79,5 +79,5 @@ const { developer, deployer, auctionLimits, debtLimits, seriesIlks, assets, eule
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig')!, developer)
 })()
