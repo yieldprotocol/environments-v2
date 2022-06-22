@@ -1,5 +1,14 @@
 import { BigNumber } from 'ethers'
-import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, MAX256, ONE64, secondsIn25Years } from '../../../../../shared/constants'
+import {
+  ZERO,
+  ZERO_ADDRESS,
+  WAD,
+  ONEUSDC,
+  MAX256,
+  ONE64,
+  secondsIn25Years,
+  secondsInOneYear,
+} from '../../../../../shared/constants'
 import {
   ETH,
   DAI,
@@ -41,7 +50,12 @@ export const eulerAddress = base_config.eulerAddress
 export const flashMintModule = '0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853'
 
 // Time stretch to be set in the PoolFactory prior to pool deployment
-export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
+export const timeStretch: Map<string, BigNumber> = new Map([
+  [FYETH2212, ONE64.div(secondsInOneYear.mul(25))],
+  [FYDAI2212, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDC2212, ONE64.div(secondsInOneYear.mul(55))],
+  [FYFRAX2212, ONE64.div(secondsInOneYear.mul(20))],
+])
 
 // Sell base to the pool fee, as fp4
 export const g1: number = 9000
@@ -72,15 +86,42 @@ export const yvPoolData: Array<[string, string, string, BigNumber, number]> = [
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [FYFRAX2212, assets.get(FRAX) as string, newFYTokens.get(FYFRAX2212) as string, timeStretch, g1],
+  [
+    FYFRAX2212,
+    assets.get(FRAX) as string,
+    newFYTokens.get(FYFRAX2212) as string,
+    timeStretch.get(FYFRAX2212) as BigNumber,
+    g1,
+  ],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const ePoolData: Array<[string, string, string, string, BigNumber, number]> = [
-  [FYETH2212, eulerAddress, assets.get(EWETH) as string, newFYTokens.get(FYETH2212) as string, timeStretch, g1],
-  [FYDAI2212, eulerAddress, assets.get(EDAI) as string, newFYTokens.get(FYDAI2212) as string, timeStretch, g1],
-  [FYUSDC2212, eulerAddress, assets.get(EUSDC) as string, newFYTokens.get(FYUSDC2212) as string, timeStretch, g1],
+  [
+    FYETH2212,
+    eulerAddress,
+    assets.get(EWETH) as string,
+    newFYTokens.get(FYETH2212) as string,
+    timeStretch.get(FYETH2212) as BigNumber,
+    g1,
+  ],
+  [
+    FYDAI2212,
+    eulerAddress,
+    assets.get(EDAI) as string,
+    newFYTokens.get(FYDAI2212) as string,
+    timeStretch.get(FYDAI2212) as BigNumber,
+    g1,
+  ],
+  [
+    FYUSDC2212,
+    eulerAddress,
+    assets.get(EUSDC) as string,
+    newFYTokens.get(FYUSDC2212) as string,
+    timeStretch.get(FYUSDC2212) as BigNumber,
+    g1,
+  ],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
