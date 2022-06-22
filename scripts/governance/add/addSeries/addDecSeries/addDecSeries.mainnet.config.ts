@@ -44,7 +44,7 @@ export const flashMintModule = '0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853'
 export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
 
 // Sell base to the pool fee, as fp4
-export const g1: number = 7500
+export const g1: number = 9000
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
@@ -65,7 +65,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const yvPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [FYUSDC2212, assets.get(YVUSDC) as string, newFYTokens.get(FYUSDC2212) as string, timeStretch, g1],
+  //  [FYUSDC2212, assets.get(YVUSDC) as string, newFYTokens.get(FYUSDC2212) as string, timeStretch, g1],
   //  [FYDAI2212, assets.get(YVDAI) as string, newFYTokens.get(FYDAI2212) as string, timeStretch, g1],
 ]
 
@@ -80,6 +80,7 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
 export const ePoolData: Array<[string, string, string, string, BigNumber, number]> = [
   [FYETH2212, eulerAddress, assets.get(EWETH) as string, newFYTokens.get(FYETH2212) as string, timeStretch, g1],
   [FYDAI2212, eulerAddress, assets.get(EDAI) as string, newFYTokens.get(FYDAI2212) as string, timeStretch, g1],
+  [FYUSDC2212, eulerAddress, assets.get(EUSDC) as string, newFYTokens.get(FYUSDC2212) as string, timeStretch, g1],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId

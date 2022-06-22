@@ -32,25 +32,30 @@ export const rollStrategiesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${nextSeriesId}`)
     const nextPool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    console.log(`Strategy ${strategyId} divested from ${seriesId}`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
     })
+    console.log(`Using ${nextSeriesId}:${nextPool.address} as next pool`)
     if (fix) {
       const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
       proposal.push({
         target: base.address,
         data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
       })
+      console.log(`Fix tv pool by sending 1 wei of ${await base.symbol()}`)
     }
-    const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
-    const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
 
-    proposal.push({
-      target: base.address,
-      data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
-    })
+    const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
+    if (!buffer.isZero()) {
+      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
+      })
+      console.log(`Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`)
+    }
     proposal.push({
       target: roller.address,
       data: roller.interface.encodeFunctionData('roll', [
@@ -60,7 +65,6 @@ export const rollStrategiesProposal = async (
         timelock.address,
       ]),
     })
-
     console.log(`Strategy ${strategyId} rolled onto ${nextSeriesId}`)
   }
 

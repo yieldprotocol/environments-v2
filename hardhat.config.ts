@@ -62,7 +62,7 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 500,
+        runs: 100,
       }
     }
   },
@@ -115,7 +115,7 @@ module.exports = {
       accounts,
       gasPrice: 50000000000,
       timeout: 60000000,
-      url: "https://rpc.tenderly.co/fork/f5c2e642-3c75-471a-90f9-bd2a210e16f6"
+      url: "https://rpc.tenderly.co/fork/c1433862-03d3-4921-bde9-b0ca4cdb9ab5"
     },
     arb_rinkeby: {
       accounts,

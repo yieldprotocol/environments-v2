@@ -32,9 +32,9 @@ export const initPoolsProposal = async (
     )) as ERC20Mock
     const join: Join = (await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)) as Join
 
-    // Supply pool with a hundred tokens of underlying for initialization
     console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)
 
+    // Supply pool with a baseAmount of underlying for initialization
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),
