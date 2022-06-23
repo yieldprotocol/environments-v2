@@ -49,14 +49,14 @@ export const debtLimits: Array<[string, string, number, number, number, number]>
 /// @notice Limits to be used in an auction
 /// @param ilk id (bytes6 tag)
 /// @param duration of auctions in seconds
-/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
+/// @param initial percentage of the collateral to be offered (fixed point with 18 decimals)
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
-export const auctionLimits: Array<[string, number, number, number, number, number]> = [
-  [EDAI, 3600, 910_000, 10_000_000, 5000, 18], // 91% = 1/110%
-  [EUSDC, 3600, 910_000, 10_000_000, 5000, 18], // 91% = 1/110%
-  [EWETH, 3600, 910_000, 10_000_000, 5000, 15],
+export const auctionLimits: Array<[string, number, string, number, number, number]> = [
+  [EDAI, 3600, '910000000000000000', 10_000_000, 5000, 18], // 91% = 1/110%
+  [EUSDC, 3600, '910000000000000000', 10_000_000, 5000, 18], // 91% = 1/110%
+  [EWETH, 3600, '910000000000000000', 10_000_000, 5000, 15],
 ]
 
 /// @notice Ilks to accept for series
