@@ -1,4 +1,4 @@
-import { ethers, network, run, waffle } from 'hardhat'
+import { ethers, network, waffle } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
@@ -321,7 +321,8 @@ export function getNetworkName(): string {
  * 'government.json' can be resolved to 'addresses/kovan/government.json', for example
  */
 export function getAddressMappingFilePath(file_name: string): string {
-  const full_path = join('addresses', getNetworkName(), file_name)
+  // const full_path = join('addresses', getNetworkName(), file_name)
+  const full_path = join('addresses', 'arb_mainnet', file_name)
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))
@@ -397,4 +398,8 @@ export async function getOrDeploy<OutT extends AccessControl>(
   }
   await ensureRootAccess(ret, timelock)
   return ret
+}
+
+export const verifyCodeExists = async (address: string) => {
+  if ((await ethers.provider.getCode(address)) === '0x') throw `Address ${address} contains no code`
 }

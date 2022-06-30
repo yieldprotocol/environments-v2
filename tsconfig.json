@@ -8,7 +8,8 @@
   },
   "include": [
     "./scripts",
-    "./typechain"
+    "./typechain",
+    "./test"
   ],
   "files": [
         "./hardhat.config.ts",

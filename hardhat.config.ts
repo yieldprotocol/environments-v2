@@ -97,6 +97,9 @@ module.exports = {
       chainId: 31337,
       blockGasLimit: 300_000_000,
       loggingEnabled: true,
+      forking: {
+        url: "https://arb-mainnet.g.alchemy.com/v2/TmKu9FujoQKaaZLskHQ6CLrZbNtuJAug"
+      }
     },
     localhost: {
       // chainId: 31337,
