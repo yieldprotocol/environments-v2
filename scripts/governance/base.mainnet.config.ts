@@ -32,7 +32,7 @@ export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = new Map([
   [ETH, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
-  [DAI, '0x5d38b4e4783e34e2301a2a36c39a03c45798c4dd'],
+  [DAI, '0x16b34ce9a6a6f7fc2dd25ba59bf7308e7b38e186'],
   [USDC, '0xcffad3200574698b78f32232aa9d63eabd290703'],
   [WBTC, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
   [WSTETH, '0x10cd5fbe1b404b7e19ef964b63939907bdaf42e2'],
