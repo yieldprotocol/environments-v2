@@ -1,0 +1,11 @@
+should we automate this?
+pools.set() needs to be done manually so maybe after we do that FOR BOTH EULER AND NONTV we can iterate through newPools.json
+
+    pools.set(seriesId, pool)
+
+    if (!(await pool.hasRole(ROOT, timelock.address))) {
+      await pool.grantRole(ROOT, timelock.address)
+      console.log(`pool.grantRoles(ROOT, timelock)`)
+      while (!(await pool.hasRole(ROOT, timelock.address))) {}
+    }
+
