@@ -2532,10 +2532,10 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.4.1.tgz"
   integrity sha512-qqyBx6DERbkMhRTEVxvxr0OVVyxVyEq1rw/bfFjR/rW1xRAVufF+IQiyR5EFo807i/cW0MVjxt1KPVZGSyrLHA==
 
-"@yield-protocol/vault-v2@^0.16.6":
-  version "0.16.6"
-  resolved "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.16.6.tgz"
-  integrity sha512-ndLXba2OnZyTyI2CEOKtRVhEickxtbBwn3Dtxr1833rho8jdF2JQDlHJYUOCoHtfRpneWExjwkpS6SUviYH9Rw==
+"@yield-protocol/vault-v2@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.17.0.tgz#36291db1ad69130a4ac1a03637bdf2ab6b55cfb0"
+  integrity sha512-kOLXQiA1UByyZVYPSBXkn5C4N2Qc9HQYyrETcjeqr72B0hFDxhniua+O0kGUT4EIjDdxBqLYtQdYVMrh5nDKcg==
 
 "@yield-protocol/yieldspace-interfaces@2.3.2":
   version "2.3.2"
