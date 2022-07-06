@@ -1,4 +1,4 @@
-import { ethers } from 'hardhat'
+import { ethers, network } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
 import { deployEulerPoolsMANUAL } from '../../fragments/assetsAndSeries/deployEulerPoolsMANUAL'
@@ -26,5 +26,7 @@ const { developer, ePoolData } = require(process.env.CONF as string)
   )) as unknown as YieldMath
 
   const newPools = await deployEulerPoolsMANUAL(ownerAcc, timelock, yieldMath, ePoolData)
-  writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
+  if (network.name != 'tenderly') {
+    writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
+  }
 })()

@@ -42,29 +42,17 @@ export const deployEulerPoolsMANUAL = async (
     console.log('Deploy args:')
     console.log(eulerAddress, sharesToken, fyTokenAddress, ts, g1)
 
-    // if (network.name == 'tenderly') {
-    // delete next 3 lines
-    const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
-    console.log(`Pool deployed at ${pool.address}`)
-    verify(pool.address, [sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
-
-    console.log('Please deploy this contract manually!')
-    console.log('Then update newPools.json with address and seriesId: ', seriesId)
-    console.log('******************************')
-    console.log()
-
-    // } else {
-    //   const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
-    //   console.log(`Pool deployed at ${pool.address}`)
-    //   verify(pool.address, [sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
-    //   pools.set(seriesId, pool)
-    //   // This needs to be done manually -- see deployEulerPoolsMANUALSTEPS.txt
-    //   if (!(await pool.hasRole(ROOT, timelock.address))) {
-    //     await pool.grantRole(ROOT, timelock.address)
-    //     console.log(`pool.grantRoles(ROOT, timelock)`)
-    //     while (!(await pool.hasRole(ROOT, timelock.address))) {}
-    //   }
-    // }
+    if (network.name == 'tenderly') {
+      console.log('Please deploy this contract manually!')
+      console.log('Then update newPools.json with address and seriesId: ', seriesId)
+      console.log('******************************')
+      console.log()
+    } else {
+      const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
+      console.log(`Pool deployed at ${pool.address}`)
+      verify(pool.address, [sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
+      pools.set(seriesId, pool)
+    }
   }
   return pools
 }

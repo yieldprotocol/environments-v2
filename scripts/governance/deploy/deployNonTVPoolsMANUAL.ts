@@ -1,7 +1,7 @@
-import { ethers } from 'hardhat'
+import { ethers, network } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 
-import { deployNonTVPools } from '../../fragments/assetsAndSeries/deployNonTVPools'
+import { deployNonTVPoolsMANUAL } from '../../fragments/assetsAndSeries/deployNonTVPoolsMANUAL'
 import { Timelock, YieldMath } from '../../../typechain'
 const { protocol, governance } = require(process.env.CONF as string)
 const { developer, nonTVPoolData } = require(process.env.CONF as string)
@@ -25,6 +25,8 @@ const { developer, nonTVPoolData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as YieldMath
 
-  const newPools = await deployNonTVPools(ownerAcc, timelock, yieldMath, nonTVPoolData)
-  writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
+  const newPools = await deployNonTVPoolsMANUAL(ownerAcc, timelock, yieldMath, nonTVPoolData)
+  if (network.name != 'tenderly') {
+    writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
+  }
 })()
