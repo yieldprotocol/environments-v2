@@ -3,19 +3,28 @@ pragma solidity 0.8.14;
 
 import "./NotionalJoin.sol";
 import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
-import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 
 /// @dev NotionalJoinFactory creates new join instances supporting Notional Finance's fCash tokens.
 /// @author @calnix 
 contract NotionalJoinFactory is AccessControl {
 
     NotionalJoin[] public njoins;
-    IEmergencyBrake public cloak;
+    address public cloak;
+    address public timelock;
 
     event JoinCreated(address indexed asset, address join);
 
-    constructor(IEmergencyBrake cloak_){
+    constructor(address cloak_, address timelock_){
         cloak = cloak_;
+        timelock = timelock_;
+
+        AccessControl njoinfactory = AccessControl(address(this));
+
+        // grant ROOT to timelock
+        njoinfactory.grantRole(ROOT, timelock);
+        
+        // revoke role of deployer | msg.sender = deployer in constructor
+        njoinfactory.revokeRole(ROOT, msg.sender);
     }
 
     /// @dev Deploys a new notional join using create2
@@ -69,7 +78,7 @@ contract NotionalJoinFactory is AccessControl {
         AccessControl njoin = AccessControl(joinAddress);
 
         // grant ROOT to cloak
-        njoin.grantRole(ROOT, address(cloak));
+        njoin.grantRole(ROOT, cloak);
         
         // revoke ROOT from NotionalJoinFactory
         njoin.renounceRole(ROOT, address(this));
