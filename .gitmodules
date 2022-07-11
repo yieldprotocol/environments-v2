@@ -1,0 +1,12 @@
+[submodule "foundry/lib/vault-v2"]
+	path = foundry/lib/vault-v2
+	url = https://github.com/yieldprotocol/vault-v2
+[submodule "foundry/lib/environments-v2"]
+	path = foundry/lib/environments-v2
+	url = https://github.com/yieldprotocol/environments-v2
+[submodule "foundry/lib/vault-interfaces"]
+	path = foundry/lib/vault-interfaces
+	url = https://github.com/yieldprotocol/vault-interfaces
+[submodule "foundry/lib/yield-utils-v2"]
+	path = foundry/lib/yield-utils-v2
+	url = https://github.com/yieldprotocol/yield-utils-v2

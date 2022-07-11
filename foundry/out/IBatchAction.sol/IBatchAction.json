@@ -1,0 +1,457 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "enum IBatchAction.DepositActionType",
+              "name": "actionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "currencyId",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "depositActionAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "withdrawAmountInternalPrecision",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "withdrawEntireCashBalance",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "redeemToUnderlying",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IBatchAction.BalanceAction[]",
+          "name": "actions",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "batchBalanceAction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "batchBalanceAction(address,(uint8,uint16,uint256,uint256,bool,bool)[])": "6e6a32a6"
+  },
+  "ast": {
+    "absolutePath": "src/IBatchAction.sol",
+    "id": 2251,
+    "exportedSymbols": {
+      "IBatchAction": [
+        2250
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "37:2505:16",
+    "nodes": [
+      {
+        "id": 2217,
+        "nodeType": "PragmaDirective",
+        "src": "37:23:16",
+        "literals": [
+          "solidity",
+          "0.8",
+          ".14"
+        ]
+      },
+      {
+        "id": 2250,
+        "nodeType": "ContractDefinition",
+        "src": "62:2480:16",
+        "nodes": [
+          {
+            "id": 2225,
+            "nodeType": "EnumDefinition",
+            "src": "206:1213:16",
+            "canonicalName": "IBatchAction.DepositActionType",
+            "members": [
+              {
+                "id": 2218,
+                "name": "None",
+                "nameLocation": "268:4:16",
+                "nodeType": "EnumValue",
+                "src": "268:4:16"
+              },
+              {
+                "id": 2219,
+                "name": "DepositAsset",
+                "nameLocation": "379:12:16",
+                "nodeType": "EnumValue",
+                "src": "379:12:16"
+              },
+              {
+                "id": 2220,
+                "name": "DepositUnderlying",
+                "nameLocation": "554:17:16",
+                "nodeType": "EnumValue",
+                "src": "554:17:16"
+              },
+              {
+                "id": 2221,
+                "name": "DepositAssetAndMintNToken",
+                "nameLocation": "737:25:16",
+                "nodeType": "EnumValue",
+                "src": "737:25:16"
+              },
+              {
+                "id": 2222,
+                "name": "DepositUnderlyingAndMintNToken",
+                "nameLocation": "895:30:16",
+                "nodeType": "EnumValue",
+                "src": "895:30:16"
+              },
+              {
+                "id": 2223,
+                "name": "RedeemNToken",
+                "nameLocation": "1195:12:16",
+                "nodeType": "EnumValue",
+                "src": "1195:12:16"
+              },
+              {
+                "id": 2224,
+                "name": "ConvertCashToNToken",
+                "nameLocation": "1394:19:16",
+                "nodeType": "EnumValue",
+                "src": "1394:19:16"
+              }
+            ],
+            "name": "DepositActionType",
+            "nameLocation": "211:17:16"
+          },
+          {
+            "id": 2239,
+            "nodeType": "StructDefinition",
+            "src": "1481:733:16",
+            "canonicalName": "IBatchAction.BalanceAction",
+            "members": [
+              {
+                "constant": false,
+                "id": 2228,
+                "mutability": "mutable",
+                "name": "actionType",
+                "nameLocation": "1573:10:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "1555:28:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_DepositActionType_$2225",
+                  "typeString": "enum IBatchAction.DepositActionType"
+                },
+                "typeName": {
+                  "id": 2227,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 2226,
+                    "name": "DepositActionType",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 2225,
+                    "src": "1555:17:16"
+                  },
+                  "referencedDeclaration": 2225,
+                  "src": "1555:17:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_DepositActionType_$2225",
+                    "typeString": "enum IBatchAction.DepositActionType"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2230,
+                "mutability": "mutable",
+                "name": "currencyId",
+                "nameLocation": "1600:10:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "1593:17:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint16",
+                  "typeString": "uint16"
+                },
+                "typeName": {
+                  "id": 2229,
+                  "name": "uint16",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1593:6:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2232,
+                "mutability": "mutable",
+                "name": "depositActionAmount",
+                "nameLocation": "1728:19:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "1720:27:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2231,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1720:7:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2234,
+                "mutability": "mutable",
+                "name": "withdrawAmountInternalPrecision",
+                "nameLocation": "1860:31:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "1852:39:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2233,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1852:7:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2236,
+                "mutability": "mutable",
+                "name": "withdrawEntireCashBalance",
+                "nameLocation": "2062:25:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "2057:30:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 2235,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2057:4:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2238,
+                "mutability": "mutable",
+                "name": "redeemToUnderlying",
+                "nameLocation": "2189:18:16",
+                "nodeType": "VariableDeclaration",
+                "scope": 2239,
+                "src": "2184:23:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 2237,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2184:4:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "BalanceAction",
+            "nameLocation": "1488:13:16",
+            "scope": 2250,
+            "visibility": "public"
+          },
+          {
+            "id": 2249,
+            "nodeType": "FunctionDefinition",
+            "src": "2452:88:16",
+            "documentation": {
+              "id": 2240,
+              "nodeType": "StructuredDocumentation",
+              "src": "2220:227:16",
+              "text": "@notice Executes a batch of balance transfers including minting and redeeming nTokens.\n @param account the account for the action\n @param actions array of balance actions to take, must be sorted by currency id"
+            },
+            "functionSelector": "6e6a32a6",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "batchBalanceAction",
+            "nameLocation": "2461:18:16",
+            "parameters": {
+              "id": 2247,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2242,
+                  "mutability": "mutable",
+                  "name": "account",
+                  "nameLocation": "2488:7:16",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2249,
+                  "src": "2480:15:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2241,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2480:7:16",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2246,
+                  "mutability": "mutable",
+                  "name": "actions",
+                  "nameLocation": "2522:7:16",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2249,
+                  "src": "2497:32:16",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_BalanceAction_$2239_calldata_ptr_$dyn_calldata_ptr",
+                    "typeString": "struct IBatchAction.BalanceAction[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 2244,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 2243,
+                        "name": "BalanceAction",
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 2239,
+                        "src": "2497:13:16"
+                      },
+                      "referencedDeclaration": 2239,
+                      "src": "2497:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_BalanceAction_$2239_storage_ptr",
+                        "typeString": "struct IBatchAction.BalanceAction"
+                      }
+                    },
+                    "id": 2245,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2497:15:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_BalanceAction_$2239_storage_$dyn_storage_ptr",
+                      "typeString": "struct IBatchAction.BalanceAction[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2479:51:16"
+            },
+            "returnParameters": {
+              "id": 2248,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2539:0:16"
+            },
+            "scope": 2250,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IBatchAction",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          2250
+        ],
+        "name": "IBatchAction",
+        "nameLocation": "72:12:16",
+        "scope": 2251,
+        "usedErrors": []
+      }
+    ],
+    "license": "BUSL-1.1"
+  },
+  "id": 16
+}

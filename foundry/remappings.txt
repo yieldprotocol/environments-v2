@@ -1,0 +1,15 @@
+ERC3156/=lib/vault-v2/packages/foundry/lib/ERC3156/contracts/
+Yield-UniswapOracleV3/=lib/vault-v2/packages/foundry/lib/Yield-UniswapOracleV3/contracts/
+ds-test/=lib/forge-std/lib/ds-test/src/
+dss-interfaces/=lib/vault-v2/packages/foundry/lib/dss-interfaces/src/
+environments-v2/=lib/environments-v2/
+forge-std/=lib/forge-std/src/
+vault-interfaces/=lib/vault-interfaces/src/
+vault-v2/=lib/vault-v2/
+yield-utils-v2/=lib/vault-v2/packages/foundry/lib/yield-utils-v2/contracts/
+yieldspace-interfaces/=lib/vault-v2/packages/foundry/lib/yieldspace-interfaces/
+yieldspace-v2/=lib/vault-v2/packages/foundry/lib/yieldspace-v2/contracts/
+@yield-protocol/utils-v2/=lib/yield-utils-v2/
+@yield-protocol/vault-interfaces/=lib/vault-interfaces/
+@yield-protocol/yieldspace-interfaces/=lib/yieldspace-interfaces/
+@yield-protocol/yieldspace-v2/=lib/yieldspace-v2/
