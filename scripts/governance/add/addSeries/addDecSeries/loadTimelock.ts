@@ -22,7 +22,6 @@ const { governance, whales, strategies, newPools, poolsInit, rollData } = requir
 
     console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()} to init pools`)
   }
-
   for (let [strategyId, nextSeriesId, buffer, lenderAddress, fix] of rollData) {
     if (!buffer.isZero() || fix) {
       const strategyAddress = strategies.get(strategyId)

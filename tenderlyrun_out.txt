@@ -1,0 +1,86 @@
+ bash ./scripts/governance/add/addSeries/addDecSeries/deployDecSeries.tenderly.sh
+++ dirname ./scripts/governance/add/addSeries/addDecSeries/deployDecSeries.tenderly.sh
++ HERE=./scripts/governance/add/addSeries/addDecSeries
++ export CONF=/Users/devtooligan/dev/yield/environments-v2/./scripts/governance/add/addSeries/addDecSeries/addDecSeries.mainnet.config
++ CONF=/Users/devtooligan/dev/yield/environments-v2/./scripts/governance/add/addSeries/addDecSeries/addDecSeries.mainnet.config
++ RUN='npx hardhat run --network tenderly'
++ npx hardhat run --network tenderly ./scripts/governance/add/addSeries/addDecSeries/../../../deploy/deployYieldMath.ts
+YieldMath deployed at 0x87e3cb95dE2B250b51AFa5e5ACE3ACF4b2C28e29
+npx hardhat verify --network tenderly 0x87e3cb95dE2B250b51AFa5e5ACE3ACF4b2C28e29
++ npx hardhat run --network tenderly ./scripts/governance/add/addSeries/addDecSeries/../../../deploy/deployFYTokens.ts
+Using join at 0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0 for 0x303030380000
+Using oracle at 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c for 0x303030380000
+FYToken deployed at 0xc5b4BcB2F588A5B8B16abD15F8DcB6B32f35c43E
+npx hardhat verify --network tenderly 0xc5b4BcB2F588A5B8B16abD15F8DcB6B32f35c43E 0x303000000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0 1672412400 FYETH2212 FYETH2212 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
+Using join at 0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc for 0x303130380000
+Using oracle at 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c for 0x303130380000
+FYToken deployed at 0x917D8eAD137569DE5768bfDbDc359f7e590087B1
+npx hardhat verify --network tenderly 0x917D8eAD137569DE5768bfDbDc359f7e590087B1 0x303100000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc 1672412400 FYDAI2212 FYDAI2212 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
+Using join at 0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4 for 0x303230380000
+Using oracle at 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c for 0x303230380000
+FYToken deployed at 0x386a0A72FfEeB773381267D69B61aCd1572e074D
+npx hardhat verify --network tenderly 0x386a0A72FfEeB773381267D69B61aCd1572e074D 0x303200000000 0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c 0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4 1672412400 FYUSDC2212 FYUSDC2212 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
+Using join at 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 for 0x313830380000
+Using oracle at 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC for 0x313830380000
+FYToken deployed at 0xcDfBf28Db3B1B7fC8efE08f988D955270A5c4752
+npx hardhat verify --network tenderly 0xcDfBf28Db3B1B7fC8efE08f988D955270A5c4752 0x313800000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464 1672412400 FYFRAX2212 FYFRAX2212 --libraries safeERC20Namer.js
+fyToken.grantRoles(ROOT, timelock)
++ npx hardhat run --network tenderly ./scripts/governance/add/addSeries/addDecSeries/../../../deploy/deployEulerPoolsMANUAL.ts
+
+******************************
+Deploying Euler pool for seriesID:  0x303030380000
+Using main Euler contract at 0x27182842E098f60e3D576794A5bFFb0777E025d3
+Using sharesToken at 0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D
+Using fyToken at 0xc5b4BcB2F588A5B8B16abD15F8DcB6B32f35c43E
+Deploy args:
+0x27182842E098f60e3D576794A5bFFb0777E025d3 0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D 0xc5b4BcB2F588A5B8B16abD15F8DcB6B32f35c43E BigNumber { value: "23381681843" } 9000
+Please deploy this contract manually!
+Then update newPools.json with address and seriesId:  0x303030380000
+******************************
+
+
+******************************
+Deploying Euler pool for seriesID:  0x303130380000
+Using main Euler contract at 0x27182842E098f60e3D576794A5bFFb0777E025d3
+Using sharesToken at 0xe025E3ca2bE02316033184551D4d3Aa22024D9DC
+Using fyToken at 0x917D8eAD137569DE5768bfDbDc359f7e590087B1
+Deploy args:
+0x27182842E098f60e3D576794A5bFFb0777E025d3 0xe025E3ca2bE02316033184551D4d3Aa22024D9DC 0x917D8eAD137569DE5768bfDbDc359f7e590087B1 BigNumber { value: "12989823246" } 9000
+Please deploy this contract manually!
+Then update newPools.json with address and seriesId:  0x303130380000
+******************************
+
+
+******************************
+Deploying Euler pool for seriesID:  0x303230380000
+Using main Euler contract at 0x27182842E098f60e3D576794A5bFFb0777E025d3
+Using sharesToken at 0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716
+Using fyToken at 0x386a0A72FfEeB773381267D69B61aCd1572e074D
+Deploy args:
+0x27182842E098f60e3D576794A5bFFb0777E025d3 0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716 0x386a0A72FfEeB773381267D69B61aCd1572e074D BigNumber { value: "10628037201" } 9000
+Please deploy this contract manually!
+Then update newPools.json with address and seriesId:  0x303230380000
+******************************
+
++ npx hardhat run --network tenderly ./scripts/governance/add/addSeries/addDecSeries/../../../deploy/deployNonTVPoolsMANUAL.ts
+
+******************************
+Deploying NonTv pool for seriesID:  0x313830380000
+Using base at 0x853d955aCEf822Db058eb8505911ED77F175b99e
+Using fyToken at 0xcDfBf28Db3B1B7fC8efE08f988D955270A5c4752
+Deploy args:
+0x853d955aCEf822Db058eb8505911ED77F175b99e 0xcDfBf28Db3B1B7fC8efE08f988D955270A5c4752 BigNumber { value: "29227102304" } 9000
+Please deploy this contract manually!
+Then update newPools.json with address and seriesId:  0x313830380000
+******************************
+
++ npx hardhat run --network tenderly ./scripts/governance/add/addSeries/addDecSeries/../../../deploy/orchestrateNewPools.ts
+Error: ENOENT: no such file or directory, open './addresses/tenderly/newPools.json'
+    at Object.openSync (node:fs:585:3)
+    at Object.readFileSync (node:fs:453:35)
+    at /Users/devtooligan/dev/yield/environments-v2/scripts/governance/deploy/orchestrateNewPools.ts:32:30
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/devtooligan/dev/yield/environments-v2/scripts/governance/deploy/orchestrateNewPools.ts:28:58)

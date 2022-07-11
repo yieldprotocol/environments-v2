@@ -115,10 +115,10 @@ module.exports = {
       url: infuraNodeUrl('goerli'),
     },
     tenderly: {
-      accounts,
       gasPrice: 50000000000,
+      blockGasLimit: 300_000_000,
       timeout: 60000000,
-      url: "https://rpc.tenderly.co/fork/12025bd2-a834-44c4-80e0-ee6e5f176f43"
+      url: "https://rpc.tenderly.co/fork/4057b496-9b7d-4d24-a147-94f09802517d"
     },
     arb_rinkeby: {
       accounts,

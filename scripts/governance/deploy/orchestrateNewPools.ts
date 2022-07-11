@@ -1,5 +1,5 @@
 import { ethers, network } from 'hardhat'
-import { proposeApproveExecute, getOwnerOrImpersonate, jsonToMap } from '../../../shared/helpers'
+import { impersonate, proposeApproveExecute, getOwnerOrImpersonate, jsonToMap } from '../../../shared/helpers'
 import * as fs from 'fs'
 
 import { orchestrateNewPoolsProposal } from '../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
@@ -32,23 +32,22 @@ import { ROOT } from '../../../shared/constants'
   const pools = jsonToMap(fs.readFileSync(`${path}newPools.json`, 'utf8')) as Map<string, string>
 
   //iterate through newPools
-  let proposal: Array<{ target: string; data: string }> = []
   for (let [seriesId, poolAddress] of pools) {
+    let proposal: Array<{ target: string; data: string }> = []
     const pool: PoolEuler = (await ethers.getContractAt(
       'PoolEuler',
       poolAddress as string,
       ownerAcc
     )) as unknown as PoolEuler
     if (!(await pool.hasRole(ROOT, timelock.address))) {
-      await pool.grantRole(ROOT, timelock.address)
+      await pool.connect(ownerAcc).grantRole(ROOT, timelock.address)
       console.log(`pool.grantRoles(ROOT, timelock)`)
       while (!(await pool.hasRole(ROOT, timelock.address))) {}
     }
     console.log(`adding proposal for pool for series: ${seriesId} at address: ${poolAddress}`)
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
+    // Propose, Approve & execute
+    console.log('proposeApproveExecute')
+    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
   }
-
-  // Propose, Approve & execute
-  console.log('proposeApproveExecute')
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()

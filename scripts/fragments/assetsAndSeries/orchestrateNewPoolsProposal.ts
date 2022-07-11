@@ -21,7 +21,6 @@ export const orchestrateNewPoolsProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  console.log(pool.interface)
   proposal.push({
     target: pool.address,
     data: pool.interface.encodeFunctionData('grantRoles', [
