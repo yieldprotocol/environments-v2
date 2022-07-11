@@ -142,26 +142,6 @@ contract CollateralWand is AccessControl {
         join.grantRole(ROOT, address(cloak));
     }
 
-    /// @notice Function to update CompositeSource
-    /// @param baseId id of the base asset
-    /// @param quoteId id of the quote asset
-    /// @param source address of the oracle for baseId/quoteId
-    function _updateCompositeSource(
-        bytes6 baseId,
-        bytes6 quoteId,
-        IOracle source
-    ) internal {}
-
-    /// @notice Function to update CompositePaths
-    /// @param baseId id of the base asset
-    /// @param quoteId id of the quote asset
-    /// @param sources sources of the oracle
-    function _updateCompositePath(
-        bytes6 baseId,
-        bytes6 quoteId,
-        IOracle[] calldata sources
-    ) internal {}
-
     /// @notice Function to update ChainlinkSource for the supplied baseId/quoteId
     /// @param baseId baseId
     /// @param base address of the base asset

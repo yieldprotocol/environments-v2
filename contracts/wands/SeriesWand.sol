@@ -59,7 +59,7 @@ contract SeriesWand is AccessControl {
         ladle.addPool(seriesId, pool);
     }
 
-    /// @notice A function to create a new FYToken & set the right permissions
+    /// @notice A function set the right permissions for fyToken
     /// @param join Join of the underlying asset
     /// @param fyToken The fyToken
     function _orchestrateFyToken(IJoin join, IFYToken fyToken) internal {
@@ -81,7 +81,7 @@ contract SeriesWand is AccessControl {
         fyToken.grantRoles(sigs, address(ladle));
 
         // Pass ownership of the fyToken to msg.sender
-        fyToken.grantRole(ROOT, msg.sender);
+        fyToken.grantRole(ROOT, address(cloak));
         fyToken.renounceRole(ROOT, address(this));
 
         // Register emergency plan to disconnect fyToken from ladle
