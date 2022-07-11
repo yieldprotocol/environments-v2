@@ -65,6 +65,14 @@ contract fCashWand is AccessControl {
         uint24 dust;
         uint8 dec;
     }
+    
+    struct ChainlinkSource {
+        bytes6 baseId;
+        address base;
+        bytes6 quoteId;
+        address quote;
+        address source;
+    }
 
     struct SeriesIlk {
         bytes6 series;
@@ -83,20 +91,40 @@ contract fCashWand is AccessControl {
     /// @param assetId assetId of the collateral being added
     /// @param assetAddress address of the collateral
     /// @param joinAddress address of the join for the asset
+    /// @param chainlinkSources address of the chainlink sources
     /// @param auctionLimits auction limits for the asset
     /// @param debtLimits debt limits for the asset
     /// @param seriesIlks seriesIlk data to which the asset is to be added
-    function addfCashCollateral(bytes6 assetId, address assetAddress, address joinAddress,
+    function addfCashCollateral(bytes6 assetId, address assetAddress, address joinAddress,  
+        ChainlinkSource[] calldata chainlinkSources,
         AuctionLimit[] calldata auctionLimits,
         DebtLimit[] calldata debtLimits,
         SeriesIlk[] calldata seriesIlks
     ) external auth {
-
+    
+        // asset is recognized in ecosystem
         _addAsset(assetId, assetAddress, joinAddress);
 
+    
+        for (uint256 index = 0; index < chainlinkSources.length; index++) {
+            ChainlinkSource memory chainlinksource = chainlinkSources[index];
+            
+            // add price feeds
+            _updateChainLinkSource(
+                chainlinksource.baseId,
+                chainlinksource.base,
+                chainlinksource.quoteId,
+                chainlinksource.quote,
+                chainlinksource.source
+            );
+        }
+        
+        // define risk/collateral attributes
         _makeIlk(joinAddress, auctionLimits, debtLimits);
 
+        // assign series 
         _addIlksToSeries(seriesIlks);
+
     }
 
     /// @notice Function to add asset to the cauldron & join to the ladle
@@ -195,5 +223,23 @@ contract fCashWand is AccessControl {
             SeriesIlk memory seriesIlk = seriesIlks[index];
             cauldron.addIlks(seriesIlk.series, seriesIlk.ilkIds);
         }
+    }
+
+
+    /// @notice Function to update ChainlinkSource for the supplied baseId/quoteId
+    /// @param baseId baseId
+    /// @param base address of the base asset
+    /// @param quoteId quoteId
+    /// @param quote address of the quote asset
+    /// @param source address of the oracle for baseId/quoteId
+    function _updateChainLinkSource(
+        bytes6 baseId,
+        address base,
+        bytes6 quoteId,
+        address quote,
+        address source
+    ) internal {
+        // set sources for chainlink
+        chainlinkMultiOracle.setSource(baseId, IERC20Metadata(base), quoteId, IERC20Metadata(quote), source);
     }
 }
