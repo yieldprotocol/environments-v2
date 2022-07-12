@@ -26,13 +26,11 @@ interface IWitchCustom {
     ) external;
 }
 
-interface IChainlinkMultiOracle {
+interface INotionalMultiOracle {
     function setSource(
-        bytes6 baseId,
-        IERC20Metadata base,
-        bytes6 quoteId,
-        IERC20Metadata quote,
-        address source
+        bytes6 notionalId,
+        bytes6 underlyingId,
+        IERC20Metadata underlying
     ) external;
 }
 
@@ -45,7 +43,7 @@ contract fCashWand is AccessControl {
     ICauldronGov public cauldron;
     ILadleGov public ladle;
     IEmergencyBrake public cloak;
-    IChainlinkMultiOracle public chainlinkMultiOracle;
+    INotionalMultiOracle public notionalMultiOracle;
     IWitchCustom public witch;
 
     struct AuctionLimit {
@@ -66,12 +64,10 @@ contract fCashWand is AccessControl {
         uint8 dec;
     }
     
-    struct ChainlinkSource {
-        bytes6 baseId;
-        address base;
-        bytes6 quoteId;
-        address quote;
-        address source;
+    struct NotionalSource {
+        bytes6 notionalId;
+        bytes6 underlyingId;
+        address underlying;
     }
 
     struct SeriesIlk {
@@ -79,24 +75,24 @@ contract fCashWand is AccessControl {
         bytes6[] ilkIds;
     }
 
-    constructor(ICauldronGov cauldron_, ILadleGov ladle_, IWitchCustom witch_, IEmergencyBrake cloak_, IChainlinkMultiOracle chainlinkMultiOracle_) {
+    constructor(ICauldronGov cauldron_, ILadleGov ladle_, IWitchCustom witch_, IEmergencyBrake cloak_, INotionalMultiOracle notionalMultiOracle_) {
         cauldron = cauldron_;
         ladle = ladle_;
         witch = witch_;
         cloak = cloak_;
-        chainlinkMultiOracle = chainlinkMultiOracle_;
+        notionalMultiOracle = notionalMultiOracle_;
     }
 
     /// @notice Function to add fCash as collateral
     /// @param assetId assetId of the collateral being added
     /// @param assetAddress address of the collateral
     /// @param joinAddress address of the join for the asset
-    /// @param chainlinkSources address of the chainlink sources
+    /// @param notionalSources address of the chainlink sources
     /// @param auctionLimits auction limits for the asset
     /// @param debtLimits debt limits for the asset
     /// @param seriesIlks seriesIlk data to which the asset is to be added
     function addfCashCollateral(bytes6 assetId, address assetAddress, address joinAddress,  
-        ChainlinkSource[] calldata chainlinkSources,
+        NotionalSource[] calldata notionalSources,
         AuctionLimit[] calldata auctionLimits,
         DebtLimit[] calldata debtLimits,
         SeriesIlk[] calldata seriesIlks
@@ -106,16 +102,14 @@ contract fCashWand is AccessControl {
         _addAsset(assetId, assetAddress, joinAddress);
 
     
-        for (uint256 index = 0; index < chainlinkSources.length; index++) {
-            ChainlinkSource memory chainlinksource = chainlinkSources[index];
+        for (uint256 index = 0; index < notionalSources.length; index++) {
+            NotionalSource memory notionalsource = notionalSources[index];
             
             // add price feeds
-            _updateChainLinkSource(
-                chainlinksource.baseId,
-                chainlinksource.base,
-                chainlinksource.quoteId,
-                chainlinksource.quote,
-                chainlinksource.source
+            _updateNotionalSource(
+                notionalsource.notionalId,
+                notionalsource.underlyingId,
+                notionalsource.underlying
             );
         }
         
@@ -211,7 +205,7 @@ contract fCashWand is AccessControl {
     /// @param dust vault debt, modified by decimals
     /// @param dec to append to debt ceiling and minimum vault debt.
     function _updateDebtLimit(bytes6 baseId, bytes6 ilkId, uint32 ratio, uint96 line, uint24 dust, uint8 dec) internal {
-        cauldron.setSpotOracle(baseId, ilkId, IOracle(address(chainlinkMultiOracle)), ratio);
+        cauldron.setSpotOracle(baseId, ilkId, IOracle(address(notionalMultiOracle)), ratio);
         cauldron.setDebtLimits(baseId, ilkId, line, dust, dec);
     }
 
@@ -226,20 +220,12 @@ contract fCashWand is AccessControl {
     }
 
 
-    /// @notice Function to update ChainlinkSource for the supplied baseId/quoteId
-    /// @param baseId baseId
-    /// @param base address of the base asset
-    /// @param quoteId quoteId
-    /// @param quote address of the quote asset
-    /// @param source address of the oracle for baseId/quoteId
-    function _updateChainLinkSource(
-        bytes6 baseId,
-        address base,
-        bytes6 quoteId,
-        address quote,
-        address source
-    ) internal {
-        // set sources for chainlink
-        chainlinkMultiOracle.setSource(baseId, IERC20Metadata(base), quoteId, IERC20Metadata(quote), source);
+    /// @notice Function to update NotionalSource for the supplied notionalId/underlyingId
+    /// @param notionalId Notional asset id (e.g. fDai2209)
+    /// @param underlyingId Corresponding underlying id (e.g. Dai)
+    /// @param underlying Address of the underlying asset
+    function _updateNotionalSource(bytes6 notionalId, bytes6 underlyingId, address underlying) internal {
+        // set sources for notional
+        notionalMultiOracle.setSource(notionalId, underlyingId, IERC20Metadata(underlying));
     }
 }
