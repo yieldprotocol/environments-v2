@@ -54,5 +54,4 @@ addresses/localhost/
 .idea/
 
 # Foundry
-out
 foundry/out
