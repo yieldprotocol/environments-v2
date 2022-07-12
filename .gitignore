@@ -52,3 +52,6 @@ dist/
 
 addresses/localhost/
 .idea/
+
+# Foundry
+foundry/out
