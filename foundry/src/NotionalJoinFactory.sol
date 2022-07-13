@@ -18,13 +18,10 @@ contract NotionalJoinFactory is AccessControl {
         cloak = cloak_;
         timelock = timelock_;
 
-        AccessControl njoinfactory = AccessControl(address(this));
-
         // grant ROOT to timelock
-        njoinfactory.grantRole(ROOT, timelock);
-        
+        _grantRole(ROOT, timelock);
         // revoke role of deployer | msg.sender = deployer in constructor
-        njoinfactory.revokeRole(ROOT, msg.sender);
+        _revokeRole(ROOT, msg.sender);
     }
 
     /// @dev Deploys a new notional join using create2
@@ -79,7 +76,6 @@ contract NotionalJoinFactory is AccessControl {
 
         // grant ROOT to cloak
         njoin.grantRole(ROOT, cloak);
-        
         // revoke ROOT from NotionalJoinFactory
         njoin.renounceRole(ROOT, address(this));
     }
