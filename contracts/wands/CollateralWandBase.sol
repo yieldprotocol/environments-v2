@@ -26,27 +26,17 @@ interface IWitchCustom {
     ) external;
 }
 
-interface IChainlinkMultiOracle {
-    function setSource(
-        bytes6 baseId,
-        IERC20Metadata base,
-        bytes6 quoteId,
-        IERC20Metadata quote,
-        address source
-    ) external;
-}
-
-/// @dev A wand to add a new collateral.
+/// @dev Base wand on top of which additional wands could be built
 /// @author @iamsahu
-contract CollateralWand is AccessControl {
+contract CollateralWandBase is AccessControl {
     bytes4 public constant JOIN = IJoin.join.selector;
     bytes4 public constant EXIT = IJoin.exit.selector;
 
     ICauldronGov public cauldron;
     ILadleGov public ladle;
     IEmergencyBrake public cloak;
-    IChainlinkMultiOracle public chainlinkMultiOracle;
     IWitchCustom public witch;
+    address public oracle;
 
     struct AuctionLimit {
         bytes6 ilkId;
@@ -66,14 +56,6 @@ contract CollateralWand is AccessControl {
         uint8 dec;
     }
 
-    struct ChainlinkSource {
-        bytes6 baseId;
-        address base;
-        bytes6 quoteId;
-        address quote;
-        address source;
-    }
-
     struct SeriesIlk {
         bytes6 series;
         bytes6[] ilkIds;
@@ -84,50 +66,13 @@ contract CollateralWand is AccessControl {
         ILadleGov ladle_,
         IWitchCustom witch_,
         IEmergencyBrake cloak_,
-        IChainlinkMultiOracle chainlinkMultiOracle_
+        address oracle_
     ) {
         cauldron = cauldron_;
         ladle = ladle_;
         witch = witch_;
         cloak = cloak_;
-        chainlinkMultiOracle = chainlinkMultiOracle_;
-    }
-
-    /// @notice Function to add a chainlink collateral
-    /// @param assetId assetId of the collateral being added
-    /// @param assetAddress address of the collateral
-    /// @param joinAddress address of the join for the asset
-    /// @param deployer address of the deployer
-    /// @param chainlinkSources address of the chainlink sources
-    /// @param auctionLimits auction limits for the asset
-    /// @param debtLimits debt limits for the asset
-    /// @param seriesIlks seriesIlk data to which the asset is to be added
-    function addChainlinkCollateral(
-        bytes6 assetId,
-        address assetAddress,
-        address joinAddress,
-        address deployer,
-        ChainlinkSource[] calldata chainlinkSources,
-        AuctionLimit[] calldata auctionLimits,
-        DebtLimit[] calldata debtLimits,
-        SeriesIlk[] calldata seriesIlks
-    ) external auth {
-        _orchestrateJoin(joinAddress, deployer);
-        _addAsset(assetId, assetAddress, joinAddress);
-        for (uint256 index = 0; index < chainlinkSources.length; index++) {
-            ChainlinkSource memory chainlinksource = chainlinkSources[index];
-            _updateChainLinkSource(
-                chainlinksource.baseId,
-                chainlinksource.base,
-                chainlinksource.quoteId,
-                chainlinksource.quote,
-                chainlinksource.source
-            );
-        }
-
-        _makeIlk(joinAddress, auctionLimits, debtLimits);
-
-        _addIlksToSeries(seriesIlks);
+        oracle = oracle_;
     }
 
     /// @notice Orchestrate the join to grant & revoke the correct permissions
@@ -140,23 +85,6 @@ contract CollateralWand is AccessControl {
         join.revokeRole(ROOT, deployer);
         // grant ROOT to cloak
         join.grantRole(ROOT, address(cloak));
-    }
-
-    /// @notice Function to update ChainlinkSource for the supplied baseId/quoteId
-    /// @param baseId baseId
-    /// @param base address of the base asset
-    /// @param quoteId quoteId
-    /// @param quote address of the quote asset
-    /// @param source address of the oracle for baseId/quoteId
-    function _updateChainLinkSource(
-        bytes6 baseId,
-        address base,
-        bytes6 quoteId,
-        address quote,
-        address source
-    ) internal {
-        // set sources for chainlink
-        chainlinkMultiOracle.setSource(baseId, IERC20Metadata(base), quoteId, IERC20Metadata(quote), source);
     }
 
     /// @notice Function to add asset to the cauldron & join to the ladle
@@ -262,7 +190,7 @@ contract CollateralWand is AccessControl {
         uint24 dust,
         uint8 dec
     ) internal {
-        cauldron.setSpotOracle(baseId, ilkId, IOracle(address(chainlinkMultiOracle)), ratio);
+        cauldron.setSpotOracle(baseId, ilkId, IOracle(oracle), ratio);
         cauldron.setDebtLimits(baseId, ilkId, line, dust, dec);
     }
 

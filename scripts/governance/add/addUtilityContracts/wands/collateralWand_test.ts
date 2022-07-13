@@ -13,7 +13,7 @@ import {
   OracleMock,
   Witch,
 } from '../../../../../typechain'
-import CollateralWandArtifact from '../../../../../artifacts/contracts/wands/CollateralWand.sol/CollateralWand.json'
+import ChainlinkCollateralWandArtifact from '../../../../../artifacts/contracts/wands/ChainlinkCollateralWand.sol/ChainlinkCollateralWand.json'
 import { DAI, ETH, FUSDC2209, FYUSDC2209, USDC, WAD } from '../../../../../shared/constants'
 const { developer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
@@ -60,7 +60,7 @@ describe('CollateralWand', function () {
     const timelock = governance.get('timelock') as string
     timeLockAcc = await getOwnerOrImpersonate(timelock, WAD)
 
-    collateralWand = await deploy(ownerAcc, CollateralWandArtifact, [
+    collateralWand = await deploy(ownerAcc, ChainlinkCollateralWandArtifact, [
       cauldron.address,
       ladle.address,
       witch.address,
