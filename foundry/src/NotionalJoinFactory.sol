@@ -6,13 +6,13 @@ import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
 
 /// @dev NotionalJoinFactory creates new join instances supporting Notional Finance's fCash tokens.
 /// @author @calnix 
-contract NotionalJoinFactory is AccessControl {
+contract NotionalJoinFactory is AccessControl() {
 
     NotionalJoin[] public njoins;
     address public cloak;
     address public timelock;
 
-    event JoinCreated(address indexed asset, address join);
+    event JoinCreated(address indexed asset, address indexed join);
 
     constructor(address cloak_, address timelock_){
         cloak = cloak_;

@@ -74,3 +74,49 @@ abstract contract StateFactoryDeploy is Test {
         vm.stopPrank();
 
     }
+
+
+}
+contract StateFactoryDeployTest is StateFactoryDeploy {
+    using Mocks for *;
+
+
+    function testDeploy() public {
+        console2.log("Address of njoin deployed should be the same as the pre-determined approach");
+
+        address asset = address(fcash);
+        address underlying = address(dai); 
+        address underlyingJoin = address(daiJoin); 
+        uint256 salt = 1234;
+
+        vm.startPrank(address(timelock));
+        address njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
+        
+        address njoinGenerated = njoinfactory.getAddress(njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),salt);
+        vm.stopPrank();
+
+        assertTrue(njoin == njoinGenerated);
+
+    }
+
+    function testDeployDifferingSalt() public {
+        console2.log("Address of njoin deployed should change with different salts");
+
+        address asset = address(fcash);
+        address underlying = address(dai); 
+        address underlyingJoin = address(daiJoin); 
+        uint256 salt_1 = 1234;
+        uint256 salt_2 = 1235;
+
+        vm.startPrank(address(timelock));
+        address njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt_1);
+        
+        address njoinGenerated = njoinfactory.getAddress(njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),salt_2);
+        vm.stopPrank();
+
+        assertTrue(njoin != njoinGenerated);
+
+    }
+
+
+}
