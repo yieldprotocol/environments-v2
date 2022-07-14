@@ -43,17 +43,17 @@ abstract contract StateFactoryDeploy is Test {
         //... Users ...
         user = address(1);
         vm.label(user, "user");
-        
+
         deployer = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
         vm.label(deployer, "deployer");
 
         //... Assets ...
         dai = new DAIMock();
         vm.label(address(dai), "Dai token contract");
-        
+
         fcash = new FCashMock(ERC20Mock(address(dai)), fCashId);
         vm.label(address(fcash), "fCashMock contract");
-        
+
         //... Yield Contracts ...        
         daiJoin = new Join(address(dai));
         vm.label(address(dai), "Dai Join");
@@ -68,15 +68,15 @@ abstract contract StateFactoryDeploy is Test {
         vm.label(address(njoinfactory), "Njoin Factory contract");
 
         vm.startPrank(address(timelock));
-        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, address(timelock));
-        njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, address(timelock));
-        njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, address(timelock));
+        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
+        njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
+        njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);
         vm.stopPrank();
 
     }
-
-
 }
+
+
 contract StateFactoryDeployTest is StateFactoryDeploy {
     using Mocks for *;
 
@@ -89,11 +89,8 @@ contract StateFactoryDeployTest is StateFactoryDeploy {
         address underlyingJoin = address(daiJoin); 
         uint256 salt = 1234;
 
-        vm.startPrank(address(timelock));
         address njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
-        
         address njoinGenerated = njoinfactory.getAddress(njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),salt);
-        vm.stopPrank();
 
         assertTrue(njoin == njoinGenerated);
 
@@ -108,15 +105,9 @@ contract StateFactoryDeployTest is StateFactoryDeploy {
         uint256 salt_1 = 1234;
         uint256 salt_2 = 1235;
 
-        vm.startPrank(address(timelock));
         address njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt_1);
-        
         address njoinGenerated = njoinfactory.getAddress(njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),salt_2);
-        vm.stopPrank();
 
         assertTrue(njoin != njoinGenerated);
-
     }
-
-
-}
+} 
