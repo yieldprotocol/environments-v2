@@ -299,7 +299,7 @@ contract StateAddCollateralTest is StateAddCollateral {
         fcashwand.addfCashCollateral(assetId, address(fcash), njoin, chainlinkSource, auctionLimits, debtLimits, seriesIlks);
         
         // cauldron: ilk check
-        //assertTrue(cauldron.ilks(seriesId, assetId) == true);
+        assertTrue(cauldron.ilks(seriesId, assetId) == true);
 
         // chainlinkMultiOracle check
         (address sources_addr, uint8 baseDecimals, uint8 quoteDecimals, bool inverse) = chainlinkMultiOracle.sources(assetId, baseId);
@@ -307,8 +307,9 @@ contract StateAddCollateralTest is StateAddCollateral {
         assertTrue(sources_addr ==  address(spotOracleMock));
         assertTrue(baseDecimals ==  18);
 
+        // .get() fails with "Source not found", although sources_addr != address(0)
         (uint256 amountQuote, ) = chainlinkMultiOracle.get(assetId, baseId, 100);
-        assertTrue(amountQuote == 1e18);
+        assertTrue(amountQuote == 1e18);        
 
     }
 }
