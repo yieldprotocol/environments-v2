@@ -69,10 +69,17 @@ interface IFCashWandCustom {
         bytes6 series;
         bytes6[] ilkIds;
     }
+
+    struct Source {
+        address source;
+        uint8 baseDecimals;
+        uint8 quoteDecimals;
+        bool inverse;
+    }
 }
 
 
-abstract contract StateDeployWand is Test, IFCashWandCustom {
+abstract contract StateAddCollateral is Test, IFCashWandCustom {
     using Mocks for *;
     
     FCashWand public fcashwand;
@@ -99,23 +106,25 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
     ChainlinkMultiOracle public chainlinkMultiOracle;
 
     address deployer;
-    address stateDeployWandTest;
+    address user;
+
+    uint256 fCashId = 1;
 
     //... Wand Params...
     bytes6 assetId = bytes6('01');              // Notional fCash (fDAI): notionalId, ilkId 
     bytes6 n_underlyingId = bytes6('02');       // underlying asset of fCash: DAI
     
-    bytes6 baseId = bytes6('03');              // base asset: baseID
+    bytes6 baseId = bytes6('03');              // base asset: baseId
     bytes6 underlyingId = bytes6('04');        // yield's interest-bearing eth: FYETH2209
-    bytes6 seriesId = bytes6('05');            //arbitrary: e.g. FYDAI2009
+    bytes6 seriesId = bytes6('05');            // arbitrary seriesId
 
     function setUp() public virtual {
 
+        user = address(1);
+        vm.label(user, "user");
+
         deployer = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
         vm.label(deployer, "deployer");
-
-        stateDeployWandTest = 0x62d69f6867A0A084C6d313943dC22023Bc263691;
-        vm.label(stateDeployWandTest, "stateDeployWandTest");
 
         vm.startPrank(deployer);
 
@@ -126,16 +135,16 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         weth = new WETH9Mock();
         vm.label(address(weth), "weth token");
         
-        fcash = new FCashMock(ERC20Mock(address(dai)), 4);   // uint256 fCashId = 4;
+        fcash = new FCashMock(ERC20Mock(address(dai)), fCashId);   // uint256 fCashId = 1;
         vm.label(address(fcash), "fCashDAI token");
         
         // ... Oracles ...
-        // oracle: fyeth <-> weth  || FYETH2209: i/r bearing ETH: underlying
+        // oracle: FYETH <-> ETH  || FYETH2209: i/r bearing token,  ETH: underlying
         lendingOracleMock = new OracleMock();
         vm.label(address(lendingOracleMock), "lendingOracleMock");
         lendingOracleMock.set(1e18);    //set spot price
 
-        // oracle: fDAI ("DAI") <-> weth   || value ilk against base 
+        // oracle: fDAI ("DAI") <-> ETH   || value ilk against base 
         spotOracleMock = new OracleMock();
         vm.label(address(spotOracleMock), "spotOracleMock");
         spotOracleMock.set(1e18);    //set spot price
@@ -182,11 +191,9 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         
         // ... Deploy NJoin ...
         // Factory permissions
-        vm.startPrank(address(timelock));
+        vm.prank(address(timelock));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
-        //njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, address(timelock));
-        vm.stopPrank();
-
+        
         // njoin params 
         address asset = address(fcash);
         address underlying = address(dai); 
@@ -234,37 +241,51 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
         vm.stopPrank();
 
+        // ... Instantiate Yield assets, oracles, series ...
+        vm.startPrank(deployer);
 
+        // pre-populate base asset to cauldron 
+        cauldron.addAsset(baseId, address(weth));
+        // register lending oracle (FYETH <-> WETH)
+        cauldron.setLendingOracle(baseId, IOracle(lendingOracleMock));
+        // create series | seriesID, bytes6 baseId, IFYToken fyToken)
+        cauldron.addSeries(seriesId, baseId, IFYToken(address(fytoken)));
+        vm.stopPrank();
 
     }
 }
 
-contract StateDeployWandTest is StateDeployWand{
+contract StateAddCollateralTest is StateAddCollateral {
     using Mocks for *;
 
     function testFCashWand() public {
         console2.log("fcashwand.addfCashCollateral()");
 
         FCashWand.ChainlinkSource[] memory chainlinkSource = new FCashWand.ChainlinkSource[](1);
-        chainlinkSource[0] = FCashWand.ChainlinkSource({baseId: baseId, base: address(weth), quoteId: assetId, quote: address(dai), source: address(spotOracleMock)});
+        chainlinkSource[0] = FCashWand.ChainlinkSource({
+            baseId: assetId, 
+            base: address(dai), 
+            quoteId: baseId, 
+            quote: address(weth), 
+            source: address(spotOracleMock)});  // DAI/ETH pricefeed. base: Dai, quote: Eth
   
         FCashWand.AuctionLimit[] memory auctionLimits = new FCashWand.AuctionLimit[](1);
         auctionLimits[0] = FCashWand.AuctionLimit({
-            ilkId: assetId,                  // fDAI   
-            duration: 10,               
+            ilkId: assetId,                 // fCash   
+            duration: 3600,               
             initialOffer: 0.5e18,           // initialOffer <= 1e18, "InitialOffer above 100%"
-            line: type(uint96).max,        //  maximum collateral that can be auctioned at the same time
-            dust: type(uint16).max,       //  minimum collateral that must be left when buying, unless buying all | uint24
+            line: 1000000,                  //  maximum collateral that can be auctioned at the same time
+            dust: 5000,                     //  minimum collateral that must be left when buying, unless buying all | uint24
             dec: 18                            
         });
 
         FCashWand.DebtLimit[] memory debtLimits = new FCashWand.DebtLimit[](1);
         debtLimits[0] = FCashWand.DebtLimit ({
             baseId: baseId,                     // WETH
-            ilkId: assetId,                     // fDAI
+            ilkId: assetId,                     // fCash
             ratio: 1000000,                     // With 6 decimals. 1000000 == 100%
-            line: type(uint96).max,             // maximum debt for an underlying and ilk pair  | uint96
-            dust: type(uint16).max,             // minimum debt for an underlying and ilk pair  | uint24
+            line: 10000000,             // maximum debt for an underlying and ilk pair  | uint96
+            dust: 0,                            // minimum debt for an underlying and ilk pair  | uint24
             dec: 18                             // decimals: Multiplying factor (10**dec) for line and dust | uint8             
         });
 
@@ -274,20 +295,115 @@ contract StateDeployWandTest is StateDeployWand{
         ilkId[0] = assetId;
         seriesIlks[0] = FCashWand.SeriesIlk ({series: seriesId, ilkIds: ilkId});
 
-        vm.startPrank(deployer);
-        // pre-populate base asset to cauldron 
-        cauldron.addAsset(baseId, address(weth));
-        // register lending oracle (FYETH <-> WETH)
-        cauldron.setLendingOracle(baseId, IOracle(lendingOracleMock));
-
-        // create series | seriesID, bytes6 baseId, IFYToken fyToken)
-        cauldron.addSeries(seriesId, baseId, IFYToken(address(fytoken)));
-
+        vm.prank(deployer);
         fcashwand.addfCashCollateral(assetId, address(fcash), njoin, chainlinkSource, auctionLimits, debtLimits, seriesIlks);
+        
+        // cauldron: ilk check
+        //assertTrue(cauldron.ilks(seriesId, assetId) == true);
+
+        // chainlinkMultiOracle check
+        (address sources_addr, uint8 baseDecimals, uint8 quoteDecimals, bool inverse) = chainlinkMultiOracle.sources(assetId, baseId);
+        assertTrue(sources_addr != address(0));
+        assertTrue(sources_addr ==  address(spotOracleMock));
+        assertTrue(baseDecimals ==  18);
+
+        (uint256 amountQuote, ) = chainlinkMultiOracle.get(assetId, baseId, 100);
+        assertTrue(amountQuote == 1e18);
+
+    }
+}
+
+
+abstract contract StateBorrowOnNewCollateral is StateAddCollateral {
+    function setUp() public override virtual {
+        super.setUp();
+
+        FCashWand.ChainlinkSource[] memory chainlinkSource = new FCashWand.ChainlinkSource[](1);
+        chainlinkSource[0] = FCashWand.ChainlinkSource({
+            baseId: assetId, 
+            base: address(dai), 
+            quoteId: baseId, 
+            quote: address(weth), 
+            source: address(spotOracleMock)});  // DAI/ETH pricefeed. base: Dai, quote: Eth
+  
+        FCashWand.AuctionLimit[] memory auctionLimits = new FCashWand.AuctionLimit[](1);
+        auctionLimits[0] = FCashWand.AuctionLimit({
+            ilkId: assetId,                 // fCash   
+            duration: 3600,               
+            initialOffer: 0.5e18,           // initialOffer <= 1e18, "InitialOffer above 100%"
+            line: 1000000,                  //  maximum collateral that can be auctioned at the same time
+            dust: 5000,                     //  minimum collateral that must be left when buying, unless buying all | uint24
+            dec: 18                            
+        });
+
+        FCashWand.DebtLimit[] memory debtLimits = new FCashWand.DebtLimit[](1);
+        debtLimits[0] = FCashWand.DebtLimit ({
+            baseId: baseId,                     // WETH
+            ilkId: assetId,                     // fCash
+            ratio: 1000000,                     // With 6 decimals. 1000000 == 100%
+            line: 10000000,                     // maximum debt for an underlying and ilk pair  | uint96
+            dust: 0,                            // minimum debt for an underlying and ilk pair  | uint24
+            dec: 18                             // decimals: Multiplying factor (10**dec) for line and dust | uint8             
+        });
+
+        FCashWand.SeriesIlk[] memory seriesIlks = new FCashWand.SeriesIlk[](1);
+
+        bytes6[] memory ilkId = new bytes6[](1);
+        ilkId[0] = assetId;
+        seriesIlks[0] = FCashWand.SeriesIlk ({series: seriesId, ilkIds: ilkId});
+
+        vm.prank(deployer);
+        fcashwand.addfCashCollateral(assetId, address(fcash), njoin, chainlinkSource, auctionLimits, debtLimits, seriesIlks);
+        
+        // user: mint fCash 
+        fcash.mint(user, fCashId, 10e18, bytes('1'));       //arbitrary data
+
+        // ... Permissions ...
+        vm.startPrank(deployer);
+
+        // build: ladle.build calls cauldron.build
+        cauldron.grantRole(Cauldron.build.selector, address(ladle));     
+        // ladle.pour calls cauldron.pour
+        cauldron.grantRole(Cauldron.pour.selector, address(ladle));     
+
+        vm.stopPrank();   
+
+    }
+}
+
+contract StateBorrowOnNewCollateralTest is StateBorrowOnNewCollateral {
+
+    function testBorrow() public {
+        console2.log("Borrow ETH with fCash(fDAI) as collateral");
+
+        vm.startPrank(deployer);        
+        // Build vault
+        (bytes12 vaultId, DataTypes.Vault memory vault) = ladle.build(seriesId, assetId, 0);
+        IJoin collateralJoin = ladle.joins(assetId);     //njoin
         vm.stopPrank();
 
-        //assert
-        assertTrue(cauldron.ilks(seriesId, assetId) == true);
+        // User: Mint & Post collateral 
+        vm.startPrank(user);
+
+        uint40 maturity = 1662048000;   // 2022-09-02 00:00:00
+        uint16 currencyId = 1;   
+        uint256 id = uint256(
+            (bytes32(uint256(currencyId)) << 48) |
+            (bytes32(uint256(maturity)) << 8) |
+            bytes32(uint256(1))
+        );
+    
+        fcash.mint(user, id, 10e18, bytes('1'));       //arbitrary data
+        fcash.safeTransferFrom(user, address(collateralJoin), id, 5e18, bytes('1'));      //arbitrary data
+        vm.stopPrank();
+
+        // Borrow
+        vm.startPrank(deployer);
+
+        int128 ink = 5e18; int128 art = 10;     //art = 0 works. odd.     
+        ladle.pour(vaultId, user, ink, art);
+        vm.stopPrank();
+
 
     }
 }
