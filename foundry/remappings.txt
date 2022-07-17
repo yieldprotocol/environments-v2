@@ -13,3 +13,4 @@ yieldspace-v2/=lib/vault-v2/packages/foundry/lib/yieldspace-v2/contracts/
 @yield-protocol/vault-v2/=lib/vault-v2/packages/foundry
 @yield-protocol/yieldspace-interfaces/=lib/yieldspace-interfaces/
 @yield-protocol/yieldspace-v2/=lib/yieldspace-v2/
+@yield-protocol/yieldspace-tv/=lib/yieldspace-tv/
