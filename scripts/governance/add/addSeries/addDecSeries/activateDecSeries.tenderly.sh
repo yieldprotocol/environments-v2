@@ -10,6 +10,6 @@ $RUN $HERE/loadTimelock.ts
 # $RUN $HERE/advanceTimeTwoWeeks.ts
 # $RUN $HERE/advanceTimeThreeDays.ts
 
-$RUN $HERE/activateDecSeries.ts
-$RUN $HERE/activateDecSeries.ts
-$RUN $HERE/activateDecSeries.ts
+# $RUN $HERE/activateDecSeries.ts
+# $RUN $HERE/activateDecSeries.ts
+# $RUN $HERE/activateDecSeries.ts
