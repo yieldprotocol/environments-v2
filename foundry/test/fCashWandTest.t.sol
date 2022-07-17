@@ -117,6 +117,8 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         stateDeployWandTest = 0x62d69f6867A0A084C6d313943dC22023Bc263691;
         vm.label(stateDeployWandTest, "stateDeployWandTest");
 
+        vm.startPrank(deployer);
+
         //... Assets ...
         dai = new DAIMock();
         vm.label(address(dai), "dai token");
@@ -176,14 +178,13 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock));
         vm.label(address(njoinfactory), "Njoin Factory");
 
+        vm.stopPrank();
+        
         // ... Deploy NJoin ...
         // Factory permissions
         vm.startPrank(address(timelock));
-        //njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
-        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, address(timelock));
-
-        // 0x62d69f6867A0A084C6d313943dC22023Bc263691 -> StateDeployWandTest
-        //njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, 0x62d69f6867A0A084C6d313943dC22023Bc263691);
+        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
+        //njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, address(timelock));
         vm.stopPrank();
 
         // njoin params 
@@ -194,14 +195,13 @@ abstract contract StateDeployWand is Test, IFCashWandCustom {
         uint16 currencyId = 1;         
         uint256 salt = 1234;
         
-        vm.prank(address(timelock));
+        vm.prank(deployer);
         njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
         vm.label(njoin, "njoin contract");
 
         //... Wand permissions ...
-        //vm.startPrank(address(timelock));
-        vm.startPrank(stateDeployWandTest);
-        fcashwand.grantRole(FCashWand.addfCashCollateral.selector, stateDeployWandTest);
+        vm.startPrank(deployer);
+        fcashwand.grantRole(FCashWand.addfCashCollateral.selector, deployer);
         
         // _addAsset
         cauldron.grantRole(Cauldron.addAsset.selector, address(fcashwand));
@@ -282,13 +282,12 @@ contract StateDeployWandTest is StateDeployWand{
 
         // create series | seriesID, bytes6 baseId, IFYToken fyToken)
         cauldron.addSeries(seriesId, baseId, IFYToken(address(fytoken)));
-        vm.stopPrank();
 
         fcashwand.addfCashCollateral(assetId, address(fcash), njoin, chainlinkSource, auctionLimits, debtLimits, seriesIlks);
+        vm.stopPrank();
 
         //assert
         assertTrue(cauldron.ilks(seriesId, assetId) == true);
-
 
     }
 }
