@@ -3,7 +3,6 @@ pragma solidity 0.8.14;
 
 import "forge-std/src/Test.sol";
 import "forge-std/src/console2.sol";
-import {Mocks} from "@yield-protocol/vault-v2/contracts/test/utils/Mocks.sol";
 
 import {FCashWand, IWitchCustom, INotionalMultiOracle} from "../src/fCashWand.sol";
 import {NotionalJoin} from "../src/NotionalJoin.sol";
@@ -23,62 +22,28 @@ import {Timelock} from "@yield-protocol/utils-v2/contracts/utils/Timelock.sol";
 import {AccessControl} from "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
 import {IEmergencyBrake, EmergencyBrake} from "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 
+import {IFYToken} from '@yield-protocol/vault-interfaces/src/IFYToken.sol';
+import {FYToken} from "@yield-protocol/vault-v2/contracts/FYToken.sol";
+import {IJoin} from "@yield-protocol/vault-interfaces/src/IJoin.sol";
+import {OracleMock} from "@yield-protocol/vault-v2/contracts/mocks/oracles/OracleMock.sol";
+
 import "@yield-protocol/vault-interfaces/src/ICauldron.sol";
 import '@yield-protocol/vault-interfaces/src/ICauldronGov.sol';
 import "@yield-protocol/vault-interfaces/src/IOracle.sol";
 import "@yield-protocol/vault-interfaces/src/ILadle.sol";
 import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
 import "@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol";
-import '@yield-protocol/utils-v2/contracts/token/IERC20Metadata.sol';
-
-import {IFYToken} from '@yield-protocol/vault-interfaces/src/IFYToken.sol';
-import {FYToken} from "@yield-protocol/vault-v2/contracts/FYToken.sol";
-import {IJoin} from "@yield-protocol/vault-interfaces/src/IJoin.sol";
-
-import {OracleMock} from "@yield-protocol/vault-v2/contracts/mocks/oracles/OracleMock.sol";
-
-using stdStorage for StdStorage;
-
-interface IFCashWandCustom {
-    struct AuctionLimit {
-        bytes6 ilkId;
-        uint32 duration;
-        uint64 initialOffer;
-        uint96 line;
-        uint24 dust;
-        uint8 dec;
-    }
-
-    struct DebtLimit {
-        bytes6 baseId;
-        bytes6 ilkId;
-        uint32 ratio;
-        uint96 line;
-        uint24 dust;
-        uint8 dec;
-    }
-    
-    struct NotionalSource {
-        bytes6 notionalId;
-        bytes6 underlyingId;
-        address underlying;
-    }
-
-    struct SeriesIlk {
-        bytes6 series;
-        bytes6[] ilkIds;
-    }
-}
 
 
-abstract contract StateAddCollateral is Test, IFCashWandCustom {
-    using Mocks for *;
+
+abstract contract StateAddCollateral is Test {
     
     FCashWand public fcashwand;
 
     NotionalMultiOracle public notionalMultiOracle;
     NotionalJoinFactory public njoinfactory;
     FCashMock public fcash;
+    uint256 fCashId = 1;
     address njoin; 
 
     DAIMock public dai;
@@ -97,12 +62,10 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
     address deployer;
     address user;
 
-    uint256 fCashId = 1;
-
     //... Wand Params...
     bytes6 assetId = bytes6('01');              // Notional fCash: fDAI | notionalId, ilkId 
-    bytes6 baseId = bytes6('03');              // base asset: DAI
-    bytes6 seriesId = bytes6('05');            // arbitrary seriesId
+    bytes6 baseId = bytes6('02');              // base asset: DAI
+    bytes6 seriesId = bytes6('03');            // arbitrary seriesId
 
     function setUp() public virtual {
 
@@ -127,8 +90,8 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
         // ... Oracles ...
         // oracle: FYDAI <-> DAi
         lendingOracleMock = new OracleMock();
-        vm.label(address(lendingOracleMock), "lendingOracleMock");
         lendingOracleMock.set(1e18);    
+        vm.label(address(lendingOracleMock), "lendingOracleMock");
 
         notionalMultiOracle = new NotionalMultiOracle();
         vm.label(address(notionalMultiOracle), "notionalMultiOracle");
@@ -138,8 +101,8 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
         vm.label(address(daiJoin), "DAI Join");
         
         // fyToken: FYDAI 
-        uint256 three_months = block.timestamp + 7776000;           // now + 90 days in seconds
-        fytoken = new FYToken(baseId, IOracle(address(lendingOracleMock)), IJoin(address(daiJoin)), three_months, "FYDAI", "FYDAI");
+        uint256 threeMonths = block.timestamp + 7776000;           // now + 90 days in seconds
+        fytoken = new FYToken(baseId, IOracle(address(lendingOracleMock)), IJoin(address(daiJoin)), threeMonths, "FYDAI", "FYDAI");
 
         cauldron = new Cauldron();
         vm.label(address(cauldron), "Cauldron");
@@ -181,7 +144,7 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
         njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
         vm.label(njoin, "njoin contract");
 
-        //... Wand permissions ...
+        //... Granting permissions ...
         vm.startPrank(deployer);
         fcashwand.grantRole(FCashWand.addfCashCollateral.selector, deployer);
         
@@ -212,7 +175,6 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
 
         vm.stopPrank();
         
-        // 
         vm.startPrank(address(cloak));
         NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
         vm.stopPrank();
@@ -232,7 +194,6 @@ abstract contract StateAddCollateral is Test, IFCashWandCustom {
 }
 
 contract StateAddCollateralTest is StateAddCollateral {
-    using Mocks for *;
 
     function testFCashWand() public {
         console2.log("fcashwand.addfCashCollateral()");
@@ -245,14 +206,14 @@ contract StateAddCollateralTest is StateAddCollateral {
             ilkId: assetId,                 // fCash   
             duration: 3600,               
             initialOffer: 0.5e18,           // initialOffer <= 1e18, "InitialOffer above 100%"
-            line: 1000000,                  //  maximum collateral that can be auctioned at the same time
-            dust: 5000,                     //  minimum collateral that must be left when buying, unless buying all | uint24
+            line: 1000000,                  // maximum collateral that can be auctioned at the same time
+            dust: 5000,                     // minimum collateral that must be left when buying, unless buying all | uint24
             dec: 18                            
         });
 
         FCashWand.DebtLimit[] memory debtLimits = new FCashWand.DebtLimit[](1);
         debtLimits[0] = FCashWand.DebtLimit ({
-            baseId: baseId,                     // USDC
+            baseId: baseId,                     // DAI
             ilkId: assetId,                     // fCash
             ratio: 1000000,                     // With 6 decimals. 1000000 == 100%
             line: 10000000,                     // maximum debt for an underlying and ilk pair  | uint96
@@ -283,26 +244,27 @@ abstract contract StateBorrowOnNewCollateral is StateAddCollateral {
 
         FCashWand.NotionalSource[] memory notionalSource = new FCashWand.NotionalSource[](1);
         notionalSource[0] = FCashWand.NotionalSource({notionalId: assetId, underlyingId: baseId, underlying: address(dai)});
-  
+
         FCashWand.AuctionLimit[] memory auctionLimits = new FCashWand.AuctionLimit[](1);
         auctionLimits[0] = FCashWand.AuctionLimit({
             ilkId: assetId,                 // fCash   
             duration: 3600,               
             initialOffer: 0.5e18,           // initialOffer <= 1e18, "InitialOffer above 100%"
-            line: 1000000,                  //  maximum collateral that can be auctioned at the same time
-            dust: 5000,                     //  minimum collateral that must be left when buying, unless buying all | uint24
+            line: 1000000,                  // maximum collateral that can be auctioned at the same time
+            dust: 5000,                     // minimum collateral that must be left when buying, unless buying all | uint24
             dec: 18                            
         });
 
         FCashWand.DebtLimit[] memory debtLimits = new FCashWand.DebtLimit[](1);
         debtLimits[0] = FCashWand.DebtLimit ({
-            baseId: baseId,                     // USDC
+            baseId: baseId,                     // DAI
             ilkId: assetId,                     // fCash
             ratio: 1000000,                     // With 6 decimals. 1000000 == 100%
             line: 10000000,                     // maximum debt for an underlying and ilk pair  | uint96
             dust: 0,                            // minimum debt for an underlying and ilk pair  | uint24
             dec: 18                             // decimals: Multiplying factor (10**dec) for line and dust | uint8             
         });
+
 
         FCashWand.SeriesIlk[] memory seriesIlks = new FCashWand.SeriesIlk[](1);
 
