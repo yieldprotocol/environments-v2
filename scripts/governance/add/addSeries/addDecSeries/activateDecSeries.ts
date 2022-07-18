@@ -49,5 +49,5 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, protocol, strategies, newPools, timelock, rollData))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()

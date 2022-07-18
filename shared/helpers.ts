@@ -48,6 +48,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
       impersonatedAddress,
       ethers.utils.parseEther('1000').toHexString(),
     ])
+
     return await ethers.getSigner(impersonatedAddress)
   }
   let [ownerAcc] = await ethers.getSigners()

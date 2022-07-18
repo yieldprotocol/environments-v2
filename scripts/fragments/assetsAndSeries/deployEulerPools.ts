@@ -1,4 +1,4 @@
-import { ethers, waffle } from 'hardhat'
+import { network, ethers, waffle } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { verify } from '../../../shared/helpers'
 
@@ -27,6 +27,9 @@ export const deployEulerPools = async (
 
   let pools: Map<string, Pool> = new Map()
   for (let [seriesId, eulerAddress, sharesToken, fyTokenAddress, ts, g1] of poolData) {
+    console.log()
+    console.log('******************************')
+    console.log('Deploying Euler pool for seriesID: ', seriesId)
     if ((await ethers.provider.getCode(eulerAddress)) === '0x') throw `Contract at ${eulerAddress} contains no code`
     else console.log(`Using main Euler contract at ${eulerAddress}`)
 
@@ -36,19 +39,13 @@ export const deployEulerPools = async (
     if ((await ethers.provider.getCode(fyTokenAddress)) === '0x') throw `Contract at ${fyTokenAddress} contains no code`
     else console.log(`Using fyToken at ${fyTokenAddress}`)
 
-    const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
+    console.log('Deploy args:')
+    console.log(eulerAddress, sharesToken, fyTokenAddress, ts, g1)
 
+    const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
     verify(pool.address, [sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
-
-    if (!(await pool.hasRole(ROOT, timelock.address))) {
-      await pool.grantRole(ROOT, timelock.address)
-      console.log(`pool.grantRoles(ROOT, timelock)`)
-      while (!(await pool.hasRole(ROOT, timelock.address))) {}
-    }
-
     pools.set(seriesId, pool)
   }
-
   return pools
 }
