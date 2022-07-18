@@ -84,6 +84,14 @@
     [
       "stEthConverter",
       "0x93D232213cCA6e5e7105199ABD8590293C3eb106"
+    ],
+    [
+      "yieldMath",
+      "0x54D50Fc7021e3C1347f81a7Ee44D1CeE8ae9010f"
+    ],
+    [
+      "roller",
+      "0x2fe09F9741C1e7Ba7Fd96dDFCb7EB584BE1d82d2"
     ]
   ]
 }
