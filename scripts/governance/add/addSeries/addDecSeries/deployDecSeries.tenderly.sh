@@ -8,8 +8,8 @@ RUN="npx hardhat run --network tenderly"
 
 $RUN $HERE/../../../deploy/deployYieldMath.ts # deploy YieldMath
 $RUN $HERE/../../../deploy/deployFYTokens.ts # deploy fyTokens
-$RUN $HERE/../../../deploy/deployEulerPoolsMANUAL.ts # deploy pools
-$RUN $HERE/../../../deploy/deployNonTVPoolsMANUAL.ts # deploy pools
+$RUN $HERE/../../../deploy/deployEulerPools.ts # deploy pools
+$RUN $HERE/../../../deploy/deployNonTVPools.ts # deploy pools
 
 # Comment these out and run last
 $RUN $HERE/../../../deploy/orchestrateNewPools.ts # deploy pools
