@@ -63,9 +63,9 @@ abstract contract StateAddCollateral is Test {
     address user;
 
     //... Wand Params...
-    bytes6 assetId = bytes6('01');              // Notional fCash: fDAI | notionalId, ilkId 
-    bytes6 baseId = bytes6('02');              // base asset: DAI
-    bytes6 seriesId = bytes6('03');            // arbitrary seriesId
+    bytes6 assetId = bytes6('01');              // fCash: fDAI | notionalId, ilkId 
+    bytes6 baseId = bytes6('02');               // base asset: DAI
+    bytes6 seriesId = bytes6('03');             // arbitrary seriesId
 
     function setUp() public virtual {
 
@@ -165,7 +165,6 @@ abstract contract StateAddCollateral is Test {
         // _addIlksToSeries
         cauldron.grantRole(Cauldron.addIlks.selector, address(fcashwand));
         
-        // ... MISC....
         // setLendingOracle
         cauldron.grantRole(Cauldron.setLendingOracle.selector, deployer);
 
@@ -186,7 +185,7 @@ abstract contract StateAddCollateral is Test {
         cauldron.addAsset(baseId, address(dai));
         // register lending oracle (FYUSDC <-> USDC)
         cauldron.setLendingOracle(baseId, IOracle(lendingOracleMock));
-        // create series | seriesID, bytes6 baseId, IFYToken fyToken)
+        // create series
         cauldron.addSeries(seriesId, baseId, IFYToken(address(fytoken)));
         vm.stopPrank();
 

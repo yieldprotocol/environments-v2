@@ -6,7 +6,7 @@ import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
 import {IEmergencyBrake} from "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 
 
-/// @dev NotionalJoinFactory creates new join instances supporting Notional Finance's fCash tokens.
+/// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
 /// @author @calnix 
 contract NotionalJoinFactory is AccessControl() {
 
@@ -81,5 +81,4 @@ contract NotionalJoinFactory is AccessControl() {
         // revoke ROOT from NotionalJoinFactory
         njoin.renounceRole(ROOT, address(this));
     }
-
-} 
+}

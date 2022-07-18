@@ -35,7 +35,7 @@ interface INotionalMultiOracle {
 }
 
 
-/// @dev fCash Wand to add Notional.finance ERC1155 tokens as collateral.
+/// @dev fCash Wand to accept Notional.finance ERC1155 tokens as collateral.
 /// @author @calnix
 contract FCashWand is AccessControl {
     bytes4 public constant JOIN = IJoin.join.selector;
