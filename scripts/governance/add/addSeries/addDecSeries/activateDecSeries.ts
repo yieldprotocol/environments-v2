@@ -1,4 +1,4 @@
-import { ethers } from 'hardhat'
+import { ethers, network } from 'hardhat'
 import {
   readAddressMappingIfExists,
   getOwnerOrImpersonate,
@@ -48,6 +48,9 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, protocol, strategies, newPools, timelock, rollData))
-
+  console.log('**************************************************************************************************')
+  console.log(developer)
+  console.log(governance.get('multisig'))
+  console.log('**************************************************************************************************')
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()

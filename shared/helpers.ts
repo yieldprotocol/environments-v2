@@ -170,64 +170,6 @@ export const proposeApproveExecute = async (
     console.log(`Executed ${txHash}`)
   }
 }
-/**
- * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
- * depending on the proposal state in the timelock.
- * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
- */
-export const proposeApproveExecuteTenderly = async (
-  timelock: Timelock,
-  proposal: Array<{ target: string; data: string }>,
-  developer: string,
-  multisig?: string
-) => {
-  // Propose, approve, execute
-  const txHash = await timelock.hash(proposal)
-  console.log(`Proposal: ${txHash}`)
-
-  // Depending on the proposal state:
-  // - propose
-  // - approve (if in a fork, impersonating the multisig, and advancing time three days afterwards)
-  // - or execute
-  if ((await timelock.proposals(txHash)).state === 0) {
-    console.log('Proposing')
-    // Propose
-    let signerAcc = await ethers.getSigner(developer)
-    console.log(`Developer: ${signerAcc.address}\n`)
-    console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
-    while ((await timelock.proposals(txHash)).state < 1) {}
-    console.log(`Proposed ${txHash}`)
-  } else if ((await timelock.proposals(txHash)).state === 1) {
-    console.log('Approving')
-    let signerAcc: SignerWithAddress
-    // Approve, impersonating multisig if in a fork
-    if (network.name === 'localhost' || network.name === 'tenderly') {
-      if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-      signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
-
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-
-      // Since we are in a testing environment, let's advance time
-      advanceTime(3 * 24 * 60 * 60)
-    } else {
-      // On kovan we have approval permissions
-      signerAcc = (await ethers.getSigners())[0]
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-    }
-  } else if ((await timelock.proposals(txHash)).state === 2) {
-    console.log('Executing')
-    // Execute
-    let [signerAcc] = await ethers.getSigners()
-    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
-    while ((await timelock.proposals(txHash)).state > 0) {}
-    console.log(`Executed ${txHash}`)
-  }
-}
 
 export const transferFromFunder = async (
   tokenAddress: string,

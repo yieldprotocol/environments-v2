@@ -10,7 +10,7 @@ import { ROOT } from '../../../shared/constants'
  * @dev This script deploys a number of Pools
  */
 
-export const deployNonTVPoolsMANUAL = async (
+export const deployNonTVPools = async (
   ownerAcc: any,
   timelock: Timelock,
   yieldMathLibrary: YieldMath,
