@@ -118,7 +118,7 @@ module.exports = {
       blockGasLimit: 300_000_000_000,
       gasPrice: 50_000_000_000,
       timeout: 60_000_000,
-      url: "https://rpc.tenderly.co/fork/56df5e0c-2fcc-46ff-abca-1937881e76ef"
+      url: "https://rpc.tenderly.co/fork/c8a586c0-4d61-488b-b08d-b62e455eacd1"
     },
     arb_rinkeby: {
       accounts,

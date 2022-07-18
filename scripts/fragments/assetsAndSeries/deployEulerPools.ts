@@ -45,6 +45,12 @@ export const deployEulerPools = async (
     const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
     verify(pool.address, [sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')
+    if (!(await pool.hasRole(ROOT, timelock.address))) {
+      await pool.grantRole(ROOT, timelock.address)
+      console.log(`pool.grantRoles(ROOT, timelock)`)
+      while (!(await pool.hasRole(ROOT, timelock.address))) {}
+    }
+
     pools.set(seriesId, pool)
   }
   return pools

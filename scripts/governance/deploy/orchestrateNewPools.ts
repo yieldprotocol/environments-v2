@@ -39,11 +39,11 @@ import { ROOT } from '../../../shared/constants'
       poolAddress as string,
       ownerAcc
     )) as unknown as PoolEuler
-    if (!(await pool.hasRole(ROOT, timelock.address))) {
-      await pool.connect(ownerAcc).grantRole(ROOT, timelock.address)
-      console.log(`pool.grantRoles(ROOT, timelock)`)
-      while (!(await pool.hasRole(ROOT, timelock.address))) {}
-    }
+    // if (!(await pool.hasRole(ROOT, timelock.address))) {
+    //   await pool.connect(ownerAcc).grantRole(ROOT, timelock.address)
+    //   console.log(`pool.grantRoles(ROOT, timelock)`)
+    //   while (!(await pool.hasRole(ROOT, timelock.address))) {}
+    // }
     console.log(`adding proposal for pool for series: ${seriesId} at address: ${poolAddress}`)
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
     // Propose, Approve & execute
