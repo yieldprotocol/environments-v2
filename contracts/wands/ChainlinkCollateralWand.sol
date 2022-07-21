@@ -41,28 +41,23 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
     /// @param assetId assetId of the collateral being added
     /// @param joinAddress address of the join for the asset
     /// @param deployer address of the deployer
-    /// @param chainlinkSources address of the chainlink sources
-    /// @param auctionLimits auction limits for the asset
+    /// @param chainlinkSource address of the chainlink sources
+    /// @param auctionLimit auction limit for the asset
     /// @param debtLimits debt limits for the asset
     /// @param seriesIlks seriesIlk data to which the asset is to be added
     function addChainlinkCollateral(
         bytes6 assetId,
         address joinAddress,
         address deployer,
-        ChainlinkSource[] calldata chainlinkSources,
-        AuctionLimit[] calldata auctionLimits,
+        ChainlinkSource calldata chainlinkSource,
+        AuctionLimit calldata auctionLimit,
         DebtLimit[] calldata debtLimits,
         SeriesIlk[] calldata seriesIlks
     ) external auth {
         _orchestrateJoin(joinAddress, deployer);
         _addAsset(assetId, joinAddress);
-        for (uint256 index = 0; index < chainlinkSources.length; index++) {
-            ChainlinkSource memory chainlinksource = chainlinkSources[index];
-            _updateChainLinkSource(chainlinksource.quoteId, chainlinksource.quote, chainlinksource.source);
-        }
-
-        _makeIlk(joinAddress, auctionLimits, debtLimits);
-
+        _updateChainLinkSource(chainlinkSource.quoteId, chainlinkSource.quote, chainlinkSource.source);
+        _makeIlk(joinAddress, auctionLimit, debtLimits);
         _addIlksToSeries(seriesIlks);
     }
 

@@ -91,10 +91,7 @@ contract CollateralWandBase is AccessControl {
     /// @notice Function to add asset to the cauldron & join to the ladle
     /// @param assetId Id for the asset being added
     /// @param joinAddress Address of the join for the asset
-    function _addAsset(
-        bytes6 assetId,
-        address joinAddress
-    ) internal {
+    function _addAsset(bytes6 assetId, address joinAddress) internal {
         // add asset to cauldron
         cauldron.addAsset(assetId, IJoin(joinAddress).asset());
         // Allow Ladle to join and exit on the asset Join
@@ -113,26 +110,23 @@ contract CollateralWandBase is AccessControl {
 
     /// @notice Makes the asset into an ilk by setting up auction & debt limits
     /// @param joinAddress address of the join of the ilk
-    /// @param auctionLimits auction limits for the ilks
+    /// @param auctionLimit auction limit for the ilk
     /// @param debtLimits debt limits for the ilks against bases
     function _makeIlk(
         address joinAddress,
-        AuctionLimit[] memory auctionLimits,
+        AuctionLimit memory auctionLimit,
         DebtLimit[] memory debtLimits
     ) internal {
-        AuctionLimit memory auctionLimit;
-        // Configure auction limits for the ilk on the witch
-        for (uint256 index = 0; index < auctionLimits.length; index++) {
-            auctionLimit = auctionLimits[index];
-            _updateAuctionLimit(
-                auctionLimit.ilkId,
-                auctionLimit.duration,
-                auctionLimit.initialOffer,
-                auctionLimit.line,
-                auctionLimit.dust,
-                auctionLimit.dec
-            );
-        }
+        // Configure auction limit for the ilk on the witch
+        _updateAuctionLimit(
+            auctionLimit.ilkId,
+            auctionLimit.duration,
+            auctionLimit.initialOffer,
+            auctionLimit.line,
+            auctionLimit.dust,
+            auctionLimit.dec
+        );
+
         // Allow Witch to exit ilk
         AccessControl join = AccessControl(joinAddress);
         join.grantRole(EXIT, address(witch));
@@ -143,10 +137,10 @@ contract CollateralWandBase is AccessControl {
         IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
         permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
         cloak.plan(address(witch), permissions);
-        
+
         DebtLimit memory debtLimit;
         for (uint256 index = 0; index < debtLimits.length; index++) {
-             debtLimit = debtLimits[index];
+            debtLimit = debtLimits[index];
             _updateDebtLimit(
                 debtLimit.baseId,
                 debtLimit.ilkId,

@@ -14,7 +14,7 @@ import {
   Witch,
 } from '../../../../../typechain'
 import ChainlinkCollateralWandArtifact from '../../../../../artifacts/contracts/wands/ChainlinkCollateralWand.sol/ChainlinkCollateralWand.json'
-import { DAI, ETH, FUSDC2209, FYUSDC2209, USDC, WAD } from '../../../../../shared/constants'
+import { FYUSDC2209, USDC, WAD } from '../../../../../shared/constants'
 const { developer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
@@ -83,7 +83,7 @@ describe('CollateralWand', function () {
     await collateralWand.grantRole(
       id(
         collateralWand.interface,
-        'addChainlinkCollateral(bytes6,address,address,(bytes6,address,address)[],(bytes6,uint32,uint64,uint96,uint24,uint8)[],(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
+        'addChainlinkCollateral(bytes6,address,address,(bytes6,address,address),(bytes6,uint32,uint64,uint96,uint24,uint8),(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
       ),
       ownerAcc.address
     )
@@ -137,23 +137,22 @@ describe('CollateralWand', function () {
       assetId,
       join.address,
       ownerAcc.address,
-      [
-        {
-          quoteId: assetId,
-          quote: asset.address,
-          source: chainlinkAggregator.address,
-        },
-      ],
-      [
-        {
-          ilkId: assetId,
-          duration: 3600,
-          initialOffer: '1000000000000000000',
-          line: 1000000,
-          dust: 5000,
-          dec: 18,
-        },
-      ],
+
+      {
+        quoteId: assetId,
+        quote: asset.address,
+        source: chainlinkAggregator.address,
+      },
+
+      {
+        ilkId: assetId,
+        duration: 3600,
+        initialOffer: '1000000000000000000',
+        line: 1000000,
+        dust: 5000,
+        dec: 18,
+      },
+
       [
         {
           baseId: USDC,
