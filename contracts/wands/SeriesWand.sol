@@ -14,10 +14,12 @@ contract SeriesWand is AccessControl {
     bytes4 public constant EXIT = IJoin.exit.selector;
     bytes4 public constant MINT = IFYToken.mint.selector;
     bytes4 public constant BURN = IFYToken.burn.selector;
+    bool public isShutdown;
     IEmergencyBrake public cloak;
     ICauldronGov public cauldron;
     ILadleGov public ladle;
 
+    event ShutDownStateChanged(bool status);
     constructor(
         ICauldronGov cauldron_,
         ILadleGov ladle_,
@@ -41,6 +43,7 @@ contract SeriesWand is AccessControl {
         IFYToken fyToken,
         address pool
     ) external auth {
+        require(!isShutdown, 'Wand is shut!');
         address base = cauldron.assets(baseId);
         require(base != address(0), 'Base not found');
 
@@ -87,5 +90,12 @@ contract SeriesWand is AccessControl {
         // Register emergency plan to disconnect fyToken from ladle
         permissions[0] = IEmergencyBrake.Permission(address(ladle), sigs);
         cloak.plan(address(ladle), permissions);
+    }
+
+    /// @notice Emergency function to shut down the Wand
+    /// @param shutDown Boolean specifying the operation to be performed
+    function shutDown(bool shutDown) external auth {
+        isShutdown = shutDown;
+        emit ShutDownStateChanged(shutDown);
     }
 }

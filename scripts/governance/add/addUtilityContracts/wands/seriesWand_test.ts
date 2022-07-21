@@ -31,6 +31,7 @@ describe('Series Wand', function () {
   let yieldMath: YieldMath
   let ownerAcc: SignerWithAddress
   let timeLockAcc: SignerWithAddress
+  let dummy: SignerWithAddress
   let cauldron: Cauldron
   let wand: SeriesWand
   let join: Join
@@ -46,6 +47,8 @@ describe('Series Wand', function () {
   before(async () => {
     const chainlinkOracle = protocol.get('chainlinkOracle') as string
     ownerAcc = await getOwnerOrImpersonate(developer, WAD)
+    let [temp] = await ethers.getSigners()
+    dummy = temp
     const timelock = governance.get('timelock') as string
     timeLockAcc = await getOwnerOrImpersonate(timelock, WAD)
     cauldron = (await ethers.getContractAt(
@@ -86,7 +89,7 @@ describe('Series Wand', function () {
     await ladle.connect(timeLockAcc).grantRoles([id(ladle.interface, 'addPool(bytes6,address)')], wand.address)
 
     await wand.grantRole(id(wand.interface, 'addSeries(bytes6,bytes6,bytes6[],address,address)'), ownerAcc.address)
-
+    await wand.grantRole(id(wand.interface, 'shutDown(bool)'), ownerAcc.address)
     await cloak
       .connect(timeLockAcc)
       .grantRoles([id(cloak.interface, 'plan(address,(address,bytes4[])[])')], wand.address)
@@ -122,6 +125,32 @@ describe('Series Wand', function () {
       ONE64.mul(75).div(100),
       ONE64.mul(100).div(75)
     )) as unknown as Pool
+  })
+
+  it('Wand cannot be shut by somebody without authorization', async () => {
+    await expect(wand.connect(dummy).shutDown(true)).to.be.revertedWith('Access denied')
+  })
+
+  it('Wand can be shut by somebody with authorization', async () => {
+    await wand.connect(ownerAcc).shutDown(true)
+    expect(await wand.isShutdown()).to.be.eq(true)
+  })
+
+  it("Wand won't work if it is shutdown", async () => {
+    await expect(
+      wand.connect(ownerAcc).addSeries(
+        seriesId3, // seriesId
+        USDC, // baseId
+        [DAI, ETH], // Ilks
+        fyToken.address,
+        pool.address
+      )
+    ).to.be.revertedWith('Wand is shut!')
+  })
+
+  it('Wand can be started again by somebody with authorization', async () => {
+    await wand.connect(ownerAcc).shutDown(false)
+    expect(await wand.isShutdown()).to.be.eq(false)
   })
 
   it('Create a series', async () => {
