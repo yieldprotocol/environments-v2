@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.14;
+
 import '@yield-protocol/vault-interfaces/src/ICauldronGov.sol';
 import '@yield-protocol/vault-interfaces/src/IOracle.sol';
 import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
@@ -89,15 +90,13 @@ contract CollateralWandBase is AccessControl {
 
     /// @notice Function to add asset to the cauldron & join to the ladle
     /// @param assetId Id for the asset being added
-    /// @param assetAddress Address of the asset being added
     /// @param joinAddress Address of the join for the asset
     function _addAsset(
         bytes6 assetId,
-        address assetAddress,
         address joinAddress
     ) internal {
         // add asset to cauldron
-        cauldron.addAsset(assetId, assetAddress);
+        cauldron.addAsset(assetId, IJoin(joinAddress).asset());
         // Allow Ladle to join and exit on the asset Join
         bytes4[] memory sigs = new bytes4[](2);
         sigs[0] = JOIN;
@@ -121,9 +120,10 @@ contract CollateralWandBase is AccessControl {
         AuctionLimit[] memory auctionLimits,
         DebtLimit[] memory debtLimits
     ) internal {
+        AuctionLimit memory auctionLimit;
         // Configure auction limits for the ilk on the witch
         for (uint256 index = 0; index < auctionLimits.length; index++) {
-            AuctionLimit memory auctionLimit = auctionLimits[index];
+            auctionLimit = auctionLimits[index];
             _updateAuctionLimit(
                 auctionLimit.ilkId,
                 auctionLimit.duration,
@@ -143,9 +143,10 @@ contract CollateralWandBase is AccessControl {
         IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
         permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
         cloak.plan(address(witch), permissions);
-
+        
+        DebtLimit memory debtLimit;
         for (uint256 index = 0; index < debtLimits.length; index++) {
-            DebtLimit memory debtLimit = debtLimits[index];
+             debtLimit = debtLimits[index];
             _updateDebtLimit(
                 debtLimit.baseId,
                 debtLimit.ilkId,
@@ -197,9 +198,10 @@ contract CollateralWandBase is AccessControl {
     /// @notice Ilks to accept for series
     /// @param seriesIlks series & ilks to be added
     function _addIlksToSeries(SeriesIlk[] calldata seriesIlks) internal {
+        SeriesIlk memory seriesIlk;
         // Add ilks to the series
         for (uint256 index = 0; index < seriesIlks.length; index++) {
-            SeriesIlk memory seriesIlk = seriesIlks[index];
+            seriesIlk = seriesIlks[index];
             cauldron.addIlks(seriesIlk.series, seriesIlk.ilkIds);
         }
     }

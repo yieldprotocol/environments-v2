@@ -16,11 +16,12 @@ interface IChainlinkMultiOracle {
 /// @dev A wand to add new chainlink based collateral.
 /// @author @iamsahu
 contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
+    bytes6 public constant WETHID = 0x303000000000;
+    IERC20Metadata public constant WETH = IERC20Metadata(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
+
     IChainlinkMultiOracle public chainlinkMultiOracle;
 
     struct ChainlinkSource {
-        bytes6 baseId;
-        address base;
         bytes6 quoteId;
         address quote;
         address source;
@@ -38,7 +39,6 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
 
     /// @notice Function to add a chainlink collateral
     /// @param assetId assetId of the collateral being added
-    /// @param assetAddress address of the collateral
     /// @param joinAddress address of the join for the asset
     /// @param deployer address of the deployer
     /// @param chainlinkSources address of the chainlink sources
@@ -47,7 +47,6 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
     /// @param seriesIlks seriesIlk data to which the asset is to be added
     function addChainlinkCollateral(
         bytes6 assetId,
-        address assetAddress,
         address joinAddress,
         address deployer,
         ChainlinkSource[] calldata chainlinkSources,
@@ -56,16 +55,10 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
         SeriesIlk[] calldata seriesIlks
     ) external auth {
         _orchestrateJoin(joinAddress, deployer);
-        _addAsset(assetId, assetAddress, joinAddress);
+        _addAsset(assetId, joinAddress);
         for (uint256 index = 0; index < chainlinkSources.length; index++) {
             ChainlinkSource memory chainlinksource = chainlinkSources[index];
-            _updateChainLinkSource(
-                chainlinksource.baseId,
-                chainlinksource.base,
-                chainlinksource.quoteId,
-                chainlinksource.quote,
-                chainlinksource.source
-            );
+            _updateChainLinkSource(chainlinksource.quoteId, chainlinksource.quote, chainlinksource.source);
         }
 
         _makeIlk(joinAddress, auctionLimits, debtLimits);
@@ -74,19 +67,15 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
     }
 
     /// @notice Function to update ChainlinkSource for the supplied baseId/quoteId
-    /// @param baseId baseId
-    /// @param base address of the base asset
     /// @param quoteId quoteId
     /// @param quote address of the quote asset
     /// @param source address of the oracle for baseId/quoteId
     function _updateChainLinkSource(
-        bytes6 baseId,
-        address base,
         bytes6 quoteId,
         address quote,
         address source
     ) internal {
         // set sources for chainlink
-        chainlinkMultiOracle.setSource(baseId, IERC20Metadata(base), quoteId, IERC20Metadata(quote), source);
+        chainlinkMultiOracle.setSource(WETHID, WETH, quoteId, IERC20Metadata(quote), source);
     }
 }

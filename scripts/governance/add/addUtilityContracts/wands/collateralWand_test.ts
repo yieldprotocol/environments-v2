@@ -4,7 +4,7 @@ import { bytesToBytes32, deploy, getOwnerOrImpersonate } from '../../../../../sh
 import {
   Cauldron,
   ChainlinkMultiOracle,
-  CollateralWand,
+  ChainlinkCollateralWand,
   EmergencyBrake,
   ERC20Mock,
   FYToken,
@@ -28,7 +28,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { BigNumber } from 'ethers'
 
 describe('CollateralWand', function () {
-  let collateralWand: CollateralWand
+  let collateralWand: ChainlinkCollateralWand
   let ownerAcc: SignerWithAddress
   let timeLockAcc: SignerWithAddress
   let join: Join
@@ -83,7 +83,7 @@ describe('CollateralWand', function () {
     await collateralWand.grantRole(
       id(
         collateralWand.interface,
-        'addChainlinkCollateral(bytes6,address,address,address,(bytes6,address,bytes6,address,address)[],(bytes6,uint32,uint64,uint96,uint24,uint8)[],(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
+        'addChainlinkCollateral(bytes6,address,address,(bytes6,address,address)[],(bytes6,uint32,uint64,uint96,uint24,uint8)[],(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
       ),
       ownerAcc.address
     )
@@ -135,13 +135,10 @@ describe('CollateralWand', function () {
   it('Add Collateral', async () => {
     await collateralWand.addChainlinkCollateral(
       assetId,
-      asset.address,
       join.address,
       ownerAcc.address,
       [
         {
-          baseId: ETH,
-          base: await cauldron.assets(ETH),
           quoteId: assetId,
           quote: asset.address,
           source: chainlinkAggregator.address,
