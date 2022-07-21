@@ -2527,7 +2527,7 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-interfaces@2.4.1", "@yield-protocol/vault-interfaces@^2.3.0-rc4":
+"@yield-protocol/vault-interfaces@^2.3.0-rc4":
   version "2.4.1"
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.4.1.tgz"
   integrity sha512-qqyBx6DERbkMhRTEVxvxr0OVVyxVyEq1rw/bfFjR/rW1xRAVufF+IQiyR5EFo807i/cW0MVjxt1KPVZGSyrLHA==
