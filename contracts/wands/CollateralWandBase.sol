@@ -38,6 +38,9 @@ contract CollateralWandBase is AccessControl {
     IEmergencyBrake public cloak;
     IWitchCustom public witch;
     address public oracle;
+    bool public isShutdown;
+
+    event ShutDownStateChanged(bool status);
 
     struct AuctionLimit {
         bytes6 ilkId;
@@ -198,5 +201,12 @@ contract CollateralWandBase is AccessControl {
             seriesIlk = seriesIlks[index];
             cauldron.addIlks(seriesIlk.series, seriesIlk.ilkIds);
         }
+    }
+
+    /// @notice Emergency function to shut down the Wand
+    /// @param shutDown Boolean specifying the operation to be performed
+    function shutDown(bool shutDown) external auth {
+        isShutdown = shutDown;
+        emit ShutDownStateChanged(shutDown);
     }
 }

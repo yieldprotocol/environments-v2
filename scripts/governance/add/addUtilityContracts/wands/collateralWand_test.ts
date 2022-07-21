@@ -26,11 +26,13 @@ import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contract
 import { ChainlinkAggregatorV3Mock } from '../../../../../typechain'
 import { id } from '@yield-protocol/utils-v2'
 import { BigNumber } from 'ethers'
+import { JsonRpcSigner } from '@ethersproject/providers'
 
 describe('CollateralWand', function () {
   let collateralWand: ChainlinkCollateralWand
   let ownerAcc: SignerWithAddress
   let timeLockAcc: SignerWithAddress
+  let dummy: SignerWithAddress
   let join: Join
   let asset: ERC20Mock
   let chainlinkAggregator: ChainlinkAggregatorV3Mock
@@ -42,6 +44,9 @@ describe('CollateralWand', function () {
   const assetId = ethers.utils.formatBytes32String('100').slice(0, 14)
   before(async () => {
     ownerAcc = await getOwnerOrImpersonate(developer, WAD)
+
+    let [temp] = await ethers.getSigners()
+    dummy = temp
 
     cauldron = (await ethers.getContractAt(
       'Cauldron',
@@ -87,6 +92,8 @@ describe('CollateralWand', function () {
       ),
       ownerAcc.address
     )
+
+    await collateralWand.grantRole(id(collateralWand.interface, 'shutDown(bool)'), ownerAcc.address)
     await join.grantRoles([id(join.interface, 'grantRoles(bytes4[],address)')], collateralWand.address)
     await join.grantRole('0x00000000', collateralWand.address)
 
@@ -130,6 +137,61 @@ describe('CollateralWand', function () {
         ],
         collateralWand.address
       )
+  })
+  it('Wand cannot be shut by somebody without authorization', async () => {
+    await expect(collateralWand.connect(dummy).shutDown(true)).to.be.revertedWith('Access denied')
+  })
+
+  it('Wand can be shut by somebody with authorization', async () => {
+    await collateralWand.connect(ownerAcc).shutDown(true)
+    expect(await collateralWand.isShutdown()).to.be.eq(true)
+  })
+
+  it("Wand won't work if it is shutdown", async () => {
+    await expect(
+      collateralWand.addChainlinkCollateral(
+        assetId,
+        join.address,
+        ownerAcc.address,
+
+        {
+          quoteId: assetId,
+          quote: asset.address,
+          source: chainlinkAggregator.address,
+        },
+
+        {
+          ilkId: assetId,
+          duration: 3600,
+          initialOffer: '1000000000000000000',
+          line: 1000000,
+          dust: 5000,
+          dec: 18,
+        },
+
+        [
+          {
+            baseId: USDC,
+            ilkId: assetId,
+            ratio: 1000000,
+            line: 10000000,
+            dust: 0,
+            dec: 18,
+          },
+        ],
+        [
+          {
+            series: FYUSDC2209,
+            ilkIds: [assetId],
+          },
+        ]
+      )
+    ).to.be.revertedWith('Wand is shut!')
+  })
+
+  it('Wand can be started again by somebody with authorization', async () => {
+    await collateralWand.connect(ownerAcc).shutDown(false)
+    expect(await collateralWand.isShutdown()).to.be.eq(false)
   })
 
   it('Add Collateral', async () => {

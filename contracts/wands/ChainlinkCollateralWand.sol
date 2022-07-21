@@ -54,6 +54,8 @@ contract ChainlinkCollateralWand is AccessControl, CollateralWandBase {
         DebtLimit[] calldata debtLimits,
         SeriesIlk[] calldata seriesIlks
     ) external auth {
+        require(!isShutdown, 'Wand is shut!');
+
         _orchestrateJoin(joinAddress, deployer);
         _addAsset(assetId, joinAddress);
         _updateChainLinkSource(chainlinkSource.quoteId, chainlinkSource.quote, chainlinkSource.source);
