@@ -1,22 +1,20 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.14;
 
-import "./NotionalJoin.sol";
-import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
-import {IEmergencyBrake} from "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
-
+import './NotionalJoin.sol';
+import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
+import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 
 /// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
-/// @author @calnix 
-contract NotionalJoinFactory is AccessControl() {
-
+/// @author @calnix
+contract NotionalJoinFactory is AccessControl {
     NotionalJoin[] public njoins;
     address public cloak;
     address public timelock;
 
     event JoinCreated(address indexed asset, address indexed join);
 
-    constructor(address cloak_, address timelock_){
+    constructor(address cloak_, address timelock_) {
         cloak = cloak_;
         timelock = timelock_;
 
@@ -33,11 +31,23 @@ contract NotionalJoinFactory is AccessControl() {
     /// @param maturity Maturity of fCash token. (90-day intervals)
     /// @param currencyId ERC21155 ID of the fCash token
     /// @param salt Random number of choice
-    /// @return join Deployed notional join address.  
-    function deploy(address asset, address underlying, address underlyingJoin, uint40 maturity, uint16 currencyId, uint256 salt) external auth returns (address) {
-        
-        NotionalJoin njoin = new NotionalJoin{salt: bytes32(salt)}(asset, underlying, underlyingJoin, maturity, currencyId);
-        
+    /// @return join Deployed notional join address
+    function deploy(
+        address asset,
+        address underlying,
+        address underlyingJoin,
+        uint40 maturity,
+        uint16 currencyId,
+        uint256 salt
+    ) external auth returns (address) {
+        NotionalJoin njoin = new NotionalJoin{salt: bytes32(salt)}(
+            asset,
+            underlying,
+            underlyingJoin,
+            maturity,
+            currencyId
+        );
+
         njoins.push(njoin);
 
         _orchestrateJoin(address(njoin));
@@ -45,11 +55,11 @@ contract NotionalJoinFactory is AccessControl() {
         emit JoinCreated(asset, address(njoin));
         return address(njoin);
     }
-    
+
     /// @dev Get address of contract to be deployed
     /// @param bytecode Bytecode of the contract to be deployed (include constructor params)
     /// @param salt Random number of choice
-    function getAddress(bytes memory bytecode, uint256 salt) public view returns (address){
+    function getAddress(bytes memory bytecode, uint256 salt) public view returns (address) {
         bytes32 hash = keccak256(abi.encodePacked(bytes1(0xff), address(this), salt, keccak256(bytecode)));
 
         // cast last 20 bytes of hash to address
@@ -63,8 +73,13 @@ contract NotionalJoinFactory is AccessControl() {
     /// @param maturity Maturity of fCash token. (90-day intervals)
     /// @param currencyId Maturity of fCash token. (90-day intervals)
     /// @return bytes Bytecode of notional join to be passed into getAddress()
-    function getByteCode(address asset, address underlying, address underlyingJoin, uint40 maturity, uint16 currencyId) public pure returns (bytes memory) {
-        
+    function getByteCode(
+        address asset,
+        address underlying,
+        address underlyingJoin,
+        uint40 maturity,
+        uint16 currencyId
+    ) public pure returns (bytes memory) {
         bytes memory bytecode = type(NotionalJoin).creationCode;
 
         //append constructor arguments
