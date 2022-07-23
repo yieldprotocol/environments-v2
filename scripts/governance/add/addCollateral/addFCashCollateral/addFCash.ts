@@ -4,17 +4,17 @@ import {
   readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-} from '../../../shared/helpers'
+} from '../../../../../shared/helpers'
 
-import { NOTIONAL } from '../../../shared/constants'
+import { NOTIONAL } from '../../../../../shared/constants'
 
-import { orchestrateNotionalOracleProposal } from '../../fragments/oracles/orchestrateNotionalOracleProposal'
-import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { orchestrateModuleProposal } from '../../fragments/modules/orchestrateModuleProposal'
-import { updateNotionalSourcesProposal } from '../../fragments/oracles/updateNotionalSourcesProposal'
-import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateNotionalOracleProposal } from '../../../../fragments/oracles/orchestrateNotionalOracleProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { orchestrateModuleProposal } from '../../../../fragments/modules/orchestrateModuleProposal'
+import { updateNotionalSourcesProposal } from '../../../../fragments/oracles/updateNotionalSourcesProposal'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
 import {
   Transfer1155Module,
@@ -25,7 +25,7 @@ import {
   Witch,
   Timelock,
   EmergencyBrake,
-} from '../../../typechain'
+} from '../../../../../typechain'
 
 const {
   developer,
