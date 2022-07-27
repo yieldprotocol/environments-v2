@@ -10,9 +10,4 @@ $RUN $HERE/../../../deploy/deployYieldMath.ts # deploy YieldMath
 $RUN $HERE/../../../deploy/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../../deploy/deployEulerPools.ts # deploy pools
 $RUN $HERE/../../../deploy/deployNonTVPools.ts # deploy pools
-
-# Comment these out and run last
-$RUN $HERE/../../../deploy/orchestrateNewPools.ts # deploy pools
-$RUN $HERE/../../../deploy/orchestrateNewPools.ts # deploy pools
-$RUN $HERE/../../../deploy/orchestrateNewPools.ts # deploy pools
 $RUN $HERE/../../../deploy/deployRoller.ts # deploy roller
