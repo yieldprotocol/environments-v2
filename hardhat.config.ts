@@ -61,7 +61,7 @@ if (!etherscanKey) {
 
 module.exports = {
   solidity: {
-    version: '0.8.14',
+    version: '0.8.15',
     settings: {
       optimizer: {
         enabled: true,
@@ -118,14 +118,17 @@ module.exports = {
       url: infuraNodeUrl('goerli'),
     },
     tenderly: {
+      // update url of fork
+      url: "https://rpc.tenderly.co/fork/c527e057-51b0-4323-a9ac-3a8861e20786",
+      // update chainId if necessary
+      forkNetwork: "1",
+      // update chainId if necessary
+      project: "v2",
+      // these below can probably remain unchanged
+      username: "Yield",
       blockGasLimit: 300_000_000_000,
       gasPrice: 50_000_000_000,
-      timeout: 60_000_000,
-      url: "https://rpc.tenderly.co/fork/c527e057-51b0-4323-a9ac-3a8861e20786",
-      project: "yield_june_2022_roll",
-      username: "richie",
-      forkNetwork: "1",
-
+      timeout: 60_000_000
     },
     arb_rinkeby: {
       accounts,

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
+pragma solidity >=0.8.15;
 import "erc3156/contracts/interfaces/IERC3156FlashBorrower.sol";
 import "erc3156/contracts/interfaces/IERC3156FlashLender.sol";
+import "@yield-protocol/yieldspace-tv/src/interfaces/IMaturingToken.sol";
 import "@yield-protocol/vault-interfaces/src/IFYToken.sol";
 // import "@yield-protocol/vault-interfaces/src/ILadle.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
@@ -50,7 +51,7 @@ contract Roller is IERC3156FlashBorrower, AccessControl {
         IPool pool = strategy.pool();
         require (address(pool) != address(0), "Strategy not active");
         IERC20 base = pool.base();
-        IFYToken fyToken = pool.fyToken();
+        IMaturingToken fyToken = pool.fyToken();
         uint256 toRedeem = fyToken.balanceOf(address(pool));
         uint256 loan = maxLoan < toRedeem ? maxLoan : toRedeem;
 
@@ -58,7 +59,7 @@ contract Roller is IERC3156FlashBorrower, AccessControl {
         _strategy = strategy;
         if (loan > 0) lender.flashLoan(IERC3156FlashBorrower(address(this)), address(base), loan, "");
         else this.onFlashLoan(address(this), address(base), 0, 0, ""); // If we don't need a flash loan, we take the shortcut
-        
+
         // Whatever is left after repaying the loan, we return it
         base.safeTransfer(remainder, base.balanceOf(address(this)));
         delete _strategy;
@@ -94,18 +95,18 @@ contract Roller is IERC3156FlashBorrower, AccessControl {
         require (pool != IPool(address(0)), "Pool not ready");
 
         // Get fyToken from pool
-        IFYToken fyToken = pool.fyToken();                  // The fyToken can't be address(0)
+        IMaturingToken fyToken = pool.fyToken();                  // The fyToken can't be address(0)
 
         // If a loan was requested, we fund the join by minting fyToken
         if (amount > 0) {
             token_.safeTransfer(join, amount);
-            fyToken.mintWithUnderlying(address(this), amount);
+            IFYToken(address(fyToken)).mintWithUnderlying(address(this), amount);
         }
 
         // Roll the pool
         strategy.endPool();                                 // This drains the join
         strategy.startPool(0, type(uint256).max);           // We skip the slippage check, because we run only on fresh pools
-        
+
         // If a loan was requested, we sell the fyToken to repay it
         if (amount > 0) {
             fyToken.transfer(address(pool), amount);
