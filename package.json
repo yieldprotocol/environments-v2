@@ -64,6 +64,7 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
+    "@tenderly/hardhat-tenderly": "^1.1.4",
     "latest": "^0.2.0"
   }
 }

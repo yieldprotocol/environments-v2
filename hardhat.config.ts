@@ -10,6 +10,9 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
+import * as tdly from "@tenderly/hardhat-tenderly";
+tdly.setup();
+
 function infuraNodeUrl(network: any) {
   let infuraKey
   try {
@@ -118,7 +121,11 @@ module.exports = {
       blockGasLimit: 300_000_000_000,
       gasPrice: 50_000_000_000,
       timeout: 60_000_000,
-      url: "https://rpc.tenderly.co/fork/f0f10e78-2ed2-4ab7-9b66-f1211993b2d4"
+      url: "https://rpc.tenderly.co/fork/c527e057-51b0-4323-a9ac-3a8861e20786",
+      project: "yield_june_2022_roll",
+      username: "richie",
+      forkNetwork: "1",
+
     },
     arb_rinkeby: {
       accounts,
