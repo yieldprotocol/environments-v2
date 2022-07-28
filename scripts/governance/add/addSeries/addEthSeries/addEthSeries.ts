@@ -1,28 +1,27 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
-
+import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../../shared/helpers'
 import {
   IOracle,
   ChainlinkMultiOracle,
   CompositeMultiOracle,
   UniswapV3Oracle,
   CompoundMultiOracle,
-} from '../../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../typechain'
+} from '../../../../../typechain'
+import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
-import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP } from '../../../../shared/constants'
+import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP } from '../../../../../shared/constants'
 
-import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
-import { updateChiSourcesProposal } from '../../../fragments/oracles/updateChiSourcesProposal'
-import { updateRateSourcesProposal } from '../../../fragments/oracles/updateRateSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../fragments/assetsAndSeries/updateIlkProposal'
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../fragments/core/strategies/initStrategiesProposal'
+import { orchestrateModuleProposal } from '../../../../fragments/modules/orchestrateModuleProposal'
+import { updateChiSourcesProposal } from '../../../../fragments/oracles/updateChiSourcesProposal'
+import { updateRateSourcesProposal } from '../../../../fragments/oracles/updateRateSourcesProposal'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
+import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
+import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol, chainId } = require(process.env.CONF as string)
@@ -37,11 +36,11 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const chainlinkOracle = (await ethers.getContractAt(
+  const chainlinkOracle = await ethers.getContractAt(
     'ChainlinkMultiOracle',
     protocol.get(CHAINLINK) as string,
     ownerAcc
-  )) as unknown as ChainlinkMultiOracle
+  )
   const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get(COMPOSITE) as string,

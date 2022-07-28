@@ -24,7 +24,7 @@ export const addSeriesProposal = async (
   cloak: EmergencyBrake,
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
   newPools: Map<string, string>, // seriesId, poolAddress
-  newJoins: Map<string, string> // assetId, joinAddress
+  newJoins?: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -38,11 +38,6 @@ export const addSeriesProposal = async (
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
-
-    // const joinAddress = (await ladle.joins(baseId)) as string
-    // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
-    // else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', newJoins.get(baseId) as string, ownerAcc)) as Join
 
     // This test fails if adding the base in the same proposal. All tests should move on-chain.
     // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
@@ -68,14 +63,23 @@ export const addSeriesProposal = async (
     })
     console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
 
-    // Allow the fyToken to pull from the base join for redemption, and to push to mint with underlying
-    proposal.push({
-      target: join.address,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
-        fyToken.address,
-      ]),
-    })
+    let join: Join | null = null
+
+    if (newJoins) {
+      // const joinAddress = (await ladle.joins(baseId)) as string
+      // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
+      // else console.log(`Using join at ${joinAddress} for ${baseId}`)
+      join = (await ethers.getContractAt('Join', newJoins.get(baseId) as string, ownerAcc)) as Join
+
+      // Allow the fyToken to pull from the base join for redemption, and to push to mint with underlying
+      proposal.push({
+        target: join.address,
+        data: join.interface.encodeFunctionData('grantRoles', [
+          [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
+          fyToken.address,
+        ]),
+      })
+    }
     console.log(`join.grantRoles(join/exit, fyToken)`)
 
     // Allow the ladle to issue and cancel fyToken
@@ -130,20 +134,24 @@ export const addSeriesProposal = async (
       )
     }
 
-    // Register emergency plan to disconnect fyToken from join
-    const joinPlan = [
-      {
-        contact: join.address,
-        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
-      },
-    ]
+    if (join) {
+      // Register emergency plan to disconnect fyToken from join
+      const joinPlan = [
+        {
+          contact: join.address,
+          signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
+        },
+      ]
 
-    if ((await cloak.plans(await cloak.hash(fyToken.address, joinPlan))).state === 0) {
-      proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
-      })
-      console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
+      if ((await cloak.plans(await cloak.hash(fyToken.address, joinPlan))).state === 0) {
+        proposal.push({
+          target: cloak.address,
+          data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
+        })
+        console.log(
+          `cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`
+        )
+      }
     }
   }
 
