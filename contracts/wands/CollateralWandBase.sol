@@ -191,7 +191,7 @@ contract CollateralWandBase is AccessControl {
 
     /// @notice Ilks to accept for series
     /// @param seriesIlks series & ilks to be added
-    function _addIlksToSeries(SeriesIlk[] calldata seriesIlks) internal {
+    function _addIlksToSeries(SeriesIlk[] memory seriesIlks) internal {
         SeriesIlk memory seriesIlk;
         // Add ilks to the series
         for (uint256 index = 0; index < seriesIlks.length; index++) {
