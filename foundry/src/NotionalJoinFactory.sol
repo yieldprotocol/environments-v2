@@ -1,22 +1,46 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.14;
 
-import './NotionalJoin.sol';
+import './NotionalJoin.sol'; //import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol'
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
+import {ILadleGov} from '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
+
+interface IJoinCustom {
+    /// @dev ERC1155 asset managed by this notional join
+    function asset() external view returns (address);
+
+    /// @dev underlying asset of this notional join
+    function underlying() external view returns (address);
+
+    /// @dev join of the underlying asset 
+    function underlyingJoin() external view returns (address);
+
+    /// @dev maturity date for fCash
+    function maturity() external view returns (uint40);
+
+    /// @dev otional currency id for the underlying
+    function currencyId() external view returns (uint16);
+
+}
 
 /// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
 /// @author @calnix
 contract NotionalJoinFactory is AccessControl {
-    NotionalJoin[] public njoins;
+
+    mapping (bytes6 => uint256) public fcashAssets;  // maps assetId to fCashId
+
     address public cloak;
     address public timelock;
+    ILadleGov public ladle;
 
     event JoinCreated(address indexed asset, address indexed join);
+    event Added(bytes6 indexed assetId, uint256 indexed fCashId);
 
-    constructor(address cloak_, address timelock_) {
+    constructor(address cloak_, address timelock_, ILadleGov ladle_) {
         cloak = cloak_;
         timelock = timelock_;
+        ladle = ladle_;
 
         // grant ROOT to timelock
         _grantRole(ROOT, timelock);
@@ -25,22 +49,33 @@ contract NotionalJoinFactory is AccessControl {
     }
 
     /// @dev Deploys a new notional join using create2
-    /// @param asset Address of the ERC1155 token. (e.g. fDai2203)
-    /// @param underlying Address of the underlying token. (e.g. Dai)
-    /// @param underlyingJoin Address of the underlying join contract. (e.g. Dai join contract)
-    /// @param maturity Maturity of fCash token. (90-day intervals)
-    /// @param currencyId ERC21155 ID of the fCash token
+    /// @param oldAssetId Id of prior matured fCash token. (e.g. fDAIJUN22)
+    /// @param newAssetId Id of incoming fCash token. (e.g. fDAISEP22)
     /// @param salt Random number of choice
     /// @return join Deployed notional join address
     function deploy(
-        address asset,
-        address underlying,
-        address underlyingJoin,
-        uint40 maturity,
-        uint16 currencyId,
+        bytes6 oldAssetId,
+        bytes6 newAssetId,
         uint256 salt
-    ) external auth returns (address) {
-        NotionalJoin njoin = new NotionalJoin{salt: bytes32(salt)}(
+    ) external auth returns (NotionalJoin) {
+        require(fcashAssets[oldAssetId] != 0, "Invalid oldAssetId");  // ensure prior tenor of fCash exists (i.e. fDAIJUN22 to be mapped to fDAISEP22)  
+        require(fcashAssets[newAssetId] == 0, "Invalid newAssetId");  // ensure asset does not already exist
+        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
+
+        // get join of oldAssetId
+        IJoinCustom oldJoin = IJoinCustom(address(ladle.joins(oldAssetId)));
+        
+        // get asset, underlying, underlyingJoin addresses
+        address asset = oldJoin.asset(); 
+        address underlying = oldJoin.underlying(); 
+        address underlyingJoin = oldJoin.underlyingJoin();
+        
+        // get new maturity
+        uint16 currencyId = oldJoin.currencyId();
+        uint40 oldMaturity = oldJoin.maturity();
+        uint40 maturity = oldMaturity + (86400 * 90);    // 90-days in seconds
+  
+        NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
             asset,
             underlying,
             underlyingJoin,
@@ -48,12 +83,14 @@ contract NotionalJoinFactory is AccessControl {
             currencyId
         );
 
-        njoins.push(njoin);
+        // update mapping with new fCashId
+        uint256 fCashId = join.id();
+        fcashAssets[newAssetId] = fCashId;
 
-        _orchestrateJoin(address(njoin));
+        _orchestrateJoin(address(join));
 
-        emit JoinCreated(asset, address(njoin));
-        return address(njoin);
+        emit JoinCreated(asset, address(join));
+        return join;
     }
 
     /// @dev Get address of contract to be deployed
@@ -89,11 +126,19 @@ contract NotionalJoinFactory is AccessControl {
     /// @notice Orchestrate the join to grant & revoke the correct permissions
     /// @param joinAddress Address of the join to be orchestrated
     function _orchestrateJoin(address joinAddress) internal {
-        AccessControl njoin = AccessControl(joinAddress);
+        AccessControl join = AccessControl(joinAddress);
 
-        // grant ROOT to cloak
-        njoin.grantRole(ROOT, cloak);
+        // grant ROOT to cloak & timelock
+        join.grantRole(ROOT, cloak);
+        join.grantRole(ROOT, timelock);
         // revoke ROOT from NotionalJoinFactory
-        njoin.renounceRole(ROOT, address(this));
+        join.renounceRole(ROOT, address(this));
     }
+    
+    /// @notice To manually register existing fCash assetIds that were created 
+    function addFCash(bytes6 assetId, uint256 fCashId) external auth {
+        fcashAssets[assetId] = fCashId;
+
+        emit Added(assetId, fCashId);
+    } 
 }

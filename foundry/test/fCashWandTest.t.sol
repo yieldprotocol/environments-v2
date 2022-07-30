@@ -39,9 +39,9 @@ abstract contract StateAddCollateral is Test {
 
     NotionalMultiOracle public notionalMultiOracle;
     NotionalJoinFactory public njoinfactory;
+    NotionalJoin public njoin;
     FCashMock public fcash;
     uint256 fCashId = 1;
-    address njoin;
 
     DAIMock public dai;
     Join public daiJoin;
@@ -131,7 +131,7 @@ abstract contract StateAddCollateral is Test {
         );
         vm.label(address(fcashwand), 'FCash Wand');
 
-        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock));
+        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
         vm.label(address(njoinfactory), 'Njoin Factory');
 
         vm.stopPrank();
@@ -151,7 +151,7 @@ abstract contract StateAddCollateral is Test {
 
         vm.prank(deployer);
         njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
-        vm.label(njoin, 'njoin contract');
+        vm.label(address(njoin), 'njoin contract');
 
         //... Granting permissions ...
         vm.startPrank(deployer);
@@ -238,7 +238,7 @@ contract StateAddCollateralTest is StateAddCollateral {
         seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
 
         vm.prank(deployer);
-        fcashwand.addfCashCollateral(assetId, njoin, notionalSource, auctionLimits, debtLimits, seriesIlks);
+        fcashwand.addfCashCollateral(assetId, address(njoin), notionalSource, auctionLimits, debtLimits, seriesIlks);
 
         // cauldron: ilk check
         assertTrue(cauldron.ilks(seriesId, assetId) == true);
@@ -283,7 +283,7 @@ abstract contract StateBorrowOnNewCollateral is StateAddCollateral {
         seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
 
         vm.prank(deployer);
-        fcashwand.addfCashCollateral(assetId, njoin, notionalSource, auctionLimits, debtLimits, seriesIlks);
+        fcashwand.addfCashCollateral(assetId, address(njoin), notionalSource, auctionLimits, debtLimits, seriesIlks);
 
         // ... Permissions ...
         vm.startPrank(deployer);
