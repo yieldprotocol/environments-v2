@@ -44,7 +44,7 @@ export const initPoolsProposal = async (
     // Initialize pool
     proposal.push({
       target: pool.address,
-      data: pool.interface.encodeFunctionData('init', [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
+      data: pool.interface.encodeFunctionData('init', [ZERO_ADDRESS]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
     console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
 

@@ -1,21 +1,8 @@
 import { BigNumber } from 'ethers'
-import {
-  ZERO,
-  ZERO_ADDRESS,
-  WAD,
-  ONEUSDC,
-  ONE64,
-  secondsInOneYear,
-  } from '../../../../../shared/constants'
-import {
-  ETH,
-  DAI,
-  USDC,
-  EDAI,
-  EUSDC,
-} from '../../../../../shared/constants'
+import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
+import { ETH, DAI, USDC, EDAI, EUSDC } from '../../../../../shared/constants'
 import { EODEC22 } from '../../../../../shared/constants'
-import {  FYDAI2212, FYUSDC2212 } from '../../../../../shared/constants'
+import { FYDAI2212, FYUSDC2212 } from '../../../../../shared/constants'
 import { YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
 import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 import * as base_config from '../../../base.arb_mainnet.config'
@@ -34,8 +21,6 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
-export const flashMintModule = '0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853'
-
 
 // Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: Map<string, BigNumber> = new Map([
@@ -49,27 +34,34 @@ export const g1: number = 9000
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYDAI2212, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EODEC22, 'FYDAI2212', 'FYDAI2212'],
-  [FYUSDC2212, USDC, protocol.get(ACCUMULATOR) as string, joins.get(USDC) as string, EODEC22, 'FYUSDC2212', 'FYUSDC2212'],
+  [
+    FYUSDC2212,
+    USDC,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(USDC) as string,
+    EODEC22,
+    'FYUSDC2212',
+    'FYUSDC2212',
+  ],
 ]
 
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
-    [
-      FYDAI2212,
-      assets.get(DAI) as string,
-      newFYTokens.get(FYDAI2212) as string,
-      timeStretch.get(FYDAI2212) as BigNumber,
-      g1,
-    ],
-    [
-      FYUSDC2212,
-      assets.get(USDC) as string,
-      newFYTokens.get(FYUSDC2212) as string,
-      timeStretch.get(FYUSDC2212) as BigNumber,
-      g1,
-    ],
-
+  [
+    FYDAI2212,
+    assets.get(DAI) as string,
+    newFYTokens.get(FYDAI2212) as string,
+    timeStretch.get(FYDAI2212) as BigNumber,
+    g1,
+  ],
+  [
+    FYUSDC2212,
+    assets.get(USDC) as string,
+    newFYTokens.get(FYUSDC2212) as string,
+    timeStretch.get(FYUSDC2212) as BigNumber,
+    g1,
+  ],
 ]
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
@@ -86,7 +78,6 @@ export const joinLoans: Array<[string, BigNumber]> = [
   //  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
 ]
 
-
 // Ilks to accept for each series
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
@@ -101,7 +92,6 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param lender ERC3156 flash lender used for rolling
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  [YSDAI6MJD, FYDAI2212, WAD.mul(100000), flashMintModule, true],
-  [YSUSDC6MJD, FYUSDC2212, ZERO, ZERO_ADDRESS, true],
+  // [YSDAI6MJD, FYDAI2212, ZERO, ZERO_ADDRESS, false],
+  [YSUSDC6MJD, FYUSDC2212, ZERO, ZERO_ADDRESS, false],
 ]
-

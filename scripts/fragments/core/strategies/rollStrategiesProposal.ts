@@ -32,30 +32,30 @@ export const rollStrategiesProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${nextSeriesId}`)
     const nextPool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
-    proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
-    })
-    console.log(`Using ${nextSeriesId}:${nextPool.address} as next pool`)
-    if (fix) {
-      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
-      proposal.push({
-        target: base.address,
-        data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
-      })
-      console.log(`Fix tv pool by sending 1 wei of ${await base.symbol()}`)
-    }
+    // proposal.push({
+    //   target: strategy.address,
+    //   data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
+    // })
+    // console.log(`Using ${nextSeriesId}:${nextPool.address} as next pool`)
+    // if (fix) {
+    //   const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+    //   proposal.push({
+    //     target: base.address,
+    //     data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
+    //   })
+    //   console.log(`Fix tv pool by sending 1 wei of ${await base.symbol()}`)
+    // }
 
     const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
-    if (!buffer.isZero()) {
-      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+    // if (!buffer.isZero()) {
+    //   const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
 
-      proposal.push({
-        target: base.address,
-        data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
-      })
-      console.log(`Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`)
-    }
+    //   proposal.push({
+    //     target: base.address,
+    //     data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
+    //   })
+    //   console.log(`Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`)
+    // }
     proposal.push({
       target: roller.address,
       data: roller.interface.encodeFunctionData('roll', [

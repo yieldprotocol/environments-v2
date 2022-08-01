@@ -20,7 +20,7 @@ export const orchestrateNewPoolsProposal = async (
   proposal.push({
     target: pool.address,
     data: pool.interface.encodeFunctionData('grantRoles', [
-      [id(pool.interface, 'setFees(uint16)'), id(pool.interface, 'init(address,address,uint256,uint256)')],
+      [id(pool.interface, 'setFees(uint16)'), id(pool.interface, 'init(address)')],
       timelock.address,
     ]),
   })

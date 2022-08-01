@@ -147,24 +147,6 @@ export const addSeriesProposal = async (
       })
       console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
     }
-
-    // ==== Orchestrate pool ====
-
-    // Remove ROOT in pool from deployer
-    proposal.push({
-      target: pool.address,
-      data: pool.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-    })
-    console.log(`pool.revokeRole(ROOT, deployer)`)
-
-    proposal.push({
-      target: pool.address,
-      data: pool.interface.encodeFunctionData('grantRoles', [
-        [id(pool.interface, 'init(address,address,uint256,uint256)'), id(pool.interface, 'setFees(uint16)')],
-        timelock.address,
-      ]),
-    })
-    console.log(`pool.grantRoles(gov, timelock)`)
   }
 
   return proposal
