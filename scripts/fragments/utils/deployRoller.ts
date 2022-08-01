@@ -17,7 +17,7 @@ export const deployRoller = async (
 ): Promise<Roller> => {
   let roller: Roller
   if (protocol.get('roller') === undefined) {
-    roller = (await deployContract(ownerAcc, RollerArtifact, [])) as Roller
+    roller = (await deployContract(ownerAcc, RollerArtifact, [protocol.get('ladle') as string])) as Roller
     console.log(`Roller deployed at ${roller.address}`)
     verify(roller.address, [])
   } else {

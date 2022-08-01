@@ -49,19 +49,19 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
   const path = `./addresses/${network.name}/`
   const pools = jsonToMap(fs.readFileSync(`${path}newPools.json`, 'utf8')) as Map<string, string>
 
-  // for (let [seriesId, poolAddress] of pools) {
-  //   const pool: Pool = (await ethers.getContractAt('Pool', poolAddress as string, ownerAcc)) as unknown as Pool
+  for (let [seriesId, poolAddress] of pools) {
+    const pool: Pool = (await ethers.getContractAt('Pool', poolAddress as string, ownerAcc)) as unknown as Pool
 
-  //   console.log(`adding proposal for pool for series: ${seriesId} at address: ${poolAddress}`)
-  //   proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
-  // }
+    console.log(`adding proposal for pool for series: ${seriesId} at address: ${poolAddress}`)
+    proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
+  }
 
-  // proposal = proposal.concat(await orchestrateRollerProposal(deployer, strategies, roller, timelock, cloak, rollData))
-  // proposal = proposal.concat(
-  //   await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
-  // )
-  // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  // proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
+  proposal = proposal.concat(await orchestrateRollerProposal(deployer, strategies, roller, timelock, cloak, rollData))
+  proposal = proposal.concat(
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
+  )
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, protocol, strategies, newPools, timelock, rollData))
   console.log('**************************************************************************************************')
   console.log(developer)

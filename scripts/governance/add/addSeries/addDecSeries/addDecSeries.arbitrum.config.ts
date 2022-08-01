@@ -92,6 +92,6 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param lender ERC3156 flash lender used for rolling
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  // [YSDAI6MJD, FYDAI2212, ZERO, ZERO_ADDRESS, false],
+  [YSDAI6MJD, FYDAI2212, ZERO, ZERO_ADDRESS, false],
   [YSUSDC6MJD, FYUSDC2212, ZERO, ZERO_ADDRESS, false],
 ]

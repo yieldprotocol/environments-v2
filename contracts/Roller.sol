@@ -33,7 +33,11 @@ interface IStrategy {
 contract Roller is IERC3156FlashBorrower, AccessControl {
     using MinimalTransferHelper for IERC20;
 
-    ILadle public immutable ladle = ILadle(0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A);
+    ILadle public immutable ladle;
+
+    constructor(ILadle ladle_) {
+        ladle = ladle_;
+    }
 
     /// @dev Strategy being rolled, also used to denote that access control was passed.
     IStrategy internal _strategy;
@@ -83,9 +87,7 @@ contract Roller is IERC3156FlashBorrower, AccessControl {
     ) external returns (bytes32) {
         IStrategy strategy = _strategy;
         require (address(strategy) != address(0), "Unauthorized roll");
-
         IERC20 token_ = IERC20(token);
-
         // Get join from strategy and ladle
         address join = ladle.joins(strategy.baseId());
         require (join != address(0), "Join not found");
@@ -102,10 +104,10 @@ contract Roller is IERC3156FlashBorrower, AccessControl {
             token_.safeTransfer(join, amount);
             IFYToken(address(fyToken)).mintWithUnderlying(address(this), amount);
         }
-
         // Roll the pool
         strategy.endPool();                                 // This drains the join
         strategy.startPool(0, type(uint256).max);           // We skip the slippage check, because we run only on fresh pools
+
 
         // If a loan was requested, we sell the fyToken to repay it
         if (amount > 0) {
