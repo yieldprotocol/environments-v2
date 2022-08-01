@@ -36,7 +36,7 @@ function alchemyNodeUrl(network: any) {
 
 function arbNodeUrl(network: string) {
   switch (network) {
-    case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
+    // case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
     case "mainnet": return "https://arb1.arbitrum.io/rpc";
   }
   throw new Error(`Unknown arbitrum network ${network}`);
@@ -119,9 +119,9 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/c527e057-51b0-4323-a9ac-3a8861e20786",
+      url: "https://rpc.tenderly.co/fork/c6fe5492-51b0-4f07-ae56-117fb95c2a1f",
       // update chainId if necessary
-      forkNetwork: "1",
+      forkNetwork: "42161",
       // update chainId if necessary
       project: "v2",
       // these below can probably remain unchanged
@@ -129,13 +129,6 @@ module.exports = {
       blockGasLimit: 300_000_000_000,
       gasPrice: 50_000_000_000,
       timeout: 60_000_000
-    },
-    arb_rinkeby: {
-      accounts,
-      url: arbNodeUrl('rinkeby'),
-      gasPrice: 3000000000,
-      chainId: 421611,
-      timeout: 60000
     },
     mainnet: {
       accounts,
@@ -147,7 +140,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 500000000,
+      gasPrice: 3_000_000_000,
       chainId: 42161,
       timeout: 60000
     },

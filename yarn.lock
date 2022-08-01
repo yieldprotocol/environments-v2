@@ -2506,14 +2506,6 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-0.12.0-rc4.tgz"
   "version" "0.12.0-rc4"
 
-"@yield-protocol/utils-v2@^2.4.2":
-  "integrity" "sha512-Z8ksHeG02tHPnKJGuKKrjzLG7Yz7kWj3Lsf50jsuTDwd8pBYq27OemOmscI2dNp4R0+qaf/+vJjvriEvtd9utQ=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.0.tgz"
-  "version" "2.6.0"
-  dependencies:
-    "ethereumjs-util" "^7.0.8"
-    "ethers" "^5.0.7"
-
 "@yield-protocol/utils-v2@2.6.0-rc.1":
   "integrity" "sha512-o1XdJWga3GuDJR7qYPD63fqtRpVxaiJ0ZaPxVVz9KuuRgSBFeNVl5sgp1xNobnnWg7uEtZFdicy8RgtpEsgAOQ=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.0-rc.1.tgz"
@@ -2521,11 +2513,6 @@
   dependencies:
     "ethereumjs-util" "^7.0.8"
     "ethers" "^5.0.7"
-
-"@yield-protocol/vault-interfaces@^2.3.0-rc4", "@yield-protocol/vault-interfaces@^2.4.1":
-  "integrity" "sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
-  "version" "2.5.0"
 
 "@yield-protocol/vault-v2@^0.17.1-rc4":
   "integrity" "sha512-5+wvNtc2epmB9KhxZ5Hez2D90ll6eAoeA+ux1g7PxAcs1hbRZTl8GX5ZDDv5hgvbjYbbyh8NcU9bW/h5Wy2aEQ=="
@@ -14542,14 +14529,6 @@
     "get-value" "^2.0.6"
     "is-extendable" "^0.1.1"
     "set-value" "^2.0.1"
-
-"uniswapv3-oracle@^1.0.1":
-  "integrity" "sha512-B2GpmD7HnI+XW/sCNu6nYZ206cdB8g6e7uYjdrJ41XiVxGEX2Cxdzt/wAiSYDG5euDFFBJSdw7p5wzIcTHij3w=="
-  "resolved" "https://registry.npmjs.org/uniswapv3-oracle/-/uniswapv3-oracle-1.0.1.tgz"
-  "version" "1.0.1"
-  dependencies:
-    "@yield-protocol/utils-v2" "^2.4.2"
-    "@yield-protocol/vault-interfaces" "^2.3.0-rc4"
 
 "universalify@^0.1.0":
   "integrity" "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="

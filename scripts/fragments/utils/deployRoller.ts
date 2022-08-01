@@ -16,10 +16,11 @@ export const deployRoller = async (
   timelock: Timelock
 ): Promise<Roller> => {
   let roller: Roller
+  const ladleAddress = protocol.get('ladle') as string
   if (protocol.get('roller') === undefined) {
-    roller = (await deployContract(ownerAcc, RollerArtifact, [protocol.get('ladle') as string])) as Roller
+    roller = (await deployContract(ownerAcc, RollerArtifact, [ladleAddress])) as Roller
     console.log(`Roller deployed at ${roller.address}`)
-    verify(roller.address, [])
+    verify(roller.address, [ladleAddress])
   } else {
     roller = (await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)) as Roller
     console.log(`Reusing Roller at ${roller.address}`)

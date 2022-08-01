@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 
-import { ERC20Mock, Pool, FYToken, Join, Timelock } from '../../../typechain'
+import { IERC20, Pool, FYToken, Join, Timelock } from '../../../typechain'
 
 export const initPoolsProposal = async (
   ownerAcc: any,
@@ -25,11 +25,7 @@ export const initPoolsProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
     const fyToken: FYToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc)) as FYToken
-    const base: ERC20Mock = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      await pool.base(),
-      ownerAcc
-    )) as ERC20Mock
+    const base: IERC20 = (await ethers.getContractAt('IERC20', await pool.base(), ownerAcc)) as IERC20
     const join: Join = (await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)) as Join
 
     console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)

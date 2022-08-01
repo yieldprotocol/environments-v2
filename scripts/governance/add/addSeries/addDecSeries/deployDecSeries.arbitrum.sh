@@ -3,8 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addDecSeries.arbitrum.config
-# RUN="npx hardhat run --network arb_mainnet"
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network arb_mainnet"
 
 $RUN $HERE/../../../deploy/deployRoller.ts # deploy roller
 $RUN $HERE/../../../deploy/deployYieldMath.ts # deploy YieldMath
