@@ -125,6 +125,13 @@ module.exports = {
       timeout: 600000,
       url: alchemyNodeUrl('rinkeby')
     },
+    tenderly: {
+      accounts,
+      gasPrice: 2000000000,
+      gasMultiplier: 1.1,
+      timeout: 600000,
+      url: 'https://rpc.tenderly.co/fork/d8a5dfd6-d879-4a3f-bbf6-e5b967da3031'
+    },
     arb_rinkeby: {
       accounts,
       url: arbNodeUrl('rinkeby'),
@@ -134,7 +141,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
-      gasPrice: 50000000000,
+      gasPrice: 20000000000,
       gasMultiplier: 1.1,
       timeout: 60000000,
       url: infuraNodeUrl('mainnet')
