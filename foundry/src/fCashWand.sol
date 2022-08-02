@@ -82,18 +82,20 @@ contract FCashWand is AccessControl, CollateralWandBase {
     /// @param assetId Incoming fCash assetId (e.g. fDAISEP22)
     /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
     /// @param seriesId New series which takes incoming fCash as ilk
-    function addfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId) external auth {
+    function addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriesId) external auth {
         
-        // get join address
-        IJoinCustom join = IJoinCustom(address(ladle.joins(assetId)));
+        // get underlying of new Asset
+        IJoinCustom join = IJoinCustom(joinAddress);
         address underlying = join.underlying(); 
-        // get series data
-        DataTypes.Series memory series = cauldron.series(seriesId);
 
         // old and new assetIds to have same underlying
-        require(underlying == cauldron.assets(oldAssetId), "Mismatched assetIds"); 
+        IJoinCustom oldJoin = IJoinCustom(address(ladle.joins(oldAssetId)));
+        require(underlying == oldJoin.underlying(), "Mismatched assetId");
+
+        // get series data
+        DataTypes.Series memory series = cauldron.series(seriesId);
         // ensure fCash underlying and base of series match
-        require(underlying == cauldron.assets(series.baseId), "Mismatched assets");      
+        require(underlying == cauldron.assets(series.baseId), "Mismatched series");      
 
         // asset is recognized in ecosystem
         _addAsset(assetId, address(join));
@@ -140,7 +142,7 @@ contract FCashWand is AccessControl, CollateralWandBase {
         seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
 
         // commented out since addIlksToSeries needs to be updated to take params from memory not calldata
-        //_addIlksToSeries(seriesIlks);
+        _addIlksToSeries(seriesIlks);
     }
 
     /// @notice Function to update NotionalSource for the supplied notionalId/underlyingId

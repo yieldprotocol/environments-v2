@@ -5,7 +5,7 @@ import 'forge-std/src/Test.sol';
 import 'forge-std/src/console2.sol';
 import {Mocks} from '@yield-protocol/vault-v2/contracts/test/utils/Mocks.sol';
 
-import {NotionalJoinFactory} from '../src/NotionalJoinFactory.sol';
+import {NotionalJoinFactory, NotionalJoin} from '../src/NotionalJoinFactory.sol';
 import {NotionalMultiOracle} from '@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol';
 import {FCashMock} from '@yield-protocol/vault-v2/contracts/other/notional/FCashMock.sol';
 
@@ -20,12 +20,14 @@ import '@yield-protocol/vault-interfaces/src/ICauldron.sol';
 import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
 import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
 
-abstract contract StateFactoryDeploy is Test {
-    using Mocks for *;
+abstract contract StateZero is Test {
+    using stdStorage for StdStorage;
 
     NotionalJoinFactory public njoinfactory;
+    NotionalJoin public oldJoin;
     Join public daiJoin;
-    FCashMock public fcash;
+    FCashMock public oldFcash;
+    FCashMock public newFcash;
     DAIMock public dai;
     AccessControl public cloak;
     Timelock public timelock;
@@ -33,12 +35,28 @@ abstract contract StateFactoryDeploy is Test {
 
     address deployer;
 
-    // arbitrary values for testing
-    uint40 maturity = 1651743369; // 4/07/2022 23:09:57 GMT
-    uint16 currencyId = 1;
-    uint256 fCashId = 4;
+    bytes6 oldAssetId;
+    bytes6 newAssetId; 
+    bytes6 otherOldAssetId; 
+
+    address underlying; 
+    address underlyingJoin;
+    uint40 maturity; 
+    uint16 currencyId;
+    uint256 fCashId;
+
+    event Added(bytes6 indexed assetId, uint256 indexed fCashId);
 
     function setUp() public virtual {
+
+        // arbitrary fCash values for testing
+        oldAssetId = bytes6('01'); 
+        newAssetId = bytes6('02'); 
+        otherOldAssetId= bytes6('03');
+        maturity = 1651743369; // 4/07/2022 23:09:57 GMT
+        currencyId = 1;
+        fCashId = 4;
+
         deployer = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
         vm.label(deployer, 'deployer');
 
@@ -46,8 +64,11 @@ abstract contract StateFactoryDeploy is Test {
         dai = new DAIMock();
         vm.label(address(dai), 'Dai token contract');
 
-        fcash = new FCashMock(ERC20Mock(address(dai)), fCashId);
-        vm.label(address(fcash), 'fCashMock contract');
+        oldFcash = new FCashMock(ERC20Mock(address(dai)), fCashId);
+        vm.label(address(oldFcash), 'old fCashMock contract');
+
+        newFcash = new FCashMock(ERC20Mock(address(dai)), fCashId);
+        vm.label(address(newFcash), 'new fCashMock contract');
 
         //... Yield Contracts ...
         daiJoin = new Join(address(dai));
@@ -64,50 +85,114 @@ abstract contract StateFactoryDeploy is Test {
 
         njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
         vm.label(address(njoinfactory), 'Njoin Factory contract');
+        vm.stopPrank();
 
         vm.startPrank(address(timelock));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);
+        njoinfactory.grantRole(NotionalJoinFactory.addFCash.selector, deployer);
         vm.stopPrank();
+
+        // create njoin for oldAssetId
+        vm.startPrank(deployer);
+
+        underlying = address(dai);
+        underlyingJoin = address(daiJoin);
+        oldJoin = new NotionalJoin(address(oldFcash), underlying, underlyingJoin, maturity, currencyId);
+
+        //register old njoin into ladle | this will be used as reference in setup
+        stdstore
+            .target(address(ladle))
+            .sig("joins(bytes6)")
+            .with_key(oldAssetId)
+            .checked_write(address(oldJoin));
+
+        // this assetId is not captured in fcashAssets mapping, but registered in ladle
+        stdstore
+            .target(address(ladle))
+            .sig("joins(bytes6)")
+            .with_key(otherOldAssetId)
+            .checked_write(address(5));         // arbitrary non-zero address set
+
     }
 }
 
-contract StateFactoryDeployTest is StateFactoryDeploy {
-    using Mocks for *;
+// register oldAssetId via addFCash()
+contract StateZeroTest is StateZero {
 
-    function testDeploy() public {
-        console2.log('Address of njoin deployed should be the same as the pre-determined approach');
+    function testAddFCash() public {
+        vm.expectEmit(true, true, false, false);
+        emit Added(oldAssetId, oldJoin.id());
+        njoinfactory.addFCash(oldAssetId, oldJoin.id());
 
-        address asset = address(fcash);
-        address underlying = address(dai);
-        address underlyingJoin = address(daiJoin);
-        uint256 salt = 1234;
-
-        address njoin = address(njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt));
-        address njoinGenerated = njoinfactory.getAddress(
-            njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),
-            salt
-        );
-
-        assertTrue(njoin == njoinGenerated);
+        assertTrue(njoinfactory.fcashAssets(oldAssetId) == oldJoin.id());
     }
 
-    function testDeployDifferingSalt() public {
-        console2.log('Address of njoin deployed should change with different salts');
+}   
 
-        address asset = address(fcash);
-        address underlying = address(dai);
-        address underlyingJoin = address(daiJoin);
+abstract contract StateDeploy is StateZero {
+
+    function setUp() public override virtual {
+        super.setUp();
+
+        // oldAssetId added into factory
+        njoinfactory.addFCash(oldAssetId, oldJoin.id());
+    }
+}
+
+
+contract StateDeployTest is StateDeploy {
+    using Mocks for *;
+
+    function testCannotCreateExisting() public {
+        console2.log('Cannot deploy notional that already exists / Re-use existing assetId');
+
         uint256 salt_1 = 1234;
         uint256 salt_2 = 1235;
 
-        address njoin = address(njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt_1));
-        address njoinGenerated = njoinfactory.getAddress(
-            njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity, currencyId),
+        NotionalJoin newJoin_1 = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt_1);
+        vm.expectRevert("Invalid newAssetId");
+        NotionalJoin newJoin_2 = njoinfactory.deploy(oldAssetId, newAssetId, address(6), salt_2);
+    }
+
+    function testCannotReferenceUnregisteredJoin() public {
+        console2.log('New Join should not be registered in Ladle');
+
+        uint256 salt = 1234;
+
+        vm.expectRevert("newAssetId join exists");
+        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, otherOldAssetId, address(newFcash), salt);
+    }
+
+    function testDeploy() public {
+        console2.log('Address of newJoin deployed should be the same as the pre-determined approach');
+
+        uint256 salt = 1234;
+
+        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt);
+
+        address newJoinGenerated = njoinfactory.getAddress(
+            njoinfactory.getByteCode(address(newFcash), underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
+            salt
+        );
+
+        assertTrue(address(newJoin) == address(newJoinGenerated));
+    }
+
+    function testDeployDifferingSalt() public {
+        console2.log('Address of newJoin deployed should change with different salts');
+
+        uint256 salt_1 = 1234;
+        uint256 salt_2 = 1235;
+
+        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt_1);
+        address newJoinGenerated = njoinfactory.getAddress(
+            njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
             salt_2
         );
 
-        assertTrue(njoin != njoinGenerated);
+        assertTrue(address(newJoin) != newJoinGenerated);
     }
+
 }

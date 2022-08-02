@@ -33,15 +33,18 @@ import '@yield-protocol/vault-interfaces/src/IOracle.sol';
 import '@yield-protocol/vault-interfaces/src/ILadle.sol';
 import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
 import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
+import {FCashWandExt} from 'test/fCashWandExt.sol';
 
 abstract contract StateAddCollateral is Test {
-    FCashWand public fcashwand;
+    using stdStorage for StdStorage;
+
+    FCashWandExt public fcashwand;
 
     NotionalMultiOracle public notionalMultiOracle;
     NotionalJoinFactory public njoinfactory;
     NotionalJoin public njoin;
-    FCashMock public fcash;
-    uint256 fCashId = 1;
+    FCashMock public oldFCash;
+    FCashMock public newFCash;
 
     DAIMock public dai;
     Join public daiJoin;
@@ -63,6 +66,10 @@ abstract contract StateAddCollateral is Test {
     bytes6 assetId = bytes6('01'); // fCash: fDAI | notionalId, ilkId
     bytes6 baseId = bytes6('02'); // base asset: DAI
     bytes6 seriesId = bytes6('03'); // arbitrary seriesId
+    bytes6 oldAssetId = bytes6('04'); 
+    bytes6 oldSeriesId = bytes6('05'); 
+    uint256 salt = 1234;
+
 
     function setUp() public virtual {
         user = address(1);
@@ -80,8 +87,11 @@ abstract contract StateAddCollateral is Test {
         weth = new WETH9Mock();
         vm.label(address(weth), 'weth token'); // for ladle deployment
 
-        fcash = new FCashMock(ERC20Mock(address(dai)), fCashId); // underlying = dai, fCashId = 1;
-        vm.label(address(fcash), 'fDAI token');
+        oldFCash = new FCashMock(ERC20Mock(address(dai)), 1); // underlying = dai, fCashId = 1;
+        vm.label(address(oldFCash), 'fDAI old token');
+
+        newFCash = new FCashMock(ERC20Mock(address(dai)), 2); // underlying = dai, fCashId = 2;
+        vm.label(address(newFCash), 'fDAI new token');
 
         // ... Oracles ...
         // oracle: FYDAI <-> DAi
@@ -122,7 +132,7 @@ abstract contract StateAddCollateral is Test {
         timelock = new Timelock(deployer, deployer);
         vm.label(address(timelock), 'Timelock');
 
-        fcashwand = new FCashWand(
+        fcashwand = new FCashWandExt(
             ICauldronGov(address(cauldron)),
             ILadleGov(address(ladle)),
             IWitchCustom(address(witch)),
@@ -136,22 +146,6 @@ abstract contract StateAddCollateral is Test {
 
         vm.stopPrank();
 
-        // ... Deploy NJoin ...
-        // Factory permissions
-        vm.prank(address(timelock));
-        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
-
-        // njoin params: fDAI
-        address asset = address(fcash);
-        address underlying = address(dai);
-        address underlyingJoin = address(daiJoin);
-        uint40 maturity = 1662048000; // 2022-09-02 00:00:00
-        uint16 currencyId = 1;
-        uint256 salt = 1234;
-
-        vm.prank(deployer);
-        njoin = njoinfactory.deploy(asset, underlying, underlyingJoin, maturity, currencyId, salt);
-        vm.label(address(njoin), 'njoin contract');
 
         //... Granting permissions ...
         vm.startPrank(deployer);
@@ -181,22 +175,93 @@ abstract contract StateAddCollateral is Test {
         cauldron.grantRole(Cauldron.addAsset.selector, deployer);
         cauldron.grantRole(Cauldron.addSeries.selector, deployer);
 
-        vm.stopPrank();
-
-        vm.startPrank(address(cloak));
-        NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
-        vm.stopPrank();
-
         // ... Instantiate Yield assets, oracles, series ...
-        vm.startPrank(deployer);
-
         // pre-populate base asset to cauldron
         cauldron.addAsset(baseId, address(dai));
         // register lending oracle (FYUSDC <-> USDC)
         cauldron.setLendingOracle(baseId, IOracle(lendingOracleMock));
         // create series
         cauldron.addSeries(seriesId, baseId, IFYToken(address(fytoken)));
+        cauldron.addSeries(oldSeriesId, baseId, IFYToken(address(fytoken)));
+
         vm.stopPrank();
+
+        // ... Deploy NJoin ...
+        // Factory permissions
+        vm.startPrank(address(timelock));
+        njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
+        njoinfactory.grantRole(NotionalJoinFactory.addFCash.selector, deployer);
+        vm.stopPrank();
+
+        setUpReferences();
+
+        // deploy new njoin
+        vm.prank(deployer);
+        njoin = njoinfactory.deploy(oldAssetId, assetId, address(newFCash), salt);
+        vm.label(address(njoin), 'njoin contract');
+        // register with Ladle
+        
+
+        vm.startPrank(address(cloak));
+        NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
+        vm.stopPrank();
+
+
+
+    }
+
+    function setUpReferences() public {
+
+        //... NotionalJoinFactory params ...
+        address asset = address(oldFCash);
+        address underlying = address(dai);
+        address underlyingJoin = address(daiJoin);
+        uint40 maturity = 1662048000; // 2022-09-02 00:00:00
+        uint16 currencyId = 1;
+        
+        // oldAssetId & oldJoin
+        NotionalJoin oldJoin = new NotionalJoin(asset, underlying, underlyingJoin, maturity, currencyId);
+        vm.prank(deployer);
+        njoinfactory.addFCash(oldAssetId, 1); //oldFCashId = 1
+
+        // _addAsset: AccessControl(joinAddress).grantRoles(sigs, address(ladle))    
+        NotionalJoin(oldJoin).grantRole(bytes4(0x00000000), address(fcashwand));
+
+        // Wand params
+        FCashWand.NotionalSource memory notionalSource;
+        notionalSource = FCashWand.NotionalSource({
+            notionalId: oldAssetId,
+            underlyingId: baseId,
+            underlying: address(dai)
+        });
+
+        CollateralWandBase.AuctionLimit memory auctionLimits;
+        auctionLimits = CollateralWandBase.AuctionLimit({
+            ilkId: oldAssetId,          // fCash
+            duration: 3600,
+            initialOffer: 0.5e18,  // initialOffer <= 1e18, "InitialOffer above 100%"
+            line: 1000000,        // maximum collateral that can be auctioned at the same time
+            dust: 5000,          // minimum collateral that must be left when buying, unless buying all | uint24
+            dec: 18
+        });
+
+        CollateralWandBase.DebtLimit[] memory debtLimits = new CollateralWandBase.DebtLimit[](1);
+            debtLimits[0] = CollateralWandBase.DebtLimit({
+            baseId: baseId, // DAI
+            ilkId: oldAssetId, // fCash
+            ratio: 1000000, // With 6 decimals. 1000000 == 100%
+            line: 10000000, // maximum debt for an underlying and ilk pair  | uint96
+            dust: 0, // minimum debt for an underlying and ilk pair  | uint24
+            dec: 18 // decimals: Multiplying factor (10**dec) for line and dust | uint8
+        });
+
+        CollateralWandBase.SeriesIlk[] memory seriesIlks = new CollateralWandBase.SeriesIlk[](1);
+
+        bytes6[] memory ilkId = new bytes6[](1);
+        ilkId[0] = oldAssetId;
+        seriesIlks[0] = CollateralWandBase.SeriesIlk({series: oldSeriesId, ilkIds: ilkId});
+        fcashwand.addfCashCollateralOld(oldAssetId, address(oldJoin), notionalSource, auctionLimits, debtLimits, seriesIlks);
+        
     }
 }
 
@@ -204,89 +269,24 @@ contract StateAddCollateralTest is StateAddCollateral {
     function testFCashWand() public {
         console2.log('fcashwand.addfCashCollateral()');
 
-        FCashWand.NotionalSource memory notionalSource;
-        notionalSource = FCashWand.NotionalSource({
-            notionalId: assetId,
-            underlyingId: baseId,
-            underlying: address(dai)
-        });
-
-        CollateralWandBase.AuctionLimit memory auctionLimits;
-        auctionLimits = CollateralWandBase.AuctionLimit({
-            ilkId: assetId, // fCash
-            duration: 3600,
-            initialOffer: 0.5e18, // initialOffer <= 1e18, "InitialOffer above 100%"
-            line: 1000000, // maximum collateral that can be auctioned at the same time
-            dust: 5000, // minimum collateral that must be left when buying, unless buying all | uint24
-            dec: 18
-        });
-
-        CollateralWandBase.DebtLimit[] memory debtLimits = new CollateralWandBase.DebtLimit[](1);
-        debtLimits[0] = CollateralWandBase.DebtLimit({
-            baseId: baseId, // DAI
-            ilkId: assetId, // fCash
-            ratio: 1000000, // With 6 decimals. 1000000 == 100%
-            line: 10000000, // maximum debt for an underlying and ilk pair  | uint96
-            dust: 0, // minimum debt for an underlying and ilk pair  | uint24
-            dec: 18 // decimals: Multiplying factor (10**dec) for line and dust | uint8
-        });
-
-        CollateralWandBase.SeriesIlk[] memory seriesIlks = new CollateralWandBase.SeriesIlk[](1);
-
-        bytes6[] memory ilkId = new bytes6[](1);
-        ilkId[0] = assetId;
-        seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
-
         vm.prank(deployer);
-        fcashwand.addfCashCollateral(assetId, address(njoin), notionalSource, auctionLimits, debtLimits, seriesIlks);
+        fcashwand.addfCashCollateral(assetId, address(njoin), oldAssetId, seriesId);
 
         // cauldron: ilk check
         assertTrue(cauldron.ilks(seriesId, assetId) == true);
     }
 }
 
+
+
 abstract contract StateBorrowOnNewCollateral is StateAddCollateral {
     function setUp() public virtual override {
         super.setUp();
 
-        FCashWand.NotionalSource memory notionalSource;
-        notionalSource = FCashWand.NotionalSource({
-            notionalId: assetId,
-            underlyingId: baseId,
-            underlying: address(dai)
-        });
-
-        CollateralWandBase.AuctionLimit memory auctionLimits;
-        auctionLimits = CollateralWandBase.AuctionLimit({
-            ilkId: assetId, // fCash
-            duration: 3600,
-            initialOffer: 0.5e18, // initialOffer <= 1e18, "InitialOffer above 100%"
-            line: 1000000, // maximum collateral that can be auctioned at the same time
-            dust: 5000, // minimum collateral that must be left when buying, unless buying all | uint24
-            dec: 18
-        });
-
-        CollateralWandBase.DebtLimit[] memory debtLimits = new CollateralWandBase.DebtLimit[](1);
-        debtLimits[0] = CollateralWandBase.DebtLimit({
-            baseId: baseId, // DAI
-            ilkId: assetId, // fCash
-            ratio: 1000000, // With 6 decimals. 1000000 == 100%
-            line: 10000000, // maximum debt for an underlying and ilk pair  | uint96
-            dust: 0, // minimum debt for an underlying and ilk pair  | uint24
-            dec: 18 // decimals: Multiplying factor (10**dec) for line and dust | uint8
-        });
-
-        CollateralWandBase.SeriesIlk[] memory seriesIlks = new CollateralWandBase.SeriesIlk[](1);
-
-        bytes6[] memory ilkId = new bytes6[](1);
-        ilkId[0] = assetId;
-        seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
-
-        vm.prank(deployer);
-        fcashwand.addfCashCollateral(assetId, address(njoin), notionalSource, auctionLimits, debtLimits, seriesIlks);
+        vm.startPrank(deployer);
+        fcashwand.addfCashCollateral(assetId, address(njoin), oldAssetId, seriesId);
 
         // ... Permissions ...
-        vm.startPrank(deployer);
 
         // build: ladle.build calls cauldron.build
         cauldron.grantRole(Cauldron.build.selector, address(ladle));
@@ -304,6 +304,7 @@ abstract contract StateBorrowOnNewCollateral is StateAddCollateral {
 contract StateBorrowOnNewCollateralTest is StateBorrowOnNewCollateral {
     function testBorrow() public {
         console2.log('Borrow USDC with fCash(fDAI) as collateral');
+
         vm.startPrank(user);
 
         // Build vault
@@ -311,14 +312,15 @@ contract StateBorrowOnNewCollateralTest is StateBorrowOnNewCollateral {
         IJoin collateralJoin = ladle.joins(assetId); //njoin
 
         // User: Mint & Post collateral
-        uint40 maturity = 1662048000; // 2022-09-02 00:00:00
+        uint40 maturity = 1662048000 + (86400 * 90); // 2022-09-02 00:00:00
         uint16 currencyId = 1;
         uint256 id = uint256(
             (bytes32(uint256(currencyId)) << 48) | (bytes32(uint256(maturity)) << 8) | bytes32(uint256(1))
         );
 
-        fcash.mint(user, id, 10e18, bytes('1')); // arbitrary data passed
-        fcash.safeTransferFrom(user, address(collateralJoin), id, 5e18, bytes('1')); // arbitrary data passed
+        // get collateral
+        newFCash.mint(user, id, 10e18, bytes('1')); // arbitrary data passed
+        newFCash.safeTransferFrom(user, address(collateralJoin), id, 5e18, bytes('1')); // arbitrary data passed
 
         // Borrow
         int128 ink = 5e18;
@@ -326,16 +328,17 @@ contract StateBorrowOnNewCollateralTest is StateBorrowOnNewCollateral {
         ladle.pour(vaultId, user, ink, art);
 
         // assert Borrow
-        assertTrue(fcash.balanceOf(user, id) == 5e18);
+        assertTrue(newFCash.balanceOf(user, id) == 5e18);
         assertTrue(fytoken.balanceOf(user) == 1e18);
 
         // Repay fyDAI and Withdraw collateral
         fytoken.transfer(address(fytoken), 1e18);
         ladle.pour(vaultId, user, -1 * ink, -1 * art);
-        vm.stopPrank();
 
         // assert Repay & Withdraw
         assertTrue(fytoken.balanceOf(user) == 0);
-        assertTrue(fcash.balanceOf(user, id) == 10e18);
+        assertTrue(newFCash.balanceOf(user, id) == 10e18);
+
+        vm.stopPrank();
     }
 }

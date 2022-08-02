@@ -56,6 +56,7 @@ contract NotionalJoinFactory is AccessControl {
     function deploy(
         bytes6 oldAssetId,
         bytes6 newAssetId,
+        address newAssetAddress,
         uint256 salt
     ) external auth returns (NotionalJoin) {
         require(fcashAssets[oldAssetId] != 0, "Invalid oldAssetId");  // ensure prior tenor of fCash exists (i.e. fDAIJUN22 to be mapped to fDAISEP22)  
@@ -65,8 +66,7 @@ contract NotionalJoinFactory is AccessControl {
         // get join of oldAssetId
         IJoinCustom oldJoin = IJoinCustom(address(ladle.joins(oldAssetId)));
         
-        // get asset, underlying, underlyingJoin addresses
-        address asset = oldJoin.asset(); 
+        // get underlying, underlyingJoin addresses
         address underlying = oldJoin.underlying(); 
         address underlyingJoin = oldJoin.underlyingJoin();
         
@@ -76,7 +76,7 @@ contract NotionalJoinFactory is AccessControl {
         uint40 maturity = oldMaturity + (86400 * 90);    // 90-days in seconds
   
         NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
-            asset,
+            newAssetAddress,
             underlying,
             underlyingJoin,
             maturity,
@@ -89,7 +89,7 @@ contract NotionalJoinFactory is AccessControl {
 
         _orchestrateJoin(address(join));
 
-        emit JoinCreated(asset, address(join));
+        emit JoinCreated(newAssetAddress, address(join));
         return join;
     }
 
@@ -137,6 +137,8 @@ contract NotionalJoinFactory is AccessControl {
     
     /// @notice To manually register existing fCash assetIds that were created 
     function addFCash(bytes6 assetId, uint256 fCashId) external auth {
+        require(fcashAssets[assetId] == 0, "AssetId exists");
+
         fcashAssets[assetId] = fCashId;
 
         emit Added(assetId, fCashId);
