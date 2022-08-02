@@ -133,13 +133,6 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYFRAX2212, FRAX, WAD.mul(100), BigNumber.from('0')],
 ]
 
-// Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
-// assetId, loanAmount
-export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI, WAD.mul(1000000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
-  //  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
-]
-
 // Ilks to accept for each series
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
@@ -157,7 +150,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
   [YSETH6MJD, FYETH2212, ZERO, ZERO_ADDRESS, true],
-  [YSDAI6MJD, FYDAI2212, WAD.mul(100000), flashMintModule, true],
+  [YSDAI6MJD, FYDAI2212, WAD.mul(10000), flashMintModule, true],
   [YSUSDC6MJD, FYUSDC2212, ZERO, ZERO_ADDRESS, true],
   [YSFRAX6MJD, FYFRAX2212, ZERO, ZERO_ADDRESS, false],
 ]
