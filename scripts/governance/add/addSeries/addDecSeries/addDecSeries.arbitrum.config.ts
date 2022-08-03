@@ -8,7 +8,7 @@ import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 import * as base_config from '../../../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const whales: Map<string, string> = base_config.whales
 
@@ -69,13 +69,6 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYDAI2212, DAI, WAD.mul(100), BigNumber.from('0')],
   [FYUSDC2212, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
-]
-
-// Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
-// assetId, loanAmount
-export const joinLoans: Array<[string, BigNumber]> = [
-  // [DAI, WAD.mul(1000000)], // Join(0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc) has 751342576505567524055158 DAI, pool(0x2e4B70D0F020E62885E82bf75bc123e1Aa8c79cA) has 28060258605059358888379 fyDAI. Surplus is 723282317900508165166779 DAI
-  //  [USDC, ONEUSDC.mul(10000)], // Join(0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4) has 2627478782835 USDC, pool(0x80142add3A597b1eD1DE392A56B2cef3d8302797) has 86578888882 fyUSDC. Surplus is 2540899893953 USDC.
 ]
 
 // Ilks to accept for each series

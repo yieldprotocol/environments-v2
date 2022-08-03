@@ -33,7 +33,7 @@ import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 import * as base_config from '../../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const whales: Map<string, string> = base_config.whales
 
