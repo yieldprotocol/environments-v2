@@ -10,6 +10,9 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
+// import * as tdly from "@tenderly/hardhat-tenderly";
+// tdly.setup();
+
 function infuraNodeUrl(network: any) {
   let infuraKey
   try {
@@ -33,7 +36,7 @@ function alchemyNodeUrl(network: any) {
 
 function arbNodeUrl(network: string) {
   switch (network) {
-    case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
+    // case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
     case "mainnet": return "https://arb1.arbitrum.io/rpc";
   }
   throw new Error(`Unknown arbitrum network ${network}`);
@@ -58,11 +61,11 @@ if (!etherscanKey) {
 
 module.exports = {
   solidity: {
-    version: '0.8.14',
+    version: '0.8.15',
     settings: {
       optimizer: {
         enabled: true,
-        runs: 1000,
+        runs: 100,
       }
     }
   },
@@ -99,8 +102,10 @@ module.exports = {
       loggingEnabled: true,
     },
     localhost: {
-      // chainId: 31337,
-      timeout: 600000
+      timeout: 600000,
+      chainId: 31337,
+      blockGasLimit: 50_000_000_000,
+      loggingEnabled: true,
     },
     ropsten: {
       accounts,
@@ -112,37 +117,31 @@ module.exports = {
       timeout: 600000,
       url: infuraNodeUrl('goerli'),
     },
-    kovan: {
-      accounts,
-      gasPrice: 1000000000,
-      timeout: 600000,
-      url: infuraNodeUrl('kovan')
-    },
-    rinkeby: {
-      accounts,
-      gasPrice: 2000000000,
-      gasMultiplier: 1.1,
-      timeout: 600000,
-      url: alchemyNodeUrl('rinkeby')
-    },
-    arb_rinkeby: {
-      accounts,
-      url: arbNodeUrl('rinkeby'),
-      gasPrice: 3000000000,
-      chainId: 421611,
-      timeout: 60000
+    tenderly: {
+      // update url of fork
+      url: "https://rpc.tenderly.co/fork/16a8ceea-4f9a-46da-8be7-9493139d1630",
+      // update chainId if necessary
+      forkNetwork: "1",
+      // update chainId if necessary
+      project: "v2",
+      // these below can probably remain unchanged
+      username: "Yield",
+      // blockGasLimit: 300_000_000_000,
+      // gasPrice: 50_000_000_000,
+      timeout: 60_000_000
     },
     mainnet: {
       accounts,
-      gasPrice: 50000000000,
-      gasMultiplier: 1.1,
-      timeout: 60000000,
+      blockGasLimit: 300_000_000_000,
+      gasPrice: 15_000_000_000,
+      timeout: 60_000_000,
+      gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
     },
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 500000000,
+      gasPrice: 3_000_000_000,
       chainId: 42161,
       timeout: 60000
     },

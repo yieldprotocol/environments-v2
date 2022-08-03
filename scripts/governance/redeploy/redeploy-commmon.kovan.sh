@@ -6,14 +6,14 @@ export CONF=$PWD/$HERE/redeploy.kovan.config
 RUN="npx hardhat run --network localhost"
 
 # # Phase 1: Libraries
-# $RUN $HERE/deployYieldMath.ts
-# $RUN $HERE/deployYieldMathExtensions.ts
-# $RUN $HERE/deployPoolView.ts
-# $RUN $HERE/deploySafeERC20Namer.ts
+# $RUN $HERE/../deploy/deployYieldMath.ts
+# $RUN $HERE/../deploy/deployYieldMathExtensions.ts
+# $RUN $HERE/../deploy/deployPoolView.ts
+# $RUN $HERE/../deploy/deploySafeERC20Namer.ts
 
 # # Phase 2: Governance
-# $RUN $HERE/deployTimelock.ts
-# $RUN $HERE/deployCloak.ts
+# $RUN $HERE/../deploy/deployTimelock.ts
+# $RUN $HERE/../deploy/deployCloak.ts
 # $RUN $HERE/orchestrateCloak.ts # orchestrate Cloak - propose
 # $RUN $HERE/orchestrateCloak.ts # orchestrate Cloak - approve
 # $RUN $HERE/orchestrateCloak.ts # orchestrate Cloak - execute
@@ -22,12 +22,12 @@ RUN="npx hardhat run --network localhost"
 # $RUN $HERE/grantRoles.ts # grant developer and governor roles - execute
 
 # # Phase 3: Oracles
-# $RUN $HERE/deployChainlinkOracle.ts
-# $RUN $HERE/deployCompoundOracle.ts
-# $RUN $HERE/deployCompositeOracle.ts
-# $RUN $HERE/deployLidoOracle.ts
-# $RUN $HERE/deployUniswapOracle.ts
-# $RUN $HERE/deployYearnOracle.ts
+# $RUN $HERE/../deploy/deployChainlinkOracle.ts
+# $RUN $HERE/../deploy/deployCompoundOracle.ts
+# $RUN $HERE/../deploy/deployCompositeOracle.ts
+# $RUN $HERE/../deploy/deployLidoOracle.ts
+# $RUN $HERE/../deploy/deployUniswapOracle.ts
+# $RUN $HERE/../deploy/deployYearnOracle.ts
 
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - propose
 $RUN $HERE/setupOracles.ts # setup oracles, data sources and price derivation paths - approve
