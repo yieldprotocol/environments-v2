@@ -57,6 +57,6 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   if (proposal.length > 0) {
     // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
   }
 })()
