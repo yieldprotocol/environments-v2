@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
-import '@yield-protocol/vault-interfaces/src/ICauldronGov.sol';
-import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
-import '@yield-protocol/vault-interfaces/src/IJoin.sol';
-import '@yield-protocol/vault-interfaces/src/IFYToken.sol';
+pragma solidity >=0.8.13;
+import '@yield-protocol/vault-v2/contracts/interfaces/ICauldronGov.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/IJoin.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 
