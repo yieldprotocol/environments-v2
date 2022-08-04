@@ -1,1 +1,1 @@
-module.exports = { YieldMath: "0x511707B1311d6C3319e7A5BE6edb12D3777Be0dA" }
+module.exports = { YieldMath: "0xF9D75FD94FD35c8014c4F7f8e3434755172e9005" }

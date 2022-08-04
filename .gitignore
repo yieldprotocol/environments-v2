@@ -51,4 +51,6 @@ crytic-export/
 dist/
 
 addresses/localhost/
+addresses/tenderly/
+
 .idea/

@@ -22,9 +22,9 @@ export const addSeriesProposal = async (
   ladle: Ladle,
   timelock: Timelock,
   cloak: EmergencyBrake,
+  joins: Map<string, string>, // assetId, joinAddress
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
-  newPools: Map<string, string>, // seriesId, poolAddress
-  newJoins: Map<string, string> // assetId, joinAddress
+  newPools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -42,7 +42,7 @@ export const addSeriesProposal = async (
     // const joinAddress = (await ladle.joins(baseId)) as string
     // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
     // else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', newJoins.get(baseId) as string, ownerAcc)) as Join
+    const join = (await ethers.getContractAt('Join', joins.get(baseId) as string, ownerAcc)) as Join
 
     // This test fails if adding the base in the same proposal. All tests should move on-chain.
     // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
@@ -67,6 +67,8 @@ export const addSeriesProposal = async (
       data: ladle.interface.encodeFunctionData('addPool', [seriesId, pool.address]),
     })
     console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
+
+    // ==== Orchestrate fyToken ====
 
     // Allow the fyToken to pull from the base join for redemption, and to push to mint with underlying
     proposal.push({

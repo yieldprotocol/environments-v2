@@ -1,0 +1,1 @@
+The deployment scripts are governance scripts, because they are not fragments. They are all expected to be executed without the need for permissions, and be on their own transaction (i.e. not batched thorugh the Timelock)
