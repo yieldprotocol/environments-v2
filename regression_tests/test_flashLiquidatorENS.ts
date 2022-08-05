@@ -85,4 +85,25 @@ describe('flash liquidator: ENS vaults', function () {
 
     expect(vault_is_liquidated).to.equal(true)
   })
+
+  it('liquidates multihop ENS vaults on May-12-2022 (block: 14760127)', async function () {
+    await fork(14760127)
+    const [_owner, liquidator] = await deploy_flash_liquidator()
+
+    const vault_to_be_auctioned = 'cb349d11fd4f023bbceac3ad'
+
+    const liquidator_logs = await run_liquidator(fixture, liquidator, {}, [vault_to_be_auctioned])
+
+    let vault_is_liquidated = false
+    for (const log_record of liquidator_logs) {
+      if (log_record['level'] == 'INFO' && log_record['fields']['message'] == 'Submitted buy order') {
+        const vault_id = log_record['fields']['vault_id']
+        if (vault_id == `"${vault_to_be_auctioned}"`) {
+          vault_is_liquidated = true
+        }
+      }
+    }
+
+    expect(vault_is_liquidated).to.equal(true)
+  })
 })

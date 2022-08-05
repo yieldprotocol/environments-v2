@@ -1,7 +1,7 @@
 import { waffle } from 'hardhat'
 import { getOriginalChainId, getOwnerOrImpersonate, verify } from '../../../shared/helpers'
 
-import ChainlinkAggregatorV3MockArtifact from '../../../artifacts/contracts/mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
+import ChainlinkAggregatorV3MockArtifact from '../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 
 import { ISourceMock } from '../../../typechain/ISourceMock'
 

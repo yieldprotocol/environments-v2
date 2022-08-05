@@ -18,7 +18,7 @@ import "@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.so
 import "@yield-protocol/vault-v2/contracts/other/notional/Transfer1155Module.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/ERC1155Mock.sol";
 import "@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol";
-import "@yield-protocol/vault-v2/contracts/utils/LidoWrapHandler.sol";
+import "@yield-protocol/vault-v2/contracts/utils/Giver.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
 import "@yield-protocol/vault-v2/contracts/FYToken.sol";
 import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
@@ -33,3 +33,7 @@ import "@yield-protocol/utils-v2/contracts/utils/Timelock.sol";
 import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 import "@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol";
 import "@yield-protocol/strategy-v2/contracts/Strategy.sol";
+import '@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol';
+import '@yield-protocol/vault-v2/contracts/other/convex/ConvexModule.sol';
+import '@yield-protocol/vault-v2/contracts/other/convex/ConvexJoin.sol';
+import '@yield-protocol/vault-v2/contracts/other/lido/StEthConverter.sol';

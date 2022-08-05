@@ -1,4 +1,4 @@
-import * as base_config from '../base.rinkeby.config'
+import * as base_config from '../../../base.rinkeby.config'
 
 export const developer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
 export const deployer: string = '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'
@@ -12,10 +12,10 @@ export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-import { USDC, DAI } from '../../../shared/constants'
-import { FUSDC2203, FDAI2203 } from '../../../shared/constants'
-import { FCASH_MAR22, FCASH_DAI, FCASH_USDC } from '../../../shared/constants'
-import { FYUSDC2203, FYDAI2203 } from '../../../shared/constants'
+import { USDC, DAI } from '../../../../../shared/constants'
+import { FUSDC2203, FDAI2203 } from '../../../../../shared/constants'
+import { FCASH_MAR22, FCASH_DAI, FCASH_USDC } from '../../../../../shared/constants'
+import { FYUSDC2203, FYDAI2203 } from '../../../../../shared/constants'
 
 export const fCashAddress = '0xbb7Fa5ec50E47af7e80fa110dac1d4F57C8B6797'
 

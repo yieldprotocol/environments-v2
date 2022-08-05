@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { Cauldron, Timelock } from '../../../typechain'
+import { Cauldron, Timelock } from '../../../../typechain'
 
-import { addIlksToSeriesProposal } from '../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
 const { developer, governance, protocol, seriesIlks } = require(process.env.CONF as string)
 

@@ -4,6 +4,7 @@ import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../shared/he
 import { orchestrateJoinProposal } from '../../fragments/assetsAndSeries/orchestrateJoinProposal'
 // import { updateChainlinkSourcesProposal } from '../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addAssetProposal } from '../../fragments/assetsAndSeries/addAssetProposal'
+import { reserveAssetProposal } from '../../fragments/assetsAndSeries/reserveAssetProposal'
 import { makeIlkProposal } from '../../fragments/assetsAndSeries/makeIlkProposal'
 import { makeBaseProposal } from '../../fragments/assetsAndSeries/makeBaseProposal'
 
@@ -13,10 +14,12 @@ import {
   CompositeMultiOracle,
   YearnVaultMultiOracle,
   CompoundMultiOracle,
+  AccumulatorMultiOracle,
 } from '../../../typechain'
 import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../typechain'
+import { ACCUMULATOR, FRAX } from '../../../shared/constants'
 const { protocol, governance, newJoins } = require(process.env.CONF as string)
-const { developer, deployer, assets, bases } = require(process.env.CONF as string)
+const { developer, deployer, assets, bases, assetsToReserve, accumulatorBases } = require(process.env.CONF as string)
 const {
   chainlinkDebtLimits,
   compositeDebtLimits,
@@ -53,6 +56,11 @@ const {
     protocol.get('compoundOracle') as string,
     ownerAcc
   )) as unknown as CompoundMultiOracle
+  const accumulatorOracle = (await ethers.getContractAt(
+    'AccumulatorMultiOracle',
+    protocol.get(ACCUMULATOR) as string,
+    ownerAcc
+  )) as unknown as AccumulatorMultiOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -81,7 +89,24 @@ const {
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
+  proposal = proposal.concat(await reserveAssetProposal(ownerAcc, cauldron, assetsToReserve))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
+
+  proposal = proposal.concat(
+    await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
+  )
+  proposal = proposal.concat(
+    await makeBaseProposal(
+      ownerAcc,
+      accumulatorOracle as unknown as IOracle,
+      cauldron,
+      ladle,
+      witch,
+      cloak,
+      accumulatorBases
+    )
+  )
+
   proposal = proposal.concat(
     await makeIlkProposal(
       ownerAcc,
@@ -117,9 +142,6 @@ const {
       yearnDebtLimits,
       yearnAuctionLimits
     )
-  )
-  proposal = proposal.concat(
-    await makeBaseProposal(ownerAcc, compoundOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
   )
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)

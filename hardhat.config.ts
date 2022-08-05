@@ -58,7 +58,7 @@ if (!etherscanKey) {
 
 module.exports = {
   solidity: {
-    version: '0.8.6',
+    version: '0.8.14',
     settings: {
       optimizer: {
         enabled: true,
@@ -95,10 +95,11 @@ module.exports = {
     hardhat: {
       accounts,
       chainId: 31337,
-      blockGasLimit: 300_000_000
+      blockGasLimit: 300_000_000,
+      loggingEnabled: true,
     },
     localhost: {
-      chainId: 31337,
+      // chainId: 31337,
       timeout: 600000
     },
     ropsten: {
@@ -141,7 +142,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 1000000000,
+      gasPrice: 500000000,
       chainId: 42161,
       timeout: 60000
     },

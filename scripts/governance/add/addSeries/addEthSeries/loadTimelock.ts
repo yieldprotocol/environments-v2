@@ -9,7 +9,7 @@ const { developer, assets } = require(process.env.CONF as string)
  * @dev This script loads the Timelock with Ether to initialize pools and strategies
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
+  // const chainId = await getOriginalChainId()
 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
