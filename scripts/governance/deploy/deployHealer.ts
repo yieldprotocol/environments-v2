@@ -5,8 +5,7 @@ import HealerModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/co
 import { Cauldron, HealerModule, IERC20 } from '../../../typechain'
 
 const { deployContract } = waffle
-const { developer, assets } = require(process.env.CONF as string)
-const { protocol } = require(process.env.CONF as string)
+import { developer, protocol } from '../base.mainnet.config'
 
 const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 
@@ -40,6 +39,8 @@ const deployHealerModule = async (
 }
 
 ;(async () => {
+  console.log('Made it here')
+
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const cauldron = (await ethers.getContractAt(
