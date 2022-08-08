@@ -39,8 +39,6 @@ const deployHealerModule = async (
 }
 
 ;(async () => {
-  console.log('Made it here')
-
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const cauldron = (await ethers.getContractAt(
