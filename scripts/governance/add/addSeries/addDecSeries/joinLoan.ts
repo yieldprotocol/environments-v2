@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
-import { WAD, FYDAI2203, FYUSDC2203, USDC } from '../../../../shared/constants'
-import { ERC20Mock, Ladle, Join } from '../../../../typechain'
+import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../../shared/helpers'
+import { WAD, FYDAI2203, FYUSDC2203, USDC } from '../../../../../shared/constants'
+import { ERC20Mock, Ladle, Join } from '../../../../../typechain'
 const { whales, joinLoans, governance, protocol } = require(process.env.CONF as string)
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on forks.
