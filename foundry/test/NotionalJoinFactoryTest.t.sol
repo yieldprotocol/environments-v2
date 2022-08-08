@@ -188,7 +188,7 @@ contract StateDeployTest is StateDeploy {
 
         NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt_1);
         address newJoinGenerated = njoinfactory.getAddress(
-            njoinfactory.getByteCode(asset, underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
+            njoinfactory.getByteCode(address(newFcash), underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
             salt_2
         );
 
