@@ -4,9 +4,9 @@ import {
   writeAddressMap,
   getOwnerOrImpersonate,
   getOriginalChainId,
-} from '../../../shared/helpers'
+} from '../../../../../shared/helpers'
 
-import { deployJoins } from '../../fragments/assetsAndSeries/deployJoins'
+import { deployJoins } from '../../../../fragments/assetsAndSeries/deployJoins'
 
 import { developer, assetsToAdd } from './addMKR.rinkeby.config'
 

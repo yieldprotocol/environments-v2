@@ -1,8 +1,8 @@
 import { ethers, waffle } from 'hardhat'
 import { getOwnerOrImpersonate, writeAddressMap, verify } from '../../../../../shared/helpers'
 
-import CollateralWandArtifact from '../../../../../artifacts/contracts/wands/CollateralWand.sol/CollateralWand.json'
-import { CollateralWand } from '../../../../../typechain'
+import ChainlinkCollateralWandArtifact from '../../../../../artifacts/contracts/wands/ChainlinkCollateralWand.sol/ChainlinkCollateralWand.json'
+import { ChainlinkCollateralWand } from '../../../../../typechain'
 import { ROOT } from '../../../../../shared/constants'
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
@@ -11,8 +11,7 @@ const { deployContract } = waffle
 /**
  * @dev This script deploys the CollateralWand
  */
-
-;async () => {
+;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(deployer)
   const cauldron = protocol.get('cauldron') as string
   const ladle = protocol.get('ladle') as string
@@ -20,20 +19,20 @@ const { deployContract } = waffle
   const chainlinkOracle = protocol.get('chainlinkOracle') as string
   const timelock = governance.get('timelock') as string
   const cloak = governance.get('cloak') as string
-  let collateralWand: CollateralWand
+  let collateralWand: ChainlinkCollateralWand
   let args = [cauldron, ladle, witch, cloak, chainlinkOracle]
-  if (protocol.get('collateralWand') === undefined) {
-    collateralWand = (await deployContract(ownerAcc, CollateralWandArtifact, args)) as CollateralWand
+  if (protocol.get('ChainlinkCollateralWand') === undefined) {
+    collateralWand = (await deployContract(ownerAcc, ChainlinkCollateralWandArtifact, args)) as ChainlinkCollateralWand
     console.log(`CollateralWand deployed at ${collateralWand.address}`)
     verify(collateralWand.address, args)
-    protocol.set('collateralWand', collateralWand.address)
+    protocol.set('ChainlinkCollateralWand', collateralWand.address)
     writeAddressMap('protocol.json', protocol)
   } else {
     collateralWand = (await ethers.getContractAt(
-      'CollateralWand',
-      protocol.get('collateralWand') as string,
+      'ChainlinkCollateralWand',
+      protocol.get('ChainlinkCollateralWand') as string,
       ownerAcc
-    )) as unknown as CollateralWand
+    )) as unknown as ChainlinkCollateralWand
     console.log(`Reusing CollateralWand at ${collateralWand.address}`)
   }
 
@@ -48,5 +47,4 @@ const { deployContract } = waffle
     console.log(`collateralWand.revokeRole(ROOT, deployer)`)
     while (!(await collateralWand.hasRole(ROOT, deployer))) {}
   }
-  return collateralWand
-}
+})()

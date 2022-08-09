@@ -3,22 +3,21 @@ import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 
 import { Cauldron, ChainlinkMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
-import { CollateralWand } from '../../../typechain'
+import { ChainlinkCollateralWand } from '../../../typechain'
 
 const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateCollateralWandProposal = async (
   ownerAcc: any,
   deployer: string,
-  timelock: Timelock,
-  join: Join
+  timelock: Timelock
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
   const collateralWand = (await ethers.getContractAt(
-    'CollateralWand',
-    protocol.get('collateralWand') as string,
+    'ChainlinkCollateralWand',
+    protocol.get('ChainlinkCollateralWand') as string,
     ownerAcc
-  )) as CollateralWand
+  )) as ChainlinkCollateralWand
 
   const cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
 
@@ -26,7 +25,7 @@ export const orchestrateCollateralWandProposal = async (
 
   const spotOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
-    protocol.get('chainlinkMultiOracle') as string,
+    protocol.get('chainlinkOracle') as string,
     ownerAcc
   )) as ChainlinkMultiOracle
 
@@ -43,7 +42,7 @@ export const orchestrateCollateralWandProposal = async (
     data: collateralWand.interface.encodeFunctionData('grantRole', [
       id(
         collateralWand.interface,
-        'addChainlinkCollateral(bytes6,address,address,address,(bytes6,address,bytes6,address,address)[],(bytes6,uint32,uint64,uint96,uint24,uint8)[],(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
+        'addChainlinkCollateral(bytes6,address,address,(bytes6,address,address),(bytes6,uint32,uint64,uint96,uint24,uint8),(bytes6,bytes6,uint32,uint96,uint24,uint8)[],(bytes6,bytes6[])[])'
       ),
       timelock.address,
     ]),
@@ -83,7 +82,7 @@ export const orchestrateCollateralWandProposal = async (
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('grantRole', [
-      id(ladle.interface, 'addJoin(bytes6,address'),
+      id(ladle.interface, 'addJoin(bytes6,address)'),
       collateralWand.address,
     ]),
   })

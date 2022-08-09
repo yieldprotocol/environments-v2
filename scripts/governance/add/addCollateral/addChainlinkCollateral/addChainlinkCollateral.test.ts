@@ -9,7 +9,7 @@ import {
   getOwnerOrImpersonate,
 } from '../../../../../shared/helpers'
 import { ERC20Mock, Cauldron, Ladle, FYToken, ChainlinkMultiOracle } from '../../../../../typechain'
-const { developer, whale, assetToAdd, seriesIlks,whales,assets } = require(process.env.CONF as string)
+const { developer, whale, assetToAdd, seriesIlks, whales, assets } = require(process.env.CONF as string)
 import { GNO, WAD } from '../../../../../shared/constants'
 
 /**
@@ -23,8 +23,6 @@ import { GNO, WAD } from '../../../../../shared/constants'
 
   const protocol = readAddressMappingIfExists('protocol.json')
 
-  
-  const asset = (await ethers.getContractAt('contracts/::mocks/ERC20Mock.sol:ERC20Mock',assets.get(GNO) as string, ownerAcc)) as unknown as ERC20Mock
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
     protocol.get('cauldron') as string,
@@ -37,6 +35,11 @@ import { GNO, WAD } from '../../../../../shared/constants'
     ownerAcc
   )) as unknown as ChainlinkMultiOracle
 
+  const asset = (await ethers.getContractAt(
+    'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+    assets.get(GNO) as string,
+    ownerAcc
+  )) as unknown as ERC20Mock
   // If using a mock, make a whale yourself :)
   let whaleAcc = await impersonate(whales.get(GNO) as string, WAD)
 
@@ -68,6 +71,7 @@ import { GNO, WAD } from '../../../../../shared/constants'
     // Post GNO and borrow fyDAI
     const assetJoinAddress = await ladle.joins(GNO)
     await asset.connect(whaleAcc).transfer(assetJoinAddress, posted)
+    console.log('transferred')
     await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted, borrowed)
     console.log(`posted and borrowed`)
 
