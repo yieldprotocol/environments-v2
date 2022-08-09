@@ -17,6 +17,7 @@ export const grantGovernorsProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {
+    // TODO: Uncomment this after the fix, but before merging the PR
     // proposal.push({
     //   target: timelock.address,
     //   data: timelock.interface.encodeFunctionData('grantRoles', [
