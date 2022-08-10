@@ -21,6 +21,7 @@ import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const pools: Map<string, string> = readAddressMappingIfExists('pools.json')
 export const strategies: Map<string, string> = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
