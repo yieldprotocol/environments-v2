@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
-import "src/fCashWand.sol";
+pragma solidity >=0.8.13;
 
+import "contracts/wands/fCashWand.sol";
 
 /// @dev fCash Wand to accept Notional.finance ERC1155 tokens as collateral.
 /// @author @calnix

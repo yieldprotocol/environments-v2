@@ -22,3 +22,24 @@
 [submodule "foundry/lib/yieldspace-tv"]
 	path = foundry/lib/yieldspace-tv
 	url = https://github.com/yieldprotocol/yieldspace-tv
+[submodule "lib/vault-v2"]
+	path = lib/vault-v2
+	url = https://github.com/yieldprotocol/vault-v2
+[submodule "lib/yield-utils-v2"]
+	path = lib/yield-utils-v2
+	url = https://github.com/yieldprotocol/yield-utils-v2
+[submodule "lib/yieldspace-tv"]
+	path = lib/yieldspace-tv
+	url = https://github.com/yieldprotocol/yieldspace-tv
+[submodule "lib/strategy-v2"]
+	path = lib/strategy-v2
+	url = https://github.com/yieldprotocol/strategy-v2
+[submodule "lib/dss-interfaces"]
+	path = lib/dss-interfaces
+	url = https://github.com/makerdao/dss-interfaces
+[submodule "lib/yieldspace-interfaces"]
+	path = lib/yieldspace-interfaces
+	url = https://github.com/yieldprotocol/yieldspace-interfaces
+[submodule "lib/yieldspace-v2"]
+	path = lib/yieldspace-v2
+	url = https://github.com/yieldprotocol/yieldspace-v2

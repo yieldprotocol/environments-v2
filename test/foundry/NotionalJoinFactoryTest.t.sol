@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
+pragma solidity ^0.8.14;
 
 import 'forge-std/src/Test.sol';
 import 'forge-std/src/console2.sol';
 import {Mocks} from '@yield-protocol/vault-v2/contracts/test/utils/Mocks.sol';
 
-import {NotionalJoinFactory, NotionalJoin} from '../src/NotionalJoinFactory.sol';
+import {NotionalJoinFactory, NotionalJoin} from 'contracts/NotionalJoinFactory.sol';
 import {NotionalMultiOracle} from '@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol';
 import {FCashMock} from '@yield-protocol/vault-v2/contracts/other/notional/FCashMock.sol';
 
@@ -16,9 +16,9 @@ import {ERC20Mock} from '@yield-protocol/vault-v2/contracts/mocks/ERC20Mock.sol'
 import {AccessControl} from '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {Timelock} from '@yield-protocol/utils-v2/contracts/utils/Timelock.sol';
 import {Ladle} from '@yield-protocol/vault-v2/contracts/Ladle.sol';
-import '@yield-protocol/vault-interfaces/src/ICauldron.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol';
 import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
-import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 
 abstract contract StateZero is Test {
     using stdStorage for StdStorage;

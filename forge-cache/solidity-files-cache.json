@@ -1,0 +1,3302 @@
+{
+  "_format": "ethers-rs-sol-cache-3",
+  "paths": {
+    "artifacts": "out",
+    "build_infos": "out/build-info",
+    "sources": "contracts",
+    "tests": "test/foundry",
+    "scripts": "script",
+    "libraries": [
+      "lib"
+    ]
+  },
+  "files": {
+    "contracts/NotionalJoinFactory.sol": {
+      "lastModificationDate": 1660107606264,
+      "contentHash": "71f0340d8d6452b68f0d8360c0867c8d",
+      "sourceName": "contracts/NotionalJoinFactory.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalJoin.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "IJoinCustom": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactory.sol/IJoinCustom.json"
+        },
+        "NotionalJoinFactory": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactory.sol/NotionalJoinFactory.json"
+        }
+      }
+    },
+    "contracts/Roller.sol": {
+      "lastModificationDate": 1660104693776,
+      "contentHash": "abede3219e3447db400495bb144da9bc",
+      "sourceName": "contracts/Roller.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+        "lib/yieldspace-tv/src/interfaces/IPool.sol"
+      ],
+      "versionRequirement": ">=0.8.15",
+      "artifacts": {
+        "ILadle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Roller.sol/ILadle.json"
+        },
+        "IStrategy": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Roller.sol/IStrategy.json"
+        },
+        "Roller": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Roller.sol/Roller.json"
+        }
+      }
+    },
+    "contracts/wands/ChainlinkCollateralWand.sol": {
+      "lastModificationDate": 1660104693776,
+      "contentHash": "83315371cd10e5c3c07cfc2689e03807",
+      "sourceName": "contracts/wands/ChainlinkCollateralWand.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/wands/CollateralWandBase.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "ChainlinkCollateralWand": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ChainlinkCollateralWand.sol/ChainlinkCollateralWand.json"
+        },
+        "IChainlinkMultiOracle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ChainlinkCollateralWand.sol/IChainlinkMultiOracle.json"
+        }
+      }
+    },
+    "contracts/wands/CollateralWandBase.sol": {
+      "lastModificationDate": 1660104693776,
+      "contentHash": "e930a58fb150d02ec102e459569f31fc",
+      "sourceName": "contracts/wands/CollateralWandBase.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "CollateralWandBase": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CollateralWandBase.sol/CollateralWandBase.json"
+        },
+        "IWitchCustom": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CollateralWandBase.sol/IWitchCustom.json"
+        }
+      }
+    },
+    "contracts/wands/SeriesWand.sol": {
+      "lastModificationDate": 1660104693776,
+      "contentHash": "9b35e71b59c608fd0f5abfd3d5e34e60",
+      "sourceName": "contracts/wands/SeriesWand.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "SeriesWand": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "SeriesWand.sol/SeriesWand.json"
+        }
+      }
+    },
+    "contracts/wands/fCashWand.sol": {
+      "lastModificationDate": 1660107334951,
+      "contentHash": "4c2af7b2480e59f89bd5c45fc5b3e161",
+      "sourceName": "contracts/wands/fCashWand.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/wands/CollateralWandBase.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "FCashWand": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWand.sol/FCashWand.json"
+        },
+        "ICauldronCustom": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWand.sol/ICauldronCustom.json"
+        },
+        "IJoinCustom": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWand.sol/IJoinCustom.json"
+        },
+        "INotionalMultiOracle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWand.sol/INotionalMultiOracle.json"
+        },
+        "IWitch": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWand.sol/IWitch.json"
+        }
+      }
+    },
+    "lib/dss-interfaces/src/dss/DaiAbstract.sol": {
+      "lastModificationDate": 1660105713734,
+      "contentHash": "c99dd027ff9e54c6250c18d04232b46d",
+      "sourceName": "lib/dss-interfaces/src/dss/DaiAbstract.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.5.12",
+      "artifacts": {
+        "DaiAbstract": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "DaiAbstract.sol/DaiAbstract.json"
+        }
+      }
+    },
+    "lib/forge-std/lib/ds-test/src/test.sol": {
+      "lastModificationDate": 1660050483733,
+      "contentHash": "962996f0e05d5218857a538a62d7c47e",
+      "sourceName": "lib/forge-std/lib/ds-test/src/test.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.5.0",
+      "artifacts": {
+        "DSTest": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "test.sol/DSTest.json"
+        }
+      }
+    },
+    "lib/forge-std/src/Script.sol": {
+      "lastModificationDate": 1660050482721,
+      "contentHash": "b313d0193442f5a12848be9c422a0064",
+      "sourceName": "lib/forge-std/src/Script.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "Script": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Script.sol/Script.json"
+        }
+      }
+    },
+    "lib/forge-std/src/Test.sol": {
+      "lastModificationDate": 1660050482721,
+      "contentHash": "53ceea3c517ab4a534fd89689f36aee9",
+      "sourceName": "lib/forge-std/src/Test.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "Test": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Test.sol/Test.json"
+        },
+        "stdError": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Test.sol/stdError.json"
+        },
+        "stdMath": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Test.sol/stdMath.json"
+        },
+        "stdStorage": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Test.sol/stdStorage.json"
+        }
+      }
+    },
+    "lib/forge-std/src/Vm.sol": {
+      "lastModificationDate": 1660050482721,
+      "contentHash": "87cafdea05acb705b59c6fa2a685d229",
+      "sourceName": "lib/forge-std/src/Vm.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "Vm": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Vm.sol/Vm.json"
+        }
+      }
+    },
+    "lib/forge-std/src/console.sol": {
+      "lastModificationDate": 1660050482721,
+      "contentHash": "100b8a33b917da1147740d7ab8b0ded3",
+      "sourceName": "lib/forge-std/src/console.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "console": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "console.sol/console.json"
+        }
+      }
+    },
+    "lib/forge-std/src/console2.sol": {
+      "lastModificationDate": 1660050482721,
+      "contentHash": "5df91f8e93efbfcccf68973dc1b74a70",
+      "sourceName": "lib/forge-std/src/console2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.4.22, <0.9.0",
+      "artifacts": {
+        "console2": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "console2.sol/console2.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/Cauldron.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "9d14fa2ddf07345ff855979b9d5b4746",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/Cauldron.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/constants/Constants.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastI128U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU128I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256I256.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U32.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WDivUp.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Cauldron": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Cauldron.sol/Cauldron.json"
+        },
+        "CauldronMath": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Cauldron.sol/CauldronMath.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/FYToken.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "a35cf5ccd603ea487425a591d2e1a985",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/FYToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/constants/Constants.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U32.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/token/SafeERC20Namer.sol",
+        "lib/yield-utils-v2/contracts/utils/AddressStringUtil.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "FYToken": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "FYToken.sol/FYToken.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/Join.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "4f398f02cc4ca0ba9ef2226a62865876",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/Join.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoinFactory.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/TransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Join": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Join.sol/Join.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/Ladle.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "402fa35cabfb68675e5d2b7b97c8b480",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/Ladle.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/dss-interfaces/src/dss/DaiAbstract.sol",
+        "lib/vault-v2/packages/foundry/contracts/LadleStorage.sol",
+        "lib/vault-v2/packages/foundry/contracts/Router.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU128I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/token/TransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+        "lib/yieldspace-tv/src/interfaces/IPool.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Ladle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Ladle.sol/Ladle.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/LadleStorage.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "3cae4deb800a6a8e87f759ee3892d431",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/LadleStorage.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/Router.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+        "lib/yieldspace-tv/src/interfaces/IPool.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "LadleStorage": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "LadleStorage.sol/LadleStorage.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/Router.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "5cfe2e517a4841bcfab12903a17da51c",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/Router.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Router": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Router.sol/Router.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/constants/Constants.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "c3ddd7ca09b5a70a63845d1b1e8fc739",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/constants/Constants.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Constants": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Constants.sol/Constants.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "e3c86fd61226fa77ac9d110acf3f0b70",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "DataTypes": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "DataTypes.sol/DataTypes.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "d006b5e053cd259483cd6030a1669800",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ICauldron": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ICauldron.sol/ICauldron.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "e09763bc5e22803dba05b2ff5a9bb695",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ICauldronGov": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ICauldronGov.sol/ICauldronGov.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol": {
+      "lastModificationDate": 1660105166737,
+      "contentHash": "239f4c3483bf5b77007605a70d555972",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IFYToken": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IFYToken.sol/IFYToken.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "23e8d39008cfb71bef7a1d71b0dd826b",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IJoin": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IJoin.sol/IJoin.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/IJoinFactory.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "1426c885a7cb4c4c89931c6e958405e3",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/IJoinFactory.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IJoinFactory": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IJoinFactory.sol/IJoinFactory.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/ILadle.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "c9dda380d9b4239f7a4710835a8da741",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/ILadle.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ILadle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ILadle.sol/ILadle.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "4a3e1dde77c4c8a5fc0733c6687c8139",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ILadleGov": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ILadleGov.sol/ILadleGov.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "30b2134a0cf6ebae5965586e008182b2",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IOracle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IOracle.sol/IOracle.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/mocks/DAIMock.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "edb95bddf06a0ced46309d608355b222",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/mocks/DAIMock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "DAIMock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "DAIMock.sol/DAIMock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/mocks/ERC20Mock.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "5ce609aeac6c027a3dbecb4ceac414e0",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/mocks/ERC20Mock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "ERC20Mock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ERC20Mock.sol/ERC20Mock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/mocks/WETH9Mock.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "eba84d7cb419eb11e008cd147e117de5",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/mocks/WETH9Mock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "WETH9Mock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "WETH9Mock.sol/WETH9Mock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/mocks/oracles/OracleMock.sol": {
+      "lastModificationDate": 1660105166741,
+      "contentHash": "ab94ce6bee1e837994859e6e1886d028",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/mocks/oracles/OracleMock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "OracleMock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "OracleMock.sol/OracleMock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol": {
+      "lastModificationDate": 1660105166749,
+      "contentHash": "47c2fbebd45a0f3c61ba2751d867fbfd",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "ERC1155": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ERC1155.sol/ERC1155.json"
+        },
+        "ERC1155TokenReceiver": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ERC1155.sol/ERC1155TokenReceiver.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/other/notional/FCashMock.sol": {
+      "lastModificationDate": 1660105166749,
+      "contentHash": "03c58bf490ab1e3c9c0e878ee44900eb",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/other/notional/FCashMock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/mocks/ERC20Mock.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol"
+      ],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "FCashMock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "FCashMock.sol/FCashMock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol": {
+      "lastModificationDate": 1660105166749,
+      "contentHash": "927fc9f85037f762f69573227d76b2e9",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "IBatchAction": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IBatchAction.sol/IBatchAction.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalJoin.sol": {
+      "lastModificationDate": 1660105166749,
+      "contentHash": "567984fdb7d3acf4ac9e6d9289ca1716",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalJoin.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "NotionalJoin": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoin.sol/NotionalJoin.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalMultiOracle.sol": {
+      "lastModificationDate": 1660105166749,
+      "contentHash": "abe6b15fef4a6f7e58ac5e2162877589",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalMultiOracle.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastBytes32Bytes6.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "NotionalMultiOracle": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalMultiOracle.sol/NotionalMultiOracle.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/contracts/test/utils/Mocks.sol": {
+      "lastModificationDate": 1660105166753,
+      "contentHash": "4e03652ea0f39aaaf25fcb36976b36f2",
+      "sourceName": "lib/vault-v2/packages/foundry/contracts/test/utils/Mocks.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "LenientMock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Mocks.sol/LenientMock.json"
+        },
+        "Mocks": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Mocks.sol/Mocks.json"
+        },
+        "StrictMock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Mocks.sol/StrictMock.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol": {
+      "lastModificationDate": 1660105173073,
+      "contentHash": "c78ab7ef731c2b040b3e709f5b2dc9bd",
+      "sourceName": "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "IERC3156FlashBorrower": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IERC3156FlashBorrower.sol/IERC3156FlashBorrower.json"
+        }
+      }
+    },
+    "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol": {
+      "lastModificationDate": 1660105173073,
+      "contentHash": "cbd1895591d4e92d0ed90ebb1cc14c44",
+      "sourceName": "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol"
+      ],
+      "versionRequirement": ">=0.6.0, <0.9.0",
+      "artifacts": {
+        "IERC3156FlashLender": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IERC3156FlashLender.sol/IERC3156FlashLender.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/access/AccessControl.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "8a72d8f5255345c5756cc72a8952b620",
+      "sourceName": "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "AccessControl": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "AccessControl.sol/AccessControl.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastBytes32Bytes6.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "1517e7ed2f7ac6dd534029f6caece1fe",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastBytes32Bytes6.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastBytes32Bytes6": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastBytes32Bytes6.sol/CastBytes32Bytes6.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastI128U128.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "a4af767d399ee29347a94d1633f17764",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastI128U128.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastI128U128": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastI128U128.sol/CastI128U128.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastU128I128.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "26dc9b60bd60a6dcd51fab2d587c33da",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastU128I128.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastU128I128": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastU128I128.sol/CastU128I128.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastU256I128.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "37d64589850d31a5dfb6528f900d829d",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastU256I128.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastU256I128": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastU256I128.sol/CastU256I128.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastU256I256.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "42bf1e0957675e72478cd67aa847750b",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastU256I256.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastU256I256": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastU256I256.sol/CastU256I256.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastU256U128.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "d2a92b89ba9969dad3e9e1e8f564949f",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastU256U128": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastU256U128.sol/CastU256U128.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/cast/CastU256U32.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "02dd017e6c33aeffffc8863219dff720",
+      "sourceName": "lib/yield-utils-v2/contracts/cast/CastU256U32.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "CastU256U32": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "CastU256U32.sol/CastU256U32.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "b3c9f38a2e2d83933765e38a85f34ad0",
+      "sourceName": "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IWETH9": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IWETH9.sol/IWETH9.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/math/WDiv.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "b8bd66da6da78a7e65a1d8454db43bb4",
+      "sourceName": "lib/yield-utils-v2/contracts/math/WDiv.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "WDiv": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "WDiv.sol/WDiv.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/math/WDivUp.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "8a0c498965f0664c214fe65e4f354fb6",
+      "sourceName": "lib/yield-utils-v2/contracts/math/WDivUp.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "WDivUp": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "WDivUp.sol/WDivUp.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/math/WMul.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "ef183d30c1c658e5d9b682f3caef6ca2",
+      "sourceName": "lib/yield-utils-v2/contracts/math/WMul.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "WMul": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "WMul.sol/WMul.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/math/WMulUp.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "f0b3b174ddb2f13b4bb8a9ed7c1649d4",
+      "sourceName": "lib/yield-utils-v2/contracts/math/WMulUp.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "WMulUp": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "WMulUp.sol/WMulUp.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/ERC20.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "717becb3eba94d8d3607a84ebd6f88c4",
+      "sourceName": "lib/yield-utils-v2/contracts/token/ERC20.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ERC20": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ERC20.sol/ERC20.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/ERC20Permit.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "3c6edf8072c1596a888c4126630cd43e",
+      "sourceName": "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ERC20Permit": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "ERC20Permit.sol/ERC20Permit.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/IERC20.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "776f140b8a9f56eddcebbf9a07982c7c",
+      "sourceName": "lib/yield-utils-v2/contracts/token/IERC20.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IERC20": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IERC20.sol/IERC20.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "98c2b0a5592ce23838c86d5663eef914",
+      "sourceName": "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IERC20Metadata": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IERC20Metadata.sol/IERC20Metadata.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/IERC2612.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "e420861b28de80b995a8247ab92ca787",
+      "sourceName": "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IERC2612": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IERC2612.sol/IERC2612.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "3139246a87e7b2f4ef4277bd843233f1",
+      "sourceName": "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.6.0",
+      "artifacts": {
+        "MinimalTransferHelper": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "MinimalTransferHelper.sol/MinimalTransferHelper.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/SafeERC20Namer.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "8445798b8a676ac7cd422d54ed545d66",
+      "sourceName": "lib/yield-utils-v2/contracts/token/SafeERC20Namer.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/utils/AddressStringUtil.sol"
+      ],
+      "versionRequirement": ">=0.5.0",
+      "artifacts": {
+        "SafeERC20Namer": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "SafeERC20Namer.sol/SafeERC20Namer.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/token/TransferHelper.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "eff4e6db8a790aaf3f14907f3b1be793",
+      "sourceName": "lib/yield-utils-v2/contracts/token/TransferHelper.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": ">=0.6.0",
+      "artifacts": {
+        "TransferHelper": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "TransferHelper.sol/TransferHelper.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/utils/AddressStringUtil.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "e955c127dcc488f43ec8b850a4c7394f",
+      "sourceName": "lib/yield-utils-v2/contracts/utils/AddressStringUtil.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.5.0",
+      "artifacts": {
+        "AddressStringUtil": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "AddressStringUtil.sol/AddressStringUtil.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "d699a2c7283761e17a6606c08c9f14d8",
+      "sourceName": "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "EmergencyBrake": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "EmergencyBrake.sol/EmergencyBrake.json"
+        },
+        "IEmergencyBrake": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "EmergencyBrake.sol/IEmergencyBrake.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/utils/IsContract.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "59c2b4a265b68c1b3ba7666d47ae7fe0",
+      "sourceName": "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IsContract": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IsContract.sol/IsContract.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "cba8ca48b27e56024f1c7fffe20ce4e5",
+      "sourceName": "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.0",
+      "artifacts": {
+        "RevertMsgExtractor": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "RevertMsgExtractor.sol/RevertMsgExtractor.json"
+        }
+      }
+    },
+    "lib/yield-utils-v2/contracts/utils/Timelock.sol": {
+      "lastModificationDate": 1660105341627,
+      "contentHash": "70a1ed0f35e2ab97119f559080eb3951",
+      "sourceName": "lib/yield-utils-v2/contracts/utils/Timelock.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ITimelock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Timelock.sol/ITimelock.json"
+        },
+        "Timelock": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Timelock.sol/Timelock.json"
+        }
+      }
+    },
+    "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol": {
+      "lastModificationDate": 1660105506540,
+      "contentHash": "42635be0efb2c303de716a54a8a031e3",
+      "sourceName": "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": ">=0.8.15",
+      "artifacts": {
+        "IMaturingToken": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IMaturingToken.sol/IMaturingToken.json"
+        }
+      }
+    },
+    "lib/yieldspace-tv/src/interfaces/IPool.sol": {
+      "lastModificationDate": 1660105506540,
+      "contentHash": "3ce4171ad5a9681938f99d9abd10931a",
+      "sourceName": "lib/yieldspace-tv/src/interfaces/IPool.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol"
+      ],
+      "versionRequirement": null,
+      "artifacts": {
+        "IPool": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "IPool.sol/IPool.json"
+        }
+      }
+    },
+    "test/foundry/NotionalJoinFactoryTest.t.sol": {
+      "lastModificationDate": 1660107414671,
+      "contentHash": "ea5eb25a43ebbf3d425b6c328a01cf11",
+      "sourceName": "test/foundry/NotionalJoinFactoryTest.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/NotionalJoinFactory.sol",
+        "lib/dss-interfaces/src/dss/DaiAbstract.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/vault-v2/packages/foundry/contracts/Join.sol",
+        "lib/vault-v2/packages/foundry/contracts/Ladle.sol",
+        "lib/vault-v2/packages/foundry/contracts/LadleStorage.sol",
+        "lib/vault-v2/packages/foundry/contracts/Router.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoinFactory.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/DAIMock.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/ERC20Mock.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/FCashMock.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalMultiOracle.sol",
+        "lib/vault-v2/packages/foundry/contracts/test/utils/Mocks.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastBytes32Bytes6.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU128I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+        "lib/yield-utils-v2/contracts/token/TransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol",
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+        "lib/yield-utils-v2/contracts/utils/Timelock.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+        "lib/yieldspace-tv/src/interfaces/IPool.sol"
+      ],
+      "versionRequirement": "^0.8.14",
+      "artifacts": {
+        "StateDeploy": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactoryTest.t.sol/StateDeploy.json"
+        },
+        "StateDeployTest": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactoryTest.t.sol/StateDeployTest.json"
+        },
+        "StateZero": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactoryTest.t.sol/StateZero.json"
+        },
+        "StateZeroTest": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "NotionalJoinFactoryTest.t.sol/StateZeroTest.json"
+        }
+      }
+    },
+    "test/foundry/fCashWandTest.t.sol": {
+      "lastModificationDate": 1660109341146,
+      "contentHash": "b39381d5ac84eb39218a97ad1840b95d",
+      "sourceName": "test/foundry/fCashWandTest.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/NotionalJoinFactory.sol",
+        "contracts/wands/CollateralWandBase.sol",
+        "contracts/wands/fCashWand.sol",
+        "lib/dss-interfaces/src/dss/DaiAbstract.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/vault-v2/packages/foundry/contracts/Cauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/FYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/Join.sol",
+        "lib/vault-v2/packages/foundry/contracts/Ladle.sol",
+        "lib/vault-v2/packages/foundry/contracts/LadleStorage.sol",
+        "lib/vault-v2/packages/foundry/contracts/Router.sol",
+        "lib/vault-v2/packages/foundry/contracts/constants/Constants.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoinFactory.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadle.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/DAIMock.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/ERC20Mock.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/WETH9Mock.sol",
+        "lib/vault-v2/packages/foundry/contracts/mocks/oracles/OracleMock.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/ERC1155.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/FCashMock.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/IBatchAction.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/other/notional/NotionalMultiOracle.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashBorrower.sol",
+        "lib/vault-v2/packages/foundry/lib/ERC3156/contracts/interfaces/IERC3156FlashLender.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastBytes32Bytes6.sol",
+        "lib/yield-utils-v2/contracts/cast/CastI128U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU128I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256I128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256I256.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U32.sol",
+        "lib/yield-utils-v2/contracts/interfaces/IWETH9.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WDivUp.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20.sol",
+        "lib/yield-utils-v2/contracts/token/ERC20Permit.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/token/IERC2612.sol",
+        "lib/yield-utils-v2/contracts/token/MinimalTransferHelper.sol",
+        "lib/yield-utils-v2/contracts/token/SafeERC20Namer.sol",
+        "lib/yield-utils-v2/contracts/token/TransferHelper.sol",
+        "lib/yield-utils-v2/contracts/utils/AddressStringUtil.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol",
+        "lib/yield-utils-v2/contracts/utils/IsContract.sol",
+        "lib/yield-utils-v2/contracts/utils/RevertMsgExtractor.sol",
+        "lib/yield-utils-v2/contracts/utils/Timelock.sol",
+        "lib/yieldspace-tv/src/interfaces/IMaturingToken.sol",
+        "lib/yieldspace-tv/src/interfaces/IPool.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "StateAddCollateral": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWandTest.t.sol/StateAddCollateral.json"
+        },
+        "StateAddCollateralTest": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWandTest.t.sol/StateAddCollateralTest.json"
+        },
+        "StateBorrowOnNewCollateral": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWandTest.t.sol/StateBorrowOnNewCollateral.json"
+        },
+        "StateBorrowOnNewCollateralTest": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWandTest.t.sol/StateBorrowOnNewCollateralTest.json"
+        }
+      }
+    },
+    "test/foundry/mocks/Witch.sol": {
+      "lastModificationDate": 1660109414565,
+      "contentHash": "4c098f845c99e6a8ad6b0d5b451f7524",
+      "sourceName": "test/foundry/mocks/Witch.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldron.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadle.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U128.sol",
+        "lib/yield-utils-v2/contracts/cast/CastU256U32.sol",
+        "lib/yield-utils-v2/contracts/math/WDiv.sol",
+        "lib/yield-utils-v2/contracts/math/WDivUp.sol",
+        "lib/yield-utils-v2/contracts/math/WMul.sol",
+        "lib/yield-utils-v2/contracts/math/WMulUp.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "Witch": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "Witch.sol/Witch.json"
+        }
+      }
+    },
+    "test/foundry/mocks/fCashWandExt.sol": {
+      "lastModificationDate": 1660108759950,
+      "contentHash": "6dc607edc5a00d0033b04bc603d390e4",
+      "sourceName": "test/foundry/mocks/fCashWandExt.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/wands/CollateralWandBase.sol",
+        "contracts/wands/fCashWand.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/DataTypes.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ICauldronGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IFYToken.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IJoin.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/ILadleGov.sol",
+        "lib/vault-v2/packages/foundry/contracts/interfaces/IOracle.sol",
+        "lib/yield-utils-v2/contracts/access/AccessControl.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20.sol",
+        "lib/yield-utils-v2/contracts/token/IERC20Metadata.sol",
+        "lib/yield-utils-v2/contracts/utils/EmergencyBrake.sol"
+      ],
+      "versionRequirement": ">=0.8.13",
+      "artifacts": {
+        "FCashWandExt": {
+          "0.8.15+commit.e14f2714.Linux.gcc": "fCashWandExt.sol/FCashWandExt.json"
+        }
+      }
+    }
+  }
+}

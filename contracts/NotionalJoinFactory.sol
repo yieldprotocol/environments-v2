@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
+pragma solidity >=0.8.13;
 
-import './NotionalJoin.sol'; //import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol'
+import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
-import {ILadleGov} from '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
+import {ILadleGov} from '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 
 interface IJoinCustom {
     /// @dev ERC1155 asset managed by this notional join

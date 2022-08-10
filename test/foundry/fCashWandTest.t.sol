@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.14;
+pragma solidity >=0.8.13;
 
 import 'forge-std/src/Test.sol';
 import 'forge-std/src/console2.sol';
 
-import '../src/fCashWand.sol';
-import {NotionalJoin} from '../src/NotionalJoin.sol';
-import {NotionalJoinFactory} from '../src/NotionalJoinFactory.sol';
+import 'contracts/wands/fCashWand.sol';
+import {NotionalJoinFactory, NotionalJoin} from 'contracts/NotionalJoinFactory.sol';
 import {NotionalMultiOracle} from '@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol';
 import {FCashMock} from '@yield-protocol/vault-v2/contracts/other/notional/FCashMock.sol';
 
@@ -17,23 +16,23 @@ import {WETH9Mock} from '@yield-protocol/vault-v2/contracts/mocks/WETH9Mock.sol'
 
 import {Cauldron} from '@yield-protocol/vault-v2/contracts/Cauldron.sol';
 import {Ladle} from '@yield-protocol/vault-v2/contracts/Ladle.sol';
-import {Witch} from '@yield-protocol/vault-v2/contracts/Witch.sol';
+import {Witch} from 'test/foundry/mocks/Witch.sol';
 import {Timelock} from '@yield-protocol/utils-v2/contracts/utils/Timelock.sol';
 import {AccessControl} from '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake, EmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 
-import {IFYToken} from '@yield-protocol/vault-interfaces/src/IFYToken.sol';
+import {IFYToken} from '@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol';
 import {FYToken} from '@yield-protocol/vault-v2/contracts/FYToken.sol';
-import {IJoin} from '@yield-protocol/vault-interfaces/src/IJoin.sol';
+import {IJoin} from '@yield-protocol/vault-v2/contracts/interfaces/IJoin.sol';
 import {OracleMock} from '@yield-protocol/vault-v2/contracts/mocks/oracles/OracleMock.sol';
 
-import '@yield-protocol/vault-interfaces/src/ICauldron.sol';
-import '@yield-protocol/vault-interfaces/src/ICauldronGov.sol';
-import '@yield-protocol/vault-interfaces/src/IOracle.sol';
-import '@yield-protocol/vault-interfaces/src/ILadle.sol';
-import '@yield-protocol/vault-interfaces/src/ILadleGov.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ICauldronGov.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/IOracle.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
+import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
-import {FCashWandExt} from 'test/fCashWandExt.sol';
+import {FCashWandExt} from 'test/foundry/mocks/fCashWandExt.sol';
 
 abstract contract StateAddCollateral is Test {
     using stdStorage for StdStorage;
