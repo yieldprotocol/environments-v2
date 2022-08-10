@@ -127,7 +127,11 @@ export const proposeApproveExecute = async (
     // Propose
     let signerAcc
     if (developer) {
-      signerAcc = await ethers.getSigner(developer)
+      if (network.name === 'localhost' || network.name === 'tenderly') {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
@@ -162,7 +166,11 @@ export const proposeApproveExecute = async (
     // Execute
     let signerAcc
     if (developer) {
-      signerAcc = await ethers.getSigner(developer)
+      if (network.name === 'localhost' || network.name === 'tenderly') {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
