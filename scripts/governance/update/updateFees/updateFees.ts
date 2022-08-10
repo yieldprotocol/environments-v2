@@ -5,7 +5,7 @@
 import { ethers } from 'hardhat'
 
 import { proposeApproveExecute } from '../../../../shared/helpers'
-import { setFeesProposal } from '../../../fragments/pools/setFeesProposal'
+import { poolFeesProposal } from '../../../fragments/pools/poolFeesProposal'
 import { Timelock } from '../../../../typechain'
 
 const { governance, developer, pools, poolFees } = require(process.env.CONF as string)
@@ -15,7 +15,7 @@ const { governance, developer, pools, poolFees } = require(process.env.CONF as s
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await setFeesProposal(pools, poolFees))
+  proposal = proposal.concat(await poolFeesProposal(pools, poolFees))
 
   // Propose, Approve & execute
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
