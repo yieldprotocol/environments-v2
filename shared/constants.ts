@@ -121,3 +121,5 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
+
+export const YSDAI6MMSTOKEN = ethers.utils.formatBytes32String(YSDAI6MMS).slice(0, 14)

@@ -2507,10 +2507,9 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-v2@^0.17.1-rc4":
-  version "0.17.1-rc4"
-  resolved "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.17.1-rc4.tgz"
-  integrity sha512-5+wvNtc2epmB9KhxZ5Hez2D90ll6eAoeA+ux1g7PxAcs1hbRZTl8GX5ZDDv5hgvbjYbbyh8NcU9bW/h5Wy2aEQ==
+"@yield-protocol/vault-v2@../vault-v2/packages/foundry/yield-protocol-vault-v2-0.18.0.tgz":
+  version "0.18.0"
+  resolved "../vault-v2/packages/foundry/yield-protocol-vault-v2-0.18.0.tgz#c674a6964430da94806a9435d10696564e9766e6"
 
 "@yield-protocol/yieldspace-tv@^0.1.3rc3":
   version "0.1.3-rc3"

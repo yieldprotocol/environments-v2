@@ -15,9 +15,12 @@ import {
   EWETH,
   EDAI,
   EUSDC,
+  YSDAI6MMS,
+  YSDAI6MMSTOKEN,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
+import { ethers } from 'ethers'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
@@ -44,6 +47,7 @@ export const whales: Map<string, string> = new Map([
   [YVDAI, '0x50da1e9c57c334bb3a7bc10ddb6860331ec3c62a'],
   [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
   [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
+  [YSDAI6MMSTOKEN, '0x232c412d3613d5915fc1ebf6eb8d14f11b6a260d'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -62,6 +66,7 @@ export const assets: Map<string, string> = new Map([
   [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
   [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
   [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
+  [YSDAI6MMSTOKEN, '0x7ACFe277dEd15CabA6a8Da2972b1eb93fe1e2cCD'],
 ])
 
 export const joins: Map<string, string> = new Map([
