@@ -1,13 +1,12 @@
 import { ethers, waffle } from 'hardhat'
+import { ETH } from '../../../shared/constants'
 import { verify, writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 import HealerModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/modules/HealerModule.sol/HealerModule.json'
 
 import { Cauldron, HealerModule, IERC20 } from '../../../typechain'
 
 const { deployContract } = waffle
-import { developer, protocol } from '../base.mainnet.config'
-
-const wethAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+import { assets, developer, protocol } from '../base.mainnet.config'
 
 /**
  * @dev This script deploys the HealerModule
@@ -20,12 +19,9 @@ const deployHealerModule = async (
 ): Promise<HealerModule> => {
   let transferModule: HealerModule
   if (protocol.get('transferModule') === undefined) {
-    transferModule = (await deployContract(ownerAcc, HealerModuleArtifact, [
-      cauldron.address,
-      wethAddress,
-    ])) as HealerModule
+    transferModule = (await deployContract(ownerAcc, HealerModuleArtifact, [cauldron.address, weth])) as HealerModule
     console.log(`HealerModule deployed at ${transferModule.address}`)
-    verify(transferModule.address, [cauldron.address, wethAddress])
+    verify(transferModule.address, [cauldron.address, weth])
   } else {
     transferModule = (await ethers.getContractAt(
       'HealerModule',
@@ -47,7 +43,7 @@ const deployHealerModule = async (
     ownerAcc
   )) as unknown as Cauldron
 
-  const weth = (await ethers.getContractAt('IWETH9', wethAddress, ownerAcc)) as unknown as IERC20
+  const weth = assets.get(ETH) as unknown as IERC20
 
   const healerModule = await deployHealerModule(ownerAcc, cauldron, weth, protocol)
   protocol.set('healerModule', healerModule.address)
