@@ -31,7 +31,7 @@
     "@yield-protocol/strategy-v2": "0.11.3",
     "@yield-protocol/utils-v2": "2.5.2",
     "@yield-protocol/vault-interfaces": "2.4.1",
-    "@yield-protocol/vault-v2": "^0.18.1",
+    "@yield-protocol/vault-v2": "0.18.2-rc.0",
     "@yield-protocol/yieldspace-interfaces": "2.3.2",
     "@yield-protocol/yieldspace-v2": "^0.12.3",
     "@yield-protocol/yieldspace-tv":"^0.1.5",
