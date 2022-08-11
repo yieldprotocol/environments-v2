@@ -2530,6 +2530,11 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-interfaces/-/yieldspace-interfaces-2.3.2.tgz"
   "version" "2.3.2"
 
+"@yield-protocol/yieldspace-tv@^0.1.5":
+  "integrity" "sha512-BMIb2uKCm5DUR+0I3zbvJaiIJWXa+dboNfvmUG3KoDpnf2P2tKJYRrKfIcZ2U4NXyQeWYvqUiHo1YpdUI4PkZw=="
+  "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.5.tgz"
+  "version" "0.1.5"
+
 "@yield-protocol/yieldspace-v2@^0.12.3":
   "integrity" "sha512-Lq5eggILP3QGk7pSmmC8tntI0KS3hXbqdoKIcjUEF6KhfZkxJtHQrZR9qnrrhOyDombAwT0iVvZps8EVFI8AqA=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-v2/-/yieldspace-v2-0.12.3.tgz"
