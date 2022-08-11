@@ -107,19 +107,9 @@ module.exports = {
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
-    ropsten: {
-      accounts,
-      url: infuraNodeUrl('ropsten')
-    },
-    goerli: {
-      accounts,
-      gasPrice: 1000000000,
-      timeout: 600000,
-      url: infuraNodeUrl('goerli'),
-    },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/16a8ceea-4f9a-46da-8be7-9493139d1630",
+      url: "https://rpc.tenderly.co/fork/1bc96f6b-5329-414c-a0bd-b74402ec350e",
       // update chainId if necessary
       forkNetwork: "1",
       // update chainId if necessary

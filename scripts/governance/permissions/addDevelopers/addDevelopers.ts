@@ -1,21 +1,15 @@
 import { ethers } from 'hardhat'
-import {
-  readAddressMappingIfExists,
-  getOriginalChainId,
-  getOwnerOrImpersonate,
-  proposeApproveExecute,
-} from '../../../shared/helpers'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { grantDeveloperProposal } from '../../fragments/permissions/grantDeveloperProposal'
-import { Timelock, EmergencyBrake } from '../../../typechain'
-import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.config'
+import { grantDevelopersProposal } from '../../../fragments/permissions/grantDevelopersProposal'
+import { Timelock, EmergencyBrake } from '../../../../typechain'
+
+const { newDevelopers, developerToImpersonate } = require(process.env.CONF as string)
 
 /**
  * @dev This script gives developer privileges to one or more accounts.
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
 
   const governance = readAddressMappingIfExists('governance.json')
@@ -33,9 +27,7 @@ import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.c
   )) as unknown as EmergencyBrake
 
   let proposal: Array<{ target: string; data: string }> = []
-  for (let dev of newDevelopers) {
-    proposal = proposal.concat(await grantDeveloperProposal(timelock, cloak, dev))
-  }
+  proposal = proposal.concat(await grantDevelopersProposal(timelock, cloak, newDevelopers))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
 })()
