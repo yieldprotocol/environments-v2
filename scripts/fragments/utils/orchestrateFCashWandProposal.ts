@@ -88,7 +88,7 @@ export const orchestrateFCashWandProposal = async (
   proposal.push({
     target: spotOracle.address,
     data: spotOracle.interface.encodeFunctionData('grantRole', [
-      id(spotOracle.interface, 'setSource(bytes6,address,bytes6,address,address)'),
+      id(spotOracle.interface, 'setSource(bytes6,bytes6,address)'),
       fCashWand.address,
     ]),
   })
