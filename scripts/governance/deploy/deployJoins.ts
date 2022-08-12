@@ -5,7 +5,7 @@ import { deployJoins } from '../../fragments/assetsAndSeries/deployJoins'
 
 import { Timelock } from '../../../typechain'
 const { governance } = require(process.env.CONF as string)
-const { developer, assetsToAdd } = require(process.env.CONF as string)
+const { developer, assetsToAdd, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys a Join

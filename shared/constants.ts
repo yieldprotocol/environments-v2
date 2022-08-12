@@ -122,4 +122,11 @@ export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
 
-export const YSDAI6MMSTOKEN = ethers.utils.formatBytes32String(YSDAI6MMS).slice(0, 14)
+export const YSDAI6MMSTOKEN = '0x' + ethers.utils.formatBytes32String(YSDAI6MMS).slice(10, 22) // Yield Strategy DAI 6M Mar Sep
+export const YSDAI6MJDTOKEN = '0x' + ethers.utils.formatBytes32String(YSDAI6MJD).slice(10, 22) // Yield Strategy DAI 6M Jun Dec
+export const YSUSDC6MMSTOKEN = '0x' + ethers.utils.formatBytes32String(YSUSDC6MMS).slice(10, 22) // Yield Strategy USDC 6M Mar Sep
+export const YSUSDC6MJDTOKEN = '0x' + ethers.utils.formatBytes32String(YSUSDC6MJD).slice(10, 22) // Yield Strategy USDC 6M Jun Dec
+export const YSETH6MMSTOKEN = '0x' + ethers.utils.formatBytes32String(YSETH6MMS).slice(10, 22) // Yield Strategy ETH 6M Mar Sep
+export const YSETH6MJDTOKEN = '0x' + ethers.utils.formatBytes32String(YSETH6MJD).slice(10, 22) // Yield Strategy ETH 6M Jun Dec
+export const YSFRAX6MMSTOKEN = '0x' + ethers.utils.formatBytes32String(YSFRAX6MMS).slice(10, 22) // Yield Strategy FRAX 6M Mar Sep
+export const YSFRAX6MJDTOKEN = '0x' + ethers.utils.formatBytes32String(YSFRAX6MJD).slice(10, 22) // Yield Strategy FRAX 6M Jun Dec

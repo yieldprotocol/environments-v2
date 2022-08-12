@@ -8,7 +8,7 @@ import {
   impersonate,
   getOwnerOrImpersonate,
 } from '../../../../../shared/helpers'
-import { ERC20, Cauldron, Ladle, FYToken, StrategyOracle } from '../../../../../typechain'
+import { ERC20, Cauldron, Ladle, FYToken, StrategyOracle, CompositeMultiOracle } from '../../../../../typechain'
 import { FYETH2206, FYETH2209, WAD } from '../../../../../shared/constants'
 const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
 
@@ -36,7 +36,13 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
         assets.get(ilk) as string, // Strategy Token
         ownerAcc
       )) as unknown as ERC20
-
+      // if (seriesId == '0x303330370000'&&ilk=='')
+      //   oracle = (await ethers.getContractAt(
+      //     'CompositeMultiOracle',
+      //     protocol.get('compositeOracle') as string,
+      //     ownerAcc
+      //   )) as unknown as CompositeMultiOracle
+      // else
       oracle = (await ethers.getContractAt(
         'StrategyOracle',
         protocol.get('strategyOracle') as string,
@@ -54,8 +60,21 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       var borrowed = BigNumber.from(10)
         .pow(await fyToken.decimals())
         .mul(dust)
-      if (seriesId == FYETH2206 || seriesId == FYETH2209) borrowed = borrowed.div(1000000)
-      console.log(await oracle.peek(bytesToBytes32(ilk), bytesToBytes32(series.baseId), borrowed))
+      // if (seriesId == FYETH2206 || seriesId == FYETH2209) borrowed = borrowed.div(1000000)
+      // console.log(
+      //   await oracle.peek(
+      //     bytesToBytes32(series.baseId),
+      //     bytesToBytes32(ilk),
+      //     BigNumber.from(10).pow(await fyToken.decimals())
+      //   )
+      // )
+      // console.log(
+      //   await oracle.peek(
+      //     bytesToBytes32(ilk),
+      //     bytesToBytes32(series.baseId),
+      //     BigNumber.from(10).pow(await fyToken.decimals())
+      //   )
+      // )
       const posted = (await oracle.peek(bytesToBytes32(series.baseId), bytesToBytes32(ilk), borrowed))[0]
         .mul(ratio)
         .div(1000000)
