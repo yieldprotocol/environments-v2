@@ -80,6 +80,7 @@ contract FCashWand is AccessControl, CollateralWandBase {
 
     /// @notice Function to add fCash as collateral
     /// @param assetId Incoming fCash assetId (e.g. fDAISEP22)
+    /// @param joinAddress JoinAddress of new assetId
     /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
     /// @param seriesId New series which takes incoming fCash as ilk
     function addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriesId) external auth {

@@ -35,7 +35,7 @@ const { deployContract } = waffle
       protocol.get('FCashWand') as string,
       ownerAcc
     )) as unknown as FCashWand
-    console.log(`Reusing CollateralWand at ${fCashWand.address}`)
+    console.log(`Reusing FCashWand at ${fCashWand.address}`)
   }
 
   if (!(await fCashWand.hasRole(ROOT, timelock))) {

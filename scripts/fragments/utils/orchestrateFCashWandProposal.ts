@@ -1,6 +1,7 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
+import { bytesToString } from '../../../shared/helpers'
 
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
 import { FCashWand } from '../../../typechain'
@@ -9,8 +10,7 @@ const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateFCashWandProposal = async (
   ownerAcc: any,
   deployer: string,
-  timelock: Timelock,
-  join: Join
+  timelock: Timelock
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -50,19 +50,6 @@ export const orchestrateFCashWandProposal = async (
     target: fCashWand.address,
     data: fCashWand.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-
-  // proposal.push({
-  //   target: join.address,
-  //   data: join.interface.encodeFunctionData('grantRole', [
-  //     id(join.interface, 'grantRoles(bytes4[],address)'),
-  //     collateralWand.address,
-  //   ]),
-  // })
-
-  // proposal.push({
-  //   target: join.address,
-  //   data: join.interface.encodeFunctionData('grantRole', ['0x00000000', collateralWand.address]),
-  // })
 
   proposal.push({
     target: cauldron.address,

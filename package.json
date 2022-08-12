@@ -33,8 +33,8 @@
     "@yield-protocol/vault-interfaces": "2.4.1",
     "@yield-protocol/vault-v2": "0.18.2-rc.0",
     "@yield-protocol/yieldspace-interfaces": "2.3.2",
+    "@yield-protocol/yieldspace-tv": "^0.1.5",
     "@yield-protocol/yieldspace-v2": "^0.12.3",
-    "@yield-protocol/yieldspace-tv":"^0.1.5",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
@@ -67,7 +67,6 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
-    "@yield-protocol/yieldspace-tv": "^0.1.5",
     "latest": "^0.2.0"
   }
 }
