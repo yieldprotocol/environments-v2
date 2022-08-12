@@ -24,8 +24,6 @@ const {
  */
 
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const protocol = readAddressMappingIfExists('protocol.json')
@@ -37,6 +35,7 @@ const {
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
+
   const fCashWand = (await ethers.getContractAt(
     'FCashWand',
     governance.get('fCashWand') as string,
