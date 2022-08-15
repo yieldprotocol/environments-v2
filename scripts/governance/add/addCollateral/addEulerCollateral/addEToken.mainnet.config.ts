@@ -12,7 +12,20 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 export const assets: Map<string, string> = base_config.assets
 
-import { DAI, EDAI, ETH, EUSDC, EWETH, FYDAI2209, FYETH2209, FYUSDC2209, USDC } from '../../../../../shared/constants'
+import {
+  DAI,
+  EDAI,
+  ETH,
+  EUSDC,
+  EWETH,
+  FYDAI2209,
+  FYDAI2212,
+  FYETH2209,
+  FYETH2212,
+  FYUSDC2209,
+  FYUSDC2212,
+  USDC,
+} from '../../../../../shared/constants'
 
 /// @notice Oracle sources to be added to ETokenMultiOracle
 /// @param underlying asset id (bytes6 tag)
@@ -66,4 +79,7 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2209, [EDAI]],
   [FYUSDC2209, [EUSDC]],
   [FYETH2209, [EWETH]],
+  [FYDAI2212, [EDAI]],
+  [FYUSDC2212, [EUSDC]],
+  [FYETH2212, [EWETH]],
 ]
