@@ -7,6 +7,7 @@ import { BigNumber } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 const paths = new Map([
   [1, './addresses/mainnet/'],
@@ -42,10 +43,19 @@ export const getOriginalChainId = async (): Promise<number> => {
 
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
+  if (network.name == 'tenderly') {
+    console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
+    await network.provider.send('tenderly_addBalance', [
+      impersonatedAddress,
+      ethers.utils.parseEther('1000').toHexString(),
+    ])
+
+    return await ethers.getSigner(impersonatedAddress)
+  }
   let [ownerAcc] = await ethers.getSigners()
   const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
   if (on_fork) {
-    console.log(`Running on a fork, impersonating ${impersonatedAddress}`)
+    console.log(`Impersonating ${impersonatedAddress} on localhost`)
     await hre.network.provider.request({
       method: 'hardhat_impersonateAccount',
       params: [impersonatedAddress],
@@ -61,21 +71,36 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
   return ownerAcc
 }
 
-/** @dev Impersonate an account and optionally add some ether to it */
+/** @dev Impersonate an account and optionally add some ether to it. Works for hardhat or tenderly. */
 export const impersonate = async (account: string, balance?: BigNumber) => {
-  await hre.network.provider.request({
-    method: 'hardhat_impersonateAccount',
-    params: [account],
-  })
-  const ownerAcc = await ethers.getSigner(account)
+  if (network.name !== 'tenderly') {
+    await hre.network.provider.request({
+      method: 'hardhat_impersonateAccount',
+      params: [account],
+    })
+  }
 
   if (balance !== undefined) {
     await hre.network.provider.request({
-      method: 'hardhat_setBalance',
-      params: [account, '0x1000000000000000000000'], // ethers.utils.hexlify(balance)?
+      method: hre.network.name === 'tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
+      params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
     })
   }
-  return ownerAcc
+
+  console.log(`Impersonated ${account}`)
+  return await ethers.getSigner(account)
+}
+
+/** @dev Advance time by a number of seconds */
+export const advanceTime = async (time: number) => {
+  if (hre.network.name === 'tenderly') {
+    await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
+    await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+  } else {
+    await network.provider.send('evm_increaseTime', [time])
+    await network.provider.send('evm_mine', [])
+  }
+  console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
 
 /**
@@ -84,95 +109,72 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const proposeApproveExecute = async (
-  raw_timelock: Timelock,
+  timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
   multisig?: string,
   developer?: string
 ) => {
   // Propose, approve, execute
-  const txHash = await raw_timelock.hash(proposal)
-  const on_fork = true
-  console.log(`Proposal: ${txHash}; on fork: ${on_fork}`)
+  const txHash = await timelock.hash(proposal)
+  console.log(`Proposal: ${txHash}`)
 
-  let timelock = raw_timelock
-  if (on_fork && hre.network.name === 'localhost') {
-    // If running on a mainnet fork, impersonating the multisig will work
-    if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-    console.log(`Running on a fork, impersonating multisig at ${multisig}`)
-
-    await hre.network.provider.request({
-      method: 'hardhat_impersonateAccount',
-      params: [multisig],
-    })
-    // Make sure the multisig has Ether
-    await hre.network.provider.request({
-      method: 'hardhat_setBalance',
-      params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
-    })
-    const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-    timelock = await timelock.connect(multisigAcc)
-  }
   // Depending on the proposal state:
   // - propose
-  // - approve (if in a fork, impersonating the multisig)
-  // - or execute (if in a fork, applying a time delay)
+  // - approve (if in a fork, impersonating the multisig, and advancing time three days afterwards)
+  // - or execute
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
     // Propose
-    if (hre.network.name === 'tenderly' && developer) {
-      timelock = timelock.connect(await ethers.getSigner(developer))
-      console.log(`Developer: ${developer}\n`)
+    let signerAcc
+    if (developer) {
+      if (network.name === 'localhost' || network.name === 'tenderly') {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
     } else {
-      let [ownerAcc] = await ethers.getSigners()
-      console.log(`Developer: ${ownerAcc.address}\n`)
+      ;[signerAcc] = await ethers.getSigners()
     }
-
-    const tx = await timelock.propose(proposal)
-    console.log(`Calldata:\n${tx.data}\n`)
+    console.log(`Developer: ${signerAcc.address}\n`)
+    console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
+    await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')
+    let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
-    if (on_fork && hre.network.name === 'localhost') {
-      // If running on a mainnet fork, impersonating the multisig will work
+    if (network.name === 'localhost' || network.name === 'tenderly') {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-      console.log(`Running on a fork, impersonating multisig at ${multisig}`)
+      signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
 
-      await hre.network.provider.request({
-        method: 'hardhat_impersonateAccount',
-        params: [multisig],
-      })
-      // Make sure the multisig has Ether
-      await hre.network.provider.request({
-        method: 'hardhat_setBalance',
-        params: [multisig, '0x100000000000000000000'], // ethers.utils.hexlify(balance)?
-      })
-      const multisigAcc = await ethers.getSigner(multisig as unknown as string)
-      await timelock.connect(multisigAcc).approve(txHash)
-    } else if (hre.network.name === 'tenderly' && multisig) {
-      const multisigAcc = await ethers.getSigner(multisig)
-      await timelock.connect(multisigAcc).approve(txHash)
+      await timelock.connect(signerAcc).approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) {}
+      console.log(`Approved ${txHash}`)
+
+      // Since we are in a testing environment, let's advance time
+      advanceTime(3 * 24 * 60 * 60)
     } else {
       // On kovan we have approval permissions
-      await timelock.approve(txHash)
+      signerAcc = (await ethers.getSigners())[0]
+      await timelock.connect(signerAcc).approve(txHash)
+      while ((await timelock.proposals(txHash)).state < 2) {}
+      console.log(`Approved ${txHash}`)
     }
-    while ((await timelock.proposals(txHash)).state < 2) {}
-    console.log(`Approved ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 2) {
     console.log('Executing')
-    if (on_fork) {
-      // Adding time travel since we have moved the delay to 2 days on mainnet
-      await hre.network.provider.request({ method: 'evm_increaseTime', params: [60 * 60 * 24 * 2] })
-      await hre.network.provider.request({ method: 'evm_mine', params: [] })
-    }
-
-    if (hre.network.name === 'tenderly' && developer) {
-      timelock = timelock.connect(await ethers.getSigner(developer))
-    }
-
     // Execute
-    await timelock.execute(proposal)
+    let signerAcc
+    if (developer) {
+      if (network.name === 'localhost' || network.name === 'tenderly') {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
+    } else {
+      ;[signerAcc] = await ethers.getSigners()
+    }
+    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
     while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
   }
@@ -286,10 +288,14 @@ export function mapToJson(map: Map<any, any>): string {
   )
 }
 
+export function writeVerificationHelper(contract: string, address: string) {
+  writeFileSync(join('addresses', getNetworkName(), `${contract}.js`), `module.exports = { ${contract}: "${address}" }`)
+}
+
 export function writeAddressMap(out_file: string, map_or_dictionary: Record<string, any> | Map<any, any>) {
-  let map = new Map<any, any>()
+  let map = readAddressMappingIfExists(out_file)
   if (map_or_dictionary instanceof Map) {
-    map = map_or_dictionary
+    map = new Map([...map, ...map_or_dictionary])
   } else {
     for (let k in map_or_dictionary) {
       map.set(k, map_or_dictionary[k])
@@ -335,6 +341,7 @@ export function getNetworkName(): string {
  */
 export function getAddressMappingFilePath(file_name: string): string {
   const full_path = join('addresses', getNetworkName(), file_name)
+  // console.log("full_path", full_path)
   if (!existsSync(dirname(full_path))) {
     console.log(`Directory for ${full_path} doesn't exist, creating it`)
     mkdirSync(dirname(full_path))
