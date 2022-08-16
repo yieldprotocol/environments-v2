@@ -17,13 +17,13 @@ const { deployContract } = waffle
   const cauldron = protocol.get('cauldron') as string
   const ladle = protocol.get('ladle') as string
   const witch = protocol.get('witch') as string
-  const notionalOracle = protocol.get('notionalOracle') as string
+  const chainlinkOracle = protocol.get('chainlinkOracle') as string
   const timelock = governance.get('timelock') as string
   const cloak = governance.get('cloak') as string
+  console.log(`i made it here`)
 
   let fCashWand: FCashWand
-  let args = [cauldron, ladle, witch, cloak, notionalOracle]
-
+  let args = [cauldron, ladle, witch, cloak, chainlinkOracle]
   if (protocol.get('fCashWand') === undefined) {
     fCashWand = (await deployContract(ownerAcc, FCashWandArtifact, args)) as FCashWand
     console.log(`FCashWand deployed at ${fCashWand.address}`)
