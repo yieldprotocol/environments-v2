@@ -13,7 +13,15 @@ import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import { IOracle, Cauldron, Ladle, Witch, Timelock, EmergencyBrake, ETokenMultiOracle } from '../../../../../typechain'
+import {
+  IOracle,
+  Cauldron,
+  Ladle,
+  Timelock,
+  EmergencyBrake,
+  ETokenMultiOracle,
+  WitchOld,
+} from '../../../../../typechain'
 import { orchestrateEulerOracleProposal } from '../../../../fragments/oracles/orchestrateEulerOracleProposal'
 import { updateEulerSourcesProposal } from '../../../../fragments/oracles/updateEulerSourcesProposal'
 
@@ -42,7 +50,11 @@ const { developer, deployer, auctionLimits, debtLimits, seriesIlks, assets, eule
     ownerAcc
   )) as unknown as Cauldron
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = (await ethers.getContractAt(
+    'WitchOld',
+    protocol.get('witch') as string,
+    ownerAcc
+  )) as unknown as WitchOld
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,

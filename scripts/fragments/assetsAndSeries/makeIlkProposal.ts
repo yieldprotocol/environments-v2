@@ -11,13 +11,13 @@ import { id } from '@yield-protocol/utils-v2'
 import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 
-import { IOracle, Cauldron, Ladle, Witch, Join, EmergencyBrake } from '../../../typechain'
+import { IOracle, Cauldron, Join, EmergencyBrake, WitchOld } from '../../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any,
   spotOracle: IOracle,
   cauldron: Cauldron,
-  witch: Witch,
+  witch: WitchOld,
   cloak: EmergencyBrake,
   joins: Map<string, string>,
   debtLimits: Array<[string, string, number, number, number, number]>,

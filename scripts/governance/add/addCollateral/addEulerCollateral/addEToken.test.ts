@@ -1,10 +1,22 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
-import { EDAI, EULER, EUSDC, EWETH, FYDAI2209, FYETH2209, FYUSDC2209, WAD } from '../../../../../shared/constants'
+import {
+  EDAI,
+  EULER,
+  EUSDC,
+  EWETH,
+  FYDAI2209,
+  FYDAI2212,
+  FYETH2209,
+  FYETH2212,
+  FYUSDC2209,
+  FYUSDC2212,
+  WAD,
+} from '../../../../../shared/constants'
 import { bytesToBytes32, impersonate, readAddressMappingIfExists } from '../../../../../shared/helpers'
 import {
   Cauldron__factory,
-  ERC20Mock__factory,
+  ERC20__factory,
   FYToken__factory,
   IOracle__factory,
   Ladle__factory,
@@ -21,11 +33,14 @@ const protocol: Map<string, string> = readAddressMappingIfExists('protocol.json'
     [FYDAI2209, EDAI],
     [FYUSDC2209, EUSDC],
     [FYETH2209, EWETH],
+    [FYDAI2212, EDAI],
+    [FYUSDC2212, EUSDC],
+    [FYETH2212, EWETH],
   ]
 
   for (let [seriesId, ilkId] of seriesIlks) {
     const whale = await impersonate(whales.get(ilkId)!, WAD)
-    const ilkERC20 = ERC20Mock__factory.connect(assets.get(ilkId)!, whale)
+    const ilkERC20 = ERC20__factory.connect(assets.get(ilkId)!, whale)
     const ilkBalanceBefore = await ilkERC20.balanceOf(whale.address)
     const ilkERC20name = await ilkERC20.symbol()
     const ilkERC20Decimals = await ilkERC20.decimals()
