@@ -3,7 +3,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { bytesToString } from '../../../shared/helpers'
 
-import { Cauldron, NotionalMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
+import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
 import { FCashWand } from '../../../typechain'
 
 const { protocol, governance } = require(process.env.CONF as string)
@@ -24,9 +24,9 @@ export const orchestrateFCashWandProposal = async (
 
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
 
-  const spotOracle = (await ethers.getContractAt(
+  const notionalOracle = (await ethers.getContractAt(
     'NotionalMultiOracle',
-    protocol.get('notionalMultiOracle') as string,
+    protocol.get('notionalOracle') as string,
     ownerAcc
   )) as NotionalMultiOracle
 
@@ -36,7 +36,18 @@ export const orchestrateFCashWandProposal = async (
     ownerAcc
   )) as unknown as EmergencyBrake
 
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = (await ethers.getContractAt(
+    'OldWitch',
+    protocol.get('witch') as string,
+    ownerAcc
+  )) as unknown as OldWitch
+
+  console.log(`fCashWand: ${fCashWand.address}`)
+  console.log(`cauldron: ${cauldron.address}`)
+  console.log(`ladle: ${ladle.address}`)
+  console.log(`notionalOracle: ${notionalOracle.address}`)
+  console.log(`cloak: ${cloak.address}`)
+  console.log(`witch: ${witch.address}`)
 
   proposal.push({
     target: fCashWand.address,
@@ -67,15 +78,15 @@ export const orchestrateFCashWandProposal = async (
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('grantRole', [
-      id(ladle.interface, 'addJoin(bytes6,address'),
+      id(ladle.interface, 'addJoin(bytes6,address)'),
       fCashWand.address,
     ]),
   })
 
   proposal.push({
-    target: spotOracle.address,
-    data: spotOracle.interface.encodeFunctionData('grantRole', [
-      id(spotOracle.interface, 'setSource(bytes6,bytes6,address)'),
+    target: notionalOracle.address,
+    data: notionalOracle.interface.encodeFunctionData('grantRole', [
+      id(notionalOracle.interface, 'setSource(bytes6,bytes6,address)'),
       fCashWand.address,
     ]),
   })

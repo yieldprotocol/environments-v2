@@ -23,6 +23,12 @@ const { deployContract } = waffle
 
   let fCashWand: FCashWand
   let args = [cauldron, ladle, witch, cloak, notionalOracle]
+  console.log(`cauldron: ${cauldron}`)
+  console.log(`ladle: ${ladle}`)
+  console.log(`witch: ${witch}`)
+  console.log(`notionalOracle: ${notionalOracle}`)
+  console.log(`timelock: ${timelock}`)
+  console.log(`cloak: ${cloak}`)
 
   if (protocol.get('fCashWand') === undefined) {
     fCashWand = (await deployContract(ownerAcc, FCashWandArtifact, args)) as FCashWand
@@ -50,5 +56,8 @@ const { deployContract } = waffle
     console.log(`fCashWand.revokeRole(ROOT, deployer)`)
     while (!(await fCashWand.hasRole(ROOT, deployer))) {}
   }
+
+  console.log(`completed`)
+
   return fCashWand
 })()
