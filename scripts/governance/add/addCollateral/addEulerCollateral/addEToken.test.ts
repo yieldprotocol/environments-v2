@@ -26,7 +26,7 @@ import { assets, whales } from '../../../base.mainnet.config'
 const protocol: Map<string, string> = readAddressMappingIfExists('protocol.json')
 
 /**
- * @dev This script tests FCASH as a collateral
+ * @dev This script tests ETokens as a collateral
  */
 ;(async () => {
   const seriesIlks: Array<[string, string]> = [
