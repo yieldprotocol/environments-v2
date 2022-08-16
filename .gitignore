@@ -58,3 +58,4 @@ addresses/tenderly/
 # Foundry
 foundry/out
 out/
+forge-cache/
