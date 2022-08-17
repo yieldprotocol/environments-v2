@@ -99,7 +99,7 @@ const { developer, seriesIlks, assets } = require(process.env.CONF as string)
 
       // Repay fyEth and withdraw
       await fyToken.connect(whaleAcc).transfer(fyToken.address, borrowed)
-      console.log(`repaying ${borrowed} ${name} and withdrawing ${posted} ETH`)
+      console.log(`repaying ${borrowed} ${name} and withdrawing ${posted} ilk`)
       await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))
       console.log(`repaid and withdrawn`)
       if ((await collateral.balanceOf(whaleAcc.address)).toString() !== ethBalanceBefore.toString())

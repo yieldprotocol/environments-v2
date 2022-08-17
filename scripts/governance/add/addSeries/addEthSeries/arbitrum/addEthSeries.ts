@@ -65,7 +65,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   let proposal: Array<{ target: string; data: string }> = []
   // Oracles
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
-  proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
+  // proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
 
   // Bases and Ilks
   proposal = proposal.concat(
@@ -89,6 +89,6 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   if (proposal.length > 0) {
     // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
   }
 })()
