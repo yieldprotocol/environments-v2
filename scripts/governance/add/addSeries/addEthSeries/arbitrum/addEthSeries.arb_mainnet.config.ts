@@ -19,7 +19,7 @@ import * as base_config from '../../../../base.arb_mainnet.config'
 
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const whales: Map<string, string> = base_config.whales.set(ETH, '0xC7aE076086623ecEA2450e364C838916a043F9a8')
+export const whales: Map<string, string> = base_config.whales.set(ETH, '0x489ee077994b6658eafa855c308275ead8097c4a')
 
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
@@ -70,9 +70,9 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [[FYETH2
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [[FYETH2209, [ETH, DAI, USDC]]]
 
-export const strategiesData: Array<[string, string, string]> = [
+export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH],
+  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH, joins.get(ETH) as string, assets.get(ETH) as string],
 ]
 
 // Input data

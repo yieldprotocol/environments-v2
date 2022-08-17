@@ -24,7 +24,7 @@ const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as string)
 const { bases, chainlinkDebtLimits } = require(process.env.CONF as string)
-const { seriesIlks, poolsInit, newFYTokens, newPools, newJoins } = require(process.env.CONF as string)
+const { seriesIlks, poolsInit, newFYTokens, newPools, joins } = require(process.env.CONF as string)
 const { strategiesData, strategiesInit, newStrategies } = require(process.env.CONF as string)
 
 /**
@@ -78,7 +78,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   // Series
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, newJoins)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, joins)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
