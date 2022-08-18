@@ -1,10 +1,8 @@
-import { ethers, waffle } from 'hardhat'
-import { verify } from '../../../shared/helpers'
+import { waffle } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
-
+import { verify } from '../../../shared/helpers'
 import JoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
-
-import { ERC20Mock, Timelock, Join } from '../../../typechain'
+import { Join, Timelock } from '../../../typechain'
 
 const { deployContract } = waffle
 

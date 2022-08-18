@@ -62,7 +62,7 @@
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
     "@tenderly/hardhat-tenderly": "^1.1.4",
-    "@yield-protocol/vault-v2": "^0.17.1-rc4",
+    "@yield-protocol/vault-v2": "0.18.2-rc.0",
     "latest": "^0.2.0"
   }
 }
