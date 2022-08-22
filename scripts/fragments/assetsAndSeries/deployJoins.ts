@@ -4,7 +4,7 @@ import { ROOT } from '../../../shared/constants'
 
 import JoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 
-import { ERC20Mock, Timelock, Join } from '../../../typechain'
+import { Timelock, Join } from '../../../typechain'
 
 const { deployContract } = waffle
 

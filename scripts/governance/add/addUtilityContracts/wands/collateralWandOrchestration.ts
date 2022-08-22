@@ -19,5 +19,5 @@ const { developer, deployer, newJoins, assets } = require(process.env.CONF as st
   let proposal: Array<{ target: string; data: string }> = []
   proposal = await orchestrateCollateralWandProposal(ownerAcc, deployer, timelock)
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()

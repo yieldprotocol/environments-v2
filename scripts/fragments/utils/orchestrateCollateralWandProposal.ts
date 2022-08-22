@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 
-import { Cauldron, ChainlinkMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
+import { Cauldron, ChainlinkMultiOracle, EmergencyBrake, Join, Ladle, Timelock, WitchOld } from '../../../typechain'
 import { ChainlinkCollateralWand } from '../../../typechain'
 
 const { protocol, governance } = require(process.env.CONF as string)
@@ -35,7 +35,11 @@ export const orchestrateCollateralWandProposal = async (
     ownerAcc
   )) as unknown as EmergencyBrake
 
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = (await ethers.getContractAt(
+    'WitchOld',
+    protocol.get('witch') as string,
+    ownerAcc
+  )) as unknown as WitchOld
 
   proposal.push({
     target: collateralWand.address,

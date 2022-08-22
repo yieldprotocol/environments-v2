@@ -39,5 +39,5 @@ const {
       seriesIlks
     )
   )
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()
