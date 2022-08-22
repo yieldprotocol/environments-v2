@@ -40,6 +40,7 @@ export const EWETH = ethers.utils.formatBytes32String('20').slice(0, 14)
 export const EDAI = ethers.utils.formatBytes32String('21').slice(0, 14)
 export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
 export const GNO = ethers.utils.formatBytes32String('23').slice(0, 14)
+export const USDT = ethers.utils.formatBytes32String('24').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'

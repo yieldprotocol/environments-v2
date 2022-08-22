@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 RUN="npx hardhat run --network localhost"
-export CONF=$PWD/$HERE/addChainlinkCollateral.mainnet.config
+export CONF=$PWD/$HERE/addUSDT.mainnet.config
 
 $RUN $HERE/../../../redeploy/deployJoins.ts # Deploy Join
 $RUN $HERE/addChainlinkCollateralWithWand.ts # Orchestrate Join, add asset, make ilk, add ilk to series - propose
