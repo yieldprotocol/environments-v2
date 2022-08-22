@@ -6,18 +6,21 @@
 
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { Pool, Strategy } from '../../../../typechain'
+import { Pool, Strategy, Timelock } from '../../../../typechain'
+import { ZERO, ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
 
 export const rollStrategiesProposal = async (
   ownerAcc: any,
+  protocol: Map<string, string>,
   strategies: Map<string, string>, // strategyId, strategyAddress
   newPools: Map<string, string>, // seriesId, poolAddress
-  rollData: Array<[string, string, BigNumber, BigNumber]>
+  timelock: Timelock,
+  rollData: Array<[string, string, BigNumber, string, boolean]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, nextSeriesId, minRatio, maxRatio] of rollData) {
+  for (let [strategyId, nextSeriesId, buffer, lenderAddress, fix] of rollData) {
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
     else console.log(`Using strategy at ${strategyAddress} for ${strategyId}`)
@@ -31,16 +34,36 @@ export const rollStrategiesProposal = async (
 
     proposal.push({
       target: strategy.address,
-      data: strategy.interface.encodeFunctionData('endPool'),
-    })
-    console.log(`Strategy ${strategyId} divested from ${seriesId}`)
-    proposal.push({
-      target: strategy.address,
       data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
     })
+    console.log(`Using ${nextSeriesId}:${nextPool.address} as next pool`)
+    if (fix) {
+      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
+      })
+      console.log(`Fix tv pool by sending 1 wei of ${await base.symbol()}`)
+    }
+
+    const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
+    if (!buffer.isZero()) {
+      const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
+
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
+      })
+      console.log(`Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`)
+    }
     proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('startPool', [minRatio, maxRatio]),
+      target: roller.address,
+      data: roller.interface.encodeFunctionData('roll', [
+        strategy.address,
+        lenderAddress === ZERO_ADDRESS ? ZERO : MAX256,
+        lenderAddress,
+        timelock.address,
+      ]),
     })
     console.log(`Strategy ${strategyId} rolled onto ${nextSeriesId}`)
   }

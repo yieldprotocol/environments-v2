@@ -19,10 +19,7 @@ typechain/
 deployments/
 
 # Secret files
-.alchemyKey
-.etherscanKey
-.infuraKey
-.mythxKey
+.*Key
 .secret
 build/
 

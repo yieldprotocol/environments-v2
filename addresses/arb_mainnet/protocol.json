@@ -2,10 +2,6 @@
   "dataType": "Map",
   "value": [
     [
-      "yieldMath",
-      "0x511707B1311d6C3319e7A5BE6edb12D3777Be0dA"
-    ],
-    [
       "yieldMathExtensions",
       "0xC445D7e3Cdc96840439560675Ca9023204Ea9aCD"
     ],
@@ -52,6 +48,14 @@
     [
       "chainlinkUSDOracle",
       "0x8E9696345632796e7D80fB341fF4a2A60aa39C89"
+    ],
+    [
+      "roller",
+      "0xED84bDfba3629C232953d34033545a38f0e57BD2"
+    ],
+    [
+      "yieldMath",
+      "0xF9D75FD94FD35c8014c4F7f8e3434755172e9005"
     ]
   ]
 }

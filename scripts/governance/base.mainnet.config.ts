@@ -1,28 +1,48 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, WBTC, WSTETH, STETH, LINK, ENS, UNI, YVUSDC, FRAX, GNO } from '../../shared/constants'
+import {
+  ETH,
+  DAI,
+  USDC,
+  WBTC,
+  WSTETH,
+  STETH,
+  LINK,
+  ENS,
+  UNI,
+  YVDAI,
+  YVUSDC,
+  FRAX,
+  EWETH,
+  EDAI,
+  EUSDC,
+  GNO,
+} from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const strategies: Map<string, string> = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
 export const chainId = 1
+
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = new Map([
   [ETH, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
-  [DAI, '0x5d38b4e4783e34e2301a2a36c39a03c45798c4dd'],
-  [USDC, '0xad41bd1cf3fd753017ef5c0da8df31a3074ea1ea'],
+  [DAI, '0x16b34ce9a6a6f7fc2dd25ba59bf7308e7b38e186'],
+  [USDC, '0xcffad3200574698b78f32232aa9d63eabd290703'],
   [WBTC, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
   [WSTETH, '0x10cd5fbe1b404b7e19ef964b63939907bdaf42e2'],
   [STETH, '0x1982b2f5814301d4e9a8b0201555376e62f82428'],
   [LINK, '0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39'],
   [ENS, '0xd7a029db2585553978190db5e85ec724aa4df23f'],
   [YVUSDC, '0x5934807cc0654d46755ebd2848840b616256c6ef'],
+  [YVDAI, '0x50da1e9c57c334bb3a7bc10ddb6860331ec3c62a'],
   [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
   [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
   [GNO, '0x2ef2e49695f00fa835fb851c0575822f5f076a13'],
@@ -38,9 +58,13 @@ export const assets: Map<string, string> = new Map([
   [LINK, '0x514910771af9ca656af840dff83e8264ecf986ca'],
   [ENS, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
   [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
+  [YVDAI, '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'],
   [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
   [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
   [GNO, '0x6810e776880C02933D47DB1b9fc05908e5386b96'],
+  [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
+  [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
+  [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
 ])
 
 export const joins: Map<string, string> = new Map([
@@ -53,6 +77,7 @@ export const joins: Map<string, string> = new Map([
   [ENS, '0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969'],
   [YVUSDC, '0x403ae7384E89b086Ea2935d5fAFed07465242B38'],
   [UNI, '0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779'],
+  [FRAX, '0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -178,3 +203,5 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
 ]
+
+export const eulerAddress = '0x27182842E098f60e3D576794A5bFFb0777E025d3'

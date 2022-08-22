@@ -38,10 +38,6 @@
       "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
     ],
     [
-      "yieldMath",
-      "0x50c15883934c1A14Bfc07904afd383F7Fb80b354"
-    ],
-    [
       "yieldMathExtensions",
       "0xdC3758330939A0253F30083a23e8843778348991"
     ],
@@ -88,6 +84,14 @@
     [
       "stEthConverter",
       "0x93D232213cCA6e5e7105199ABD8590293C3eb106"
+    ],
+    [
+      "roller",
+      "0xb061818D4807249710A587B18728036Bf7947465"
+    ],
+    [
+      "yieldMath",
+      "0x96323CF489ad2aB794bf03aaD82bc09A7C5862df"
     ]
   ]
 }

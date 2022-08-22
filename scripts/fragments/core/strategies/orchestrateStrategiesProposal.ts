@@ -8,11 +8,12 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../../shared/constants'
-import { Timelock, Strategy } from '../../../../typechain'
+import { Timelock, Strategy, Roller } from '../../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
   ownerAcc: any,
   strategies: Map<string, string>,
+  roller: Roller,
   timelock: Timelock,
   strategiesData: Array<[string, string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -38,6 +39,14 @@ export const orchestrateStrategiesProposal = async (
       ]),
     })
     console.log(`strategy(${symbol}).grantRoles(gov, timelock)`)
+    proposal.push({
+      target: strategy.address,
+      data: strategy.interface.encodeFunctionData('grantRoles', [
+        [id(strategy.interface, 'startPool(uint256,uint256)')],
+        roller.address,
+      ]),
+    })
+    console.log(`strategy(${symbol}).grantRoles(startPool, roller)`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
