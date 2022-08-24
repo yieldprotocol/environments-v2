@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/contango.arb_mainnet.config
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network tenderly"
 
 # Phase 1: Deploy Cauldron + Ladle
 $RUN $HERE/deployContangoCauldron.ts

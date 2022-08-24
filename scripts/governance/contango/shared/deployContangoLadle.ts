@@ -1,9 +1,9 @@
-import { ethers } from 'hardhat'
+import { ethers, network } from 'hardhat'
 import { verify } from '../../../../shared/helpers'
 import { contangoLadle_key, ROOT } from '../../../../shared/constants'
 
 import { Ladle } from '../../../../typechain'
-
+const hre = require('hardhat')
 /**
  * @dev This script deploys the Ladle and with it the Router
  * The account to operate with needs to be passed as a parameter, as well as the WETH9 address to use.
@@ -31,6 +31,17 @@ export const deployContangoLadle = async (
     const router = await contangoLadle.router()
     console.log(`Router deployed at ${router}`)
     verify(router, [])
+    if (network.name == 'tenderly') {
+      await hre.tenderly.persistArtifacts({
+        name: 'ContangoLadle',
+        address: contangoLadle.address,
+      })
+
+      await hre.tenderly.verify({
+        name: 'ContangoLadle',
+        address: contangoLadle.address,
+      })
+    }
   } else {
     contangoLadle = await ethers.getContractAt('Ladle', address, ownerAcc)
     console.log(`Reusing Ladle at ${contangoLadle.address}`)
