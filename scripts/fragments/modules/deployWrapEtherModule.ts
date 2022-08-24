@@ -1,11 +1,11 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers, waffle, network } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import WrapEtherModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol/WrapEtherModule.json'
 
 import { Cauldron, ERC20, WrapEtherModule } from '../../../typechain'
 
 const { deployContract } = waffle
-
+const hre = require('hardhat')
 /**
  * @dev This script deploys the WrapEtherModule
  */
@@ -23,6 +23,17 @@ export const deployWrapEtherModule = async (
     ])) as WrapEtherModule
     console.log(`WrapEtherModule deployed at ${transferModule.address}`)
     verify(transferModule.address, [cauldron.address, weth.address])
+    if (network.name == 'tenderly') {
+      await hre.tenderly.persistArtifacts({
+        name: 'WrapEtherModule',
+        address: transferModule.address,
+      })
+
+      await hre.tenderly.verify({
+        name: 'WrapEtherModule',
+        address: transferModule.address,
+      })
+    }
   } else {
     transferModule = (await ethers.getContractAt(
       'WrapEtherModule',
