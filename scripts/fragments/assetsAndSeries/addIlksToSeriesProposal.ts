@@ -1,5 +1,5 @@
 import { bytesToString } from '../../../shared/helpers'
-import { Cauldron } from '../../../typechain/Cauldron'
+import { Cauldron } from '../../../typechain'
 
 export const addIlksToSeriesProposal = async (
   cauldron: Cauldron,

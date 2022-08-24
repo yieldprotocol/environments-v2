@@ -17,7 +17,7 @@ import {
 
 import * as base_config from '../../../../base.arb_mainnet.config'
 
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales.set(ETH, '0x489ee077994b6658eafa855c308275ead8097c4a')
 
