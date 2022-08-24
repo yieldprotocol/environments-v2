@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import WrapEtherModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol/WrapEtherModule.json'
 
-import { Cauldron, WETH9Mock, WrapEtherModule } from '../../../typechain'
+import { Cauldron, ERC20, WrapEtherModule } from '../../../typechain'
 
 const { deployContract } = waffle
 
@@ -12,7 +12,7 @@ const { deployContract } = waffle
 export const deployWrapEtherModule = async (
   ownerAcc: any,
   cauldron: Cauldron,
-  weth: WETH9Mock,
+  weth: ERC20,
   protocol: Map<string, string>
 ): Promise<WrapEtherModule> => {
   let transferModule: WrapEtherModule
