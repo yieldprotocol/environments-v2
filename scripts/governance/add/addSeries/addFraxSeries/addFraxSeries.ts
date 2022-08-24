@@ -150,7 +150,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
 
   // // Series
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, newJoins)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))

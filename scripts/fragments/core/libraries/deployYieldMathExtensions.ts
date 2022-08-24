@@ -21,7 +21,7 @@ export const deployYieldMathExtensions = async (
     yieldMathExtensions = (await YieldMathExtensionsFactory.deploy()) as unknown as YieldMathExtensions
     await yieldMathExtensions.deployed()
     console.log(`YieldMathExtensions deployed at ${yieldMathExtensions.address}`)
-    verify(yieldMathExtensions.address, [], getAddressMappingFilePath('yieldMath.js'))
+    verify(yieldMathExtensions.address, [], getAddressMappingFilePath('YieldMath.js'))
     protocol.set('yieldMathExtensions', yieldMathExtensions.address)
     writeAddressMap('protocol.json', protocol)
   } else {

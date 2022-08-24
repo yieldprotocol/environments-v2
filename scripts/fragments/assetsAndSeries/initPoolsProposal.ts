@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 
-import { ERC20Mock, Pool, FYToken, Join, Timelock } from '../../../typechain'
+import { IERC20, Pool, FYToken, Join, Timelock } from '../../../typechain'
 
 export const initPoolsProposal = async (
   ownerAcc: any,
@@ -25,16 +25,12 @@ export const initPoolsProposal = async (
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
     const fyToken: FYToken = (await ethers.getContractAt('FYToken', await pool.fyToken(), ownerAcc)) as FYToken
-    const base: ERC20Mock = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      await pool.base(),
-      ownerAcc
-    )) as ERC20Mock
+    const base: IERC20 = (await ethers.getContractAt('IERC20', await pool.base(), ownerAcc)) as IERC20
     const join: Join = (await ethers.getContractAt('Join', await fyToken.join(), ownerAcc)) as Join
 
-    // Supply pool with a hundred tokens of underlying for initialization
     console.log(`Timelock balance of ${baseId} is ${await base.balanceOf(timelock.address)}`)
 
+    // Supply pool with a baseAmount of underlying for initialization
     proposal.push({
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),
@@ -44,25 +40,27 @@ export const initPoolsProposal = async (
     // Initialize pool
     proposal.push({
       target: pool.address,
-      data: pool.interface.encodeFunctionData('mint', [ZERO_ADDRESS, ZERO_ADDRESS, 0, 0]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
+      data: pool.interface.encodeFunctionData('init', [ZERO_ADDRESS]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
     })
     console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
 
-    // Skew pool
-    proposal.push({
-      target: base.address,
-      data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
-    })
-    console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
-    proposal.push({
-      target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
-    })
-    console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
-    // proposal.push({
-    //   target: pool.address,
-    //   data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
-    // })
+    if (!fyTokenAmount.isZero()) {
+      // Skew pool
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [join.address, fyTokenAmount]),
+      })
+      console.log(`Transferring ${fyTokenAmount} of ${baseId} from Timelock to Join`)
+      proposal.push({
+        target: fyToken.address,
+        data: fyToken.interface.encodeFunctionData('mintWithUnderlying', [pool.address, fyTokenAmount]),
+      })
+      console.log(`Minting ${fyTokenAmount} amount with underlying to ${pool.address}`)
+      proposal.push({
+        target: pool.address,
+        data: pool.interface.encodeFunctionData('sellFYToken', [timelock.address, 0]),
+      })
+    }
   }
 
   return proposal
