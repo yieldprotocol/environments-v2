@@ -1,8 +1,8 @@
-import { ethers } from 'hardhat'
+import { ethers, network } from 'hardhat'
 import { ROOT, witchV2_key } from '../../../../shared/constants'
 import { verify } from '../../../../shared/helpers'
 import { Witch } from '../../../../typechain'
-
+const hre = require('hardhat')
 /**
  * @dev This script deploys the Witch
  * The Timelock gets ROOT access.
@@ -26,6 +26,17 @@ export const deployWitchV2 = async (
       witchV2 = await _witchV2.deployed()
       console.log(`Witch deployed at ${witchV2.address}`)
       verify(witchV2.address, [cauldronAddress, ladleAddress])
+      if (network.name == 'tenderly') {
+        await hre.tenderly.persistArtifacts({
+          name: 'Witch',
+          address: witchV2.address,
+        })
+
+        await hre.tenderly.verify({
+          name: 'Witch',
+          address: witchV2.address,
+        })
+      }
     } else {
       witchV2 = await ethers.getContractAt('Witch', witchV2Address, ownerAcc)
     }

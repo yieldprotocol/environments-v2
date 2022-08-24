@@ -42,7 +42,7 @@ import { makeBaseProposal } from '../shared/makeBaseProposal'
 
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get(contangoCauldron_key) as string, ownerAcc)
   const ladle = await ethers.getContractAt('Ladle', protocol.get(contangoLadle_key) as string, ownerAcc)
-  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
+  const witch = await ethers.getContractAt('WitchOld', protocol.get('witch') as string, ownerAcc)
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
   const compositeMultiOracle = await ethers.getContractAt(
     'CompositeMultiOracle',
