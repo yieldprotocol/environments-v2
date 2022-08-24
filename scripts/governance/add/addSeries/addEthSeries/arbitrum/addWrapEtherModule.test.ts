@@ -37,9 +37,9 @@ const { developer, assets } = require(process.env.CONF as string)
     protocol.get('wrapEtherModule') as string,
     ownerAcc
   )) as unknown as WrapEtherModule
-
+  const balanceBefore = await weth.balanceOf(ownerAcc.address)
   const calldata = wrapEtherModule.interface.encodeFunctionData('wrap', [ownerAcc.address, WAD.div(10)])
-  await ladle.moduleCall(wrapEtherModule.address, calldata, { value: WAD.div(10) })
-
-  if ((await weth.balanceOf(ownerAcc.address)) != WAD.div(10)) throw new Error('Not wrapped')
+  await ladle.connect(ownerAcc).moduleCall(wrapEtherModule.address, calldata, { value: WAD.div(10) })
+  const balanceAfter = await weth.balanceOf(ownerAcc.address)
+  if (!balanceAfter.sub(balanceBefore).eq(WAD.div(10))) throw new Error('Not wrapped')
 })()
