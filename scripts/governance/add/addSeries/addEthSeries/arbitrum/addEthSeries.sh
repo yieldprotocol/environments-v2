@@ -9,9 +9,9 @@ RUN="npx hardhat run --network arb_mainnet"
 # $RUN $HERE/../loadTimelock.ts
 $RUN $HERE/../deployWrapEtherModule.ts
 
-$RUN $HERE/../../../deploy/deployFYTokens.ts # deploy fyTokens
-$RUN $HERE/../../../deploy/deployPools.ts # deploy pools
-$RUN $HERE/../../../deploy/deployStrategies.ts # deploy strategies
+# $RUN $HERE/../../../deploy/deployFYTokens.ts # deploy fyTokens
+# $RUN $HERE/../../../deploy/deployPools.ts # deploy pools
+# $RUN $HERE/../../../deploy/deployStrategies.ts # deploy strategies
 
 # $RUN $HERE/addEthSeries.ts
 # $RUN $HERE/addEthSeries.ts

@@ -16,7 +16,7 @@ export const deployWrapEtherModule = async (
   protocol: Map<string, string>
 ): Promise<WrapEtherModule> => {
   let transferModule: WrapEtherModule
-  if (protocol.get('transferModule') === undefined) {
+  if (protocol.get('wrapEtherModule') === undefined) {
     transferModule = (await deployContract(ownerAcc, WrapEtherModuleArtifact, [
       cauldron.address,
       weth.address,
