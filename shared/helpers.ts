@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
-import { BigNumber } from 'ethers'
+import { BigNumber, ContractTransaction } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
@@ -73,7 +73,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
 
 /** @dev Impersonate an account and optionally add some ether to it. Works for hardhat or tenderly. */
 export const impersonate = async (account: string, balance?: BigNumber) => {
-  if (network.name !== 'tenderly') {
+  if (network.name !== '_tenderly') {
     await hre.network.provider.request({
       method: 'hardhat_impersonateAccount',
       params: [account],
@@ -82,7 +82,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
   if (balance !== undefined) {
     await hre.network.provider.request({
-      method: hre.network.name === 'tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
+      method: hre.network.name === '_tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
       params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
     })
   }
@@ -103,6 +103,26 @@ export const advanceTime = async (time: number) => {
   console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
 
+const isFork = () => {
+  return network.name === 'localhost' || network.name.includes('tenderly')
+}
+
+const enum ProposalState {
+  Unknown = 0,
+  Proposed = 1,
+  Approved = 2,
+}
+
+const awaitAndRequireProposal =
+  (timelock: Timelock, txHash: string, requiredConfirmations: number) =>
+  async (tx: ContractTransaction, state: ProposalState) => {
+    await tx.wait(requiredConfirmations)
+    const proposalState = (await timelock.proposals(txHash)).state
+    if (!(proposalState === state)) {
+      throw new Error(`Proposal is in incorrect state. Expected: ${state} but got: ${proposalState}`)
+    }
+  }
+
 /**
  * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
  * depending on the proposal state in the timelock.
@@ -117,6 +137,9 @@ export const proposeApproveExecute = async (
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
   console.log(`Proposal: ${txHash}`)
+
+  const requiredConfirmations = isFork() ? 0 : 2
+  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
 
   // Depending on the proposal state:
   // - propose
@@ -137,8 +160,8 @@ export const proposeApproveExecute = async (
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
-    while ((await timelock.proposals(txHash)).state < 1) {}
+    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
+    await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')
@@ -147,21 +170,16 @@ export const proposeApproveExecute = async (
     if (network.name === 'localhost' || network.name === 'tenderly') {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
-
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-
       // Since we are in a testing environment, let's advance time
       advanceTime(3 * 24 * 60 * 60)
     } else {
       // On kovan we have approval permissions
       signerAcc = (await ethers.getSigners())[0]
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
     }
-  } else if ((await timelock.proposals(txHash)).state === 2) {
+    const tx = await timelock.connect(signerAcc).approve(txHash)
+    await requireProposalState(tx, ProposalState.Approved)
+    console.log(`Approved ${txHash}`)
+  } else if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
     console.log('Executing')
     // Execute
     let signerAcc
@@ -174,8 +192,8 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
-    while ((await timelock.proposals(txHash)).state > 0) {}
+    const tx = await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
+    requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }
 }
