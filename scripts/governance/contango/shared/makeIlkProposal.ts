@@ -20,49 +20,47 @@ export const makeIlkProposal = async (
   // Contango Witch cannot be deployed yet, it depends on Contango being deployed already
   // Deploying + configuring the WitchV2 will be done in a separate proposal
 
-  //  for (let [ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec] of auctionLimits) {
-  //    console.log(ilkId)
-  //    const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
+  // for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
+  //   console.log(ilkId)
+  //   const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)
 
-  //    // Configure auction limits for the ilk on the witch
-  //    proposal.push({
-  //      target: witch.address,
-  //      data: witch.interface.encodeFunctionData('setIlk', [
-  //        ilkId,
-  //        duration,
-  //        initialOffer,
-  //        auctionLine,
-  //        auctionDust,
-  //        ilkDec,
-  //      ]),
-  //    })
-  //    console.log(`Asset ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}`)
+  //   proposal.push({
+  //     target: witch.address,
+  //     data: witch.interface.encodeFunctionData('setLineAndLimit', [
+  //       ilkId,
+  //       baseId,
+  //       duration,
+  //       vaultProportion,
+  //       collateralProportion,
+  //       max
+  //     ])
+  //   })
 
-  //    // Allow Witch to exit ilk
-  //    proposal.push({
-  //      target: join.address,
-  //      data: join.interface.encodeFunctionData('grantRoles', [
-  //        [id(join.interface, 'exit(address,uint128)')],
-  //        witch.address,
-  //      ]),
-  //    })
+  //   // Allow Witch to exit ilk
+  //   proposal.push({
+  //     target: join.address,
+  //     data: join.interface.encodeFunctionData('grantRoles', [
+  //       [id(join.interface, 'exit(address,uint128)')],
+  //       witch.address,
+  //     ]),
+  //   })
 
-  //    // Log a plan to undo the orchestration above in emergencies
-  //    const plan = [
-  //      {
-  //        contact: join.address,
-  //        signatures: [id(join.interface, 'exit(address,uint128)')],
-  //      },
-  //    ]
+  //   // Log a plan to undo the orchestration above in emergencies
+  //   const plan = [
+  //     {
+  //       contact: join.address,
+  //       signatures: [id(join.interface, 'exit(address,uint128)')],
+  //     },
+  //   ]
 
-  //    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
-  //      proposal.push({
-  //        target: cloak.address,
-  //        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
-  //      })
-  //      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
-  //    }
-  //  }
+  //   if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+  //     proposal.push({
+  //       target: cloak.address,
+  //       data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+  //     })
+  //     console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+  //   }
+  // }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not

@@ -38,3 +38,4 @@ import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 import "@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol";
 import "@yield-protocol/strategy-v2/contracts/Strategy.sol";
 import "@yield-protocol/vault-v2/contracts/other/contango/ContangoLadle.sol";
+import "@yield-protocol/vault-v2/contracts/other/contango/ContangoWitch.sol";

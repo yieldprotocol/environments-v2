@@ -1,3 +1,6 @@
+import { BigNumber } from 'ethers'
+import { parseUnits } from 'ethers/lib/utils'
+
 import * as base_config from '../../base.arb_mainnet.config'
 
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -12,6 +15,7 @@ export const newJoins: Map<string, string> = base_config.newJoins
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const wethAddress = '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1'
+export const contangoAddress = '0x4442269d61cB438C054b44Acb3EeBBede333ba5f'
 
 import { USDC, DAI, FYDAI2209, FYUSDC2209, CHAINLINKUSD, IDENTITY, ETH, FYETH2209 } from '../../../../shared/constants' // Note we use the series id as the asset id
 
@@ -71,9 +75,67 @@ export const fyTokenDebtLimits: Array<[string, string, number, number, number, n
   [ETH, FYDAI2209, 1400000, 10000000, 25000, 12], // eth collateralized with fyDai
 ]
 
-// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec
-// FYToken cannot get liquidated
-export const auctionLimits: Array<[string, number, number, number, number, number]> = []
+export interface AuctionLineAndLimit {
+  baseId: string
+  ilkId: string
+  duration: number
+  vaultProportion: BigNumber
+  collateralProportion: BigNumber
+  max: BigNumber
+}
+export const auctionLineAndLimits: AuctionLineAndLimit[] = [
+  // ETH
+  {
+    baseId: ETH,
+    ilkId: FYUSDC2209,
+    duration: 600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
+    max: parseUnits('500'),
+  },
+  {
+    baseId: ETH,
+    ilkId: FYDAI2209,
+    duration: 600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
+    max: parseUnits('1000000'),
+  },
+  // USDC
+  {
+    baseId: USDC,
+    ilkId: FYETH2209,
+    duration: 600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
+    max: parseUnits('500'),
+  },
+  {
+    baseId: USDC,
+    ilkId: FYDAI2209,
+    duration: 600,
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    max: parseUnits('1000000'),
+  },
+  // DAI
+  {
+    baseId: DAI,
+    ilkId: FYETH2209,
+    duration: 600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
+    max: parseUnits('500'),
+  },
+  {
+    baseId: DAI,
+    ilkId: FYUSDC2209,
+    duration: 600,
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    max: parseUnits('1000000'),
+  },
+]
 
 // Input data: seriesId, [ilkIds]
 /// @notice New asset pairs to be accepted

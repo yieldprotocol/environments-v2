@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { contangoCauldron_key, contangoLadle_key, witchV2_key } from '../../../../shared/constants'
+import { contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
 import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
 import { orchestrateCauldronProposal } from '../../../fragments/core/orchestrateCauldronProposal'
