@@ -1,10 +1,7 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
-import { verify } from '../../../shared/helpers'
-import JoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
+import { tenderlyVerify, verify } from '../../../shared/helpers'
 import { Join, Ladle, Timelock } from '../../../typechain'
-
-const { deployContract } = waffle
 
 /**
  * @dev This script deploys a number of Joins
@@ -18,12 +15,13 @@ export const deployJoins = async (
 ): Promise<Map<string, Join>> => {
   let joins: Map<string, Join> = new Map()
   for (let [assetId, assetAddress] of joinData) {
-    const joinDoesNotExist = (await ladle.joins(assetId)) === ZERO_ADDRESS
-    if (joinDoesNotExist) {
+    const joinAddress = await ladle.joins(assetId)
+    if (joinAddress === ZERO_ADDRESS) {
       const join = await (await ethers.getContractFactory('Join', ownerAcc)).deploy(assetAddress)
       await join.deployed()
       console.log(`Join deployed at ${join.address} for ${assetAddress}`)
       verify(join.address, [assetAddress])
+      tenderlyVerify('Join', join)
       if (!(await join.hasRole(ROOT, timelock.address))) {
         await join.grantRole(ROOT, timelock.address)
         console.log(`join.grantRoles(ROOT, timelock)`)
@@ -31,7 +29,7 @@ export const deployJoins = async (
       }
       joins.set(assetId, join)
     } else {
-      console.log(`Join for assetId: ${assetId} already exists at: ${assetAddress}`)
+      console.log(`Join for assetId: ${assetId} already exists at: ${joinAddress}`)
     }
   }
 

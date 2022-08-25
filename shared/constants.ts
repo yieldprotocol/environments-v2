@@ -124,7 +124,7 @@ export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
 
 // JSON file keys
-export const witchV2_key = 'witchV2'
+export const contangoWitch_key = 'contangoWitch'
 export const contangoCauldron_key = 'contangoCauldron'
 export const contangoLadle_key = 'contangoLadle'
 export const contangoLadleRouter_key = 'contangoLadleRouter'

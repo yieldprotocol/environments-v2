@@ -1,9 +1,9 @@
-import { ethers, network, run, waffle } from 'hardhat'
+import { ethers, network, waffle } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
-import { BigNumber, ContractTransaction } from 'ethers'
+import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
@@ -43,7 +43,7 @@ export const getOriginalChainId = async (): Promise<number> => {
 
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
-  if (network.name == 'tenderly') {
+  if (network.name.includes('tenderly')) {
     console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
     await network.provider.send('tenderly_addBalance', [
       impersonatedAddress,
@@ -73,7 +73,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
 
 /** @dev Impersonate an account and optionally add some ether to it. Works for hardhat or tenderly. */
 export const impersonate = async (account: string, balance?: BigNumber) => {
-  if (network.name !== '_tenderly') {
+  if (!network.name.includes('tenderly')) {
     await hre.network.provider.request({
       method: 'hardhat_impersonateAccount',
       params: [account],
@@ -82,7 +82,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
   if (balance !== undefined) {
     await hre.network.provider.request({
-      method: hre.network.name === '_tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
+      method: hre.network.name.includes('tenderly') ? 'tenderly_setBalance' : 'hardhat_setBalance',
       params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
     })
   }
@@ -93,7 +93,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
 /** @dev Advance time by a number of seconds */
 export const advanceTime = async (time: number) => {
-  if (hre.network.name === 'tenderly') {
+  if (hre.network.name.includes('tenderly')) {
     await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
     await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
   } else {
@@ -138,7 +138,7 @@ export const proposeApproveExecute = async (
   const txHash = await timelock.hash(proposal)
   console.log(`Proposal: ${txHash}`)
 
-  const requiredConfirmations = isFork() ? 0 : 2
+  const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
 
   // Depending on the proposal state:
@@ -150,7 +150,7 @@ export const proposeApproveExecute = async (
     // Propose
     let signerAcc
     if (developer) {
-      if (network.name === 'localhost' || network.name === 'tenderly') {
+      if (network.name === 'localhost' || network.name.includes('tenderly')) {
         signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
       } else {
         signerAcc = await ethers.getSigner(developer)
@@ -167,7 +167,7 @@ export const proposeApproveExecute = async (
     console.log('Approving')
     let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
-    if (network.name === 'localhost' || network.name === 'tenderly') {
+    if (network.name === 'localhost' || network.name.includes('tenderly')) {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
       // Since we are in a testing environment, let's advance time
@@ -184,7 +184,7 @@ export const proposeApproveExecute = async (
     // Execute
     let signerAcc
     if (developer) {
-      if (network.name === 'localhost' || network.name === 'tenderly') {
+      if (network.name === 'localhost' || network.name.includes('tenderly')) {
         signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
       } else {
         signerAcc = await ethers.getSigner(developer)
@@ -193,7 +193,7 @@ export const proposeApproveExecute = async (
       ;[signerAcc] = await ethers.getSigners()
     }
     const tx = await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
-    requireProposalState(tx, ProposalState.Unknown)
+    await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }
 }
@@ -435,4 +435,18 @@ export async function getOrDeploy<OutT extends AccessControl>(
   }
   await ensureRootAccess(ret, timelock)
   return ret
+}
+
+export const tenderlyVerify = async (name: string, contract: BaseContract) => {
+  if (network.name === 'tenderly') {
+    await hre.tenderly.persistArtifacts({
+      name,
+      address: contract.address,
+    })
+
+    await hre.tenderly.verify({
+      name,
+      address: contract.address,
+    })
+  }
 }
