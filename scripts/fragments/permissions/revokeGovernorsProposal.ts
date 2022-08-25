@@ -31,17 +31,11 @@ export const revokeGovernorsProposal = async (
       ]),
     })
 
-    // Access to the cloak is direct, instead of through the timelock (which would have a delay)
+    // Direct access to the cloak for emergency operations
     proposal.push({
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('revokeRoles', [
-        [
-          id(cloak.interface, 'plan(address,(address,bytes4[])[])'),
-          id(cloak.interface, 'cancel(bytes32)'),
-          id(cloak.interface, 'execute(bytes32)'),
-          id(cloak.interface, 'restore(bytes32)'),
-          id(cloak.interface, 'terminate(bytes32)'),
-        ],
+        [id(cloak.interface, 'execute(bytes32)'), id(cloak.interface, 'restore(bytes32)')],
         revokedAccount,
       ]),
     })
