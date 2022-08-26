@@ -1,26 +1,30 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../../shared/helpers'
+import {
+  getOwnerOrImpersonate,
+  proposeApproveExecute,
+  readAddressMappingIfExists,
+} from '../../../../../../shared/helpers'
 
-import { IOracle, ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
+import { IOracle, ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../../../typechain'
+import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../../typechain'
 
-import { CHAINLINKUSD, ACCUMULATOR } from '../../../../../shared/constants'
+import { CHAINLINKUSD, ACCUMULATOR } from '../../../../../../shared/constants'
 
-import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { updateChainlinkUSDSourcesProposal } from '../../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
-import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
-import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
+import { updateAccumulatorSourcesProposal } from '../../../../../fragments/oracles/updateAccumulatorSourcesProposal'
+import { updateChainlinkUSDSourcesProposal } from '../../../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
+import { makeBaseProposal } from '../../../../../fragments/assetsAndSeries/makeBaseProposal'
+import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/updateIlkProposal'
+import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { initPoolsProposal } from '../../../../../fragments/assetsAndSeries/initPoolsProposal'
+import { orchestrateStrategiesProposal } from '../../../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../../fragments/core/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const { chainlinkUSDSources, rateChiSources } = require(process.env.CONF as string)
 const { bases, chainlinkDebtLimits } = require(process.env.CONF as string)
-const { seriesIlks, poolsInit, newFYTokens, newPools } = require(process.env.CONF as string)
+const { seriesIlks, poolsInit, newFYTokens, newPools, joins } = require(process.env.CONF as string)
 const { strategiesData, strategiesInit, newStrategies } = require(process.env.CONF as string)
 
 /**
@@ -61,7 +65,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   let proposal: Array<{ target: string; data: string }> = []
   // Oracles
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
-  proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
+  // proposal = proposal.concat(await updateChainlinkUSDSourcesProposal(chainlinkUSDOracle, chainlinkUSDSources))
 
   // Bases and Ilks
   proposal = proposal.concat(
@@ -74,7 +78,7 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   // Series
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newFYTokens, newPools, joins)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
@@ -85,6 +89,6 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
 
   if (proposal.length > 0) {
     // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
   }
 })()

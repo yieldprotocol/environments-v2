@@ -56,6 +56,10 @@
     [
       "yieldMath",
       "0xF9D75FD94FD35c8014c4F7f8e3434755172e9005"
+    ],
+    [
+      "wrapEtherModule",
+      "0x4cD01eD221d6d198e2656c16c32803BF78134568"
     ]
   ]
 }

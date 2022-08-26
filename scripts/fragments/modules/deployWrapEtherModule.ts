@@ -1,28 +1,39 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers, waffle, network } from 'hardhat'
 import { verify } from '../../../shared/helpers'
 import WrapEtherModuleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol/WrapEtherModule.json'
 
-import { Cauldron, WETH9Mock, WrapEtherModule } from '../../../typechain'
+import { Cauldron, ERC20, WrapEtherModule } from '../../../typechain'
 
 const { deployContract } = waffle
-
+const hre = require('hardhat')
 /**
  * @dev This script deploys the WrapEtherModule
  */
 export const deployWrapEtherModule = async (
   ownerAcc: any,
   cauldron: Cauldron,
-  weth: WETH9Mock,
+  weth: ERC20,
   protocol: Map<string, string>
 ): Promise<WrapEtherModule> => {
   let transferModule: WrapEtherModule
-  if (protocol.get('transferModule') === undefined) {
+  if (protocol.get('wrapEtherModule') === undefined) {
     transferModule = (await deployContract(ownerAcc, WrapEtherModuleArtifact, [
       cauldron.address,
       weth.address,
     ])) as WrapEtherModule
     console.log(`WrapEtherModule deployed at ${transferModule.address}`)
     verify(transferModule.address, [cauldron.address, weth.address])
+    if (network.name == 'tenderly') {
+      await hre.tenderly.persistArtifacts({
+        name: 'WrapEtherModule',
+        address: transferModule.address,
+      })
+
+      await hre.tenderly.verify({
+        name: 'WrapEtherModule',
+        address: transferModule.address,
+      })
+    }
   } else {
     transferModule = (await ethers.getContractAt(
       'WrapEtherModule',
