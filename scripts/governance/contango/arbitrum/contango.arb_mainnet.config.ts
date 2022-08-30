@@ -67,10 +67,10 @@ export const assetsToAdd: Array<[string, string, string]> = [
 /// @param Minimum vault debt, decimals to be added
 /// @param Decimals to add to maximum protocol debt, and minimum vault debt.
 export const fyTokenDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, FYUSDC2209, 1100000, 10000, 100, 18], // dai collateralized with fyUsdc
-  [DAI, FYETH2209, 1400000, 10000, 100, 18], // dai collateralized with fyEth
-  [USDC, FYDAI2209, 1100000, 10000, 100, 6], // usdc collateralized with fyDai
-  [USDC, FYETH2209, 1400000, 10000, 100, 6], // usdc collateralized with fyETH
+  [DAI, FYUSDC2209, 1100000, 10000, 40, 18], // dai collateralized with fyUsdc
+  [DAI, FYETH2209, 1400000, 10000, 40, 18], // dai collateralized with fyEth
+  [USDC, FYDAI2209, 1100000, 10000, 40, 6], // usdc collateralized with fyDai
+  [USDC, FYETH2209, 1400000, 10000, 40, 6], // usdc collateralized with fyETH
   [ETH, FYUSDC2209, 1400000, 10000000, 25000, 12], // eth collateralized with fyUsdc
   [ETH, FYDAI2209, 1400000, 10000000, 25000, 12], // eth collateralized with fyDai
 ]
