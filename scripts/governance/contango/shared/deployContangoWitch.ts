@@ -17,23 +17,11 @@ export const deployContangoWitch = async (
   const cauldronAddress = protocol.get(contangoCauldron_key)
   const ladleAddress = protocol.get(contangoLadle_key)
 
-  console.log('herhe', contangoAddress, cauldronAddress, ladleAddress)
-
   let contangoWitch: ContangoWitch
 
   if (cauldronAddress && ladleAddress) {
     const contangoWitchAddress = protocol.get(contangoWitch_key)
     if (contangoWitchAddress === undefined) {
-      const contangoCauldron = await ethers.getContractAt('Cauldron', cauldronAddress, ownerAcc)
-      const contangoLadle = await ethers.getContractAt('ContangoLadle', ladleAddress, ownerAcc)
-
-      console.log('calling LOCK on ladle')
-      await contangoLadle.LOCK()
-
-      console.log('calling LOCK on cauldron')
-      await contangoCauldron.LOCK()
-
-      console.log('Deploying this shit...')
       contangoWitch = await (
         await ethers.getContractFactory('ContangoWitch')
       ).deploy(contangoAddress, cauldronAddress, ladleAddress)
@@ -43,6 +31,7 @@ export const deployContangoWitch = async (
       tenderlyVerify('ContangoWitch', contangoWitch)
     } else {
       contangoWitch = await ethers.getContractAt('ContangoWitch', contangoWitchAddress, ownerAcc)
+      await contangoWitch.auctioneerReward() // Check if the contract is an actual witch
       console.log(`Reusing contangoWitch at: ${contangoWitch.address}`)
     }
   } else throw new Error('contangoCauldron or contangoLadle are not deployed!')

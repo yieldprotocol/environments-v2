@@ -1,7 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { ethers, network } from 'hardhat'
 import { IDENTITY } from '../../../../shared/constants'
-import { writeAddressMap } from '../../../../shared/helpers'
+import { tenderlyVerify, verify, writeAddressMap } from '../../../../shared/helpers'
 import { IdentityOracle } from '../../../../typechain'
 const hre = require('hardhat')
 export const deployIdentityOracle = async (ownerAcc: SignerWithAddress, protocol: Map<string, string>) => {
@@ -9,22 +9,13 @@ export const deployIdentityOracle = async (ownerAcc: SignerWithAddress, protocol
   let oracle: IdentityOracle
 
   if (address === undefined) {
-    const _oracle = await (await ethers.getContractFactory('IdentityOracle')).deploy()
-    oracle = await _oracle.deployed()
+    oracle = await (await ethers.getContractFactory('IdentityOracle')).deploy()
+    await oracle.deployed()
     console.log(`IdentityOracle deployed at ${oracle.address}`)
     protocol.set(IDENTITY, oracle.address)
+    verify(oracle.address, [])
     writeAddressMap('protocol.json', protocol)
-    if (network.name == 'tenderly') {
-      await hre.tenderly.persistArtifacts({
-        name: 'IdentityOracle',
-        address: oracle.address,
-      })
-
-      await hre.tenderly.verify({
-        name: 'IdentityOracle',
-        address: oracle.address,
-      })
-    }
+    tenderlyVerify('IdentityOracle', oracle)
   } else {
     oracle = await ethers.getContractAt('IdentityOracle', address, ownerAcc)
     console.log(`Reusing IdentityOracle at ${oracle.address}`)

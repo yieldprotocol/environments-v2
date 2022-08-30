@@ -93,14 +93,16 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
 /** @dev Advance time by a number of seconds */
 export const advanceTime = async (time: number) => {
-  if (hre.network.name.includes('tenderly')) {
-    await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
-    await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
-  } else {
-    await network.provider.send('evm_increaseTime', [time])
-    await network.provider.send('evm_mine', [])
+  if (time > 0) {
+    if (hre.network.name.includes('tenderly')) {
+      await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
+      await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+    } else {
+      await network.provider.send('evm_increaseTime', [time])
+      await network.provider.send('evm_mine', [])
+    }
+    console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
   }
-  console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
 
 const isFork = () => {
@@ -171,7 +173,7 @@ export const proposeApproveExecute = async (
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
       // Since we are in a testing environment, let's advance time
-      advanceTime(3 * 24 * 60 * 60)
+      advanceTime(await timelock.delay())
     } else {
       // On kovan we have approval permissions
       signerAcc = (await ethers.getSigners())[0]
@@ -261,6 +263,11 @@ export const fundExternalAccounts = async (assetList: Map<string, any>, accountL
 
 export function bytesToString(bytes: string): string {
   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+}
+
+export function stringToBytes(str: string, bytes?: number) {
+  if (bytes == undefined) bytes = str.length
+  return ethers.utils.formatBytes32String(str).slice(0, 2 + bytes * 2)
 }
 
 export function stringToBytes6(x: string): string {

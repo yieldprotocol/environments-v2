@@ -1,5 +1,5 @@
 import { ethers, network } from 'hardhat'
-import { verify } from '../../../../shared/helpers'
+import { tenderlyVerify, verify } from '../../../../shared/helpers'
 import { contangoLadle_key, ROOT } from '../../../../shared/constants'
 
 import { Ladle } from '../../../../typechain'
@@ -28,20 +28,10 @@ export const deployContangoLadle = async (
     contangoLadle = await _ladle.deployed()
     console.log(`Ladle deployed at ${contangoLadle.address}`)
     verify(contangoLadle.address, [cauldron.address, wethAddress])
+    tenderlyVerify('ContangoLadle', contangoLadle)
     const router = await contangoLadle.router()
     console.log(`Router deployed at ${router}`)
     verify(router, [])
-    if (network.name == 'tenderly') {
-      await hre.tenderly.persistArtifacts({
-        name: 'ContangoLadle',
-        address: contangoLadle.address,
-      })
-
-      await hre.tenderly.verify({
-        name: 'ContangoLadle',
-        address: contangoLadle.address,
-      })
-    }
   } else {
     contangoLadle = await ethers.getContractAt('Ladle', address, ownerAcc)
     console.log(`Reusing Ladle at ${contangoLadle.address}`)

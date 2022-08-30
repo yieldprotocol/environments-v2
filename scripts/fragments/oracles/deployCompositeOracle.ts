@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
-import { verify, writeAddressMap } from '../../../shared/helpers'
+import { tenderlyVerify, verify, writeAddressMap } from '../../../shared/helpers'
 import { CompositeMultiOracle, Timelock } from '../../../typechain'
 
 /**
@@ -22,6 +22,7 @@ export const deployCompositeOracle = async (
     compositeOracle = await _compositeOracle.deployed()
     console.log(`CompositeMultiOracle deployed at ${compositeOracle.address}`)
     verify(compositeOracle.address, [])
+    tenderlyVerify('CompositeMultiOracle', compositeOracle)
     protocol.set('compositeOracle', compositeOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {

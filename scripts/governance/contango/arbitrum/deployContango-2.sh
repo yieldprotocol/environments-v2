@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/contango.arb_mainnet.config
-RUN="npx hardhat run --network tenderly"
+RUN="npx hardhat run --network localhost"
 
 # Phase 1: Deploy ContangoWitch
 $RUN $HERE/deployContangoWitch.ts

@@ -15,5 +15,5 @@ const { governance, protocol, developer, assetsToAdd } = require(process.env.CON
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
   const newJoins = await deployJoins(ownerAcc, timelock, ladle, assetsToAdd)
-  writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file
+  writeAddressMap('newJoins.json', newJoins) // newJoins.json is a temporary file
 })()

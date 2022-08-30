@@ -4,16 +4,8 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared
 import { orchestrateContangoLadle } from '../shared/orchestrateContangoLadle'
 import { orchestrateContangoWitch } from '../shared/orchestrateContangoWitch'
 
-const {
-  protocol,
-  governance,
-  developer,
-  joins,
-  auctionLineAndLimits,
-  bases,
-  fyTokens,
-  contangoAddress,
-} = require(process.env.CONF as string)
+const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, contangoAddress } = require(process.env
+  .CONF as string)
 
 /**
  * @dev This script orchestrates the Cauldron, Ladle, Witch (and Wand?)
@@ -40,7 +32,7 @@ const {
       cloak,
       timelock,
       contangoCauldron,
-      joins,
+      contangoLadle,
       auctionLineAndLimits,
       bases,
       fyTokens

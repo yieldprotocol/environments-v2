@@ -9,7 +9,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { bytesToString } from '../../../../shared/helpers'
-import { Cauldron, ContangoWitch, EmergencyBrake, Timelock } from '../../../../typechain'
+import { Cauldron, ContangoLadle, ContangoWitch, EmergencyBrake, Timelock } from '../../../../typechain'
 import { AuctionLineAndLimit } from '../arbitrum/contango.arb_mainnet.config'
 
 export const orchestrateContangoWitch = async (
@@ -18,7 +18,7 @@ export const orchestrateContangoWitch = async (
   cloak: EmergencyBrake,
   timelock: Timelock,
   cauldron: Cauldron,
-  joins: Map<string, string>,
+  ladle: ContangoLadle,
   auctionLineAndLimits: AuctionLineAndLimit[],
   bases: Array<[string, string]>,
   fyTokens: Map<string, string>
@@ -62,8 +62,8 @@ export const orchestrateContangoWitch = async (
   })
   console.log(`cloak.plan(witch): ${await cloak.hash(witch.address, plan)}`)
 
-  for (const [assetId, joinAddress] of bases) {
-    const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
+  for (const [assetId] of bases) {
+    const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)
 
     // Allow Witch to join base
     proposal.push({
@@ -91,8 +91,8 @@ export const orchestrateContangoWitch = async (
     }
   }
 
-  for (const [seriesId, fyTokenAddress] of fyTokens) {
-    const fyToken = await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)
+  for (const [seriesId] of fyTokens) {
+    const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc)
 
     // Allow Witch to burn fyTokens
     proposal.push({
@@ -136,7 +136,7 @@ export const orchestrateContangoWitch = async (
 
   const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
   for (const ilkId of ilkIds) {
-    const join = await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)
+    const join = await ethers.getContractAt('Join', await ladle.joins(ilkId), ownerAcc)
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
