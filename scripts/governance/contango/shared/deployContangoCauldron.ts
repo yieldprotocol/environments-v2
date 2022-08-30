@@ -18,8 +18,8 @@ export const deployContangoCauldron = async (
 
   let cauldron: Cauldron
   if (address === undefined) {
-    const _cauldron = await (await ethers.getContractFactory('Cauldron')).deploy()
-    cauldron = await _cauldron.deployed()
+    cauldron = await (await ethers.getContractFactory('Cauldron')).deploy()
+    await cauldron.deployed()
     console.log(`Cauldron deployed at ${cauldron.address}`)
     verify(cauldron.address, [])
     tenderlyVerify('Cauldron', cauldron)
