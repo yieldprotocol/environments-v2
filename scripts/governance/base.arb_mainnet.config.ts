@@ -9,6 +9,7 @@ export const governance = readAddressMappingIfExists('governance.json')
 export const strategies = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
+export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 
