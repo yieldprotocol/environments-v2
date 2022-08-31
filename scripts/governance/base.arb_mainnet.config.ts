@@ -20,13 +20,13 @@ export const additionalDevelopers: Array<string> = [
   '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
   '0xfe90d993367bc93D171A5ED88ab460759DE2bED6',
 ]
+
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
   [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
-  [DAI, '0xa5a33ab9063395a90ccbea2d86a62eccf27b5742'],
-  [USDC, '0xba12222222228d8ba445958a75a0704d566bf2c8'],
+  [DAI, '0xba479d5585ecec47edc2a571da430a40f43c3851'],
+  [USDC, '0x1714400ff23db4af24f9fd64e7039e6597f18c2b'],
 ])
-
 // https://tokenlists.org/token-list?url=https://bridge.arbitrum.io/token-list-42161.json
 export const assets: Map<string, string> = new Map([
   [ETH, '0x82af49447d8a07e3bd95bd0d56f35241523fbab1'],

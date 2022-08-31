@@ -1,15 +1,7 @@
 import { ethers } from 'hardhat'
 import { verify } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
-import {
-  Cauldron,
-  Ladle,
-  Strategy,
-  ERC20Mock,
-  Timelock,
-  SafeERC20Namer,
-  YieldMathExtensions,
-} from '../../../../typechain'
+import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer } from '../../../../typechain'
 
 /**
  * @dev This script deploys strategies
@@ -21,7 +13,6 @@ export const deployStrategies = async (
   cauldron: Cauldron,
   ladle: Ladle,
   safeERC20Namer: SafeERC20Namer,
-  yieldMathExtensions: YieldMathExtensions,
   timelock: Timelock,
   strategiesData: Array<[string, string, string, string, string]>
 ): Promise<Map<string, string>> => {

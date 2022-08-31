@@ -45,11 +45,12 @@ export const getOriginalChainId = async (): Promise<number> => {
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
   if (network.name == 'tenderly') {
     console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
-    await network.provider.send('tenderly_addBalance', [
-      impersonatedAddress,
-      ethers.utils.parseEther('1000').toHexString(),
-    ])
-
+    if (balance) {
+      await network.provider.send('tenderly_addBalance', [
+        impersonatedAddress,
+        ethers.utils.parseEther('1000').toHexString(),
+      ])
+    }
     return await ethers.getSigner(impersonatedAddress)
   }
   let [ownerAcc] = await ethers.getSigners()
