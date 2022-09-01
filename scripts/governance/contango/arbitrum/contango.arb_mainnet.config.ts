@@ -14,7 +14,7 @@ export const newJoins: Map<string, string> = base_config.newJoins
 
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
-export const contangoAddress = '0xdAc7340f9893D131a52801e634F351710A5183d6'
+export const contangoAddress = '0x30E7348163016B3b6E1621A3Cb40e8CF33CE97db'
 
 import { USDC, DAI, FYDAI2209, FYUSDC2209, CHAINLINKUSD, IDENTITY, ETH, FYETH2209 } from '../../../../shared/constants' // Note we use the series id as the asset id
 
