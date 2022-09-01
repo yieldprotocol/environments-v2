@@ -2,16 +2,16 @@ import { contangoLadleRouter_key, contangoLadle_key } from '../../../../shared/c
 import { getOwnerOrImpersonate, writeAddressMap } from '../../../../shared/helpers'
 
 import { deployContangoLadle } from '../shared/deployContangoLadle'
-const { developer, protocol, governance, wethAddress } = require(process.env.CONF as string)
+const { developer, protocol, governance, assets } = require(process.env.CONF as string)
+import { ETH } from '../../../../shared/constants'
 
 /**
  * @dev This script deploys the Ladle
  */
-
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const ladle = await deployContangoLadle(ownerAcc, wethAddress, protocol, governance)
+  const ladle = await deployContangoLadle(ownerAcc, assets.get(ETH), protocol, governance)
   protocol.set(contangoLadle_key, ladle.address)
 
   const router = await ladle.router()

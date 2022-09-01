@@ -1,9 +1,9 @@
-import { ethers, network } from 'hardhat'
+import { ethers } from 'hardhat'
 import { tenderlyVerify, verify } from '../../../../shared/helpers'
 import { contangoLadle_key, ROOT } from '../../../../shared/constants'
 
 import { Ladle } from '../../../../typechain'
-const hre = require('hardhat')
+
 /**
  * @dev This script deploys the Ladle and with it the Router
  * The account to operate with needs to be passed as a parameter, as well as the WETH9 address to use.
