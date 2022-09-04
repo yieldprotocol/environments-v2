@@ -53,7 +53,7 @@ export const orchestrateFCashWandProposal = async (
     target: fCashWand.address,
     data: fCashWand.interface.encodeFunctionData('grantRole', [
       id(fCashWand.interface, 'addfCashCollateral(bytes6,address,bytes6,bytes6)'),
-      timelock.address,
+      deployer,
     ]),
   })
 
