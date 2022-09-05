@@ -26,13 +26,6 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as SafeERC20Namer
 
-  // we no longer use YieldMathExtensions
-  // const yieldMathExtensions = (await ethers.getContractAt(
-  //   'YieldMathExtensions',
-  //   protocol.get('yieldMathExtensions') as string,
-  //   ownerAcc
-  // )) as unknown as YieldMathExtensions
-
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,

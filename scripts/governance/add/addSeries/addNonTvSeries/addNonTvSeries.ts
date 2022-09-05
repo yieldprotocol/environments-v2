@@ -18,7 +18,7 @@ import { updateRateSourcesProposal } from '../../../../fragments/oracles/updateR
 import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
-import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
+import { registerPoolsWithLadle } from '../../../../fragments/assetsAndSeries/registerPoolsWithLadle'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
@@ -70,24 +70,10 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
   }
 
-  // NOTE: NO ROLLER
-  // proposal = proposal.concat(await orchestrateRollerProposal(deployer, strategies, roller, timelock, cloak, rollData))
-
-  // NOTE: This does a bunch of stuff (like orchestrate FYTokens) that's already done.
-  // ALSO: I think? we might need to UNREGISTER the bad pools from the lalde?
-  // SO: Should I just create a new script that only registers/unregisters the pools w ladle?
-  proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
-  )
-
-  // NOTE: I dont think i need to addIlksToSeries since it was done previously
-  // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await registerPoolsWithLadle(ownerAcc, ladle, newPools))
 
   // TODO: need to fund timelock for this
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
-
-  // NOTE: We don't need to do this since we're not rolling, we're creating new
-  // proposal = proposal.concat(await rollStrategiesProposal(ownerAcc, protocol, strategies, newPools, timelock, rollData))
 
   // Strategies -- TODO: This
   // proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
