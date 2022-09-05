@@ -11,7 +11,7 @@ export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
-export const contracts = readAddressMappingIfExists('contracts.json')
+export const external = readAddressMappingIfExists('external.json')
 
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
