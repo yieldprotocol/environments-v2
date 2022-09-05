@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../shared/helpers'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { Ladle, Timelock } from '../../../typechain'
+import { Ladle, Timelock } from '../../../../typechain'
 
-import { orchestrateModuleProposal } from '../../fragments/modules/orchestrateModuleProposal'
+import { orchestrateModuleProposal } from '../../../fragments/modules/orchestrateModuleProposal'
 
 const { developer, governance, protocol, moduleAddress } = require(process.env.CONF as string)
 
@@ -29,6 +29,6 @@ const { developer, governance, protocol, moduleAddress } = require(process.env.C
 
   if (proposal.length > 0) {
     // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
   }
 })()
