@@ -11,8 +11,7 @@ import { FDAI2209, FDAI2209ID, FUSDC2209, FUSDC2209ID, FDAI2212, FUSDC2212 } fro
 import { Timelock, NotionalJoinFactory, NotionalJoin } from '../../../../../typechain'
 import { orchestrateNotionalJoinProposal } from '../../../../fragments/utils/orchestrateNotionalJoinProposal'
 const { developer, deployer } = require(process.env.CONF as string)
-const { deployContract } = waffle
-// const decAssetAddress = 0x0
+const notionalAssetAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 const salt = 1
 
 /**
@@ -41,6 +40,7 @@ const salt = 1
   console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   let proposal: Array<{ target: string; data: string }> = []
+  console.log(`code works till here`)
 
   // Permissions
   proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, timelock))
@@ -62,7 +62,7 @@ const salt = 1
   const fDAI2212Join = (await notionalJoinFactory.deploy(
     FDAI2209,
     FDAI2212,
-    decAssetAddress,
+    notionalAssetAddress,
     salt
   )) as unknown as NotionalJoin
   joins.set(FDAI2212, fDAI2212Join.address)
@@ -73,7 +73,7 @@ const salt = 1
   const fUSDC2212Join = (await notionalJoinFactory.deploy(
     FUSDC2209,
     FUSDC2212,
-    decAssetAddress,
+    notionalAssetAddress,
     salt
   )) as unknown as NotionalJoin
   joins.set(FUSDC2212, fUSDC2212Join.address)

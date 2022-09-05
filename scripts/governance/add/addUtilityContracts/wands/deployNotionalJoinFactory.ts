@@ -28,7 +28,7 @@ const { deployContract } = waffle
     notionalJoinFactory = (await deployContract(ownerAcc, NotionalJoinFactoryArtifact, args)) as NotionalJoinFactory
     console.log(`NotionalJoinFactory deployed at ${notionalJoinFactory.address}`)
     verify(notionalJoinFactory.address, args)
-    protocol.set('NotionalJoinFactory', notionalJoinFactory.address)
+    protocol.set('notionalJoinFactory', notionalJoinFactory.address)
     writeAddressMap('protocol.json', protocol)
   } else {
     notionalJoinFactory = (await ethers.getContractAt(
