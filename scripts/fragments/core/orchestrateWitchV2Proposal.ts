@@ -6,15 +6,17 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../../shared/helpers'
-import { Cauldron, ContangoLadle, ContangoWitch, EmergencyBrake, Timelock } from '../../../../typechain'
-import { AuctionLineAndLimit } from '../arbitrum/contango.arb_mainnet.config'
+import { ROOT } from '../../../shared/constants'
+import { bytesToString } from '../../../shared/helpers'
+import { Cauldron, ContangoLadle, EmergencyBrake, Timelock, Witch } from '../../../typechain'
+import { AuctionLineAndLimit } from '../../governance/contango/arbitrum/contango.arb_mainnet.config'
 
-export const orchestrateContangoWitch = async (
-  ownerAcc: any,
-  witch: ContangoWitch,
+export const orchestrateWitchV2 = async (
+  ownerAcc: SignerWithAddress,
+  witch: Witch,
   cloak: EmergencyBrake,
   timelock: Timelock,
   cauldron: Cauldron,
@@ -27,13 +29,18 @@ export const orchestrateContangoWitch = async (
 
   proposal.push({
     target: witch.address,
+    data: witch.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
+  })
+  console.log(`cauldron.revokeRole(witch)`)
+
+  proposal.push({
+    target: witch.address,
     data: witch.interface.encodeFunctionData('grantRoles', [
       [
         id(witch.interface, 'point(bytes32,address)'),
         id(witch.interface, 'setAuctioneerReward(uint256)'),
         id(witch.interface, 'setAnotherWitch(address,bool)'),
-        id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)'),
-        id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)'),
+        id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)')
       ],
       timelock.address,
     ]),
@@ -68,10 +75,7 @@ export const orchestrateContangoWitch = async (
     // Allow Witch to join base
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'join(address,uint128)')],
-        witch.address,
-      ]),
+      data: join.interface.encodeFunctionData('grantRole', [id(join.interface, 'join(address,uint128)'), witch.address,]),
     })
 
     // Allow to revoke the above permission on emergencies
@@ -97,10 +101,7 @@ export const orchestrateContangoWitch = async (
     // Allow Witch to burn fyTokens
     proposal.push({
       target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('grantRoles', [
-        [id(fyToken.interface, 'burn(address,uint256)')],
-        witch.address,
-      ]),
+      data: fyToken.interface.encodeFunctionData('grantRole', [id(fyToken.interface, 'burn(address,uint256)'), witch.address,]),
     })
 
     // Allow to revoke the above permission on emergencies
@@ -141,10 +142,7 @@ export const orchestrateContangoWitch = async (
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'exit(address,uint128)')],
-        witch.address,
-      ]),
+      data: join.interface.encodeFunctionData('grantRole', [id(join.interface, 'exit(address,uint128)'), witch.address,]),
     })
 
     // Log a plan to undo the orchestration above in emergencies

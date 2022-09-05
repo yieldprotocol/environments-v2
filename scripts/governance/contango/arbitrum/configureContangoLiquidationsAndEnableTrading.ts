@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
 import { contangoCauldron_key, contangoLadle_key, contangoWitch_key } from '../../../../shared/constants'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { orchestrateContangoWitch } from '../shared/orchestrateContangoWitch'
-import { revokeContangoWitch } from '../shared/revokeContangoWitch'
+import { orchestrateContangoLadle } from '../shared/orchestrateContangoLadle'
+import { orchestrateWitchV2 } from '../../../fragments/core/orchestrateWitchV2Proposal'
 
 const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, contangoAddress } = require(process.env
   .CONF as string)
@@ -24,12 +24,9 @@ const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, 
     ownerAcc
   )
 
-  const badWitch = await ethers.getContractAt('ContangoWitch', '0x79857da1d4b976f40787daa6177E24256bc53b75', ownerAcc)
-
   // Build the proposal
   const proposal = [
-    await revokeContangoWitch(badWitch, contangoCauldron),
-    await orchestrateContangoWitch(
+    await orchestrateWitchV2(
       ownerAcc,
       contangoWitch,
       cloak,
@@ -40,6 +37,7 @@ const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, 
       bases,
       fyTokens
     ),
+    await orchestrateContangoLadle(contangoAddress, contangoLadle, cloak),
   ].flat(1)
 
   // Propose, Approve & execute

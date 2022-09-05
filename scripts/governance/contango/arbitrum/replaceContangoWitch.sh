@@ -9,6 +9,6 @@ RUN="npx hardhat run --network localhost"
 $RUN $HERE/deployContangoWitch.ts
 
 # Phase 2: Orchestrate
-$RUN $HERE/orchestrateContango-3.ts # propose
-$RUN $HERE/orchestrateContango-3.ts # approve
-$RUN $HERE/orchestrateContango-3.ts # execute
+$RUN $HERE/replaceContangoWitch.ts # propose
+$RUN $HERE/replaceContangoWitch.ts # approve
+$RUN $HERE/replaceContangoWitch.ts # execute
