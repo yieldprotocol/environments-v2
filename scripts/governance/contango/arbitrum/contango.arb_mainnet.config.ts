@@ -14,7 +14,7 @@ export const newJoins: Map<string, string> = base_config.newJoins
 
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
-export const contracts: Map<string, string> = base_config.contracts
+export const external: Map<string, string> = base_config.external
 
 import { USDC, DAI, FYDAI2209, FYUSDC2209, CHAINLINKUSD, IDENTITY, ETH, FYETH2209 } from '../../../../shared/constants' // Note we use the series id as the asset id
 
