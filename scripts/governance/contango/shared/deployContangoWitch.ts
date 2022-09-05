@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { ROOT, contangoWitch_key, contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
-import { tenderlyVerify, verify } from '../../../../shared/helpers'
+import { addressHasCode, tenderlyVerify, verify } from '../../../../shared/helpers'
 import { ContangoWitch } from '../../../../typechain'
 /**
  * @dev This script deploys the Witch
@@ -16,6 +16,8 @@ export const deployContangoWitch = async (
 
   const cauldronAddress = protocol.get(contangoCauldron_key)
   const ladleAddress = protocol.get(contangoLadle_key)
+
+  await addressHasCode(contangoAddress, 'contango')
 
   let contangoWitch: ContangoWitch
 

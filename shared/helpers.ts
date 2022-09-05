@@ -41,6 +41,12 @@ export const getOriginalChainId = async (): Promise<number> => {
   return chainId
 }
 
+/** @dev Check if address is a deployed contract */
+export const addressHasCode = async (address: string, label = 'unknown') => {
+  const code = await ethers.provider.getCode(address)
+  if (code === '0x') throw new Error(`Address: ${address} has no code. Label: ${label}`)
+}
+
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
   if (network.name.includes('tenderly')) {
@@ -162,7 +168,10 @@ export const proposeApproveExecute = async (
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
+    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal, { gasLimit: 30_000_000 })
+    const ethBalance = await signerAcc.getBalance()
+    console.log(`gasEstimate: ${gasEstimate} - ethBalance: ${ethBalance}`)
+    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 30_000_000 })
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
@@ -194,7 +203,7 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    const tx = await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
+    const tx = await timelock.connect(signerAcc).execute(proposal)
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }

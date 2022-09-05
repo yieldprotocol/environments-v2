@@ -132,6 +132,7 @@ export const orchestrateContangoWitch = async (
         max,
       ]),
     })
+    console.log(`Adding baseId: ${bytesToString(baseId)} - ilkId: ${bytesToString(ilkId)} to the Witch`)
   }
 
   const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))

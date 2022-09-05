@@ -3,8 +3,8 @@ import { parseUnits } from 'ethers/lib/utils'
 
 import * as base_config from '../../base.arb_mainnet.config'
 
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
+export const deployer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
 
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
