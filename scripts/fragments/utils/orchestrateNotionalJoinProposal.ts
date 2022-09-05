@@ -13,42 +13,42 @@ export const orchestrateNotionalJoinProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  const nJoinFactory = (await ethers.getContractAt(
+  const notionalJoinFactory = (await ethers.getContractAt(
     'NotionalJoinFactory',
-    protocol.get('nJoinFactory') as string,
+    protocol.get('notionalJoinFactory') as string,
     ownerAcc
   )) as NotionalJoinFactory
 
-  console.log(`nJoinFactory: ${nJoinFactory.address}`)
+  console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   proposal.push({
-    target: nJoinFactory.address,
-    data: nJoinFactory.interface.encodeFunctionData('grantRole', [
-      id(nJoinFactory.interface, 'addFCash(bytes6,uint256)'),
+    target: notionalJoinFactory.address,
+    data: notionalJoinFactory.interface.encodeFunctionData('grantRole', [
+      id(notionalJoinFactory.interface, 'addFCash(bytes6,uint256)'),
       deployer,
     ]),
   })
 
   proposal.push({
-    target: nJoinFactory.address,
-    data: nJoinFactory.interface.encodeFunctionData('grantRole', [
-      id(nJoinFactory.interface, 'deploy(bytes6,bytes6,address,uint256)'),
+    target: notionalJoinFactory.address,
+    data: notionalJoinFactory.interface.encodeFunctionData('grantRole', [
+      id(notionalJoinFactory.interface, 'deploy(bytes6,bytes6,address,uint256)'),
       deployer,
     ]),
   })
 
   proposal.push({
-    target: nJoinFactory.address,
-    data: nJoinFactory.interface.encodeFunctionData('grantRole', [
-      id(nJoinFactory.interface, 'getBytesCode(address,address,address,uint40,uint16)'),
+    target: notionalJoinFactory.address,
+    data: notionalJoinFactory.interface.encodeFunctionData('grantRole', [
+      id(notionalJoinFactory.interface, 'getByteCode(address,address,address,uint40,uint16)'),
       deployer,
     ]),
   })
 
   proposal.push({
-    target: nJoinFactory.address,
-    data: nJoinFactory.interface.encodeFunctionData('grantRole', [
-      id(nJoinFactory.interface, 'getAddress(bytes,uint256)'),
+    target: notionalJoinFactory.address,
+    data: notionalJoinFactory.interface.encodeFunctionData('grantRole', [
+      id(notionalJoinFactory.interface, 'getAddress(bytes,uint256)'),
       deployer,
     ]),
   })

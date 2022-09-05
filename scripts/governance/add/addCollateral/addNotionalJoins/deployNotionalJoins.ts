@@ -12,7 +12,7 @@ import { Timelock, NotionalJoinFactory, NotionalJoin } from '../../../../../type
 import { orchestrateNotionalJoinProposal } from '../../../../fragments/utils/orchestrateNotionalJoinProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const notionalAssetAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
-const salt = 1
+const salt = ethers.BigNumber.from('1')
 
 /**
  * @dev This script deploys Notional Joins via Notional Join Factory
@@ -39,24 +39,25 @@ const salt = 1
   )) as unknown as NotionalJoinFactory
   console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
-  let proposal: Array<{ target: string; data: string }> = []
-  console.log(`code works till here`)
+  //let proposal: Array<{ target: string; data: string }> = []
 
   // Permissions
-  proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, timelock))
+  //proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, timelock))
 
   // Propose, Approve & execute
-  if (proposal.length > 0) {
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
-  }
+  //if (proposal.length > 0) {
+  //  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
+  // }
 
   // add FDAI2209
-  await notionalJoinFactory.addFCash(FDAI2209, FDAI2209ID)
+  //await notionalJoinFactory.addFCash(FDAI2209, FDAI2209ID)
   console.log(`FDAI2209 added as reference`)
 
   // add FUSDC2209
-  await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
+  //await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
   console.log(`FUSDC2209 added as reference`)
+
+  console.log(`code works till here`)
 
   // deploy FDAI2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
   const fDAI2212Join = (await notionalJoinFactory.deploy(
@@ -65,6 +66,7 @@ const salt = 1
     notionalAssetAddress,
     salt
   )) as unknown as NotionalJoin
+
   joins.set(FDAI2212, fDAI2212Join.address)
   writeAddressMap('joins.json', joins)
   console.log(`fDAI2212Join deployed at: ${fDAI2212Join.address}`)

@@ -33,7 +33,7 @@ const { deployContract } = waffle
   } else {
     notionalJoinFactory = (await ethers.getContractAt(
       'NotionalJoinFactory',
-      protocol.get('NotionalJoinFactory') as string,
+      protocol.get('notionalJoinFactory') as string,
       ownerAcc
     )) as unknown as NotionalJoinFactory
     console.log(`Reusing NotionalJoinFactory at ${notionalJoinFactory.address}`)
@@ -42,13 +42,18 @@ const { deployContract } = waffle
   if (!(await notionalJoinFactory.hasRole(ROOT, timelock))) {
     await notionalJoinFactory.grantRole(ROOT, timelock)
     console.log(`notionalJoinFactory.grantRoles(ROOT, timelock)`)
-    while (!(await notionalJoinFactory.hasRole(ROOT, timelock))) {}
+    await notionalJoinFactory.hasRole(ROOT, timelock)
+  } else {
+    console.log(`timelock has ROOT`)
   }
 
   if (!(await notionalJoinFactory.hasRole(ROOT, deployer))) {
+    console.log(`deployer ROOT revoked`)
+  } else {
     await notionalJoinFactory.revokeRole(ROOT, deployer)
     console.log(`notionalJoinFactory.revokeRole(ROOT, deployer)`)
-    while (!(await notionalJoinFactory.hasRole(ROOT, deployer))) {}
+    const hasRoot = await notionalJoinFactory.hasRole(ROOT, deployer)
+    console.log('hasRoot:', hasRoot)
   }
 
   console.log(`completed`)
