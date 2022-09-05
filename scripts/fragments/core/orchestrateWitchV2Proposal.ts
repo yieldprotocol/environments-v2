@@ -40,7 +40,7 @@ export const orchestrateWitchV2 = async (
         id(witch.interface, 'point(bytes32,address)'),
         id(witch.interface, 'setAuctioneerReward(uint256)'),
         id(witch.interface, 'setAnotherWitch(address,bool)'),
-        id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)')
+        id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)'),
       ],
       timelock.address,
     ]),
@@ -75,7 +75,10 @@ export const orchestrateWitchV2 = async (
     // Allow Witch to join base
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [id(join.interface, 'join(address,uint128)'), witch.address,]),
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'join(address,uint128)'),
+        witch.address,
+      ]),
     })
 
     // Allow to revoke the above permission on emergencies
@@ -101,7 +104,10 @@ export const orchestrateWitchV2 = async (
     // Allow Witch to burn fyTokens
     proposal.push({
       target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('grantRole', [id(fyToken.interface, 'burn(address,uint256)'), witch.address,]),
+      data: fyToken.interface.encodeFunctionData('grantRole', [
+        id(fyToken.interface, 'burn(address,uint256)'),
+        witch.address,
+      ]),
     })
 
     // Allow to revoke the above permission on emergencies
@@ -142,7 +148,10 @@ export const orchestrateWitchV2 = async (
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [id(join.interface, 'exit(address,uint128)'), witch.address,]),
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'exit(address,uint128)'),
+        witch.address,
+      ]),
     })
 
     // Log a plan to undo the orchestration above in emergencies

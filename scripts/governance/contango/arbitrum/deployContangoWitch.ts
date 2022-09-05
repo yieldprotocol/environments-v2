@@ -10,7 +10,7 @@ const { developer, protocol, governance, contracts } = require(process.env.CONF 
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const contangoWitch = await deployContangoWitch(ownerAcc, protocol, governance, contracts.get("contango") as string)
+  const contangoWitch = await deployContangoWitch(ownerAcc, protocol, governance, contracts.get('contango') as string)
   protocol.set(contangoWitch_key, contangoWitch.address)
 
   writeAddressMap('protocol.json', protocol)

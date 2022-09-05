@@ -2,11 +2,11 @@
  * @dev This script revokes permissions to a witch
  */
 
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { id } from '@yield-protocol/utils-v2';
-import { ethers } from 'hardhat';
-import { Cauldron, ContangoLadle, Witch } from '../../../typechain';
-import { AuctionLineAndLimit } from '../../governance/contango/arbitrum/contango.arb_mainnet.config';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { id } from '@yield-protocol/utils-v2'
+import { ethers } from 'hardhat'
+import { Cauldron, ContangoLadle, Witch } from '../../../typechain'
+import { AuctionLineAndLimit } from '../../governance/contango/arbitrum/contango.arb_mainnet.config'
 
 export const replaceWitchV2 = async (
   ownerAcc: SignerWithAddress,
@@ -34,7 +34,10 @@ export const replaceWitchV2 = async (
     // Revoke Witch to join base
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('revokeRole', [id(join.interface, 'join(address,uint128)'), witch.address,]),
+      data: join.interface.encodeFunctionData('revokeRole', [
+        id(join.interface, 'join(address,uint128)'),
+        witch.address,
+      ]),
     })
   }
 
@@ -44,7 +47,10 @@ export const replaceWitchV2 = async (
     // Revoke Witch to burn fyTokens
     proposal.push({
       target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('revokeRole', [id(fyToken.interface, 'burn(address,uint256)'), witch.address,]),
+      data: fyToken.interface.encodeFunctionData('revokeRole', [
+        id(fyToken.interface, 'burn(address,uint256)'),
+        witch.address,
+      ]),
     })
   }
 
@@ -54,7 +60,10 @@ export const replaceWitchV2 = async (
     // Revoke Witch to exit ilk
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('revokeRole', [id(join.interface, 'exit(address,uint128)'), witch.address,]),
+      data: join.interface.encodeFunctionData('revokeRole', [
+        id(join.interface, 'exit(address,uint128)'),
+        witch.address,
+      ]),
     })
   }
 
