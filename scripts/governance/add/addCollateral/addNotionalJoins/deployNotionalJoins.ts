@@ -57,17 +57,15 @@ const salt = ethers.BigNumber.from('1')
   //await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
   console.log(`FUSDC2209 added as reference`)
 
-  console.log(`code works till here`)
-
   // deploy FDAI2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
-  const fDAI2212Join = (await notionalJoinFactory.deploy(
-    FDAI2209,
-    FDAI2212,
-    notionalAssetAddress,
-    salt
-  )) as unknown as NotionalJoin
+  const fDAI2212Join = (await notionalJoinFactory.deploy(FDAI2209, FDAI2212, notionalAssetAddress, salt, {
+    gasLimit: 10000000,
+  })) as unknown as NotionalJoin
 
   joins.set(FDAI2212, fDAI2212Join.address)
+  console.log(`code works till here`)
+  console.log(fDAI2212Join)
+
   writeAddressMap('joins.json', joins)
   console.log(`fDAI2212Join deployed at: ${fDAI2212Join.address}`)
 
