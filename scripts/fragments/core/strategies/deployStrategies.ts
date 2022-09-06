@@ -1,7 +1,8 @@
 import { ethers } from 'hardhat'
 import { verify } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
-import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer } from '../../../../typechain'
+import { Cauldron, Ladle, Strategy, Timelock, SafeERC20Namer } from '../../../../typechain'
+// import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer } from '../../../../typechain'
 
 /**
  * @dev This script deploys strategies
@@ -19,25 +20,25 @@ export const deployStrategies = async (
   const strategyFactory = await ethers.getContractFactory('Strategy', {
     libraries: {
       SafeERC20Namer: safeERC20Namer.address,
-      YieldMathExtensions: yieldMathExtensions.address,
     },
   })
 
   let newStrategies: Map<string, string> = new Map()
 
   for (let [name, symbol, baseId, join, baseAddress] of strategiesData) {
-    const base = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      baseAddress,
-      ownerAcc
-    )) as unknown as ERC20Mock
-    console.log(`Using ${await base.name()} at ${base.address} as base`)
+    // const base = (await ethers.getContractAt(
+    //   'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
+    //   baseAddress,
+    //   ownerAcc
+    // )) as unknown as ERC20Mock
+    // console.log(`Using ${await base.name()} at ${baseAddress} as base`)
+    console.log(`Using ${baseAddress} as base`)
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
-      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, base.address, baseId, join)) as Strategy
+      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
-      verify(strategy.address, [name, symbol, ladle.address, base.address, baseId, join], 'safeERC20Namer.js')
+      verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
       newStrategies.set(symbol, strategy.address)
     } else {
       console.log(`Reusing Strategy at ${strategies.get(symbol)}`)

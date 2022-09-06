@@ -17,7 +17,7 @@ export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const strategies: Map<string, string> = base_config.strategies
-export const newFYTokens: Map<string, string> = base_config.newFYTokens
+export const fyTokens: Map<string, string> = base_config.fyTokens
 export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
@@ -51,14 +51,14 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
   [
     FYDAI2212,
     assets.get(DAI) as string,
-    newFYTokens.get(FYDAI2212) as string,
+    fyTokens.get(FYDAI2212) as string,
     timeStretch.get(FYDAI2212) as BigNumber,
     g1,
   ],
   [
     FYUSDC2212,
     assets.get(USDC) as string,
-    newFYTokens.get(FYUSDC2212) as string,
+    fyTokens.get(FYUSDC2212) as string,
     timeStretch.get(FYUSDC2212) as BigNumber,
     g1,
   ],

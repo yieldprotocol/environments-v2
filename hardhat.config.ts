@@ -103,7 +103,7 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 31337,
+      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
