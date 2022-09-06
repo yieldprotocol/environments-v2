@@ -1,19 +1,7 @@
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  writeAddressMap,
-  verify,
-  getOwnerOrImpersonate,
-} from '../../../shared/helpers'
-
-import CompositeMultiOracleArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/oracles/composite/CompositeMultiOracle.sol/CompositeMultiOracle.json'
-
-import { CompositeMultiOracle } from '../../../typechain/CompositeMultiOracle'
-import { Timelock } from '../../../typechain/Timelock'
-
-const { deployContract } = waffle
+import { tenderlyVerify, verify, writeAddressMap } from '../../../shared/helpers'
+import { CompositeMultiOracle, Timelock } from '../../../typechain'
 
 /**
  * @dev This script deploys the CompositeMultiOracles
@@ -30,17 +18,19 @@ export const deployCompositeOracle = async (
 ): Promise<CompositeMultiOracle> => {
   let compositeOracle: CompositeMultiOracle
   if (protocol.get('compositeOracle') === undefined) {
-    compositeOracle = (await deployContract(ownerAcc, CompositeMultiOracleArtifact, [])) as CompositeMultiOracle
+    const _compositeOracle = await (await ethers.getContractFactory('CompositeMultiOracle')).deploy()
+    compositeOracle = await _compositeOracle.deployed()
     console.log(`CompositeMultiOracle deployed at ${compositeOracle.address}`)
     verify(compositeOracle.address, [])
+    tenderlyVerify('CompositeMultiOracle', compositeOracle)
     protocol.set('compositeOracle', compositeOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    compositeOracle = (await ethers.getContractAt(
+    compositeOracle = await ethers.getContractAt(
       'CompositeMultiOracle',
       protocol.get('compositeOracle') as string,
       ownerAcc
-    )) as unknown as CompositeMultiOracle
+    )
     console.log(`Reusing CompositeMultiOracle at ${compositeOracle.address}`)
   }
   if (!(await compositeOracle.hasRole(ROOT, timelock.address))) {

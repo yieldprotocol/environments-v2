@@ -60,6 +60,30 @@
     [
       "wrapEtherModule",
       "0x4cD01eD221d6d198e2656c16c32803BF78134568"
+    ],
+    [
+      "contangoCauldron",
+      "0x44386ddB4C44E7CB8981f97AF89E928Ddd4258DD"
+    ],
+    [
+      "contangoLadle",
+      "0x93343C08e2055b7793a3336d659Be348FC1B08f9"
+    ],
+    [
+      "contangoLadleRouter",
+      "0x9ea9971D9e032D08C2118c97Fa63c7618b46c104"
+    ],
+    [
+      "compositeOracle",
+      "0x750B3a18115fe090Bc621F9E4B90bd442bcd02F2"
+    ],
+    [
+      "identityOracle",
+      "0xce3d36e19De6A7b66e851c5B7e468E35Dc83d29d"
+    ],
+    [
+      "contangoWitch",
+      "0x89343a24a217172A569A0bD68763Bf0671A3efd8"
     ]
   ]
 }

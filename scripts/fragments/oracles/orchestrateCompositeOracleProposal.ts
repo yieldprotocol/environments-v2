@@ -1,3 +1,4 @@
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
@@ -10,7 +11,7 @@ import { CompositeMultiOracle, EmergencyBrake, Timelock } from '../../../typecha
  */
 
 export const orchestrateCompositeOracleProposal = async (
-  deployer: string,
+  deployer: SignerWithAddress,
   compositeOracle: CompositeMultiOracle,
   timelock: Timelock,
   cloak: EmergencyBrake
@@ -39,7 +40,7 @@ export const orchestrateCompositeOracleProposal = async (
 
   proposal.push({
     target: compositeOracle.address,
-    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer.address]),
   })
   console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
 

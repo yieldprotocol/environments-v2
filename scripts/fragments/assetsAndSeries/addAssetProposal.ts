@@ -7,12 +7,10 @@
  * @notice The assetIds can't be already in use
  */
 
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../shared/helpers'
-
-import { Cauldron, Ladle, Join, ERC20Mock } from '../../../typechain'
+import { ethers } from 'hardhat'
 import { ZERO_ADDRESS } from '../../../shared/constants'
+import { Cauldron, Ladle } from '../../../typechain'
 
 export const addAssetProposal = async (
   ownerAcc: any,
@@ -23,15 +21,11 @@ export const addAssetProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
-    const asset = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      assetAddress as string,
-      ownerAcc
-    )) as unknown as ERC20Mock
+    const asset = await ethers.getContractAt('ERC20', assetAddress, ownerAcc)
     console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
-    const join: Join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
     //console.log(`Using ${await asset.name()} join at ${joinAddress}`)
     console.log(joinAddress)
 

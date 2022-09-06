@@ -1,9 +1,7 @@
 import { ethers } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
-
 import { deployCompositeOracle } from '../../fragments/oracles/deployCompositeOracle'
 
-import { Timelock } from '../../../typechain'
 const { protocol, governance } = require(process.env.CONF as string)
 const { developer } = require(process.env.CONF as string)
 
@@ -14,11 +12,7 @@ const { developer } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   const compositeOracle = await deployCompositeOracle(ownerAcc, timelock, protocol)
   protocol.set('compositeOracle', compositeOracle.address)
