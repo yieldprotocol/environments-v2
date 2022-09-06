@@ -25,7 +25,9 @@ export const deployStrategies = async (
 
   let newStrategies: Map<string, string> = new Map()
 
-  for (let [name, symbol, baseId, join, baseAddress] of strategiesData) {
+  for (let [name, symbol, baseId] of strategiesData) {
+    const join = await ladle.joins(baseId)
+    const baseAddress = await cauldron.assets(baseId)
     // const base = (await ethers.getContractAt(
     //   'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
     //   baseAddress,
@@ -38,7 +40,7 @@ export const deployStrategies = async (
     if (strategies.get(symbol) === undefined) {
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
-      verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
+      // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
       newStrategies.set(symbol, strategy.address)
     } else {
       console.log(`Reusing Strategy at ${strategies.get(symbol)}`)

@@ -1,4 +1,5 @@
 import { writeAddressMap, writeVerificationHelper, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { WAD } from '../../../shared/constants'
 
 import { deployYieldMath } from '../../fragments/core/libraries/deployYieldMath'
 
@@ -10,8 +11,10 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
+  const bal = await ownerAcc.getBalance()
 
+  console.log('user balance:', bal)
   const yieldMath = await deployYieldMath(ownerAcc, protocol)
   protocol.set('yieldMath', yieldMath.address)
 

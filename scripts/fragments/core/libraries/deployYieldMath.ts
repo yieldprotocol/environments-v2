@@ -8,6 +8,7 @@ export const deployYieldMath = async (ownerAcc: any, protocol: Map<string, strin
   let yieldMath: YieldMath
   if (protocol.get('yieldMath') === undefined) {
     const YieldMathFactory = await ethers.getContractFactory('YieldMath')
+    console.log('Fails here!!!')
     yieldMath = await YieldMathFactory.deploy()
     await yieldMath.deployed()
     console.log(`YieldMath deployed at ${yieldMath.address}`)
