@@ -75,7 +75,6 @@ const { strategiesData, strategiesInit, newStrategies } = require(process.env.CO
   // TODO: need to fund timelock for this
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
-  // Strategies -- TODO: This
   proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
   proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
 

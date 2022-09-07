@@ -3,6 +3,7 @@ import { verify } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
 import { Cauldron, Ladle, Strategy, Timelock, SafeERC20Namer } from '../../../../typechain'
 // import { Cauldron, Ladle, Strategy, ERC20Mock, Timelock, SafeERC20Namer } from '../../../../typechain'
+const { joins, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys strategies
@@ -26,8 +27,10 @@ export const deployStrategies = async (
   let newStrategies: Map<string, string> = new Map()
 
   for (let [name, symbol, baseId] of strategiesData) {
-    const join = await ladle.joins(baseId)
-    const baseAddress = await cauldron.assets(baseId)
+    const join = joins.get(baseId)
+    // const join = await ladle.joins(baseId)
+    const baseAddress = assets.get(baseId)
+    // const baseAddress = await cauldron.assets(baseId)
     // const base = (await ethers.getContractAt(
     //   'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
     //   baseAddress,
