@@ -14,8 +14,8 @@ import { Timelock, FCashWand } from '../../../../../../typechain'
 
 const { developer, deployer } = require(process.env.CONF as string)
 // Dec series
-const pools = jsonToMap(fs.readFileSync(`./addresses/pools.json`, 'utf8')) as Map<string, string>
-const joins = jsonToMap(fs.readFileSync(`./addresses/joins.json`, 'utf8')) as Map<string, string>
+const newDaiSeriesId = '0x303130380000'
+const newUSDCSeriesID = '0x303230380000'
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
@@ -26,6 +26,8 @@ const joins = jsonToMap(fs.readFileSync(`./addresses/joins.json`, 'utf8')) as Ma
 
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
+  const pools = readAddressMappingIfExists('pools.json')
+  const joins = readAddressMappingIfExists('joins.json')
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -46,29 +48,36 @@ const joins = jsonToMap(fs.readFileSync(`./addresses/joins.json`, 'utf8')) as Ma
   // Permissions
   proposal = proposal.concat(await orchestrateFCashWandProposal(ownerAcc, deployer, timelock))
 
-  if (proposal.length > 0) {
-    // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
+  // set activate accordingly
+  const activateProposal: boolean = false
+  const activateCollateral: boolean = true
+
+  if (activateProposal) {
+    console.log(`activate proposal`)
+    if (proposal.length > 0) {
+      // Propose, Approve & execute
+      await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
+    }
+    console.log(`orchestrateFCashWandProposal completed`)
+  } else {
+    console.log(`proposal skipped`)
   }
-  console.log(`orchestrateFCashWandProposal completed`)
 
-  // fCashWand - add collateral FDAI2212, reference FDAI2209
-  await fCashWand.addfCashCollateral(
-    FDAI2212,
-    joins.get('FDAI2212') as string,
-    FDAI2209,
-    pools.get('0x303130380000') as string
-  )
-  console.log(`Collateral added: FDAI2212`)
+  if (activateCollateral) {
+    console.log(`activate collateral`)
+    //console.log(joins.get(FDAI2212) as string)
+    //console.log(pools.get('0x303130380000') as string)
 
-  // fCashWand - add collateral FUSDC2212, reference FUSDC2209
-  await fCashWand.addfCashCollateral(
-    FUSDC2212,
-    joins.get('FUSDC2212') as string,
-    FUSDC2209,
-    pools.get('0x303230380000') as string
-  )
-  console.log(`Collateral added: FUSDC2212`)
+    // fCashWand - add collateral FDAI2212, reference FDAI2209
+    await fCashWand.addfCashCollateral(FDAI2212, joins.get(FDAI2212) as string, FDAI2209, `0x303130380000`)
+    console.log(`Collateral added: FDAI2212`)
+
+    // fCashWand - add collateral FUSDC2212, reference FUSDC2209
+    await fCashWand.addfCashCollateral(FUSDC2212, joins.get(FUSDC2212) as string, FUSDC2209, '0x303230380000')
+    console.log(`Collateral added: FUSDC2212`)
+  } else {
+    console.log(`adding collateral skipped`)
+  }
 
   console.log(`completed`)
 })()
