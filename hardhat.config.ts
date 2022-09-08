@@ -9,7 +9,7 @@ import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
-
+import "@tenderly/hardhat-tenderly"
 // import * as tdly from "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
@@ -109,9 +109,9 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/c988e5c3-ccec-446a-a5af-3defd223412d",
+      url: "https://rpc.tenderly.co/fork/e51fd573-86f2-4c28-bd8a-386b2b040e80",
       // update chainId if necessary
-      forkNetwork: "1",
+      forkNetwork: "42161",
       // update chainId if necessary
       project: "v2",
       // these below can probably remain unchanged
@@ -139,6 +139,10 @@ module.exports = {
       url: 'http://127.0.0.1:8555',
     },
   },
+  tenderly: {
+		username: "Yield",
+		project: "v2-arbitrum"
+	},
   etherscan: {
     apiKey: etherscanKey
   },

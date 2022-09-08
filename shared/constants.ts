@@ -50,6 +50,7 @@ export const UNISWAP = 'uniswapOracle'
 export const CONVEX3CRV = 'cvx3CrvOracle'
 export const YEARN = 'yearnOracle'
 export const NOTIONAL = 'notionalOracle'
+export const IDENTITY = 'identityOracle'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
@@ -121,3 +122,9 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
+
+// JSON file keys
+export const contangoWitch_key = 'contangoWitch'
+export const contangoCauldron_key = 'contangoCauldron'
+export const contangoLadle_key = 'contangoLadle'
+export const contangoLadleRouter_key = 'contangoLadleRouter'

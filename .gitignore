@@ -54,3 +54,5 @@ addresses/localhost/
 addresses/tenderly/
 
 .idea/
+.arbiscanKey
+.DS_Store

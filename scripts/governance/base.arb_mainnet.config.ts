@@ -1,5 +1,5 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC } from '../../shared/constants'
+import { ETH, DAI, USDC, FYDAI2209, FYUSDC2209, FYETH2209 } from '../../shared/constants'
 import { ACCUMULATOR, RATE, CHI } from '../../shared/constants'
 import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../shared/constants'
@@ -11,6 +11,7 @@ export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
+export const external = readAddressMappingIfExists('external.json')
 
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -21,7 +22,7 @@ export const additionalDevelopers: Array<string> = [
 ]
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
-  [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
+  [ETH, '0x489ee077994b6658eafa855c308275ead8097c4a'],
   [DAI, '0xa5a33ab9063395a90ccbea2d86a62eccf27b5742'],
   [USDC, '0xba12222222228d8ba445958a75a0704d566bf2c8'],
 ])
@@ -33,11 +34,13 @@ export const assets: Map<string, string> = new Map([
   [USDC, '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'],
 ])
 
-export const joins: Map<string, string> = new Map([
-  [ETH, '0xaf93a04d5D8D85F69AF65ED66A9717DB0796fB10'],
-  [DAI, '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
-  [USDC, '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
-])
+export const joins = readAddressMappingIfExists('joins.json')
+
+// export const joins: Map<string, string> = new Map([
+//   [ETH, '0xaf93a04d5D8D85F69AF65ED66A9717DB0796fB10'],
+//   [DAI, '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
+//   [USDC, '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
+// ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [
   [DAI, RATE, WAD.toString(), WAD.toString()],
@@ -92,3 +95,17 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2206, [ETH, DAI, USDC]],
   [FYUSDC2206, [ETH, DAI, USDC]],
 ]
+
+// fytoken id -> pool address
+export const pools = new Map([
+  [FYDAI2209, '0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb'],
+  [FYUSDC2209, '0x13aB946C6A9645EDfF2A33880e0Fc37f67122170'],
+  [FYETH2209, '0x0FA29EEb169CDE6c779326d7b16c54529ECA1DD5'],
+])
+
+// fytoken id -> fytoken address
+export const fyTokens = new Map([
+  [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
+  [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
+  [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
+])
