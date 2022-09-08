@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
+import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear, DEC6 } from '../../../../../shared/constants'
 import { ETH, DAI, USDC, EDAI, EUSDC } from '../../../../../shared/constants'
 import { EODEC22 } from '../../../../../shared/constants'
 import { FYDAI2212, FYUSDC2212 } from '../../../../../shared/constants'
@@ -87,6 +87,6 @@ export const strategiesData: Array<[string, string, string]> = [
 // Input data
 export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
-  [YSDAI6MJD, newPools.get(FYDAI2212) as string, FYDAI2212, WAD.div(100)],
-  [YSUSDC6MJD, newPools.get(FYUSDC2212) as string, FYUSDC2212, WAD.div(100)],
+  [YSDAI6MJD, newPools.get(FYDAI2212) as string, FYDAI2212, WAD.mul(100)],
+  [YSUSDC6MJD, newPools.get(FYUSDC2212) as string, FYUSDC2212, DEC6.mul(100)],
 ]
