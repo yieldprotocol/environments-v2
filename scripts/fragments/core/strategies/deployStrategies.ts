@@ -41,6 +41,8 @@ export const deployStrategies = async (
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
+      console.log('Tenderly deploy fails here!!!')
+
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
       // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
