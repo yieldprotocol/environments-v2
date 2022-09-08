@@ -3,8 +3,8 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addNonTvSeries.arbitrum.config
-# RUN="npx hardhat run --network localhost"
-RUN="npx hardhat run --network tenderly"
+RUN="npx hardhat run --network localhost"
+# RUN="npx hardhat run --network tenderly"
 # RUN="npx hardhat run --network arb_main"
 
 $RUN $HERE/../../../deploy/deployYieldMath.ts
