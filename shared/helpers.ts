@@ -66,7 +66,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
     // Get some Ether while we are at it
     await hre.network.provider.request({
       method: 'hardhat_setBalance',
-      params: [impersonatedAddress, '0x1000000000000000000000'],
+      params: [impersonatedAddress, '0x1000000000000000000000000'],
     })
   }
   return ownerAcc
@@ -167,8 +167,11 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10000000 })
-    while ((await timelock.proposals(txHash)).state > 0) {}
+    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10_000_000_000 })
+    console.log('line 171')
+    while ((await timelock.proposals(txHash)).state > 0) {
+      console.log('in this loop')
+    }
     console.log(`Executed ${txHash}`)
   }
 }

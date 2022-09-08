@@ -14,7 +14,7 @@ const { developer } = require(process.env.CONF as string)
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
   const bal = await ownerAcc.getBalance()
 
-  console.log('user balance:', bal)
+  console.log('deployer eth balance:', bal)
   const yieldMath = await deployYieldMath(ownerAcc, protocol)
   protocol.set('yieldMath', yieldMath.address)
 
