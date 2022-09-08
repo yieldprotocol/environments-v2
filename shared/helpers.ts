@@ -134,7 +134,8 @@ export const proposeApproveExecute = async (
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
+    // await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
+    await timelock.connect(signerAcc).propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
@@ -167,7 +168,8 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    await timelock.connect(signerAcc).execute(proposal, { gasLimit: 10_000_000_000 })
+    // await timelock.connect(signerAcc).execute(proposal, { gasLimit: 100_000_000_000 })
+    await timelock.connect(signerAcc).execute(proposal)
     console.log('line 171')
     while ((await timelock.proposals(txHash)).state > 0) {
       console.log('in this loop')

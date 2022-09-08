@@ -127,7 +127,7 @@ module.exports = {
       // these below can probably remain unchanged
       username: "Yield",
       // blockGasLimit: 300_000_000_000,
-      gasPrice: 1_000_000_000,
+      // gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {
