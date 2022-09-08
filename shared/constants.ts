@@ -39,6 +39,7 @@ export const CVX3CRV = ethers.utils.formatBytes32String('19').slice(0, 14)
 export const EWETH = ethers.utils.formatBytes32String('20').slice(0, 14)
 export const EDAI = ethers.utils.formatBytes32String('21').slice(0, 14)
 export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
+export const EFRAX = ethers.utils.formatBytes32String('23').slice(0, 14)
 
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -63,6 +64,7 @@ export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
 export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
 export const FCASH_SEP22 = 1664064000 // 214 * (86400 * 90)
 export const FCASH_DEC22 = 1671840000 // 215 * (86400 * 90)
+export const FCASH_MAR23 = 1679616000 // 216 * (86400 * 90)
 export const FCASH_DAI = '2'
 export const FCASH_USDC = '3'
 
@@ -71,30 +73,35 @@ export const FDAI2203ID = 563371972493313
 export const FDAI2206ID = 563373963149313
 export const FDAI2209ID = 563375953805313
 export const FDAI2212ID = 563377944461313
+export const FDAI2303ID = 563380102848513
 export const FUSDC2203ID = 844846949203969
 export const FUSDC2206ID = 844848939859969
 export const FUSDC2209ID = 844850930515969
 export const FUSDC2212ID = 844852921171969
+export const FUSDC2303ID = 844855079559169
 
 // Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
 export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
 export const FYETH2209 = ethers.utils.formatBytes32String('0007').slice(0, 14)
 export const FYETH2212 = ethers.utils.formatBytes32String('0008').slice(0, 14)
+export const FYETH2303 = ethers.utils.formatBytes32String('0009').slice(0, 14)
 export const FYDAI2112 = ethers.utils.formatBytes32String('0104').slice(0, 14)
 export const FYDAI2203 = ethers.utils.formatBytes32String('0105').slice(0, 14)
 export const FYDAI2206 = ethers.utils.formatBytes32String('0106').slice(0, 14)
 export const FYDAI2209 = ethers.utils.formatBytes32String('0107').slice(0, 14)
 export const FYDAI2212 = ethers.utils.formatBytes32String('0108').slice(0, 14)
+export const FYDAI2303 = ethers.utils.formatBytes32String('0109').slice(0, 14)
 export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
 export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
 export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
 export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
+export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
+export const FYUSDC2303 = ethers.utils.formatBytes32String('0209').slice(0, 14)
 export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
 export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
 export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
 export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
-export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
