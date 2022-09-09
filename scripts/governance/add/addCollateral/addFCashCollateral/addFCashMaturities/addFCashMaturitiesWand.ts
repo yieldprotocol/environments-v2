@@ -1,5 +1,4 @@
 import { ethers } from 'hardhat'
-import * as fs from 'fs'
 import {
   getOriginalChainId,
   readAddressMappingIfExists,
@@ -28,18 +27,10 @@ const newUSDCSeriesID = '0x303230380000'
   const governance = readAddressMappingIfExists('governance.json')
   const joins = readAddressMappingIfExists('joins.json')
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   console.log(`timelock: ${timelock.address}`)
 
-  const fCashWand = (await ethers.getContractAt(
-    'FCashWand',
-    protocol.get('fCashWand') as string,
-    ownerAcc
-  )) as unknown as FCashWand
+  const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
   console.log(`fCashWand: ${fCashWand.address}`)
 
   let proposal: Array<{ target: string; data: string }> = []
@@ -64,16 +55,18 @@ const newUSDCSeriesID = '0x303230380000'
 
   if (activateCollateral) {
     console.log(`activate collateral`)
-    //console.log(joins.get(FDAI2212) as string)
-    //console.log(pools.get('0x303130380000') as string)
 
     // addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriedId)
     // fCashWand - add collateral FDAI2212, reference FDAI2209
-    await fCashWand.addfCashCollateral(FDAI2212, joins.get(FDAI2212) as string, FDAI2209, `0x303130380000`)
+    await fCashWand.addfCashCollateral(FDAI2212, joins.get(FDAI2212) as string, FDAI2209, newDaiSeriesId, {
+      gasLimit: 10_000_000,
+    })
     console.log(`Collateral added: FDAI2212`)
 
     // fCashWand - add collateral FUSDC2212, reference FUSDC2209
-    await fCashWand.addfCashCollateral(FUSDC2212, joins.get(FUSDC2212) as string, FUSDC2209, '0x303230380000')
+    await fCashWand.addfCashCollateral(FUSDC2212, joins.get(FUSDC2212) as string, FUSDC2209, newUSDCSeriesID, {
+      gasLimit: 10_000_000,
+    })
     console.log(`Collateral added: FUSDC2212`)
   } else {
     console.log(`adding collateral skipped`)

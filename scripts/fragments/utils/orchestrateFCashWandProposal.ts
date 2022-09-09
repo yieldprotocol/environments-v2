@@ -14,33 +14,21 @@ export const orchestrateFCashWandProposal = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  const fCashWand = (await ethers.getContractAt(
-    'FCashWand',
-    protocol.get('fCashWand') as string,
-    ownerAcc
-  )) as FCashWand
+  const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
 
-  const cauldron = (await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)) as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
 
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as Ladle
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
-  const notionalOracle = (await ethers.getContractAt(
+  const notionalOracle = await ethers.getContractAt(
     'NotionalMultiOracle',
     protocol.get('notionalOracle') as string,
     ownerAcc
-  )) as NotionalMultiOracle
+  )
 
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
 
-  const witch = (await ethers.getContractAt(
-    'OldWitch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as OldWitch
+  const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
 
   console.log(`fCashWand: ${fCashWand.address}`)
   console.log(`cauldron: ${cauldron.address}`)
