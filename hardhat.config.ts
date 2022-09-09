@@ -10,8 +10,8 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
-import * as tdly from "@tenderly/hardhat-tenderly";
-tdly.setup();
+// import * as tdly from "@tenderly/hardhat-tenderly";
+// tdly.setup();
 
 function infuraNodeUrl(network: any) {
   let infuraKey
@@ -103,7 +103,6 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },

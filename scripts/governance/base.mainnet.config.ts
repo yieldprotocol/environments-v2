@@ -15,6 +15,7 @@ import {
   EWETH,
   EDAI,
   EUSDC,
+  EFRAX,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
@@ -64,6 +65,7 @@ export const assets: Map<string, string> = new Map([
   [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
   [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
   [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
+  [EFRAX, '0x853d955acef822db058eb8505911ed77f175b99e'],
 ])
 
 export const joins: Map<string, string> = new Map([

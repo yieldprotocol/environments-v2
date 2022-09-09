@@ -105,10 +105,14 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, number
     timeStretch.get(FYUSDC2303) as BigNumber,
     g1,
   ],
+]
+
+// Parameters to deploy pools with, a pool being identified by the related seriesId
+// seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
+export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
   [
     FYFRAX2303,
-    euler,
-    assets.get(EFRAX) as string,
+    assets.get(FRAX) as string,
     newFYTokens.get(FYFRAX2303) as string,
     timeStretch.get(FYFRAX2303) as BigNumber,
     g1,
@@ -143,5 +147,5 @@ export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
   [YSETH6MJD, FYETH2303, ZERO, ZERO_ADDRESS, true],
   [YSDAI6MJD, FYDAI2303, ZERO, ZERO_ADDRESS, true],
   [YSUSDC6MJD, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
-  [YSFRAX6MJD, FYFRAX2303, ZERO, ZERO_ADDRESS, true],
+  [YSFRAX6MJD, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
 ]
