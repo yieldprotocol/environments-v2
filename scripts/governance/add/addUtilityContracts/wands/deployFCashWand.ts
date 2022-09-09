@@ -14,12 +14,12 @@ const { deployContract } = waffle
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(deployer)
-  const cauldron = protocol.get('cauldron') as string
-  const ladle = protocol.get('ladle') as string
-  const witch = protocol.get('witch') as string
-  const notionalOracle = protocol.get('notionalOracle') as string
-  const timelock = governance.get('timelock') as string
-  const cloak = governance.get('cloak') as string
+  const cauldron = protocol.get('cauldron')
+  const ladle = protocol.get('ladle')
+  const witch = protocol.get('witch')
+  const notionalOracle = protocol.get('notionalOracle')
+  const timelock = governance.get('timelock')
+  const cloak = governance.get('cloak')
 
   let fCashWand: FCashWand
   let args = [cauldron, ladle, witch, cloak, notionalOracle]
@@ -37,11 +37,7 @@ const { deployContract } = waffle
     protocol.set('fCashWand', fCashWand.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    fCashWand = (await ethers.getContractAt(
-      'FCashWand',
-      protocol.get('FCashWand') as string,
-      ownerAcc
-    )) as unknown as FCashWand
+    fCashWand = await ethers.getContractAt('FCashWand', protocol.get('FCashWand') as string, ownerAcc)
     console.log(`Reusing FCashWand at ${fCashWand.address}`)
   }
 

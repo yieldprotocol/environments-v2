@@ -25,18 +25,14 @@ const salt = ethers.BigNumber.from('1')
   const governance = readAddressMappingIfExists('governance.json')
   const joins = readAddressMappingIfExists('joins.json')
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   console.log(`timelock: ${timelock.address}`)
 
-  const notionalJoinFactory = (await ethers.getContractAt(
+  const notionalJoinFactory = await ethers.getContractAt(
     'NotionalJoinFactory',
     protocol.get('notionalJoinFactory') as string,
     ownerAcc
-  )) as unknown as NotionalJoinFactory
+  )
   console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   // set activate accordingly

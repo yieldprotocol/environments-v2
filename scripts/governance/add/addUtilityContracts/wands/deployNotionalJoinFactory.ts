@@ -14,9 +14,9 @@ const { deployContract } = waffle
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(deployer)
-  const cloak = governance.get('cloak') as string
-  const timelock = governance.get('timelock') as string
-  const ladle = protocol.get('ladle') as string
+  const cloak = governance.get('cloak')
+  const timelock = governance.get('timelock')
+  const ladle = protocol.get('ladle')
 
   let notionalJoinFactory: NotionalJoinFactory
   let args = [cloak, timelock, ladle]
@@ -31,11 +31,11 @@ const { deployContract } = waffle
     protocol.set('notionalJoinFactory', notionalJoinFactory.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    notionalJoinFactory = (await ethers.getContractAt(
+    notionalJoinFactory = await ethers.getContractAt(
       'NotionalJoinFactory',
       protocol.get('notionalJoinFactory') as string,
       ownerAcc
-    )) as unknown as NotionalJoinFactory
+    )
     console.log(`Reusing NotionalJoinFactory at ${notionalJoinFactory.address}`)
   }
 
