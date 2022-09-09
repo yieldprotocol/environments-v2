@@ -145,6 +145,6 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
   [YSETH6MMS, FYETH2303, ZERO, ZERO_ADDRESS, true],
   [YSDAI6MMS, FYDAI2303, ZERO, ZERO_ADDRESS, true],
-  //  [YSUSDC6MMS, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
+  [YSUSDC6MMS, FYUSDC2303, BigNumber.from(1636763728078), eulerFlash, true],
   [YSFRAX6MMS, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
 ]
