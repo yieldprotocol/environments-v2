@@ -141,7 +141,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
   [YSETH6MJD, FYETH2303, ZERO, ZERO_ADDRESS, true],
-  [YSDAI6MJD, FYDAI2303, WAD.mul(10000), eulerFlash, true],
+  [YSDAI6MJD, FYDAI2303, ZERO, ZERO_ADDRESS, true],
   [YSUSDC6MJD, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
-  [YSFRAX6MJD, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
+  [YSFRAX6MJD, FYFRAX2303, ZERO, ZERO_ADDRESS, true],
 ]
