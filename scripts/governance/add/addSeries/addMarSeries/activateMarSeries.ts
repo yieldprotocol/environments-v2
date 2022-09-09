@@ -1,10 +1,8 @@
 import { ethers, network } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute, jsonToMap } from '../../../../../shared/helpers'
-import * as fs from 'fs'
 
-import { Pool, Cauldron, Ladle, Roller, EmergencyBrake, Timelock } from '../../../../../typechain'
+import { Pool, Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../../../typechain'
 
-import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestrateRollerProposal'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { rollStrategiesProposal } from '../../../../fragments/core/strategies/rollStrategiesProposal'
@@ -25,7 +23,6 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
     ownerAcc
   )) as unknown as Cauldron
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const roller = (await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)) as unknown as Roller
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
@@ -45,7 +42,6 @@ const { protocol, governance, strategies, joins, newPools, newFYTokens } = requi
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool as Pool, timelock, cloak))
   }
 
-  proposal = proposal.concat(await orchestrateRollerProposal(deployer, strategies, roller, timelock, cloak, rollData))
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
   )
