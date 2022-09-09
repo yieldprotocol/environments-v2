@@ -7,9 +7,8 @@ export CONF=$PWD/$HERE/addMarSeries.mainnet.config
 RUN="npx hardhat run --network localhost"
 
 # $RUN $HERE/loadTimelock.ts
-# $RUN $HERE/advanceTimeTwoWeeks.ts
-# $RUN $HERE/advanceTimeThreeDays.ts
-
+# $RUN $HERE/advanceTimeToMaturity.ts
+ 
 $RUN $HERE/activateMarSeries.ts
 # $RUN $HERE/activateMarSeries.ts
 # $RUN $HERE/activateMarSeries.ts

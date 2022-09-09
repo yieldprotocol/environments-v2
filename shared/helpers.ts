@@ -104,6 +104,21 @@ export const advanceTime = async (time: number) => {
   console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
 
+/** @dev Advance time by a number of seconds */
+export const advanceTimeTo = async (time: number) => {
+  const provider: BaseProvider = await ethers.provider
+  const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+  const delta = time - now
+  if (hre.network.name === 'tenderly') {
+    await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(delta)])
+    await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+  } else {
+    await network.provider.send('evm_increaseTime', [delta])
+    await network.provider.send('evm_mine', [])
+  }
+  console.log(`advancing time by ${delta} seconds (${delta / (24 * 60 * 60)} days)`)
+}
+
 /**
  * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
  * depending on the proposal state in the timelock.
@@ -168,9 +183,9 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
+    console.log(`Developer: ${signerAcc.address}\n`)
     // await timelock.connect(signerAcc).execute(proposal, { gasLimit: 100_000_000_000 })
     await timelock.connect(signerAcc).execute(proposal)
-    console.log('line 171')
     while ((await timelock.proposals(txHash)).state > 0) {
       console.log('in this loop')
     }

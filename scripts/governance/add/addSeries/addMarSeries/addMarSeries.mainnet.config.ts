@@ -19,7 +19,6 @@ import {
   ENS,
   UNI,
   FRAX,
-  YVDAI,
   YVUSDC,
   EWETH,
   EDAI,
@@ -28,7 +27,7 @@ import {
 } from '../../../../../shared/constants'
 import { EOMAR23 } from '../../../../../shared/constants'
 import { FYETH2303, FYDAI2303, FYUSDC2303, FYFRAX2303 } from '../../../../../shared/constants'
-import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSFRAX6MJD } from '../../../../../shared/constants'
+import { YSETH6MMS, YSDAI6MMS, YSUSDC6MMS, YSFRAX6MMS } from '../../../../../shared/constants'
 import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
@@ -144,8 +143,8 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param lender ERC3156 flash lender used for rolling
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  [YSETH6MJD, FYETH2303, ZERO, ZERO_ADDRESS, true],
-  [YSDAI6MJD, FYDAI2303, ZERO, ZERO_ADDRESS, true],
-  [YSUSDC6MJD, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
-  [YSFRAX6MJD, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
+  [YSETH6MMS, FYETH2303, ZERO, ZERO_ADDRESS, true],
+  [YSDAI6MMS, FYDAI2303, ZERO, ZERO_ADDRESS, true],
+  [YSUSDC6MMS, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
+  [YSFRAX6MMS, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
 ]
