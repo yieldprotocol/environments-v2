@@ -39,40 +39,53 @@ const salt = ethers.BigNumber.from('1')
   )) as unknown as NotionalJoinFactory
   console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
-  //let proposal: Array<{ target: string; data: string }> = []
+  // set activate accordingly
+  const activateProposal: boolean = false
+  const activateDeployJoins: boolean = true
 
-  // Permissions
-  //proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, timelock))
+  let proposal: Array<{ target: string; data: string }> = []
 
-  // Propose, Approve & execute
-  //if (proposal.length > 0) {
-  //  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
-  // }
+  if (activateProposal) {
+    // Permissions
+    proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, timelock))
 
-  // add FDAI2209
-  //await notionalJoinFactory.addFCash(FDAI2209, FDAI2209ID)
-  console.log(`FDAI2209 added as reference`)
+    // Propose, Approve & execute
+    if (proposal.length > 0) {
+      await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
+    } else {
+      console.log(`proposal skipped`)
+    }
+  }
 
-  // add FUSDC2209
-  //await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
-  console.log(`FUSDC2209 added as reference`)
+  if (activateDeployJoins) {
+    // add FDAI2209
+    await notionalJoinFactory.addFCash(FDAI2209, FDAI2209ID)
+    console.log(`FDAI2209 added as reference`)
 
-  // deploy FDAI2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
-  const txDAI = (await notionalJoinFactory.deploy(FDAI2209, FDAI2212, notionalAssetAddress, salt, {
-    gasLimit: 10000000,
-  })) as any
+    // add FUSDC2209
+    await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
+    console.log(`FUSDC2209 added as reference`)
 
-  joins.set(FDAI2212, txDAI.to)
-  writeAddressMap('joins.json', joins)
-  console.log(`FDAI2212 Join deployed at:${txDAI.to}`)
+    // deploy FDAI2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
+    const txDAI = (await notionalJoinFactory.deploy(FDAI2209, FDAI2212, notionalAssetAddress, salt, {
+      gasLimit: 10000000,
+    })) as any
 
-  // deploy FUSDC2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
-  const txUSDC = (await notionalJoinFactory.deploy(FUSDC2209, FUSDC2212, notionalAssetAddress, salt, {
-    gasLimit: 10000000,
-  })) as any
-  joins.set(FUSDC2212, txUSDC.to)
-  writeAddressMap('joins.json', joins)
-  console.log(`FUSDC2212 Join deployed at: ${txUSDC.to}`)
+    joins.set(FDAI2212, txDAI.to)
+    writeAddressMap('joins.json', joins)
+    console.log(`FDAI2212 Join deployed at: ${txDAI.to}`)
+
+    // deploy FUSDC2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
+    const txUSDC = (await notionalJoinFactory.deploy(FUSDC2209, FUSDC2212, notionalAssetAddress, salt, {
+      gasLimit: 10000000,
+    })) as any
+
+    joins.set(FUSDC2212, txUSDC.to)
+    writeAddressMap('joins.json', joins)
+    console.log(`FUSDC2212 Join deployed at: ${txUSDC.to}`)
+  } else {
+    console.log(`Notional Joins NOT deployed`)
+  }
 
   console.log(`completed`)
 })()

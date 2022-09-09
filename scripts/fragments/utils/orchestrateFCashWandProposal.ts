@@ -51,15 +51,15 @@ export const orchestrateFCashWandProposal = async (
 
   proposal.push({
     target: fCashWand.address,
-    data: fCashWand.interface.encodeFunctionData('grantRole', [
-      id(fCashWand.interface, 'addfCashCollateral(bytes6,address,bytes6,bytes6)'),
-      deployer,
-    ]),
+    data: fCashWand.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
 
   proposal.push({
     target: fCashWand.address,
-    data: fCashWand.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    data: fCashWand.interface.encodeFunctionData('grantRole', [
+      id(fCashWand.interface, 'addfCashCollateral(bytes6,address,bytes6,bytes6)'),
+      deployer,
+    ]),
   })
 
   proposal.push({

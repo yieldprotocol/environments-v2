@@ -26,7 +26,6 @@ const newUSDCSeriesID = '0x303230380000'
 
   const protocol = readAddressMappingIfExists('protocol.json')
   const governance = readAddressMappingIfExists('governance.json')
-  const pools = readAddressMappingIfExists('pools.json')
   const joins = readAddressMappingIfExists('joins.json')
 
   const timelock = (await ethers.getContractAt(
