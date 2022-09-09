@@ -2,8 +2,8 @@ import { BigNumber } from 'ethers'
 import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import { ETH, DAI, USDC } from '../../../../../shared/constants'
 import { EOMAR23 } from '../../../../../shared/constants'
-import { FYDAI2303, FYUSDC2303 } from '../../../../../shared/constants'
-import { YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
+import { FYETH2303, FYDAI2303, FYUSDC2303 } from '../../../../../shared/constants'
+import { YSETH6MMS, YSDAI6MMS, YSUSDC6MMS } from '../../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../../shared/constants'
 import * as base_config from '../../../base.arb_mainnet.config'
 
@@ -24,6 +24,7 @@ export const newStrategies: Map<string, string> = base_config.newStrategies
 
 // Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: Map<string, BigNumber> = new Map([
+  [FYETH2303, ONE64.div(secondsInOneYear.mul(25))],
   [FYDAI2303, ONE64.div(secondsInOneYear.mul(45))],
   [FYUSDC2303, ONE64.div(secondsInOneYear.mul(55))],
 ])
@@ -33,6 +34,7 @@ export const g1: number = 9000
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
+  [FYETH2303, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOMAR23, 'FYETH2303', 'FYETH2303'],
   [FYDAI2303, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EOMAR23, 'FYDAI2303', 'FYDAI2303'],
   [
     FYUSDC2303,
@@ -48,6 +50,13 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
+  [
+    FYETH2303,
+    assets.get(ETH) as string,
+    newFYTokens.get(FYETH2303) as string,
+    timeStretch.get(FYETH2303) as BigNumber,
+    g1,
+  ],
   [
     FYDAI2303,
     assets.get(DAI) as string,
@@ -67,6 +76,7 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
+  [FYETH2303, DAI, WAD.div(10), BigNumber.from('0')],
   [FYDAI2303, DAI, WAD.mul(100), BigNumber.from('0')],
   [FYUSDC2303, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
 ]
@@ -74,6 +84,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 // Ilks to accept for each series
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
+  [FYETH2303, [ETH, DAI, USDC]],
   [FYDAI2303, [ETH, DAI, USDC]],
   [FYUSDC2303, [ETH, DAI, USDC]],
 ]
@@ -85,6 +96,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param lender ERC3156 flash lender used for rolling
 /// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  [YSDAI6MJD, FYDAI2303, ZERO, ZERO_ADDRESS, false],
-  [YSUSDC6MJD, FYUSDC2303, ZERO, ZERO_ADDRESS, false],
+  [YSETH6MMS, FYETH2303, ZERO, ZERO_ADDRESS, false],
+  [YSDAI6MMS, FYDAI2303, ZERO, ZERO_ADDRESS, false],
+  [YSUSDC6MMS, FYUSDC2303, ZERO, ZERO_ADDRESS, false],
 ]
