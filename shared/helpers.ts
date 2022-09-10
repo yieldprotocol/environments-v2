@@ -51,11 +51,12 @@ export const addressHasCode = async (address: string, label = 'unknown') => {
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
   if (network.name.includes('tenderly')) {
     console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
-    await network.provider.send('tenderly_addBalance', [
-      impersonatedAddress,
-      ethers.utils.parseEther('1000').toHexString(),
-    ])
-
+    if (balance) {
+      await network.provider.send('tenderly_addBalance', [
+        impersonatedAddress,
+        ethers.utils.parseEther('1000').toHexString(),
+      ])
+    }
     return await ethers.getSigner(impersonatedAddress)
   }
   let [ownerAcc] = await ethers.getSigners()
@@ -71,7 +72,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
     // Get some Ether while we are at it
     await hre.network.provider.request({
       method: 'hardhat_setBalance',
-      params: [impersonatedAddress, '0x1000000000000000000000'],
+      params: [impersonatedAddress, '0x1000000000000000000000000'],
     })
   }
   return ownerAcc

@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, getOwnerOrImpersonate, writeAddressMap } from '../../../shared/helpers'
 
 import { deployStrategies } from '../../fragments/core/strategies/deployStrategies'
-import { Cauldron, Ladle, SafeERC20Namer, YieldMathExtensions, Timelock } from '../../../typechain'
+import { Cauldron, Ladle, SafeERC20Namer, Timelock } from '../../../typechain'
 const { protocol, governance } = require(process.env.CONF as string)
 const { developer, strategiesData } = require(process.env.CONF as string)
 
@@ -25,11 +25,7 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     protocol.get('safeERC20Namer') as string,
     ownerAcc
   )) as unknown as SafeERC20Namer
-  const yieldMathExtensions = (await ethers.getContractAt(
-    'YieldMathExtensions',
-    protocol.get('yieldMathExtensions') as string,
-    ownerAcc
-  )) as unknown as YieldMathExtensions
+
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
@@ -42,7 +38,6 @@ const { developer, strategiesData } = require(process.env.CONF as string)
     cauldron,
     ladle,
     safeERC20Namer,
-    yieldMathExtensions,
     timelock,
     strategiesData
   )

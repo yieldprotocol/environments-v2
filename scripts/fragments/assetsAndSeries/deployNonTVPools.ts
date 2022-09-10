@@ -32,10 +32,8 @@ export const deployNonTVPools = async (
     console.log('Deploying NonTv pool for seriesID: ', seriesId)
     if ((await ethers.provider.getCode(baseAddress)) === '0x') throw `Contract at ${baseAddress} contains no code`
     else console.log(`Using base at ${baseAddress}`)
-
     if ((await ethers.provider.getCode(fyTokenAddress)) === '0x') throw `Contract at ${fyTokenAddress} contains no code`
     else console.log(`Using fyToken at ${fyTokenAddress}`)
-
     console.log('Deploy args:')
     console.log(baseAddress, fyTokenAddress, ts, g1)
     const pool = (await PoolNonTvFactory.deploy(baseAddress, fyTokenAddress, ts, g1)) as unknown as Pool

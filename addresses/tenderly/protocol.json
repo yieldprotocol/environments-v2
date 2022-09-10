@@ -1,0 +1,57 @@
+{
+  "dataType": "Map",
+  "value": [
+    [
+      "yieldMathExtensions",
+      "0xC445D7e3Cdc96840439560675Ca9023204Ea9aCD"
+    ],
+    [
+      "poolView",
+      "0x3e9D89A883c00608d932f92bbD8bd948Bf1A9Cf6"
+    ],
+    [
+      "safeERC20Namer",
+      "0xbD6BEe8D3B9D1Ee6b8105bED11A61FDCaE4Bff8B"
+    ],
+    [
+      "timelock",
+      "0xd0a22827Aed2eF5198EbEc0093EA33A4CD641b6c"
+    ],
+    [
+      "cloak",
+      "0x84066CAeA6186a02ED74EBF32BF008A47CbE26AD"
+    ],
+    [
+      "accumulatorOracle",
+      "0x0ad9Ef93673B6081c0c3b753CcaaBDdd8d2e7848"
+    ],
+    [
+      "cauldron",
+      "0x23cc87FBEBDD67ccE167Fa9Ec6Ad3b7fE3892E30"
+    ],
+    [
+      "ladle",
+      "0x16E25cf364CeCC305590128335B8f327975d0560"
+    ],
+    [
+      "router",
+      "0x83c4Cb8b9Eb49a8DB87455A5E6bb8f6bb24D42d9"
+    ],
+    [
+      "flashLiquidator",
+      "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+    ],
+    [
+      "witch",
+      "0x08173D0885B00BDD640aaE57D05AbB74cd00d669"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0x8E9696345632796e7D80fB341fF4a2A60aa39C89"
+    ],
+    [
+      "roller",
+      "0xED84bDfba3629C232953d34033545a38f0e57BD2"
+    ]
+  ]
+}
