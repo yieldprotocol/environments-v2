@@ -5,6 +5,7 @@ import { bytesToString } from '../../../shared/helpers'
 
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
 import { FCashWand } from '../../../typechain'
+import { developer } from '../../governance/base.arb_mainnet.config'
 
 const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateFCashWandProposal = async (
@@ -46,7 +47,7 @@ export const orchestrateFCashWandProposal = async (
     target: fCashWand.address,
     data: fCashWand.interface.encodeFunctionData('grantRole', [
       id(fCashWand.interface, 'addfCashCollateral(bytes6,address,bytes6,bytes6)'),
-      deployer,
+      developer,
     ]),
   })
 

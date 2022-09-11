@@ -58,6 +58,7 @@ const newUSDCSeriesID = '0x303230380000'
 
     // addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriedId)
     // fCashWand - add collateral FDAI2212, reference FDAI2209
+    console.log(joins.get(FDAI2212) as string)
     await fCashWand.addfCashCollateral(FDAI2212, joins.get(FDAI2212) as string, FDAI2209, newDaiSeriesId, {
       gasLimit: 10_000_000,
     })
