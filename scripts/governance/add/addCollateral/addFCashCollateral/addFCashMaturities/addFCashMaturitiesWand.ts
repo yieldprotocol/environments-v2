@@ -33,6 +33,13 @@ import { id } from '@yield-protocol/utils-v2'
   const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
   console.log(`fCashWand: ${fCashWand.address}`)
 
+  // grab new Joins
+  const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
+  console.log(`daiNewJoin: ${daiNewJoin.address}`)
+
+  const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
+  console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
+
   let proposal: Array<{ target: string; data: string }> = []
 
   // Permissions
@@ -55,15 +62,6 @@ import { id } from '@yield-protocol/utils-v2'
 
   if (activateCollateral) {
     console.log(`activate collateral`)
-
-    // check if addfCashCollateral was granted
-    const tx = await fCashWand
-      .connect(ownerAcc)
-      .hasRole(
-        id(fCashWand.interface, 'addfCashCollateral(bytes6,address,bytes6,bytes6)'),
-        '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-      )
-    console.log('addfCashCollateral role granted:', tx)
 
     // addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriedId)
     // fCashWand - add collateral FDAI2212, reference FDAI2209

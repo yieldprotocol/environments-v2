@@ -1,13 +1,17 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { bytesToString } from '../../../shared/helpers'
+import { readAddressMappingIfExists } from '../../../shared/helpers'
 
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
 import { FCashWand } from '../../../typechain'
 import { developer } from '../../governance/base.arb_mainnet.config'
 
 const { protocol, governance } = require(process.env.CONF as string)
+
+const joins = readAddressMappingIfExists('joins.json')
+import { FDAI2212, FUSDC2212 } from '../../../shared/constants'
+
 export const orchestrateFCashWandProposal = async (
   ownerAcc: any,
   deployer: string,
@@ -37,6 +41,13 @@ export const orchestrateFCashWandProposal = async (
   console.log(`notionalOracle: ${notionalOracle.address}`)
   console.log(`cloak: ${cloak.address}`)
   console.log(`witch: ${witch.address}`)
+
+  // grab new Joins
+  const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
+  console.log(`daiNewJoin: ${daiNewJoin.address}`)
+
+  const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
+  console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
 
   proposal.push({
     target: fCashWand.address,
@@ -102,6 +113,17 @@ export const orchestrateFCashWandProposal = async (
       ],
       fCashWand.address,
     ]),
+  })
+
+  // for _makeIlk: join.grantRole(EXIT, address(witch) | grant admin to clear modifier
+  proposal.push({
+    target: daiNewJoin.address,
+    data: daiNewJoin.interface.encodeFunctionData('grantRole', [ROOT, fCashWand.address]),
+  })
+
+  proposal.push({
+    target: usdcNewJoin.address,
+    data: usdcNewJoin.interface.encodeFunctionData('grantRole', [ROOT, fCashWand.address]),
   })
 
   return proposal

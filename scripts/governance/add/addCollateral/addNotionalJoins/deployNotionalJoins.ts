@@ -32,6 +32,9 @@ const { deployContract } = waffle
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   console.log(`timelock: ${timelock.address}`)
 
+  const cloak = await ethers.getContractAt('Timelock', governance.get('cloak') as string, ownerAcc)
+  console.log(`cloak: ${cloak.address}`)
+
   const notionalJoinFactory = await ethers.getContractAt(
     'NotionalJoinFactory',
     protocol.get('notionalJoinFactory') as string,
@@ -125,6 +128,18 @@ const { deployContract } = waffle
     writeAddressMap('joins.json', joins)
 
     console.log(`All notional joins deployed w/o factory`)
+
+    // resolve AccessControl due to manual deployment
+
+    const dai1 = await daiNjoin.grantRole('0x00000000', cloak.address, { gasLimit: 10_000_000 })
+    const dai2 = await daiNjoin.grantRole('0x00000000', timelock.address, { gasLimit: 10_000_000 })
+    const dai3 = await daiNjoin.renounceRole('0x00000000', deployer, { gasLimit: 10_000_000 })
+
+    const usdc1 = await usdcNjoin.grantRole('0x00000000', cloak.address, { gasLimit: 10_000_000 })
+    const usdc2 = await usdcNjoin.grantRole('0x00000000', timelock.address, { gasLimit: 10_000_000 })
+    const usdc3 = await usdcNjoin.renounceRole('0x00000000', deployer, { gasLimit: 10_000_000 })
+
+    console.log(`Resolved AccessControl due to manual deployment`)
   }
 
   console.log(`completed`)
