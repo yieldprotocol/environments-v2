@@ -55,7 +55,6 @@ dist/
 .arbiscanKey
 .DS_Store
 
-
 addresses/localhost/
 
 # Foundry
