@@ -211,7 +211,9 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    const tx = await timelock.connect(signerAcc).execute(proposal)
+    const tx = await timelock
+      .connect(signerAcc)
+      .execute(proposal, { gasPrice: 1_000_000_000, gasLimit: 10_000_000_000 })
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }

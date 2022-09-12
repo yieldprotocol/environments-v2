@@ -110,20 +110,25 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
+      chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
+      gasLimit: 1_000_000_000,
+      gasPrice: 1_000_000_000
+
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7", 
+      url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7",
       // update chainId if necessary
       forkNetwork: "42161",
       // update chainId if necessary
+      username: "Yield",
       project: "v2",
       // these below can probably remain unchanged
-      username: "Yield",
-      // blockGasLimit: 300_000_000_000,
-      // gasPrice: 1_000_000_000,
+      // username: "Yield",
+      blockGasLimit: 300_000_000_000,
+      gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {
@@ -147,7 +152,8 @@ module.exports = {
   },
   tenderly: {
 		username: "Yield",
-		project: "v2-arbitrum"
+		project: "v2",
+    forkNetwork: "42161",
 	},
   etherscan: {
     apiKey: etherscanKey
