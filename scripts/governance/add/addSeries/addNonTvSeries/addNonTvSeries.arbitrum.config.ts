@@ -44,7 +44,8 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     'FYUSDC2212',
   ],
 ]
-
+console.log('FYDAI2212', FYDAI2212)
+console.log('FYUSDC2212', FYUSDC2212)
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
@@ -64,6 +65,7 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
   ],
 ]
 
+console.log(nonTVPoolData)
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
