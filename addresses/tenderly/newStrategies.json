@@ -1,4 +1,13 @@
 {
   "dataType": "Map",
-  "value": []
+  "value": [
+    [
+      "YSDAI6MJD",
+      "0xECFd8845344A52CdBEa575ff5b0C9587CaD2d9fC"
+    ],
+    [
+      "YSUSDC6MJD",
+      "0x2d14188b0Cfb76a8C0B0aFF960d219C60Dc5ceD7"
+    ]
+  ]
 }
