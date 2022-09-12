@@ -12,8 +12,9 @@ contract FCashWandExt is FCashWand {
         ILadleGov ladle_,
         IWitchCustom witch_,
         IEmergencyBrake cloak_,
-        INotionalMultiOracle notionalMultiOracle_
-    ) FCashWand(cauldron_, ladle_, witch_, cloak_, notionalMultiOracle_) {}
+        INotionalMultiOracle notionalMultiOracle_,
+        INotionalJoinFactory notionalJoinFactory_
+    ) FCashWand(cauldron_, ladle_, witch_, cloak_, notionalMultiOracle_, notionalJoinFactory_) {}
 
     // ... FOR TESTING ...
     function addfCashCollateralOld(

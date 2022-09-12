@@ -100,7 +100,7 @@ abstract contract StateAddCollateral is Test {
 
         notionalMultiOracle = new NotionalMultiOracle();
         vm.label(address(notionalMultiOracle), 'notionalMultiOracle');
-
+        
         //... Yield Contracts ...
         daiJoin = new Join(address(dai));
         vm.label(address(daiJoin), 'DAI Join');
@@ -130,13 +130,17 @@ abstract contract StateAddCollateral is Test {
 
         timelock = new Timelock(deployer, deployer);
         vm.label(address(timelock), 'Timelock');
+        
+        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
+        vm.label(address(njoinfactory), 'njoinfactory');
 
         fcashwand = new FCashWandExt(
             ICauldronGov(address(cauldron)),
             ILadleGov(address(ladle)),
             IWitchCustom(address(witch)),
             IEmergencyBrake(address(cloak)),
-            INotionalMultiOracle(address(notionalMultiOracle))
+            INotionalMultiOracle(address(notionalMultiOracle)),
+            INotionalJoinFactory(address(njoinfactory))
         );
         vm.label(address(fcashwand), 'FCash Wand');
 
@@ -204,9 +208,6 @@ abstract contract StateAddCollateral is Test {
         vm.startPrank(address(cloak));
         NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
         vm.stopPrank();
-
-
-
     }
 
     function setUpReferences() public {
