@@ -109,15 +109,16 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/e51fd573-86f2-4c28-bd8a-386b2b040e80",
+      url: "https://rpc.tenderly.co/fork/5051d12f-3b50-44b7-8ba1-5874eb37c839",
       // update chainId if necessary
       forkNetwork: "42161",
       // update chainId if necessary
+      username: "Yield",
       project: "v2",
       // these below can probably remain unchanged
-      username: "Yield",
-      // blockGasLimit: 300_000_000_000,
-      // gasPrice: 1_000_000_000,
+      // username: "Yield",
+      blockGasLimit: 300_000_000_000,
+      gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {
@@ -141,7 +142,8 @@ module.exports = {
   },
   tenderly: {
 		username: "Yield",
-		project: "v2-arbitrum"
+		project: "v2",
+    forkNetwork: "42161",
 	},
   etherscan: {
     apiKey: etherscanKey
