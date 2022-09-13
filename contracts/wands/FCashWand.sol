@@ -67,6 +67,7 @@ interface INotionalJoinFactory{
 contract FCashWand is AccessControl, CollateralWandBase {
     INotionalMultiOracle public notionalMultiOracle;
     INotionalJoinFactory public notionalJoinFactory;
+    address fCashAddress;
 
     struct NotionalSource {
         bytes6 notionalId;
@@ -85,6 +86,7 @@ contract FCashWand is AccessControl, CollateralWandBase {
     ) CollateralWandBase(cauldron_, ladle_, witch_, cloak_, address(notionalMultiOracle_)) {
         notionalMultiOracle = notionalMultiOracle_;
         notionalJoinFactory = notionalJoinFactory_;
+        fCashAddress = 0x1344A36A1B56144C3Bc62E7757377D288fDE0369;  // Contract address of fCash tokens
     }
 
     /// @notice Function to add fCash as collateral
@@ -94,8 +96,59 @@ contract FCashWand is AccessControl, CollateralWandBase {
     /// @param seriesId New series which takes incoming fCash as ilk
     function addfCashCollateral(bytes6 assetId, address joinAddress, bytes6 oldAssetId, bytes6 seriesId) external auth {
         
-        // get underlying of new Asset
+        // get join of new Asset
         IJoinCustom join = IJoinCustom(joinAddress);
+
+        _joinOrchestration(assetId, join, oldAssetId, seriesId);
+    }
+
+    /// @notice Deploys Notional Joins via NotionalJoinFactory and orchestrates necessary permissions
+    /// @param assetId Incoming fCash assetId (e.g. fDAISEP22)
+    /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
+    /// @param seriesId New series which takes incoming fCash as ilk
+    /// @param salt Random number of choice for create2
+    function deployfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, uint256 salt) external auth returns (address) {
+        
+        // deploy NJoins | fCashWand is ROOT for deployed joins
+        IJoinCustom join = IJoinCustom(address(notionalJoinFactory.deploy(oldAssetId, assetId, fCashAddress, salt)));
+
+        _joinOrchestration(assetId, join, oldAssetId, seriesId);
+
+        // revoke ROOT from fCashWand after orchestration	
+        _revokeRoot(address(join));
+
+        return address(join);
+    }
+
+    /// @notice Function to update NotionalSource for the supplied notionalId/underlyingId
+    /// @param notionalId Notional asset id (e.g. fDai2209)
+    /// @param underlyingId Corresponding underlying id (e.g. Dai)
+    /// @param underlying Address of the underlying asset
+    function _updateNotionalSource(
+        bytes6 notionalId,
+        bytes6 underlyingId,
+        address underlying
+    ) internal {
+        // set sources for notional
+        notionalMultiOracle.setSource(notionalId, underlyingId, IERC20Metadata(underlying));
+    }
+
+    /// @notice Orchestrate the join to grant & revoke the correct permissions	
+    /// @param joinAddress Address of the join to be orchestrated	
+    function _revokeRoot(address joinAddress) internal {	
+        AccessControl join = AccessControl(joinAddress);	
+       	
+        // revoke ROOT from fCashWand	
+        join.renounceRole(ROOT, address(this));	
+    }
+
+    /// @notice Orchestrate fCash as collateral
+    /// @param assetId Incoming fCash assetId (e.g. fDAISEP22)
+    /// @param join Join of new assetId
+    /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
+    /// @param seriesId New series which takes incoming fCash as ilk
+    function _joinOrchestration(bytes6 assetId, IJoinCustom join, bytes6 oldAssetId, bytes6 seriesId) internal {
+
         address underlying = join.underlying(); 
 
         // old and new assetIds to have same underlying
@@ -153,113 +206,7 @@ contract FCashWand is AccessControl, CollateralWandBase {
 
         // commented out since addIlksToSeries needs to be updated to take params from memory not calldata
         _addIlksToSeries(seriesIlks);
-    }
 
-    /// @notice Deploys Notional Joins via NotionalJoinFactory and orchestrates necessary permissions
-    /// @param assetId Incoming fCash assetId (e.g. fDAISEP22)
-    /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
-    /// @param seriesId New series which takes incoming fCash as ilk
-    /// @param fCashAddress Contract address of fCash tokens
-    /// @param salt Random number of choice for create2
-    function deployAddfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, address fCashAddress, uint256 salt) external auth returns (address) {
-        
-        // deploy NJoins | fCashWand is ROOT for deployed joins
-        IJoinCustom join = IJoinCustom(address(notionalJoinFactory.deploy(oldAssetId, assetId, fCashAddress, salt)));
-        
-        // get underlying of new Asset
-        address underlying = join.underlying(); 
-
-        // old and new assetIds to have same underlying
-        IJoinCustom oldJoin = IJoinCustom(address(ladle.joins(oldAssetId)));
-        require(underlying == oldJoin.underlying(), "Mismatched assetId");
-        
-        // get series data
-        DataTypes.Series memory series = cauldron.series(seriesId);
-        // ensure fCash underlying and base of series match
-        require(underlying == cauldron.assets(series.baseId), "Mismatched series");      
-
-        // asset is recognized in ecosystem
-        _addAsset(assetId, address(join));
-        
-        // set pricefeeds: NotionalSource
-        _updateNotionalSource(assetId, series.baseId, underlying);
-        
-        // get auctionLimits
-        CollateralWandBase.AuctionLimit memory auctionLimits = _getAuctionLimits(oldAssetId, assetId); 
-        
-        // get debtLimits
-        DataTypes.SpotOracle memory spotOracle = ICauldronCustom(address(cauldron)).spotOracles(series.baseId, oldAssetId);  
-        DataTypes.Debt memory debt = ICauldronCustom(address(cauldron)).debt(series.baseId, oldAssetId);   
-    
-        CollateralWandBase.DebtLimit[] memory debtLimits = new CollateralWandBase.DebtLimit[](1);
-        debtLimits[0] = CollateralWandBase.DebtLimit({
-            baseId: series.baseId,  // DAI
-            ilkId: assetId, // fCashIOracle oracle, uint32 ratio
-            ratio: spotOracle.ratio,
-            line: debt.max, 
-            dust: debt.min, 
-            dec: debt.dec
-        });
-
-        _makeIlk(address(join), auctionLimits, debtLimits);
-        
-
-        // assign ilk to series
-        CollateralWandBase.SeriesIlk[] memory seriesIlks = new CollateralWandBase.SeriesIlk[](1);
-        bytes6[] memory ilkId = new bytes6[](1);
-        ilkId[0] = assetId;
-
-        seriesIlks[0] = CollateralWandBase.SeriesIlk({series: seriesId, ilkIds: ilkId});
-
-        // commented out since addIlksToSeries needs to be updated to take params from memory not calldata
-        _addIlksToSeries(seriesIlks);
-
-        // revoke ROOT from fCashWand after orchestration	
-        _revokeRoot(address(join));
-
-        return address(join);
-    }
-
-    /// @notice Function to update NotionalSource for the supplied notionalId/underlyingId
-    /// @param notionalId Notional asset id (e.g. fDai2209)
-    /// @param underlyingId Corresponding underlying id (e.g. Dai)
-    /// @param underlying Address of the underlying asset
-    function _updateNotionalSource(
-        bytes6 notionalId,
-        bytes6 underlyingId,
-        address underlying
-    ) internal {
-        // set sources for notional
-        notionalMultiOracle.setSource(notionalId, underlyingId, IERC20Metadata(underlying));
-    }
-
-    /// @notice Get auction limits based on reference Asset Id (oldAssetId)
-    /// @dev Used in deployAddfCashCollateral to avoid stack too deep error
-    /// @param oldAssetId Reference asset id (e.g. fDai2209)
-    /// @param assetId New asset id (e.g. fDai2212)
-    function _getAuctionLimits(bytes6 oldAssetId, bytes6 assetId) internal view returns (CollateralWandBase.AuctionLimit memory) {
-        // get auctionLimits
-        Ilk memory ilk = IWitch(address(witch)).ilks(oldAssetId);
-        Limits memory limits = IWitch(address(witch)).limits(oldAssetId);
-              
-        CollateralWandBase.AuctionLimit memory auctionLimits;
-        return auctionLimits = CollateralWandBase.AuctionLimit({
-            ilkId: assetId, // fCash
-            duration: ilk.duration,
-            initialOffer: ilk.initialOffer, 
-            line: limits.line, 
-            dust: limits.dust,
-            dec: limits.dec
-        });
-    }
-
-    /// @notice Orchestrate the join to grant & revoke the correct permissions	
-    /// @param joinAddress Address of the join to be orchestrated	
-    function _revokeRoot(address joinAddress) internal {	
-        AccessControl join = AccessControl(joinAddress);	
-       	
-        // revoke ROOT from fCashWand	
-        join.renounceRole(ROOT, address(this));	
     }
 
 

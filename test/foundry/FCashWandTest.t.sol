@@ -4,7 +4,7 @@ pragma solidity >=0.8.13;
 import 'forge-std/src/Test.sol';
 import 'forge-std/src/console2.sol';
 
-import 'contracts/wands/fCashWand.sol';
+import 'contracts/wands/FCashWand.sol';
 import {NotionalJoinFactory, NotionalJoin} from 'contracts/NotionalJoinFactory.sol';
 import {NotionalMultiOracle} from '@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol';
 import {FCashMock} from '@yield-protocol/vault-v2/contracts/other/notional/FCashMock.sol';
@@ -32,7 +32,7 @@ import '@yield-protocol/vault-v2/contracts/interfaces/IOracle.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
-import {FCashWandExt} from 'test/foundry/mocks/fCashWandExt.sol';
+import {FCashWandExt} from 'test/foundry/mocks/FCashWandExt.sol';
 
 abstract contract StateAddCollateral is Test {
     using stdStorage for StdStorage;
