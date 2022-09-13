@@ -1,32 +1,22 @@
 import { ethers } from 'hardhat'
 import {
-  getOriginalChainId,
   readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-  jsonToMap,
 } from '../../../../../../shared/helpers'
 
-import { orchestrateFCashWandProposal } from '../../../../../../scripts/fragments/utils/orchestrateFCashWandProposal'
-import { FDAI2209, FUSDC2209, FDAI2212, FUSDC2212 } from '../../../../../../shared/constants'
-import { Timelock, FCashWand } from '../../../../../../typechain'
-
 const { developer, deployer } = require(process.env.CONF as string)
-const notionalAssetAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
+const { protocol, governance, joins } = require(process.env.CONF as string)
+const { orchestrateFCashWandProposal } = require(process.env.CONF as string)
 
-// Dec series
-const newDaiSeriesId = '0x303130380000'
-const newUSDCSeriesID = '0x303230380000'
+const { oldDaiId, oldUsdcId, newDaiId, newUsdcId } = require(process.env.CONF as string)
+const { newDaiSeriesId, newUSDCSeriesID } = require(process.env.CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
  */
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const governance = readAddressMappingIfExists('governance.json')
-  const joins = readAddressMappingIfExists('joins.json')
 
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   console.log(`timelock: ${timelock.address}`)
@@ -35,13 +25,10 @@ const newUSDCSeriesID = '0x303230380000'
   console.log(`fCashWand: ${fCashWand.address}`)
 
   // grab new Joins
-  const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
+  const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(newDaiId) as string, ownerAcc)
   console.log(`daiNewJoin: ${daiNewJoin.address}`)
-  const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
+  const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(newUsdcId) as string, ownerAcc)
   console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
-
-  // salt
-  const salt = 1
 
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -70,7 +57,7 @@ const newUSDCSeriesID = '0x303230380000'
     // fCashWand - add collateral FDAI2212, reference FDAI2209
     await fCashWand
       .connect(ownerAcc)
-      .addfCashCollateral(FDAI2212, joins.get(FDAI2212) as string, FDAI2209, newDaiSeriesId, {
+      .addfCashCollateral(newDaiId, joins.get(newDaiId) as string, oldDaiId, newDaiSeriesId, {
         gasLimit: 10_000_000,
       })
     console.log(`Collateral added: FDAI2212`)
@@ -78,7 +65,7 @@ const newUSDCSeriesID = '0x303230380000'
     // fCashWand - add collateral FUSDC2212, reference FUSDC2209
     await fCashWand
       .connect(ownerAcc)
-      .addfCashCollateral(FUSDC2212, joins.get(FUSDC2212) as string, FUSDC2209, newUSDCSeriesID, {
+      .addfCashCollateral(newUsdcId, joins.get(newUsdcId) as string, oldUsdcId, newUSDCSeriesID, {
         gasLimit: 10_000_000,
       })
     console.log(`Collateral added: FUSDC2212`)

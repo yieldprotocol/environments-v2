@@ -7,7 +7,16 @@ import {
   verify,
 } from '../../../../../shared/helpers'
 
-import { FDAI2209, FDAI2209ID, FUSDC2209, FUSDC2209ID, FDAI2212, FUSDC2212 } from '../../../../../shared/constants'
+import {
+  FDAI2209,
+  FDAI2209ID,
+  FUSDC2209,
+  FUSDC2209ID,
+  FDAI2212,
+  FUSDC2212,
+  FDAI2212ID,
+  FUSDC2212ID,
+} from '../../../../../shared/constants'
 
 import { Timelock, NotionalJoinFactory, NotionalJoin } from '../../../../../typechain'
 import { orchestrateNotionalJoinProposal } from '../../../../fragments/utils/orchestrateNotionalJoinProposal'
@@ -44,7 +53,6 @@ const { deployContract } = waffle
 
   // set activate accordingly
   const activateProposal: boolean = false
-  const activateDeployJoinsFactory: boolean = false
   const activateDeployJoinsDirectly: boolean = true
 
   let proposal: Array<{ target: string; data: string }> = []
@@ -59,41 +67,6 @@ const { deployContract } = waffle
     } else {
       console.log(`proposal skipped`)
     }
-  }
-
-  if (activateDeployJoinsFactory) {
-    // add FDAI2209
-    await notionalJoinFactory.addFCash(FDAI2209, FDAI2209ID)
-    console.log(`FDAI2209 added as reference`)
-
-    // add FUSDC2209
-    await notionalJoinFactory.addFCash(FUSDC2209, FUSDC2209ID)
-    console.log(`FUSDC2209 added as reference`)
-
-    // deploy FDAI2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
-    console.log(FDAI2209) //bytes6
-    console.log(FDAI2212) //bytes6
-    console.log(notionalAssetAddress) //address
-    console.log(salt) //uint256
-
-    const txDAI = (await notionalJoinFactory.deploy(FDAI2209, FDAI2212, notionalAssetAddress, salt, {
-      gasLimit: 10000000,
-    })) as any
-
-    joins.set(FDAI2212, txDAI.to)
-    writeAddressMap('joins.json', joins)
-    console.log(`FDAI2212 Join deployed at: ${txDAI.to}`)
-
-    // deploy FUSDC2212 | args = oldAssetId, newAssetId, newAssetAddress, salt
-    const txUSDC = (await notionalJoinFactory.deploy(FUSDC2209, FUSDC2212, notionalAssetAddress, salt, {
-      gasLimit: 10000000,
-    })) as any
-
-    joins.set(FUSDC2212, txUSDC.to)
-    writeAddressMap('joins.json', joins)
-    console.log(`FUSDC2212 Join deployed at: ${txUSDC.to}`)
-  } else {
-    console.log(`Notional Joins NOT deployed using Factory`)
   }
 
   if (activateDeployJoinsDirectly) {
@@ -130,7 +103,6 @@ const { deployContract } = waffle
     console.log(`All notional joins deployed w/o factory`)
 
     // resolve AccessControl due to manual deployment
-
     const dai1 = await daiNjoin.grantRole('0x00000000', cloak.address, { gasLimit: 10_000_000 })
     const dai2 = await daiNjoin.grantRole('0x00000000', timelock.address, { gasLimit: 10_000_000 })
     const dai3 = await daiNjoin.renounceRole('0x00000000', deployer, { gasLimit: 10_000_000 })
@@ -138,8 +110,16 @@ const { deployContract } = waffle
     const usdc1 = await usdcNjoin.grantRole('0x00000000', cloak.address, { gasLimit: 10_000_000 })
     const usdc2 = await usdcNjoin.grantRole('0x00000000', timelock.address, { gasLimit: 10_000_000 })
     const usdc3 = await usdcNjoin.renounceRole('0x00000000', deployer, { gasLimit: 10_000_000 })
-
     console.log(`Resolved AccessControl due to manual deployment`)
+
+    // add manually deployed joins to NotionalJoinFactory
+    // add FDAI2209
+    await notionalJoinFactory.addFCash(FDAI2212, FDAI2212ID)
+    console.log(`FDAI2212 added as reference to NJF`)
+
+    // add FUSDC2209
+    await notionalJoinFactory.addFCash(FUSDC2212, FUSDC2212ID)
+    console.log(`FUSDC2212 added as reference to NJF`)
   }
 
   console.log(`completed`)

@@ -4,11 +4,9 @@ import { ROOT } from '../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
 
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
-import { FCashWand } from '../../../typechain'
 import { developer } from '../../governance/base.arb_mainnet.config'
 
 const { protocol, governance } = require(process.env.CONF as string)
-
 const joins = readAddressMappingIfExists('joins.json')
 import { FDAI2212, FUSDC2212 } from '../../../shared/constants'
 
@@ -20,33 +18,32 @@ export const orchestrateFCashWandProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
+  console.log(`fCashWand: ${fCashWand.address}`)
 
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+  console.log(`cauldron: ${cauldron.address}`)
 
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
+  console.log(`ladle: ${ladle.address}`)
 
   const notionalOracle = await ethers.getContractAt(
     'NotionalMultiOracle',
     protocol.get('notionalOracle') as string,
     ownerAcc
   )
+  console.log(`notionalOracle: ${notionalOracle.address}`)
 
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  console.log(`cloak: ${cloak.address}`)
 
   const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
+  console.log(`witch: ${witch.address}`)
 
   const notionalJoinFactory = await ethers.getContractAt(
     'NotionalJoinFactory',
     protocol.get('notionalJoinFactory') as string,
     ownerAcc
   )
-
-  console.log(`fCashWand: ${fCashWand.address}`)
-  console.log(`cauldron: ${cauldron.address}`)
-  console.log(`ladle: ${ladle.address}`)
-  console.log(`notionalOracle: ${notionalOracle.address}`)
-  console.log(`cloak: ${cloak.address}`)
-  console.log(`witch: ${witch.address}`)
   console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   // grab new Joins
