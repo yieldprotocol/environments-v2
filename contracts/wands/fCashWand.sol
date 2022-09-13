@@ -27,7 +27,6 @@ interface IJoinCustom{
 
     /// @dev otional currency id for the underlying
     function currencyId() external view returns (uint16);
-
 }
 
 interface ICauldronCustom{
@@ -162,9 +161,9 @@ contract FCashWand is AccessControl, CollateralWandBase {
     /// @param seriesId New series which takes incoming fCash as ilk
     /// @param fCashAddress Contract address of fCash tokens
     /// @param salt Random number of choice for create2
-    function deployAddfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, address fCashAddress, uint256 salt) external auth {
+    function deployAddfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, address fCashAddress, uint256 salt) external auth returns (address) {
         
-        // deploy NJoins
+        // deploy NJoins | fCashWand is ROOT for deployed joins
         IJoinCustom join = IJoinCustom(address(notionalJoinFactory.deploy(oldAssetId, assetId, fCashAddress, salt)));
         
         // get underlying of new Asset
@@ -215,6 +214,10 @@ contract FCashWand is AccessControl, CollateralWandBase {
         // commented out since addIlksToSeries needs to be updated to take params from memory not calldata
         _addIlksToSeries(seriesIlks);
 
+        // revoke ROOT from fCashWand after orchestration	
+        _revokeRoot(address(join));
+
+        return address(join);
     }
 
     /// @notice Function to update NotionalSource for the supplied notionalId/underlyingId
@@ -248,6 +251,15 @@ contract FCashWand is AccessControl, CollateralWandBase {
             dust: limits.dust,
             dec: limits.dec
         });
+    }
+
+    /// @notice Orchestrate the join to grant & revoke the correct permissions	
+    /// @param joinAddress Address of the join to be orchestrated	
+    function _revokeRoot(address joinAddress) internal {	
+        AccessControl join = AccessControl(joinAddress);	
+       	
+        // revoke ROOT from fCashWand	
+        join.renounceRole(ROOT, address(this));	
     }
 
 

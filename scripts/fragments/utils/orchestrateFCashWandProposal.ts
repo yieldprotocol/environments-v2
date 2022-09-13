@@ -35,12 +35,19 @@ export const orchestrateFCashWandProposal = async (
 
   const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
 
+  const notionalJoinFactory = await ethers.getContractAt(
+    'NotionalJoinFactory',
+    protocol.get('notionalJoinFactory') as string,
+    ownerAcc
+  )
+
   console.log(`fCashWand: ${fCashWand.address}`)
   console.log(`cauldron: ${cauldron.address}`)
   console.log(`ladle: ${ladle.address}`)
   console.log(`notionalOracle: ${notionalOracle.address}`)
   console.log(`cloak: ${cloak.address}`)
   console.log(`witch: ${witch.address}`)
+  console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   // grab new Joins
   const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
@@ -49,11 +56,31 @@ export const orchestrateFCashWandProposal = async (
   const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
   console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
 
+  // revoke ROOT on fCashWand
   proposal.push({
     target: fCashWand.address,
     data: fCashWand.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
 
+  // allow deployer to call deployAddfCashCollateral()
+  proposal.push({
+    target: fCashWand.address,
+    data: fCashWand.interface.encodeFunctionData('grantRole', [
+      id(fCashWand.interface, 'deployAddfCashCollateral(bytes6,bytes6,bytes6,address,uint256)'),
+      developer,
+    ]),
+  })
+
+  // allow fCashWand to call deploy() on notionalJoinFactory
+  proposal.push({
+    target: notionalJoinFactory.address,
+    data: notionalJoinFactory.interface.encodeFunctionData('grantRole', [
+      id(notionalJoinFactory.interface, 'deploy(bytes6,bytes6,address,uint256)'),
+      fCashWand.address,
+    ]),
+  })
+
+  // allow deployer to call addfCashCollateral()
   proposal.push({
     target: fCashWand.address,
     data: fCashWand.interface.encodeFunctionData('grantRole', [

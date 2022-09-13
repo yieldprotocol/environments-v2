@@ -12,10 +12,11 @@ import { FDAI2209, FUSDC2209, FDAI2212, FUSDC2212 } from '../../../../../../shar
 import { Timelock, FCashWand } from '../../../../../../typechain'
 
 const { developer, deployer } = require(process.env.CONF as string)
+const notionalAssetAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
+
 // Dec series
 const newDaiSeriesId = '0x303130380000'
 const newUSDCSeriesID = '0x303230380000'
-import { id } from '@yield-protocol/utils-v2'
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
@@ -36,9 +37,11 @@ import { id } from '@yield-protocol/utils-v2'
   // grab new Joins
   const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
   console.log(`daiNewJoin: ${daiNewJoin.address}`)
-
   const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
   console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
+
+  // salt
+  const salt = 1
 
   let proposal: Array<{ target: string; data: string }> = []
 

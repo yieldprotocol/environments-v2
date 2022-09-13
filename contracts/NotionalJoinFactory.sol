@@ -44,6 +44,8 @@ contract NotionalJoinFactory is AccessControl {
 
         // grant ROOT to timelock
         _grantRole(ROOT, timelock);
+        // grant ROOT to cloak	
+        _grantRole(ROOT, cloak);
         // revoke role of deployer | msg.sender = deployer in constructor
         _revokeRole(ROOT, msg.sender);
     }
@@ -131,6 +133,7 @@ contract NotionalJoinFactory is AccessControl {
         // grant ROOT to cloak & timelock
         join.grantRole(ROOT, cloak);
         join.grantRole(ROOT, timelock);
+        join.grantRole(ROOT, msg.sender);   //msg.sender is FCashWand | FCashWand calls deploy()
         // revoke ROOT from NotionalJoinFactory
         join.renounceRole(ROOT, address(this));
     }

@@ -18,17 +18,19 @@ const { deployContract } = waffle
   const ladle = protocol.get('ladle')
   const witch = protocol.get('witch')
   const notionalOracle = protocol.get('notionalOracle')
+  const notionalJoinFactory = protocol.get('notionalJoinFactory')
   const timelock = governance.get('timelock')
   const cloak = governance.get('cloak')
 
   let fCashWand: FCashWand
-  let args = [cauldron, ladle, witch, cloak, notionalOracle]
+  let args = [cauldron, ladle, witch, cloak, notionalOracle, notionalJoinFactory]
   console.log(`cauldron: ${cauldron}`)
   console.log(`ladle: ${ladle}`)
   console.log(`witch: ${witch}`)
   console.log(`notionalOracle: ${notionalOracle}`)
   console.log(`timelock: ${timelock}`)
   console.log(`cloak: ${cloak}`)
+  console.log(`notionalJoinFactory: ${notionalJoinFactory}`)
 
   if (protocol.get('fCashWand') === undefined) {
     fCashWand = (await deployContract(ownerAcc, FCashWandArtifact, args)) as FCashWand
@@ -37,7 +39,7 @@ const { deployContract } = waffle
     protocol.set('fCashWand', fCashWand.address)
     writeAddressMap('protocol.json', protocol)
   } else {
-    fCashWand = await ethers.getContractAt('FCashWand', protocol.get('FCashWand') as string, ownerAcc)
+    fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
     console.log(`Reusing FCashWand at ${fCashWand.address}`)
   }
 
