@@ -1,9 +1,9 @@
-import { ethers, network, run, waffle } from 'hardhat'
+import { ethers, network, waffle } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
-import { BigNumber } from 'ethers'
+import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { THREE_MONTHS, ROOT } from './constants'
 import { AccessControl, Timelock } from '../typechain'
@@ -41,9 +41,15 @@ export const getOriginalChainId = async (): Promise<number> => {
   return chainId
 }
 
+/** @dev Check if address is a deployed contract */
+export const addressHasCode = async (address: string, label = 'unknown') => {
+  const code = await ethers.provider.getCode(address)
+  if (code === '0x') throw new Error(`Address: ${address} has no code. Label: ${label}`)
+}
+
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
-  if (network.name == 'tenderly') {
+  if (network.name.includes('tenderly')) {
     console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
     if (balance) {
       await network.provider.send('tenderly_addBalance', [
@@ -74,7 +80,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
 
 /** @dev Impersonate an account and optionally add some ether to it. Works for hardhat or tenderly. */
 export const impersonate = async (account: string, balance?: BigNumber) => {
-  if (network.name !== 'tenderly') {
+  if (!network.name.includes('tenderly')) {
     await hre.network.provider.request({
       method: 'hardhat_impersonateAccount',
       params: [account],
@@ -83,7 +89,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
   if (balance !== undefined) {
     await hre.network.provider.request({
-      method: hre.network.name === 'tenderly' ? 'tenderly_setBalance' : 'hardhat_setBalance',
+      method: hre.network.name.includes('tenderly') ? 'tenderly_setBalance' : 'hardhat_setBalance',
       params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
     })
   }
@@ -94,15 +100,37 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 
 /** @dev Advance time by a number of seconds */
 export const advanceTime = async (time: number) => {
-  if (hre.network.name === 'tenderly') {
-    await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
-    await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
-  } else {
-    await network.provider.send('evm_increaseTime', [time])
-    await network.provider.send('evm_mine', [])
+  if (time > 0) {
+    if (hre.network.name.includes('tenderly')) {
+      await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
+      await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+    } else {
+      await network.provider.send('evm_increaseTime', [time])
+      await network.provider.send('evm_mine', [])
+    }
+    console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
   }
-  console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
 }
+
+const isFork = () => {
+  return network.name === 'localhost' || network.name.includes('tenderly')
+}
+
+const enum ProposalState {
+  Unknown = 0,
+  Proposed = 1,
+  Approved = 2,
+}
+
+const awaitAndRequireProposal =
+  (timelock: Timelock, txHash: string, requiredConfirmations: number) =>
+  async (tx: ContractTransaction, state: ProposalState) => {
+    await tx.wait(requiredConfirmations)
+    const proposalState = (await timelock.proposals(txHash)).state
+    if (!(proposalState === state)) {
+      throw new Error(`Proposal is in incorrect state. Expected: ${state} but got: ${proposalState}`)
+    }
+  }
 
 /** @dev Advance time to a given second in unix time */
 export const advanceTimeTo = async (time: number) => {
@@ -126,6 +154,9 @@ export const proposeApproveExecute = async (
   const txHash = await timelock.hash(proposal)
   console.log(`Proposal: ${txHash}`)
 
+  const requiredConfirmations = isFork() ? 1 : 2
+  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
+
   // Depending on the proposal state:
   // - propose
   // - approve (if in a fork, impersonating the multisig, and advancing time three days afterwards)
@@ -135,50 +166,53 @@ export const proposeApproveExecute = async (
     // Propose
     let signerAcc
     if (developer) {
-      signerAcc = await ethers.getSigner(developer)
+      if (network.name === 'localhost' || network.name.includes('tenderly')) {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    // await timelock.connect(signerAcc).propose(proposal, { gasLimit: 10000000 })
-    await timelock.connect(signerAcc).propose(proposal)
-    while ((await timelock.proposals(txHash)).state < 1) {}
+    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal, { gasLimit: 30_000_000 })
+    const ethBalance = await signerAcc.getBalance()
+    console.log(`gasEstimate: ${gasEstimate} - ethBalance: ${ethBalance}`)
+    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 30_000_000 })
+    await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')
     let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
-    if (network.name === 'localhost' || network.name === 'tenderly') {
+    if (network.name === 'localhost' || network.name.includes('tenderly')) {
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
-
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
-
       // Since we are in a testing environment, let's advance time
-      advanceTime(3 * 24 * 60 * 60)
+      advanceTime(await timelock.delay())
     } else {
       // On kovan we have approval permissions
       signerAcc = (await ethers.getSigners())[0]
-      await timelock.connect(signerAcc).approve(txHash)
-      while ((await timelock.proposals(txHash)).state < 2) {}
-      console.log(`Approved ${txHash}`)
     }
-  } else if ((await timelock.proposals(txHash)).state === 2) {
+    const tx = await timelock.connect(signerAcc).approve(txHash)
+    await requireProposalState(tx, ProposalState.Approved)
+    console.log(`Approved ${txHash}`)
+  } else if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
     console.log('Executing')
     // Execute
     let signerAcc
     if (developer) {
-      signerAcc = await ethers.getSigner(developer)
+      if (network.name === 'localhost' || network.name.includes('tenderly')) {
+        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+      } else {
+        signerAcc = await ethers.getSigner(developer)
+      }
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    console.log(`Developer: ${signerAcc.address}\n`)
-    // await timelock.connect(signerAcc).execute(proposal, { gasLimit: 100_000_000_000 })
-    await timelock.connect(signerAcc).execute(proposal)
-    while ((await timelock.proposals(txHash)).state > 0) {}
+    const tx = await timelock.connect(signerAcc).execute(proposal)
+    await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }
 }
@@ -246,6 +280,11 @@ export const fundExternalAccounts = async (assetList: Map<string, any>, accountL
 
 export function bytesToString(bytes: string): string {
   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+}
+
+export function stringToBytes(str: string, bytes?: number) {
+  if (bytes == undefined) bytes = str.length
+  return ethers.utils.formatBytes32String(str).slice(0, 2 + bytes * 2)
 }
 
 export function stringToBytes6(x: string): string {
@@ -420,4 +459,18 @@ export async function getOrDeploy<OutT extends AccessControl>(
   }
   await ensureRootAccess(ret, timelock)
   return ret
+}
+
+export const tenderlyVerify = async (name: string, contract: BaseContract) => {
+  if (network.name === 'tenderly') {
+    await hre.tenderly.persistArtifacts({
+      name,
+      address: contract.address,
+    })
+
+    await hre.tenderly.verify({
+      name,
+      address: contract.address,
+    })
+  }
 }

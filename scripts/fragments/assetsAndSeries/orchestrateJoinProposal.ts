@@ -32,14 +32,17 @@ export const orchestrateJoinProposal = async (
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [assetId, assetAddress, joinAddress] of assets) {
+  for (let [assetId, , joinAddress] of assets) {
     const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    await join.asset() // Check it's a valid join
 
-    proposal.push({
-      target: join.address,
-      data: join.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-    })
-    console.log(`join.revokeRole(ROOT, deployer)`)
+    if (await join.hasRole(ROOT, deployer)) {
+      proposal.push({
+        target: join.address,
+        data: join.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+      })
+      console.log(`join.revokeRole(ROOT, deployer)`)
+    }
 
     // proposal.push({
     //   target: join.address,
@@ -48,13 +51,15 @@ export const orchestrateJoinProposal = async (
     //     timelock.address,
     //   ]),
     // })
-    console.log(`join.grantRoles(gov, timelock)`)
+    // console.log(`join.grantRoles(gov, timelock)`)
 
-    proposal.push({
-      target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
-    })
-    console.log(`join.grantRole(ROOT, cloak)`)
+    if (!(await join.hasRole(ROOT, cloak.address))) {
+      proposal.push({
+        target: join.address,
+        data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
+      })
+      console.log(`join.grantRole(ROOT, cloak)`)
+    }
 
     const plan = [
       {

@@ -113,19 +113,9 @@ module.exports = {
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
-    ropsten: {
-      accounts,
-      url: infuraNodeUrl('ropsten')
-    },
-    goerli: {
-      accounts,
-      gasPrice: 1000000000,
-      timeout: 600000,
-      url: infuraNodeUrl('goerli'),
-    },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/ba0b32c2-e609-4f56-8a83-2b9c94cfc438",
+      url: "https://rpc.tenderly.co/fork/e51fd573-86f2-4c28-bd8a-386b2b040e80",
       // update chainId if necessary
       forkNetwork: "42161",
       // update chainId if necessary
@@ -155,6 +145,10 @@ module.exports = {
       url: 'http://127.0.0.1:8555',
     },
   },
+  tenderly: {
+		username: "Yield",
+		project: "v2-arbitrum"
+	},
   etherscan: {
     apiKey: etherscanKey
   },
