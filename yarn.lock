@@ -1985,11 +1985,12 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tenderly/hardhat-tenderly@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.npmjs.org/@tenderly/hardhat-tenderly/-/hardhat-tenderly-1.1.4.tgz"
-  integrity sha512-HqtJSaX/EVxUcNqoHSBtZzrwAF93hPXBV4buPU2UWCuL36na6wImqzjSVhrxghgrxP6MQv5BbU5THxOkKQ0gdw==
+"@tenderly/hardhat-tenderly@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@tenderly/hardhat-tenderly/-/hardhat-tenderly-1.1.6.tgz#b706c7c337ebae7ecd314df3e8ee3d244ed1de08"
+  integrity sha512-B6vVdDAxQwjahrvsxjNirJW2ynDENLBD8LLFy8sYVJ+RCb4B8HXT1IGSceqpySNPr2iLYcD5cKC/YCHX+/O48Q==
   dependencies:
+    "@ethersproject/bignumber" "^5.6.2"
     "@nomiclabs/hardhat-ethers" "^2.0.6"
     axios "^0.21.1"
     ethers "^5.6.8"

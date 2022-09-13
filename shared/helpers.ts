@@ -178,9 +178,7 @@ export const proposeApproveExecute = async (
     console.log(`Developer: ${signerAcc.address}\n`)
     // await timelock.connect(signerAcc).execute(proposal, { gasLimit: 100_000_000_000 })
     await timelock.connect(signerAcc).execute(proposal)
-    while ((await timelock.proposals(txHash)).state > 0) {
-      console.log('in this loop')
-    }
+    while ((await timelock.proposals(txHash)).state > 0) {}
     console.log(`Executed ${txHash}`)
   }
 }

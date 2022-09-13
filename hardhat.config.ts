@@ -10,8 +10,8 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
-// import * as tdly from "@tenderly/hardhat-tenderly";
-// tdly.setup();
+import * as tdly from "@tenderly/hardhat-tenderly";
+tdly.setup();
 
 function infuraNodeUrl(network: any) {
   let infuraKey
@@ -94,6 +94,13 @@ module.exports = {
     owner: 1,
     other: 2,
   },
+  // tenderly: {
+  //   project: "v2",
+  //   username: "AlbertoCuesta",
+  //   forkNetwork: "mainnet",
+  //   privateVerification: false,
+  //   deploymentsDir: "deployments"
+  // },
   networks: {
     hardhat: {
       accounts,
@@ -118,7 +125,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/a93f0fcf-b0cb-4db5-a92d-d23b6a3a81bb",
+      url: "https://rpc.tenderly.co/fork/ba0b32c2-e609-4f56-8a83-2b9c94cfc438",
       // update chainId if necessary
       forkNetwork: "42161",
       // update chainId if necessary
