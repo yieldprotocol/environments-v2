@@ -87,7 +87,7 @@ abstract contract StateZero is Test {
         vm.label(address(njoinfactory), 'Njoin Factory contract');
         vm.stopPrank();
 
-        vm.startPrank(address(timelock));
+        vm.startPrank(address(deployer));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);

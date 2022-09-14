@@ -191,7 +191,7 @@ abstract contract StateAddCollateral is Test {
 
         // ... Deploy NJoin ...
         // Factory permissions
-        vm.startPrank(address(timelock));
+        vm.startPrank(address(deployer));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.addFCash.selector, deployer);
         vm.stopPrank();

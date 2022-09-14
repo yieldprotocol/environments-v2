@@ -41,13 +41,6 @@ contract NotionalJoinFactory is AccessControl {
         cloak = cloak_;
         timelock = timelock_;
         ladle = ladle_;
-
-        // grant ROOT to timelock
-        _grantRole(ROOT, timelock);
-        // grant ROOT to cloak	
-        _grantRole(ROOT, cloak);
-        // revoke role of deployer | msg.sender = deployer in constructor
-        _revokeRole(ROOT, msg.sender);
     }
 
     /// @dev Deploys a new notional join using create2
