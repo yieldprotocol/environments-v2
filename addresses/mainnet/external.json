@@ -2,6 +2,10 @@
     "dataType": "Map",
     "value": [
       [
+        "fCash",
+        "0x1344A36A1B56144C3Bc62E7757377D288fDE0369"
+      ],
+      [
         "euler",
         "0x27182842E098f60e3D576794A5bFFb0777E025d3"
       ],
