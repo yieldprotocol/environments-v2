@@ -107,7 +107,7 @@ contract FCashWand is AccessControl, CollateralWandBase {
     /// @param oldAssetId Prior matured fCash assetId (for reference: fDAIJUN22)
     /// @param seriesId New series which takes incoming fCash as ilk
     /// @param salt Random number of choice for create2
-    function deployfCashCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, uint256 salt) external auth returns (address) {
+    function deployCollateral(bytes6 assetId, bytes6 oldAssetId, bytes6 seriesId, uint256 salt) external auth returns (address) {
         
         // deploy NJoins | fCashWand is ROOT for deployed joins
         IJoinCustom join = IJoinCustom(address(notionalJoinFactory.deploy(oldAssetId, assetId, fCashAddress, salt)));
