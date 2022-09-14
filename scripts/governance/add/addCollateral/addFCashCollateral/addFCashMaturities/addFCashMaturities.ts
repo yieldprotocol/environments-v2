@@ -14,15 +14,7 @@ import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAs
 import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
 import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
-import {
-  IOracle,
-  NotionalMultiOracle,
-  Cauldron,
-  Ladle,
-  Witch,
-  Timelock,
-  EmergencyBrake,
-} from '../../../../../../typechain'
+import { IOracle } from '../../../../../../typechain'
 
 const {
   developer,
@@ -43,27 +35,12 @@ const {
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const notionalOracle = (await ethers.getContractAt(
-    'NotionalMultiOracle',
-    protocol.get(NOTIONAL) as string
-  )) as unknown as NotionalMultiOracle
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const notionalOracle = await ethers.getContractAt('NotionalMultiOracle', protocol.get(NOTIONAL) as string)
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string)
+  const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string)
 
   let assetsAndJoins: Array<[string, string, string]> = []
   for (let [assetId, joinAddress] of newJoins) {
