@@ -4,18 +4,17 @@ import {
   readAddressMappingIfExists,
   proposeApproveExecute,
   getOwnerOrImpersonate,
-} from '../../../../shared/helpers'
+} from '../../../../../../shared/helpers'
 
-import { NOTIONAL } from '../../../../shared/constants'
+import { NOTIONAL } from '../../../../../../shared/constants'
 
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateNotionalSourcesProposal } from '../../../fragments/oracles/updateNotionalSourcesProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSourcesProposal'
+import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
 import {
-  Transfer1155Module,
   IOracle,
   NotionalMultiOracle,
   Cauldron,
@@ -23,7 +22,7 @@ import {
   Witch,
   Timelock,
   EmergencyBrake,
-} from '../../../../typechain'
+} from '../../../../../../typechain'
 
 const {
   developer,
@@ -33,19 +32,16 @@ const {
   notionalDebtLimits,
   auctionLimits,
   seriesIlks,
+  protocol,
+  governance,
+  newJoins,
 } = require(process.env.CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const joins = readAddressMappingIfExists('newJoins.json')
-  const governance = readAddressMappingIfExists('governance.json')
 
   const notionalOracle = (await ethers.getContractAt(
     'NotionalMultiOracle',
@@ -70,7 +66,7 @@ const {
   )) as unknown as Timelock
 
   let assetsAndJoins: Array<[string, string, string]> = []
-  for (let [assetId, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, fCashAddress, joinAddress])
     console.log(`Using ${fCashAddress} as Join for ${joinAddress}`)
   }
@@ -86,12 +82,12 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       notionalDebtLimits,
       auctionLimits
     )
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()

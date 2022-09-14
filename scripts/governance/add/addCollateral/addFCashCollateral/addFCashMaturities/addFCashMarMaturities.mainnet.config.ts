@@ -1,4 +1,4 @@
-import * as base_config from '../../base.mainnet.config'
+import * as base_config from '../../../../base.mainnet.config'
 
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -8,14 +8,15 @@ export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
+export const newJoins: Map<string, string> = base_config.newJoins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-import { USDC, DAI } from '../../../../shared/constants'
-import { FUSDC2206, FDAI2206, FUSDC2209, FDAI2209 } from '../../../../shared/constants'
-import { FCASH_JUN22, FCASH_SEP22, FCASH_DAI, FCASH_USDC } from '../../../../shared/constants'
-import { FYUSDC2206, FYDAI2206, FYUSDC2209, FYDAI2209 } from '../../../../shared/constants'
+import { USDC, DAI } from '../../../../../../shared/constants'
+import { FUSDC2303, FDAI2303 } from '../../../../../../shared/constants'
+import { FCASH_MAR23, FCASH_DAI, FCASH_USDC } from '../../../../../../shared/constants'
+import { FYUSDC2303, FYDAI2303 } from '../../../../../../shared/constants'
 
 export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 
@@ -28,23 +29,20 @@ export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
 /// @param underlyingId: asset id of a borrowable asset in the Yield Protocol
 /// @param underlying: contract address matching underlyingId
 export const notionalSources: Array<[string, string, string, string]> = [
-  [fCashAddress, FDAI2206, DAI, assets.get(DAI) as string],
-  [fCashAddress, FUSDC2206, USDC, assets.get(USDC) as string],
-  [fCashAddress, FDAI2209, DAI, assets.get(DAI) as string],
-  [fCashAddress, FUSDC2209, USDC, assets.get(USDC) as string],
+  [fCashAddress, FDAI2303, DAI, assets.get(DAI) as string],
+  [fCashAddress, FUSDC2303, USDC, assets.get(USDC) as string],
 ]
 
 /// @dev Assets for which we will deploy a Join
 /// @param notionalId: asset id of an fCash tenor in the Yield Protocol
 /// @param fcash: address of the fCash contract
 /// @param underlying: address of the fCash underlying
+/// @param underlyingJoin: address of the fCash underlying Join
 /// @param fCashMaturity: maturity in Notional Finance
 /// @param fCashCurrency: id of the underlying in Notional Finance
-export const assetsToAdd: Array<[string, string, string, number, string]> = [
-  [FDAI2206, fCashAddress, assets.get(DAI) as string, FCASH_JUN22, FCASH_DAI],
-  [FUSDC2206, fCashAddress, assets.get(USDC) as string, FCASH_JUN22, FCASH_USDC],
-  [FDAI2209, fCashAddress, assets.get(DAI) as string, FCASH_SEP22, FCASH_DAI],
-  [FUSDC2209, fCashAddress, assets.get(USDC) as string, FCASH_SEP22, FCASH_USDC],
+export const assetsToAdd: Array<[string, string, string, string, number, string]> = [
+  [FDAI2303, fCashAddress, assets.get(DAI) as string, joins.get(DAI) as string, FCASH_MAR23, FCASH_DAI],
+  [FUSDC2303, fCashAddress, assets.get(USDC) as string, joins.get(USDC) as string, FCASH_MAR23, FCASH_USDC],
 ]
 
 /// @dev Collateralization ratio, debt ceiling, and debt dust
@@ -55,10 +53,8 @@ export const assetsToAdd: Array<[string, string, string, number, string]> = [
 /// @param dust: minimum debt in any given vault for the pair, with added dec
 /// @param dec: number of zeros to append to line and dust
 export const notionalDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, FDAI2206, 1100000, 5000000, 5000, 18],
-  [USDC, FUSDC2206, 1100000, 5000000, 5000, 6],
-  [DAI, FDAI2209, 1100000, 5000000, 5000, 18],
-  [USDC, FUSDC2209, 1100000, 5000000, 5000, 6],
+  [DAI, FDAI2303, 1100000, 5000000, 5000, 18],
+  [USDC, FUSDC2303, 1100000, 5000000, 5000, 6],
 ]
 
 /// @dev Parameters for liquidations
@@ -75,8 +71,6 @@ export const auctionLimits: Array<[string, number, number, number, number, numbe
 /// @param seriesId: series in the yield Protocol
 /// @param [ilkIds]: array of asset ids to be newly accepted as collateral
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2206, [FDAI2206]],
-  [FYUSDC2206, [FUSDC2206]],
-  [FYDAI2209, [FDAI2209]],
-  [FYUSDC2209, [FUSDC2209]],
+  [FYDAI2303, [FDAI2303]],
+  [FYUSDC2303, [FUSDC2303]],
 ]

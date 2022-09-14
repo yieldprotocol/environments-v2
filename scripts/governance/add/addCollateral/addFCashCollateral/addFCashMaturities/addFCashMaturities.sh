@@ -2,11 +2,13 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/turities.mainnet.config
-RUN="npx hardhat run --network mainnet"
+export CONF=$PWD/$HERE/addFCashDecMaturities.mainnet.config
+RUN="npx hardhat run --network tenderly"
 
-$RUN $HERE/../deployNotionalJoins.ts # Deploy Joins
+# $RUN $HERE/../deployNotionalJoins.ts # Deploy Joins
+# 
+# $RUN $HERE/addFCashMaturities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - propose
+# $RUN $HERE/addFCashMaturities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - approve
 
-$RUN $HERE/turities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - propose
-$RUN $HERE/turities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - approve
-$RUN $HERE/turities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - execute
+# $RUN $HERE/advanceTimeThreeDays.ts # AdvanceTime
+$RUN $HERE/addFCashMaturities.ts # Orchestrate Joins, add assets, make ilks, add ilks to series - execute
