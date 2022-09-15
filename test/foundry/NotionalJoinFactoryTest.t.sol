@@ -117,22 +117,7 @@ abstract contract StateZero is Test {
     }
 }
 
-// register oldAssetId via addFCash()
 contract StateZeroTest is StateZero {
-
-
-}   
-
-abstract contract StateDeploy is StateZero {
-
-    function setUp() public override virtual {
-        super.setUp();
-
-    }
-}
-
-
-contract StateDeployTest is StateDeploy {
     using Mocks for *;
 
     function testCannotCreateExisting() public {
