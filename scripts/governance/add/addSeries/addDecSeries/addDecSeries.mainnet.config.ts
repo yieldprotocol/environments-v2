@@ -133,14 +133,14 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYFRAX2212, FRAX, WAD.mul(100), BigNumber.from('0')],
 ]
 
-// Ilks to accept for each series
-// seriesId, accepted ilks
-export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-  [FYDAI2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-  [FYUSDC2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC]],
-  [FYFRAX2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-]
+// // Ilks to accept for each series
+// // seriesId, accepted ilks
+// export const seriesIlks: Array<[string, string[]]> = [
+//   [FYETH2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+//   [FYDAI2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+//   [FYUSDC2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC]],
+//   [FYFRAX2212, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+// ]
 
 /// Parameters to roll each strategy
 /// @param strategyId

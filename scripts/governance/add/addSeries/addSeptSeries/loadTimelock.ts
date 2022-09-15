@@ -1,19 +1,19 @@
 import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, impersonate, getOriginalChainId } from '../../../../shared/helpers'
-import { WAD } from '../../../../shared/constants'
-import { ERC20Mock, Pool } from '../../../../typechain'
+import { readAddressMappingIfExists, getOwnerOrImpersonate, getOriginalChainId } from '../../../../../shared/helpers'
+import { ERC20Mock, Pool } from '../../../../../typechain'
 const { whales, poolsInit } = require(process.env.CONF as string)
 
 /**
- * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
+ * @dev This script loads the Timelock with funds from the holder of the DAI on arbitrum
  */
 ;(async () => {
+  const daiHolder = await getOwnerOrImpersonate('0xc4f8dFd99ef6B88FE81413076140eC30f72Fc83a')
+
   const chainId = await getOriginalChainId()
 
   const governance = readAddressMappingIfExists('governance.json')
 
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
-    const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
     const pools = readAddressMappingIfExists('newPools.json')
     const poolAddress = pools.get(seriesId) as string
 

@@ -27,11 +27,7 @@ export const initStrategiesProposal = async (
 
     const strategy: Strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
 
-    const base: ERC20Mock = (await ethers.getContractAt(
-      'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-      await strategy.base(),
-      ownerAcc
-    )) as ERC20Mock
+    const base: ERC20Mock = (await ethers.getContractAt('ERC20Mock', await strategy.base(), ownerAcc)) as ERC20Mock
 
     if ((await ethers.provider.getCode(startPoolAddress)) === '0x')
       throw `Address ${startPoolAddress} contains no code for the ${startPoolId} Pool`
