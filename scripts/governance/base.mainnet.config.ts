@@ -15,10 +15,12 @@ import {
   EWETH,
   EDAI,
   EUSDC,
+  EFRAX,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 
+export const external = readAddressMappingIfExists('external.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const assets: Map<string, string> = readAddressMappingIfExists('assets.json')

@@ -94,6 +94,13 @@ module.exports = {
     owner: 1,
     other: 2,
   },
+  // tenderly: {
+  //   project: "v2",
+  //   username: "AlbertoCuesta",
+  //   forkNetwork: "mainnet",
+  //   privateVerification: false,
+  //   deploymentsDir: "deployments"
+  // },
   networks: {
     hardhat: {
       accounts,
@@ -103,7 +110,6 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },

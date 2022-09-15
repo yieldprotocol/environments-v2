@@ -132,6 +132,13 @@ const awaitAndRequireProposal =
     }
   }
 
+/** @dev Advance time to a given second in unix time */
+export const advanceTimeTo = async (time: number) => {
+  const provider: BaseProvider = ethers.provider
+  const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+  await advanceTime(time - now)
+}
+
 /**
  * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
  * depending on the proposal state in the timelock.
