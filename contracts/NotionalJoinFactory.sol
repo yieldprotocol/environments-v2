@@ -28,8 +28,6 @@ interface IJoinCustom {
 /// @author @calnix
 contract NotionalJoinFactory is AccessControl {
 
-    mapping (bytes6 => uint256) public fcashAssets;  // maps assetId to fCashId
-
     address public cloak;
     address public timelock;
     ILadleGov public ladle;
@@ -53,7 +51,6 @@ contract NotionalJoinFactory is AccessControl {
         address newAssetAddress,
         uint256 salt
     ) external auth returns (NotionalJoin) {
-        require(fcashAssets[newAssetId] == 0, "Invalid newAssetId");  // ensure asset does not already exist
         require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
 
         // get join of oldAssetId
@@ -75,10 +72,6 @@ contract NotionalJoinFactory is AccessControl {
             maturity,
             currencyId
         );
-
-        // update mapping with new fCashId
-        uint256 fCashId = join.id();
-        fcashAssets[newAssetId] = fCashId;
 
         _orchestrateJoin(address(join));
 

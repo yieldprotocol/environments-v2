@@ -120,17 +120,6 @@ abstract contract StateZero is Test {
 contract StateZeroTest is StateZero {
     using Mocks for *;
 
-    function testCannotCreateExisting() public {
-        console2.log('Cannot deploy notional that already exists / Re-use existing assetId');
-
-        uint256 salt_1 = 1234;
-        uint256 salt_2 = 1235;
-
-        NotionalJoin newJoin_1 = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt_1);
-        vm.expectRevert("Invalid newAssetId");
-        NotionalJoin newJoin_2 = njoinfactory.deploy(oldAssetId, newAssetId, address(6), salt_2);
-    }
-
     function testCannotReferenceUnregisteredJoin() public {
         console2.log('New Join should not be registered in Ladle');
 
