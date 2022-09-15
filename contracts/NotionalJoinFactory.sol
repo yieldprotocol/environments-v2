@@ -35,7 +35,6 @@ contract NotionalJoinFactory is AccessControl {
     ILadleGov public ladle;
 
     event JoinCreated(address indexed asset, address indexed join);
-    event Added(bytes6 indexed assetId, uint256 indexed fCashId);
 
     constructor(address cloak_, address timelock_, ILadleGov ladle_) {
         cloak = cloak_;
@@ -54,7 +53,6 @@ contract NotionalJoinFactory is AccessControl {
         address newAssetAddress,
         uint256 salt
     ) external auth returns (NotionalJoin) {
-        require(fcashAssets[oldAssetId] != 0, "Invalid oldAssetId");  // ensure prior tenor of fCash exists (i.e. fDAIJUN22 to be mapped to fDAISEP22)  
         require(fcashAssets[newAssetId] == 0, "Invalid newAssetId");  // ensure asset does not already exist
         require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
 
@@ -131,12 +129,4 @@ contract NotionalJoinFactory is AccessControl {
         join.renounceRole(ROOT, address(this));
     }
     
-    /// @notice To manually register existing fCash assetIds that were created 
-    function addFCash(bytes6 assetId, uint256 fCashId) external auth {
-        require(fcashAssets[assetId] == 0, "AssetId exists");
-
-        fcashAssets[assetId] = fCashId;
-
-        emit Added(assetId, fCashId);
-    } 
 }

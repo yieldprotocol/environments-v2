@@ -91,7 +91,6 @@ abstract contract StateZero is Test {
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);
-        njoinfactory.grantRole(NotionalJoinFactory.addFCash.selector, deployer);
         vm.stopPrank();
 
         // create njoin for oldAssetId
@@ -121,13 +120,6 @@ abstract contract StateZero is Test {
 // register oldAssetId via addFCash()
 contract StateZeroTest is StateZero {
 
-    function testAddFCash() public {
-        vm.expectEmit(true, true, false, false);
-        emit Added(oldAssetId, oldJoin.id());
-        njoinfactory.addFCash(oldAssetId, oldJoin.id());
-
-        assertTrue(njoinfactory.fcashAssets(oldAssetId) == oldJoin.id());
-    }
 
 }   
 
@@ -136,8 +128,6 @@ abstract contract StateDeploy is StateZero {
     function setUp() public override virtual {
         super.setUp();
 
-        // oldAssetId added into factory
-        njoinfactory.addFCash(oldAssetId, oldJoin.id());
     }
 }
 

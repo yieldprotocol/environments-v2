@@ -191,23 +191,18 @@ abstract contract StateAddCollateral is Test {
 
         // ... Deploy NJoin ...
         // Factory permissions
-        vm.startPrank(address(deployer));
+        vm.prank(address(deployer));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
-        njoinfactory.grantRole(NotionalJoinFactory.addFCash.selector, deployer);
-        vm.stopPrank();
-
+        
         setUpReferences();
 
         // deploy new njoin
         vm.prank(deployer);
         njoin = njoinfactory.deploy(oldAssetId, assetId, address(newFCash), salt);
         vm.label(address(njoin), 'njoin contract');
-        // register with Ladle
         
-
-        vm.startPrank(address(cloak));
+        vm.prank(address(deployer));
         NotionalJoin(njoin).grantRole(bytes4(0x00000000), address(fcashwand));
-        vm.stopPrank();
     }
 
     function setUpReferences() public {
@@ -220,12 +215,13 @@ abstract contract StateAddCollateral is Test {
         uint16 currencyId = 1;
         
         // oldAssetId & oldJoin
+        vm.startPrank(deployer);
         NotionalJoin oldJoin = new NotionalJoin(asset, underlying, underlyingJoin, maturity, currencyId);
-        vm.prank(deployer);
-        njoinfactory.addFCash(oldAssetId, 1); //oldFCashId = 1
+        //njoinfactory.addFCash(oldAssetId, 1); //oldFCashId = 1
 
         // _addAsset: AccessControl(joinAddress).grantRoles(sigs, address(ladle))    
         NotionalJoin(oldJoin).grantRole(bytes4(0x00000000), address(fcashwand));
+        vm.stopPrank();
 
         // Wand params
         FCashWand.NotionalSource memory notionalSource;
