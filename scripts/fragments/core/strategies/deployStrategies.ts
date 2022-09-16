@@ -41,18 +41,19 @@ export const deployStrategies = async (
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
-      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
-      console.log(`Strategy deployed at '${strategy.address}'`)
-      // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
-      newStrategies.set(symbol, strategy.address)
+      console.log('deploy args', name, symbol, ladle.address, baseAddress, baseId, join)
+      // strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
+      // console.log(`Strategy deployed at '${strategy.address}'`)
+      // // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
+      // newStrategies.set(symbol, strategy.address)
     } else {
-      console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
-      strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
+      // console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
+      // strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
     }
     if (!(await strategy.hasRole(ROOT, timelock.address))) {
-      await strategy.grantRole(ROOT, timelock.address)
-      console.log(`strategy.grantRoles(ROOT, timelock)`)
-      while (!(await strategy.hasRole(ROOT, timelock.address))) {}
+      // await strategy.grantRole(ROOT, timelock.address)
+      // console.log(`strategy.grantRoles(ROOT, timelock)`)
+      // while (!(await strategy.hasRole(ROOT, timelock.address))) {}
     }
   }
 

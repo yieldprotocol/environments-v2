@@ -111,7 +111,7 @@ module.exports = {
     localhost: {
       timeout: 600000,
       chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
-      blockGasLimit: 50_000_000_000,
+      // blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
     tenderly: {
@@ -130,7 +130,7 @@ module.exports = {
     },
     mainnet: {
       accounts,
-      blockGasLimit: 300_000_000_000,
+      // blockGasLimit: 300_000_000_000,
       gasPrice: 10_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
