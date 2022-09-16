@@ -1,9 +1,9 @@
 import { ethers, waffle } from 'hardhat'
-import { getOwnerOrImpersonate, writeAddressMap, verify } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, writeAddressMap, verify } from '../../../shared/helpers'
 
-import NotionalJoinFactoryArtifact from '../../../../../artifacts/contracts/NotionalJoinFactory.sol/NotionalJoinFactory.json'
-import { NotionalJoinFactory } from '../../../../../typechain'
-import { ROOT } from '../../../../../shared/constants'
+import NotionalJoinFactoryArtifact from '../../../artifacts/contracts/NotionalJoinFactory.sol/NotionalJoinFactory.json'
+import { NotionalJoinFactory } from '../../../typechain'
+import { ROOT } from '../../../shared/constants'
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployContract } = waffle

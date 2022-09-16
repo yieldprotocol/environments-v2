@@ -38,10 +38,19 @@ contract NotionalJoinFactory is AccessControl {
         address newAssetAddress,
         uint256 salt
     ) external auth returns (NotionalJoin) {
+        require(address(ladle.joins(oldAssetId)) != address(0), "oldAssetId invalid");
         require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
 
         // get join of oldAssetId
         INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
+
+        // njoin check
+        // check could be bypassed if Join has a fallback function 
+        try oldJoin.fCashId returns (uint256) {
+            emit Log("valid njoin");
+        } catch {
+            emit Log("oldAssetId join invalid");
+        }
         
         // get underlying, underlyingJoin addresses
         address underlying = oldJoin.underlying(); 
@@ -134,6 +143,15 @@ contract NotionalJoinFactory is AccessControl {
         } else {
             revert UnrecognisedParam(param);
         }
+
+    // try/catch block to check that the join exists and it is a NotionalJoin. 
+    // calling join.fCashId, 
+    // if it reverts you assume that it doesn't exist on the ladle, or it is not a NotionalJoin.
+    function njoinCheck() internal {
+        require(address(ladle.joins(oldAssetId)) != address(0), "oldAssetId invalid");
+
+
+    }
 
     }
     
