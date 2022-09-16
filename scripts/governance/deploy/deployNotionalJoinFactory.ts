@@ -4,6 +4,8 @@ import { getOwnerOrImpersonate, writeAddressMap, verify } from '../../../shared/
 import NotionalJoinFactoryArtifact from '../../../artifacts/contracts/NotionalJoinFactory.sol/NotionalJoinFactory.json'
 import { NotionalJoinFactory } from '../../../typechain'
 import { ROOT } from '../../../shared/constants'
+import { id } from '@yield-protocol/utils-v2'
+
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployContract } = waffle
@@ -39,14 +41,23 @@ const { deployContract } = waffle
     console.log(`Reusing NotionalJoinFactory at ${notionalJoinFactory.address}`)
   }
 
+  // timelock
   if (!(await notionalJoinFactory.hasRole(ROOT, timelock))) {
-    await notionalJoinFactory.grantRole(ROOT, timelock)
+    await notionalJoinFactory.grantRoles(
+      [
+        id(notionalJoinFactory.interface, 'deploy(bytes6,bytes6,address,uint256)'),
+        id(notionalJoinFactory.interface, 'point(bytes32,address)'),
+        ROOT,
+      ],
+      timelock
+    )
     console.log(`notionalJoinFactory.grantRoles(ROOT, timelock)`)
     await notionalJoinFactory.hasRole(ROOT, timelock)
   } else {
     console.log(`timelock has ROOT`)
   }
 
+  // cloak
   if (!(await notionalJoinFactory.hasRole(ROOT, cloak))) {
     await notionalJoinFactory.grantRole(ROOT, cloak)
     console.log(`notionalJoinFactory.grantRoles(ROOT, cloak)`)
@@ -55,6 +66,7 @@ const { deployContract } = waffle
     console.log(`cloak has ROOT`)
   }
 
+  // deployer
   if (!(await notionalJoinFactory.hasRole(ROOT, deployer))) {
     console.log(`deployer ROOT revoked`)
   } else {

@@ -18,7 +18,8 @@ contract NotionalJoinFactory is AccessControl {
 
     event JoinCreated(address indexed asset, address indexed join);
     event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
-    
+    event Log(string message);
+
     error UnrecognisedParam(bytes32 param);
 
     constructor(address cloak_, address timelock_, ILadleGov ladle_) {
@@ -46,7 +47,7 @@ contract NotionalJoinFactory is AccessControl {
 
         // njoin check
         // check could be bypassed if Join has a fallback function 
-        try oldJoin.fCashId returns (uint256) {
+        try oldJoin.fCashId() returns (uint256) {
             emit Log("valid njoin");
         } catch {
             emit Log("oldAssetId join invalid");
@@ -143,16 +144,6 @@ contract NotionalJoinFactory is AccessControl {
         } else {
             revert UnrecognisedParam(param);
         }
-
-    // try/catch block to check that the join exists and it is a NotionalJoin. 
-    // calling join.fCashId, 
-    // if it reverts you assume that it doesn't exist on the ladle, or it is not a NotionalJoin.
-    function njoinCheck() internal {
-        require(address(ladle.joins(oldAssetId)) != address(0), "oldAssetId invalid");
-
-
-    }
-
     }
     
 }
