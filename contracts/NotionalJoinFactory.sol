@@ -12,8 +12,8 @@ import {ILadle} from '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 /// @author @calnix
 contract NotionalJoinFactory is AccessControl {
 
-    address public cloak;
     address public timelock;
+    address public cloak;
     ILadleGov public ladle;
 
     event JoinCreated(address indexed asset, address indexed join);
