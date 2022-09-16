@@ -41,8 +41,12 @@ export const deployStrategies = async (
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
+      name, symbol, ladle.address, baseAddress, baseId, join
       strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
       console.log(`Strategy deployed at '${strategy.address}'`)
+      console.log(
+        `npx hardhat verify --network arb_mainnet ${strategy.address} "${name}" ${symbol} ${ladle.address} ${baseAddress} ${baseId} ${join}  --libraries addresses/arb_mainnet/safeERC20Namer.js`
+      )
       // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
       newStrategies.set(symbol, strategy.address)
     } else {
