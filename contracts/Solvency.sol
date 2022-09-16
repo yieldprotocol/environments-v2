@@ -6,6 +6,14 @@ import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
 import "@yield-protocol/utils-v2/contracts/cast/CastU256I256.sol";
 import "./RegistryInterfaces.sol";
 
+interface ISolvency {
+    function authorize(address grantee) external;
+    function addAssetId(bytes6 assetId) external;
+    function removeAssetId() external;
+    function addSeriesId(bytes6 seriesId) external;
+    function removeSeriesId() external;
+}
+
 /// @dev This contract checks the solvency of the Yield Protocol by comparing the
 /// aggregated ETH value of fyToken in circulation against the aggregated ETH value
 /// of all assets in the Joins
@@ -32,12 +40,21 @@ contract Solvency is AccessControl {
         joins = joins_;
     }
 
+    /// @dev Give permission to an address to use this contract
+    function authorize(address grantee) public auth {
+        _grantRole(this.authorize.selector, grantee);
+        _grantRole(this.addAssetId.selector, grantee);
+        _grantRole(this.removeAssetId.selector, grantee);
+        _grantRole(this.addSeriesId.selector, grantee);
+        _grantRole(this.removeSeriesId.selector, grantee);
+    }
+
     function addAssetId(bytes6 assetId) public auth {
         assetIds.push(assetId);
         emit AssetIdAdded(assetId);
     }
 
-    function popAssetId() public auth {
+    function removeAssetId() public auth {
         bytes6 assetId = assetIds[assetIds.length - 1];
         assetIds.pop();
         emit AssetIdRemoved(assetId);
@@ -48,7 +65,7 @@ contract Solvency is AccessControl {
         emit SeriesIdAdded(seriesId);
     }
 
-    function popSeriesId() public auth {
+    function removeSeriesId() public auth {
         bytes6 seriesId = seriesIds[seriesIds.length - 1];
         seriesIds.pop();
         emit SeriesIdRemoved(seriesId);
@@ -69,10 +86,10 @@ contract Solvency is AccessControl {
     /// @dev Returns the the aggregated ETH value of all fyToken in circulation
     function redeemable() public view returns(uint256 aggregated) {
         for (uint256 s; s < seriesIds.length; ++s) {
-            DataTypes.Series series_ = series.series(seriesIds[s]);
+            DataTypes.Series memory series_ = series.series(seriesIds[s]);
             bytes6 baseId = series_.baseId;
             IFYToken fyToken = series_.fyToken;
-            IOracle oracle = oracles(baseId, ETH);
+            IOracle oracle = oracles.spotOracles(baseId, ETH).oracle;
             (uint256 seriesRedeemable,) = oracle.peek(baseId, ETH, fyToken.totalSupply());
             aggregated += seriesRedeemable;
         }
@@ -81,9 +98,9 @@ contract Solvency is AccessControl {
     /// @dev Returns the the aggregated ETH value of all assets in the Joins
     function available() public view returns(uint256 aggregated) {
         for (uint256 a; a < assetIds.length; a++) {
-            bytes6 assetId = assetIds[i];
+            bytes6 assetId = assetIds[a];
             IJoin join = joins.joins(assetId);
-            IOracle oracle = oracles(assetId, ETH);
+            IOracle oracle = oracles.spotOracles(assetId, ETH).oracle;
             (uint256 joinAvailable,) = oracle.peek(assetId, ETH, join.storedBalance());
             aggregated += joinAvailable;
         }

@@ -13,7 +13,7 @@ interface ISeriesRegistry {
 }
 
 interface IOracleRegistry {
-    function oracles(bytes6, bytes6) external view returns (DataTypes.SpotOracle memory);
+    function spotOracles(bytes6, bytes6) external view returns (DataTypes.SpotOracle memory);
 }
 
 interface IJoinRegistry {
