@@ -1,17 +1,4 @@
 {
   "dataType": "Map",
-  "value": [
-    [
-      "YSETH6MMS",
-      "0xD5B43b2550751d372025d048553352ac60f27151"
-    ],
-    [
-      "YSDAI6MJD",
-      "0x38b8BF13c94082001f784A642165517F8760988f"
-    ],
-    [
-      "YSUSDC6MJD",
-      "0xC20952b2C8bB6689e7EC2F70Aeba392C378EC413"
-    ]
-  ]
+  "value": []
 }
