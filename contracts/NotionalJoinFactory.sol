@@ -5,24 +5,8 @@ import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 import {ILadleGov} from '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
-
-interface IJoinCustom {
-    /// @dev ERC1155 asset managed by this notional join
-    function asset() external view returns (address);
-
-    /// @dev underlying asset of this notional join
-    function underlying() external view returns (address);
-
-    /// @dev join of the underlying asset 
-    function underlyingJoin() external view returns (address);
-
-    /// @dev maturity date for fCash
-    function maturity() external view returns (uint40);
-
-    /// @dev otional currency id for the underlying
-    function currencyId() external view returns (uint16);
-
-}
+import {INotionalJoin} from '@yield-protocol/vault-v2/contracts/other/notional/INotionalJoin.sol';
+import {ILadle} from '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 
 /// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
 /// @author @calnix
@@ -33,10 +17,13 @@ contract NotionalJoinFactory is AccessControl {
     ILadleGov public ladle;
 
     event JoinCreated(address indexed asset, address indexed join);
+    event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
+    
+    error UnrecognisedParam(bytes32 param);
 
     constructor(address cloak_, address timelock_, ILadleGov ladle_) {
-        cloak = cloak_;
         timelock = timelock_;
+        cloak = cloak_;
         ladle = ladle_;
     }
 
@@ -54,7 +41,7 @@ contract NotionalJoinFactory is AccessControl {
         require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
 
         // get join of oldAssetId
-        IJoinCustom oldJoin = IJoinCustom(address(ladle.joins(oldAssetId)));
+        INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
         
         // get underlying, underlyingJoin addresses
         address underlying = oldJoin.underlying(); 
@@ -120,6 +107,34 @@ contract NotionalJoinFactory is AccessControl {
         join.grantRole(ROOT, msg.sender);   //msg.sender is FCashWand | FCashWand calls deploy()
         // revoke ROOT from NotionalJoinFactory
         join.renounceRole(ROOT, address(this));
+    }
+
+    /// @dev Point to a different ladle
+    /// @param param Name of parameter to set (must be "ladle", "cloak" or "timelock" )
+    /// @param value Address of new contract
+    function point(bytes32 param, address value) external auth {
+        if (param != "ladle") {
+            
+            address oldLadle = address(ladle);
+            ladle = ILadleGov(value);
+            emit Point(param, oldLadle, value);
+
+        } else if (param != "cloak"){
+
+            address oldCloak = address(cloak);
+            cloak = value;
+            emit Point(param, oldCloak, value);
+
+        } else if (param != "timelock"){
+            
+            address oldTimelock = address(timelock);
+            timelock = value;
+            emit Point(param, oldTimelock, value);
+
+        } else {
+            revert UnrecognisedParam(param);
+        }
+
     }
     
 }
