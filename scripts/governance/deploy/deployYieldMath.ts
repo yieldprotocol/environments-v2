@@ -11,6 +11,7 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
+  console.log(developer)
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
   const bal = await ownerAcc.getBalance()
 
