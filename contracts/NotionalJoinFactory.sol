@@ -22,7 +22,7 @@ contract NotionalJoinFactory is AccessControl {
 
     error UnrecognisedParam(bytes32 param);
 
-    constructor(address cloak_, address timelock_, ILadleGov ladle_) {
+    constructor(address timelock_, address cloak_, ILadleGov ladle_) {
         timelock = timelock_;
         cloak = cloak_;
         ladle = ladle_;
@@ -123,19 +123,19 @@ contract NotionalJoinFactory is AccessControl {
     /// @param param Name of parameter to set (must be "ladle", "cloak" or "timelock" )
     /// @param value Address of new contract
     function point(bytes32 param, address value) external auth {
-        if (param != "ladle") {
+        if (param == "ladle") {
             
             address oldLadle = address(ladle);
             ladle = ILadleGov(value);
             emit Point(param, oldLadle, value);
 
-        } else if (param != "cloak"){
+        } else if (param == "cloak"){
 
             address oldCloak = address(cloak);
             cloak = value;
             emit Point(param, oldCloak, value);
 
-        } else if (param != "timelock"){
+        } else if (param == "timelock"){
             
             address oldTimelock = address(timelock);
             timelock = value;

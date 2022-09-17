@@ -26,6 +26,7 @@ abstract contract StateZero is Test {
     NotionalJoinFactory public njoinfactory;
     NotionalJoin public oldJoin;
     Join public daiJoin;
+    Join public testJoin;
     FCashMock public oldFcash;
     FCashMock public newFcash;
     DAIMock public dai;
@@ -38,6 +39,7 @@ abstract contract StateZero is Test {
     bytes6 oldAssetId;
     bytes6 newAssetId; 
     bytes6 otherOldAssetId; 
+    bytes6 testAssetId;
 
     address underlying; 
     address underlyingJoin;
@@ -46,6 +48,10 @@ abstract contract StateZero is Test {
     uint256 fCashId;
 
     event Added(bytes6 indexed assetId, uint256 indexed fCashId);
+    event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
+    event Log(string message);
+
+    error UnrecognisedParam(bytes32 param);
 
     function setUp() public virtual {
 
@@ -53,6 +59,7 @@ abstract contract StateZero is Test {
         oldAssetId = bytes6('01'); 
         newAssetId = bytes6('02'); 
         otherOldAssetId= bytes6('03');
+        testAssetId = bytes6('04');
         maturity = 1651743369; // 4/07/2022 23:09:57 GMT
         currencyId = 1;
         fCashId = 4;
@@ -71,6 +78,9 @@ abstract contract StateZero is Test {
         vm.label(address(newFcash), 'new fCashMock contract');
 
         //... Yield Contracts ...
+        testJoin = new Join(address(dai));
+        vm.label(address(1), 'test Join');
+
         daiJoin = new Join(address(dai));
         vm.label(address(dai), 'Dai Join');
 
@@ -83,7 +93,7 @@ abstract contract StateZero is Test {
         ladle = new Ladle(ICauldron (address(1)), IWETH9 (address(2)));
         vm.label(address(ladle), 'Ladle contract');
 
-        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
+        njoinfactory = new NotionalJoinFactory(address(timelock), address(cloak), ILadleGov(address(ladle)));
         vm.label(address(njoinfactory), 'Njoin Factory contract');
         vm.stopPrank();
 
@@ -91,6 +101,7 @@ abstract contract StateZero is Test {
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);
+        njoinfactory.grantRole(NotionalJoinFactory.point.selector, deployer);
         vm.stopPrank();
 
         // create njoin for oldAssetId
@@ -113,7 +124,14 @@ abstract contract StateZero is Test {
             .sig("joins(bytes6)")
             .with_key(otherOldAssetId)
             .checked_write(address(5));         // arbitrary non-zero address set
+        
 
+        //register testJoin to ladle | this will be used to test try/catch block 
+        stdstore
+            .target(address(ladle))
+            .sig("joins(bytes6)")
+            .with_key(testAssetId)
+            .checked_write(address(testJoin));
     }
 }
 
@@ -127,6 +145,18 @@ contract StateZeroTest is StateZero {
 
         vm.expectRevert("newAssetId join exists");
         NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, otherOldAssetId, address(newFcash), salt);
+    }
+
+    function testCannotDeployUnlessNJoin() public {
+        console2.log('revert when not passing an Njoin');
+
+        uint256 salt = 1234;
+
+        vm.expectEmit(true, true, false, true);
+        emit Log("oldAssetId join invalid");
+
+        vm.expectRevert();
+        NotionalJoin newJoin = njoinfactory.deploy(testAssetId, newAssetId, address(newFcash), salt);
     }
 
     function testDeploy() public {
@@ -157,6 +187,58 @@ contract StateZeroTest is StateZero {
         );
 
         assertTrue(address(newJoin) != newJoinGenerated);
+    }
+
+    function testPointUnrecognisedParam() public {
+        console2.log('error UnrecognisedParam');
+        
+        bytes32 param = "test";
+        address value = address(1);
+
+        vm.expectRevert(abi.encodeWithSelector(UnrecognisedParam.selector, param));
+        njoinfactory.point(param, value);
+    }
+
+    function testPointLadle() public {
+        console2.log('Change Ladle');
+
+        bytes32 param = "ladle";
+        address oldLadle = address(ladle);
+        address value = address(1);
+
+        vm.expectEmit(true, true, true, false);
+        emit Point(param, oldLadle, value);
+
+        njoinfactory.point(param, value);
+        assertTrue(address(njoinfactory.ladle()) == value);
+    }
+
+    function testPointTimelock() public {
+        console2.log('Change Timelock');
+
+        bytes32 param = "timelock";
+        address oldTimelock = address(timelock);
+        address value = address(2);
+
+        vm.expectEmit(true, true, true, false);
+        emit Point(param, oldTimelock, value);
+
+        njoinfactory.point(param, value);
+        assertTrue(address(njoinfactory.timelock()) == value);
+    }
+
+    function testPointCloak() public {
+        console2.log('Change Cloak');
+
+        bytes32 param = "cloak";
+        address oldCloak = address(cloak);
+        address value = address(3);
+
+        vm.expectEmit(true, true, true, false);
+        emit Point(param, oldCloak, value);
+
+        njoinfactory.point(param, value);
+        assertTrue(address(njoinfactory.cloak()) == value);
     }
 
 }
