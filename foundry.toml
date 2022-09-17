@@ -1,7 +1,8 @@
 [profile.default]
 src = 'src'
 out = 'artifacts'
-libs = ['node_modules']
+libs = ["node_modules", "lib"]
+rpc_endpoints = { mainnet = "${MAINNET_RPC}" }
 remappings = [
     '@ensdomains/=node_modules/@ensdomains/',
     '@yield-protocol/=node_modules/@yield-protocol/',

@@ -25,6 +25,7 @@ deployments/
 .infuraKey
 .mythxKey
 .secret
+.env
 build/
 
 # Accounts
