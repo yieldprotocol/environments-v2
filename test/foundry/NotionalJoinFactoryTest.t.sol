@@ -93,7 +93,7 @@ abstract contract StateZero is Test {
         ladle = new Ladle(ICauldron (address(1)), IWETH9 (address(2)));
         vm.label(address(ladle), 'Ladle contract');
 
-        njoinfactory = new NotionalJoinFactory(address(timelock), address(cloak), ILadleGov(address(ladle)));
+        njoinfactory = new NotionalJoinFactory(ILadleGov(address(ladle)));
         vm.label(address(njoinfactory), 'Njoin Factory contract');
         vm.stopPrank();
 
@@ -211,34 +211,6 @@ contract StateZeroTest is StateZero {
 
         njoinfactory.point(param, value);
         assertTrue(address(njoinfactory.ladle()) == value);
-    }
-
-    function testPointTimelock() public {
-        console2.log('Change Timelock');
-
-        bytes32 param = "timelock";
-        address oldTimelock = address(timelock);
-        address value = address(2);
-
-        vm.expectEmit(true, true, true, false);
-        emit Point(param, oldTimelock, value);
-
-        njoinfactory.point(param, value);
-        assertTrue(address(njoinfactory.timelock()) == value);
-    }
-
-    function testPointCloak() public {
-        console2.log('Change Cloak');
-
-        bytes32 param = "cloak";
-        address oldCloak = address(cloak);
-        address value = address(3);
-
-        vm.expectEmit(true, true, true, false);
-        emit Point(param, oldCloak, value);
-
-        njoinfactory.point(param, value);
-        assertTrue(address(njoinfactory.cloak()) == value);
     }
 
 }

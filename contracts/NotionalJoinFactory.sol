@@ -12,8 +12,6 @@ import {ILadle} from '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 /// @author @calnix
 contract NotionalJoinFactory is AccessControl {
 
-    address public timelock;
-    address public cloak;
     ILadleGov public ladle;
 
     event JoinCreated(address indexed asset, address indexed join);
@@ -22,9 +20,7 @@ contract NotionalJoinFactory is AccessControl {
 
     error UnrecognisedParam(bytes32 param);
 
-    constructor(address timelock_, address cloak_, ILadleGov ladle_) {
-        timelock = timelock_;
-        cloak = cloak_;
+    constructor(ILadleGov ladle_) {
         ladle = ladle_;
     }
 
@@ -60,7 +56,7 @@ contract NotionalJoinFactory is AccessControl {
         // get new maturity
         uint16 currencyId = oldJoin.currencyId();
         uint40 oldMaturity = oldJoin.maturity();
-        uint40 maturity = oldMaturity + (86400 * 90);    // 90-days in seconds
+        uint40 maturity = oldMaturity + 90 days;
   
         NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
             newAssetAddress,
@@ -70,7 +66,12 @@ contract NotionalJoinFactory is AccessControl {
             currencyId
         );
 
-        _orchestrateJoin(address(join));
+        address joinAddress = address(join);
+
+        // grant ROOT to msg.sender
+        AccessControl(joinAddress).grantRole(ROOT, msg.sender);  
+        // revoke ROOT from NotionalJoinFactory
+        AccessControl(joinAddress).renounceRole(ROOT, address(this));
 
         emit JoinCreated(newAssetAddress, address(join));
         return join;
@@ -106,44 +107,16 @@ contract NotionalJoinFactory is AccessControl {
         return abi.encodePacked(bytecode, abi.encode(asset, underlying, underlyingJoin, maturity, currencyId));
     }
 
-    /// @notice Orchestrate the join to grant & revoke the correct permissions
-    /// @param joinAddress Address of the join to be orchestrated
-    function _orchestrateJoin(address joinAddress) internal {
-        AccessControl join = AccessControl(joinAddress);
-
-        // grant ROOT to cloak & timelock
-        join.grantRole(ROOT, cloak);
-        join.grantRole(ROOT, timelock);
-        join.grantRole(ROOT, msg.sender);   //msg.sender is FCashWand | FCashWand calls deploy()
-        // revoke ROOT from NotionalJoinFactory
-        join.renounceRole(ROOT, address(this));
-    }
-
     /// @dev Point to a different ladle
-    /// @param param Name of parameter to set (must be "ladle", "cloak" or "timelock" )
+    /// @param param Name of parameter to set (must be "ladle")
     /// @param value Address of new contract
     function point(bytes32 param, address value) external auth {
-        if (param == "ladle") {
-            
-            address oldLadle = address(ladle);
-            ladle = ILadleGov(value);
-            emit Point(param, oldLadle, value);
-
-        } else if (param == "cloak"){
-
-            address oldCloak = address(cloak);
-            cloak = value;
-            emit Point(param, oldCloak, value);
-
-        } else if (param == "timelock"){
-            
-            address oldTimelock = address(timelock);
-            timelock = value;
-            emit Point(param, oldTimelock, value);
-
-        } else {
+        if (param != "ladle") {
             revert UnrecognisedParam(param);
         }
+        address oldLadle = address(ladle);
+        ladle = ILadleGov(value);
+        emit Point(param, oldLadle, value);
     }
     
 }

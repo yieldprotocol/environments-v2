@@ -21,7 +21,7 @@ const { deployContract } = waffle
   const ladle = protocol.get('ladle')
 
   let notionalJoinFactory: NotionalJoinFactory
-  let args = [cloak, timelock, ladle]
+  let args = [ladle]
   console.log(`cloak: ${cloak}`)
   console.log(`timelock: ${timelock}`)
   console.log(`ladle: ${ladle}`)

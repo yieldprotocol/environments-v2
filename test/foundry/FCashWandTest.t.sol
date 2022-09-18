@@ -131,7 +131,7 @@ abstract contract StateAddCollateral is Test {
         timelock = new Timelock(deployer, deployer);
         vm.label(address(timelock), 'Timelock');
         
-        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
+        njoinfactory = new NotionalJoinFactory(ILadleGov(address(ladle)));
         vm.label(address(njoinfactory), 'njoinfactory');
 
         fcashwand = new FCashWandExt(
@@ -143,9 +143,6 @@ abstract contract StateAddCollateral is Test {
             INotionalJoinFactory(address(njoinfactory))
         );
         vm.label(address(fcashwand), 'FCash Wand');
-
-        njoinfactory = new NotionalJoinFactory(address(cloak), address(timelock), ILadleGov(address(ladle)));
-        vm.label(address(njoinfactory), 'Njoin Factory');
 
         vm.stopPrank();
 
