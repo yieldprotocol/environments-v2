@@ -59,6 +59,13 @@ if (!etherscanKey) {
   } catch (e) { }
 }
 
+let arbiscanKey = process.env.ARBISCANKEY
+if (!arbiscanKey) {
+  try {
+    arbiscanKey = fs.readFileSync(path.resolve(__dirname, '.arbiscanKey')).toString().trim()
+  } catch (e) { }
+}
+
 module.exports = {
   solidity: {
     version: '0.8.15',
@@ -150,6 +157,9 @@ module.exports = {
 		project: "v2-arbitrum"
 	},
   etherscan: {
-    apiKey: etherscanKey
+    apiKey: {
+      mainnet: etherscanKey,
+      arbitrumOne: arbiscanKey,
+    }
   },
 }
