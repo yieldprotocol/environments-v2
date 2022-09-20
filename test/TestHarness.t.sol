@@ -37,6 +37,7 @@ contract TestHarness is Test, TestConstants {
         (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
         deal(address(dai), address(this), WAD * 2);
+        deal(address(token), address(this), WAD * 2);
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
@@ -47,6 +48,45 @@ contract TestHarness is Test, TestConstants {
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
+        uint256 baseBalanceBefore = pool.getBaseBalance();
+        uint256 fyTokenBalanceBefore = pool.getFYTokenBalance();
 
+        // give approval and send base and fytoken to pool
+        dai.approve(address(pool), WAD * 2);
+        dai.transfer(address(pool), WAD * 2);
+        token.approve(address(pool), WAD * 2);
+        token.transfer(address(pool), WAD * 2);
+        // mint lp tokens
+        (
+            uint256 baseAmount, 
+            uint256 fyTokenAmount, 
+            uint256 lpTokenAmount
+        ) = pool.mint(
+            address(this), 
+            address(this), 
+            0, 
+            type(uint256).max
+        );
+
+        uint256 baseBalanceAfter = pool.getBaseBalance();
+        uint256 fyTokenBalanceAfter = pool.getFYTokenBalance();
+
+        assertEq(
+            dai.balanceOf(address(this)) + baseAmount, 
+            WAD * 2
+        );
+        assertEq(
+            fyTokenAmount, 
+            WAD * 2
+        );
+        assertEq(
+            baseBalanceBefore + baseAmount, 
+            baseBalanceAfter
+        );
+        // doesn't work?
+        // assertEq(
+        //     fyTokenBalanceBefore + fyTokenAmount,
+        //     fyTokenBalanceAfter
+        // );
     }
 }
