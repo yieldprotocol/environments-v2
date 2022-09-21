@@ -112,7 +112,7 @@ contract Solvency is AccessControl {
 
     /// @dev Returns the the aggregated ETH value of all fyToken in circulation
     function redeemable() public view returns(uint256 aggregated) {
-        for (uint256 s; s < seriesIds.length; ++s) {
+        for (uint256 s; s < seriesIds.length; s++) {
             DataTypes.Series memory series_ = series.series(seriesIds[s]);
             bytes6 baseId = series_.baseId;
             IFYToken fyToken = series_.fyToken;

@@ -3,13 +3,21 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared
 
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
+import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateSpotOraclesProposal'
 import { updateSolvencyProposal } from '../../../fragments/utils/updateSolvencyProposal'
 
 import { COMPOSITE } from '../../../../shared/constants'
 
 const { developer } = require(process.env.CONF as string)
-const { protocol, governance, newCompositeSources, newCompositePaths, newJoins, newSeries } = require(process.env
-  .CONF as string)
+const {
+  protocol,
+  governance,
+  newCompositeSources,
+  newCompositePaths,
+  newSpotOracles,
+  newJoins,
+  newSeries,
+} = require(process.env.CONF as string)
 /**
  * @dev This script orchestrates and updates the Solvency contract
  */
@@ -17,6 +25,8 @@ const { protocol, governance, newCompositeSources, newCompositePaths, newJoins, 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
+
   const compositeOracle = await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get(COMPOSITE) as string,
@@ -28,6 +38,7 @@ const { protocol, governance, newCompositeSources, newCompositePaths, newJoins, 
 
   proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, newCompositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
+  proposal = proposal.concat(await updateSpotOraclesProposal(cauldron, newSpotOracles))
   // proposal = proposal.concat(await updateSolvencyProposal(solvency, newJoins, newSeries))
 
   await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)

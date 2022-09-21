@@ -46,7 +46,7 @@ import {
   FYUSDC2212,
   FYFRAX2212,
 } from '../../../../shared/constants'
-import { NOTIONAL } from '../../../../shared/constants'
+import { NOTIONAL, COMPOSITE, CHAINLINK, LIDO, UNISWAP, YEARN } from '../../../../shared/constants'
 
 import * as base_config from '../../base.mainnet.config'
 
@@ -64,6 +64,7 @@ export const assets: Map<string, string> = base_config.assets
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
 export const newCompositeSources: Array<[string, string, string]> = [
+  [YVUSDC, USDC, protocol.get(YEARN) as string],
   [FDAI2203, DAI, protocol.get(NOTIONAL) as string],
   [FDAI2206, DAI, protocol.get(NOTIONAL) as string],
   [FDAI2209, DAI, protocol.get(NOTIONAL) as string],
@@ -77,12 +78,28 @@ export const newCompositeSources: Array<[string, string, string]> = [
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Path to traverse (array of bytes6 tags)
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
+  [YVUSDC, ETH, [USDC]],
   [FDAI2203, ETH, [DAI]],
   [FDAI2206, ETH, [DAI]],
   [FDAI2209, ETH, [DAI]],
   [FUSDC2203, ETH, [USDC]],
   [FUSDC2206, ETH, [USDC]],
   [FUSDC2209, ETH, [USDC]],
+]
+
+export const newSpotOracles: Array<[string, string, string, number]> = [
+  [WBTC, ETH, protocol.get(CHAINLINK) as string, 2000000],
+  [WSTETH, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [LINK, ETH, protocol.get(CHAINLINK) as string, 2000000],
+  [ENS, ETH, protocol.get(UNISWAP) as string, 2000000],
+  [YVUSDC, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [UNI, ETH, protocol.get(CHAINLINK) as string, 2000000],
+  [FDAI2203, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [FDAI2206, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [FDAI2209, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [FUSDC2203, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [FUSDC2206, ETH, protocol.get(COMPOSITE) as string, 2000000],
+  [FUSDC2209, ETH, protocol.get(COMPOSITE) as string, 2000000],
 ]
 
 /// @notice Joins that will be added to the Solvency contract
