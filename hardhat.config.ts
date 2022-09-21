@@ -113,22 +113,23 @@ module.exports = {
       chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
-      gasLimit: 1_000_000_000,
-      gasPrice: 1_000_000_000
-
     },
     tenderly: {
       // update url of fork
+<<<<<<< HEAD
       url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7",
+=======
+      url: "https://rpc.tenderly.co/fork/c2843e1d-19f9-4bdd-9d16-d381074bf71a",
+>>>>>>> 3c8d787 (trying tenderly)
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       // update chainId if necessary
       username: "Yield",
       project: "v2",
       // these below can probably remain unchanged
       // username: "Yield",
-      blockGasLimit: 300_000_000_000,
-      gasPrice: 1_000_000_000,
+      // blockGasLimit: 300_000_000_000,
+      // gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {
