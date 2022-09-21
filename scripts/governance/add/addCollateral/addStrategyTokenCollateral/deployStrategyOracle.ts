@@ -14,11 +14,7 @@ const { developer } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   const strategyOracle = await deployStrategyOracle(ownerAcc, timelock, protocol)
   protocol.set('strategyOracle', strategyOracle.address)

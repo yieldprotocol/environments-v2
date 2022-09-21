@@ -21,11 +21,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
 
   const protocol = readAddressMappingIfExists('protocol.json')
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
 
   let oracle

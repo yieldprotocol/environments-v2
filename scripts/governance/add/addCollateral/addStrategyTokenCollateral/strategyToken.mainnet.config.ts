@@ -8,15 +8,15 @@ import {
   FYFRAX2209,
   FYUSDC2209,
   USDC,
-  YSDAI6MJDTOKEN,
+  YSDAI6MJDASSET,
   YSDAI6MMS,
-  YSDAI6MMSTOKEN,
-  YSETH6MJDTOKEN,
-  YSETH6MMSTOKEN,
-  YSFRAX6MJDTOKEN,
-  YSFRAX6MMSTOKEN,
-  YSUSDC6MJDTOKEN,
-  YSUSDC6MMSTOKEN,
+  YSDAI6MMSASSET,
+  YSETH6MJDASSET,
+  YSETH6MMSASSET,
+  YSFRAX6MJDASSET,
+  YSFRAX6MMSASSET,
+  YSUSDC6MJDASSET,
+  YSUSDC6MMSASSET,
 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.mainnet.config'
@@ -37,25 +37,25 @@ export const strategies: Map<string, string> = base_config.strategies
 export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoins.json')
 
 export const assetsToAdd: Array<[string, string]> = [
-  [YSDAI6MMSTOKEN, assets.get(YSDAI6MMSTOKEN) as string],
-  [YSDAI6MJDTOKEN, assets.get(YSDAI6MJDTOKEN) as string],
-  [YSUSDC6MMSTOKEN, assets.get(YSUSDC6MMSTOKEN) as string],
-  [YSUSDC6MJDTOKEN, assets.get(YSUSDC6MJDTOKEN) as string],
-  [YSETH6MMSTOKEN, assets.get(YSETH6MMSTOKEN) as string],
-  [YSETH6MJDTOKEN, assets.get(YSETH6MJDTOKEN) as string],
-  [YSFRAX6MMSTOKEN, assets.get(YSFRAX6MMSTOKEN) as string],
-  [YSFRAX6MJDTOKEN, assets.get(YSFRAX6MJDTOKEN) as string],
+  [YSDAI6MMSASSET, assets.get(YSDAI6MMSASSET) as string],
+  [YSDAI6MJDASSET, assets.get(YSDAI6MJDASSET) as string],
+  [YSUSDC6MMSASSET, assets.get(YSUSDC6MMSASSET) as string],
+  [YSUSDC6MJDASSET, assets.get(YSUSDC6MJDASSET) as string],
+  [YSETH6MMSASSET, assets.get(YSETH6MMSASSET) as string],
+  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string],
+  [YSFRAX6MMSASSET, assets.get(YSFRAX6MMSASSET) as string],
+  [YSFRAX6MJDASSET, assets.get(YSFRAX6MJDASSET) as string],
 ]
 
 export const strategyOracleSources: Array<[string, string, number, string]> = [
-  [YSDAI6MMSTOKEN, DAI, 18, assets.get(YSDAI6MMSTOKEN) as string],
-  [YSDAI6MJDTOKEN, DAI, 18, assets.get(YSDAI6MJDTOKEN) as string],
-  [YSUSDC6MMSTOKEN, USDC, 6, assets.get(YSUSDC6MMSTOKEN) as string],
-  [YSUSDC6MJDTOKEN, USDC, 6, assets.get(YSUSDC6MJDTOKEN) as string],
-  [YSETH6MMSTOKEN, ETH, 18, assets.get(YSETH6MMSTOKEN) as string],
-  [YSETH6MJDTOKEN, ETH, 18, assets.get(YSETH6MJDTOKEN) as string],
-  [YSFRAX6MMSTOKEN, FRAX, 18, assets.get(YSFRAX6MMSTOKEN) as string],
-  [YSFRAX6MJDTOKEN, FRAX, 18, assets.get(YSFRAX6MJDTOKEN) as string],
+  [YSDAI6MMSASSET, DAI, 18, assets.get(YSDAI6MMSASSET) as string],
+  [YSDAI6MJDASSET, DAI, 18, assets.get(YSDAI6MJDASSET) as string],
+  [YSUSDC6MMSASSET, USDC, 6, assets.get(YSUSDC6MMSASSET) as string],
+  [YSUSDC6MJDASSET, USDC, 6, assets.get(YSUSDC6MJDASSET) as string],
+  [YSETH6MMSASSET, ETH, 18, assets.get(YSETH6MMSASSET) as string],
+  [YSETH6MJDASSET, ETH, 18, assets.get(YSETH6MJDASSET) as string],
+  [YSFRAX6MMSASSET, FRAX, 18, assets.get(YSFRAX6MMSASSET) as string],
+  [YSFRAX6MJDASSET, FRAX, 18, assets.get(YSFRAX6MJDASSET) as string],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
@@ -66,14 +66,14 @@ export const strategyOracleSources: Array<[string, string, number, string]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newStrategyLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, YSDAI6MMSTOKEN, 1100000, 1000000, 5000, 18],
-  [DAI, YSDAI6MJDTOKEN, 1100000, 1000000, 5000, 18],
-  [USDC, YSUSDC6MMSTOKEN, 1100000, 1000000, 5000, 6],
-  [USDC, YSUSDC6MJDTOKEN, 1100000, 1000000, 5000, 6],
-  [ETH, YSETH6MMSTOKEN, 1100000, 1000000, 5000, 18],
-  [ETH, YSETH6MJDTOKEN, 1100000, 1000000, 5000, 18],
-  [FRAX, YSFRAX6MMSTOKEN, 1100000, 1000000, 5000, 18],
-  [FRAX, YSFRAX6MJDTOKEN, 1100000, 1000000, 5000, 18],
+  [DAI, YSDAI6MMSASSET, 1100000, 1000000, 5000, 18],
+  [DAI, YSDAI6MJDASSET, 1100000, 1000000, 5000, 18],
+  [USDC, YSUSDC6MMSASSET, 1100000, 1000000, 5000, 6],
+  [USDC, YSUSDC6MJDASSET, 1100000, 1000000, 5000, 6],
+  [ETH, YSETH6MMSASSET, 1100000, 1000000, 5000, 18],
+  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18],
+  [FRAX, YSFRAX6MMSASSET, 1100000, 1000000, 5000, 18],
+  [FRAX, YSFRAX6MJDASSET, 1100000, 1000000, 5000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -85,24 +85,24 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const strategyAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [YSDAI6MMSTOKEN, 3600, 1000000, 1000000, 5000, 18],
-  [YSDAI6MJDTOKEN, 3600, 1000000, 1000000, 5000, 18],
-  [YSUSDC6MMSTOKEN, 3600, 1000000, 1000000, 5000, 6],
-  [YSUSDC6MJDTOKEN, 3600, 1000000, 1000000, 5000, 6],
-  [YSETH6MMSTOKEN, 3600, 1000000, 1000000, 5000, 18],
-  [YSETH6MJDTOKEN, 3600, 1000000, 1000000, 5000, 18],
-  [YSFRAX6MMSTOKEN, 3600, 1000000, 1000000, 5000, 18],
-  [YSFRAX6MJDTOKEN, 3600, 1000000, 1000000, 5000, 18],
+  [YSDAI6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSDAI6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSUSDC6MMSASSET, 3600, 1000000, 1000000, 5000, 6],
+  [YSUSDC6MJDASSET, 3600, 1000000, 1000000, 5000, 6],
+  [YSETH6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSETH6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSFRAX6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSFRAX6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
 ]
 
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2209, [YSDAI6MMSTOKEN]],
-  [FYUSDC2209, [YSUSDC6MMSTOKEN]],
-  [FYFRAX2209, [YSFRAX6MMSTOKEN]],
-  [FYETH2209, [YSETH6MMSTOKEN]],
+  [FYDAI2209, [YSDAI6MMSASSET]],
+  [FYUSDC2209, [YSUSDC6MMSASSET]],
+  [FYFRAX2209, [YSFRAX6MMSASSET]],
+  [FYETH2209, [YSETH6MMSASSET]],
   // [FYFRAX2209, [YSDAI6MMSTOKEN]],
 ]
 
@@ -111,14 +111,14 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
 export const compositeSources: Array<[string, string, string]> = [
-  [DAI, YSDAI6MMSTOKEN, protocol.get('strategyOracle') as string],
+  [DAI, YSDAI6MMSASSET, protocol.get('strategyOracle') as string],
 ]
 
 /// @notice Paths that will be added to the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Path to traverse (array of bytes6 tags)
-export const newCompositePaths: Array<[string, string, Array<string>]> = [[FRAX, YSDAI6MMSTOKEN, [ETH, DAI]]]
+export const newCompositePaths: Array<[string, string, Array<string>]> = [[FRAX, YSDAI6MMSASSET, [ETH, DAI]]]
 
 /// @notice Configure an asset as an ilk for a base using the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
@@ -128,5 +128,5 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [[FRAX,
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, YSDAI6MMSTOKEN, 1100000, 1000000, 5000, 18],
+  [FRAX, YSDAI6MMSASSET, 1100000, 1000000, 5000, 18],
 ]

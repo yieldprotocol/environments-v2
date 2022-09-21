@@ -35,17 +35,6 @@ export const deployStrategyOracle = async (
     verify(strategyOracle.address, [])
     protocol.set('strategyOracle', strategyOracle.address)
     writeAddressMap('protocol.json', protocol)
-    if (hre.network.name == 'tenderly') {
-      await hre.tenderly.persistArtifacts({
-        name: 'StrategyOracle',
-        address: strategyOracle.address,
-      })
-
-      await hre.tenderly.verify({
-        name: 'StrategyOracle',
-        address: strategyOracle.address,
-      })
-    }
   } else {
     strategyOracle = (await ethers.getContractAt(
       'StrategyOracle',
@@ -55,9 +44,9 @@ export const deployStrategyOracle = async (
     console.log(`Reusing StrategyOracle at ${strategyOracle.address}`)
   }
   if (!(await strategyOracle.hasRole(ROOT, timelock.address))) {
-    await strategyOracle.grantRole(ROOT, timelock.address)
+    const tx = await strategyOracle.grantRole(ROOT, timelock.address)
     console.log(`strategyOracle.grantRoles(ROOT, timelock)`)
-    while (!(await strategyOracle.hasRole(ROOT, timelock.address))) {}
+    await tx.wait()
   }
 
   return strategyOracle

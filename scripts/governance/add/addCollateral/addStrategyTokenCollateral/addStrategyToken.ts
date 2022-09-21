@@ -29,38 +29,22 @@ const {
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const strategyOracle = (await ethers.getContractAt(
+  const strategyOracle = await ethers.getContractAt(
     'StrategyOracle',
     protocol.get('strategyOracle') as string,
     ownerAcc
-  )) as unknown as StrategyOracle
+  )
 
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'OldWitch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as OldWitch
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-  const compositeOracle = (await ethers.getContractAt(
+  const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const compositeOracle = await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get(COMPOSITE) as string,
     ownerAcc
-  )) as unknown as CompositeMultiOracle
+  )
   let assetsAndJoins: [string, string, string][] = []
 
   for (let [assetId, joinAddress] of newJoins) {

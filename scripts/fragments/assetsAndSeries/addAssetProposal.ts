@@ -23,7 +23,7 @@ export const addAssetProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
-    const asset = (await ethers.getContractAt('ERC20', assetAddress as string, ownerAcc)) as unknown as ERC20
+    const asset = await ethers.getContractAt('ERC20', assetAddress as string, ownerAcc)
     console.log(`Using ${await asset.name()} at ${assetAddress}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
