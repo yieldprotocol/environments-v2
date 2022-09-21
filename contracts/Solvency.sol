@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.15;
 import "@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol";
+import "@yield-protocol/vault-v2/contracts/other/notional/INotionalJoin.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol";
 import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
+import "@yield-protocol/utils-v2/contracts/math/WMul.sol";
 import "@yield-protocol/utils-v2/contracts/cast/CastU256I256.sol";
 import "./RegistryInterfaces.sol";
 
@@ -21,6 +23,7 @@ interface ISolvency {
 /// of all assets in the Joins
 contract Solvency is AccessControl {
     using CastU256I256 for uint256;
+    using WMul for uint256;
 
     bytes6 ETH = 0x303000000000;
 
@@ -128,7 +131,15 @@ contract Solvency is AccessControl {
             bytes6 assetId = assetIds[a];
             IJoin join = joins.joins(assetId);
             IOracle oracle = oracles.spotOracles(assetId, ETH).oracle;
-            (uint256 joinAvailable,) = oracle.peek(assetId, ETH, join.storedBalance());
+            uint256 storedBalance = join.storedBalance();
+            try INotionalJoin(address(join)).accrual() returns (uint256 accrual) {
+                // If we are dealing with a mature NotionalJoin, let's multiply the storedBalance by the accrual
+                if (accrual != 0) storedBalance = storedBalance.wmul(accrual);
+            } catch {
+                // Nothing to do
+            }
+
+            (uint256 joinAvailable,) = oracle.peek(assetId, ETH, storedBalance);
             aggregated += joinAvailable;
         }
     }
