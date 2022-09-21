@@ -28,32 +28,24 @@ export const deployStrategies = async (
 
   for (let [name, symbol, baseId] of strategiesData) {
     const join = joins.get(baseId)
-    // const join = await ladle.joins(baseId)
     const baseAddress = assets.get(baseId)
-    // const baseAddress = await cauldron.assets(baseId)
-    // const base = (await ethers.getContractAt(
-    //   'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-    //   baseAddress,
-    //   ownerAcc
-    // )) as unknown as ERC20Mock
-    // console.log(`Using ${await base.name()} at ${baseAddress} as base`)
     console.log(`Using ${baseAddress} as base`)
 
     let strategy: Strategy
     if (strategies.get(symbol) === undefined) {
       console.log('deploy args', name, symbol, ladle.address, baseAddress, baseId, join)
-      // strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
-      // console.log(`Strategy deployed at '${strategy.address}'`)
-      // // verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
-      // newStrategies.set(symbol, strategy.address)
+      strategy = (await strategyFactory.deploy(name, symbol, ladle.address, baseAddress, baseId, join)) as Strategy
+      console.log(`Strategy deployed at '${strategy.address}'`)
+      verify(strategy.address, [name, symbol, ladle.address, baseAddress, baseId, join], 'safeERC20Namer.js')
+      newStrategies.set(symbol, strategy.address)
     } else {
-      // console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
-      // strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
+      console.log(`Reusing Strategy at ${strategies.get(symbol)}`)
+      strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
     }
     if (!(await strategy.hasRole(ROOT, timelock.address))) {
-      // await strategy.grantRole(ROOT, timelock.address)
-      // console.log(`strategy.grantRoles(ROOT, timelock)`)
-      // while (!(await strategy.hasRole(ROOT, timelock.address))) {}
+      await strategy.grantRole(ROOT, timelock.address)
+      console.log(`strategy.grantRoles(ROOT, timelock)`)
+      while (!(await strategy.hasRole(ROOT, timelock.address))) {}
     }
   }
 

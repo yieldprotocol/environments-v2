@@ -10,6 +10,7 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
+// uncomment this to verify Tenderly contracts
 // import * as tdly from "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
@@ -112,7 +113,6 @@ module.exports = {
     localhost: {
       timeout: 600000,
       chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
-      // blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
     tenderly: {
@@ -120,13 +120,8 @@ module.exports = {
       url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7",
       // update chainId if necessary
       forkNetwork: "1",
-      // update chainId if necessary
       username: "Yield",
       project: "v2",
-      // these below can probably remain unchanged
-      // username: "Yield",
-      // blockGasLimit: 300_000_000_000,
-      // gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {

@@ -176,10 +176,10 @@ export const proposeApproveExecute = async (
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal, { gasLimit: 30_000_000 })
+    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal)
     const ethBalance = await signerAcc.getBalance()
     console.log(`gasEstimate: ${gasEstimate} - ethBalance: ${ethBalance}`)
-    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 30_000_000 })
+    const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {
