@@ -12,5 +12,4 @@ $RUN $HERE/updateSolvency.ts
 $RUN $HERE/advanceTimeThreeDays.ts
 $RUN $HERE/updateSolvency.ts
 
-# $RUN $HERE/solvencyCheck.ts
-$RUN $HERE/addJoins.ts
+$RUN $HERE/solvencyCheck.ts
