@@ -96,6 +96,10 @@
     [
       "solvency",
       "0x892Fa63aF42585BBE8a578278c95705391cA15E1"
+    ],
+    [
+      "notionalJoinFactory",
+      "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
     ]
   ]
 }

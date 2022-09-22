@@ -1,0 +1,48 @@
+[submodule "foundry/lib/vault-v2"]
+	path = foundry/lib/vault-v2
+	url = https://github.com/yieldprotocol/vault-v2
+[submodule "foundry/lib/environments-v2"]
+	path = foundry/lib/environments-v2
+	url = https://github.com/yieldprotocol/environments-v2
+[submodule "foundry/lib/vault-interfaces"]
+	path = foundry/lib/vault-interfaces
+	url = https://github.com/yieldprotocol/vault-interfaces
+[submodule "foundry/lib/yield-utils-v2"]
+	path = foundry/lib/yield-utils-v2
+	url = https://github.com/yieldprotocol/yield-utils-v2
+[submodule "foundry/lib/forge-std"]
+	path = foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "foundry/lib/yieldspace-interfaces"]
+	path = foundry/lib/yieldspace-interfaces
+	url = https://github.com/yieldprotocol/yieldspace-interfaces
+[submodule "foundry/lib/dss-interfaces"]
+	path = foundry/lib/dss-interfaces
+	url = https://github.com/makerdao/dss-interfaces
+[submodule "foundry/lib/yieldspace-tv"]
+	path = foundry/lib/yieldspace-tv
+	url = https://github.com/yieldprotocol/yieldspace-tv
+[submodule "lib/vault-v2"]
+	path = lib/vault-v2
+	url = https://github.com/yieldprotocol/vault-v2
+[submodule "lib/yield-utils-v2"]
+	path = lib/yield-utils-v2
+	url = https://github.com/yieldprotocol/yield-utils-v2
+[submodule "lib/yieldspace-tv"]
+	path = lib/yieldspace-tv
+	url = https://github.com/yieldprotocol/yieldspace-tv
+[submodule "lib/strategy-v2"]
+	path = lib/strategy-v2
+	url = https://github.com/yieldprotocol/strategy-v2
+[submodule "lib/dss-interfaces"]
+	path = lib/dss-interfaces
+	url = https://github.com/makerdao/dss-interfaces
+[submodule "lib/yieldspace-interfaces"]
+	path = lib/yieldspace-interfaces
+	url = https://github.com/yieldprotocol/yieldspace-interfaces
+[submodule "lib/yieldspace-v2"]
+	path = lib/yieldspace-v2
+	url = https://github.com/yieldprotocol/yieldspace-v2
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std

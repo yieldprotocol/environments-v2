@@ -27,6 +27,11 @@ export const deployNonTVPools = async (
 
   let pools: Map<string, Pool> = new Map()
   for (let [seriesId, baseAddress, fyTokenAddress, ts, g1] of poolData) {
+    console.log('+ + file: deployNonTVPools.ts + line 30 + seriesId', seriesId)
+    console.log('+ + file: deployNonTVPools.ts + line 34 + baseAddress', baseAddress)
+    console.log('+ + file: deployNonTVPools.ts + line 38 + fyTokenAddress', fyTokenAddress)
+    console.log('+ + file: deployNonTVPools.ts + line 30 + ts', ts)
+    console.log('+ + file: deployNonTVPools.ts + line 30 + g1', g1)
     console.log()
     console.log('******************************')
     console.log('Deploying NonTv pool for seriesID: ', seriesId)

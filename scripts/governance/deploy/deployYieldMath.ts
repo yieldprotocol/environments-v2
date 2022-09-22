@@ -11,11 +11,14 @@ const { developer } = require(process.env.CONF as string)
  */
 
 ;(async () => {
+  console.log(developer)
   let ownerAcc = await getOwnerOrImpersonate(developer as string, WAD)
   const bal = await ownerAcc.getBalance()
 
   console.log('deployer eth balance:', bal)
+  console.log('here')
   const yieldMath = await deployYieldMath(ownerAcc, protocol)
+  console.log('here2')
   protocol.set('yieldMath', yieldMath.address)
 
   writeAddressMap('protocol.json', protocol)
