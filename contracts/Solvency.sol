@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.15;
 import "@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol";
-import "@yield-protocol/vault-v2/contracts/other/notional/INotionalJoin.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol";
 import "@yield-protocol/utils-v2/contracts/math/WDiv.sol";
 import "@yield-protocol/utils-v2/contracts/cast/CastU256I256.sol";
 import "./RegistryInterfaces.sol";
 
+interface INotionalJoin {
+    function accrual() external view returns (uint256);
+}
 
 /// @dev This contract checks the solvency of the Yield Protocol by comparing the
 /// aggregated ETH value of fyToken in circulation against the aggregated ETH value

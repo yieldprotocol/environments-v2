@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, bytesToBytes32 } from '../../../../shared/helpers'
 import { ETH } from '../../../../shared/constants'
 
-const { developer, protocol, newJoins, newSeries } = require(process.env.CONF as string)
+const { developer, protocol, assetIds, seriesIds } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
@@ -10,9 +10,8 @@ const { developer, protocol, newJoins, newSeries } = require(process.env.CONF as
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
   const solvency = await ethers.getContractAt('Solvency', protocol.get('solvency') as string, ownerAcc)
 
-  for (let assetId of newJoins) {
+  for (let assetId of assetIds) {
     console.log(assetId)
-    await (await solvency.addAssetId(assetId)).wait()
     try {
       const oracle = await ethers.getContractAt('IOracle', (await cauldron.spotOracles(assetId, ETH)).oracle as string)
       console.log(`Oracle: ${oracle.address}`)
@@ -31,14 +30,12 @@ const { developer, protocol, newJoins, newSeries } = require(process.env.CONF as
     console.log()
   }
 
-  console.log(`Aggregated Available ${await solvency.available(assetIds)}`)
-
-  for (let seriesId of newSeries) {
+  for (let seriesId of seriesIds) {
     console.log(seriesId)
     try {
       const fyToken = await ethers.getContractAt('IFYToken', (await cauldron.series(seriesId)).fyToken as string)
       console.log(`FYToken: ${fyToken.address}`)
-      const underlyingId = await fyToken.underlyingId()
+      const underlyingId = (await cauldron.series(seriesId)).baseId
       const oracle = await ethers.getContractAt(
         'IOracle',
         (
@@ -58,8 +55,9 @@ const { developer, protocol, newJoins, newSeries } = require(process.env.CONF as
     }
     console.log()
   }
-  console.log(`Aggregated Redeemable ${await solvency.redeemable(seriesIds)}`)
 
+  console.log(`Aggregated Available ${await solvency.available(assetIds)}`)
+  console.log(`Aggregated Redeemable ${await solvency.redeemable(seriesIds)}`)
   console.log(`Delta ${await solvency.delta(assetIds, seriesIds)}`)
   console.log(`Ratio ${await solvency.ratio(assetIds, seriesIds)}`)
 })()

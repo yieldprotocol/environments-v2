@@ -102,9 +102,9 @@ export const newSpotOracles: Array<[string, string, string, number]> = [
   [FUSDC2209, ETH, protocol.get(COMPOSITE) as string, 2000000],
 ]
 
-/// @notice Joins that will be added to the Solvency contract
+/// @notice Assets we hold
 /// @param Asset identifier (bytes6 tag)
-export const newJoins = [
+export const assetIds = [
   ETH,
   DAI,
   USDC,
@@ -123,9 +123,9 @@ export const newJoins = [
   FRAX,
 ]
 
-/// @notice Series that will be added to the Solvency contract
+/// @notice Series we owe
 /// @param Series identifier (bytes6 tag)
-export const newSeries = [
+export const seriesIds = [
   FYDAI2112,
   FYUSDC2112,
   FYDAI2203,
