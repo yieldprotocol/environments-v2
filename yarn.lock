@@ -1923,6 +1923,11 @@
     "@types/sinon-chai" "^3.2.3"
     "@types/web3" "1.0.19"
 
+"@openzeppelin/contracts@^4.1.0":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.7.3.tgz#939534757a81f8d69cc854c7692805684ff3111e"
+  integrity sha512-dGRS0agJzu8ybo44pCIf3xBaPQN/65AIXNgK8+4gzKd5kbvlqyxryUYVLJv7fK98Seyd2hDZzVEHSWAh0Bt1Yw==
+
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.npmjs.org/@resolver-engine/core/-/core-0.3.3.tgz"
@@ -2642,10 +2647,23 @@
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
 
-"@yield-protocol/vault-v2@0.18.2-rc.0":
-  version "0.18.2-rc.0"
-  resolved "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.2-rc.0.tgz"
-  integrity sha512-gZwqF9Wjuu5mWE0FDJVPL3SUDHszW7dKVDKGQ3dVUBNqRrsB52ZHutQWOdZROWvZ9iavwnqxYj+u7Zcg7iKMwg==
+"@yield-protocol/utils-v2@^2.4.2":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.1.tgz#abc39af62f008d12212148489fe5db48f6f7cd44"
+  integrity sha512-+Gr+9iFbjnnbahVVrNiePa107En2vXvUBOCAhxGa1UXPumpyOZzK9WunHca5zwJzajwy3/bwHxanON08nqD58Q==
+  dependencies:
+    ethereumjs-util "^7.0.8"
+    ethers "^5.0.7"
+
+"@yield-protocol/vault-interfaces@^2.3.0-rc4":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz#9487b8a2d35d4171f6772f88a00d683482bcbf61"
+  integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
+
+"@yield-protocol/vault-v2@0.18.0-rc.4":
+  version "0.18.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.0-rc.4.tgz#2faf1b55decbf4caa947cd43a626a2ed8dd3f3ea"
+  integrity sha512-pmAHEzSWVgPTG7xGzQRUOSKd7LkhSLVetkRM480oP6zHHkq5vRBqPvqe2ZiYRDLQrmNMijzsGvUOWNsDQaUZRA==
 
 "@yield-protocol/yieldspace-tv@^0.1.6rc1":
   version "0.1.6-rc1"
@@ -14009,10 +14027,10 @@ typescript@^3.7.3:
   resolved "https://registry.npmjs.org/typescript/-/typescript-3.9.10.tgz"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
-typescript@^4.6.3:
-  version "4.7.4"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-4.7.4.tgz"
-  integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
+typescript@^4.7.3:
+  version "4.8.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.3.tgz#d59344522c4bc464a65a730ac695007fdb66dd88"
+  integrity sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==
 
 typewise-core@^1.2, typewise-core@^1.2.0:
   version "1.2.0"
@@ -14118,6 +14136,14 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^2.0.1"
+
+uniswapv3-oracle@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/uniswapv3-oracle/-/uniswapv3-oracle-1.0.1.tgz#22027452b39a3db4d8d9719434ef5dcc2f0410e2"
+  integrity sha512-B2GpmD7HnI+XW/sCNu6nYZ206cdB8g6e7uYjdrJ41XiVxGEX2Cxdzt/wAiSYDG5euDFFBJSdw7p5wzIcTHij3w==
+  dependencies:
+    "@yield-protocol/utils-v2" "^2.4.2"
+    "@yield-protocol/vault-interfaces" "^2.3.0-rc4"
 
 universalify@^0.1.0:
   version "0.1.2"

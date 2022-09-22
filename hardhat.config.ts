@@ -10,6 +10,7 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
+// uncomment this to verify Tenderly contracts
 // import * as tdly from "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
@@ -48,6 +49,7 @@ if (!mnemonic) {
     mnemonic = fs.readFileSync(path.resolve(__dirname, '.secret')).toString().trim()
   } catch (e) { }
 }
+if (mnemonic) console.log("MNEMONIC FOUND")
 const accounts = mnemonic ? {
   mnemonic,
 } : undefined
@@ -110,26 +112,22 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      blockGasLimit: 50_000_000_000,
+      chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/75287c0f-f7fb-48f6-801e-fe38da84b0f3",
+      url: "https://rpc.tenderly.co/fork/1b9da6ba-ce95-43d4-8a01-83f3d4a33868",
       // update chainId if necessary
-      forkNetwork: "1",
-      // update chainId if necessary
-      project: "v2",
-      // these below can probably remain unchanged
+      forkNetwork: "42161",
       username: "Yield",
-      // blockGasLimit: 300_000_000_000,
-      // gasPrice: 1_000_000_000,
+      project: "v2",
       timeout: 60_000_000
     },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 15_000_000_000,
+      gasPrice: 20_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
@@ -137,7 +135,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 500_000_000,
+      // gasPrice: 500_000_000,
       chainId: 42161,
       timeout: 60000
     },
@@ -147,7 +145,8 @@ module.exports = {
   },
   tenderly: {
 		username: "Yield",
-		project: "v2"
+		project: "v2",
+    forkNetwork: "42161",
 	},
   etherscan: {
     apiKey: etherscanKey
