@@ -10,16 +10,6 @@ import "@yield-protocol/utils-v2/contracts/token/IERC20.sol";
 import "@yield-protocol/utils-v2/contracts/token/IERC2612.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
 
-interface ILadleCustom {
-    function batch(bytes[] calldata calls) external payable returns(bytes[] memory results);
-
-    function forwardPermit(IERC2612 token, address spender, uint256 amount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external payable;
-
-    function transfer(IERC20 token, address receiver, uint128 wad) external payable;
-    
-    function route(address integration, bytes calldata data) external payable;
-}
-
 contract TestHarness is Test, TestConstants {
     ICauldron public cauldron = ICauldron(0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867);
     ILadle public ladle = ILadle(0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A);
@@ -41,6 +31,7 @@ contract TestHarness is Test, TestConstants {
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
+        console.log("can borrow any asset with any collateral");
         DataTypes.Vault memory vault = cauldron.vaults(vaultId);
         dai.approve(address(ladle), WAD * 2);
         dai.transfer(join, WAD * 2);
@@ -48,6 +39,7 @@ contract TestHarness is Test, TestConstants {
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
+        console.log("can pool any amount with borrow and pool");
         uint256 baseBalanceBefore = pool.getBaseBalance();
         uint256 fyTokenBalanceBefore = pool.getFYTokenBalance();
 
