@@ -57,17 +57,13 @@ const { newDaiSeriesId, newUSDCSeriesID } = require(process.env.CONF as string)
     // fCashWand - add collateral FDAI2212, reference FDAI2209
     await fCashWand
       .connect(ownerAcc)
-      .addfCashCollateral(newDaiId, joins.get(newDaiId) as string, oldDaiId, newDaiSeriesId, {
-        gasLimit: 10_000_000,
-      })
+      .addfCashCollateral(newDaiId, joins.get(newDaiId) as string, oldDaiId, newDaiSeriesId)
     console.log(`Collateral added: FDAI2212`)
 
     // fCashWand - add collateral FUSDC2212, reference FUSDC2209
     await fCashWand
       .connect(ownerAcc)
-      .addfCashCollateral(newUsdcId, joins.get(newUsdcId) as string, oldUsdcId, newUSDCSeriesID, {
-        gasLimit: 10_000_000,
-      })
+      .addfCashCollateral(newUsdcId, joins.get(newUsdcId) as string, oldUsdcId, newUSDCSeriesID)
     console.log(`Collateral added: FUSDC2212`)
   } else {
     console.log(`adding collateral skipped`)

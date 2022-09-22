@@ -25,6 +25,8 @@ const { developer, nonTVPoolData } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as YieldMath
 
+  console.log(nonTVPoolData)
+
   const newPools = await deployNonTVPools(ownerAcc, timelock, yieldMath, nonTVPoolData)
   writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
 })()

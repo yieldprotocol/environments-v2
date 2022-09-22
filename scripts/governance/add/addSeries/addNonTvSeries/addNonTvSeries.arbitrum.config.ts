@@ -8,8 +8,10 @@ import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 import * as base_config from '../../../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+// export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+// export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const whales: Map<string, string> = base_config.whales
 
 export const governance: Map<string, string> = base_config.governance
@@ -44,7 +46,8 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     'FYUSDC2212',
   ],
 ]
-
+console.log('FYDAI2212', FYDAI2212)
+console.log('FYUSDC2212', FYUSDC2212)
 // Parameters to deploy pools with, a pool being identified by the related seriesId
 // seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
@@ -64,6 +67,7 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
   ],
 ]
 
+console.log(nonTVPoolData)
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
