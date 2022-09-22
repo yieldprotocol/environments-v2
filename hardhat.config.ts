@@ -9,9 +9,9 @@ import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
-import "@tenderly/hardhat-tenderly"
-// import * as tdly from "@tenderly/hardhat-tenderly";
-// tdly.setup();
+
+import * as tdly from "@tenderly/hardhat-tenderly";
+tdly.setup();
 
 function infuraNodeUrl(network: any) {
   let infuraKey
@@ -94,6 +94,13 @@ module.exports = {
     owner: 1,
     other: 2,
   },
+  // tenderly: {
+  //   project: "v2",
+  //   username: "AlbertoCuesta",
+  //   forkNetwork: "mainnet",
+  //   privateVerification: false,
+  //   deploymentsDir: "deployments"
+  // },
   networks: {
     hardhat: {
       accounts,
@@ -103,21 +110,20 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 31337,
       blockGasLimit: 50_000_000_000,
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/c201b08c-07da-4168-8b1d-fef632a9c972",
+      url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7", 
       // update chainId if necessary
-      forkNetwork: "1",
+      forkNetwork: "42161",
       // update chainId if necessary
       project: "v2",
       // these below can probably remain unchanged
       username: "Yield",
       // blockGasLimit: 300_000_000_000,
-      // gasPrice: 50_000_000_000,
+      // gasPrice: 1_000_000_000,
       timeout: 60_000_000
     },
     mainnet: {
@@ -139,6 +145,10 @@ module.exports = {
       url: 'http://127.0.0.1:8555',
     },
   },
+  tenderly: {
+		username: "Yield",
+		project: "v2-arbitrum"
+	},
   etherscan: {
     apiKey: etherscanKey
   },

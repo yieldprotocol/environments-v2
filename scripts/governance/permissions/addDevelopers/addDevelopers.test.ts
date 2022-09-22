@@ -1,14 +1,14 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { newDevelopers, developerToImpersonate } from './addDevelopers.rinkeby.config'
+import { newDevelopers, developerToImpersonate } from './addDevelopers.config'
 import {
   readAddressMappingIfExists,
   getOwnerOrImpersonate,
   getOriginalChainId,
   impersonate,
-} from '../../../shared/helpers'
-import { WAD } from '../../../shared/constants'
-import { Timelock, EmergencyBrake, PoolFactory, Wand } from '../../../typechain'
+} from '../../../../shared/helpers'
+import { WAD } from '../../../../shared/constants'
+import { Timelock, EmergencyBrake, PoolFactory, Wand } from '../../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
 

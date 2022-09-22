@@ -45,6 +45,7 @@ export const initPoolsProposal = async (
     console.log(`Initializing ${await pool.symbol()} at ${poolAddress}`)
 
     if (!fyTokenAmount.isZero()) {
+      console.log(1)
       // Skew pool
       proposal.push({
         target: base.address,

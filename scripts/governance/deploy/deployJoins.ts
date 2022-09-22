@@ -1,11 +1,8 @@
 import { ethers } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
-
 import { deployJoins } from '../../fragments/assetsAndSeries/deployJoins'
 
-import { Timelock } from '../../../typechain'
-const { governance } = require(process.env.CONF as string)
-const { developer, assetsToAdd, assets } = require(process.env.CONF as string)
+const { governance, protocol, developer, assetsToAdd } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys a Join
@@ -14,12 +11,9 @@ const { developer, assetsToAdd, assets } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
 
-  const newJoins = await deployJoins(ownerAcc, timelock, assetsToAdd)
-  writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file
+  const newJoins = await deployJoins(ownerAcc, timelock, ladle, assetsToAdd)
+  writeAddressMap('newJoins.json', newJoins) // newJoins.json is a temporary file
 })()

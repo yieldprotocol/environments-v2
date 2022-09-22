@@ -3,7 +3,7 @@ import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/he
 
 import { deployWrapEtherModule } from '../../../../fragments/modules/deployWrapEtherModule'
 
-import { Cauldron, WETH9Mock } from '../../../../../typechain'
+import { Cauldron, ERC20 } from '../../../../../typechain'
 import { ETH } from '../../../../../shared/constants'
 const { developer, assets } = require(process.env.CONF as string)
 const { protocol } = require(process.env.CONF as string)
@@ -21,7 +21,7 @@ const { protocol } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Cauldron
 
-  const weth = (await ethers.getContractAt('WETH9Mock', assets.get(ETH) as string, ownerAcc)) as unknown as WETH9Mock
+  const weth = (await ethers.getContractAt('ERC20', assets.get(ETH) as string, ownerAcc)) as unknown as ERC20
 
   const wrapEtherModule = await deployWrapEtherModule(ownerAcc, cauldron, weth, protocol)
   protocol.set('wrapEtherModule', wrapEtherModule.address)

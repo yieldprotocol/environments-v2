@@ -23,13 +23,14 @@
     "@nomiclabs/hardhat-ethers": "^2.0.1",
     "@nomiclabs/hardhat-etherscan": "^2.1.0",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.1.0",
     "@truffle/hdwallet-provider": "^1.0.40",
     "@typechain/ethers-v5": "^10.0.0",
     "@typechain/hardhat": "^6.0.0",
     "@types/mocha": "^8.0.0",
-    "@yield-protocol/strategy-v2": "^0.12.0-rc4",
+    "@yield-protocol/strategy-v2": "^0.12.0-rc5",
     "@yield-protocol/utils-v2": "2.6.0-rc.1",
-    "@yield-protocol/yieldspace-tv": "^0.1.3rc3",
+    "@yield-protocol/yieldspace-tv": "^0.1.6rc1",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
@@ -48,7 +49,8 @@
     "tsdx": "^0.14.1",
     "tslog": "^3.3.0",
     "typechain": "^8.0.0",
-    "typescript": "^4.6.3",
+    "typescript": "^4.7.3",
+    "uniswapv3-oracle": "^1.0.1",
     "yargs": "^17.0.1"
   },
   "repository": {
@@ -61,8 +63,8 @@
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
-    "@tenderly/hardhat-tenderly": "^1.1.4",
-    "@yield-protocol/vault-v2": "^0.17.1-rc4",
+    "@tenderly/hardhat-tenderly": "^1.1.6",
+    "@yield-protocol/vault-v2": "0.18.0-rc.4",
     "latest": "^0.2.0"
   }
 }
