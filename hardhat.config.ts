@@ -112,7 +112,7 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 1,  // hardhat node used 31337 for local host but anvil uses the actual chainid
+      chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {

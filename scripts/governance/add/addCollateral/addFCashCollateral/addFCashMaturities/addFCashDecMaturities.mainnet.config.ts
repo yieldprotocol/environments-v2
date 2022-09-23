@@ -4,6 +4,7 @@ export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
 
+export const external: Map<string, string> = base_config.external
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
@@ -18,7 +19,8 @@ import { FUSDC2212, FDAI2212 } from '../../../../../../shared/constants'
 import { FCASH_DEC22, FCASH_DAI, FCASH_USDC } from '../../../../../../shared/constants'
 import { FYUSDC2212, FYDAI2212 } from '../../../../../../shared/constants'
 
-export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
+/// @dev The address for fCash
+export const fCashAddress = external.get('fCash') as string
 
 /// @dev The Notional Oracle is fed with Yield Protocol asset pairs to register.
 /// Since we are valuing the fCash at face value, we don't need the Notional fCash ids.

@@ -13,12 +13,7 @@ const { governance } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   const newJoins = await deployNotionalJoins(ownerAcc, timelock, assetsToAdd)
   writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file

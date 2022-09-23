@@ -30,7 +30,7 @@ export const deployNotionalJoins = async (
     console.log(
       `NotionalJoin deployed at ${join.address} for fCash maturing at ${maturity} with currency ${currencyId}`
     )
-    verify(join.address, [fCashAddress, underlyingAddress, maturity, currencyId])
+    verify(join.address, [fCashAddress, underlyingAddress, underlyingJoinAddress, maturity, currencyId])
 
     if (!(await join.hasRole(ROOT, timelock.address))) {
       await join.grantRole(ROOT, timelock.address)
