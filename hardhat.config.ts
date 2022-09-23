@@ -61,6 +61,13 @@ if (!etherscanKey) {
   } catch (e) { }
 }
 
+let arbiscanKey = process.env.ARBISCANKEY
+if (!arbiscanKey) {
+  try {
+    arbiscanKey = fs.readFileSync(path.resolve(__dirname, '.arbiscanKey')).toString().trim()
+  } catch (e) { }
+}
+
 module.exports = {
   solidity: {
     version: '0.8.15',
@@ -96,13 +103,6 @@ module.exports = {
     owner: 1,
     other: 2,
   },
-  // tenderly: {
-  //   project: "v2",
-  //   username: "AlbertoCuesta",
-  //   forkNetwork: "mainnet",
-  //   privateVerification: false,
-  //   deploymentsDir: "deployments"
-  // },
   networks: {
     hardhat: {
       accounts,
