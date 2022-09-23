@@ -14,9 +14,8 @@ contract NotionalJoinFactory is AccessControl {
 
     ILadleGov public ladle;
 
-    event JoinCreated(address indexed asset, address indexed join);
+    event JoinCreated(bytes6 indexed assetId, address indexed join);
     event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
-    event Log(string message);
 
     error UnrecognisedParam(bytes32 param);
 
@@ -32,22 +31,17 @@ contract NotionalJoinFactory is AccessControl {
     function deploy(
         bytes6 oldAssetId,
         bytes6 newAssetId,
-        address newAssetAddress,
         uint256 salt
     ) external auth returns (NotionalJoin) {
-        require(address(ladle.joins(oldAssetId)) != address(0), "oldAssetId invalid");
-        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
-
         // get join of oldAssetId
         INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
 
-        // njoin check
-        // check could be bypassed if Join has a fallback function 
-        try oldJoin.fCashId() returns (uint256) {
-            emit Log("valid njoin");
-        } catch {
-            emit Log("oldAssetId join invalid");
-        }
+        require(address(oldJoin) != address(0), "oldAssetId invalid");
+        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
+
+        // Check that oldJoin is a NotionalJoin. Only protects against honest mistakes.
+        (bool success,) = address(oldJoin).call(abi.encodeWithSelector(INotionalJoin.fCashId.selector, ""));
+        require(success, "Input not a NotionalJoin");
         
         // get underlying, underlyingJoin addresses
         address underlying = oldJoin.underlying(); 
@@ -59,8 +53,8 @@ contract NotionalJoinFactory is AccessControl {
         uint40 maturity = oldMaturity + 90 days;
   
         NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
-            newAssetAddress,
-            underlying,
+            oldJoin.asset(), // The fCash address
+            underlying,      // The underlying asset, e.g. DAI
             underlyingJoin,
             maturity,
             currencyId
@@ -73,7 +67,7 @@ contract NotionalJoinFactory is AccessControl {
         // revoke ROOT from NotionalJoinFactory
         AccessControl(joinAddress).renounceRole(ROOT, address(this));
 
-        emit JoinCreated(newAssetAddress, address(join));
+        emit JoinCreated(newAssetId, address(join));
         return join;
     }
 
@@ -118,5 +112,4 @@ contract NotionalJoinFactory is AccessControl {
         ladle = ILadleGov(value);
         emit Point(param, oldLadle, value);
     }
-    
 }
