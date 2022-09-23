@@ -14,8 +14,7 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
 import { USDC, DAI } from '../../../../../../shared/constants'
-import { FUSDC2303, FDAI2303 } from '../../../../../../shared/constants'
-import { FCASH_MAR23, FCASH_DAI, FCASH_USDC } from '../../../../../../shared/constants'
+import { FUSDC2212, FDAI2212, FUSDC2303, FDAI2303 } from '../../../../../../shared/constants'
 import { FYUSDC2303, FYDAI2303 } from '../../../../../../shared/constants'
 
 export const fCashAddress = '0x1344A36A1B56144C3Bc62E7757377D288fDE0369'
@@ -33,16 +32,13 @@ export const notionalSources: Array<[string, string, string, string]> = [
   [fCashAddress, FUSDC2303, USDC, assets.get(USDC) as string],
 ]
 
-/// @dev Assets for which we will deploy a Join
-/// @param notionalId: asset id of an fCash tenor in the Yield Protocol
-/// @param fcash: address of the fCash contract
-/// @param underlying: address of the fCash underlying
-/// @param underlyingJoin: address of the fCash underlying Join
-/// @param fCashMaturity: maturity in Notional Finance
-/// @param fCashCurrency: id of the underlying in Notional Finance
-export const assetsToAdd: Array<[string, string, string, string, number, string]> = [
-  [FDAI2303, fCashAddress, assets.get(DAI) as string, joins.get(DAI) as string, FCASH_MAR23, FCASH_DAI],
-  [FUSDC2303, fCashAddress, assets.get(USDC) as string, joins.get(USDC) as string, FCASH_MAR23, FCASH_USDC],
+/// @dev NotionalJoins to deploy. The new NotionalJoin will be like the old NotionalJoin,
+/// but for the next quarter
+/// @param oldJoinId: existing NotionalJoin to copy data from
+/// @param newJoinId: assetId to use for the new NotionaJoin
+export const notionalJoins: Array<[string, string]> = [
+  [FDAI2212, FDAI2303],
+  [FUSDC2212, FUSDC2303],
 ]
 
 /// @dev Collateralization ratio, debt ceiling, and debt dust
