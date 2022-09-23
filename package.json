@@ -1,6 +1,6 @@
 {
   "name": "@yield-protocol/environments-v2",
-  "version": "0.0.1",
+  "version": "3.2.3",
   "description": "Yield Environments v2",
   "main": "index.js",
   "author": "Yield Inc.",
