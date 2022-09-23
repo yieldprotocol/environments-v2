@@ -105,8 +105,8 @@ export const pools = new Map([
 ])
 
 // fytoken id -> fytoken address
-export const fyTokens = new Map([
-  [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
-  [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
-  [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
-])
+// export const fyTokens = new Map([
+//   [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
+//   [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
+//   [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
+// ])
