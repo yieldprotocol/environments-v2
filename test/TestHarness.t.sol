@@ -14,7 +14,7 @@ contract TestHarness is Test, TestConstants {
     ICauldron public cauldron = ICauldron(0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867);
     ILadle public ladle = ILadle(0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A);
     IPool public pool = IPool(0x6BaC09a67Ed1e1f42c29563847F77c28ec3a04FC);      // FYDAI2209 LP
-    IERC20 public token = IERC20(0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb);   // FYDAI2209
+    IERC20 public fyDAI = IERC20(0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb);   // FYDAI2209
     IERC20 public dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
 
     address public join = 0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc;           // DAI Join
@@ -27,7 +27,7 @@ contract TestHarness is Test, TestConstants {
         (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
         deal(address(dai), address(this), WAD * 2);
-        deal(address(token), address(this), WAD * 2);
+        deal(address(fyDAI), address(this), WAD * 2);
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
@@ -46,8 +46,8 @@ contract TestHarness is Test, TestConstants {
         // give approval and send base and fytoken to pool
         dai.approve(address(pool), WAD * 2);
         dai.transfer(address(pool), WAD * 2);
-        token.approve(address(pool), WAD * 2);
-        token.transfer(address(pool), WAD * 2);
+        fyDAI.approve(address(pool), WAD * 2);
+        fyDAI.transfer(address(pool), WAD * 2);
         // mint lp tokens
         (
             uint256 baseAmount, 
@@ -72,13 +72,16 @@ contract TestHarness is Test, TestConstants {
             WAD * 2
         );
         assertEq(
+            lpTokenAmount,
+            1944400271832902846
+        );
+        assertEq(
             baseBalanceBefore + baseAmount, 
             baseBalanceAfter
         );
-        // doesn't work?
-        // assertEq(
-        //     fyTokenBalanceBefore + fyTokenAmount,
-        //     fyTokenBalanceAfter
-        // );
+        assertEq(
+            fyTokenBalanceAfter,
+            516221416956699490582032
+        );
     }
 }
