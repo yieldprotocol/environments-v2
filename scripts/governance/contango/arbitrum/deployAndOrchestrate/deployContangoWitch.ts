@@ -1,6 +1,6 @@
-import { contangoWitch_key } from '../../../../shared/constants'
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../../shared/helpers'
-import { deployContangoWitch } from '../shared/deployContangoWitch'
+import { contangoWitch_key } from '../../../../../shared/constants'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/helpers'
+import { deployContangoWitch } from '../../shared/deployContangoWitch'
 
 const { developer, protocol, governance, external } = require(process.env.CONF as string)
 

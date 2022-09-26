@@ -1,15 +1,15 @@
 import { ethers } from 'hardhat'
-import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
-import { makeIlkProposal } from '../shared/makeIlkProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { IOracle } from '../../../../typechain'
-import { contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
-import { addSeriesProposal } from '../shared/addSeriesProposal'
-import { makeBaseProposal } from '../shared/makeBaseProposal'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../shared/helpers'
+import { makeIlkProposal } from '../../shared/makeIlkProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { IOracle } from '../../../../../typechain'
+import { contangoCauldron_key, contangoLadle_key } from '../../../../../shared/constants'
+import { addSeriesProposal } from '../../shared/addSeriesProposal'
+import { makeBaseProposal } from '../../shared/makeBaseProposal'
 
 const {
   developer,
@@ -54,7 +54,7 @@ const {
 
   const proposal = [
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
-    await updateCompositeSourcesProposal(ownerAcc, protocol, compositeMultiOracle, compositeSources),
+    await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
     await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, bases),

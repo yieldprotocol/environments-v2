@@ -1,10 +1,10 @@
 import { ethers } from 'hardhat'
-import { contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
-import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { contangoCauldron_key, contangoLadle_key } from '../../../../../shared/constants'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../shared/helpers'
 
-import { orchestrateCauldronProposal } from '../../../fragments/core/orchestrateCauldronProposal'
-import { orchestrateLadleProposal } from '../../../fragments/core/orchestrateLadleProposal'
-import { orchestrateCompositeOracleProposal } from '../../../fragments/oracles/orchestrateCompositeOracleProposal'
+import { orchestrateCauldronProposal } from '../../../../fragments/core/orchestrateCauldronProposal'
+import { orchestrateLadleProposal } from '../../../../fragments/core/orchestrateLadleProposal'
+import { orchestrateCompositeOracleProposal } from '../../../../fragments/oracles/orchestrateCompositeOracleProposal'
 
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)

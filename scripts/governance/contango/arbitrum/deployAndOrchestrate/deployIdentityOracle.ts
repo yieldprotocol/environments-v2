@@ -1,5 +1,5 @@
-import { getOwnerOrImpersonate } from '../../../../shared/helpers'
-import { deployIdentityOracle } from '../shared/deployIdentityOracle'
+import { getOwnerOrImpersonate } from '../../../../../shared/helpers'
+import { deployIdentityOracle } from '../../shared/deployIdentityOracle'
 const { developer, protocol } = require(process.env.CONF as string)
 
 /**

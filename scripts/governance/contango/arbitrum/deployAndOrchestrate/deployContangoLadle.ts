@@ -1,9 +1,9 @@
-import { contangoLadleRouter_key, contangoLadle_key } from '../../../../shared/constants'
-import { getOwnerOrImpersonate, writeAddressMap } from '../../../../shared/helpers'
+import { contangoLadleRouter_key, contangoLadle_key } from '../../../../../shared/constants'
+import { getOwnerOrImpersonate, writeAddressMap } from '../../../../../shared/helpers'
 
-import { deployContangoLadle } from '../shared/deployContangoLadle'
+import { deployContangoLadle } from '../../shared/deployContangoLadle'
 const { developer, protocol, governance, assets } = require(process.env.CONF as string)
-import { ETH } from '../../../../shared/constants'
+import { ETH } from '../../../../../shared/constants'
 
 /**
  * @dev This script deploys the Ladle
