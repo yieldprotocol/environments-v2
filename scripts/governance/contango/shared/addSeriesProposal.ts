@@ -9,31 +9,31 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { ethers } from 'hardhat'
 import { ZERO_ADDRESS } from '../../../../shared/constants'
 import { bytesToString } from '../../../../shared/helpers'
-import { Cauldron, EmergencyBrake, FYToken, Ladle, Pool } from '../../../../typechain'
+import { Cauldron, EmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../../typechain'
 
 export const addSeriesProposal = async (
   ownerAcc: any,
   cauldron: Cauldron,
   ladle: Ladle,
+  witch: Witch,
   cloak: EmergencyBrake,
-  newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
-  newPools: Map<string, string> // seriesId, poolAddress
+  assetsToAdd: Map<string, string>, // seriesId, fyTokenAddress
+  pools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [seriesId, fyTokenAddress] of newFYTokens) {
+  for (let [seriesId, fyTokenAddress] of assetsToAdd) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
-    const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
+    const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
 
     const baseId = await fyToken.underlyingId()
 
-    const poolAddress = newPools.get(seriesId)
+    const poolAddress = pools.get(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
-    const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
+    const pool = Pool__factory.connect(poolAddress, ownerAcc)
 
     // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
     // Give ROOT to the cloak, Timelock already has ROOT as the deployer
@@ -81,6 +81,31 @@ export const addSeriesProposal = async (
       console.log(
         `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
       )
+    }
+
+    // Allow Witch to burn fyTokens
+    proposal.push({
+      target: fyToken.address,
+      data: fyToken.interface.encodeFunctionData('grantRole', [
+        id(fyToken.interface, 'burn(address,uint256)'),
+        witch.address,
+      ]),
+    })
+
+    // Allow to revoke the above permission on emergencies
+    const plan = [
+      {
+        contact: fyToken.address,
+        signatures: [id(fyToken.interface, 'burn(address,uint256)')],
+      },
+    ]
+
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+      })
+      console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
   return proposal

@@ -6,20 +6,22 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { ethers } from 'hardhat'
 import { CHI, RATE } from '../../../../shared/constants'
 import { bytesToBytes32, bytesToString } from '../../../../shared/helpers'
-import { Cauldron, IOracle, Join } from '../../../../typechain'
+import { Cauldron, ContangoWitch, EmergencyBrake, IOracle, Join__factory } from '../../../../typechain'
+import { id } from '@yield-protocol/utils-v2'
 
 export const makeBaseProposal = async (
   ownerAcc: any,
+  cloak: EmergencyBrake,
   lendingOracle: IOracle,
   cauldron: Cauldron,
+  witch: ContangoWitch,
   bases: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, joinAddress] of bases) {
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = Join__factory.connect(joinAddress, ownerAcc)
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
     proposal.push({
@@ -32,29 +34,29 @@ export const makeBaseProposal = async (
     })
 
     // Allow Witch to join base
-    //  proposal.push({
-    //    target: join.address,
-    //    data: join.interface.encodeFunctionData('grantRoles', [
-    //      [id(join.interface, 'join(address,uint128)')],
-    //      witch.address,
-    //    ]),
-    //  })
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'join(address,uint128)'),
+        witch.address,
+      ]),
+    })
 
     // Allow to revoke the above permission on emergencies
-    //  const plan = [
-    //    {
-    //      contact: join.address,
-    //      signatures: [id(join.interface, 'join(address,uint128)')],
-    //    },
-    //  ]
+    const plan = [
+      {
+        contact: join.address,
+        signatures: [id(join.interface, 'join(address,uint128)')],
+      },
+    ]
 
-    //  if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
-    //    proposal.push({
-    //      target: cloak.address,
-    //      data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
-    //    })
-    //    console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
-    //  }
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+      })
+      console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
+    }
 
     // Add the asset as a base
     proposal.push({
