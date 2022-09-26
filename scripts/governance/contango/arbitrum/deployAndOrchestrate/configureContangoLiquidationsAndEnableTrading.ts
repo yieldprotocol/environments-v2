@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { contangoCauldron_key, contangoLadle_key, contangoWitch_key } from '../../../../../shared/constants'
+import { CLOAK, CONTANGO_CAULDRON, CONTANGO_LADLE, CONTANGO_WITCH, TIMELOCK } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
 import { orchestrateContangoLadle } from '../../shared/orchestrateContangoLadle'
 import { orchestrateWitchV2 } from '../../../../fragments/core/orchestrateWitchV2Proposal'
@@ -14,15 +14,11 @@ const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer as string)
 
-  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
-  const contangoWitch = await ethers.getContractAt('ContangoWitch', protocol.get(contangoWitch_key) as string, ownerAcc)
-  const contangoLadle = await ethers.getContractAt('ContangoLadle', protocol.get(contangoLadle_key) as string, ownerAcc)
-  const contangoCauldron = await ethers.getContractAt(
-    'Cauldron',
-    protocol.get(contangoCauldron_key) as string,
-    ownerAcc
-  )
+  const cloak = await ethers.getContractAt('EmergencyBrake', governance.get(CLOAK) as string, ownerAcc)
+  const timelock = await ethers.getContractAt('Timelock', governance.get(TIMELOCK) as string, ownerAcc)
+  const contangoWitch = await ethers.getContractAt('ContangoWitch', protocol.get(CONTANGO_WITCH) as string, ownerAcc)
+  const contangoLadle = await ethers.getContractAt('ContangoLadle', protocol.get(CONTANGO_LADLE) as string, ownerAcc)
+  const contangoCauldron = await ethers.getContractAt('Cauldron', protocol.get(CONTANGO_CAULDRON) as string, ownerAcc)
 
   // Build the proposal
   const proposal = [

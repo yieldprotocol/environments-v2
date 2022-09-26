@@ -7,7 +7,7 @@ import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/a
 import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
 import { IOracle } from '../../../../../typechain'
-import { contangoCauldron_key, contangoLadle_key } from '../../../../../shared/constants'
+import { CONTANGO_CAULDRON, CONTANGO_LADLE } from '../../../../../shared/constants'
 import { addSeriesProposal } from '../../shared/addSeriesProposal'
 import { makeBaseProposal } from '../../shared/makeBaseProposal'
 
@@ -37,8 +37,8 @@ const {
   // joins were deployed in previous script
   // const newJoins = readAddressMappingIfExists('newJoins.json')
 
-  const cauldron = await ethers.getContractAt('Cauldron', protocol.get(contangoCauldron_key) as string, ownerAcc)
-  const ladle = await ethers.getContractAt('Ladle', protocol.get(contangoLadle_key) as string, ownerAcc)
+  const cauldron = await ethers.getContractAt('Cauldron', protocol.get(CONTANGO_CAULDRON) as string, ownerAcc)
+  const ladle = await ethers.getContractAt('Ladle', protocol.get(CONTANGO_LADLE) as string, ownerAcc)
   // const witch = await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
   const compositeMultiOracle = await ethers.getContractAt(

@@ -1,4 +1,4 @@
-import { contangoWitch_key } from '../../../../../shared/constants'
+import { CONTANGO_WITCH } from '../../../../../shared/constants'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/helpers'
 import { deployContangoWitch } from '../../shared/deployContangoWitch'
 
@@ -11,7 +11,7 @@ const { developer, protocol, governance, external } = require(process.env.CONF a
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const contangoWitch = await deployContangoWitch(ownerAcc, protocol, governance, external.get('contango') as string)
-  protocol.set(contangoWitch_key, contangoWitch.address)
+  protocol.set(CONTANGO_WITCH, contangoWitch.address)
 
   writeAddressMap('protocol.json', protocol)
 })()

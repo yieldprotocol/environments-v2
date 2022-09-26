@@ -13,11 +13,26 @@ import {
   ContangoWitch__factory,
   EmergencyBrake__factory,
   IOracle,
+  PoolOracle__factory,
   Timelock__factory,
+  YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
-import { contangoCauldron_key, contangoLadle_key, contangoWitch_key } from '../../../../shared/constants'
+import {
+  ACCUMULATOR,
+  CLOAK,
+  COMPOSITE,
+  CONTANGO_CAULDRON,
+  CONTANGO_LADLE,
+  CONTANGO_WITCH,
+  MULTISIG,
+  POOL_ORACLE,
+  TIMELOCK,
+  YIELD_SPACE_MULTI_ORACLE,
+} from '../../../../shared/constants'
 import { addSeriesProposal } from './addSeriesProposal'
 import { makeBaseProposal } from './makeBaseProposal'
+import { orchestrateYieldSpaceMultiOracleProposal } from '../../../fragments/oracles/orchestrateYieldSpaceMultiOracleProposal'
+import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
 
 const {
   developer,
@@ -44,16 +59,29 @@ const {
 
   const allJoins = new Map<string, string>([...joins, ...newJoins])
 
-  const timelock = Timelock__factory.connect(governance.get('timelock')!, ownerAcc)
-  const cauldron = Cauldron__factory.connect(protocol.get(contangoCauldron_key)!, ownerAcc)
-  const ladle = ContangoLadle__factory.connect(protocol.get(contangoLadle_key)!, ownerAcc)
-  const witch = ContangoWitch__factory.connect(protocol.get(contangoWitch_key)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(governance.get('cloak')!, ownerAcc)
-  const compositeMultiOracle = CompositeMultiOracle__factory.connect(protocol.get('compositeOracle')!, ownerAcc)
-  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol.get('accumulatorOracle')!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.get(CONTANGO_CAULDRON)!, ownerAcc)
+  const ladle = ContangoLadle__factory.connect(protocol.get(CONTANGO_LADLE)!, ownerAcc)
+  const witch = ContangoWitch__factory.connect(protocol.get(CONTANGO_WITCH)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
+  const compositeMultiOracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
+  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol.get(ACCUMULATOR)!, ownerAcc)
+  const yieldSpaceMultiOracle = YieldSpaceMultiOracle__factory.connect(
+    protocol.get(YIELD_SPACE_MULTI_ORACLE)!,
+    ownerAcc
+  )
+  const poolOracle = PoolOracle__factory.connect(protocol.get(POOL_ORACLE)!, ownerAcc)
 
   const proposal = [
+    await orchestrateYieldSpaceMultiOracleProposal(deployer, yieldSpaceMultiOracle, timelock, cloak), // This shouldn't be used in future rolls
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
+    await updateYieldSpaceMultiOracleSourcesProposal(
+      ownerAcc,
+      yieldSpaceMultiOracle,
+      poolOracle,
+      compositeSources,
+      pools
+    ),
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
@@ -72,5 +100,5 @@ const {
     await addIlksToSeriesProposal(cauldron, seriesIlks),
   ].flat(1)
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig')!, developer)
+  await proposeApproveExecute(timelock, proposal, governance.get(MULTISIG)!, developer)
 })()

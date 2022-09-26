@@ -1,7 +1,15 @@
 import { parseUnits } from 'ethers/lib/utils'
 
 import * as base_config from '../../../base.arb_mainnet.config'
-import { DAI, ETH, FYDAI2212, FYETH2212, FYUSDC2212, IDENTITY, USDC } from '../../../../../shared/constants'
+import {
+  DAI,
+  ETH,
+  FYDAI2212,
+  FYETH2212,
+  FYUSDC2212,
+  USDC,
+  YIELD_SPACE_MULTI_ORACLE,
+} from '../../../../../shared/constants'
 import { AuctionLineAndLimit } from '../../../confTypes' // Note we use the series id as the asset id
 
 export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
@@ -19,16 +27,16 @@ export const external: Map<string, string> = base_config.external
 
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [
-  [DAI, joins.get(DAI) as string],
-  [USDC, joins.get(USDC) as string],
-  [ETH, joins.get(ETH) as string],
+  [DAI, joins.get(DAI)!],
+  [USDC, joins.get(USDC)!],
+  [ETH, joins.get(ETH)!],
 ]
 
 // Input data: baseId, quoteId, oracle name
 export const compositeSources: Array<[string, string, string]> = [
-  [FYDAI2212, DAI, protocol.get(IDENTITY) as string], // TODO Update to YieldSpaceMultiOracle
-  [FYUSDC2212, USDC, protocol.get(IDENTITY) as string], // TODO Update to YieldSpaceMultiOracle
-  [FYETH2212, ETH, protocol.get(IDENTITY) as string], // TODO Update to YieldSpaceMultiOracle
+  [FYDAI2212, DAI, protocol.get(YIELD_SPACE_MULTI_ORACLE)!],
+  [FYUSDC2212, USDC, protocol.get(YIELD_SPACE_MULTI_ORACLE)!],
+  [FYETH2212, ETH, protocol.get(YIELD_SPACE_MULTI_ORACLE)!],
 ]
 // Input data: assetId, assetId, [intermediate assetId]
 export const compositePaths: Array<[string, string, Array<string>]> = [
@@ -45,9 +53,9 @@ export const compositePaths: Array<[string, string, Array<string>]> = [
 /// @param Address for the asset
 /// @param Address for the join
 export const assetsToAdd: Array<[string, string, string]> = [
-  [FYDAI2212, fyTokens.get(FYDAI2212) as string, newJoins.get(FYDAI2212) as string],
-  [FYUSDC2212, fyTokens.get(FYUSDC2212) as string, newJoins.get(FYUSDC2212) as string],
-  [FYETH2212, fyTokens.get(FYETH2212) as string, newJoins.get(FYETH2212) as string],
+  [FYDAI2212, fyTokens.get(FYDAI2212)!, newJoins.get(FYDAI2212)!],
+  [FYUSDC2212, fyTokens.get(FYUSDC2212)!, newJoins.get(FYUSDC2212)!],
+  [FYETH2212, fyTokens.get(FYETH2212)!, newJoins.get(FYETH2212)!],
 ]
 
 // Input data: baseId, ilkId, ratio (1000000 == 100%), line, dust, dec

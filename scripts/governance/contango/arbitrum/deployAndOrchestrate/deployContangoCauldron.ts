@@ -1,4 +1,4 @@
-import { contangoCauldron_key } from '../../../../../shared/constants'
+import { CONTANGO_CAULDRON } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, writeAddressMap } from '../../../../../shared/helpers'
 import { deployContangoCauldron } from '../../shared/deployContangoCauldron'
 
@@ -13,6 +13,6 @@ const { developer } = require(process.env.CONF as string)
   const ownerAcc = await getOwnerOrImpersonate(developer as string)
   const contangoCauldron = await deployContangoCauldron(ownerAcc, protocol, governance)
 
-  protocol.set(contangoCauldron_key, contangoCauldron.address)
+  protocol.set(CONTANGO_CAULDRON, contangoCauldron.address)
   writeAddressMap('protocol.json', protocol)
 })()
