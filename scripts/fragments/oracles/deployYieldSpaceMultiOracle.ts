@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { verify, writeAddressMap } from '../../../shared/helpers'
+import { tenderlyVerify, verify, writeAddressMap } from '../../../shared/helpers'
 import { POOL_ORACLE, ROOT, YIELD_SPACE_MULTI_ORACLE } from '../../../shared/constants'
 import { Timelock, YieldSpaceMultiOracle, YieldSpaceMultiOracle__factory } from '../../../typechain'
 
@@ -25,6 +25,7 @@ export const deployYieldSpaceMultiOracle = async (
     ).deploy(poolOracleAddress)
     console.log(`YieldSpaceMultiOracle deployed at ${yieldSpaceMultiOracle.address}`)
     verify(yieldSpaceMultiOracle.address, [poolOracleAddress])
+    await tenderlyVerify('YieldSpaceMultiOracle', yieldSpaceMultiOracle)
     protocol.set(YIELD_SPACE_MULTI_ORACLE, yieldSpaceMultiOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {

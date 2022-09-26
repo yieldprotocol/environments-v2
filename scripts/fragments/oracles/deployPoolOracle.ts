@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { verify, writeAddressMap } from '../../../shared/helpers'
+import { tenderlyVerify, verify, writeAddressMap } from '../../../shared/helpers'
 import { POOL_ORACLE, secondsInOneHour, secondsInOneMinute } from '../../../shared/constants'
 import { PoolOracle, PoolOracle__factory } from '../../../typechain'
 
@@ -17,6 +17,7 @@ export const deployPoolOracle = async (ownerAcc: any, protocol: Map<string, stri
     ).deploy(24 * secondsInOneHour, 24, 5 * secondsInOneMinute)
     console.log(`PoolOracle deployed at ${poolOracle.address}`)
     verify(poolOracle.address, [24 * secondsInOneHour, 24, 5 * secondsInOneMinute])
+    await tenderlyVerify('PoolOracle', poolOracle)
     protocol.set(POOL_ORACLE, poolOracle.address)
     writeAddressMap('protocol.json', protocol)
   } else {
