@@ -2627,15 +2627,15 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   "version" "2.5.0"
 
-"@yield-protocol/vault-v2@0.18.2":
-  "integrity" "sha512-OVMV2xt9LhqH/qBvSIQgCo1UQ2sqtSzgjdBZ4OwuvUmqVHGHKrDHQtNtNVUokBS8iZSzvccvGA/nTdiH/JyboA=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.2.tgz"
-  "version" "0.18.2"
+"@yield-protocol/vault-v2@0.18.3":
+  "integrity" "sha512-66D6yzOc6xQzEHtLhp9BvKfEZd1SXzZYwhswdnCy7Q5ubMS9MC5upj1WMw7cDnXWvoPv6HiOrfCjFe3QhpUmQQ=="
+  "resolved" "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.3.tgz"
+  "version" "0.18.3"
 
-"@yield-protocol/yieldspace-tv@^0.1.7":
-  "integrity" "sha512-8mI306zOajeqnJv18lWVYHkWodOo+reZbnUKYewu2sJj/paehTo/OYcl/bjn7aCUPR6vRT0jP+b6IA1XtrXo/Q=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.7.tgz"
-  "version" "0.1.7"
+"@yield-protocol/yieldspace-tv@^0.1.8":
+  "integrity" "sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ=="
+  "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.8.tgz"
+  "version" "0.1.8"
 
 "abab@^2.0.0":
   "integrity" "sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA=="
