@@ -51,6 +51,9 @@ export const euler = external.get('euler') as string
 export const eulerFlash = external.get('eulerFlash') as string
 
 // Time stretch to be set in the PoolFactory prior to pool deployment
+export const joinLoans: Map<string, BigNumber> = new Map([[USDC, ONEUSDC.mul(500000)]])
+
+// Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: Map<string, BigNumber> = new Map([
   [FYETH2303, ONE64.div(secondsInOneYear.mul(25))],
   [FYDAI2303, ONE64.div(secondsInOneYear.mul(45))],
@@ -145,6 +148,6 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
   [YSETH6MMS, FYETH2303, ZERO, ZERO_ADDRESS, true],
   [YSDAI6MMS, FYDAI2303, ZERO, ZERO_ADDRESS, true],
-  [YSUSDC6MMS, FYUSDC2303, BigNumber.from(1636763728078), eulerFlash, true],
+  [YSUSDC6MMS, FYUSDC2303, ZERO, ZERO_ADDRESS, true],
   [YSFRAX6MMS, FYFRAX2303, ZERO, ZERO_ADDRESS, false],
 ]
