@@ -7,7 +7,7 @@ import { AuctionLineAndLimit } from '../../confTypes'
 const { developer, protocol, pools, auctionLineAndLimits } = require(process.env.CONF!)
 
 /**
- * @dev This script configures the Yield Protocol to use fyTokens as collateral.
+ * @dev This script initialises the PoolOracle (takes a TWAR snapshot) for a given set of ilkIds.
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)

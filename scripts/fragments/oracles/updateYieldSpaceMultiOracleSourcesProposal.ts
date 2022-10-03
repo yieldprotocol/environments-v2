@@ -1,5 +1,5 @@
 /**
- * @dev This script replaces one or more data sources in a CompositeMultiOracle.
+ * @dev This script replaces one or more data sources in a YieldSpaceMultiOracle.
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 

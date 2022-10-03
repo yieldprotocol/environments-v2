@@ -4,7 +4,7 @@ import { POOL_ORACLE, ROOT, YIELD_SPACE_MULTI_ORACLE } from '../../../shared/con
 import { Timelock, YieldSpaceMultiOracle, YieldSpaceMultiOracle__factory } from '../../../typechain'
 
 /**
- * @dev This script deploys the PoolOracle
+ * @dev This script deploys the YieldSpaceMultiOracle
  *
  * It takes as input the protocol json address files.
  * The protocol json address file is updated.
