@@ -9,9 +9,9 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { ZERO_ADDRESS } from '../../../../shared/constants'
-import { bytesToString } from '../../../../shared/helpers'
-import { Cauldron, EmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../../typechain'
+import { ZERO_ADDRESS } from '../../../shared/constants'
+import { bytesToString } from '../../../shared/helpers'
+import { Cauldron, EmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../typechain'
 
 export const addSeriesProposal = async (
   ownerAcc: any,

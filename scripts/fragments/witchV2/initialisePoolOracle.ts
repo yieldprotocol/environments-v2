@@ -1,8 +1,8 @@
-import { advanceTime, bytesToString, getOwnerOrImpersonate } from '../../../../shared/helpers'
-import { PoolOracle__factory } from '../../../../typechain'
-import { POOL_ORACLE } from '../../../../shared/constants'
+import { advanceTime, bytesToString, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { POOL_ORACLE } from '../../../shared/constants'
 import { ethers, network } from 'hardhat'
-import { AuctionLineAndLimit } from '../../confTypes'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
+import { PoolOracle__factory } from '../../../typechain/factories/contracts/PoolOracle__factory'
 
 const { developer, protocol, pools, auctionLineAndLimits } = require(process.env.CONF!)
 

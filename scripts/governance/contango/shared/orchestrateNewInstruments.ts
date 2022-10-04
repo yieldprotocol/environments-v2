@@ -1,5 +1,5 @@
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { makeIlkProposal } from './makeIlkProposal'
+import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
 import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
 import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
@@ -29,10 +29,10 @@ import {
   TIMELOCK,
   YIELD_SPACE_MULTI_ORACLE,
 } from '../../../../shared/constants'
-import { addSeriesProposal } from './addSeriesProposal'
-import { makeBaseProposal } from './makeBaseProposal'
+import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
 import { orchestrateYieldSpaceMultiOracleProposal } from '../../../fragments/oracles/orchestrateYieldSpaceMultiOracleProposal'
 import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
+import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
 
 const {
   developer,
@@ -85,7 +85,7 @@ const {
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
-    await makeBaseProposal(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, bases),
+    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases),
     await addSeriesProposal(ownerAcc, cauldron, ladle, witch, cloak, assetsToAdd, pools),
     await makeIlkProposal(
       ownerAcc,
