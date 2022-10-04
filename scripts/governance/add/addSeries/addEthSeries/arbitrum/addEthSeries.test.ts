@@ -1,55 +1,36 @@
-import { ethers } from 'hardhat'
-
-import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { BigNumber } from 'ethers'
+import { ETH, WAD } from '../../../../../../shared/constants'
 import {
-  readAddressMappingIfExists,
   bytesToBytes32,
-  impersonate,
   getOriginalChainId,
   getOwnerOrImpersonate,
+  impersonate,
+  readAddressMappingIfExists,
 } from '../../../../../../shared/helpers'
 import {
-  ERC20Mock,
-  Cauldron,
-  Ladle,
-  FYToken,
-  CompositeMultiOracle,
-  AccumulatorMultiOracle,
-  ChainlinkUSDMultiOracle,
+  Cauldron__factory,
+  ChainlinkUSDMultiOracle__factory,
+  FYToken__factory,
+  IERC20Metadata__factory,
+  Ladle__factory,
 } from '../../../../../../typechain'
-import { ETH, WAD } from '../../../../../../shared/constants'
 import { whales } from '../../../../base.arb_mainnet.config'
+
 const { developer, seriesIlks, assets } = require(process.env.CONF as string)
 
 /**
  * @dev This script tests ETH as a collateral
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
   let whaleAcc: SignerWithAddress
 
   const protocol = readAddressMappingIfExists('protocol.json')
 
-  const eth = (await ethers.getContractAt(
-    'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-    assets.get(ETH) as string,
-    ownerAcc
-  )) as unknown as ERC20Mock
-
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const oracle = (await ethers.getContractAt(
-    'ChainlinkUSDMultiOracle',
-    protocol.get('chainlinkUSDOracle') as string,
-    ownerAcc
-  )) as unknown as ChainlinkUSDMultiOracle
+  const cauldron = Cauldron__factory.connect(protocol.get('cauldron') as string, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol.get('ladle') as string, ownerAcc)
+  const oracle = ChainlinkUSDMultiOracle__factory.connect(protocol.get('chainlinkUSDOracle') as string, ownerAcc)
 
   // ETH whale
   whaleAcc = await impersonate(whales.get(ETH) as string, WAD)
@@ -58,14 +39,9 @@ const { developer, seriesIlks, assets } = require(process.env.CONF as string)
     console.log(`series: ${seriesId}`)
     for (const ilk of ilks) {
       console.log(`ilk: ${ilk}`)
-      var collateral = (await ethers.getContractAt(
-        'contracts/::mocks/ERC20Mock.sol:ERC20Mock',
-        assets.get(ilk) as string,
-        ownerAcc
-      )) as unknown as ERC20Mock
+      var collateral = IERC20Metadata__factory.connect(assets.get(ilk) as string, ownerAcc)
       const series = await cauldron.series(seriesId)
-      const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
-      const dust = (await cauldron.debt(series.baseId, ilk)).min
+      const fyToken = FYToken__factory.connect(series.fyToken, ownerAcc)
       const ratio = (await cauldron.spotOracles(series.baseId, ilk)).ratio
       var borrowed = BigNumber.from(10).pow(await fyToken.decimals())
 

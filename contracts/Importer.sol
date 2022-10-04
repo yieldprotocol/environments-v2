@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-pragma solidity ^0.8.1;
+pragma solidity >=0.8.13;
 
 import "@yield-protocol/vault-v2/contracts/modules/HealerModule.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/accumulator/AccumulatorMultiOracle.sol";
@@ -25,14 +25,6 @@ import "@yield-protocol/vault-v2/contracts/FYToken.sol";
 import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
 import "@yield-protocol/vault-v2/contracts/Ladle.sol";
 import "@yield-protocol/vault-v2/contracts/Witch.sol";
-// import "@yield-protocol/vault-v2/contracts/Wand.sol";
-// import "@yield-protocol/yieldspace-v2/contracts/Pool.sol";
-// import "@yield-protocol/yieldspace-v2/contracts/extensions/YieldMathExtensions.sol";
-// import "@yield-protocol/yieldspace-v2/contracts/extensions/PoolView.sol";
-// import '@yield-protocol/vault-v2/contracts/oracles/convex/Cvx3CrvOracle.sol';
-// import '@yield-protocol/vault-v2/contracts/other/convex/ConvexModule.sol';
-// import '@yield-protocol/vault-v2/contracts/other/convex/ConvexJoin.sol';
-// import '@yield-protocol/vault-v2/contracts/other/lido/StEthConverter.sol';
 import "@yield-protocol/yieldspace-tv/src/YieldMath.sol";
 import "@yield-protocol/yieldspace-tv/src/Pool/Pool.sol";
 import "@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolNonTv.sol";

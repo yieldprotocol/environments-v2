@@ -52,11 +52,11 @@ dist/
 
 
 .idea/
-<<<<<<< HEAD
-.arbiscanKey
 .DS_Store
-=======
-
-
 addresses/localhost/
->>>>>>> add-nontv-series
+addresses/tenderly/
+
+# Foundry
+foundry/out
+out/
+forge-cache/
