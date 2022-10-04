@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Pool, Timelock, EmergencyBrake, Ladle } from '../../../typechain'
+import { EmergencyBrake, PoolNonTv, Timelock } from '../../../typechain'
 
 /**
  * @dev This script orchestrates new pools
@@ -10,7 +10,7 @@ import { Pool, Timelock, EmergencyBrake, Ladle } from '../../../typechain'
 
 export const orchestrateNewPoolsProposal = async (
   deployer: string,
-  pool: Pool,
+  pool: PoolNonTv,
   timelock: Timelock,
   cloak: EmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {

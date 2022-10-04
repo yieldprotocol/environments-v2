@@ -24,9 +24,9 @@ export const additionalDevelopers: Array<string> = [
 
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
-  [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
-  [DAI, '0xba479d5585ecec47edc2a571da430a40f43c3851'],
-  [USDC, '0x1714400ff23db4af24f9fd64e7039e6597f18c2b'],
+  [ETH, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
+  [DAI, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
+  [USDC, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
 ])
 // https://tokenlists.org/token-list?url=https://bridge.arbitrum.io/token-list-42161.json
 export const assets: Map<string, string> = new Map([
@@ -105,8 +105,8 @@ export const pools = new Map([
 ])
 
 // fytoken id -> fytoken address
-export const fyTokens = new Map([
-  [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
-  [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
-  [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
-])
+// export const fyTokens = new Map([
+//   [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
+//   [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
+//   [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
+// ])
