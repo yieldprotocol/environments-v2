@@ -68,7 +68,7 @@ export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
-export const EOMAR23 = 1680271200 // Friday, Mar 31 2023 14:00:00 GMT+0000
+export const EOMAR23 = 1680274800 // Friday, Mar 31 2023 15:00:00 GMT+0000
 
 export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
 export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)

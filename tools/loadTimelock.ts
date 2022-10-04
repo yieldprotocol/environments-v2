@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { impersonate } from '../../../../../shared/helpers'
-import { WAD } from '../../../../../shared/constants'
-import { IERC20Metadata, Pool } from '../../../../../typechain'
+import { impersonate } from '../shared/helpers'
+import { WAD } from '../shared/constants'
+import { IERC20Metadata, Pool } from '../typechain'
 const { governance, whales, strategies, newPools, poolsInit, rollData } = require(process.env.CONF as string)
 
 /**
