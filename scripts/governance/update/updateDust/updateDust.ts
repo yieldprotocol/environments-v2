@@ -13,11 +13,12 @@ import {
   readAddressMappingIfExists,
 } from '../../../../shared/helpers'
 import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
-import { Cauldron, Timelock } from '../../../../typechain'
-const { governance, protocol, developer, newMin } = require(process.env.CONF as string)
-;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
+import { OldWitch, Cauldron, Timelock } from '../../../../typechain'
+import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
 
+const { governance, protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
+;(async () => {
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(1))
   // Contract instantiation
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
@@ -31,8 +32,19 @@ const { governance, protocol, developer, newMin } = require(process.env.CONF as 
     ownerAcc
   )) as unknown as Timelock
 
+  // Contract instantiation
+  const witch = (await ethers.getContractAt(
+    'OldWitch',
+    protocol.get('witch') as string,
+    ownerAcc
+  )) as unknown as OldWitch
+
   // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newMin)
+  let proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newDebtMin)
+
+  //Update auction limits
+  proposal = proposal.concat(await updateWitchLimitsInitialOfferProposal(witch, newAuctionMin))
+
   // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer.get(1))
 })()

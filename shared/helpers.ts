@@ -190,7 +190,8 @@ export const proposeApproveExecute = async (
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
       // Since we are in a testing environment, let's advance time
-      advanceTime(await timelock.delay())
+      console.log('Advancing time')
+      advanceTime((await timelock.delay()) * 100)
     } else {
       // On kovan we have approval permissions
       signerAcc = (await ethers.getSigners())[0]
@@ -211,6 +212,7 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
+    console.log(`SignerAcc.address: ${signerAcc.address}\n`)
     const tx = await timelock.connect(signerAcc).execute(proposal)
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
