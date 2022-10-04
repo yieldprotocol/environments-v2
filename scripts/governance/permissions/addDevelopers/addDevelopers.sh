@@ -3,8 +3,8 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addDevelopers.arb_mainnet.config
-RUN="npx hardhat run --network arb_mainnet"
-# RUN="npx hardhat run --network tenderly"
+# RUN="npx hardhat run --network arb_mainnet"
+RUN="npx hardhat run --network tenderly"
 
 $RUN $HERE/addDevelopers.ts
 # $RUN $HERE/addDevelopers.ts
