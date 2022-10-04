@@ -1,5 +1,5 @@
 import { ethers, network } from 'hardhat'
-import { contangoCauldron_key, ROOT } from '../../../../shared/constants'
+import { CONTANGO_CAULDRON, ROOT } from '../../../../shared/constants'
 import { tenderlyVerify, verify, writeAddressMap } from '../../../../shared/helpers'
 import { Cauldron } from '../../../../typechain'
 const hre = require('hardhat')
@@ -14,7 +14,7 @@ export const deployContangoCauldron = async (
 ): Promise<Cauldron> => {
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const address = protocol.get(contangoCauldron_key)
+  const address = protocol.get(CONTANGO_CAULDRON)
 
   let cauldron: Cauldron
   if (address === undefined) {
