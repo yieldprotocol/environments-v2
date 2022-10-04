@@ -75,13 +75,7 @@ const {
   const proposal = [
     await orchestrateYieldSpaceMultiOracleProposal(deployer, yieldSpaceMultiOracle, timelock, cloak), // This shouldn't be used in future rolls
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
-    await updateYieldSpaceMultiOracleSourcesProposal(
-      ownerAcc,
-      yieldSpaceMultiOracle,
-      poolOracle,
-      compositeSources,
-      pools
-    ),
+    await updateYieldSpaceMultiOracleSourcesProposal(yieldSpaceMultiOracle, poolOracle, compositeSources, pools),
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),

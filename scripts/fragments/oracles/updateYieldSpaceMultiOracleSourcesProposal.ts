@@ -3,13 +3,11 @@
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 
+import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
 import { PoolOracle, YieldSpaceMultiOracle } from '../../../typechain'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { ethers } from 'hardhat'
 
 export const updateYieldSpaceMultiOracleSourcesProposal = async (
-  ownerAcc: SignerWithAddress,
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
   poolOracle: PoolOracle,
   compositeSources: Array<[string, string, string]>,
@@ -22,7 +20,10 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
 
     console.log(`Adding ${baseId}/${quoteId} from ${poolOracle.address}`)
     // Check if the poolOracle has been initialised with enough time
-    await poolOracle.peek(pool)
+    proposal.push({
+      target: poolOracle.address,
+      data: poolOracle.interface.encodeFunctionData('peek', [pool]),
+    })
 
     proposal.push({
       target: yieldSpaceMultiOracle.address,
