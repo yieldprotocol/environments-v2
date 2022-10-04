@@ -136,3 +136,7 @@ export const contangoWitch_key = 'contangoWitch'
 export const contangoCauldron_key = 'contangoCauldron'
 export const contangoLadle_key = 'contangoLadle'
 export const contangoLadleRouter_key = 'contangoLadleRouter'
+
+export const TIMELOCK = 'timelock'
+export const CLOAK = 'cloak'
+export const MULTISIG = 'multisig'
