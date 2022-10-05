@@ -5,7 +5,7 @@ import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 import {ILadleGov} from '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
-import {INotionalJoin} from '@yield-protocol/vault-v2/contracts/other/notional/INotionalJoin.sol';
+import {INotionalJoin} from '@yield-protocol/vault-v2/contracts/other/notional/interfaces/INotionalJoin.sol';
 import {ILadle} from '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 
 /// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
