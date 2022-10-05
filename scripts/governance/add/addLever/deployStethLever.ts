@@ -15,6 +15,7 @@ const { deployContract } = waffle
   let ownerAcc = await getOwnerOrImpersonate(deployer)
 
   let yieldStEthLever: YieldStEthLever
+
   if (protocol.get('yieldStEthLever') === undefined) {
     yieldStEthLever = (await deployContract(ownerAcc, YieldStEthLeverArtifact, [
       protocol.get('giver'),
