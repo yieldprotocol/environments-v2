@@ -204,6 +204,8 @@ export const proposeApproveExecute = async (
     let signerAcc
     if (developer) {
       if (network.name === 'localhost' || network.name.includes('tenderly')) {
+        await network.provider.send('evm_increaseTime', [86400 * 3])
+        await network.provider.send('evm_mine', [])
         signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
       } else {
         signerAcc = await ethers.getSigner(developer)
