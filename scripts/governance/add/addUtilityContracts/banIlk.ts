@@ -5,7 +5,7 @@ import { banIlkProposal } from '../../../fragments/utils/banlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 /**
- * @dev This script orchestrates the Cauldron
+ * @dev This script orchestrates the giver
 
  */
 export async function banIlk() {

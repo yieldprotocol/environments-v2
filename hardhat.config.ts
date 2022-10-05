@@ -1,4 +1,4 @@
-import *  as fs from 'fs'
+import * as fs from 'fs'
 import * as path from 'path'
 
 import '@nomiclabs/hardhat-waffle'
@@ -11,8 +11,8 @@ import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
 // uncomment this to verify Tenderly contracts
-// import * as tdly from "@tenderly/hardhat-tenderly";
-// tdly.setup();
+import * as tdly from '@tenderly/hardhat-tenderly'
+tdly.setup()
 
 function infuraNodeUrl(network: any) {
   let infuraKey
@@ -34,38 +34,40 @@ function alchemyNodeUrl(network: any) {
   return `https://eth-${network}.alchemyapi.io/v2/${alchemyKey}`
 }
 
-
 function arbNodeUrl(network: string) {
   switch (network) {
     // case "rinkeby": return "https://rinkeby.arbitrum.io/rpc";
-    case "mainnet": return "https://arb1.arbitrum.io/rpc";
+    case 'mainnet':
+      return 'https://arb1.arbitrum.io/rpc'
   }
-  throw new Error(`Unknown arbitrum network ${network}`);
+  throw new Error(`Unknown arbitrum network ${network}`)
 }
 
 let mnemonic = process.env.MNEMONIC
 if (!mnemonic) {
   try {
     mnemonic = fs.readFileSync(path.resolve(__dirname, '.secret')).toString().trim()
-  } catch (e) { }
+  } catch (e) {}
 }
-if (mnemonic) console.log("MNEMONIC FOUND")
-const accounts = mnemonic ? {
-  mnemonic,
-} : undefined
+if (mnemonic) console.log('MNEMONIC FOUND')
+const accounts = mnemonic
+  ? {
+      mnemonic,
+    }
+  : undefined
 
 let etherscanKey = process.env.ETHERSCANKEY
 if (!etherscanKey) {
   try {
     etherscanKey = fs.readFileSync(path.resolve(__dirname, '.etherscanKey')).toString().trim()
-  } catch (e) { }
+  } catch (e) {}
 }
 
 let arbiscanKey = process.env.ARBISCANKEY
 if (!arbiscanKey) {
   try {
     arbiscanKey = fs.readFileSync(path.resolve(__dirname, '.arbiscanKey')).toString().trim()
-  } catch (e) { }
+  } catch (e) {}
 }
 
 module.exports = {
@@ -75,15 +77,15 @@ module.exports = {
       optimizer: {
         enabled: true,
         runs: 100,
-      }
-    }
+      },
+    },
   },
   abiExporter: {
     path: './abis',
     clear: true,
     flat: true,
     // only: [':ERC20$'],
-    spacing: 2
+    spacing: 2,
   },
   typechain: {
     outDir: 'typechain',
@@ -112,17 +114,17 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
+      chainId: 42161, // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/1b9da6ba-ce95-43d4-8a01-83f3d4a33868",
+      url: 'https://rpc.tenderly.co/fork/db793fd4-f310-4fc7-9c93-e8ef8611c3e6',
       // update chainId if necessary
-      forkNetwork: "42161",
-      username: "Yield",
-      project: "v2",
-      timeout: 60_000_000
+      forkNetwork: '1',
+      username: 'Yield',
+      project: 'v2',
+      timeout: 60_000_000,
     },
     mainnet: {
       accounts,
@@ -130,25 +132,25 @@ module.exports = {
       gasPrice: 20_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
-      url: infuraNodeUrl('mainnet')
+      url: infuraNodeUrl('mainnet'),
     },
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
       gasPrice: 500_000_000,
       chainId: 42161,
-      timeout: 60000
+      timeout: 60000,
     },
     coverage: {
       url: 'http://127.0.0.1:8555',
     },
   },
   tenderly: {
-		username: "Yield",
-		project: "v2",
-    forkNetwork: "42161",
-	},
+    username: 'Yield',
+    project: 'v2',
+    forkNetwork: '1',
+  },
   etherscan: {
-    apiKey: etherscanKey
+    apiKey: etherscanKey,
   },
 }

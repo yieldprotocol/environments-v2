@@ -21,6 +21,7 @@ export const orchestrateGiverProposal = async (
       giver.address,
     ]),
   })
+
   console.log(`cauldron.grantRoles('give', giver)`)
   proposal.push({
     target: giver.address,

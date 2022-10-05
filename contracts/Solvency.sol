@@ -56,19 +56,19 @@ contract Solvency {
 
     /// @dev Returns the the aggregated ETH value of all assets in the Joins
     function available(bytes6[] calldata assetIds) public view returns(uint256 aggregated) {
-        for (uint256 a; a < assetIds.length; a++) {
-            bytes6 assetId = assetIds[a];
-            IJoin join = joins.joins(assetId);
-            IOracle oracle = oracles.spotOracles(assetId, ETH).oracle;
-            uint256 storedBalance = join.storedBalance();
-            if (join.asset() == FCASH) {
-                uint256 accrual = INotionalJoin(address(join)).accrual();
-                // If we are dealing with a mature NotionalJoin, we convert the storedBalance to an fCash amount (at the time of maturity) dividing by the accrual
-                if (accrual != 0) storedBalance = storedBalance.wdiv(accrual);
-            }
+        // for (uint256 a; a < assetIds.length; a++) {
+        //     bytes6 assetId = assetIds[a];
+        //     IJoin join = joins.joins(assetId);
+        //     IOracle oracle = oracles.spotOracles(assetId, ETH).oracle;
+        //     uint256 storedBalance = join.storedBalance();
+        //     if (join.asset() == FCASH) {
+        //         uint256 accrual = INotionalJoin(address(join)).accrual();
+        //         // If we are dealing with a mature NotionalJoin, we convert the storedBalance to an fCash amount (at the time of maturity) dividing by the accrual
+        //         if (accrual != 0) storedBalance = storedBalance.wdiv(accrual);
+        //     }
 
-            (uint256 joinAvailable,) = oracle.peek(assetId, ETH, storedBalance);
-            aggregated += joinAvailable;
-        }
+        //     (uint256 joinAvailable,) = oracle.peek(assetId, ETH, storedBalance);
+        //     aggregated += joinAvailable;
+        // }
     }
 }
