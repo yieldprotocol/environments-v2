@@ -12,4 +12,4 @@ export const filePath = path.join(__dirname, 'ARBITRUM_YSDAI6MJD.csv')
 export const strategyAddr = strategies.get(YSDAI6MJD) as string
 export const affectedStrategyAddr = '0xe7214af14bd70f6aac9c16b0c1ec9ee1ccc7efda'
 
-export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer = '0x1662BbbDdA3fb169f10C495AE27596Af7f8fD3E1'
