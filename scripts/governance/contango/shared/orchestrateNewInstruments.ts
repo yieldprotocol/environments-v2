@@ -79,7 +79,7 @@ const {
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
-    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases),
+    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases), // Remove this, is not necessary (leaving it now is the proposal can be reproduced)
     await addSeriesProposal(ownerAcc, cauldron, ladle, witch, cloak, assetsToAdd, pools),
     await makeIlkProposal(
       ownerAcc,
