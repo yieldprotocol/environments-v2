@@ -5,7 +5,7 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared
 import { ERC20__factory } from '../../../../typechain'
 import { sendTokensProposal } from '../../../fragments/emergency/sendTokens'
 
-const { governance, developer, assets } = require(process.env.CONF as string)
+const { governance, developer, assets, daiToSend, usdcToSend, devFundsRecipient } = require(process.env.CONF as string)
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
@@ -20,13 +20,12 @@ const { governance, developer, assets } = require(process.env.CONF as string)
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  // Send tokens to dev account
+  // Send tokens to dev funds recipient account
   for (let tokenAddr of [daiAddr, usdcAddr]) {
     const token = ERC20__factory.connect(tokenAddr, timelock.signer)
+    const amountToSend = ethers.utils.parseUnits(tokenAddr === daiAddr ? daiToSend : usdcToSend, await token.decimals())
 
-    proposal = proposal.concat(
-      await sendTokensProposal(timelock, [[tokenAddr, developer, await token.balanceOf(timelock.address)]])
-    )
+    proposal = proposal.concat(await sendTokensProposal(timelock, [[tokenAddr, devFundsRecipient, amountToSend]]))
   }
 
   // Propose, Approve & execute
