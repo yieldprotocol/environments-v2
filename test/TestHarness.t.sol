@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
+import "forge-std/StdJson.sol";
 import "forge-std/console.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol";
@@ -11,43 +12,63 @@ import "@yield-protocol/utils-v2/contracts/token/IERC2612.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
 
 contract TestHarness is Test, TestConstants {
+    using stdJson for string;
+
     ICauldron public cauldron = ICauldron(0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867);
     ILadle public ladle = ILadle(0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A);
-    IPool public pool = IPool(0x6BaC09a67Ed1e1f42c29563847F77c28ec3a04FC);      // FYDAI2209 LP
-    IERC20 public fyDAI = IERC20(0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb);   // FYDAI2209
-    IERC20 public dai = IERC20();
+    IPool public pool;
+    IERC20 public fyToken;
+    IERC20 public base;
+    IERC20 public collateral;
 
-    address public join = 0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779;           // UNI Join
-    bytes6 public ilkId = 0x313000000000;                                       // UNI Ilk ID
-    bytes6 public seriesId = 0x303130380000;                                    // DAI Dec 22 series
+    address public join;
+    bytes6 public ilkId;
+    bytes6 public seriesId;
     bytes12 public vaultId;
 
     function setUp() public {
         vm.createSelectFork('mainnet');
-        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
-        deal(address(dai), address(this), WAD * 2);
-        deal(address(fyDAI), address(this), WAD * 2);
+        string memory root = vm.projectRoot();
+        string memory path = string.concat(root, "/shared/data.json");
+        string memory json = vm.readFile(path);
+        bytes memory ilks = vm.parseJson(json, "ilks");
+        console.logBytes(ilks);
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
         console.log("can borrow any asset with any collateral");
+
+        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
+
+        deal(address(collateral), address(this), WAD * 2);
+        deal(address(fyToken), address(this), WAD * 2);
+
         DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-        dai.approve(address(ladle), WAD * 2);
-        dai.transfer(join, WAD * 2);
+        collateral.approve(address(ladle), WAD * 2);
+        collateral.transfer(join, WAD * 2);
         ladle.pour(vaultId, vault.owner, 1e18 * 2, 1e18);
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
         console.log("can pool any amount with borrow and pool");
+        string memory root = vm.projectRoot();
+        string memory path = string.concat(root, "/shared/data.json");
+        string memory json = vm.readFile(path);
+        
+        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
+
+        deal(address(base), address(this), WAD * 2);
+        deal(address(fyToken), address(this), WAD * 2);
+
         uint256 baseBalanceBefore = pool.getBaseBalance();
         uint256 fyTokenBalanceBefore = pool.getFYTokenBalance();
 
         // give approval and send base and fytoken to pool
-        dai.approve(address(pool), WAD * 2);
-        dai.transfer(address(pool), WAD * 2);
-        fyDAI.approve(address(pool), WAD * 2);
-        fyDAI.transfer(address(pool), WAD * 2);
+        base.approve(address(pool), WAD * 2);
+        base.transfer(address(pool), WAD * 2);
+        fyToken.approve(address(pool), WAD * 2);
+        fyToken.transfer(address(pool), WAD * 2);
         // mint lp tokens
         (
             uint256 baseAmount, 
@@ -64,7 +85,7 @@ contract TestHarness is Test, TestConstants {
         uint256 fyTokenBalanceAfter = pool.getFYTokenBalance();
 
         assertEq(
-            dai.balanceOf(address(this)) + baseAmount, 
+            base.balanceOf(address(this)) + baseAmount, 
             WAD * 2
         );
         assertEq(
