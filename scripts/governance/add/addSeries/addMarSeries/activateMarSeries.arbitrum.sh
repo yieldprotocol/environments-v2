@@ -6,10 +6,10 @@ export CONF=$PWD/$HERE/addMarSeries.arbitrum.config
 RUN="npx hardhat run --network arb_mainnet"
 # RUN="npx hardhat run --network tenderly"
 
-# $RUN $HERE/loadTimelock.ts
-# $RUN $HERE/joinLoan.ts
-# $RUN $HERE/advanceTimeTwoWeeks.ts
-# $RUN $HERE/advanceTimeThreeDays.ts
+$RUN $HERE/../../../../../tools/joinLoan.ts
+# $RUN $HERE/../../../../../tools/loadTimelock.ts
+# $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
+# $RUN $HERE/../../../../../tools/advanceTimeThreeDays.ts
 
 $RUN $HERE/activateMarSeries.ts
 # $RUN $HERE/activateMarSeries.ts
