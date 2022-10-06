@@ -34,11 +34,9 @@ const config: IConfig = {
   },
 }
 
-// Gather the strategy token send data to use in the proposal
+// Gather both the dai and usdc strategy token send data to use in the proposal
 export const sendData = async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  // Contract instantiation
+  const ownerAcc = await getOwnerOrImpersonate(developer)
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
   // parse through the csv data to get the strategy token send data
