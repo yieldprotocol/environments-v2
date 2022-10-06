@@ -1,9 +1,10 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { ethers, network } from 'hardhat'
-import { IDENTITY } from '../../../../shared/constants'
-import { tenderlyVerify, verify, writeAddressMap } from '../../../../shared/helpers'
-import { IdentityOracle } from '../../../../typechain'
+import { IDENTITY } from '../../../shared/constants'
+import { tenderlyVerify, verify, writeAddressMap } from '../../../shared/helpers'
+import { IdentityOracle } from '../../../typechain'
 const hre = require('hardhat')
+
 export const deployIdentityOracle = async (ownerAcc: SignerWithAddress, protocol: Map<string, string>) => {
   const address = protocol.get(IDENTITY)
   let oracle: IdentityOracle

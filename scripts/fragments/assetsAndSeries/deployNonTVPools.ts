@@ -20,6 +20,7 @@ export const deployNonTVPools = async (
     libraries: {
       YieldMath: yieldMathLibrary.address,
     },
+    signer: ownerAcc,
   })
 
   let pools: Map<string, Pool> = new Map()

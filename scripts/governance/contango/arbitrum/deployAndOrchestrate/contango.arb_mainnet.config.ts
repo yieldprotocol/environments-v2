@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { parseUnits } from 'ethers/lib/utils'
 
-import * as base_config from '../../base.arb_mainnet.config'
+import * as base_config from '../../../base.arb_mainnet.config'
 
 export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
 export const deployer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
@@ -16,7 +16,17 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
-import { USDC, DAI, FYDAI2209, FYUSDC2209, CHAINLINKUSD, IDENTITY, ETH, FYETH2209 } from '../../../../shared/constants' // Note we use the series id as the asset id
+import {
+  USDC,
+  DAI,
+  FYDAI2209,
+  FYUSDC2209,
+  CHAINLINKUSD,
+  IDENTITY,
+  ETH,
+  FYETH2209,
+} from '../../../../../shared/constants'
+import { AuctionLineAndLimit } from '../../../confTypes' // Note we use the series id as the asset id
 
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = [
@@ -74,14 +84,6 @@ export const fyTokenDebtLimits: Array<[string, string, number, number, number, n
   [ETH, FYDAI2209, 1400000, 10000000, 25000, 12], // eth collateralized with fyDai
 ]
 
-export interface AuctionLineAndLimit {
-  baseId: string
-  ilkId: string
-  duration: number
-  vaultProportion: BigNumber
-  collateralProportion: BigNumber
-  max: BigNumber
-}
 export const auctionLineAndLimits: AuctionLineAndLimit[] = [
   // ETH
   {

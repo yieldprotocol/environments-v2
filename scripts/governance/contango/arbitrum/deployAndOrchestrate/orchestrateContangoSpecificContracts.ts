@@ -1,10 +1,10 @@
 import { ethers } from 'hardhat'
-import { contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
-import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { CONTANGO_CAULDRON, CONTANGO_LADLE } from '../../../../../shared/constants'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../shared/helpers'
 
-import { orchestrateCauldronProposal } from '../../../fragments/core/orchestrateCauldronProposal'
-import { orchestrateLadleProposal } from '../../../fragments/core/orchestrateLadleProposal'
-import { orchestrateCompositeOracleProposal } from '../../../fragments/oracles/orchestrateCompositeOracleProposal'
+import { orchestrateCauldronProposal } from '../../../../fragments/core/orchestrateCauldronProposal'
+import { orchestrateLadleProposal } from '../../../../fragments/core/orchestrateLadleProposal'
+import { orchestrateCompositeOracleProposal } from '../../../../fragments/oracles/orchestrateCompositeOracleProposal'
 
 const { protocol, governance } = require(process.env.CONF as string)
 const { deployer, developer } = require(process.env.CONF as string)
@@ -19,12 +19,8 @@ const { deployer, developer } = require(process.env.CONF as string)
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const contangoCauldron = await ethers.getContractAt(
-    'Cauldron',
-    protocol.get(contangoCauldron_key) as string,
-    ownerAcc
-  )
-  const contangoLadle = await ethers.getContractAt('Ladle', protocol.get(contangoLadle_key) as string, ownerAcc)
+  const contangoCauldron = await ethers.getContractAt('Cauldron', protocol.get(CONTANGO_CAULDRON) as string, ownerAcc)
+  const contangoLadle = await ethers.getContractAt('Ladle', protocol.get(CONTANGO_LADLE) as string, ownerAcc)
   const compositeMultiOracle = await ethers.getContractAt(
     'CompositeMultiOracle',
     protocol.get('compositeOracle') as string,

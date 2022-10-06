@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { ROOT, contangoWitch_key, contangoCauldron_key, contangoLadle_key } from '../../../../shared/constants'
+import { ROOT, CONTANGO_WITCH, CONTANGO_CAULDRON, CONTANGO_LADLE } from '../../../../shared/constants'
 import { addressHasCode, tenderlyVerify, verify } from '../../../../shared/helpers'
 import { ContangoWitch } from '../../../../typechain'
 /**
@@ -14,15 +14,15 @@ export const deployContangoWitch = async (
 ): Promise<ContangoWitch> => {
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
 
-  const cauldronAddress = protocol.get(contangoCauldron_key)
-  const ladleAddress = protocol.get(contangoLadle_key)
+  const cauldronAddress = protocol.get(CONTANGO_CAULDRON)
+  const ladleAddress = protocol.get(CONTANGO_LADLE)
 
   await addressHasCode(contangoAddress, 'contango')
 
   let contangoWitch: ContangoWitch
 
   if (cauldronAddress && ladleAddress) {
-    const contangoWitchAddress = protocol.get(contangoWitch_key)
+    const contangoWitchAddress = protocol.get(CONTANGO_WITCH)
     if (contangoWitchAddress === undefined) {
       contangoWitch = await (
         await ethers.getContractFactory('ContangoWitch')

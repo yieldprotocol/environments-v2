@@ -42,6 +42,9 @@ export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
 export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
 export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
 
+export const MULTISIG = 'multisig'
+export const TIMELOCK = 'timelock'
+export const CLOAK = 'cloak'
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
 export const ACCUMULATOR = 'accumulatorOracle'
@@ -53,13 +56,19 @@ export const CONVEX3CRV = 'cvx3CrvOracle'
 export const YEARN = 'yearnOracle'
 export const NOTIONAL = 'notionalOracle'
 export const IDENTITY = 'identityOracle'
+export const POOL_ORACLE = 'poolOracle'
+export const YIELD_SPACE_MULTI_ORACLE = 'yieldSpaceMultiOracle'
+export const CONTANGO_WITCH = 'contangoWitch'
+export const CONTANGO_CAULDRON = 'contangoCauldron'
+export const CONTANGO_LADLE = 'contangoLadle'
+export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
 export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
-export const EOMAR23 = 1680271200 // Friday, Mar 31 2023 14:00:00 GMT+0000
+export const EOMAR23 = 1680274800 // Friday, Mar 31 2023 15:00:00 GMT+0000
 
 export const FCASH_MAR22 = 1648512000 // 212 * (86400 * 90)
 export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
@@ -120,6 +129,8 @@ export const secondsIn25Years = secondsInOneYear.mul(25) // Seconds in 25 years
 export const secondsIn30Years = secondsInOneYear.mul(30) // Seconds in 30 years
 export const secondsIn40Years = secondsInOneYear.mul(40) // Seconds in 40 years
 export const ts = ONE64.div(secondsIn25Years)
+export const secondsInOneMinute = 60
+export const secondsInOneHour = 60 * secondsInOneMinute
 
 export const g0 = ONE64 // No fees
 export const g1 = ONE64.mul(950).div(1000) // Sell base to the pool
@@ -131,8 +142,6 @@ export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
 
-// JSON file keys
-export const contangoWitch_key = 'contangoWitch'
-export const contangoCauldron_key = 'contangoCauldron'
-export const contangoLadle_key = 'contangoLadle'
-export const contangoLadleRouter_key = 'contangoLadleRouter'
+export const TIMELOCK = 'timelock'
+export const CLOAK = 'cloak'
+export const MULTISIG = 'multisig'
