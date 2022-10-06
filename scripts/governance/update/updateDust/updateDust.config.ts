@@ -15,47 +15,50 @@ export const developer: Map<number, string> = new Map([
   [42, '0x5AD7799f02D5a829B2d6FA085e6bd69A872619D5'],
 ])
 
-// Input data: baseId, ilkId, line, dust, dec
+/// @notice Minimum debt limits
+/// @param base identifier (bytes6 tag)
+/// @param collateral identifier (bytes6 tag)
+/// @param minimum vault debt, modified by decimals
 export const newDebtMin: Array<[string, string, number]> = [
-  [DAI, ETH, 1000],
-  [DAI, USDC, 1000], // Via ETH
-  [DAI, WBTC, 1000], // Via ETH
-  [DAI, LINK, 1000],
-  [DAI, FRAX, 1000],
-  [DAI, UNI, 1000],
-  [DAI, WSTETH, 1000],
-  [DAI, ENS, 1000],
-  [USDC, ETH, 1000],
-  [USDC, DAI, 1000], // Via ETH
-  [USDC, WBTC, 1000], // Via ETH
-  [USDC, LINK, 1000],
-  [USDC, FRAX, 1000],
-  [USDC, UNI, 1000],
-  [USDC, WSTETH, 1000],
-  [USDC, ENS, 1000],
-  [ETH, USDC, 1],
-  [ETH, DAI, 1],
-  [ETH, WBTC, 1],
-  [ETH, LINK, 1],
-  [ETH, FRAX, 1],
-  [ETH, UNI, 1],
-  [ETH, WSTETH, 1],
-  [ETH, ENS, 1],
+  [DAI, ETH, 1000], // Value in DAI
+  [DAI, USDC, 1000], // Value in DAI
+  [DAI, WBTC, 1000], // Value in DAI
+  [DAI, LINK, 1000], // Value in DAI
+  [DAI, FRAX, 1000], // Value in DAI
+  [DAI, UNI, 1000], // Value in DAI
+  [DAI, WSTETH, 1000], // Value in DAI
+  [DAI, ENS, 1000], // Value in DAI
+  [USDC, ETH, 1000], // Value in USDC
+  [USDC, DAI, 1000], // Value in USDC
+  [USDC, WBTC, 1000], // Value in USDC
+  [USDC, LINK, 1000], // Value in USDC
+  [USDC, FRAX, 1000], // Value in USDC
+  [USDC, UNI, 1000], // Value in USDC
+  [USDC, WSTETH, 1000], // Value in USDC
+  [USDC, ENS, 1000], // Value in USDC
+  [ETH, USDC, 1], // Value in ETH
+  [ETH, DAI, 1], // Value in ETH
+  [ETH, WBTC, 1], // Value in ETH
+  [ETH, LINK, 1], // Value in ETH
+  [ETH, FRAX, 1], // Value in ETH
+  [ETH, UNI, 1], // Value in ETH
+  [ETH, WSTETH, 1], // Value in ETH
+  [ETH, ENS, 1], // Value in ETH
 ]
 
-/// @notice Limits to be used in an auction
-/// @param base identifier (bytes6 tag)
-/// @param Minimum vault debt, modified by decimals
+/// @notice Minimum debt limits to be used in an auction
+/// @param collateral identifier (bytes6 tag)
+/// @param Minimum debt, modified by decimals
 export const newAuctionMin: Array<[string, number]> = [
-  [ETH, 1000000],
-  [DAI, 1000],
-  [USDC, 1000],
-  [WBTC, 500],
-  [WSTETH, 1000000],
-  [LINK, 138],
-  [ENS, 64],
-  [UNI, 153],
-  [FRAX, 1000],
+  [ETH, 1000000], // Value in terawei (ETH*10**-6)
+  [DAI, 1000], // Value in DAI
+  [USDC, 1000], // Value in USDC
+  [WBTC, 500], // Value in WBTC
+  [WSTETH, 1000000], // Value in terawei (ETH*10**6)
+  [LINK, 138], // Value in LINK
+  [ENS, 64], // Value in ENS
+  [UNI, 153], // Value in UNI
+  [FRAX, 1000], // Value in FRAX
 ]
 
 // /// @notice Limits to be used in an auction
