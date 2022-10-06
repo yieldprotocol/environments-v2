@@ -6,7 +6,7 @@ import { sendTokensProposal } from '../../../fragments/emergency/sendTokens'
 const { governance, developer, sendData } = require(process.env.CONF as string)
 
 ;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
+  const ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
