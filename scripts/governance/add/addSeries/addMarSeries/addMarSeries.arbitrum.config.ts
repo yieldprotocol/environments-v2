@@ -22,17 +22,26 @@ export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-// Time stretch to be set in the PoolFactory prior to pool deployment
+/// @notice Time stretch to be set in the PoolFactory prior to pool deployment
+/// @param series identifier (bytes6 tag)
+/// @param time stretch (64.64)
 export const timeStretch: Map<string, BigNumber> = new Map([
   [FYETH2303, ONE64.div(secondsInOneYear.mul(25))],
   [FYDAI2303, ONE64.div(secondsInOneYear.mul(45))],
   [FYUSDC2303, ONE64.div(secondsInOneYear.mul(55))],
 ])
 
-// Sell base to the pool fee, as fp4
+/// @notice Sell base to the pool fee, as fp4
 export const g1: number = 9000
 
-// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+/// @notice Deploy fyToken series
+/// @param series identifier (bytes6 tag)
+/// @param underlying identifier (bytes6 tag)
+/// @param Address for the chi oracle
+/// @param Address for the related Join
+/// @param Maturity in unix time (seconds since Jan 1, 1970)
+/// @param Name for the series
+/// @param Symbol for the series
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYETH2303, ETH, protocol.get(ACCUMULATOR) as string, joins.get(ETH) as string, EOMAR23, 'FYETH2303', 'FYETH2303'],
   [FYDAI2303, DAI, protocol.get(ACCUMULATOR) as string, joins.get(DAI) as string, EOMAR23, 'FYDAI2303', 'FYDAI2303'],
@@ -47,8 +56,12 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   ],
 ]
 
-// Parameters to deploy pools with, a pool being identified by the related seriesId
-// seriesId, baseAddress, fyTokenAddress, ts (time stretch), g1 (Sell base to the pool fee)
+/// @notice Deploy plain YieldSpace pools
+/// @param pool identifier, usually matching the series (bytes6 tag)
+/// @param base address
+/// @param fyToken address
+/// @param time stretch, in 64.64
+/// @param g1, in 64.64
 export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
   [
     FYETH2303,
@@ -73,16 +86,18 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
   ],
 ]
 
-// Amounts to initialize pools with, a pool being identified by the related seriesId
-// seriesId, initAmount
+/// @notice Pool initialization parameters
+/// @param pool identifier, usually matching the series (bytes6 tag)
+/// @param amount of base to initialize pool with
 export const poolsInit: Array<[string, BigNumber]> = [
   [FYETH2303, WAD.div(10)],
   [FYDAI2303, WAD.mul(100)],
   [FYUSDC2303, ONEUSDC.mul(100)],
 ]
 
-// Ilks to accept for each series
-// seriesId, accepted ilks
+/// @notice Ilks to accept for series
+/// @param series identifier (bytes6 tag)
+/// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
   [FYETH2303, [ETH, DAI, USDC]],
   [FYDAI2303, [ETH, DAI, USDC]],
