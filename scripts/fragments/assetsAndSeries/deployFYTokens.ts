@@ -18,6 +18,7 @@ export const deployFYTokens = async (
     libraries: {
       SafeERC20Namer: safeERC20Namer.address,
     },
+    signer: ownerAcc,
   })
 
   let fyTokens: Map<string, FYToken> = new Map()
