@@ -191,7 +191,7 @@ export const proposeApproveExecute = async (
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
       // Since we are in a testing environment, let's advance time
       console.log('Advancing time')
-      advanceTime((await timelock.delay()) * 100)
+      advanceTime(await timelock.delay())
     } else {
       // On kovan we have approval permissions
       signerAcc = (await ethers.getSigners())[0]

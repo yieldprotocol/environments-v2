@@ -13,31 +13,21 @@ import {
   readAddressMappingIfExists,
 } from '../../../../shared/helpers'
 import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
-import { OldWitch, Cauldron, Timelock } from '../../../../typechain'
+import { Cauldron, OldWitch, OldWitch__factory, Cauldron__factory, Timelock } from '../../../../typechain'
 import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
-
+import { CAULDRON, WITCH } from '../../../../shared/constants'
 const { governance, protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer.get(1))
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON) as string, ownerAcc) as unknown as Cauldron
+  const witch = OldWitch__factory.connect(protocol.get(WITCH) as string, ownerAcc) as unknown as OldWitch
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
     governance.get('timelock') as string,
     ownerAcc
   )) as unknown as Timelock
-
-  // Contract instantiation
-  const witch = (await ethers.getContractAt(
-    'OldWitch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as OldWitch
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newDebtMin)
