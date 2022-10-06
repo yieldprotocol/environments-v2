@@ -123,11 +123,11 @@ export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> =
 
 // Amounts to initialize pools with, a pool being identified by the related seriesId
 // seriesId, initAmount
-export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYETH2303, ETH, WAD.div(10), BigNumber.from('0')],
-  [FYDAI2303, DAI, WAD.mul(100), BigNumber.from('0')],
-  [FYUSDC2303, USDC, ONEUSDC.mul(100), BigNumber.from('0')],
-  [FYFRAX2303, FRAX, WAD.mul(100), BigNumber.from('0')],
+export const poolsInit: Array<[string, BigNumber]> = [
+  [FYETH2303, WAD.div(10)],
+  [FYDAI2303, WAD.mul(100)],
+  [FYUSDC2303, ONEUSDC.mul(100)],
+  [FYFRAX2303, WAD.mul(100)],
 ]
 
 // Ilks to accept for each series
