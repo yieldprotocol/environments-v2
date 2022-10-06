@@ -15,11 +15,11 @@ contract TestHarness is Test, TestConstants {
     ILadle public ladle = ILadle(0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A);
     IPool public pool = IPool(0x6BaC09a67Ed1e1f42c29563847F77c28ec3a04FC);      // FYDAI2209 LP
     IERC20 public fyDAI = IERC20(0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb);   // FYDAI2209
-    IERC20 public dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
+    IERC20 public dai = IERC20();
 
-    address public join = 0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc;           // DAI Join
-    bytes6 public ilkId = 0x303100000000;                                       // DAI Ilk ID
-    bytes6 public seriesId = 0x303130370000;                                    // ETH/DAI Sept 22 series
+    address public join = 0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779;           // UNI Join
+    bytes6 public ilkId = 0x313000000000;                                       // UNI Ilk ID
+    bytes6 public seriesId = 0x303130380000;                                    // DAI Dec 22 series
     bytes12 public vaultId;
 
     function setUp() public {
