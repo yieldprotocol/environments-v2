@@ -45,13 +45,13 @@ export const newDebtMin: Array<[string, string, number]> = [
 /// @param base identifier (bytes6 tag)
 /// @param mindDebt Minimum vault debt, modified by decimals
 export const newAuctionMin: Array<[string, number]> = [
-  [ETH, 1000000],
-  [DAI, 1000],
-  [USDC, 1000],
-  [WBTC, 500],
-  [WSTETH, 1000000],
-  [LINK, 138],
-  [ENS, 64],
-  [UNI, 153],
-  [FRAX, 1000],
+  [ETH, 1000000], // Value in terawei (ETH*10**-6)
+  [DAI, 1000], // Value in DAI
+  [USDC, 1000], // Value in USDC
+  [WBTC, 500], // Value in WBTC
+  [WSTETH, 1000000], // Value in terawei (ETH*10**6)
+  [LINK, 138], // Value in LINK
+  [ENS, 64], // Value in ENS
+  [UNI, 153], // Value in UNI
+  [FRAX, 1000], // Value in FRAX
 ]
