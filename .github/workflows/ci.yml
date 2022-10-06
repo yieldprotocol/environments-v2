@@ -114,3 +114,22 @@ jobs:
           cd ${{ github.workspace }}
           make node_modules/.installed
           yarn lint:ts
+  foundry-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Build contracts
+        run: yarn workspace @yield-protocol/environments-v2 forge:build
+
+      - name: Run tests
+        run: yarn workspace @yield-protocol/environments-v2 forge:test
+        env:
+          MAINNET_RPC: ${{ secrets.ALCHEMY_MAINNET_RPC }}

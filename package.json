@@ -5,6 +5,8 @@
   "main": "index.js",
   "author": "Yield Inc.",
   "scripts": {
+    "forge:build": "forge build",
+    "forge:test": "forge test",
     "build": "hardhat compile",
     "test": "hardhat test",
     "test:deploy": "hardhat deploy --tags DeployTest",
