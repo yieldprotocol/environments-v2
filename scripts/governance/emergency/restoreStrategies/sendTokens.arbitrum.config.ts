@@ -1,7 +1,6 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
 import { DAI, USDC } from '../../../../shared/constants'
-import { getOwnerOrImpersonate } from '../../../../shared/helpers'
 import { ERC20__factory } from '../../../../typechain'
 import * as base_config from '../../base.arb_mainnet.config'
 
@@ -19,13 +18,12 @@ export const usdcToSend = '159611.601407' // amount recovered from pool
 
 // Gather the token send data to use in the proposal
 export const sendData = async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const signer = ethers.provider.getSigner()
 
   let data: Array<[string, string, BigNumber]> = [] // [token address, destination address, amount]
 
   for (const tokenAddr of [daiAddr, usdcAddr]) {
-    const token = ERC20__factory.connect(tokenAddr, timelock.signer)
+    const token = ERC20__factory.connect(tokenAddr, signer)
     const amount = ethers.utils.parseUnits(tokenAddr === daiAddr ? daiToSend : usdcToSend, await token.decimals())
     data.push([tokenAddr, devFundsRecipient, amount])
   }
