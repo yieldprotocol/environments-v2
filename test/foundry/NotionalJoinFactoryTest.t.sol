@@ -49,7 +49,6 @@ abstract contract StateZero is Test {
 
     event Added(bytes6 indexed assetId, uint256 indexed fCashId);
     event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
-    event Log(string message);
 
     error UnrecognisedParam(bytes32 param);
 
@@ -57,9 +56,8 @@ abstract contract StateZero is Test {
 
         // arbitrary fCash values for testing
         oldAssetId = bytes6('01'); 
-        newAssetId = bytes6('02'); 
-        otherOldAssetId= bytes6('03');
-        testAssetId = bytes6('04');
+        otherOldAssetId= bytes6('02');
+        testAssetId = bytes6('03');
         maturity = 1651743369; // 4/07/2022 23:09:57 GMT
         currencyId = 1;
         fCashId = 4;
@@ -99,8 +97,6 @@ abstract contract StateZero is Test {
 
         vm.startPrank(address(deployer));
         njoinfactory.grantRole(NotionalJoinFactory.deploy.selector, deployer);
-        njoinfactory.grantRole(NotionalJoinFactory.getAddress.selector, deployer);
-        njoinfactory.grantRole(NotionalJoinFactory.getByteCode.selector, deployer);
         njoinfactory.grantRole(NotionalJoinFactory.point.selector, deployer);
         vm.stopPrank();
 
@@ -110,13 +106,6 @@ abstract contract StateZero is Test {
         underlying = address(dai);
         underlyingJoin = address(daiJoin);
         oldJoin = new NotionalJoin(address(oldFcash), underlying, underlyingJoin, maturity, currencyId);
-
-        //register old njoin into ladle | this will be used as reference in setup
-        stdstore
-            .target(address(ladle))
-            .sig("joins(bytes6)")
-            .with_key(oldAssetId)
-            .checked_write(address(oldJoin));
 
         // this assetId is not captured in fcashAssets mapping, but registered in ladle
         stdstore
@@ -138,15 +127,6 @@ abstract contract StateZero is Test {
 contract StateZeroTest is StateZero {
     using Mocks for *;
 
-    function testCannotReferenceUnregisteredJoin() public {
-        console2.log('New Join should not be registered in Ladle');
-
-        uint256 salt = 1234;
-
-        vm.expectRevert("newAssetId join exists");
-        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, otherOldAssetId, address(newFcash), salt);
-    }
-
     function testCannotDeployUnlessNJoin() public {
         console2.log('revert when not passing an Njoin');
 
@@ -156,7 +136,7 @@ contract StateZeroTest is StateZero {
         emit Log("oldAssetId join invalid");
 
         vm.expectRevert();
-        NotionalJoin newJoin = njoinfactory.deploy(testAssetId, newAssetId, address(newFcash), salt);
+        NotionalJoin newJoin = njoinfactory.deploy(testAssetId, address(newFcash), salt);
     }
 
     function testDeploy() public {
@@ -164,12 +144,9 @@ contract StateZeroTest is StateZero {
 
         uint256 salt = 1234;
 
-        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt);
+        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, address(newFcash), salt);
 
-        address newJoinGenerated = njoinfactory.getAddress(
-            njoinfactory.getByteCode(address(newFcash), underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
-            salt
-        );
+        address newJoinGenerated = njoinfactory.getAddress(oldAssetId, address(newFcash), salt);
 
         assertTrue(address(newJoin) == address(newJoinGenerated));
     }
@@ -180,11 +157,8 @@ contract StateZeroTest is StateZero {
         uint256 salt_1 = 1234;
         uint256 salt_2 = 1235;
 
-        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, newAssetId, address(newFcash), salt_1);
-        address newJoinGenerated = njoinfactory.getAddress(
-            njoinfactory.getByteCode(address(newFcash), underlying, underlyingJoin, maturity + (86400 * 90), currencyId),
-            salt_2
-        );
+        NotionalJoin newJoin = njoinfactory.deploy(oldAssetId, address(newFcash), salt_1);
+        address newJoinGenerated = njoinfactory.getAddress(oldAssetId, address(newFcash), salt_2);
 
         assertTrue(address(newJoin) != newJoinGenerated);
     }
