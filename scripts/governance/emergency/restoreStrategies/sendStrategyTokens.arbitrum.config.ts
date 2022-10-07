@@ -69,15 +69,8 @@ export const sendData = async () => {
         totalAmount = totalAmount.add(adjustedBal)
       })
       .on('end', () => {
-        console.log(
-          `Total amount of ${strategyName} tokens to send is ${ethers.utils.formatUnits(totalAmount, decimals)}`
-        )
-        console.log(
-          `Total amount of ${strategyName} tokens in timelock is ${ethers.utils.formatUnits(
-            newStrategyTokens,
-            decimals
-          )}`
-        )
+        console.log(`Total amount of ${strategyName} tokens to send is ${totalAmount.toString()}`)
+        console.log(`Total amount of ${strategyName} tokens in timelock is ${newStrategyTokens.toString()}`)
 
         // return if not enough balance in timelock
         if (newStrategyTokens.lt(totalAmount)) {
