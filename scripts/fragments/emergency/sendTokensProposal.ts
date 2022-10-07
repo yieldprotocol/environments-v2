@@ -3,7 +3,6 @@
  */
 
 import { BigNumber } from 'ethers'
-import { ethers } from 'hardhat'
 import { ERC20, ERC20__factory, Timelock } from '../../../typechain'
 
 export const sendTokensProposal = async (
@@ -14,12 +13,10 @@ export const sendTokensProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   let token: ERC20 | undefined
-  let decimals: number | undefined
 
   for (const [tokenAddr, destAddr, amount] of data) {
     if (tokenAddr !== token?.address) {
       token = ERC20__factory.connect(tokenAddr, timelock.signer)
-      decimals = await token.decimals()
     }
 
     proposal.push({
@@ -27,7 +24,7 @@ export const sendTokensProposal = async (
       data: token.interface.encodeFunctionData('transfer', [destAddr, amount]),
     })
 
-    console.log(`Transferring ${ethers.utils.formatUnits(amount, decimals)} of ${token.address} to ${destAddr}`)
+    console.log(`Transferring ${amount.toString()} of ${token.address} to ${destAddr}`)
   }
 
   return proposal
