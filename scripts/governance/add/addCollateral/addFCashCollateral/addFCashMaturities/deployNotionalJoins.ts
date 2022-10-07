@@ -1,27 +1,32 @@
-import { ethers } from 'hardhat'
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../../shared/helpers'
 
-const { developer, notionalJoins } = require(process.env.CONF as string)
-const { protocol } = require(process.env.CONF as string)
+import { deployNotionalJoins } from '../../../../../fragments/assetsAndSeries/deployNotionalJoins'
+
+import { NotionalJoin__factory, Timelock__factory } from '../../../../../../typechain'
+import { TIMELOCK } from '../../../../../../shared/constants'
+const { developer, governance, notionalAssets } = require(process.env.CONF as string)
 
 /**
- * @dev This script deploys a Join
+ * @dev This script deploys a series of NotionalJoins taking existing ones as an example, and moving the maturity to the next quarterly tenor
  */
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
-  const factory = await ethers.getContractAt(
-    'NotionalJoinFactory',
-    protocol.get('notionalJoinFactory') as string,
-    ownerAcc
-  )
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
 
-  const newJoins: Map<string, string> = new Map()
-  for (let [oldJoinId, newJoinId] of notionalJoins) {
-    const joinAddress = await factory.callStatic.deploy(oldJoinId, newJoinId, 0)
-    await (await factory.deploy(oldJoinId, newJoinId, 0)).wait(1)
-    newJoins.set(newJoinId, joinAddress)
+  const assetsToAdd: Array<[string, string, string, string, number, number]> = []
+  for (let [oldAssetId, newAssetId] of notionalAssets) {
+    const oldJoin = NotionalJoin__factory.connect(oldAssetId, ownerAcc)
+    assetsToAdd.push([
+      newAssetId,
+      await oldJoin.asset(), // fcash: address of the fCash contract
+      await oldJoin.underlying(), // underlying: address of the fCash underlying
+      await oldJoin.underlyingJoin(), // underlyingJoin: address of the fCash underlying Join
+      (await oldJoin.maturity()) + 86400, // fCashMaturity: maturity in Notional Finance
+      await oldJoin.currencyId(), // fCashCurrency: id of the underlying in Notional Finance
+    ])
   }
 
+  const newJoins = await deployNotionalJoins(ownerAcc, timelock, assetsToAdd)
   writeAddressMap('newJoins.json', newJoins) // newJoins.json is a tempporary file
 })()
