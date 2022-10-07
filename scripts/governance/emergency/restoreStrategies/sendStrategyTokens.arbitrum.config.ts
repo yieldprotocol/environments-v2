@@ -5,7 +5,6 @@ const csv = require('csv-parser')
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
 import { YSDAI6MJD, YSUSDC6MJD } from '../../../../shared/constants'
-import { getOwnerOrImpersonate } from '../../../../shared/helpers'
 import { Strategy__factory } from '../../../../typechain'
 import * as base_config from '../../base.arb_mainnet.config'
 
