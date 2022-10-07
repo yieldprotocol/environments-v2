@@ -36,8 +36,8 @@ const config: IConfig = {
 
 // Gather both the dai and usdc strategy token send data to use in the proposal
 export const sendData = async () => {
-  const ownerAcc = await getOwnerOrImpersonate(developer)
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
+  const signer = ethers.provider.getSigner()
+  const timelockAddr = governance.get('timelock') as string
 
   // parse through the csv data to get the strategy token send data
   const parse = async (strategyName: string) => {
@@ -47,11 +47,11 @@ export const sendData = async () => {
     let newStrategyBalances: Array<[string, string, BigNumber]> = [] // [tokenAddr, destAddr, amount][]
     let totalAmount = ethers.constants.Zero
 
-    const strategy = Strategy__factory.connect(addr, timelock.signer)
-    const affectedStrategy = Strategy__factory.connect(affectedAddr, timelock.signer)
+    const strategy = Strategy__factory.connect(addr, signer)
+    const affectedStrategy = Strategy__factory.connect(affectedAddr, signer)
 
     const [newStrategyTokens, decimals, affectedTotalSupply] = await Promise.all([
-      strategy.balanceOf(timelock.address),
+      strategy.balanceOf(timelockAddr),
       strategy.decimals(),
       affectedStrategy.totalSupply(),
     ])
