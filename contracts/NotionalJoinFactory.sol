@@ -5,16 +5,16 @@ import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol';
 import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
 import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
 import {ILadleGov} from '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
-import {INotionalJoin} from '@yield-protocol/vault-v2/contracts/other/notional/INotionalJoin.sol';
+import {INotionalJoin} from '@yield-protocol/vault-v2/contracts/other/notional/interfaces/INotionalJoin.sol';
 import {ILadle} from '@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol';
 
 /// @dev NotionalJoinFactory creates new join contracts supporting Notional Finance's fCash tokens.
-/// @author @calnix
+/// @author @calnix, @alcueca
 contract NotionalJoinFactory is AccessControl {
 
     ILadleGov public ladle;
 
-    event JoinCreated(bytes6 indexed assetId, address indexed join);
+    event JoinCreated(address indexed join);
     event Point(bytes32 indexed param, address indexed oldValue, address indexed newValue);
 
     error UnrecognisedParam(bytes32 param);
@@ -25,35 +25,17 @@ contract NotionalJoinFactory is AccessControl {
 
     /// @dev Deploys a new notional join using create2
     /// @param oldAssetId Id of prior matured fCash token. (e.g. fDAIJUN22)
-    /// @param newAssetId Id of incoming fCash token. (e.g. fDAISEP22)
     /// @param salt Random number of choice
     /// @return join Deployed notional join address
     function deploy(
         bytes6 oldAssetId,
-        bytes6 newAssetId,
         uint256 salt
     ) external auth returns (NotionalJoin) {
-        // get join of oldAssetId
-        INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
 
-        require(address(oldJoin) != address(0), "oldAssetId invalid");
-        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
+        (address asset, address underlying, address underlyingJoin, uint40 maturity, uint16 currencyId) = getParams(oldAssetId, salt);
 
-        // Check that oldJoin is a NotionalJoin. Only protects against honest mistakes.
-        (bool success,) = address(oldJoin).call(abi.encodeWithSelector(INotionalJoin.fCashId.selector, ""));
-        require(success, "Input not a NotionalJoin");
-        
-        // get underlying, underlyingJoin addresses
-        address underlying = oldJoin.underlying(); 
-        address underlyingJoin = oldJoin.underlyingJoin();
-        
-        // get new maturity
-        uint16 currencyId = oldJoin.currencyId();
-        uint40 oldMaturity = oldJoin.maturity();
-        uint40 maturity = oldMaturity + 90 days;
-  
         NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
-            oldJoin.asset(), // The fCash address
+            asset, // The fCash address
             underlying,      // The underlying asset, e.g. DAI
             underlyingJoin,
             maturity,
@@ -67,38 +49,54 @@ contract NotionalJoinFactory is AccessControl {
         // revoke ROOT from NotionalJoinFactory
         AccessControl(joinAddress).renounceRole(ROOT, address(this));
 
-        emit JoinCreated(newAssetId, address(join));
+        emit JoinCreated(address(join));
         return join;
     }
 
-    /// @dev Get address of contract to be deployed
-    /// @param bytecode Bytecode of the contract to be deployed (include constructor params)
+    /// @dev Return the parameters for a regular deployment of a NotionalJoin from a previous one
+    /// @param oldAssetId Id of prior matured fCash token. (e.g. fDAIJUN22)
     /// @param salt Random number of choice
-    function getAddress(bytes memory bytecode, uint256 salt) public view returns (address) {
+    function getParams(
+        bytes6 oldAssetId,
+        uint256 salt
+    ) public returns (address asset, address underlying, address underlyingJoin, uint40 maturity, uint16 currencyId) {
+        // get join of oldAssetId
+        INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
+
+        require(address(oldJoin) != address(0), "oldAssetId invalid");
+
+        // Check that oldJoin is a NotionalJoin. Only protects against honest mistakes.
+        (bool success,) = address(oldJoin).call(abi.encodeWithSelector(INotionalJoin.fCashId.selector, ""));
+        require(success, "Input not a NotionalJoin");
+        
+        // get underlying, underlyingJoin addresses
+        asset = oldJoin.asset();    // The fCash address
+        underlying = oldJoin.underlying(); // The underlying asset, e.g. DAI
+        underlyingJoin = oldJoin.underlyingJoin();
+        
+        // get new maturity
+        currencyId = oldJoin.currencyId();
+        maturity = oldJoin.maturity() + 90 days;
+
+    }
+
+    /// @dev Return the address for a given notional join using create2
+    /// @param oldAssetId Id of prior matured fCash token. (e.g. fDAIJUN22)
+    /// @param salt Random number of choice
+    /// @return join Notional join address
+    function getAddress(
+        bytes6 oldAssetId,
+        uint256 salt
+    ) external returns (address) {
+        (address asset, address underlying, address underlyingJoin, uint40 maturity, uint16 currencyId) = getParams(oldAssetId, salt);
+        
+        // Append creation arguments to contract bytecode
+        bytes memory bytecode = abi.encodePacked(type(NotionalJoin).creationCode, abi.encode(asset, underlying, underlyingJoin, maturity, currencyId));
+
         bytes32 hash = keccak256(abi.encodePacked(bytes1(0xff), address(this), salt, keccak256(bytecode)));
 
         // cast last 20 bytes of hash to address
         return address(uint160(uint256(hash)));
-    }
-
-    /// @dev Get bytecode of contract to be deployed
-    /// @param asset Address of the ERC1155 token. (e.g. fDai2203)
-    /// @param underlying Address of the underlying token. (e.g. Dai)
-    /// @param underlyingJoin Address of the underlying join contract. (e.g. Dai join contract)
-    /// @param maturity Maturity of fCash token. (90-day intervals)
-    /// @param currencyId Maturity of fCash token. (90-day intervals)
-    /// @return bytes Bytecode of notional join to be passed into getAddress()
-    function getByteCode(
-        address asset,
-        address underlying,
-        address underlyingJoin,
-        uint40 maturity,
-        uint16 currencyId
-    ) public pure returns (bytes memory) {
-        bytes memory bytecode = type(NotionalJoin).creationCode;
-
-        //append constructor arguments
-        return abi.encodePacked(bytecode, abi.encode(asset, underlying, underlyingJoin, maturity, currencyId));
     }
 
     /// @dev Point to a different ladle
