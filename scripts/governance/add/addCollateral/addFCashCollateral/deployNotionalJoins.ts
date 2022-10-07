@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/helpers'
 
-import { deployNotionalJoins } from '../../../../fragments/assetsAndSeries/deployNotionalJoins'
+import { deployNotionalJoins } from '../../../../fragments/other/notional/deployNotionalJoins'
 
 import { Timelock } from '../../../../../typechain'
 const { developer, assetsToAdd } = require(process.env.CONF as string)
