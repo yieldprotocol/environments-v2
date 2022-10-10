@@ -32,7 +32,8 @@ contract TestHarness is Test, TestConstants {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/shared/data.json");
         string memory json = vm.readFile(path);
-        bytes memory ilks = vm.parseJson(json, "ilks");
+        string memory key = "ilks";
+        bytes memory ilks = vm.parseJson(json, key);
         console.logBytes(ilks);
     }
 
