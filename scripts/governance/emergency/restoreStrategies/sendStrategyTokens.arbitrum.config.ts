@@ -50,14 +50,18 @@ export const sendData = async () => {
     // get the sum of all affected balances to use in calculating new strategy token balance
     let totalAffectedBalance = ethers.constants.Zero
 
-    await fs
-      .createReadStream(filePath)
-      .pipe(csv())
-      .on('data', ({ Balance }: { Balance: string }) => {
-        const _balance = ethers.utils.parseUnits(Balance, decimals)
+    await new Promise((resolve) => {
+      fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('data', ({ Balance }: { Balance: string }) => {
+          const _balance = ethers.utils.parseUnits(Balance, decimals)
 
-        totalAffectedBalance = totalAffectedBalance.add(_balance)
-      })
+          totalAffectedBalance = totalAffectedBalance.add(_balance)
+        })
+        .on('end', () => {
+          resolve(totalAffectedBalance)
+        })
+    })
 
     // Build strategy token dispersal data from csv
     let newStrategyBalances: Array<[string, string, BigNumber]> = [] // [tokenAddr, destAddr, amount][]
