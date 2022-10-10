@@ -63,37 +63,41 @@ export const sendData = async () => {
     let newStrategyBalances: Array<[string, string, BigNumber]> = [] // [tokenAddr, destAddr, amount][]
     let totalAmount = ethers.constants.Zero
 
-    await fs
-      .createReadStream(filePath)
-      .pipe(csv())
-      .on('data', ({ Account, Balance }: { Account: string; Balance: string }) => {
-        const _balance = ethers.utils.parseUnits(Balance, decimals)
+    await new Promise((resolve) => {
+      fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('data', ({ Account, Balance }: { Account: string; Balance: string }) => {
+          const _balance = ethers.utils.parseUnits(Balance, decimals)
 
-        if (_balance.gt(ethers.constants.Zero)) {
-          // adjust strategy token amount dispersed based on strategy tokens received after investing in strategy with timelock
-          // newUserStratBal = new strategy LP tokens minted by dev * user balance at snapshot / sum of all affected balances
-          const adjustedBal = mintedStrategyTokens.mul(_balance).div(totalAffectedBalance)
-          newStrategyBalances.push([addr, Account, adjustedBal])
+          if (_balance.gt(ethers.constants.Zero)) {
+            // adjust strategy token amount dispersed based on strategy tokens received after investing in strategy with timelock
+            // newUserStratBal = new strategy LP tokens minted by dev * user balance at snapshot / sum of all affected balances
+            const adjustedBal = mintedStrategyTokens.mul(_balance).div(totalAffectedBalance)
+            newStrategyBalances.push([addr, Account, adjustedBal])
 
-          totalAmount = totalAmount.add(adjustedBal)
-        }
-      })
-      .on('end', () => {
-        console.log(`Total amount of ${strategyName} tokens to send is ${totalAmount.toString()}`)
-        console.log(`Number of ${strategyName} tokens minted from proposal 1 is ${mintedStrategyTokens.toString()}`)
-        console.log(`Number of ${strategyName} tokens in timelock is ${timelockBal.toString()}`)
+            totalAmount = totalAmount.add(adjustedBal)
+          }
+        })
+        .on('end', () => {
+          console.log(`Total amount of ${strategyName} tokens to send is ${totalAmount.toString()}`)
+          console.log(`Number of ${strategyName} tokens minted from proposal 1 is ${mintedStrategyTokens.toString()}`)
+          console.log(`Number of ${strategyName} tokens in timelock is ${timelockBal.toString()}`)
 
-        if (totalAmount.gt(mintedStrategyTokens)) {
-          console.log('Amount to be distributed is greater than the minted amount')
-          return
-        }
+          if (totalAmount.gt(mintedStrategyTokens)) {
+            console.log('Amount to be distributed is greater than the minted amount')
+            return
+          }
 
-        // return if not enough balance in timelock
-        if (mintedStrategyTokens.gt(timelockBal)) {
-          console.log('Not enough tokens in the timelock')
-          return
-        }
-      })
+          // return if not enough balance in timelock
+          if (mintedStrategyTokens.gt(timelockBal)) {
+            console.log('Not enough tokens in the timelock')
+            return
+          }
+
+          resolve(newStrategyBalances)
+        })
+    })
+
     return newStrategyBalances
   }
 
