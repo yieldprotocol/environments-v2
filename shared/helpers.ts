@@ -51,11 +51,12 @@ export const addressHasCode = async (address: string, label = 'unknown') => {
 export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
   if (network.name.includes('tenderly')) {
     console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
-    await network.provider.send('tenderly_addBalance', [
-      impersonatedAddress,
-      ethers.utils.parseEther('1000').toHexString(),
-    ])
-
+    if (balance) {
+      await network.provider.send('tenderly_addBalance', [
+        impersonatedAddress,
+        ethers.utils.parseEther('1000').toHexString(),
+      ])
+    }
     return await ethers.getSigner(impersonatedAddress)
   }
   let [ownerAcc] = await ethers.getSigners()
@@ -71,7 +72,7 @@ export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance
     // Get some Ether while we are at it
     await hre.network.provider.request({
       method: 'hardhat_setBalance',
-      params: [impersonatedAddress, '0x1000000000000000000000'],
+      params: [impersonatedAddress, '0x1000000000000000000000000'],
     })
   }
   return ownerAcc
@@ -131,6 +132,13 @@ const awaitAndRequireProposal =
     }
   }
 
+/** @dev Advance time to a given second in unix time */
+export const advanceTimeTo = async (time: number) => {
+  const provider: BaseProvider = ethers.provider
+  const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+  await advanceTime(time - now)
+}
+
 /**
  * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
  * depending on the proposal state in the timelock.
@@ -168,10 +176,10 @@ export const proposeApproveExecute = async (
     }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal, { gasLimit: 30_000_000 })
+    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal)
     const ethBalance = await signerAcc.getBalance()
     console.log(`gasEstimate: ${gasEstimate} - ethBalance: ${ethBalance}`)
-    const tx = await timelock.connect(signerAcc).propose(proposal, { gasLimit: 30_000_000 })
+    const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
   } else if ((await timelock.proposals(txHash)).state === 1) {

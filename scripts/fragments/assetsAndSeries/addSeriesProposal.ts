@@ -8,12 +8,19 @@
  * A plan is recorded in the Cloak to isolate the FYToken from the Ladle.
  */
 
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToString } from '../../../shared/helpers'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
-import { Cauldron, Ladle, Join, FYToken, Pool, Timelock, EmergencyBrake } from '../../../typechain'
+import {
+  Cauldron,
+  EmergencyBrake,
+  FYToken__factory,
+  Join__factory,
+  Ladle,
+  Pool__factory,
+  Timelock,
+} from '../../../typechain'
 
 export const addSeriesProposal = async (
   ownerAcc: any,
@@ -30,19 +37,19 @@ export const addSeriesProposal = async (
 
   for (let [seriesId, fyTokenAddress] of newFYTokens) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
-    const fyToken = (await ethers.getContractAt('FYToken', fyTokenAddress, ownerAcc)) as FYToken
+    const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
 
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
-    const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
+    const pool = Pool__factory.connect(poolAddress, ownerAcc)
 
     // const joinAddress = (await ladle.joins(baseId)) as string
     // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
     // else console.log(`Using join at ${joinAddress} for ${baseId}`)
-    const join = (await ethers.getContractAt('Join', joins.get(baseId) as string, ownerAcc)) as Join
+    const join = Join__factory.connect(joins.get(baseId) as string, ownerAcc)
 
     // This test fails if adding the base in the same proposal. All tests should move on-chain.
     // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string

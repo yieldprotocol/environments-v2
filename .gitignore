@@ -50,9 +50,13 @@ crytic-export/
 # Typescript
 dist/
 
+
+.idea/
+.DS_Store
 addresses/localhost/
 addresses/tenderly/
 
-.idea/
-.arbiscanKey
-.DS_Store
+# Foundry
+foundry/out
+out/
+forge-cache/

@@ -1,33 +1,21 @@
-import { ethers } from 'hardhat'
-import { readAddressMappingIfExists, getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 import { grantDevelopersProposal } from '../../../fragments/permissions/grantDevelopersProposal'
-import { Timelock, EmergencyBrake } from '../../../../typechain'
+import { Timelock__factory, EmergencyBrake__factory } from '../../../../typechain'
+import { TIMELOCK, CLOAK, MULTISIG } from '../../../../shared/constants'
 
-const { newDevelopers, developerToImpersonate } = require(process.env.CONF as string)
+const { governance, newDevelopers, developer } = require(process.env.CONF as string)
 
 /**
  * @dev This script gives developer privileges to one or more accounts.
  */
 ;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developerToImpersonate as string)
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const governance = readAddressMappingIfExists('governance.json')
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await grantDevelopersProposal(timelock, cloak, newDevelopers))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get(MULTISIG) as string, developer)
 })()

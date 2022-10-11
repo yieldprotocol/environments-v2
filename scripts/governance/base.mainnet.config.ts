@@ -15,13 +15,19 @@ import {
   EWETH,
   EDAI,
   EUSDC,
+  EFRAX,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
 
+export const external = readAddressMappingIfExists('external.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
-export const strategies: Map<string, string> = readAddressMappingIfExists('strategies.json')
+export const assets: Map<string, string> = readAddressMappingIfExists('assets.json')
+export const joins = readAddressMappingIfExists('joins.json')
+export const fyTokens = readAddressMappingIfExists('fyTokens.json')
+export const pools = readAddressMappingIfExists('pools.json')
+export const strategies = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
@@ -44,37 +50,6 @@ export const whales: Map<string, string> = new Map([
   [YVDAI, '0x50da1e9c57c334bb3a7bc10ddb6860331ec3c62a'],
   [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
   [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
-])
-
-export const assets: Map<string, string> = new Map([
-  [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-  [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
-  [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-  [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
-  [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
-  [STETH, '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-  [LINK, '0x514910771af9ca656af840dff83e8264ecf986ca'],
-  [ENS, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
-  [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
-  [YVDAI, '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'],
-  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
-  [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
-  [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
-  [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
-])
-
-export const joins: Map<string, string> = new Map([
-  [ETH, '0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0'],
-  [DAI, '0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc'],
-  [USDC, '0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4'],
-  [WBTC, '0x00De0AEFcd3069d88f85b4F18b144222eaAb92Af'],
-  [WSTETH, '0x5364d336c2d2391717bD366b29B6F351842D7F82'],
-  [LINK, '0xbDaBb91cDbDc252CBfF3A707819C5f7Ec2B92833'],
-  [ENS, '0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969'],
-  [YVUSDC, '0x403ae7384E89b086Ea2935d5fAFed07465242B38'],
-  [UNI, '0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779'],
-  [FRAX, '0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464'],
 ])
 
 export const chiSources: Array<[string, string]> = [

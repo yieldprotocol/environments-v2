@@ -3,27 +3,24 @@
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 
-import { ethers } from 'hardhat'
-import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
+import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
-import { CompositeMultiOracle } from '../../../typechain'
+import { CompositeMultiOracle, IOracle__factory } from '../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 export const updateCompositeSourcesProposal = async (
   ownerAcc: SignerWithAddress,
-  protocol: Map<string, string>,
   compositeOracle: CompositeMultiOracle,
-  compositePairs: [string, string, string][]
+  compositeSources: Array<[string, string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, oracleName] of compositePairs) {
-    const oracle = await ethers.getContractAt('IdentityOracle', protocol.get(oracleName) as string, ownerAcc)
+  for (let [baseId, quoteId, oracleAddress] of compositeSources) {
+    const oracle = IOracle__factory.connect(oracleAddress, ownerAcc)
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    const innerOracle = await ethers.getContractAt('IOracle', oracle.address, ownerAcc)
-    console.log(`Adding ${baseId}/${quoteId} from ${oracle.address}`)
+    console.log(`Adding ${baseId}/${quoteId} from ${oracleAddress}`)
     proposal.push({
-      target: innerOracle.address,
-      data: innerOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD]),
+      target: oracle.address,
+      data: oracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD]),
     })
 
     proposal.push({
