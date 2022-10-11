@@ -14,6 +14,7 @@ export interface Permission {
 
 /// @dev A role is a group of permissions. Developer, Governor, Ladle.
 export interface Role {
+  key: string
   permissions: Permission[]
 }
 
@@ -98,4 +99,21 @@ export interface Auction {
   vaultProportion: BigNumber
   collateralProportion: BigNumber
   max: BigNumber
+}
+
+/// @dev A single-object representation fo the Yield Protocol
+export interface YieldProtocol {
+  cauldron: Singleton
+  ladle: Singleton
+  witch: Singleton
+  assets: Map<string, Asset>
+  bases: Map<string, Base>
+  ilks: Map<string, Map<string, Ilk>>
+  auctions: Map<string, Map<string, Auction>>
+  joins: Map<string, Join>
+  fyTokens: Map<string, FYToken>
+  pools: Map<string, Pool>
+  strategies: Map<string, Strategy>
+  roles: Map<string, Role>
+  accounts: Map<string, Entity>
 }

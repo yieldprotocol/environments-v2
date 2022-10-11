@@ -12,6 +12,33 @@ export const MAX256 = BigNumber.from(2).pow(256).sub(1)
 export const THREE_MONTHS: number = 3 * 30 * 24 * 60 * 60
 export const ROOT = '0x00000000'
 
+export const ASSET_IDS: Map<string, string> = new Map([
+  ['DAI', ethers.utils.formatBytes32String('01').slice(0, 14)],
+  ['ETH', ethers.utils.formatBytes32String('00').slice(0, 14)],
+  ['USDC', ethers.utils.formatBytes32String('02').slice(0, 14)],
+  ['WBTC', ethers.utils.formatBytes32String('03').slice(0, 14)],
+  ['WSTETH', ethers.utils.formatBytes32String('04').slice(0, 14)],
+  ['STETH', ethers.utils.formatBytes32String('05').slice(0, 14)],
+  ['LINK', ethers.utils.formatBytes32String('06').slice(0, 14)],
+  ['ENS', ethers.utils.formatBytes32String('07').slice(0, 14)],
+  ['YVDAI', ethers.utils.formatBytes32String('08').slice(0, 14)],
+  ['YVUSDC', ethers.utils.formatBytes32String('09').slice(0, 14)],
+  ['UNI', ethers.utils.formatBytes32String('10').slice(0, 14)],
+  ['MKR', ethers.utils.formatBytes32String('11').slice(0, 14)],
+  ['FDAI2203', ethers.utils.formatBytes32String('12').slice(0, 14)],
+  ['FUSDC2203', ethers.utils.formatBytes32String('13').slice(0, 14)],
+  ['FDAI2206', ethers.utils.formatBytes32String('14').slice(0, 14)],
+  ['FUSDC2206', ethers.utils.formatBytes32String('15').slice(0, 14)],
+  ['FDAI2209', ethers.utils.formatBytes32String('16').slice(0, 14)],
+  ['FUSDC2209', ethers.utils.formatBytes32String('17').slice(0, 14)],
+  ['FRAX', ethers.utils.formatBytes32String('18').slice(0, 14)],
+  ['CVX3CRV', ethers.utils.formatBytes32String('19').slice(0, 14)],
+  ['EWETH', ethers.utils.formatBytes32String('20').slice(0, 14)],
+  ['EDAI', ethers.utils.formatBytes32String('21').slice(0, 14)],
+  ['EUSDC', ethers.utils.formatBytes32String('22').slice(0, 14)],
+  ['FDAI2212', ethers.utils.formatBytes32String('23').slice(0, 14)],
+  ['FUSDC2212', ethers.utils.formatBytes32String('24').slice(0, 14)],
+])
 export const ETH = ethers.utils.formatBytes32String('00').slice(0, 14)
 export const DAI = ethers.utils.formatBytes32String('01').slice(0, 14)
 export const USDC = ethers.utils.formatBytes32String('02').slice(0, 14)
@@ -141,7 +168,3 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
-
-export const TIMELOCK = 'timelock'
-export const CLOAK = 'cloak'
-export const MULTISIG = 'multisig'
