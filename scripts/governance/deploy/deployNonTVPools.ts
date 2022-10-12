@@ -16,8 +16,6 @@ const { developer, nonTVPoolData } = require(process.env.CONF as string)
   const timelock = Timelock__factory.connect(governance.get('timelock') as string, ownerAcc)
   const yieldMath = YieldMath__factory.connect(protocol.get('yieldMath') as string, ownerAcc)
 
-  console.log(nonTVPoolData)
-
   const newPools = await deployNonTVPools(ownerAcc, timelock, yieldMath, nonTVPoolData)
   writeAddressMap('newPools.json', newPools) // newPools.json is a temporary file
 })()

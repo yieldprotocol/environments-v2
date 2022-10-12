@@ -1,7 +1,6 @@
 import { ethers } from 'hardhat'
 import { impersonate } from '../shared/helpers'
 import { WAD } from '../shared/constants'
-import { IERC20Metadata, Pool } from '../typechain'
 const { governance, whales, strategies, newPools, poolsInit, rollData } = require(process.env.CONF as string)
 
 /**
@@ -10,9 +9,9 @@ const { governance, whales, strategies, newPools, poolsInit, rollData } = requir
 ;(async () => {
   for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
     const poolAddress = newPools.get(seriesId) as string
-    const pool = (await ethers.getContractAt('Pool', poolAddress)) as Pool
+    const pool = (await ethers.getContractAt('Pool', poolAddress))
     const baseAddress = await pool.base()
-    const base = (await ethers.getContractAt('IERC20Metadata', baseAddress)) as unknown as IERC20Metadata
+    const base = (await ethers.getContractAt('IERC20Metadata', baseAddress))
 
     const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
     await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
@@ -28,7 +27,7 @@ const { governance, whales, strategies, newPools, poolsInit, rollData } = requir
       const strategy = await ethers.getContractAt('Strategy', strategyAddress)
       const baseAddress = await strategy.base()
       const baseId = await strategy.baseId()
-      const base = (await ethers.getContractAt('IERC20Metadata', baseAddress)) as unknown as IERC20Metadata
+      const base = (await ethers.getContractAt('IERC20Metadata', baseAddress))
 
       const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
       if (!buffer.isZero()) {

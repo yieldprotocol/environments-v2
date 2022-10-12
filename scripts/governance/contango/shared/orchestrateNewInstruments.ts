@@ -75,17 +75,11 @@ const {
   const proposal = [
     await orchestrateYieldSpaceMultiOracleProposal(deployer, yieldSpaceMultiOracle, timelock, cloak), // This shouldn't be used in future rolls
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
-    await updateYieldSpaceMultiOracleSourcesProposal(
-      ownerAcc,
-      yieldSpaceMultiOracle,
-      poolOracle,
-      compositeSources,
-      pools
-    ),
+    await updateYieldSpaceMultiOracleSourcesProposal(yieldSpaceMultiOracle, poolOracle, compositeSources, pools),
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
-    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases),
+    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases), // Remove this, is not necessary (leaving it now is the proposal can be reproduced)
     await addSeriesProposal(ownerAcc, cauldron, ladle, witch, cloak, assetsToAdd, pools),
     await makeIlkProposal(
       ownerAcc,

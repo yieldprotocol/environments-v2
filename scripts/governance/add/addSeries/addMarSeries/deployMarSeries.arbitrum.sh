@@ -6,4 +6,4 @@ export CONF=$PWD/$HERE/addMarSeries.arbitrum.config
 RUN="npx hardhat run --network arb_mainnet"
 
 $RUN $HERE/../../../deploy/deployFYTokens.ts # deploy fyTokens
-$RUN $HERE/../../../deploy/deployNonTvPools.ts # deploy pools
+$RUN $HERE/../../../deploy/deployNonTVPools.ts # deploy pools
