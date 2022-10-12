@@ -1,5 +1,5 @@
 /**
- * @dev Enable Witch v2 liquidations for given pairs, and with given fyTokens also accepted as payment
+ * @dev Orchestrate Witch v2 for given base assets, collaterals, and series
  */
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
@@ -7,20 +7,18 @@ import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
 import { Cauldron, Ladle, EmergencyBrake, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-export const enableLiquidationsFragment = async (
+export const orchestrateAuctionAssetsFragment = async (
   ownerAcc: SignerWithAddress,
   cloak: EmergencyBrake,
   cauldron: Cauldron,
   ladle: Ladle,
   witch: Witch,
-  seriesIds: Array<string>,
-  auctionLineAndLimits: AuctionLineAndLimit[]
+  baseIds: Array<string>,
+  ilkIds: Array<string>,
+  seriesIds: Array<string>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
-  const baseIds = new Set(auctionLineAndLimits.map(({ baseId }) => baseId))
-  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
 
   for (const [baseId] of baseIds) {
     const join = await ethers.getContractAt('Join', await ladle.joins(baseId), ownerAcc)
@@ -78,21 +76,6 @@ export const enableLiquidationsFragment = async (
       })
       console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
     }
-  }
-
-  for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
-    proposal.push({
-      target: witch.address,
-      data: witch.interface.encodeFunctionData('setLineAndLimit', [
-        ilkId,
-        baseId,
-        duration,
-        vaultProportion,
-        collateralProportion,
-        max,
-      ]),
-    })
-    console.log(`Adding baseId: ${bytesToString(baseId)} - ilkId: ${bytesToString(ilkId)} to the Witch`)
   }
 
   for (const ilkId of ilkIds) {

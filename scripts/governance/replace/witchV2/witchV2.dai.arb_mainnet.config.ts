@@ -15,12 +15,8 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
-import { DAI, FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303 } from '../../../../shared/constants'
+import { ETH, DAI, USDC, FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303 } from '../../../../shared/constants'
 import { AuctionLineAndLimit } from '../../confTypes' // Note we use the series id as the asset id
-
-export const v1Limits: Array<[string, string, number, number, number]> = [
-  [DAI, '760000000000000000', 0, 100, 18], // USDC/DAI is 76% LTV
-]
 
 export const seriesIds: Array<string> = [FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303]
 
