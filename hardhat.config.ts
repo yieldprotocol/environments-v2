@@ -49,7 +49,6 @@ if (!mnemonic) {
     mnemonic = fs.readFileSync(path.resolve(__dirname, '.secret')).toString().trim()
   } catch (e) { }
 }
-if (mnemonic) console.log("MNEMONIC FOUND")
 const accounts = mnemonic ? {
   mnemonic,
 } : undefined
@@ -112,14 +111,14 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
+      chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
       url: "https://rpc.tenderly.co/fork/c3fe7111-cdf1-453d-9475-d11ade39904b",
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000
