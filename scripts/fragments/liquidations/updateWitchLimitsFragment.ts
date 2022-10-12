@@ -4,10 +4,10 @@
 
 import { bytesToString } from '../../../shared/helpers'
 
-import { Witch } from '../../../typechain'
+import { OldWitch } from '../../../typechain'
 
-export const updateWitchLimitsProposal = async (
-  witch: Witch,
+export const updateWitchLimitsFragment = async (
+  witch: OldWitch,
   newLimits: [string, number, number, number][]
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []

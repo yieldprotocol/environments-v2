@@ -42,9 +42,13 @@ export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
 export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
 export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
 
-export const MULTISIG = 'multisig'
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
+export const MULTISIG = 'multisig'
+export const CAULDRON = 'cauldron'
+export const LADLE = 'ladle'
+export const WITCH = 'witch'
+export const WITCH_V1 = 'witchV1'
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
 export const ACCUMULATOR = 'accumulatorOracle'
@@ -141,7 +145,3 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
-
-export const TIMELOCK = 'timelock'
-export const CLOAK = 'cloak'
-export const MULTISIG = 'multisig'
