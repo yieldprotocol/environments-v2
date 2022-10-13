@@ -21,7 +21,7 @@ export const STETH = ethers.utils.formatBytes32String('05').slice(0, 14)
 export const LINK = ethers.utils.formatBytes32String('06').slice(0, 14)
 export const ENS = ethers.utils.formatBytes32String('07').slice(0, 14)
 export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
-//NOTE: We are using the following YVUSDC constant to represent the yvUSDC token (api 0.4.3)
+//NOTE, We are using the following YVUSDC constant to represent the yvUSDC token (api 0.4.3)
 //      found here: https://etherscan.io/token/0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE
 //      There is also another yvUSDC token (api 0.3.0) that we are not using found here:
 //      https://etherscan.io/token/0x5f18c75abdae578b483e5f43f12a39cf75b973a9 <<NOT USING THIS ONE
@@ -43,6 +43,8 @@ export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
 export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
+export const CAULDRON = 'cauldron'
+export const WITCH = 'witch'
 export const CLOAK = 'cloak'
 export const MULTISIG = 'multisig'
 export const CAULDRON = 'cauldron'
@@ -145,3 +147,15 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
+
+export const DISPLAY_NAMES = new Map([
+  [ETH, 'ETH'],
+  [USDC, 'USDC'],
+  [DAI, 'DAI'],
+  [WBTC, 'WBTC'],
+  [WSTETH, 'WSTETH'],
+  [LINK, 'LINK'],
+  [ENS, 'ENS'],
+  [UNI, 'UNI'],
+  [FRAX, 'FRAX'],
+])

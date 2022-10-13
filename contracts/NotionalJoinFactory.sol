@@ -36,28 +36,28 @@ contract NotionalJoinFactory is AccessControl {
         uint256 salt
     ) external auth returns (NotionalJoin) {
         require(address(ladle.joins(oldAssetId)) != address(0), "oldAssetId invalid");
-        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists"); 
+        require(address(ladle.joins(newAssetId)) == address(0), "newAssetId join exists");
 
         // get join of oldAssetId
         INotionalJoin oldJoin = INotionalJoin(address(ladle.joins(oldAssetId)));
 
         // njoin check
-        // check could be bypassed if Join has a fallback function 
+        // check could be bypassed if Join has a fallback function
         try oldJoin.fCashId() returns (uint256) {
             emit Log("valid njoin");
         } catch {
             emit Log("oldAssetId join invalid");
         }
-        
+
         // get underlying, underlyingJoin addresses
-        address underlying = oldJoin.underlying(); 
+        address underlying = oldJoin.underlying();
         address underlyingJoin = oldJoin.underlyingJoin();
-        
+
         // get new maturity
         uint16 currencyId = oldJoin.currencyId();
         uint40 oldMaturity = oldJoin.maturity();
         uint40 maturity = oldMaturity + 90 days;
-  
+
         NotionalJoin join = new NotionalJoin{salt: bytes32(salt)}(
             newAssetAddress,
             underlying,
@@ -69,7 +69,7 @@ contract NotionalJoinFactory is AccessControl {
         address joinAddress = address(join);
 
         // grant ROOT to msg.sender
-        AccessControl(joinAddress).grantRole(ROOT, msg.sender);  
+        AccessControl(joinAddress).grantRole(ROOT, msg.sender);
         // revoke ROOT from NotionalJoinFactory
         AccessControl(joinAddress).renounceRole(ROOT, address(this));
 
@@ -118,5 +118,5 @@ contract NotionalJoinFactory is AccessControl {
         ladle = ILadleGov(value);
         emit Point(param, oldLadle, value);
     }
-    
+
 }
