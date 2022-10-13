@@ -21,7 +21,7 @@ export const deployWitch = async (
   tenderlyVerify('Witch', witch)
 
   if (!(await witch.hasRole(ROOT, timelock.address))) {
-    await (await witch.grantRole(ROOT, timelock.address)).wait()
+    await (await witch.grantRole(ROOT, timelock.address)).wait(1)
     console.log(`witch.grantRoles(ROOT, timelock)`)
   }
 
