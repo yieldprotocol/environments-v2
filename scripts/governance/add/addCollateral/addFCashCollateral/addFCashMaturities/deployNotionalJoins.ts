@@ -4,7 +4,7 @@ import { deployNotionalJoins } from '../../../../../fragments/other/notional/dep
 
 import { Timelock__factory, Ladle__factory, NotionalJoin__factory } from '../../../../../../typechain'
 import { TIMELOCK, LADLE } from '../../../../../../shared/constants'
-const { developer, governance, notionalAssets } = require(process.env.CONF as string)
+const { developer, governance, protocol, notionalAssets } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys a series of NotionalJoins taking existing ones as an example, and moving the maturity to the next quarterly tenor
@@ -13,11 +13,12 @@ const { developer, governance, notionalAssets } = require(process.env.CONF as st
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
-  const ladle = Ladle__factory.connect(governance.get(LADLE)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
 
   const assetsToAdd: Array<[string, string, string, string, number, number]> = []
   for (let [oldAssetId, newAssetId] of notionalAssets) {
     const oldJoinAddress = await ladle.joins(oldAssetId)
+
     if (!addressHasCode(oldJoinAddress)) throw new Error(`Join ${oldAssetId} not in Ladle`)
     const oldJoin = NotionalJoin__factory.connect(oldJoinAddress, ownerAcc)
     assetsToAdd.push([
