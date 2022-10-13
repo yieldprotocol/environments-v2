@@ -19,7 +19,6 @@ contract TestHarness is Test, TestConstants {
     IPool public pool;
     IERC20 public fyToken;
     IERC20 public base;
-    IERC20 public collateral;
 
     address public join;
     bytes6 public ilkId;
@@ -28,33 +27,62 @@ contract TestHarness is Test, TestConstants {
 
     function setUp() public {
         vm.createSelectFork('mainnet');
-
-        string memory root = vm.projectRoot();
-        string memory path = string.concat(root, "/shared/data.json");
-        string memory json = vm.readFile(path);
-        bytes memory parsed = vm.parseJson(json);
-        console.logBytes(parsed);
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
         console.log("can borrow any asset with any collateral");
+        // parsing
+        string memory root = vm.projectRoot();
+        string memory path = string.concat(root, "/shared/data.json");
+        string memory json = vm.readFile(path);
+        // ilks
+        bytes memory ilksEncoded = json.parseRaw(".ilkAddresses");
+        address[] memory ilks = abi.decode(ilksEncoded, (address[]));
+        // seriesIds
+        bytes memory seriesIdsEncoded = json.parseRaw(".seriesIds");
+        bytes6[] memory seriesIds = abi.decode(seriesIdsEncoded, (bytes6[]));
+        // ilkIds
+        bytes memory ilkIdsEncoded = json.parseRaw(".ilkIds");
+        bytes6[] memory ilkIds = abi.decode(ilkIdsEncoded, (bytes6[]));
+        // joins
+        bytes memory joinsEncoded = json.parseRaw(".joinAddresses");
+        address[] memory joins = abi.decode(joinsEncoded, (address[]));
+        // bases
+        bytes memory basesEncoded = json.parseRaw(".baseAddresses");
+        address[] memory bases = abi.decode(basesEncoded (address[]));
+        // fyTokens
+        bytes memory fyTokensEncoded = json.parseRaw(".fyTokenAddresses");
+        address[] memory fyTokens = abi.decode(fyTokensEncoded, (address[]));
 
         (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
-        deal(address(collateral), address(this), WAD * 2);
+        deal(address(base), address(this), WAD * 2);
         deal(address(fyToken), address(this), WAD * 2);
 
         DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-        collateral.approve(address(ladle), WAD * 2);
-        collateral.transfer(join, WAD * 2);
+        base.approve(address(ladle), WAD * 2);
+        base.transfer(join, WAD * 2);
         ladle.pour(vaultId, vault.owner, 1e18 * 2, 1e18);
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
         console.log("can pool any amount with borrow and pool");
+        // parsing
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/shared/data.json");
         string memory json = vm.readFile(path);
+        // ilks
+        bytes memory ilksEncoded = json.parseRaw(".ilkAddresses");
+        address[] memory ilks = abi.decode(ilksEncoded, (address[]));
+        // bases
+        bytes memory basesEncoded = json.parseRaw(".baseAddresses");
+        address[] memory bases = abi.decode(basesEncoded (address[]));
+        // fyTokens
+        bytes memory fyTokensEncoded = json.parseRaw(".fyTokenAddresses");
+        address[] memory fyTokens = abi.decode(fyTokensEncoded, (address[]));
+        // pools
+        bytes memory poolsEncoded = json.parseRaw(".poolAddresses");
+        address[] memory pools = abi.decode(poolsEncoded, (address[]));
         
         (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
