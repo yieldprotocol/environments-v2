@@ -1,9 +1,9 @@
-import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../../shared/helpers'
+import { writeAddressMap, getOwnerOrImpersonate, addressHasCode } from '../../../../../../shared/helpers'
 
-import { deployNotionalJoins } from '../../../../../fragments/assetsAndSeries/deployNotionalJoins'
+import { deployNotionalJoins } from '../../../../../fragments/other/notional/deployNotionalJoins'
 
-import { NotionalJoin__factory, Timelock__factory } from '../../../../../../typechain'
-import { TIMELOCK } from '../../../../../../shared/constants'
+import { Timelock__factory, Ladle__factory, NotionalJoin__factory } from '../../../../../../typechain'
+import { TIMELOCK, LADLE } from '../../../../../../shared/constants'
 const { developer, governance, notionalAssets } = require(process.env.CONF as string)
 
 /**
@@ -13,10 +13,13 @@ const { developer, governance, notionalAssets } = require(process.env.CONF as st
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const ladle = Ladle__factory.connect(governance.get(LADLE)!, ownerAcc)
 
   const assetsToAdd: Array<[string, string, string, string, number, number]> = []
   for (let [oldAssetId, newAssetId] of notionalAssets) {
-    const oldJoin = NotionalJoin__factory.connect(oldAssetId, ownerAcc)
+    const oldJoinAddress = await ladle.joins(oldAssetId)
+    if (!addressHasCode(oldJoinAddress)) throw new Error(`Join ${oldAssetId} not in Ladle`)
+    const oldJoin = NotionalJoin__factory.connect(oldJoinAddress, ownerAcc)
     assetsToAdd.push([
       newAssetId,
       await oldJoin.asset(), // fcash: address of the fCash contract

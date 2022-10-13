@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/addFCashDecMaturities.mainnet.config
+export CONF=$PWD/$HERE/addFCashMarMaturities.mainnet.config
 RUN="npx hardhat run --network localhost"
 
 $RUN $HERE/deployNotionalJoins.ts # Deploy NotionalJoins for the next quarter

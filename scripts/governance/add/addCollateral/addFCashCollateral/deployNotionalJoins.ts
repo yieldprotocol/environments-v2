@@ -3,7 +3,6 @@ import { writeAddressMap, getOwnerOrImpersonate } from '../../../../../shared/he
 
 import { deployNotionalJoins } from '../../../../fragments/other/notional/deployNotionalJoins'
 
-import { Timelock } from '../../../../../typechain'
 const { developer, assetsToAdd } = require(process.env.CONF as string)
 const { governance } = require(process.env.CONF as string)
 

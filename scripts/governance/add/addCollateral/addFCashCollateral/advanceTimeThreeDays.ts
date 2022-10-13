@@ -1,4 +1,4 @@
-import { advanceTime } from '../../../../../../shared/helpers'
+import { advanceTime } from '../../../../../shared/helpers'
 
 /**
  * @dev This script advances time until maturity of the first strategy

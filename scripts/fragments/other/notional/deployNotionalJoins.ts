@@ -1,10 +1,10 @@
 import { ethers, waffle } from 'hardhat'
-import { verify } from '../../../shared/helpers'
-import { ROOT } from '../../../shared/constants'
+import { verify } from '../../../../shared/helpers'
+import { ROOT } from '../../../../shared/constants'
 
-import NotionalJoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol/NotionalJoin.json'
+import NotionalJoinArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol/NotionalJoin.json'
 
-import { Timelock, NotionalJoin } from '../../../typechain'
+import { Timelock, NotionalJoin } from '../../../../typechain'
 
 const { deployContract } = waffle
 

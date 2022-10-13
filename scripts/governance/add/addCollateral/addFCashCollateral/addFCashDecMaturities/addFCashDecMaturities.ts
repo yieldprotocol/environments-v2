@@ -1,17 +1,7 @@
-import { ethers } from 'hardhat'
-import { writeAddressMap, proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../../shared/helpers'
 
-import {
-  NOTIONAL,
-  NOTIONAL_JOIN_FACTORY,
-  CAULDRON,
-  LADLE,
-  WITCH,
-  CLOAK,
-  TIMELOCK,
-} from '../../../../../../shared/constants'
+import { NOTIONAL, CAULDRON, LADLE, WITCH, CLOAK, TIMELOCK } from '../../../../../../shared/constants'
 
-import { deployNotionalJoinsProposal } from '../../../../../fragments/other/notional/deployNotionalJoinsProposal'
 import { orchestrateJoinProposal } from '../../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSourcesProposal'
 import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
@@ -23,8 +13,6 @@ import {
   EmergencyBrake__factory,
   IOracle,
   Ladle__factory,
-  NotionalJoinFactory__factory,
-  NotionalJoin__factory,
   NotionalMultiOracle__factory,
   Timelock__factory,
   Witch__factory,
@@ -33,7 +21,6 @@ import {
 const {
   developer,
   deployer,
-  notionalJoins,
   notionalSources,
   fCashAddress,
   notionalDebtLimits,
