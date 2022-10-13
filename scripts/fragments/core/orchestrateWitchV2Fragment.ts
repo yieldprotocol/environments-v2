@@ -28,7 +28,7 @@ export const orchestrateWitchV2Fragment = async (
       [
         id(witch.interface, 'point(bytes32,address)'),
         id(witch.interface, 'setAuctioneerReward(uint256)'),
-        id(witch.interface, 'setAnotherWitch(address,bool)'),
+        id(witch.interface, 'setProtected(address,bool)'),
         id(witch.interface, 'setLineAndLimit(bytes6,bytes6,uint32,uint64,uint64,uint128)'),
       ],
       timelock.address,
