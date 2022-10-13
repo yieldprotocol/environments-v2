@@ -61,7 +61,9 @@ const {
   // Add Strategy Oracle Source
   proposal = proposal.concat(await updatStrategyOracleSourcesProposal(strategyOracle, strategyOracleSources))
   // Add Composite Oracle Source
-  proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
+  proposal = proposal.concat(
+    await updateCompositeSourcesProposal(ownerAcc, protocol, compositeOracle, compositeSources)
+  )
   // Add for composite paths
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 

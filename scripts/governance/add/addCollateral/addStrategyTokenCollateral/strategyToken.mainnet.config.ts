@@ -110,9 +110,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [
-  [DAI, YSDAI6MMSASSET, protocol.get('strategyOracle') as string],
-]
+export const compositeSources: Array<[string, string, string]> = [[DAI, YSDAI6MMSASSET, 'strategyOracle']]
 
 /// @notice Paths that will be added to the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
