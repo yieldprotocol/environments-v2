@@ -39,8 +39,11 @@ contract TestHarness is Test, TestConstants {
         // ilks
         address[] memory ilks = json.readAddressArray(".ilkAddresses");
         // seriesIds
-        bytes6[] memory seriesIds = json.readBytes6Array(".seriesIds");
+        bytes memory seriesIdsEncoded = vm.parseJson(json, ".seriesIds");
+        bytes6[] memory seriesIds = abi.decode(seriesIdsEncoded, (bytes6[]));
         // ilkIds
+        bytes memory ilkIdsEncoded = vm.parseJson(json, ".ilkIds");
+        bytes6[] memory ilkIds = abi.decode(ilkIdsEncoded, (bytes6[]));
         // joins
         address[] memory joins = json.readAddressArray(".joinAddresses");
         // bases
@@ -48,15 +51,15 @@ contract TestHarness is Test, TestConstants {
         // fyTokens
         address[] memory fyTokens = json.readAddressArray(".fyTokenAddresses");
 
-        // (vaultId, ) = ladle.build(seriesId, ilkId, 0);
+        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
 
-        // deal(address(ilk), address(this), WAD * 2);
-        // deal(address(fyToken), address(this), WAD * 2);
+        deal(address(ilk), address(this), WAD * 2);
+        deal(address(fyToken), address(this), WAD * 2);
 
-        // DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-        // ilk.approve(address(ladle), WAD * 2);
-        // ilk.transfer(join, WAD * 2);
-        // ladle.pour(vaultId, vault.owner, 1e18 * 2, 1e18);
+        DataTypes.Vault memory vault = cauldron.vaults(vaultId);
+        ilk.approve(address(ladle), WAD * 2);
+        ilk.transfer(join, WAD * 2);
+        ladle.pour(vaultId, vault.owner, 1e18 * 2, 1e18);
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
@@ -67,6 +70,12 @@ contract TestHarness is Test, TestConstants {
         string memory json = vm.readFile(path);
         // ilks
         address[] memory ilks = json.readAddressArray(".ilkAddresses");
+        // seriesIds
+        bytes memory seriesIdsEncoded = vm.parseJson(json, ".seriesIds");
+        bytes6[] memory seriesIds = abi.decode(seriesIdsEncoded, (bytes6[]));
+        // ilkIds
+        bytes memory ilkIdsEncoded = vm.parseJson(json, ".ilkIds");
+        bytes6[] memory ilkIds = abi.decode(ilkIdsEncoded, (bytes6[]));
         // bases
         address[] memory bases = json.readAddressArray(".baseAddresses");
         // fyTokens

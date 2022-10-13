@@ -12,5 +12,6 @@ remappings = [
     'hardhat-deploy/=node_modules/hardhat-deploy/',
     'hardhat/=node_modules/hardhat/',
 ]
+fs_permissions = [{ access = "read", path = "./shared/data.json"}]
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
