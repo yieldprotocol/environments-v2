@@ -29,6 +29,8 @@ import {
   YSUSDC6MMSASSET,
   YVDAI,
   YVUSDC,
+  EFRAX,
+  USDT,
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
@@ -151,6 +153,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
   [YVUSDC, assets.get(YVUSDC) as string],
+  [USDT, assets.get(USDT) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join

@@ -13,9 +13,8 @@ $RUN $HERE/../../deploy/deployStrategies.ts # deploy strategies
 # Add funds to the timelock
 $RUN $HERE/loadTimelock.ts
 
-$RUN $HERE/deployOnChainTest.ts
-$RUN $HERE/addFraxSeries.ts
-$RUN $HERE/addFraxSeries.ts
-$RUN $HERE/addFraxSeries.ts
+$RUN $HERE/addUSDTSeries.ts
+$RUN $HERE/addUSDTSeries.ts
+$RUN $HERE/addUSDTSeries.ts
 
-$RUN $HERE/addFraxSeries.test.ts 
+$RUN $HERE/addUSDTSeries.test.ts
