@@ -11,7 +11,7 @@ import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
 // uncomment this to verify Tenderly contracts
-// import * as tdly from "@tenderly/hardhat-tenderly";
+import "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
 function infuraNodeUrl(network: any) {
@@ -49,7 +49,6 @@ if (!mnemonic) {
     mnemonic = fs.readFileSync(path.resolve(__dirname, '.secret')).toString().trim()
   } catch (e) { }
 }
-if (mnemonic) console.log("MNEMONIC FOUND")
 const accounts = mnemonic ? {
   mnemonic,
 } : undefined
@@ -117,9 +116,9 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/1b9da6ba-ce95-43d4-8a01-83f3d4a33868",
+      url: "https://rpc.tenderly.co/fork/c3fe7111-cdf1-453d-9475-d11ade39904b",
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000
@@ -135,7 +134,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      // gasPrice: 500_000_000,
+      gasPrice: 500_000_000,
       chainId: 42161,
       timeout: 60000
     },
@@ -149,6 +148,9 @@ module.exports = {
     forkNetwork: "42161",
 	},
   etherscan: {
-    apiKey: etherscanKey
-  },
+    apiKey: {
+      mainnet: etherscanKey,
+      arbitrumOne: arbiscanKey
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { tenderlyVerify, verify } from '../../../../shared/helpers'
-import { contangoLadle_key, ROOT } from '../../../../shared/constants'
+import { CONTANGO_LADLE, ROOT } from '../../../../shared/constants'
 
 import { Ladle } from '../../../../typechain'
 
@@ -20,7 +20,7 @@ export const deployContangoLadle = async (
 
   const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('contangoCauldron') as string, ownerAcc)
-  const address = protocol.get(contangoLadle_key)
+  const address = protocol.get(CONTANGO_LADLE)
 
   let contangoLadle: Ladle
   if (address === undefined) {

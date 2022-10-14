@@ -22,6 +22,7 @@ export const deployEulerPools = async (
       libraries: {
         YieldMath: yieldMathLibrary.address,
       },
+      signer: ownerAcc,
     }
   )
 

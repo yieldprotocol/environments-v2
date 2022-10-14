@@ -6,7 +6,7 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { Cauldron, ContangoLadle, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/contango/arbitrum/contango.arb_mainnet.config'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const replaceWitchV2 = async (
   ownerAcc: SignerWithAddress,

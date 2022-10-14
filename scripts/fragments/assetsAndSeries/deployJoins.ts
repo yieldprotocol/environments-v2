@@ -23,7 +23,8 @@ export const deployJoins = async (
       verify(join.address, [assetAddress])
       tenderlyVerify('Join', join)
       if (!(await join.hasRole(ROOT, timelock.address))) {
-        await join.grantRole(ROOT, timelock.address)
+        const tx = await join.grantRole(ROOT, timelock.address)
+        await tx.wait(1)
         console.log(`join.grantRoles(ROOT, timelock)`)
         while (!(await join.hasRole(ROOT, timelock.address))) {}
       }

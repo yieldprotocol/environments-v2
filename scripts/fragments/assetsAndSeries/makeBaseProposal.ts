@@ -6,26 +6,22 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { ethers } from 'hardhat'
-
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
+import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
 import { CHI, RATE } from '../../../shared/constants'
-
-import { Ladle, Cauldron, Witch, Join, EmergencyBrake, IOracle } from '../../../typechain'
+import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
 
 export const makeBaseProposal = async (
   ownerAcc: any,
   lendingOracle: IOracle,
   cauldron: Cauldron,
-  ladle: Ladle,
   witch: Witch,
   cloak: EmergencyBrake,
   bases: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, joinAddress] of bases) {
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = Join__factory.connect(joinAddress, ownerAcc)
 
     // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
     proposal.push({
@@ -40,8 +36,8 @@ export const makeBaseProposal = async (
     // Allow Witch to join base
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'join(address,uint128)')],
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'join(address,uint128)'),
         witch.address,
       ]),
     })

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
-// Sources flattened with hardhat v2.11.1 https://hardhat.org
+// Sources flattened with hardhat v2.11.2 https://hardhat.org
 
 // File @yield-protocol/utils-v2/contracts/access/AccessControl.sol@v2.6.0-rc.1
 
@@ -342,389 +342,6 @@ interface IERC20 {
 }
 
 
-// File @yield-protocol/utils-v2/contracts/cast/CastU128I128.sol@v2.6.0-rc.1
-
-
-pragma solidity ^0.8.0;
-
-
-library CastU128I128 {
-    /// @dev Safely cast an uint128 to an int128
-    function i128(uint128 x) internal pure returns (int128 y) {
-        require (x <= uint128(type(int128).max), "Cast overflow");
-        y = int128(x);
-    }
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/IJoin.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-interface IJoin {
-    /// @dev asset managed by this contract
-    function asset() external view returns (address);
-
-    /// @dev Add tokens to this contract.
-    function join(address user, uint128 wad) external returns (uint128);
-
-    /// @dev Remove tokens to this contract.
-    function exit(address user, uint128 wad) external returns (uint128);
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-
-interface IFYToken is IERC20 {
-    /// @dev Asset that is returned on redemption.
-    function underlying() external view returns (address);
-
-    /// @dev Source of redemption funds.
-    function join() external view returns (IJoin);
-
-    /// @dev Unix time at which redemption of fyToken for underlying are possible
-    function maturity() external view returns (uint256);
-
-    /// @dev Record price data at maturity
-    function mature() external;
-
-    /// @dev Mint fyToken providing an equal amount of underlying to the protocol
-    function mintWithUnderlying(address to, uint256 amount) external;
-
-    /// @dev Burn fyToken after maturity for an amount of underlying.
-    function redeem(address to, uint256 amount) external returns (uint256);
-
-    /// @dev Mint fyToken.
-    /// This function can only be called by other Yield contracts, not users directly.
-    /// @param to Wallet to mint the fyToken in.
-    /// @param fyTokenAmount Amount of fyToken to mint.
-    function mint(address to, uint256 fyTokenAmount) external;
-
-    /// @dev Burn fyToken.
-    /// This function can only be called by other Yield contracts, not users directly.
-    /// @param from Wallet to burn the fyToken from.
-    /// @param fyTokenAmount Amount of fyToken to burn.
-    function burn(address from, uint256 fyTokenAmount) external;
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/IOracle.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-interface IOracle {
-    /**
-     * @notice Doesn't refresh the price, but returns the latest value available without doing any transactional operations:
-     * @return value in wei
-     */
-    function peek(
-        bytes32 base,
-        bytes32 quote,
-        uint256 amount
-    ) external view returns (uint256 value, uint256 updateTime);
-
-    /**
-     * @notice Does whatever work or queries will yield the most up-to-date price, and returns it.
-     * @return value in wei
-     */
-    function get(
-        bytes32 base,
-        bytes32 quote,
-        uint256 amount
-    ) external returns (uint256 value, uint256 updateTime);
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-
-library DataTypes {
-    // ======== Cauldron data types ========
-    struct Series {
-        IFYToken fyToken; // Redeemable token for the series.
-        bytes6 baseId; // Asset received on redemption.
-        uint32 maturity; // Unix time at which redemption becomes possible.
-        // bytes2 free
-    }
-
-    struct Debt {
-        uint96 max; // Maximum debt accepted for a given underlying, across all series
-        uint24 min; // Minimum debt accepted for a given underlying, across all series
-        uint8 dec; // Multiplying factor (10**dec) for max and min
-        uint128 sum; // Current debt for a given underlying, across all series
-    }
-
-    struct SpotOracle {
-        IOracle oracle; // Address for the spot price oracle
-        uint32 ratio; // Collateralization ratio to multiply the price for
-        // bytes8 free
-    }
-
-    struct Vault {
-        address owner;
-        bytes6 seriesId; // Each vault is related to only one series, which also determines the underlying.
-        bytes6 ilkId; // Asset accepted as collateral
-    }
-
-    struct Balances {
-        uint128 art; // Debt amount
-        uint128 ink; // Collateral amount
-    }
-
-    // ======== Witch data types ========
-    struct Auction {
-        address owner;
-        uint32 start;
-        bytes6 baseId; // We cache the baseId here
-        uint128 ink;
-        uint128 art;
-        address auctioneer;
-        bytes6 ilkId; // We cache the ilkId here
-        bytes6 seriesId; // We cache the seriesId here
-    }
-
-    struct Line {
-        uint32 duration; // Time that auctions take to go to minimal price and stay there
-        uint64 vaultProportion; // Proportion of the vault that is available each auction (1e18 = 100%)
-        uint64 collateralProportion; // Proportion of collateral that is sold at auction start (1e18 = 100%)
-    }
-
-    struct Limits {
-        uint128 max; // Maximum concurrent auctioned collateral
-        uint128 sum; // Current concurrent auctioned collateral
-    }
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-
-
-interface ICauldron {
-    /// @dev Variable rate lending oracle for an underlying
-    function lendingOracles(bytes6 baseId) external view returns (IOracle);
-
-    /// @dev An user can own one or more Vaults, with each vault being able to borrow from a single series.
-    function vaults(bytes12 vault)
-        external
-        view
-        returns (DataTypes.Vault memory);
-
-    /// @dev Series available in Cauldron.
-    function series(bytes6 seriesId)
-        external
-        view
-        returns (DataTypes.Series memory);
-
-    /// @dev Assets available in Cauldron.
-    function assets(bytes6 assetsId) external view returns (address);
-
-    /// @dev Each vault records debt and collateral balances_.
-    function balances(bytes12 vault)
-        external
-        view
-        returns (DataTypes.Balances memory);
-
-    /// @dev Max, min and sum of debt per underlying and collateral.
-    function debt(bytes6 baseId, bytes6 ilkId)
-        external
-        view
-        returns (DataTypes.Debt memory);
-
-    // @dev Spot price oracle addresses and collateralization ratios
-    function spotOracles(bytes6 baseId, bytes6 ilkId)
-        external
-        returns (DataTypes.SpotOracle memory);
-
-    /// @dev Create a new vault, linked to a series (and therefore underlying) and up to 5 collateral types
-    function build(
-        address owner,
-        bytes12 vaultId,
-        bytes6 seriesId,
-        bytes6 ilkId
-    ) external returns (DataTypes.Vault memory);
-
-    /// @dev Destroy an empty vault. Used to recover gas costs.
-    function destroy(bytes12 vault) external;
-
-    /// @dev Change a vault series and/or collateral types.
-    function tweak(
-        bytes12 vaultId,
-        bytes6 seriesId,
-        bytes6 ilkId
-    ) external returns (DataTypes.Vault memory);
-
-    /// @dev Give a vault to another user.
-    function give(bytes12 vaultId, address receiver)
-        external
-        returns (DataTypes.Vault memory);
-
-    /// @dev Move collateral and debt between vaults.
-    function stir(
-        bytes12 from,
-        bytes12 to,
-        uint128 ink,
-        uint128 art
-    ) external returns (DataTypes.Balances memory, DataTypes.Balances memory);
-
-    /// @dev Manipulate a vault debt and collateral.
-    function pour(
-        bytes12 vaultId,
-        int128 ink,
-        int128 art
-    ) external returns (DataTypes.Balances memory);
-
-    /// @dev Change series and debt of a vault.
-    /// The module calling this function also needs to buy underlying in the pool for the new series, and sell it in pool for the old series.
-    function roll(
-        bytes12 vaultId,
-        bytes6 seriesId,
-        int128 art
-    ) external returns (DataTypes.Vault memory, DataTypes.Balances memory);
-
-    /// @dev Reduce debt and collateral from a vault, ignoring collateralization checks.
-    function slurp(
-        bytes12 vaultId,
-        uint128 ink,
-        uint128 art
-    ) external returns (DataTypes.Balances memory);
-
-    // ==== Helpers ====
-
-    /// @dev Convert a debt amount for a series from base to fyToken terms.
-    /// @notice Think about rounding if using, since we are dividing.
-    function debtFromBase(bytes6 seriesId, uint128 base)
-        external
-        returns (uint128 art);
-
-    /// @dev Convert a debt amount for a series from fyToken to base terms
-    function debtToBase(bytes6 seriesId, uint128 art)
-        external
-        returns (uint128 base);
-
-    // ==== Accounting ====
-
-    /// @dev Record the borrowing rate at maturity for a series
-    function mature(bytes6 seriesId) external;
-
-    /// @dev Retrieve the rate accrual since maturity, maturing if necessary.
-    function accrual(bytes6 seriesId) external returns (uint256);
-
-    /// @dev Return the collateralization level of a vault. It will be negative if undercollateralized.
-    function level(bytes12 vaultId) external returns (int256);
-}
-
-
-// File @yield-protocol/vault-v2/contracts/interfaces/ILadle.sol@v0.18.2-rc.0
-
-
-pragma solidity ^0.8.0;
-
-
-interface ILadle {
-    function joins(bytes6) external view returns (IJoin);
-
-    function pools(bytes6) external returns (address);
-
-    function cauldron() external view returns (ICauldron);
-
-    function build(
-        bytes6 seriesId,
-        bytes6 ilkId,
-        uint8 salt
-    ) external returns (bytes12 vaultId, DataTypes.Vault memory vault);
-
-    function destroy(bytes12 vaultId) external;
-
-    function pour(
-        bytes12 vaultId,
-        address to,
-        int128 ink,
-        int128 art
-    ) external payable;
-
-    function serve(
-        bytes12 vaultId,
-        address to,
-        uint128 ink,
-        uint128 base,
-        uint128 max
-    ) external payable returns (uint128 art);
-
-    function close(
-        bytes12 vaultId,
-        address to,
-        int128 ink,
-        int128 art
-    ) external;
-}
-
-
-// File @yield-protocol/utils-v2/contracts/utils/RevertMsgExtractor.sol@v2.6.0-rc.1
-
-
-// Taken from https://github.com/sushiswap/BoringSolidity/blob/441e51c0544cf2451e6116fe00515e71d7c42e2c/contracts/BoringBatchable.sol
-
-pragma solidity >=0.6.0;
-
-
-library RevertMsgExtractor {
-    /// @dev Helper function to extract a useful revert message from a failed call.
-    /// If the returned data is malformed or not correctly abi encoded then this call can fail itself.
-    function getRevertMsg(bytes memory returnData)
-        internal pure
-        returns (string memory)
-    {
-        // If the _res length is less than 68, then the transaction failed silently (without a revert message)
-        if (returnData.length < 68) return "Transaction reverted silently";
-
-        assembly {
-            // Slice the sighash.
-            returnData := add(returnData, 0x04)
-        }
-        return abi.decode(returnData, (string)); // All that remains is the revert string
-    }
-}
-
-
-// File @yield-protocol/utils-v2/contracts/token/MinimalTransferHelper.sol@v2.6.0-rc.1
-
-
-// Taken from https://github.com/Uniswap/uniswap-lib/blob/master/contracts/libraries/TransferHelper.sol
-
-pragma solidity >=0.6.0;
-
-
-// helper methods for transferring ERC20 tokens that do not consistently return true/false
-library MinimalTransferHelper {
-    /// @notice Transfers tokens from msg.sender to a recipient
-    /// @dev Errors with the underlying revert message if transfer fails
-    /// @param token The contract address of the token which will be transferred
-    /// @param to The recipient of the transfer
-    /// @param value The value of the transfer
-    function safeTransfer(
-        IERC20 token,
-        address to,
-        uint256 value
-    ) internal {
-        (bool success, bytes memory data) = address(token).call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
-        if (!(success && (data.length == 0 || abi.decode(data, (bool))))) revert(RevertMsgExtractor.getRevertMsg(data));
-    }
-}
-
-
 // File @yield-protocol/utils-v2/contracts/token/IERC20Metadata.sol@v2.6.0-rc.1
 
 
@@ -889,17 +506,55 @@ library SafeERC20Namer {
 }
 
 
-// File @yield-protocol/utils-v2/contracts/cast/CastU256I128.sol@v2.6.0-rc.1
+// File @yield-protocol/utils-v2/contracts/utils/RevertMsgExtractor.sol@v2.6.0-rc.1
 
 
-pragma solidity ^0.8.0;
+// Taken from https://github.com/sushiswap/BoringSolidity/blob/441e51c0544cf2451e6116fe00515e71d7c42e2c/contracts/BoringBatchable.sol
+
+pragma solidity >=0.6.0;
 
 
-library CastU256I128 {
-    /// @dev Safe casting from uint256 to int256
-    function i128(uint256 x) internal pure returns(int128) {
-        require(x <= uint256(int256(type(int128).max)), "Cast overflow");
-        return int128(int256(x));
+library RevertMsgExtractor {
+    /// @dev Helper function to extract a useful revert message from a failed call.
+    /// If the returned data is malformed or not correctly abi encoded then this call can fail itself.
+    function getRevertMsg(bytes memory returnData)
+        internal pure
+        returns (string memory)
+    {
+        // If the _res length is less than 68, then the transaction failed silently (without a revert message)
+        if (returnData.length < 68) return "Transaction reverted silently";
+
+        assembly {
+            // Slice the sighash.
+            returnData := add(returnData, 0x04)
+        }
+        return abi.decode(returnData, (string)); // All that remains is the revert string
+    }
+}
+
+
+// File @yield-protocol/utils-v2/contracts/token/MinimalTransferHelper.sol@v2.6.0-rc.1
+
+
+// Taken from https://github.com/Uniswap/uniswap-lib/blob/master/contracts/libraries/TransferHelper.sol
+
+pragma solidity >=0.6.0;
+
+
+// helper methods for transferring ERC20 tokens that do not consistently return true/false
+library MinimalTransferHelper {
+    /// @notice Transfers tokens from msg.sender to a recipient
+    /// @dev Errors with the underlying revert message if transfer fails
+    /// @param token The contract address of the token which will be transferred
+    /// @param to The recipient of the transfer
+    /// @param value The value of the transfer
+    function safeTransfer(
+        IERC20 token,
+        address to,
+        uint256 value
+    ) internal {
+        (bool success, bytes memory data) = address(token).call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
+        if (!(success && (data.length == 0 || abi.decode(data, (bool))))) revert(RevertMsgExtractor.getRevertMsg(data));
     }
 }
 
@@ -1452,7 +1107,385 @@ contract ERC20Rewards is AccessControl, ERC20Permit {
 }
 
 
-// File @yield-protocol/yieldspace-tv/src/interfaces/IMaturingToken.sol@v0.1.6rc1
+// File @yield-protocol/utils-v2/contracts/cast/CastU256I128.sol@v2.6.0-rc.1
+
+
+pragma solidity ^0.8.0;
+
+
+library CastU256I128 {
+    /// @dev Safe casting from uint256 to int256
+    function i128(uint256 x) internal pure returns(int128) {
+        require(x <= uint256(int256(type(int128).max)), "Cast overflow");
+        return int128(int256(x));
+    }
+}
+
+
+// File @yield-protocol/utils-v2/contracts/cast/CastU128I128.sol@v2.6.0-rc.1
+
+
+pragma solidity ^0.8.0;
+
+
+library CastU128I128 {
+    /// @dev Safely cast an uint128 to an int128
+    function i128(uint128 x) internal pure returns (int128 y) {
+        require (x <= uint128(type(int128).max), "Cast overflow");
+        y = int128(x);
+    }
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/IJoin.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+interface IJoin {
+    /// @dev asset managed by this contract
+    function asset() external view returns (address);
+
+    /// @dev Add tokens to this contract.
+    function join(address user, uint128 wad) external returns (uint128);
+
+    /// @dev Remove tokens to this contract.
+    function exit(address user, uint128 wad) external returns (uint128);
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/IOracle.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+interface IOracle {
+    /**
+     * @notice Doesn't refresh the price, but returns the latest value available without doing any transactional operations:
+     * @return value in wei
+     */
+    function peek(
+        bytes32 base,
+        bytes32 quote,
+        uint256 amount
+    ) external view returns (uint256 value, uint256 updateTime);
+
+    /**
+     * @notice Does whatever work or queries will yield the most up-to-date price, and returns it.
+     * @return value in wei
+     */
+    function get(
+        bytes32 base,
+        bytes32 quote,
+        uint256 amount
+    ) external returns (uint256 value, uint256 updateTime);
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/IERC5095.sol@v0.18.0-rc.4
+
+
+pragma solidity 0.8.15;
+
+interface IERC5095 is IERC20 {
+    /// @dev Asset that is returned on redemption.
+    function underlying() external view returns (address underlyingAddress);
+
+    /// @dev Unix time at which redemption of fyToken for underlying are possible
+    function maturity() external view returns (uint256 timestamp);
+
+    /// @dev Converts a specified amount of principal to underlying
+    function convertToUnderlying(uint256 principalAmount) external returns (uint256 underlyingAmount);
+
+    /// @dev Converts a specified amount of underlying to principal
+    function convertToPrincipal(uint256 underlyingAmount) external returns (uint256 principalAmount);
+
+    /// @dev Gives the maximum amount an address holder can redeem in terms of the principal
+    function maxRedeem(address holder) external view returns (uint256 maxPrincipalAmount);
+
+    /// @dev Gives the amount in terms of underlying that the princiapl amount can be redeemed for plus accrual
+    function previewRedeem(uint256 principalAmount) external returns (uint256 underlyingAmount);
+
+    /// @dev Burn fyToken after maturity for an amount of principal.
+    function redeem(uint256 principalAmount, address to, address from) external returns (uint256 underlyingAmount);
+
+    /// @dev Gives the maximum amount an address holder can withdraw in terms of the underlying
+    function maxWithdraw(address holder) external returns (uint256 maxUnderlyingAmount);
+
+    /// @dev Gives the amount in terms of principal that the underlying amount can be withdrawn for plus accrual
+    function previewWithdraw(uint256 underlyingAmount) external returns (uint256 principalAmount);
+
+    /// @dev Burn fyToken after maturity for an amount of underlying.
+    function withdraw(uint256 underlyingAmount, address to, address from) external returns (uint256 principalAmount);
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+
+interface IFYToken is IERC5095 {
+    /// @dev Source of redemption funds.
+    function join() external view returns (IJoin);
+    
+    /// @dev Record price data at maturity
+    function mature() external;
+
+    /// @dev Mint fyToken providing an equal amount of underlying to the protocol
+    function mintWithUnderlying(address to, uint256 amount) external;
+
+    /// @dev Burn fyToken after maturity for an amount of underlying.
+    function redeem(address to, uint256 amount) external returns (uint256);
+
+    /// @dev Mint fyToken.
+    /// This function can only be called by other Yield contracts, not users directly.
+    /// @param to Wallet to mint the fyToken in.
+    /// @param fyTokenAmount Amount of fyToken to mint.
+    function mint(address to, uint256 fyTokenAmount) external;
+
+    /// @dev Burn fyToken.
+    /// This function can only be called by other Yield contracts, not users directly.
+    /// @param from Wallet to burn the fyToken from.
+    /// @param fyTokenAmount Amount of fyToken to burn.
+    function burn(address from, uint256 fyTokenAmount) external;
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+
+library DataTypes {
+    // ======== Cauldron data types ========
+    struct Series {
+        IFYToken fyToken; // Redeemable token for the series.
+        bytes6 baseId; // Asset received on redemption.
+        uint32 maturity; // Unix time at which redemption becomes possible.
+        // bytes2 free
+    }
+
+    struct Debt {
+        uint96 max; // Maximum debt accepted for a given underlying, across all series
+        uint24 min; // Minimum debt accepted for a given underlying, across all series
+        uint8 dec; // Multiplying factor (10**dec) for max and min
+        uint128 sum; // Current debt for a given underlying, across all series
+    }
+
+    struct SpotOracle {
+        IOracle oracle; // Address for the spot price oracle
+        uint32 ratio; // Collateralization ratio to multiply the price for
+        // bytes8 free
+    }
+
+    struct Vault {
+        address owner;
+        bytes6 seriesId; // Each vault is related to only one series, which also determines the underlying.
+        bytes6 ilkId; // Asset accepted as collateral
+    }
+
+    struct Balances {
+        uint128 art; // Debt amount
+        uint128 ink; // Collateral amount
+    }
+
+    // ======== Witch data types ========
+    struct Auction {
+        address owner;
+        uint32 start;
+        bytes6 baseId; // We cache the baseId here
+        uint128 ink;
+        uint128 art;
+        address auctioneer;
+        bytes6 ilkId; // We cache the ilkId here
+        bytes6 seriesId; // We cache the seriesId here
+    }
+
+    struct Line {
+        uint32 duration; // Time that auctions take to go to minimal price and stay there
+        uint64 vaultProportion; // Proportion of the vault that is available each auction (1e18 = 100%)
+        uint64 collateralProportion; // Proportion of collateral that is sold at auction start (1e18 = 100%)
+    }
+
+    struct Limits {
+        uint128 max; // Maximum concurrent auctioned collateral
+        uint128 sum; // Current concurrent auctioned collateral
+    }
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+
+
+interface ICauldron {
+    /// @dev Variable rate lending oracle for an underlying
+    function lendingOracles(bytes6 baseId) external view returns (IOracle);
+
+    /// @dev An user can own one or more Vaults, with each vault being able to borrow from a single series.
+    function vaults(bytes12 vault)
+        external
+        view
+        returns (DataTypes.Vault memory);
+
+    /// @dev Series available in Cauldron.
+    function series(bytes6 seriesId)
+        external
+        view
+        returns (DataTypes.Series memory);
+
+    /// @dev Assets available in Cauldron.
+    function assets(bytes6 assetsId) external view returns (address);
+
+    /// @dev Each vault records debt and collateral balances_.
+    function balances(bytes12 vault)
+        external
+        view
+        returns (DataTypes.Balances memory);
+
+    /// @dev Max, min and sum of debt per underlying and collateral.
+    function debt(bytes6 baseId, bytes6 ilkId)
+        external
+        view
+        returns (DataTypes.Debt memory);
+
+    // @dev Spot price oracle addresses and collateralization ratios
+    function spotOracles(bytes6 baseId, bytes6 ilkId)
+        external
+        view
+        returns (DataTypes.SpotOracle memory);
+
+    /// @dev Create a new vault, linked to a series (and therefore underlying) and up to 5 collateral types
+    function build(
+        address owner,
+        bytes12 vaultId,
+        bytes6 seriesId,
+        bytes6 ilkId
+    ) external returns (DataTypes.Vault memory);
+
+    /// @dev Destroy an empty vault. Used to recover gas costs.
+    function destroy(bytes12 vault) external;
+
+    /// @dev Change a vault series and/or collateral types.
+    function tweak(
+        bytes12 vaultId,
+        bytes6 seriesId,
+        bytes6 ilkId
+    ) external returns (DataTypes.Vault memory);
+
+    /// @dev Give a vault to another user.
+    function give(bytes12 vaultId, address receiver)
+        external
+        returns (DataTypes.Vault memory);
+
+    /// @dev Move collateral and debt between vaults.
+    function stir(
+        bytes12 from,
+        bytes12 to,
+        uint128 ink,
+        uint128 art
+    ) external returns (DataTypes.Balances memory, DataTypes.Balances memory);
+
+    /// @dev Manipulate a vault debt and collateral.
+    function pour(
+        bytes12 vaultId,
+        int128 ink,
+        int128 art
+    ) external returns (DataTypes.Balances memory);
+
+    /// @dev Change series and debt of a vault.
+    /// The module calling this function also needs to buy underlying in the pool for the new series, and sell it in pool for the old series.
+    function roll(
+        bytes12 vaultId,
+        bytes6 seriesId,
+        int128 art
+    ) external returns (DataTypes.Vault memory, DataTypes.Balances memory);
+
+    /// @dev Reduce debt and collateral from a vault, ignoring collateralization checks.
+    function slurp(
+        bytes12 vaultId,
+        uint128 ink,
+        uint128 art
+    ) external returns (DataTypes.Balances memory);
+
+    // ==== Helpers ====
+
+    /// @dev Convert a debt amount for a series from base to fyToken terms.
+    /// @notice Think about rounding if using, since we are dividing.
+    function debtFromBase(bytes6 seriesId, uint128 base)
+        external
+        returns (uint128 art);
+
+    /// @dev Convert a debt amount for a series from fyToken to base terms
+    function debtToBase(bytes6 seriesId, uint128 art)
+        external
+        returns (uint128 base);
+
+    // ==== Accounting ====
+
+    /// @dev Record the borrowing rate at maturity for a series
+    function mature(bytes6 seriesId) external;
+
+    /// @dev Retrieve the rate accrual since maturity, maturing if necessary.
+    function accrual(bytes6 seriesId) external returns (uint256);
+
+    /// @dev Return the collateralization level of a vault. It will be negative if undercollateralized.
+    function level(bytes12 vaultId) external returns (int256);
+}
+
+
+// File @yield-protocol/vault-v2/contracts/interfaces/ILadle.sol@v0.18.0-rc.4
+
+
+pragma solidity ^0.8.0;
+
+
+interface ILadle {
+    function joins(bytes6) external view returns (IJoin);
+
+    function pools(bytes6) external view returns (address);
+
+    function cauldron() external view returns (ICauldron);
+
+    function build(
+        bytes6 seriesId,
+        bytes6 ilkId,
+        uint8 salt
+    ) external returns (bytes12 vaultId, DataTypes.Vault memory vault);
+
+    function destroy(bytes12 vaultId) external;
+
+    function pour(
+        bytes12 vaultId,
+        address to,
+        int128 ink,
+        int128 art
+    ) external payable;
+
+    function serve(
+        bytes12 vaultId,
+        address to,
+        uint128 ink,
+        uint128 base,
+        uint128 max
+    ) external payable returns (uint128 art);
+
+    function close(
+        bytes12 vaultId,
+        address to,
+        int128 ink,
+        int128 art
+    ) external;
+}
+
+
+// File @yield-protocol/yieldspace-tv/src/interfaces/IMaturingToken.sol@v0.1.7
 
 
 pragma solidity >=0.8.15;
@@ -1462,7 +1495,7 @@ interface IMaturingToken is IERC20 {
 }
 
 
-// File @yield-protocol/yieldspace-tv/src/interfaces/IPool.sol@v0.1.6rc1
+// File @yield-protocol/yieldspace-tv/src/interfaces/IPool.sol@v0.1.7
 
 
 pragma solidity >= 0.8.0;
@@ -1523,7 +1556,7 @@ interface IPool is IERC20, IERC2612 {
 }
 
 
-// File contracts/strategy-v2/contracts/Strategy.sol
+// File contracts/Strategy.sol
 
 
 pragma solidity >=0.8.13;

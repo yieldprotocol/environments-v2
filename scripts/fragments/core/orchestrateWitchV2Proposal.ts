@@ -12,7 +12,7 @@ import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
 import { bytesToString } from '../../../shared/helpers'
 import { Cauldron, ContangoLadle, EmergencyBrake, Timelock, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/contango/arbitrum/contango.arb_mainnet.config'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const orchestrateWitchV2 = async (
   ownerAcc: SignerWithAddress,

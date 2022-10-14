@@ -190,6 +190,7 @@ export const proposeApproveExecute = async (
       if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
       signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
       // Since we are in a testing environment, let's advance time
+      console.log('Advancing time')
       advanceTime(await timelock.delay())
     } else {
       // On kovan we have approval permissions

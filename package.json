@@ -30,7 +30,7 @@
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "^0.12.0-rc5",
     "@yield-protocol/utils-v2": "2.6.0-rc.1",
-    "@yield-protocol/yieldspace-tv": "^0.1.6rc1",
+    "@yield-protocol/yieldspace-tv": "^0.1.8",
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
@@ -65,6 +65,7 @@
   "dependencies": {
     "@tenderly/hardhat-tenderly": "^1.1.6",
     "@yield-protocol/vault-v2": "0.18.5",
+    "csv-parser": "^3.0.0",
     "latest": "^0.2.0"
   }
 }

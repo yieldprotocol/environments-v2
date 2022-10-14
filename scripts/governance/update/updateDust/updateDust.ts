@@ -13,17 +13,15 @@ import {
   readAddressMappingIfExists,
 } from '../../../../shared/helpers'
 import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
-import { Cauldron, Timelock } from '../../../../typechain'
-const { governance, protocol, developer, newMin } = require(process.env.CONF as string)
+import { Cauldron, OldWitch, OldWitch__factory, Cauldron__factory, Timelock } from '../../../../typechain'
+import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
+import { CAULDRON, WITCH } from '../../../../shared/constants'
+const { governance, protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
 ;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
-
+  let ownerAcc = await getOwnerOrImpersonate(developer.get(1))
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON) as string, ownerAcc) as unknown as Cauldron
+  const witch = OldWitch__factory.connect(protocol.get(WITCH) as string, ownerAcc) as unknown as OldWitch
 
   const timelock = (await ethers.getContractAt(
     'Timelock',
@@ -32,7 +30,11 @@ const { governance, protocol, developer, newMin } = require(process.env.CONF as 
   )) as unknown as Timelock
 
   // Build the proposal
-  const proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newMin)
+  let proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newDebtMin)
+
+  //Update auction limits
+  proposal = proposal.concat(await updateWitchLimitsInitialOfferProposal(witch, newAuctionMin))
+
   // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer.get(1))
 })()
