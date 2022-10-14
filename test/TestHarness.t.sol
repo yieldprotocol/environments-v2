@@ -83,53 +83,57 @@ contract TestHarness is Test, TestConstants {
         // pools
         address[] memory pools = json.readAddressArray(".poolAddresses");
         
-        (vaultId, ) = ladle.build(bytes6(seriesId), bytes6(ilkId), 0);
+        for(uint8 i = 0; i < ilks.length; i++) {
+            for(uint8 s = 0; s < seriesIds.length; s++) {
+                (vaultId, ) = ladle.build(bytes6(seriesId[s]), bytes6(ilkId[s]), 0);
 
-        deal(address(base), address(this), WAD * 2);
-        deal(address(fyToken), address(this), WAD * 2);
+                deal(address(bases[i]), address(this), WAD * 2);
+                deal(address(fyTokens[i]), address(this), WAD * 2);
 
-        uint256 baseBalanceBefore = pool.getBaseBalance();
-        uint256 fyTokenBalanceBefore = pool.getFYTokenBalance();
+                uint256 baseBalanceBefore = pool.getBaseBalance();
+                uint256 fyTokenBalanceBefore = pool.getFYTokenBalance();
 
-        // give approval and send base and fytoken to pool
-        base.approve(address(pool), WAD * 2);
-        base.transfer(address(pool), WAD * 2);
-        fyToken.approve(address(pool), WAD * 2);
-        fyToken.transfer(address(pool), WAD * 2);
-        // mint lp tokens
-        (
-            uint256 baseAmount, 
-            uint256 fyTokenAmount, 
-            uint256 lpTokenAmount
-        ) = pool.mint(
-            address(this), 
-            address(this), 
-            0, 
-            type(uint256).max
-        );
+                // give approval and send base and fytoken to pool
+                IERC20(bases[i]).approve(address(pool), WAD * 2);
+                IERC20(bases[i]).transfer(address(pool), WAD * 2);
+                IERC20(fyTokens[i]).approve(address(pool), WAD * 2);
+                IERC20(fyTokens[i]).transfer(address(pool), WAD * 2);
+                // mint lp tokens
+                (
+                    uint256 baseAmount, 
+                    uint256 fyTokenAmount, 
+                    uint256 lpTokenAmount
+                ) = pool.mint(
+                    address(this), 
+                    address(this), 
+                    0, 
+                    type(uint256).max
+                );
 
-        uint256 baseBalanceAfter = pool.getBaseBalance();
-        uint256 fyTokenBalanceAfter = pool.getFYTokenBalance();
+                uint256 baseBalanceAfter = pool.getBaseBalance();
+                uint256 fyTokenBalanceAfter = pool.getFYTokenBalance();
 
-        assertEq(
-            base.balanceOf(address(this)) + baseAmount, 
-            WAD * 2
-        );
-        assertEq(
-            fyTokenAmount, 
-            WAD * 2
-        );
-        assertEq(
-            lpTokenAmount,
-            1944400271832902846
-        );
-        assertEq(
-            baseBalanceBefore + baseAmount, 
-            baseBalanceAfter
-        );
-        assertEq(
-            fyTokenBalanceAfter,
-            516221416956699490582032
-        );
+                assertEq(
+                    base.balanceOf(address(this)) + baseAmount, 
+                    WAD * 2
+                );
+                assertEq(
+                    fyTokenAmount, 
+                    WAD * 2
+                );
+                assertEq(
+                    lpTokenAmount,
+                    1944400271832902846
+                );
+                assertEq(
+                    baseBalanceBefore + baseAmount, 
+                    baseBalanceAfter
+                );
+                assertEq(
+                    fyTokenBalanceAfter,
+                    516221416956699490582032
+                );
+            }
+        }
     }
 }
