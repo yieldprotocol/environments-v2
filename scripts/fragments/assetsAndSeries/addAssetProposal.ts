@@ -21,13 +21,11 @@ export const addAssetProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
-    const asset = await ethers.getContractAt('ERC20', assetAddress, ownerAcc)
-    console.log(`Using ${await asset.name()} at ${assetAddress}`)
+    console.log(`Using asset at ${assetAddress}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
     const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
-    //console.log(`Using ${await asset.name()} join at ${joinAddress}`)
-    console.log(joinAddress)
+    console.log(`Using join at ${joinAddress}`)
 
     if ((await cauldron.assets(assetId)) === ZERO_ADDRESS) {
       // Add asset to Cauldron

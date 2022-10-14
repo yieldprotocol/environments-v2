@@ -212,7 +212,6 @@ export const proposeApproveExecute = async (
     } else {
       ;[signerAcc] = await ethers.getSigners()
     }
-    console.log(`SignerAcc.address: ${signerAcc.address}\n`)
     const tx = await timelock.connect(signerAcc).execute(proposal)
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)

@@ -64,7 +64,7 @@
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
     "@tenderly/hardhat-tenderly": "^1.1.6",
-    "@yield-protocol/vault-v2": "0.18.4",
+    "@yield-protocol/vault-v2": "0.18.5",
     "csv-parser": "^3.0.0",
     "latest": "^0.2.0"
   }

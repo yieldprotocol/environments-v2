@@ -41,10 +41,16 @@ export const EDAI = ethers.utils.formatBytes32String('21').slice(0, 14)
 export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
 export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
 export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
+export const FDAI2303 = ethers.utils.formatBytes32String('25').slice(0, 14)
+export const FUSDC2303 = ethers.utils.formatBytes32String('26').slice(0, 14)
+export const EFRAX = ethers.utils.formatBytes32String('27').slice(0, 14)
+export const FETH2212 = ethers.utils.formatBytes32String('28').slice(0, 14)
+export const FETH2303 = ethers.utils.formatBytes32String('29').slice(0, 14)
 
 export const MULTISIG = 'multisig'
 export const TIMELOCK = 'timelock'
 export const CAULDRON = 'cauldron'
+export const LADLE = 'ladle'
 export const WITCH = 'witch'
 export const CLOAK = 'cloak'
 export const CHAINLINK = 'chainlinkOracle'
@@ -64,6 +70,7 @@ export const CONTANGO_WITCH = 'contangoWitch'
 export const CONTANGO_CAULDRON = 'contangoCauldron'
 export const CONTANGO_LADLE = 'contangoLadle'
 export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
+export const FCASH = 'fCash'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
@@ -77,8 +84,10 @@ export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
 export const FCASH_SEP22 = 1664064000 // 214 * (86400 * 90)
 export const FCASH_DEC22 = 1671840000 // 215 * (86400 * 90)
 export const FCASH_MAR23 = 1679616000 // 216 * (86400 * 90)
+export const FCASH_ETH = '1'
 export const FCASH_DAI = '2'
 export const FCASH_USDC = '3'
+export const FCASH_WBTC = '4'
 
 // CurrencyId*(16**12)+Maturity*(16**2)+1 = 563371972493313
 export const FDAI2203ID = 563371972493313
@@ -91,6 +100,8 @@ export const FUSDC2206ID = 844848939859969
 export const FUSDC2209ID = 844850930515969
 export const FUSDC2212ID = 844852921171969
 export const FUSDC2303ID = 844855079559169
+export const FETH2212ID = 281902967750657
+export const FETH2303ID = 281904958406657
 
 // Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
 export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
@@ -143,12 +154,6 @@ export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
 export const G1 = ethers.utils.formatBytes32String('g1')
 export const G2 = ethers.utils.formatBytes32String('g2')
 export const TS = ethers.utils.formatBytes32String('ts')
-
-// JSON file keys
-export const contangoWitch_key = 'contangoWitch'
-export const contangoCauldron_key = 'contangoCauldron'
-export const contangoLadle_key = 'contangoLadle'
-export const contangoLadleRouter_key = 'contangoLadleRouter'
 
 export const DISPLAY_NAMES = new Map([
   [ETH, 'ETH'],

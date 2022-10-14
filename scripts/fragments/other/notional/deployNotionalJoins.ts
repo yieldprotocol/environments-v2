@@ -1,10 +1,10 @@
 import { ethers, waffle } from 'hardhat'
-import { verify } from '../../../shared/helpers'
-import { ROOT } from '../../../shared/constants'
+import { verify } from '../../../../shared/helpers'
+import { ROOT } from '../../../../shared/constants'
 
-import NotionalJoinArtifact from '../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol/NotionalJoin.json'
+import NotionalJoinArtifact from '../../../../artifacts/@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol/NotionalJoin.json'
 
-import { Timelock, NotionalJoin } from '../../../typechain'
+import { Timelock, NotionalJoin } from '../../../../typechain'
 
 const { deployContract } = waffle
 
@@ -15,21 +15,22 @@ const { deployContract } = waffle
 export const deployNotionalJoins = async (
   ownerAcc: any,
   timelock: Timelock,
-  joinData: Array<[string, string, string, number, string]>
+  joinData: Array<[string, string, string, string, number, number]>
 ): Promise<Map<string, NotionalJoin>> => {
   let joins: Map<string, NotionalJoin> = new Map()
-  for (let [assetId, fCashAddress, underlyingAddress, maturity, currencyId] of joinData) {
+  for (let [assetId, fCashAddress, underlyingAddress, underlyingJoinAddress, maturity, currencyId] of joinData) {
     let join: NotionalJoin
     join = (await deployContract(ownerAcc, NotionalJoinArtifact, [
       fCashAddress,
       underlyingAddress,
+      underlyingJoinAddress,
       maturity,
       currencyId,
     ])) as NotionalJoin
     console.log(
       `NotionalJoin deployed at ${join.address} for fCash maturing at ${maturity} with currency ${currencyId}`
     )
-    verify(join.address, [fCashAddress, underlyingAddress, maturity, currencyId])
+    verify(join.address, [fCashAddress, underlyingAddress, underlyingJoinAddress, maturity, currencyId])
 
     if (!(await join.hasRole(ROOT, timelock.address))) {
       await join.grantRole(ROOT, timelock.address)
