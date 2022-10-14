@@ -54,6 +54,8 @@ export const YSETH6MMSASSET = ethers.utils.formatBytes32String('34').slice(0, 14
 export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14)
 export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
 export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
+export const USDT = ethers.utils.formatBytes32String('38').slice(0, 14)
+export const EUSDT = ethers.utils.formatBytes32String('39').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -140,9 +142,13 @@ export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) 
 export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
 export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
 export const FYFRAX2306 = ethers.utils.formatBytes32String('1810').slice(0, 14)
+export const FYUSDT2212 = ethers.utils.formatBytes32String('2508').slice(0, 14)
+export const FYUSDT2303 = ethers.utils.formatBytes32String('2509').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
+export const YSUSDT6MMS = 'YSUSDT6MMS' // Yield Strategy USDT 6M Mar Sep
+export const YSUSDT6MJD = 'YSUSDT6MJD' // Yield Strategy USDT 6M Jun Dec
 export const YSUSDC6MMS = 'YSUSDC6MMS' // Yield Strategy USDC 6M Mar Sep
 export const YSUSDC6MJD = 'YSUSDC6MJD' // Yield Strategy USDC 6M Jun Dec
 export const YSETH6MMS = 'YSETH6MMS' // Yield Strategy ETH 6M Mar Sep

@@ -25,6 +25,7 @@ import {
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
   EFRAX,
+  USDT,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
@@ -162,6 +163,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
   [YVUSDC, assets.get(YVUSDC) as string],
+  [USDT, assets.get(USDT) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join
