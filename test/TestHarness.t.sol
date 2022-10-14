@@ -39,27 +39,29 @@ contract TestHarness is Test, TestConstants {
         // ilks
         address[] memory ilks = json.readAddressArray(".ilkAddresses");
         // seriesIds
-        bytes memory seriesIdsEncoded = vm.parseJson(json, ".seriesIds");
-        bytes6[] memory seriesIds = abi.decode(seriesIdsEncoded, (bytes6[]));
+        bytes[] memory seriesIds = json.readBytesArray(".seriesIds");
         // ilkIds
-        bytes memory ilkIdsEncoded = vm.parseJson(json, ".ilkIds");
-        bytes6[] memory ilkIds = abi.decode(ilkIdsEncoded, (bytes6[]));
+        bytes[] memory ilkIds = json.readBytesArray(".ilkIds");
         // joins
         address[] memory joins = json.readAddressArray(".joinAddresses");
-        // bases
+        // // bases
         address[] memory bases = json.readAddressArray(".baseAddresses");
-        // fyTokens
+        // // fyTokens
         address[] memory fyTokens = json.readAddressArray(".fyTokenAddresses");
 
-        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
+        for(uint8 i = 0; i < ilks.length; i++) {
+            for(uint8 s = 0; s < seriesIds.length; s++) {
+                (vaultId, ) = ladle.build(bytes6(seriesIds[s]), bytes6(ilkIds[i]), 0);
 
-        deal(address(ilk), address(this), WAD * 2);
-        deal(address(fyToken), address(this), WAD * 2);
+                deal(address(ilks[i]), address(this), WAD * 10);
+                deal(address(bases[i]), address(this), WAD * 3);
 
-        DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-        ilk.approve(address(ladle), WAD * 2);
-        ilk.transfer(join, WAD * 2);
-        ladle.pour(vaultId, vault.owner, 1e18 * 2, 1e18);
+                DataTypes.Vault memory vault = cauldron.vaults(vaultId);
+                IERC20(ilks[i]).approve(address(ladle), WAD * 10);
+                IERC20(ilks[i]).transfer(joins[i], WAD * 10);
+                ladle.pour(vaultId, vault.owner, 1e18 * 10, 1e18 * 3);
+            }
+        }
     }
 
     function testPoolAnyAmountWithBorrowAndPool() public {
@@ -71,11 +73,9 @@ contract TestHarness is Test, TestConstants {
         // ilks
         address[] memory ilks = json.readAddressArray(".ilkAddresses");
         // seriesIds
-        bytes memory seriesIdsEncoded = vm.parseJson(json, ".seriesIds");
-        bytes6[] memory seriesIds = abi.decode(seriesIdsEncoded, (bytes6[]));
+        bytes[] memory seriesIds = json.readBytesArray(".seriesIds");
         // ilkIds
-        bytes memory ilkIdsEncoded = vm.parseJson(json, ".ilkIds");
-        bytes6[] memory ilkIds = abi.decode(ilkIdsEncoded, (bytes6[]));
+        bytes[] memory ilkIds = json.readBytesArray(".ilkIds");
         // bases
         address[] memory bases = json.readAddressArray(".baseAddresses");
         // fyTokens
@@ -83,7 +83,7 @@ contract TestHarness is Test, TestConstants {
         // pools
         address[] memory pools = json.readAddressArray(".poolAddresses");
         
-        (vaultId, ) = ladle.build(seriesId, ilkId, 0);
+        (vaultId, ) = ladle.build(bytes6(seriesId), bytes6(ilkId), 0);
 
         deal(address(base), address(this), WAD * 2);
         deal(address(fyToken), address(this), WAD * 2);
