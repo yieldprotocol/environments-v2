@@ -1,8 +1,5 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { ETH, DAI, USDC, FYDAI2209, FYUSDC2209, FYETH2209 } from '../../shared/constants'
-import { ACCUMULATOR, RATE, CHI } from '../../shared/constants'
-import { FYDAI2203, FYUSDC2203, FYDAI2206, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
-import { WAD, ZERO, ONEUSDC, ONE64, secondsIn25Years } from '../../shared/constants'
+import { CHI, DAI, ETH, FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, RATE, USDC, WAD } from '../../shared/constants'
 
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
@@ -11,6 +8,7 @@ export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
+export const pools = readAddressMappingIfExists('pools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const external = readAddressMappingIfExists('external.json')
 
@@ -24,9 +22,9 @@ export const additionalDevelopers: Array<string> = [
 
 export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
-  [ETH, '0x905dfcd5649217c42684f23958568e533c711aa3'],
-  [DAI, '0xba479d5585ecec47edc2a571da430a40f43c3851'],
-  [USDC, '0x1714400ff23db4af24f9fd64e7039e6597f18c2b'],
+  [ETH, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
+  [DAI, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
+  [USDC, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
 ])
 // https://tokenlists.org/token-list?url=https://bridge.arbitrum.io/token-list-42161.json
 export const assets: Map<string, string> = new Map([
@@ -96,17 +94,3 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2206, [ETH, DAI, USDC]],
   [FYUSDC2206, [ETH, DAI, USDC]],
 ]
-
-// fytoken id -> pool address
-export const pools = new Map([
-  [FYDAI2209, '0xFCb9B8C5160Cf2999f9879D8230dCed469E72eeb'],
-  [FYUSDC2209, '0x13aB946C6A9645EDfF2A33880e0Fc37f67122170'],
-  [FYETH2209, '0x0FA29EEb169CDE6c779326d7b16c54529ECA1DD5'],
-])
-
-// fytoken id -> fytoken address
-export const fyTokens = new Map([
-  [FYDAI2209, '0x4f9B5e639447456DDC784Bc441F5A6FD7CE80729'],
-  [FYUSDC2209, '0xeC1b42EC9a1650238acE42fD57bc719cCC87851C'],
-  [FYETH2209, '0xe1e878364EfC19712a2833C5C60B68d215f9a4Ab'],
-])

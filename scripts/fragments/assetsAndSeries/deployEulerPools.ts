@@ -22,6 +22,7 @@ export const deployEulerPools = async (
       libraries: {
         YieldMath: yieldMathLibrary.address,
       },
+      signer: ownerAcc,
     }
   )
 
@@ -42,9 +43,6 @@ export const deployEulerPools = async (
     console.log('Deploy args:')
     console.log(eulerAddress, sharesToken, fyTokenAddress, ts, g1)
 
-    // const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1, {
-    //   gasLimit: 5000000,
-    // })) as unknown as Pool
     const pool = (await PoolEulerFactory.deploy(eulerAddress, sharesToken, fyTokenAddress, ts, g1)) as unknown as Pool
     console.log(`Pool deployed at ${pool.address}`)
     verify(pool.address, [eulerAddress, sharesToken, fyTokenAddress, ts.toString(), g1.toString()], 'YieldMath.js')

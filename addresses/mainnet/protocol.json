@@ -91,7 +91,15 @@
     ],
     [
       "yieldMath",
-      "0x96323CF489ad2aB794bf03aaD82bc09A7C5862df"
+      "0x4031057e802Da9A7De7eD1da6401be1aff531f12"
+    ],
+    [
+      "solvency",
+      "0x892Fa63aF42585BBE8a578278c95705391cA15E1"
+    ],
+    [
+      "trader",
+      "0xCfdC01EaF336133EF4dc646816E8e845aaD76Ca3"
     ],
     [
       "notionalJoinFactory",

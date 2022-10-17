@@ -10,8 +10,9 @@ import 'hardhat-contract-sizer'
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
-import * as tdly from "@tenderly/hardhat-tenderly";
-tdly.setup();
+// uncomment this to verify Tenderly contracts
+import "@tenderly/hardhat-tenderly";
+// tdly.setup();
 
 function infuraNodeUrl(network: any) {
   let infuraKey
@@ -59,6 +60,13 @@ if (!etherscanKey) {
   } catch (e) { }
 }
 
+let arbiscanKey = process.env.ARBISCANKEY
+if (!arbiscanKey) {
+  try {
+    arbiscanKey = fs.readFileSync(path.resolve(__dirname, '.arbiscanKey')).toString().trim()
+  } catch (e) { }
+}
+
 module.exports = {
   solidity: {
     version: '0.8.15',
@@ -94,13 +102,6 @@ module.exports = {
     owner: 1,
     other: 2,
   },
-  // tenderly: {
-  //   project: "v2",
-  //   username: "AlbertoCuesta",
-  //   forkNetwork: "mainnet",
-  //   privateVerification: false,
-  //   deploymentsDir: "deployments"
-  // },
   networks: {
     hardhat: {
       accounts,
@@ -110,26 +111,22 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      blockGasLimit: 50_000_000_000,
+      chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/8d5746f9-ec9f-4c5f-9bd5-b4f9be01e7c7", 
+      url: "https://rpc.tenderly.co/fork/c3fe7111-cdf1-453d-9475-d11ade39904b",
       // update chainId if necessary
-      forkNetwork: "42161",
-      // update chainId if necessary
-      project: "v2",
-      // these below can probably remain unchanged
+      forkNetwork: "1",
       username: "Yield",
-      // blockGasLimit: 300_000_000_000,
-      // gasPrice: 1_000_000_000,
+      project: "v2",
       timeout: 60_000_000
     },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 10_000_000_000,
+      gasPrice: 20_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
@@ -147,13 +144,13 @@ module.exports = {
   },
   tenderly: {
 		username: "Yield",
-		project: "v2-arbitrum"
+		project: "v2",
+    forkNetwork: "42161",
 	},
   etherscan: {
-    apiKey: etherscanKey
-  },
-  tenderly: {
-		username: "Yield",
-		project: "v2"
-	},
+    apiKey: {
+      mainnet: etherscanKey,
+      arbitrumOne: arbiscanKey
+    }
+  }
 }
