@@ -139,31 +139,21 @@ export const advanceTimeTo = async (time: number) => {
   await advanceTime(time - now)
 }
 
-/**
- * @dev Given a timelock contract and a proposal hash, propose it, approve it or execute it,
- * depending on the proposal state in the timelock.
- * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
- */
-export const proposeApproveExecute = async (
+/** @dev Create hash from proposal and propose it to the timelock */
+export const propose = async (
   timelock: Timelock,
   proposal: Array<{ target: string; data: string }>,
-  multisig?: string,
   developer?: string
 ) => {
-  // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
+  writeProposalHash(txHash)
   console.log(`Proposal: ${txHash}`)
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
 
-  // Depending on the proposal state:
-  // - propose
-  // - approve (if in a fork, impersonating the multisig, and advancing time three days afterwards)
-  // - or execute
   if ((await timelock.proposals(txHash)).state === 0) {
     console.log('Proposing')
-    // Propose
     let signerAcc
     if (developer) {
       if (network.name === 'localhost' || network.name.includes('tenderly')) {
@@ -182,7 +172,20 @@ export const proposeApproveExecute = async (
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
-  } else if ((await timelock.proposals(txHash)).state === 1) {
+  }
+}
+
+/**
+ * @dev Use the timelock, multisig, and proposal hash to approve the proposal
+ * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
+ */
+export const approve = async (timelock: Timelock, multisig?: string) => {
+  let txHash = fs.readFileSync('./proposalHash.txt', 'utf8') as string
+
+  const requiredConfirmations = isFork() ? 1 : 2
+  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
+
+  if ((await timelock.proposals(txHash)).state === 1) {
     console.log('Approving')
     let signerAcc: SignerWithAddress
     // Approve, impersonating multisig if in a fork
@@ -199,7 +202,21 @@ export const proposeApproveExecute = async (
     const tx = await timelock.connect(signerAcc).approve(txHash)
     await requireProposalState(tx, ProposalState.Approved)
     console.log(`Approved ${txHash}`)
-  } else if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
+  }
+}
+
+/** @dev Execute the proposal */
+export const execute = async (
+  timelock: Timelock,
+  proposal: Array<{ target: string; data: string }>,
+  developer?: string
+) => {
+  let txHash = fs.readFileSync('./proposalHash.txt', 'utf8') as string
+
+  const requiredConfirmations = isFork() ? 1 : 2
+  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
+
+  if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
     console.log('Executing')
     // Execute
     let signerAcc
@@ -340,6 +357,10 @@ export function writeAddressMap(out_file: string, map_or_dictionary: Record<stri
     }
   }
   writeFileSync(getAddressMappingFilePath(out_file), mapToJson(map), 'utf8')
+}
+
+export function writeProposalHash(tx_hash: string) {
+  writeFileSync('proposalHash.txt', tx_hash)
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
