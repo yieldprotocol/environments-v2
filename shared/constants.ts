@@ -46,6 +46,14 @@ export const FUSDC2303 = ethers.utils.formatBytes32String('26').slice(0, 14)
 export const EFRAX = ethers.utils.formatBytes32String('27').slice(0, 14)
 export const FETH2212 = ethers.utils.formatBytes32String('28').slice(0, 14)
 export const FETH2303 = ethers.utils.formatBytes32String('29').slice(0, 14)
+export const YSDAI6MMSASSET = ethers.utils.formatBytes32String('30').slice(0, 14)
+export const YSDAI6MJDASSET = ethers.utils.formatBytes32String('31').slice(0, 14)
+export const YSUSDC6MMSASSET = ethers.utils.formatBytes32String('32').slice(0, 14)
+export const YSUSDC6MJDASSET = ethers.utils.formatBytes32String('33').slice(0, 14)
+export const YSETH6MMSASSET = ethers.utils.formatBytes32String('34').slice(0, 14)
+export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14)
+export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
+export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
 
 export const MULTISIG = 'multisig'
 export const TIMELOCK = 'timelock'
