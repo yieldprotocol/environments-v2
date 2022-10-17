@@ -58,7 +58,7 @@ export const strategyOracleSources: Array<[string, string]> = [
   [YSUSDC6MMSASSET, assets.get(YSUSDC6MMSASSET) as string],
   [YSUSDC6MJDASSET, assets.get(YSUSDC6MJDASSET) as string],
   [YSETH6MMSASSET, assets.get(YSETH6MMSASSET) as string],
-  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string],
+  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string]
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
@@ -74,7 +74,7 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
   [USDC, YSUSDC6MMSASSET, 1100000, 1000000, 5000, 6],
   [USDC, YSUSDC6MJDASSET, 1100000, 1000000, 5000, 6],
   [ETH, YSETH6MMSASSET, 1100000, 1000000, 5000, 18],
-  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18],
+  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18]
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -104,12 +104,4 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDC2303, [YSUSDC6MMSASSET]],
   [FYETH2212, [YSETH6MJDASSET]],
   [FYETH2303, [YSETH6MMSASSET]],
-]
-
-/// @notice Sources that will be added to the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Quote asset identifier (bytes6 tag)
-/// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [
-  [DAI, YSDAI6MMSASSET, protocol.get('strategyOracle') as string],
 ]

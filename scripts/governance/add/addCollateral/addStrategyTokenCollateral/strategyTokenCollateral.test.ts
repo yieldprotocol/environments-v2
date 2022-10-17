@@ -80,9 +80,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       const collateralBalanceBefore = await collateral.balanceOf(whaleAcc.address)
 
       // Build vault
-      var co = await ladle.connect(whaleAcc).build(seriesId, ilk, 0)
-      await co.wait(1)
-
+      await ladle.connect(whaleAcc).build(seriesId, ilk, 0)
       const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
       const vaultId = logs[logs.length - 1].args.vaultId
       console.log(`vault: ${vaultId}`)

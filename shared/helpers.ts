@@ -206,6 +206,7 @@ export const proposeApproveExecute = async (
     if (developer) {
       if (network.name === 'localhost' || network.name.includes('tenderly')) {
         signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
+        advanceTime(await timelock.delay())
       } else {
         signerAcc = await ethers.getSigner(developer)
       }
@@ -302,14 +303,8 @@ export function bytesToBytes32(bytes: string): string {
 
 export function verify(address: string, args: any, libs?: any) {
   const libsargs = libs !== undefined ? `--libraries ${libs.toString()}` : ''
-  console.log(`npx hardhat verify --network ${network.name} ${address} ${args.join(' ')} ${libsargs}`)
-  /* if (network.name !== 'localhost') {
-    run("verify:verify", {
-      address: address,
-      constructorArguments: args,
-      libraries: libs,
-    })
-  } */
+  if (network.name !== 'localhost' && network.name !== 'tenderly')
+    console.log(`npx hardhat verify --network ${network.name} ${address} ${args.join(' ')} ${libsargs}`)
 }
 
 /* MAP to Json for file export */
