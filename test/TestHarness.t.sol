@@ -54,12 +54,11 @@ contract TestHarness is Test, TestConstants {
                 (vaultId, ) = ladle.build(bytes6(seriesIds[s]), bytes6(ilkIds[i]), 0);
 
                 deal(address(ilks[i]), address(this), WAD * 10);
-                deal(address(bases[i]), address(this), WAD * 3);
 
                 DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-                IERC20(ilks[i]).approve(address(ladle), WAD * 10);
+                IERC20(ilks[i]).approve(address(joins[i]), WAD * 10);
                 IERC20(ilks[i]).transfer(joins[i], WAD * 10);
-                ladle.pour(vaultId, vault.owner, 1e18 * 10, 1e18 * 3);
+                ladle.pour(vaultId, vault.owner, 10e18 * 10, 10e18 * 5);
             }
         }
     }
