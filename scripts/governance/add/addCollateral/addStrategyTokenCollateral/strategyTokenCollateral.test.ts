@@ -56,6 +56,7 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       var borrowed = BigNumber.from(10)
         .pow(await fyToken.decimals())
         .mul(dust)
+
       // if (seriesId == FYETH2206 || seriesId == FYETH2209) borrowed = borrowed.div(1000000)
       // console.log(
       //   await oracle.peek(
@@ -96,7 +97,6 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
       if ((await cauldron.balances(vaultId)).art.toString() !== borrowed.toString()) throw 'art mismatch'
       if ((await cauldron.balances(vaultId)).ink.toString() !== posted.toString()) throw 'ink mismatch'
 
-      // Repay fyFRAX and withdraw collateral
       await fyToken.connect(whaleAcc).transfer(fyToken.address, borrowed)
       console.log(`repaying ${borrowed} ${name} and withdrawing ${posted} ilk`)
       await ladle.connect(whaleAcc).pour(vaultId, whaleAcc.address, posted.mul(-1), borrowed.mul(-1))

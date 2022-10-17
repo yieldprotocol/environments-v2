@@ -4,9 +4,16 @@ import {
   ETH,
   FRAX,
   FYDAI2209,
+  FYDAI2212,
+  FYDAI2303,
   FYETH2209,
+  FYETH2212,
+  FYETH2303,
   FYFRAX2209,
+  FYFRAX2212,
   FYUSDC2209,
+  FYUSDC2212,
+  FYUSDC2303,
   USDC,
   YSDAI6MJDASSET,
   YSDAI6MMS,
@@ -43,19 +50,15 @@ export const assetsToAdd: Array<[string, string]> = [
   [YSUSDC6MJDASSET, assets.get(YSUSDC6MJDASSET) as string],
   [YSETH6MMSASSET, assets.get(YSETH6MMSASSET) as string],
   [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string],
-  [YSFRAX6MMSASSET, assets.get(YSFRAX6MMSASSET) as string],
-  [YSFRAX6MJDASSET, assets.get(YSFRAX6MJDASSET) as string],
 ]
 
-export const strategyOracleSources: Array<[string, string, number, string]> = [
-  [YSDAI6MMSASSET, DAI, 18, assets.get(YSDAI6MMSASSET) as string],
-  [YSDAI6MJDASSET, DAI, 18, assets.get(YSDAI6MJDASSET) as string],
-  [YSUSDC6MMSASSET, USDC, 6, assets.get(YSUSDC6MMSASSET) as string],
-  [YSUSDC6MJDASSET, USDC, 6, assets.get(YSUSDC6MJDASSET) as string],
-  [YSETH6MMSASSET, ETH, 18, assets.get(YSETH6MMSASSET) as string],
-  [YSETH6MJDASSET, ETH, 18, assets.get(YSETH6MJDASSET) as string],
-  [YSFRAX6MMSASSET, FRAX, 18, assets.get(YSFRAX6MMSASSET) as string],
-  [YSFRAX6MJDASSET, FRAX, 18, assets.get(YSFRAX6MJDASSET) as string],
+export const strategyOracleSources: Array<[string, string]> = [
+  [YSDAI6MMSASSET, assets.get(YSDAI6MMSASSET) as string],
+  [YSDAI6MJDASSET, assets.get(YSDAI6MJDASSET) as string],
+  [YSUSDC6MMSASSET, assets.get(YSUSDC6MMSASSET) as string],
+  [YSUSDC6MJDASSET, assets.get(YSUSDC6MJDASSET) as string],
+  [YSETH6MMSASSET, assets.get(YSETH6MMSASSET) as string],
+  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
@@ -72,8 +75,6 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
   [USDC, YSUSDC6MJDASSET, 1100000, 1000000, 5000, 6],
   [ETH, YSETH6MMSASSET, 1100000, 1000000, 5000, 18],
   [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18],
-  [FRAX, YSFRAX6MMSASSET, 1100000, 1000000, 5000, 18],
-  [FRAX, YSFRAX6MJDASSET, 1100000, 1000000, 5000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -91,40 +92,16 @@ export const strategyAuctionLimits: Array<[string, number, number, number, numbe
   [YSUSDC6MJDASSET, 3600, 1000000, 1000000, 5000, 6],
   [YSETH6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
   [YSETH6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
-  [YSFRAX6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
-  [YSFRAX6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
 ]
 
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2209, [YSDAI6MMSASSET]],
-  [FYUSDC2209, [YSUSDC6MMSASSET]],
-  [FYFRAX2209, [YSFRAX6MMSASSET]],
-  [FYETH2209, [YSETH6MMSASSET]],
-  // [FYFRAX2209, [YSDAI6MMSTOKEN]],
-]
-
-/// @notice Sources that will be added to the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Quote asset identifier (bytes6 tag)
-/// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [[DAI, YSDAI6MMSASSET, 'strategyOracle']]
-
-/// @notice Paths that will be added to the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Quote asset identifier (bytes6 tag)
-/// @param Path to traverse (array of bytes6 tags)
-export const newCompositePaths: Array<[string, string, Array<string>]> = [[FRAX, YSDAI6MMSASSET, [ETH, DAI]]]
-
-/// @notice Configure an asset as an ilk for a base using the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Ilk asset identifier (bytes6 tag)
-/// @param Collateralization ratio as a fixed point number with 6 decimals
-/// @param Debt ceiling, modified by decimals
-/// @param Minimum vault debt, modified by decimals
-/// @param Decimals to append to debt ceiling and minimum vault debt.
-export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [FRAX, YSDAI6MMSASSET, 1100000, 1000000, 5000, 18],
+  [FYDAI2212, [YSDAI6MJDASSET]],
+  [FYDAI2303, [YSDAI6MMSASSET]],
+  [FYUSDC2212, [YSUSDC6MJDASSET]],
+  [FYUSDC2303, [YSUSDC6MMSASSET]],
+  [FYETH2212, [YSETH6MJDASSET]],
+  [FYETH2303, [YSETH6MMSASSET]],
 ]

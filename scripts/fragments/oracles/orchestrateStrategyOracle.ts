@@ -25,7 +25,7 @@ export const orchestrateStrategyOracleProposal = async (
   proposal.push({
     target: strategyOracle.address,
     data: strategyOracle.interface.encodeFunctionData('grantRoles', [
-      [id(strategyOracle.interface, 'setSource(bytes6,bytes6,uint8,address)')],
+      [id(strategyOracle.interface, 'setSource(bytes6,address)')],
       timelock.address,
     ]),
   })

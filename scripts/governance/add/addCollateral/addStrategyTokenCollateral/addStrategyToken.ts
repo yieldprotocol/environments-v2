@@ -60,12 +60,6 @@ const {
   proposal = proposal.concat(await orchestrateStrategyOracleProposal(ownerAcc.address, strategyOracle, timelock, cloak))
   // Add Strategy Oracle Source
   proposal = proposal.concat(await updatStrategyOracleSourcesProposal(strategyOracle, strategyOracleSources))
-  // Add Composite Oracle Source
-  proposal = proposal.concat(
-    await updateCompositeSourcesProposal(ownerAcc, protocol, compositeOracle, compositeSources)
-  )
-  // Add for composite paths
-  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
 
@@ -82,10 +76,6 @@ const {
       newStrategyLimits,
       strategyAuctionLimits
     )
-  )
-
-  proposal = proposal.concat(
-    await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
 
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
