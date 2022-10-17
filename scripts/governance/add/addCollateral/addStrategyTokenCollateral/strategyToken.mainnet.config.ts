@@ -58,7 +58,7 @@ export const strategyOracleSources: Array<[string, string]> = [
   [YSUSDC6MMSASSET, assets.get(YSUSDC6MMSASSET) as string],
   [YSUSDC6MJDASSET, assets.get(YSUSDC6MJDASSET) as string],
   [YSETH6MMSASSET, assets.get(YSETH6MMSASSET) as string],
-  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string]
+  [YSETH6MJDASSET, assets.get(YSETH6MJDASSET) as string],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
@@ -74,7 +74,7 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
   [USDC, YSUSDC6MMSASSET, 1100000, 1000000, 5000, 6],
   [USDC, YSUSDC6MJDASSET, 1100000, 1000000, 5000, 6],
   [ETH, YSETH6MMSASSET, 1100000, 1000000, 5000, 18],
-  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18]
+  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
