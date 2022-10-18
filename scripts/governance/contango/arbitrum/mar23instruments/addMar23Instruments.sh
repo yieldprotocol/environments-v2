@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/contango.arb_mainnet.mar23.config
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network arb_mainnet"
 
 # # Phase 1: Deploy Joins
 $RUN $HERE/../../../deploy/deployJoins.ts
@@ -13,5 +13,5 @@ $RUN $HERE/../../../../fragments/witchV2/initialisePoolOracle.ts
 
 # # Phase 3: Orchestrate
 $RUN $HERE/../../shared/orchestrateNewInstruments.ts # propose
-$RUN $HERE/../../shared/orchestrateNewInstruments.ts # approve
-$RUN $HERE/../../shared/orchestrateNewInstruments.ts # execute
+# $RUN $HERE/../../shared/orchestrateNewInstruments.ts # approve
+# $RUN $HERE/../../shared/orchestrateNewInstruments.ts # execute
