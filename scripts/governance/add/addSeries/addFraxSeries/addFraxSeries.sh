@@ -2,10 +2,9 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/addFraxSeries.mainnet.config
+export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
 RUN="npx hardhat run --network localhost"
 
-$RUN $HERE/../../redeploy/arbitrum/deployAccumulatorOracle.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployJoins.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployPools.ts # deploy pools

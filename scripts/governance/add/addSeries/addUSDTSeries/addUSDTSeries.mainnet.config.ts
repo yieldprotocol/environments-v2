@@ -13,6 +13,7 @@ import {
   secondsInOneYear,
   FRAX,
   USDC,
+  EWETH,
   WBTC,
   LINK,
   STETH,
@@ -23,7 +24,11 @@ import {
   YSUSDT6MMS,
   YSUSDT6MJD,
   USDT,
+  EUSDT,
   ZERO,
+  COMPOUND,
+  EOMAR23,
+  EODEC22,
   CHAINLINK,
   FYETH2206,
   FYUSDC2206,
@@ -40,7 +45,7 @@ export const chainId: number = base_config.chainId
 export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const whales: Map<string, string> = base_config.whales
-
+export const eulerAddress = base_config.eulerAddress
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
@@ -56,7 +61,7 @@ export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoin
 /// @param start Initial value for the acummulator (18 decimal fixed point)
 /// @param increasePerSecond Acummulator multiplier, per second (18 decimal fixed point)
 export const rateChiSources: Array<[string, string, string, string]> = [
-  [USDT, RATE, WAD.toString(), '1000000001546067000'], // ??? TODO: ALBERTO
+  [USDT, RATE, WAD.toString(), '1000000001546067000'],
   [USDT, CHI, WAD.toString(), WAD.toString()],
 ]
 
@@ -109,19 +114,20 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 /// @param Base asset identifier (bytes6 tag)
 /// @param Ilk asset identifier (bytes6 tag)
 /// @param Collateralization ratio as a fixed point number with 6 decimals
-/// @param Debt ceiling, modified by decimals
-/// @param Minimum vault debt, modified by decimals
+/// @param Debt ceiling, in terms of base, modified by decimals
+/// @param Minimum vault debt, in terms of base, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [USDT, DAI, 1100000, 1000000, 1000, 18],
-  [USDT, ETH, 1400000, 1000000, 1000, 18],
-  [USDT, USDC, 1100000, 1000000, 1000, 18],
-  [USDT, WBTC, 1500000, 1000000, 1000, 18],
-  [USDT, LINK, 1670000, 1000000, 1000, 18],
-  [USDT, FRAX, 1000000, 5000000, 1000, 18],
-  [USDT, UNI, 1670000, 1000000, 1000, 18],
-  [USDT, WSTETH, 1670000, 1000000, 1000, 18],
-  [USDT, ENS, 1670000, 1000000, 1000, 18],
+  [USDT, DAI, 1100000, 200000, 1000, 6],
+  [USDT, ETH, 1400000, 200000, 1000, 6],
+  [USDT, USDC, 1100000, 200000, 1000, 6],
+  [USDT, WBTC, 1500000, 200000, 1000, 6],
+  [USDT, LINK, 1670000, 200000, 1000, 6],
+  [USDT, USDT, 1000000, 200000, 0, 6],
+  [USDT, FRAX, 1150000, 200000, 1000, 6],
+  [USDT, UNI, 1670000, 200000, 1000, 6],
+  [USDT, WSTETH, 1400000, 200000, 1000, 6],
+  [USDT, ENS, 1670000, 200000, 1000, 6],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Composite Oracle
@@ -150,6 +156,14 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
 ]
 
+export const timeStretch: Map<string, BigNumber> = new Map([
+  [FYUSDT2212, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
+])
+
+// Sell base to the pool fee, as fp4
+export const g1: number = 9000
+
 /// @notice Deploy YieldSpace pools
 /// @param pool identifier, usually matching the series (bytes6 tag)
 /// @param base address
@@ -157,22 +171,22 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 /// @param time stretch, in 64.64
 /// @param g1, in 64.64
 /// @param g2, in 64.64
-export const poolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+export const ePoolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
   [
     FYUSDT2212,
-    assets.get(USDT) as string,
+    eulerAddress,
+    assets.get(EUSDT) as string,
     newFYTokens.get(FYUSDT2212) as string,
-    ONE64.div(secondsInOneYear.mul(37)), // DOUBLE CHECK
-    ONE64.mul(80).div(100), // DOUBLE CHECK
-    ONE64.mul(100).div(80), // DOUBLE CHECK
+    timeStretch.get(FYUSDT2212) as BigNumber,
+    g1,
   ],
   [
     FYUSDT2303,
-    assets.get(USDT) as string,
+    eulerAddress,
+    assets.get(EUSDT) as string,
     newFYTokens.get(FYUSDT2303) as string,
-    ONE64.div(secondsInOneYear.mul(37)), // DOUBLE CHECK
-    ONE64.mul(80).div(100), // DOUBLE CHECK
-    ONE64.mul(100).div(80), // DOUBLE CHECK
+    timeStretch.get(FYUSDT2303) as BigNumber,
+    g1,
   ],
 ]
 
