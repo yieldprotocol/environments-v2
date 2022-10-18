@@ -6,7 +6,6 @@ import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addI
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 import {
-  AccumulatorMultiOracle__factory,
   Cauldron__factory,
   CompositeMultiOracle__factory,
   ContangoLadle__factory,
@@ -18,7 +17,6 @@ import {
   YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
 import {
-  ACCUMULATOR,
   CLOAK,
   COMPOSITE,
   CONTANGO_CAULDRON,
@@ -30,9 +28,7 @@ import {
   YIELD_SPACE_MULTI_ORACLE,
 } from '../../../../shared/constants'
 import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
-import { orchestrateYieldSpaceMultiOracleProposal } from '../../../fragments/oracles/orchestrateYieldSpaceMultiOracleProposal'
 import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
 
 const {
   developer,
@@ -45,7 +41,6 @@ const {
   compositeSources,
   compositePaths,
   pools,
-  bases,
   joins,
   newJoins,
   auctionLineAndLimits,
@@ -65,7 +60,6 @@ const {
   const witch = ContangoWitch__factory.connect(protocol.get(CONTANGO_WITCH)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
   const compositeMultiOracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
-  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol.get(ACCUMULATOR)!, ownerAcc)
   const yieldSpaceMultiOracle = YieldSpaceMultiOracle__factory.connect(
     protocol.get(YIELD_SPACE_MULTI_ORACLE)!,
     ownerAcc
@@ -73,13 +67,11 @@ const {
   const poolOracle = PoolOracle__factory.connect(protocol.get(POOL_ORACLE)!, ownerAcc)
 
   const proposal = [
-    await orchestrateYieldSpaceMultiOracleProposal(deployer, yieldSpaceMultiOracle, timelock, cloak), // This shouldn't be used in future rolls
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
     await updateYieldSpaceMultiOracleSourcesProposal(yieldSpaceMultiOracle, poolOracle, compositeSources, pools),
     await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cauldron, ladle, assetsToAdd),
-    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases), // Remove this, is not necessary (leaving it now is the proposal can be reproduced)
     await addSeriesProposal(ownerAcc, cauldron, ladle, witch, cloak, assetsToAdd, pools),
     await makeIlkProposal(
       ownerAcc,
