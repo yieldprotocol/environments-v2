@@ -19,6 +19,7 @@ typechain/
 deployments/
 
 # Secret files
+.env
 .arbiscanKey
 .alchemyKey
 .etherscanKey
@@ -55,6 +56,7 @@ dist/
 .DS_Store
 addresses/localhost/
 addresses/tenderly/
+shared/proposal.txt
 
 # Foundry
 foundry/out

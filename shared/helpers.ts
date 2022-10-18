@@ -180,7 +180,7 @@ export const propose = async (
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const approve = async (timelock: Timelock, multisig?: string) => {
-  let txHash = fs.readFileSync('./proposalHash.txt', 'utf8') as string
+  const txHash = fs.readFileSync('./shared/proposal.txt', 'utf8')
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
@@ -211,7 +211,7 @@ export const execute = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
-  let txHash = fs.readFileSync('./proposalHash.txt', 'utf8') as string
+  const txHash = await timelock.hash(proposal)
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
@@ -359,8 +359,8 @@ export function writeAddressMap(out_file: string, map_or_dictionary: Record<stri
   writeFileSync(getAddressMappingFilePath(out_file), mapToJson(map), 'utf8')
 }
 
-export function writeProposalHash(tx_hash: string) {
-  writeFileSync('proposalHash.txt', tx_hash)
+export function writeProposalHash(proposal_hash: string) {
+  writeFileSync('./shared/proposal.txt', proposal_hash)
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
