@@ -116,11 +116,11 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/c3fe7111-cdf1-453d-9475-d11ade39904b",
+      url: "https://rpc.tenderly.co/fork/e35e33ad-dd0b-461d-8c8f-f7fdac0a11aa",
       // update chainId if necessary
-      forkNetwork: "1",
+      forkNetwork: "42161",
       username: "Yield",
-      project: "v2",
+      project: "contango",
       timeout: 60_000_000
     },
     mainnet: {
