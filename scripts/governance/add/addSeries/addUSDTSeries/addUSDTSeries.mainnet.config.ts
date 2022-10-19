@@ -118,16 +118,16 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 /// @param Minimum vault debt, in terms of base, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newChainlinkLimits: Array<[string, string, number, number, number, number]> = [
-  [USDT, DAI, 1100000, 200000, 1000, 6],
-  [USDT, ETH, 1400000, 200000, 1000, 6],
-  [USDT, USDC, 1100000, 200000, 1000, 6],
-  [USDT, WBTC, 1500000, 200000, 1000, 6],
-  [USDT, LINK, 1670000, 200000, 1000, 6],
+  [USDT, DAI, 1100000, 100000, 1000, 6],
+  [USDT, ETH, 1400000, 100000, 1000, 6],
+  [USDT, USDC, 1100000, 100000, 1000, 6],
+  [USDT, WBTC, 1500000, 100000, 1000, 6],
+  [USDT, LINK, 1670000, 100000, 1000, 6],
   [USDT, USDT, 1000000, 200000, 0, 6],
-  [USDT, FRAX, 1150000, 200000, 1000, 6],
-  [USDT, UNI, 1670000, 200000, 1000, 6],
-  [USDT, WSTETH, 1400000, 200000, 1000, 6],
-  [USDT, ENS, 1670000, 200000, 1000, 6],
+  [USDT, FRAX, 1150000, 100000, 1000, 6],
+  [USDT, UNI, 1670000, 100000, 1000, 6],
+  [USDT, WSTETH, 1400000, 100000, 1000, 6],
+  [USDT, ENS, 1670000, 100000, 1000, 6],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Composite Oracle
@@ -159,10 +159,10 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
 export const timeStretch: Map<string, BigNumber> = new Map([
   [FYUSDT2212, ONE64.div(secondsInOneYear.mul(45))],
   [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
-])
+]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
-export const g1: number = 9000
+export const g1: number = 9000 // todo: Allan
 
 /// @notice Deploy YieldSpace pools
 /// @param pool identifier, usually matching the series (bytes6 tag)
@@ -204,8 +204,8 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYUSDT2212, [USDT, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDT2303, [USDT, ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 /// @notice Deploy strategies
@@ -239,5 +239,5 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [USDT, 3600, 1000000, 1000000, 1000, 18],
+  [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
 ]

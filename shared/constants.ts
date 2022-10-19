@@ -56,8 +56,6 @@ export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 1
 export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
 export const USDT = ethers.utils.formatBytes32String('38').slice(0, 14)
 export const EUSDT = ethers.utils.formatBytes32String('39').slice(0, 14)
-export const USDT = ethers.utils.formatBytes32String('25').slice(0, 14)
-export const EUSDT = ethers.utils.formatBytes32String('26').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
