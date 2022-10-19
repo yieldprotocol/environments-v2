@@ -1,29 +1,22 @@
-import { ethers } from 'hardhat'
-import {
-  getOriginalChainId,
-  readAddressMappingIfExists,
-  proposeApproveExecute,
-  getOwnerOrImpersonate,
-} from '../../../../shared/helpers'
+import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../../shared/helpers'
 
-import { NOTIONAL } from '../../../../shared/constants'
+import { NOTIONAL, CAULDRON, LADLE, WITCH, CLOAK, TIMELOCK } from '../../../../../../shared/constants'
 
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateNotionalSourcesProposal } from '../../../fragments/oracles/updateNotionalSourcesProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSourcesProposal'
+import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
+import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 
 import {
-  Transfer1155Module,
+  Cauldron__factory,
+  EmergencyBrake__factory,
   IOracle,
-  NotionalMultiOracle,
-  Cauldron,
-  Ladle,
-  Witch,
-  Timelock,
-  EmergencyBrake,
-} from '../../../../typechain'
+  Ladle__factory,
+  NotionalMultiOracle__factory,
+  Timelock__factory,
+  Witch__factory,
+} from '../../../../../../typechain'
 
 const {
   developer,
@@ -33,44 +26,26 @@ const {
   notionalDebtLimits,
   auctionLimits,
   seriesIlks,
+  protocol,
+  governance,
+  newJoins,
 } = require(process.env.CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
  */
 ;(async () => {
-  const chainId = await getOriginalChainId()
-
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const protocol = readAddressMappingIfExists('protocol.json')
-  const joins = readAddressMappingIfExists('newJoins.json')
-  const governance = readAddressMappingIfExists('governance.json')
-
-  const notionalOracle = (await ethers.getContractAt(
-    'NotionalMultiOracle',
-    protocol.get(NOTIONAL) as string
-  )) as unknown as NotionalMultiOracle
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const notionalOracle = NotionalMultiOracle__factory.connect(protocol.get(NOTIONAL)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
+  const witch = Witch__factory.connect(protocol.get(WITCH)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
 
   let assetsAndJoins: Array<[string, string, string]> = []
-  for (let [assetId, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, fCashAddress, joinAddress])
     console.log(`Using ${fCashAddress} as Join for ${joinAddress}`)
   }
@@ -86,12 +61,12 @@ const {
       cauldron,
       witch,
       cloak,
-      joins,
+      newJoins,
       notionalDebtLimits,
       auctionLimits
     )
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
 })()

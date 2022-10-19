@@ -6,6 +6,6 @@ To deploy new maturities:
 2. Find fCash holders in https://info.notional.finance/transactions
 3. Deploy in a mainnet fork
 4. The ERC1155 ABI and the fCash address (0x1344A36A1B56144C3Bc62E7757377D288fDE0369) in [mew](https://www.myetherwallet.com/wallet/interact) to verify that they are in fact holders.
-5. Update addFCashMaturities.test.ts with the addresses of the holders (whales) and test
+5. Update addFCashMaturities.test.ts with teh addresses of the holders (whales) and test
 
 Note that Notional doesn't have 9-month maturities. You can setup the proposal to integrate with the maturity-to-be, but you won't be able to test it until the Notional roll.
