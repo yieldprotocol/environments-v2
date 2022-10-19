@@ -69,12 +69,12 @@ export const strategyOracleSources: Array<[string, string]> = [
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newStrategyLimits: Array<[string, string, number, number, number, number]> = [
-  [DAI, YSDAI6MMSASSET, 1100000, 1000000, 5000, 18],
-  [DAI, YSDAI6MJDASSET, 1100000, 1000000, 5000, 18],
-  [USDC, YSUSDC6MMSASSET, 1100000, 1000000, 5000, 6],
-  [USDC, YSUSDC6MJDASSET, 1100000, 1000000, 5000, 6],
-  [ETH, YSETH6MMSASSET, 1100000, 1000000, 5000, 18],
-  [ETH, YSETH6MJDASSET, 1100000, 1000000, 5000, 18],
+  [DAI, YSDAI6MMSASSET, 1100000, 10000, 1000, 18],
+  [DAI, YSDAI6MJDASSET, 1100000, 10000, 1000, 18],
+  [USDC, YSUSDC6MMSASSET, 1100000, 10000, 1000, 6],
+  [USDC, YSUSDC6MJDASSET, 1100000, 10000, 1000, 6],
+  [ETH, YSETH6MMSASSET, 1100000, 10000, 1000, 18],
+  [ETH, YSETH6MJDASSET, 1100000, 10000, 1000, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec

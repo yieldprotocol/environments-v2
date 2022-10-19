@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
-import { CompositeMultiOracle, IOracle, StrategyOracle } from '../../../../../typechain'
-import { Cauldron, Ladle, OldWitch, Timelock, EmergencyBrake } from '../../../../../typechain'
+import { IOracle } from '../../../../../typechain'
+import { Ladle } from '../../../../../typechain'
 import { COMPOSITE } from '../../../../../shared/constants'
 import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
@@ -9,22 +9,11 @@ import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/a
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 import { orchestrateStrategyOracleProposal } from '../../../../fragments/oracles/orchestrateStrategyOracle'
 import { updatStrategyOracleSourcesProposal } from '../../../../fragments/oracles/updateStrategyOracleSourcesProposal'
-import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
-import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
-import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const { seriesIlks, strategyOracleSources } = require(process.env.CONF as string)
-const {
-  newStrategyLimits,
-  strategyAuctionLimits,
-  assets,
-  newJoins,
-  newCompositePaths,
-  newCompositeLimits,
-  compositeSources,
-} = require(process.env.CONF as string)
+const { newStrategyLimits, strategyAuctionLimits, assets, newJoins } = require(process.env.CONF as string)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
