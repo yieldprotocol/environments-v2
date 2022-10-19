@@ -104,6 +104,10 @@
     [
       "notionalJoinFactory",
       "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
+    ],
+    [
+      "strategyOracle",
+      "0x3EA4618cE652eaB330F00935FD075F5Cb614e689"
     ]
   ]
 }
