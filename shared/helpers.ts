@@ -4,7 +4,7 @@ import * as hre from 'hardhat'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
-import { BaseProvider } from '@ethersproject/providers'
+import { BaseProvider, TransactionRequest } from '@ethersproject/providers'
 import { Timelock } from '../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
@@ -38,30 +38,21 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
-  writeProposal(timelock.interface.encodeFunctionData('propose', [proposal]))
+  const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
   const txHash = await timelock.hash(proposal)
   console.log(`Proposal: ${txHash}`)
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
 
-  if ((await timelock.proposals(txHash)).state === 0) {
+  if ((await timelock.proposals(txHash)).state === ProposalState.Unknown) {
     console.log('Proposing')
-    let signerAcc
-    if (developer) {
-      if (network.name === 'localhost' || network.name.includes('tenderly')) {
-        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
-      } else {
-        signerAcc = await ethers.getSigner(developer)
-      }
-    } else {
-      ;[signerAcc] = await ethers.getSigners()
-    }
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
-    const gasEstimate = await timelock.connect(signerAcc).estimateGas.propose(proposal)
-    const ethBalance = await signerAcc.getBalance()
-    console.log(`gasEstimate: ${gasEstimate} - ethBalance: ${ethBalance}`)
+
+    writeHash(txHash)
+    writeProposal(timelock.interface.encodeFunctionData('execute', [proposal]))
+
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${txHash}`)
@@ -72,62 +63,52 @@ export const propose = async (
  * @dev Use the timelock, multisig, and proposal hash to approve the proposal
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
-export const approve = async (timelock: Timelock, multisig?: string) => {
-  const txHash = ''
-
-  const requiredConfirmations = isFork() ? 1 : 2
-  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
-
-  if ((await timelock.proposals(txHash)).state === 1) {
-    console.log('Approving')
-    let signerAcc: SignerWithAddress
-    // Approve, impersonating multisig if in a fork
-    if (network.name === 'localhost' || network.name.includes('tenderly')) {
-      if (multisig === undefined) throw 'Must provide an address with approve permissions to impersonate'
-      signerAcc = await impersonate(multisig as string, BigNumber.from('1000000000000000000'))
-      // Since we are in a testing environment, let's advance time
-      console.log('Advancing time')
-      advanceTime(await timelock.delay())
-    } else {
-      // On kovan we have approval permissions
-      signerAcc = (await ethers.getSigners())[0]
-    }
-    const tx = await timelock.connect(signerAcc).approve(txHash)
-    await requireProposalState(tx, ProposalState.Approved)
-    console.log(`Approved ${txHash}`)
-  }
-}
+// export const approve = async (timelock: Timelock, multisig?: string) => {
+//   const signerAcc = await getOwnerOrImpersonate(multisig as string, BigNumber.from('1000000000000000000'))
+//   const txHash = readHash()
+//   console.log(`Proposal: ${txHash}`)
+//
+//   const requiredConfirmations = isFork() ? 1 : 2
+//   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
+//
+//   if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
+//     console.log('Approving')
+//     const tx = await timelock.connect(signerAcc).approve(txHash)
+//     await requireProposalState(tx, ProposalState.Approved)
+//     console.log(`Approved: ${txHash}`)
+//     if (isFork()) advanceTime(await timelock.delay())
+//   }
+// }
 
 /** @dev Execute the proposal */
-export const execute = async (
-  timelock: Timelock,
-  proposal: Array<{ target: string; data: string }>,
-  developer?: string
-) => {
-  const txHash = await timelock.hash(proposal)
-
-  const requiredConfirmations = isFork() ? 1 : 2
-  const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
-
-  if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
-    console.log('Executing')
-    // Execute
-    let signerAcc
-    if (developer) {
-      if (network.name === 'localhost' || network.name.includes('tenderly')) {
-        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
-        advanceTime(await timelock.delay())
-      } else {
-        signerAcc = await ethers.getSigner(developer)
-      }
-    } else {
-      ;[signerAcc] = await ethers.getSigners()
-    }
-    const tx = await timelock.connect(signerAcc).execute(proposal)
-    await requireProposalState(tx, ProposalState.Unknown)
-    console.log(`Executed ${txHash}`)
-  }
-}
+// export const execute = async (
+//   timelock: Timelock,
+//   developer?: string
+// ) => {
+//   const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
+//   const txHash = readHash()
+//   const proposal = readProposal()
+//
+//   const requiredConfirmations = isFork() ? 1 : 2
+//   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
+//
+//   if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
+//     console.log('Executing')
+//     // Execute
+//
+//     const executeRequest : TransactionRequest = {
+//       to: timelock.address,
+//       data: proposal,
+//     }
+//     const gasEstimate = await signerAcc.estimateGas(executeRequest)
+//     const ethBalance = await signerAcc.getBalance()
+//     console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${ethBalance}`)
+//
+//     const tx = await signerAcc.sendTransaction(executeRequest)
+//     await requireProposalState(tx, ProposalState.Unknown)
+//     console.log(`Executed ${txHash}`)
+//   }
+// }
 
 /// --------- FORKS ---------
 
@@ -255,6 +236,21 @@ export function writeProposal(proposal: string) {
     mkdirSync('./tmp')
   }
   writeFileSync('./tmp/proposal.txt', proposal)
+}
+
+export function readProposal(): string {
+  return readFileSync('./tmp/proposal.txt', 'utf8')
+}
+
+export function writeHash(proposal: string) {
+  if (!existsSync('./tmp/')) {
+    mkdirSync('./tmp')
+  }
+  writeFileSync('./tmp/hash.txt', proposal)
+}
+
+export function readHash(): string {
+  return readFileSync('./tmp/hash.txt', 'utf8')
 }
 
 /// --------- ADDRESS FILES ---------

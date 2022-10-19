@@ -1,31 +1,23 @@
-import { ethers, network } from 'hardhat'
 import {
   getOwnerOrImpersonate,
-  impersonate,
   isFork,
-  advanceTime,
+  readHash,
+  readProposal,
   ProposalState,
   awaitAndRequireProposal,
 } from '../shared/helpers'
 import { BigNumber } from 'ethers'
-import { keccak256, toUtf8Bytes } from 'ethers/lib/utils'
-import { readFileSync } from 'fs'
-import { Timelock } from '../typechain'
+
+import { Timelock__factory } from '../typechain'
 import { TransactionRequest } from '@ethersproject/providers'
 const { developer, governance } = require(process.env.CONF as string)
 
 ;(async () => {
-  const proposal = readFileSync('./tmp/proposal.txt', 'utf8')
-
-  const ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
-
-  const txHash = '0xb9e9dd7ecb4941265130bda91f031d7617d0bbed386c0cc2b41dacfce74e4636'
+  const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
+  const timelock = Timelock__factory.connect(governance.get('timelock')!, signerAcc)
+  const txHash = readHash()
+  const proposal = readProposal()
+  console.log(`Proposal: ${txHash}`)
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
@@ -33,23 +25,17 @@ const { developer, governance } = require(process.env.CONF as string)
   if ((await timelock.proposals(txHash)).state === ProposalState.Approved) {
     console.log('Executing')
     // Execute
-    let signerAcc
-    if (developer) {
-      if (network.name === 'localhost' || network.name.includes('tenderly')) {
-        signerAcc = await impersonate(developer as string, BigNumber.from('1000000000000000000'))
-        advanceTime(await timelock.delay())
-      } else {
-        signerAcc = await ethers.getSigner(developer)
-      }
-    } else {
-      ;[signerAcc] = await ethers.getSigners()
-    }
-    const transactionRequest = {
+
+    const executeRequest: TransactionRequest = {
       to: timelock.address,
-      data: timelock.interface.encodeFunctionData('execute', [proposal]),
-    } as TransactionRequest
-    await ownerAcc.sendTransaction(transactionRequest)
-    // await requireProposalState(transactionRequest, ProposalState.Unknown)
+      data: proposal,
+    }
+    const gasEstimate = await signerAcc.estimateGas(executeRequest)
+    const ethBalance = await signerAcc.getBalance()
+    console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${ethBalance}`)
+
+    const tx = await signerAcc.sendTransaction(executeRequest)
+    await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${txHash}`)
   }
 })()
