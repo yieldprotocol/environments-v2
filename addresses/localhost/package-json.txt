@@ -1,0 +1,72 @@
+{
+  "name": "@yield-protocol/environments-v2",
+  "version": "0.0.1",
+  "description": "Yield Environments v2",
+  "main": "index.js",
+  "author": "Yield Inc.",
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "test:deploy": "hardhat deploy --tags DeployTest",
+    "coverage": "hardhat coverage",
+    "lint:sol": "solhint -f table contracts/*.sol",
+    "lint:ts": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --check",
+    "lint:ts:fix": "prettier \"scripts/**/*.ts\" \"shared/**/*.ts\" \"regression_tests/**/*.ts\" \"test/**/*.ts\" --write",
+    "prepublishOnly": "npx tsdx build --tsconfig ./tsconfig-publish.json",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "{scripts,shared,regression_tests, test}/**/*.ts": "prettier --write"
+  },
+  "devDependencies": {
+    "@ethersproject/providers": "^5.0.15",
+    "@nomiclabs/hardhat-ethers": "^2.0.1",
+    "@nomiclabs/hardhat-etherscan": "^3.1.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.1.0",
+    "@truffle/hdwallet-provider": "^1.0.40",
+    "@typechain/ethers-v5": "^10.0.0",
+    "@typechain/hardhat": "^6.0.0",
+    "@types/mocha": "^8.0.0",
+    "@yield-protocol/strategy-v2": "^0.12.0-rc5",
+    "@yield-protocol/vault-v2": "0.18.6-rc.1",
+    "@yield-protocol/yieldspace-tv": "0.1.9-rc.1",
+    "@yield-protocol/utils-v2": "2.6.3",
+    "chai": "4.2.0",
+    "dss-interfaces": "0.1.1",
+    "erc3156": "^0.4.8",
+    "ethereum-waffle": "^3.2.2",
+    "hardhat": "^2.9.1",
+    "hardhat-abi-exporter": "^2.0.3",
+    "hardhat-contract-sizer": "^2.0.3",
+    "hardhat-gas-reporter": "^1.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.0",
+    "mocha": "^7.1.0",
+    "prettier": "^2.0.5",
+    "solhint": "^3.3.3",
+    "solidity-coverage": "^0.7.14",
+    "ts-node": "^8.10.2",
+    "tsdx": "^0.14.1",
+    "tslog": "^3.3.0",
+    "typechain": "^8.0.0",
+    "typescript": "^4.7.3",
+    "uniswapv3-oracle": "^1.0.1",
+    "yargs": "^17.0.1"
+  },
+  "repository": {
+    "url": "git+https://github.com/yieldprotocol/environments-v2.git",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/yieldprotocol/environments-v2/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
+  "dependencies": {
+    "@tenderly/hardhat-tenderly": "^1.1.6",
+    "@yield-protocol/vault-v2": "0.18.4",
+    "csv-parser": "^3.0.0",
+    "latest": "^0.2.0"
+  }
+}

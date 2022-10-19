@@ -106,6 +106,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
 
+  // todo: Alberto, which oracles do we need?
   // proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
   // proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 
@@ -113,9 +114,10 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   // Bases and Ilks
   proposal = proposal.concat(
-    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, ladle, witch, cloak, bases)
+    await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases)
   )
 
+  // todo: Alberto
   proposal = proposal.concat(
     await makeIlkProposal(
       ownerAcc,
@@ -146,7 +148,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
   // Strategies
   proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
   proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
-  proposal = proposal.concat(await onChainTestProposal(cauldron, onChainTest, assetsAndJoins))
+  // proposal = proposal.concat(await onChainTestProposal(cauldron, onChainTest, assetsAndJoins))
   if (proposal.length > 0) {
     // Propose, Approve & execute
     await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
