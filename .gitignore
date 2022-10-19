@@ -56,7 +56,7 @@ dist/
 .DS_Store
 addresses/localhost/
 addresses/tenderly/
-tmp/proposal.txt
+tmp/
 
 # Foundry
 foundry/out

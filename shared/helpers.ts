@@ -16,13 +16,13 @@ export const addressHasCode = async (address: string, label = 'unknown') => {
   if (code === '0x') throw new Error(`Address: ${address} has no code. Label: ${label}`)
 }
 
-const enum ProposalState {
+export const enum ProposalState {
   Unknown = 0,
   Proposed = 1,
   Approved = 2,
 }
 
-const awaitAndRequireProposal =
+export const awaitAndRequireProposal =
   (timelock: Timelock, txHash: string, requiredConfirmations: number) =>
   async (tx: ContractTransaction, state: ProposalState) => {
     await tx.wait(requiredConfirmations)
@@ -38,8 +38,8 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
+  writeProposal(timelock.interface.encodeFunctionData('propose', [proposal]))
   const txHash = await timelock.hash(proposal)
-  writeProposalHash(txHash)
   console.log(`Proposal: ${txHash}`)
 
   const requiredConfirmations = isFork() ? 1 : 2
@@ -73,7 +73,7 @@ export const propose = async (
  * If approving a proposal and on a fork, impersonate the multisig address passed on as a parameter.
  */
 export const approve = async (timelock: Timelock, multisig?: string) => {
-  const txHash = readFileSync('./shared/proposal.txt', 'utf8')
+  const txHash = ''
 
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, txHash, requiredConfirmations)
@@ -132,7 +132,7 @@ export const execute = async (
 /// --------- FORKS ---------
 
 /** @dev Check if we are in a fork */
-const isFork = () => {
+export const isFork = () => {
   return network.name === 'localhost' || network.name.includes('tenderly')
 }
 
@@ -250,11 +250,11 @@ export function jsonToMap(json: string): Map<any, any> {
   )
 }
 
-export function writeProposalHash(proposal_hash: string) {
+export function writeProposal(proposal: string) {
   if (!existsSync('./tmp/')) {
     mkdirSync('./tmp')
   }
-  writeFileSync('./shared/proposal.txt', proposal_hash)
+  writeFileSync('./tmp/proposal.txt', proposal)
 }
 
 /// --------- ADDRESS FILES ---------
