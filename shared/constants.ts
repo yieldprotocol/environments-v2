@@ -43,8 +43,6 @@ export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
 export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
-export const CAULDRON = 'cauldron'
-export const WITCH = 'witch'
 export const CLOAK = 'cloak'
 export const MULTISIG = 'multisig'
 export const CAULDRON = 'cauldron'

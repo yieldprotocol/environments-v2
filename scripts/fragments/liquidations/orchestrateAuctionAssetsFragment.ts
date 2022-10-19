@@ -6,7 +6,7 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
-import { Cauldron, Ladle, EmergencyBrake, Witch } from '../../../typechain'
+import { Cauldron, Ladle, EmergencyBrake, Witch, Join__factory } from '../../../typechain'
 
 export const orchestrateAuctionAssetsFragment = async (
   ownerAcc: SignerWithAddress,
@@ -20,8 +20,8 @@ export const orchestrateAuctionAssetsFragment = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (const [baseId] of baseIds) {
-    const join = await ethers.getContractAt('Join', await ladle.joins(baseId), ownerAcc)
+  for (const baseId of baseIds) {
+    const join = Join__factory.connect((await ladle.joins(baseId))!, ownerAcc)
 
     // Allow Witch to join base
     proposal.push({
@@ -49,7 +49,7 @@ export const orchestrateAuctionAssetsFragment = async (
     }
   }
 
-  for (const [seriesId] of seriesIds) {
+  for (const seriesId of seriesIds) {
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc)
 
     // Allow Witch to burn fyTokens

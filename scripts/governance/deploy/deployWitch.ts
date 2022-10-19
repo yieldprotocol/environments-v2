@@ -1,4 +1,3 @@
-import { ethers } from 'hardhat'
 import { writeAddressMap, getOwnerOrImpersonate } from '../../../shared/helpers'
 import { TIMELOCK, CAULDRON, LADLE, WITCH } from '../../../shared/constants'
 

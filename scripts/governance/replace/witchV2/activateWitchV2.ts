@@ -28,8 +28,8 @@ const { protocol, governance, developer, v2Limits, seriesIds } = require(process
   const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
   const witchV2 = Witch__factory.connect(protocol.get(WITCH)!, ownerAcc)
 
-  const baseIds = (v2Limits as AuctionLineAndLimit[]).map(({ baseId }) => baseId)
-  const ilkIds = (v2Limits as AuctionLineAndLimit[]).map(({ ilkId }) => ilkId)
+  const baseIds = [...new Set((v2Limits as AuctionLineAndLimit[]).map(({ baseId }) => baseId))] // Pass through a Set to remove duplicates
+  const ilkIds = [...new Set((v2Limits as AuctionLineAndLimit[]).map(({ ilkId }) => ilkId))]
 
   // Build the proposal
   const proposal = [
