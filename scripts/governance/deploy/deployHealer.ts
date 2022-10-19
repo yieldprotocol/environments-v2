@@ -21,7 +21,7 @@ const deployHealerModule = async (
   if (protocol.get('transferModule') === undefined) {
     transferModule = (await deployContract(ownerAcc, HealerModuleArtifact, [cauldron.address, weth])) as HealerModule
     console.log(`HealerModule deployed at ${transferModule.address}`)
-    verify(transferModule.address, [cauldron.address, weth])
+    verify('transferModule', transferModule, [cauldron.address, weth])
   } else {
     transferModule = (await ethers.getContractAt(
       'HealerModule',
