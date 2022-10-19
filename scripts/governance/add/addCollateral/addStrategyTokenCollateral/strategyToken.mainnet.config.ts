@@ -83,7 +83,7 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
 /// @param duration of auctions in seconds
 /// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
-/// @param Minimum vault debt, modified by decimals
+/// @param Minimum vault collateral, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const strategyAuctionLimits: Array<[string, number, number, number, number, number]> = [
   [YSDAI6MMSASSET, 3600, 1000000, 10000, 1000, 18],
