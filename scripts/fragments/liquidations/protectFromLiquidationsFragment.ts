@@ -16,7 +16,7 @@ export const protectFromLiquidationsFragment = async (
     target: witch.address,
     data: witch.interface.encodeFunctionData('setProtected', [owner, true]),
   })
-  console.log(`${owner} is protected from liqidations`)
+  console.log(`${owner} is protected from liquidations`)
 
   return proposal
 }

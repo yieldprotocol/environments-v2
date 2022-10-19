@@ -120,8 +120,19 @@ module.exports = {
       // update chainId if necessary
       forkNetwork: "42161",
       username: "Yield",
-      project: "contango",
-      timeout: 60_000_000
+      project: "v2",
+      timeout: 60_000_000,
+      gasPrice: 100_000_000
+    },
+    tenderly_witchV2: {
+      // update url of fork
+      url: "https://rpc.tenderly.co/fork/d822d3c7-7a91-44c4-a83c-66c43e4840c6",
+      // update chainId if necessary
+      forkNetwork: "1",
+      username: "Yield",
+      project: "v2",
+      timeout: 60_000_000,
+      gasPrice: 100_000_000
     },
     mainnet: {
       accounts,

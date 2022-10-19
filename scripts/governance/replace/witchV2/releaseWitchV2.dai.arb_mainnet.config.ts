@@ -2,8 +2,8 @@ import { parseUnits } from 'ethers/lib/utils'
 
 import * as base_config from '../../base.arb_mainnet.config'
 
-export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
-export const deployer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
@@ -22,22 +22,6 @@ export const seriesIds: Array<string> = [FYETH2212, FYUSDC2212, FYETH2303, FYUSD
 
 export const v2Limits: AuctionLineAndLimit[] = [
   // DAI
-  {
-    baseId: DAI,
-    ilkId: ETH,
-    duration: 600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
-    max: parseUnits('500'),
-  },
-  {
-    baseId: DAI,
-    ilkId: USDC,
-    duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
-    max: parseUnits('1000000'),
-  },
   {
     baseId: DAI,
     ilkId: ETH,
