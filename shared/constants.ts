@@ -55,12 +55,13 @@ export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14
 export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
 export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
 
-export const MULTISIG = 'multisig'
 export const TIMELOCK = 'timelock'
+export const CLOAK = 'cloak'
+export const MULTISIG = 'multisig'
 export const CAULDRON = 'cauldron'
 export const LADLE = 'ladle'
 export const WITCH = 'witch'
-export const CLOAK = 'cloak'
+export const WITCH_V1 = 'witchV1'
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
 export const ACCUMULATOR = 'accumulatorOracle'
