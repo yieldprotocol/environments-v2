@@ -29,7 +29,7 @@ import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
 
@@ -73,8 +73,8 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
   [DAI, YSDAI6MJDASSET, 1100000, 10000, 1000, 18],
   [USDC, YSUSDC6MMSASSET, 1100000, 10000, 1000, 6],
   [USDC, YSUSDC6MJDASSET, 1100000, 10000, 1000, 6],
-  [ETH, YSETH6MMSASSET, 1100000, 10000, 1000, 18],
-  [ETH, YSETH6MJDASSET, 1100000, 10000, 1000, 18],
+  [ETH, YSETH6MMSASSET, 1100000, 8, 1, 18],
+  [ETH, YSETH6MJDASSET, 1100000, 8, 1, 18],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -86,12 +86,12 @@ export const newStrategyLimits: Array<[string, string, number, number, number, n
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const strategyAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [YSDAI6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
-  [YSDAI6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
-  [YSUSDC6MMSASSET, 3600, 1000000, 1000000, 5000, 6],
-  [YSUSDC6MJDASSET, 3600, 1000000, 1000000, 5000, 6],
-  [YSETH6MMSASSET, 3600, 1000000, 1000000, 5000, 18],
-  [YSETH6MJDASSET, 3600, 1000000, 1000000, 5000, 18],
+  [YSDAI6MMSASSET, 3600, 1000000, 10000, 1000, 18],
+  [YSDAI6MJDASSET, 3600, 1000000, 10000, 1000, 18],
+  [YSUSDC6MMSASSET, 3600, 1000000, 10000, 1000, 6],
+  [YSUSDC6MJDASSET, 3600, 1000000, 10000, 1000, 6],
+  [YSETH6MMSASSET, 3600, 1000000, 8, 1, 18],
+  [YSETH6MJDASSET, 3600, 1000000, 8, 1, 18],
 ]
 
 /// @notice Ilks to accept for series
