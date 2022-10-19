@@ -180,14 +180,13 @@ export function jsonToMap(json: string): Map<any, any> {
 }
 
 export function writeProposal(proposalHash: string, proposalExecute: string) {
-  if (!existsSync('./tmp/')) {
-    mkdirSync('./tmp')
-  }
-  writeFileSync('./tmp/proposal.txt', `${proposalHash} ${proposalExecute}`)
+  let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
+  writeFileSync(`${path}/proposal.txt`, `${proposalHash} ${proposalExecute}`)
 }
 
 export function readProposal(): string[] {
-  return readFileSync('./tmp/proposal.txt', 'utf8').split(' ')
+  let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
+  return readFileSync(`${path}/proposal.txt`, 'utf8').split(' ')
 }
 
 /// --------- ADDRESS FILES ---------

@@ -51,7 +51,6 @@ crytic-export/
 # Typescript
 dist/
 
-
 .idea/
 .DS_Store
 addresses/localhost/
@@ -62,6 +61,3 @@ tmp/
 foundry/out
 out/
 forge-cache/
-
-
-newJoins.json
