@@ -7,6 +7,6 @@ RUN="npx hardhat run --network localhost"
 
 # $RUN $HERE/../../deploy/deployHealer.ts
 
-# $RUN $HERE/addModule.ts
-# $RUN $HERE/../../../../shared/approve.ts
+$RUN $HERE/addModule.ts
+$RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
