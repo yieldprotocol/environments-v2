@@ -1,109 +1,163 @@
 import { BigNumber } from 'ethers'
-import { readAddressMappingIfExists } from '../../../../shared/helpers'
+import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import {
   ETH,
   DAI,
   USDC,
   WBTC,
   WSTETH,
-  STETH,
   LINK,
   ENS,
   UNI,
+  FRAX,
   YVUSDC,
-  WAD,
-  ONEUSDC,
-  MAX256,
-  ONE64,
-  secondsIn25Years,
-} from '../../../../shared/constants'
-import { EOJUN22, FYDAI2206, FYUSDC2206, YSDAI6MJD, YSUSDC6MJD, COMPOUND } from '../../../../shared/constants'
+  EWETH,
+  EDAI,
+  EUSDC,
+} from '../../../../../shared/constants'
+import { EOJUN23 } from '../../../../../shared/constants'
+import { FYETH2306, FYDAI2306, FYUSDC2306, FYFRAX2306 } from '../../../../../shared/constants'
+import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSFRAX6MJD } from '../../../../../shared/constants'
+import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 
-const protocol = readAddressMappingIfExists('protocol.json')
+import * as base_config from '../../../base.mainnet.config'
 
-// When deploying the pools, the fyToken should be present already
-const fyTokens = readAddressMappingIfExists('newFYTokens.json')
+export const chainId: number = base_config.chainId
+export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const whales: Map<string, string> = base_config.whales
 
-// Account to impersonate when using forks
-export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const external: Map<string, string> = base_config.external
+export const governance: Map<string, string> = base_config.governance
+export const protocol: Map<string, string> = base_config.protocol
+export const assets: Map<string, string> = base_config.assets
+export const joins: Map<string, string> = base_config.joins
+export const strategies: Map<string, string> = base_config.strategies
+export const newFYTokens: Map<string, string> = base_config.newFYTokens
+export const newJoins: Map<string, string> = base_config.newJoins
+export const newPools: Map<string, string> = base_config.newPools
+export const newStrategies: Map<string, string> = base_config.newStrategies
+export const euler = external.get('euler') as string
+export const eulerFlash = external.get('eulerFlash') as string
 
-// Account used to deploy permissioned contracts
-export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+// Amount to be donated to the Joins in forks
+export const joinLoans: Map<string, BigNumber> = new Map([[USDC, ONEUSDC.mul(500000)]])
 
-// Accounts with sizable amounts of given assets, for testing on forks
-export const whales: Map<string, string> = new Map([
-  [ETH, '0x2feb1512183545f48f6b9c5b4ebfcaf49cfca6f3'],
-  [DAI, '0x9a315bdf513367c0377fb36545857d12e85813ef'],
-  [USDC, '0x5aa653a076c1dbb47cec8c1b4d152444cad91941'],
+/// @notice Time stretch to be set in the PoolFactory prior to pool deployment
+/// @param series identifier (bytes6 tag)
+/// @param time stretch (64.64)
+export const timeStretch: Map<string, BigNumber> = new Map([
+  [FYETH2306, ONE64.div(secondsInOneYear.mul(25))],
+  [FYDAI2306, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDC2306, ONE64.div(secondsInOneYear.mul(55))],
+  [FYFRAX2306, ONE64.div(secondsInOneYear.mul(20))],
 ])
 
-// Tokens known to the protocol
-export const assets: Map<string, string> = new Map([
-  [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-  [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
-  [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-  [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
-  [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
-  [STETH, '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-  [LINK, '0x514910771af9ca656af840dff83e8264ecf986ca'],
-  [ENS, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
-  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-])
+/// @notice Sell base to the pool fee, as fp4
+export const g1: number = 9000
 
-// Joins deployed, used in fyTokenData below
-// assetId, joinAddress
-export const joins: Map<string, string> = new Map([
-  [DAI, '0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc'],
-  [USDC, '0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4'],
-])
-
-// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
+/// @notice Deploy fyToken series
+/// @param series identifier (bytes6 tag)
+/// @param underlying identifier (bytes6 tag)
+/// @param Address for the chi oracle
+/// @param Address for the related Join
+/// @param Maturity in unix time (seconds since Jan 1, 1970)
+/// @param Name for the series
+/// @param Symbol for the series
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYDAI2206, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOJUN22, 'FYDAI2206', 'FYDAI2206'],
-  [FYUSDC2206, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOJUN22, 'FYUSDC2206', 'FYUSDC2206'],
+  [FYDAI2306, DAI, protocol.get(COMPOUND) as string, joins.get(DAI) as string, EOJUN23, 'FYDAI2306', 'FYDAI2306'],
+  [FYETH2306, ETH, protocol.get(COMPOUND) as string, joins.get(ETH) as string, EOJUN23, 'FYETH2306', 'FYETH2306'],
+  [FYUSDC2306, USDC, protocol.get(COMPOUND) as string, joins.get(USDC) as string, EOJUN23, 'FYUSDC2306', 'FYUSDC2306'],
+  [
+    FYFRAX2306,
+    FRAX,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(FRAX) as string,
+    EOJUN23,
+    'FYFRAX2306',
+    'FYFRAX2306',
+  ],
 ]
 
-// Parameters to deploy pools with, a pool being identified by the related seriesId
-// seriesId, fyTokenAddress
-export const poolData: Array<[string, string]> = [
-  [FYDAI2206, fyTokens.get(FYDAI2206) as string],
-  [FYUSDC2206, fyTokens.get(FYUSDC2206) as string],
+/// @notice Deploy euler-backed YieldSpace pools
+/// @param pool identifier, usually matching the series (bytes6 tag)
+/// @param euler main address
+/// @param euler token address
+/// @param fyToken address
+/// @param time stretch, in 64.64
+/// @param g1, in 64.64
+export const ePoolData: Array<[string, string, string, string, BigNumber, number]> = [
+  [
+    FYETH2306,
+    euler,
+    assets.get(EWETH) as string,
+    newFYTokens.get(FYETH2306) as string,
+    timeStretch.get(FYETH2306) as BigNumber,
+    g1,
+  ],
+  [
+    FYDAI2306,
+    euler,
+    assets.get(EDAI) as string,
+    newFYTokens.get(FYDAI2306) as string,
+    timeStretch.get(FYDAI2306) as BigNumber,
+    g1,
+  ],
+  [
+    FYUSDC2306,
+    euler,
+    assets.get(EUSDC) as string,
+    newFYTokens.get(FYUSDC2306) as string,
+    timeStretch.get(FYUSDC2306) as BigNumber,
+    g1,
+  ],
 ]
 
-// Amounts to initialize pools with, a pool being identified by the related seriesId
-// seriesId, initAmount
-export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYDAI2206, DAI, WAD.mul(100), WAD.mul(39)], // The March series has a 100 / 139 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
-  [FYUSDC2206, USDC, ONEUSDC.mul(100), ONEUSDC.mul(24)], // The March series has a 100 / 124 ratio of base to fyToken. Virtual fyToken reserves will be 100 after init.
+/// @notice Deploy plain YieldSpace pools
+/// @param pool identifier, usually matching the series (bytes6 tag)
+/// @param base address
+/// @param fyToken address
+/// @param time stretch, in 64.64
+/// @param g1, in 64.64
+export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
+  [
+    FYFRAX2306,
+    assets.get(FRAX) as string,
+    newFYTokens.get(FYFRAX2306) as string,
+    timeStretch.get(FYFRAX2306) as BigNumber,
+    g1,
+  ],
 ]
 
-// Pool fees to be set in the PoolFactory prior to pool deployment
-// g1, g2
-export const poolFees: [BigNumber, BigNumber] = [
-  ONE64.mul(75).div(100), // Sell base to the pool
-  ONE64.mul(100).div(75), // Sell fyToken to the pool
+/// @notice Pool initialization parameters
+/// @param pool identifier, usually matching the series (bytes6 tag)
+/// @param amount of base to initialize pool with
+export const poolsInit: Array<[string, BigNumber]> = [
+  [FYETH2306, WAD.div(10)],
+  [FYDAI2306, WAD.mul(100)],
+  [FYUSDC2306, ONEUSDC.mul(100)],
+  [FYFRAX2306, WAD.mul(100)],
 ]
 
-// Time stretch to be set in the PoolFactory prior to pool deployment
-export const timeStretch: BigNumber = ONE64.div(secondsIn25Years)
-
-// Amount to loan to the Joins in forks. On mainnet, someone will need to deposit into a vault
-// assetId, loanAmount
-export const joinLoans: Array<[string, BigNumber]> = [
-  [DAI, WAD.mul(0)], // Join has 609886630292632589467107 DAI, pool has 6788019263610582280742 fyDAI. Surplus is 603098 611029022007186365 DAI
-  [USDC, ONEUSDC.mul(0)], // Join has 258185014360 USDC, pool has 22868196923 fyUSDC. Surplus is 235316 817437 USDC.
-]
-
-// Ilks to accept for each series
-// seriesId, accepted ilks
+/// @notice Ilks to accept for series
+/// @param series identifier (bytes6 tag)
+/// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, YVUSDC]],
+  [FYETH2306, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+  [FYDAI2306, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+  [FYUSDC2306, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC]],
+  [FYFRAX2306, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
 ]
 
-// Parameters to roll each strategy
-// strategyId, nextSeriesId, minRatio, maxRatio
-export const rollData: Array<[string, string, BigNumber, BigNumber]> = [
-  [YSDAI6MJD, FYDAI2206, BigNumber.from(0), MAX256],
-  [YSUSDC6MJD, FYUSDC2206, BigNumber.from(0), MAX256],
+/// Parameters to roll each strategy
+/// @param strategyId
+/// @param nextSeriesId
+/// @param buffer Amount of base sent to the Roller to make up for market losses when using a flash loan for rolling
+/// @param lender ERC3156 flash lender used for rolling
+/// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
+export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
+  [YSETH6MJD, FYETH2306, ZERO, ZERO_ADDRESS, true],
+  [YSDAI6MJD, FYDAI2306, ZERO, ZERO_ADDRESS, true],
+  [YSUSDC6MJD, FYUSDC2306, ZERO, ZERO_ADDRESS, true],
+  [YSFRAX6MJD, FYFRAX2306, ZERO, ZERO_ADDRESS, false],
 ]
