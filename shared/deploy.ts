@@ -4,7 +4,7 @@ import { TIMELOCK } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
 import { deploy } from '../scripts/fragments/deploy'
-const { governance, addressFile, name, contract, args } = require(process.env.CONF as string)
+const { governance, contractDeployment } = require(process.env.CONF as string)
 const { deployer } = require(process.env.CONF as string)
 
 import { Timelock__factory } from '../typechain'
@@ -15,12 +15,7 @@ import { Timelock__factory } from '../typechain'
 import { ethers } from 'hardhat'
 ;(async () => {
   // I would prefer to take this object from process.env.CONF, but then it doesn't work
-  const contractToDeploy: ContractDeployment = {
-    addressFile: addressFile,
-    name: name,
-    contract: contract,
-    args: args,
-  }
+  const contractToDeploy: ContractDeployment = contractDeployment // Only way I know to cast this
   let deployerAcc = await getOwnerOrImpersonate(deployer as string)
 
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, deployerAcc)

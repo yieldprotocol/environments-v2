@@ -27,13 +27,15 @@ import {
   CAULDRON,
   LADLE,
 } from '../../../../shared/constants'
-import { AuctionLineAndLimit } from '../../confTypes' // Note we use the series id as the asset id
+import { AuctionLineAndLimit, ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
 
 // ----- deployment parameters -----
-export const addressFile = 'protocol.json'
-export const name = WITCH
-export const contract = 'Witch'
-export const args = [protocol.get(CAULDRON)!, protocol.get(LADLE)!]
+export const contractDeployment: ContractDeployment = {
+  addressFile: 'protocol.json',
+  name: WITCH,
+  contract: 'Witch',
+  args: [protocol.get(CAULDRON)!, protocol.get(LADLE)!],
+}
 
 // ----- proposal parameters -----
 
