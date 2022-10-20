@@ -20,7 +20,7 @@ import { Timelock__factory, Cauldron__factory, Ladle__factory, Witch__factory, W
   const witchAddress = protocol.get(WITCH)
   let witch: Witch
   if (witchAddress === undefined) {
-    witch = await deployWitch(ownerAcc, timelock, cauldron, ladle)
+    witch = await deployWitch(timelock, cauldron, ladle)
     protocol.set(WITCH, witch.address)
     writeAddressMap('protocol.json', protocol)
   } else {

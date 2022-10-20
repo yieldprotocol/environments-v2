@@ -1,10 +1,10 @@
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitchV2Fragment'
 import { protectFromLiquidationsFragment } from '../../../fragments/liquidations/protectFromLiquidationsFragment'
 import { orchestrateAuctionAssetsFragment } from '../../../fragments/liquidations/orchestrateAuctionAssetsFragment'
 import { setAuctionParametersFragment } from '../../../fragments/liquidations/setAuctionParametersFragment'
 import { AuctionLineAndLimit } from '../../confTypes'
-import { TIMELOCK, CLOAK, MULTISIG, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'
 import {
   Cauldron__factory,
   EmergencyBrake__factory,
@@ -40,5 +40,5 @@ const { protocol, governance, developer, v2Limits, seriesIds } = require(process
   ].flat(1)
 
   // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get(MULTISIG)!, developer)
+  await propose(timelock, proposal, developer)
 })()
