@@ -11,6 +11,7 @@ import { Timelock__factory, Witch__factory } from '../../../typechain'
 /**
  * @dev This script deploys the Witch
  */
+import { ethers } from 'hardhat'
 ;(async () => {
   let deployerAcc = await getOwnerOrImpersonate(deployer as string)
 
@@ -19,13 +20,15 @@ import { Timelock__factory, Witch__factory } from '../../../typechain'
   const witchAddress = protocol.get(WITCH)
   let witch: Contract
   if (witchAddress === undefined) {
+    // notice how after passing the 4th argument, TS will infer the correct params
+    // To see what I mean, try deleting lines 29-31 and type them from scratch.
     witch = await deploy(
-      deployerAcc,
       timelock,
       'protocol.json',
-      '@yield-protocol/vault-v2/contracts/Witch.sol:Witch',
       WITCH,
-      [protocol.get(CAULDRON)!, protocol.get(LADLE)!]
+      await ethers.getContractFactory('Witch', deployerAcc),
+      protocol.get(CAULDRON)!,
+      protocol.get(LADLE)!
     )
   } else {
     witch = Witch__factory.connect(protocol.get(WITCH)!, deployerAcc)
