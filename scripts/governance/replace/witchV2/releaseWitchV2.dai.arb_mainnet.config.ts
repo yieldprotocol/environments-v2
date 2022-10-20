@@ -18,8 +18,18 @@ export const external: Map<string, string> = base_config.external
 import { ETH, DAI, USDC, FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303 } from '../../../../shared/constants'
 import { AuctionLineAndLimit } from '../../confTypes' // Note we use the series id as the asset id
 
+/// The Witch v2 will accept payment in these fyToken
 export const seriesIds: Array<string> = [FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303]
 
+/// Auction configuration for each asset pair
+/// @param baseId assets in scope as underlying for vaults to be auctioned
+/// @param ilkId assets in scope as collateral for vaults to be auctioned
+/// @param duration time that it takes for the auction to offer maximum collateral
+/// @param vaultProportion proportion of a vault that will be auctioned at a time
+/// @param collateralProportion proportion of the collateral that will be paid out
+/// at the begining of an auction
+/// @param max If the aggregated collateral under auction for vaults of this pair
+/// exceeds this number, no more auctions of for this pair can be started.
 export const v2Limits: AuctionLineAndLimit[] = [
   // DAI
   {
