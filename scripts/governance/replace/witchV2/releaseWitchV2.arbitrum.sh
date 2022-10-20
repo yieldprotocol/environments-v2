@@ -7,8 +7,8 @@ RUN="npx hardhat run --network arb_mainnet"
 # RUN="npx hardhat run --network localhost"
 # RUN="npx hardhat run --network tenderly_witchV2"
 
-$RUN $HERE/../../deploy/deployWitch.ts
+# $RUN $HERE/../../deploy/deployWitch.ts
 
-# $RUN $HERE/activateWitchV2.ts
+$RUN $HERE/activateWitchV2.ts
 # $RUN $HERE/../../../../shared/approve.ts
 # $RUN $HERE/../../../../shared/execute.ts
