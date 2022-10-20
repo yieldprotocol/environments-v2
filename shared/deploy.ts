@@ -28,38 +28,13 @@ import { ethers } from 'hardhat'
   const deployedAddress = readAddressMappingIfExists(contractToDeploy.addressFile).get(contractToDeploy.name)
   let deployedContract: Contract
   if (deployedAddress === undefined) {
-    // notice how after passing the 4th argument, TS will infer the correct params
-    // To see what I mean, try deleting lines 29-31 and type them from scratch.
-    switch (contractToDeploy.args.length) {
-      case 0: {
-        deployedContract = await deploy(
-          timelock,
-          contractToDeploy.addressFile,
-          contractToDeploy.name,
-          await ethers.getContractFactory(contractToDeploy.contract, deployerAcc)
-        )
-      }
-      case 1: {
-        deployedContract = await deploy(
-          timelock,
-          contractToDeploy.addressFile,
-          contractToDeploy.name,
-          await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
-          contractToDeploy.args[0]
-        )
-      }
-      case 2: {
-        deployedContract = await deploy(
-          timelock,
-          contractToDeploy.addressFile,
-          contractToDeploy.name,
-          await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
-          contractToDeploy.args[0],
-          contractToDeploy.args[1]
-        )
-      }
-      // ...
-    }
+    deployedContract = await deploy(
+      timelock,
+      contractToDeploy.addressFile,
+      contractToDeploy.name,
+      await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
+      ...contractToDeploy.args
+    )
   } else {
     console.log(`Reusing ${contractToDeploy.name} at: ${deployedAddress}`)
   }
