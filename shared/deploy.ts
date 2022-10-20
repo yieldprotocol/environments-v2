@@ -1,18 +1,82 @@
-import { getOwnerOrImpersonate, readAddressMappingIfExists } from './helpers'
+import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
-import { TIMELOCK } from './constants'
+import { FactoryOptions } from 'hardhat/types'
+
+import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
+import { Timelock, Timelock__factory } from '../typechain'
+import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
-import { deploy } from '../scripts/fragments/deploy'
-const { governance, contractDeployment } = require(process.env.CONF as string)
-const { deployer } = require(process.env.CONF as string)
-
-import { Timelock__factory } from '../typechain'
+const { deployer, governance, contractDeployment } = require(process.env.CONF as string)
 
 /**
- * @dev This script deploys the Witch
+ * @dev Deploy a contract, verifies it, stores it in a database, and gives ROOT to the Timelock
+ * The Timelock gets ROOT access.
  */
-import { ethers } from 'hardhat'
+
+// NOTE:
+// due to 'ethers.getContractFactory' having multiple overloads, it is not possible to
+// generify the fuction to take the parameters and infer the return type (<T extndends Parameters<typeof ethers.getContractFactory>>)
+// Therefore, the best we can do is to take the awaited factory as a parameter, and let TS infer the correct params
+// of deploy(). Due to this, we don't have visibility of the libs, meaning the verify() on line 34 won't work if there are libs
+// The easy way to solve that would be to have 2 overloads of this deploy() function, where in one impl you take the libs as explicit arguments.
+// See below (and maybe refactor these two to extract common logic :) )
+export const deploy = async <Factory extends Awaited<ReturnType<typeof ethers.getContractFactory>>>(
+  timelock: Timelock,
+  addressFile: string, // The json file to store the address in
+  name: string, // The unique name to the contract
+  contractFactory: Factory, // The path to the .sol file to deploy
+  ...args: Parameters<typeof contractFactory['deploy']>
+): Promise<Contract> => {
+  const deployment: Contract = await contractFactory.deploy(...args)
+
+  await deployment.deployed()
+  console.log(`${name} deployed at ${deployment.address}`)
+
+  const addressMap = readAddressMappingIfExists(addressFile)
+  addressMap.set(name, deployment.address)
+  writeAddressMap(addressFile, addressMap)
+
+  verify(name, deployment, args)
+
+  if (!(await deployment.hasRole(ROOT, timelock.address))) {
+    await (await deployment.grantRole(ROOT, timelock.address)).wait(1)
+    console.log(`${name}.grantRoles(ROOT, timelock)`)
+  }
+
+  return deployment
+}
+
+export const deployWithLibs = async <Factory extends Awaited<ReturnType<typeof ethers.getContractFactory>>>(
+  timelock: Timelock,
+  addressFile: string, // The json file to store the address in
+  name: string, // The unique name to the contract
+  libs: FactoryOptions['libraries'],
+  contractFactory: Factory, // The path to the .sol file to deploy
+  ...args: Parameters<typeof contractFactory['deploy']>
+): Promise<Contract> => {
+  const deployment: Contract = await contractFactory.deploy(...args)
+
+  await deployment.deployed()
+  console.log(`${name} deployed at ${deployment.address}`)
+
+  const addressMap = readAddressMappingIfExists(addressFile)
+  addressMap.set(name, deployment.address)
+  writeAddressMap(addressFile, addressMap)
+
+  verify(name, deployment, args, libs)
+
+  if (!(await deployment.hasRole(ROOT, timelock.address))) {
+    await (await deployment.grantRole(ROOT, timelock.address)).wait(1)
+    console.log(`${name}.grantRoles(ROOT, timelock)`)
+  }
+
+  return deployment
+}
+
+/**
+ * @dev This script deploys an contract as defined in a proposal config file containing a contractDeployment:ContractDeployment export.
+ */
 ;(async () => {
   // I would prefer to take this object from process.env.CONF, but then it doesn't work
   const contractToDeploy: ContractDeployment = contractDeployment // Only way I know to cast this
