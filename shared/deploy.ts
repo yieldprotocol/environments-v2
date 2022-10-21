@@ -1,5 +1,6 @@
 import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
+import { FactoryOptions } from 'hardhat/types'
 
 import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
 import { Timelock__factory } from '../typechain'
@@ -21,7 +22,8 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
     const deployedAddress = readAddressMappingIfExists(params.addressFile).get(params.name)
     let deployed: Contract
     if (deployedAddress === undefined) {
-      const contractFactory = await ethers.getContractFactory(params.contract, params.libs)
+      const factoryOptions: FactoryOptions = { libraries: params.libs }
+      const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
       deployed = await contractFactory.deploy(...params.args)
 

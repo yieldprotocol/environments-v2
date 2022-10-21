@@ -72,9 +72,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'PoolNonTv',
     args: [assets.get(FRAX)!, fyTokens.get(FYFRAX2212)!, timeStretch.get(FYFRAX2212)!.toString(), g1.toString()],
     libs: {
-      libraries: {
-        YieldMath: protocol.get('yieldMath')!,
-      },
+      YieldMath: protocol.get('yieldMath')!,
     },
   },
   {
@@ -90,9 +88,7 @@ export const contractDeployments: ContractDeployment[] = [
       joins.get(FRAX)!,
     ],
     libs: {
-      libraries: {
-        SafeERC20Namer: protocol.get('safeERC20Namer')!,
-      },
+      SafeERC20Namer: protocol.get('safeERC20Namer')!,
     },
   },
 ]
