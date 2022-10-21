@@ -39,7 +39,8 @@ export const deploy = async <Factory extends Awaited<ReturnType<typeof ethers.ge
 
   verify(name, deployment, args)
 
-  if (!(await deployment.hasRole(ROOT, timelock.address))) {
+  // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
+  if (deployment.interface.functions['ROOT()'] && !(await deployment.hasRole(ROOT, timelock.address))) {
     await (await deployment.grantRole(ROOT, timelock.address)).wait(1)
     console.log(`${name}.grantRoles(ROOT, timelock)`)
   }
