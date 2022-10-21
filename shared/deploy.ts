@@ -1,6 +1,5 @@
 import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
-import { FactoryOptions } from 'hardhat/types'
 
 import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
 import { Timelock__factory } from '../typechain'
@@ -16,32 +15,32 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
   let deployerAcc = await getOwnerOrImpersonate(deployer as string)
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, deployerAcc)
 
-  for (let contractDeployment of contractDeployments) {
-    const contractToDeploy: ContractDeployment = contractDeployment // Only way I know to cast this
+  for (let params_ of contractDeployments) {
+    const params: ContractDeployment = params_ // Only way I know to cast this
 
-    const deployedAddress = readAddressMappingIfExists(contractToDeploy.addressFile).get(contractToDeploy.name)
-    let deployedContract: Contract
+    const deployedAddress = readAddressMappingIfExists(params.addressFile).get(params.name)
+    let deployed: Contract
     if (deployedAddress === undefined) {
-      const contractFactory = await ethers.getContractFactory(contractToDeploy.contract, deployerAcc)
+      const contractFactory = await ethers.getContractFactory(params.contract, params.libs)
 
-      deployedContract = await contractFactory.deploy(...contractToDeploy.args)
+      deployed = await contractFactory.deploy(...params.args)
 
-      await deployedContract.deployed()
-      console.log(`${contractToDeploy.name} deployed at ${deployedContract.address}`)
+      await deployed.deployed()
+      console.log(`${params.name} deployed at ${deployed.address}`)
 
-      const addressMap = readAddressMappingIfExists(contractToDeploy.addressFile)
-      addressMap.set(contractToDeploy.name, deployedContract.address)
-      // writeAddressMap(contractToDeploy.addressFile, addressMap)
+      const addressMap = readAddressMappingIfExists(params.addressFile)
+      addressMap.set(params.name, deployed.address)
+      writeAddressMap(params.addressFile, addressMap)
 
-      verify(contractToDeploy.name, deployedContract, contractToDeploy.args, contractToDeploy.libs)
+      verify(params.name, deployed, params.args, params.libs)
 
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
-      if (deployedContract.interface.functions['ROOT()'] && !(await deployedContract.hasRole(ROOT, timelock.address))) {
-        await (await deployedContract.grantRole(ROOT, timelock.address)).wait(1)
-        console.log(`${contractToDeploy.name}.grantRoles(ROOT, timelock)`)
+      if (deployed.interface.functions['ROOT()'] && !(await deployed.hasRole(ROOT, timelock.address))) {
+        await (await deployed.grantRole(ROOT, timelock.address)).wait(1)
+        console.log(`${params.name}.grantRoles(ROOT, timelock)`)
       }
     } else {
-      console.log(`Reusing ${contractToDeploy.name} at: ${deployedAddress}`)
+      console.log(`Reusing ${params.name} at: ${deployedAddress}`)
     }
   }
 })()

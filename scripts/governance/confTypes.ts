@@ -15,5 +15,5 @@ export interface ContractDeployment {
   name: string // The unique name to the contract
   contract: string // The contract name to deploy
   args: string[]
-  libs?: { id: string; address: string }
+  libs?: FactoryOptions
 }
