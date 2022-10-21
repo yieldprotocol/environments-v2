@@ -3,7 +3,7 @@ import { Contract } from 'ethers'
 import { FactoryOptions } from 'hardhat/types'
 
 import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
-import { Timelock, Timelock__factory } from '../typechain'
+import { Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
@@ -22,8 +22,6 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
 // The easy way to solve that would be to have 2 overloads of this deploy() function, where in one impl you take the libs as explicit arguments.
 // See below (and maybe refactor these two to extract common logic :) )
 export const deploy = async <Factory extends Awaited<ReturnType<typeof ethers.getContractFactory>>>(
-  timelock: Timelock,
-  addressFile: string, // The json file to store the address in
   name: string, // The unique name to the contract
   contractFactory: Factory, // The path to the .sol file to deploy
   ...args: Parameters<typeof contractFactory['deploy']>
@@ -33,24 +31,10 @@ export const deploy = async <Factory extends Awaited<ReturnType<typeof ethers.ge
   await deployment.deployed()
   console.log(`${name} deployed at ${deployment.address}`)
 
-  const addressMap = readAddressMappingIfExists(addressFile)
-  addressMap.set(name, deployment.address)
-  writeAddressMap(addressFile, addressMap)
-
-  verify(name, deployment, args)
-
-  // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
-  if (deployment.interface.functions['ROOT()'] && !(await deployment.hasRole(ROOT, timelock.address))) {
-    await (await deployment.grantRole(ROOT, timelock.address)).wait(1)
-    console.log(`${name}.grantRoles(ROOT, timelock)`)
-  }
-
   return deployment
 }
 
 export const deployWithLibs = async <Factory extends Awaited<ReturnType<typeof ethers.getContractFactory>>>(
-  timelock: Timelock,
-  addressFile: string, // The json file to store the address in
   name: string, // The unique name to the contract
   libs: FactoryOptions['libraries'],
   contractFactory: Factory, // The path to the .sol file to deploy
@@ -60,17 +44,6 @@ export const deployWithLibs = async <Factory extends Awaited<ReturnType<typeof e
 
   await deployment.deployed()
   console.log(`${name} deployed at ${deployment.address}`)
-
-  const addressMap = readAddressMappingIfExists(addressFile)
-  addressMap.set(name, deployment.address)
-  writeAddressMap(addressFile, addressMap)
-
-  verify(name, deployment, args, libs)
-
-  if (!(await deployment.hasRole(ROOT, timelock.address))) {
-    await (await deployment.grantRole(ROOT, timelock.address)).wait(1)
-    console.log(`${name}.grantRoles(ROOT, timelock)`)
-  }
 
   return deployment
 }
@@ -89,12 +62,22 @@ export const deployWithLibs = async <Factory extends Awaited<ReturnType<typeof e
     let deployedContract: Contract
     if (deployedAddress === undefined) {
       deployedContract = await deploy(
-        timelock,
-        contractToDeploy.addressFile,
         contractToDeploy.name,
         await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
         ...contractToDeploy.args
       )
+
+      const addressMap = readAddressMappingIfExists(contractToDeploy.addressFile)
+      addressMap.set(contractToDeploy.name, deployedContract.address)
+      writeAddressMap(contractToDeploy.addressFile, addressMap)
+
+      verify(contractToDeploy.name, deployedContract, contractToDeploy.args, contractToDeploy.libs)
+
+      // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
+      if (deployedContract.interface.functions['ROOT()'] && !(await deployedContract.hasRole(ROOT, timelock.address))) {
+        await (await deployedContract.grantRole(ROOT, timelock.address)).wait(1)
+        console.log(`${contractToDeploy.name}.grantRoles(ROOT, timelock)`)
+      }
     } else {
       console.log(`Reusing ${contractToDeploy.name} at: ${deployedAddress}`)
     }
