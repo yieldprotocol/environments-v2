@@ -7,7 +7,7 @@ import { Timelock, Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
-const { deployer, governance, contractDeployment } = require(process.env.CONF as string)
+const { deployer, governance, contractDeployments } = require(process.env.CONF as string)
 
 /**
  * @dev Deploy a contract, verifies it, stores it in a database, and gives ROOT to the Timelock
@@ -75,26 +75,27 @@ export const deployWithLibs = async <Factory extends Awaited<ReturnType<typeof e
 }
 
 /**
- * @dev This script deploys an contract as defined in a proposal config file containing a contractDeployment:ContractDeployment export.
+ * @dev This script deploys contracts as defined in a proposal config file containing a contractDeployments:ContractDeployment[] export.
  */
 ;(async () => {
-  // I would prefer to take this object from process.env.CONF, but then it doesn't work
-  const contractToDeploy: ContractDeployment = contractDeployment // Only way I know to cast this
   let deployerAcc = await getOwnerOrImpersonate(deployer as string)
-
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, deployerAcc)
 
-  const deployedAddress = readAddressMappingIfExists(contractToDeploy.addressFile).get(contractToDeploy.name)
-  let deployedContract: Contract
-  if (deployedAddress === undefined) {
-    deployedContract = await deploy(
-      timelock,
-      contractToDeploy.addressFile,
-      contractToDeploy.name,
-      await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
-      ...contractToDeploy.args
-    )
-  } else {
-    console.log(`Reusing ${contractToDeploy.name} at: ${deployedAddress}`)
+  for (let contractDeployment of contractDeployments) {
+    const contractToDeploy: ContractDeployment = contractDeployment // Only way I know to cast this
+
+    const deployedAddress = readAddressMappingIfExists(contractToDeploy.addressFile).get(contractToDeploy.name)
+    let deployedContract: Contract
+    if (deployedAddress === undefined) {
+      deployedContract = await deploy(
+        timelock,
+        contractToDeploy.addressFile,
+        contractToDeploy.name,
+        await ethers.getContractFactory(contractToDeploy.contract, deployerAcc),
+        ...contractToDeploy.args
+      )
+    } else {
+      console.log(`Reusing ${contractToDeploy.name} at: ${deployedAddress}`)
+    }
   }
 })()

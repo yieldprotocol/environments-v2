@@ -30,12 +30,14 @@ import {
 import { AuctionLineAndLimit, ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
 
 // ----- deployment parameters -----
-export const contractDeployment: ContractDeployment = {
-  addressFile: 'protocol.json',
-  name: WITCH,
-  contract: 'Witch',
-  args: [protocol.get(CAULDRON)!, protocol.get(LADLE)!],
-}
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: WITCH,
+    contract: 'Witch',
+    args: [protocol.get(CAULDRON)!, protocol.get(LADLE)!],
+  },
+]
 
 // ----- proposal parameters -----
 
