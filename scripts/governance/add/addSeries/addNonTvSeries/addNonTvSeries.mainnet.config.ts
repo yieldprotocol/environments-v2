@@ -24,6 +24,8 @@ import {
   EWETH,
   EDAI,
   EUSDC,
+  YIELDMATH,
+  LADLE,
 } from '../../../../../shared/constants'
 import { EODEC22 } from '../../../../../shared/constants'
 import { FYETH2212, FYDAI2212, FYUSDC2212, FYFRAX2212 } from '../../../../../shared/constants'
@@ -49,11 +51,51 @@ export const newStrategies: Map<string, string> = base_config.newStrategies
 export const eulerAddress = base_config.eulerAddress
 export const flashMintModule = '0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853'
 
+import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes'
+
 // Time stretch to be set in the PoolFactory prior to pool deployment
 export const timeStretch: Map<string, BigNumber> = new Map([[FYFRAX2212, ONE64.div(secondsInOneYear.mul(20))]])
 
 // Sell base to the pool fee, as fp4
 export const g1: number = 9000
+
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: YIELDMATH,
+    contract: 'YieldMath',
+    args: [],
+  },
+  {
+    addressFile: 'pools.json',
+    name: FYFRAX2212,
+    contract: 'PoolNonTv',
+    args: [assets.get(FRAX)!, fyTokens.get(FYFRAX2212)!, timeStretch.get(FYFRAX2212)!.toString(), g1.toString()],
+    libs: {
+      libraries: {
+        YieldMath: protocol.get('yieldMath')!,
+      },
+    },
+  },
+  {
+    addressFile: 'strategies.json',
+    name: YSFRAX6MJD,
+    contract: 'Strategy',
+    args: [
+      'Yield Strategy FRAX 6M Jun Dec',
+      YSFRAX6MJD,
+      protocol.get(LADLE)!,
+      assets.get(FRAX)!,
+      FRAX,
+      joins.get(FRAX)!,
+    ],
+    libs: {
+      libraries: {
+        SafeERC20Namer: protocol.get('safeERC20Namer')!,
+      },
+    },
+  },
+]
 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
