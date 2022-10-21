@@ -5,10 +5,10 @@
  */
 
 import { ethers } from 'hardhat'
-import { ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
+import { ZERO_ADDRESS, MAX256 } from '../../../shared/constants'
 import { BigNumber } from 'ethers'
 
-import { ERC20Mock, Strategy, Ladle, Timelock } from '../../../../typechain'
+import { ERC20Mock, Strategy, Ladle, Timelock } from '../../../typechain'
 
 export const initStrategiesProposal = async (
   ownerAcc: any,

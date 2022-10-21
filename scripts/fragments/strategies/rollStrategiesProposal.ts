@@ -6,8 +6,8 @@
 
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { Pool, Strategy, Timelock } from '../../../../typechain'
-import { ZERO, ZERO_ADDRESS, MAX256 } from '../../../../shared/constants'
+import { Pool, Strategy, Timelock } from '../../../typechain'
+import { ZERO, ZERO_ADDRESS, MAX256 } from '../../../shared/constants'
 
 export const rollStrategiesProposal = async (
   ownerAcc: any,

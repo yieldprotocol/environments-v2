@@ -21,8 +21,8 @@ import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateI
 import { registerPoolsWithLadle } from '../../../../fragments/assetsAndSeries/registerPoolsWithLadle'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategiesProposal'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
