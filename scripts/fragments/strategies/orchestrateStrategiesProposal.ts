@@ -7,8 +7,8 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { ROOT } from '../../../../shared/constants'
-import { Timelock, Strategy, Roller } from '../../../../typechain'
+import { ROOT } from '../../../shared/constants'
+import { Timelock, Strategy, Roller } from '../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
   ownerAcc: any,

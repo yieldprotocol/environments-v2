@@ -17,8 +17,8 @@ import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/upda
 import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { initPoolsProposal } from '../../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../../fragments/core/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../../../fragments/core/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../../fragments/strategies/initStrategiesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)

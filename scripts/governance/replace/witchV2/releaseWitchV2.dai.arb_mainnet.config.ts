@@ -15,8 +15,31 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
-import { ETH, DAI, USDC, FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303 } from '../../../../shared/constants'
-import { AuctionLineAndLimit } from '../../confTypes' // Note we use the series id as the asset id
+import {
+  ETH,
+  DAI,
+  USDC,
+  FYETH2212,
+  FYUSDC2212,
+  FYETH2303,
+  FYUSDC2303,
+  WITCH,
+  CAULDRON,
+  LADLE,
+} from '../../../../shared/constants'
+import { AuctionLineAndLimit, ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
+
+// ----- deployment parameters -----
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: WITCH,
+    contract: 'Witch',
+    args: [protocol.get(CAULDRON)!, protocol.get(LADLE)!],
+  },
+]
+
+// ----- proposal parameters -----
 
 export const seriesIds: Array<string> = [FYETH2212, FYUSDC2212, FYETH2303, FYUSDC2303]
 

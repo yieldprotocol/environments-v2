@@ -1,6 +1,6 @@
 import { ethers, network } from 'hardhat'
-
 import * as hre from 'hardhat'
+import { FactoryOptions } from 'hardhat/types'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
@@ -235,8 +235,8 @@ export function writeVerificationHelper(contract: string, address: string) {
 
 /// --------- CONTRACT VERIFICATION ---------
 
-export function verify(name: string, contract: BaseContract, args: any, libs?: any) {
-  const libsargs = libs !== undefined ? `--libraries ${libs.toString()}` : ''
+export function verify(name: string, contract: BaseContract, args: any, libs?: FactoryOptions) {
+  const libsargs = libs !== undefined ? `--libraries ${libs.libraries}` : ''
   if (network.name == 'localhost') return
   else if (network.name == 'tenderly') tenderlyVerify(name, contract)
   else console.log(`npx hardhat verify --network ${network.name} ${contract.address} ${args.join(' ')} ${libsargs}`)

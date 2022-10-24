@@ -9,7 +9,7 @@
   "include": [
     "./scripts",
     "./typechain"
-  ],
+, "shared/deploy.ts"  ],
   "files": [
         "./hardhat.config.ts",
         "./node_modules/@nomiclabs/hardhat-ethers/internal/type-extensions.d.ts",
