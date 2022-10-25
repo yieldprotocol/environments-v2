@@ -38,7 +38,7 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
-  const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
+  const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
 
@@ -77,7 +77,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
   if (balance !== undefined) {
     await hre.network.provider.request({
       method: hre.network.name.includes('tenderly') ? 'tenderly_setBalance' : 'hardhat_setBalance',
-      params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
+      params: [account, ethers.utils.hexValue(balance.toHexString())],
     })
   }
 
