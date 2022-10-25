@@ -1,14 +1,14 @@
-import { getOwnerOrImpersonate, isFork, readProposal, ProposalState, awaitAndRequireProposal } from '../shared/helpers'
-import { BigNumber, utils } from 'ethers'
+import { utils } from 'ethers'
+import { awaitAndRequireProposal, getOwnerOrImpersonate, isFork, ProposalState, readProposal } from '../shared/helpers'
 
-import { Timelock__factory } from '../typechain'
 import { TransactionRequest } from '@ethersproject/providers'
+import { Timelock__factory } from '../typechain'
 const { developer, governance } = require(process.env.CONF as string)
 
 /** @dev Execute on the timelock using the hash and execution call from 'tmp/proposal.txt' */
 
 ;(async () => {
-  const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
+  const signerAcc = await getOwnerOrImpersonate(developer as string, utils.parseEther('1'))
   const timelock = Timelock__factory.connect(governance.get('timelock')!, signerAcc)
   const [proposalHash, executeCall] = readProposal()
   console.log(`Proposal: ${proposalHash}`)

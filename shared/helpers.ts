@@ -77,7 +77,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
   if (balance !== undefined) {
     await hre.network.provider.request({
       method: hre.network.name.includes('tenderly') ? 'tenderly_setBalance' : 'hardhat_setBalance',
-      params: [account, balance.toHexString()],
+      params: [account, ethers.utils.hexValue(balance.toHexString())],
     })
   }
 
