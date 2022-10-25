@@ -1,5 +1,5 @@
 import { getOwnerOrImpersonate, isFork, readProposal, ProposalState, awaitAndRequireProposal } from '../shared/helpers'
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 
 import { Timelock__factory } from '../typechain'
 import { TransactionRequest } from '@ethersproject/providers'
@@ -25,7 +25,7 @@ const { developer, governance } = require(process.env.CONF as string)
     }
     const gasEstimate = await signerAcc.estimateGas(executeRequest)
     const ethBalance = await signerAcc.getBalance()
-    console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${ethBalance}`)
+    console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${utils.formatEther(ethBalance)}`)
 
     const tx = await signerAcc.sendTransaction(executeRequest)
     await requireProposalState(tx, ProposalState.Unknown)
