@@ -5,13 +5,10 @@ import { Cauldron, EmergencyBrake, FYToken__factory, Join__factory, Witch } from
 export const addWitchToCloakFragment = async (
   signerAcc: SignerWithAddress,
   cloak: EmergencyBrake,
-  cauldron: Cauldron,
   witch: Witch,
   fyTokens: Map<string, string>,
   joins: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
-  const baseJoin = Join__factory.connect(await fyToken.join(), signerAcc)
-
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
@@ -29,10 +26,42 @@ export const addWitchToCloakFragment = async (
         ],
       ]),
     })
-    console.log(`cloak.add(witch ${seriesId})`)
+    console.log(`cloak.add(witch burn ${seriesId})`)
   }
 
   for (let [assetId, joinAddress] of joins) {
+    const join = Join__factory.connect(joinAddress, signerAcc)
+    if ((await join.hasRole(id(join.interface, 'join(address,uint128)'), witch.address)) == true) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('add', [
+          witch.address,
+          [
+            {
+              host: join.address,
+              signature: id(join.interface, 'join(address,uint128)'),
+            },
+          ],
+        ]),
+      })
+      console.log(`cloak.add(witch join ${assetId})`)
+    }
+
+    if ((await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) == true) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('add', [
+          witch.address,
+          [
+            {
+              host: join.address,
+              signature: id(join.interface, 'exit(address,uint128)'),
+            },
+          ],
+        ]),
+      })
+      console.log(`cloak.add(witch exit ${assetId})`)
+    }
   }
 
   return proposal
