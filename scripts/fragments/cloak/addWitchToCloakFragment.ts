@@ -5,11 +5,30 @@ import { Cauldron, EmergencyBrake, FYToken__factory, Join__factory, Witch } from
 export const addWitchToCloakFragment = async (
   signerAcc: SignerWithAddress,
   cloak: EmergencyBrake,
+  cauldron: Cauldron,
   witch: Witch,
   fyTokens: Map<string, string>,
   joins: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
+
+  proposal.push({
+    target: cloak.address,
+    data: cloak.interface.encodeFunctionData('add', [
+      witch.address,
+      [
+        {
+          host: cauldron.address,
+          signature: id(cauldron.interface, 'give(bytes12,address)'),
+        },
+        {
+          host: cauldron.address,
+          signature: id(cauldron.interface, 'slurp(bytes12,uint128,uint128)'),
+        },
+      ],
+    ]),
+  })
+  console.log(`cloak.add(witch give and slurp)`)
 
   // Enable when the v2 Witch goes live
   //  for (let [seriesId, fyTokenAddress] of fyTokens) {
