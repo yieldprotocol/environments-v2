@@ -71,9 +71,9 @@ contract SeriesWand is AccessControl {
         sigs[1] = EXIT;
         AccessControl(address(join)).grantRoles(sigs, address(fyToken));
         // Register emergency plan to disconnect fyToken from join
-        IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
-        permissions[0] = IEmergencyBrake.Permission(address(join), sigs);
-        cloak.plan(address(fyToken), permissions);
+        // IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
+        // permissions[0] = IEmergencyBrake.Permission(address(join), sigs);
+        // cloak.plan(address(fyToken), permissions);
         // Allow the ladle to issue and cancel fyToken
         sigs = new bytes4[](2);
         sigs[0] = MINT;
@@ -85,7 +85,7 @@ contract SeriesWand is AccessControl {
         fyToken.renounceRole(ROOT, address(this));
 
         // Register emergency plan to disconnect fyToken from ladle
-        permissions[0] = IEmergencyBrake.Permission(address(ladle), sigs);
-        cloak.plan(address(ladle), permissions);
+        // permissions[0] = IEmergencyBrake.Permission(address(ladle), sigs);
+        // cloak.plan(address(ladle), permissions);
     }
 }

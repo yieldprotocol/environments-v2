@@ -103,9 +103,9 @@ contract CollateralWandBase is AccessControl {
         ladle.addJoin(assetId, joinAddress);
 
         // cloak plan
-        IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
-        permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
-        cloak.plan(address(ladle), permissions);
+        // IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
+        // permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
+        // cloak.plan(address(ladle), permissions);
     }
 
     /// @notice Makes the asset into an ilk by setting up auction & debt limits
@@ -134,9 +134,9 @@ contract CollateralWandBase is AccessControl {
         bytes4[] memory sigs = new bytes4[](1);
         sigs[0] = EXIT;
 
-        IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
-        permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
-        cloak.plan(address(witch), permissions);
+        // IEmergencyBrake.Permission[] memory permissions = new IEmergencyBrake.Permission[](1);
+        // permissions[0] = IEmergencyBrake.Permission(joinAddress, sigs);
+        // cloak.plan(address(witch), permissions);
 
         DebtLimit memory debtLimit;
         for (uint256 index = 0; index < debtLimits.length; index++) {
