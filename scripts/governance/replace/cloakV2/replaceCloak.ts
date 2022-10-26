@@ -3,7 +3,9 @@ import { addFYTokenToCloakFragment } from '../../../fragments/cloak/addFYTokenTo
 import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloakFragment'
 import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloakFragment'
 import { addRollerToCloakFragment } from '../../../fragments/cloak/addRollerToCloakFragment'
+import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloakFragment'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER } from '../../../../shared/constants'
+
 import {
   Timelock__factory,
   EmergencyBrake__factory,
@@ -13,7 +15,7 @@ import {
   Roller__factory,
 } from '../../../../typechain'
 
-const { governance, protocol, developer, fyTokens, joins, strategies } = require(process.env.CONF as string)
+const { governance, protocol, developer, executors, fyTokens, joins, strategies } = require(process.env.CONF as string)
 
 ;(async () => {
   const signerAcc = await getOwnerOrImpersonate(developer as string)
@@ -31,6 +33,7 @@ const { governance, protocol, developer, fyTokens, joins, strategies } = require
   proposal = proposal.concat(await addLadleToCloakFragment(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloakFragment(signerAcc, cloak, cauldron, witch, fyTokens, joins))
   proposal = proposal.concat(await addRollerToCloakFragment(signerAcc, cloak, roller, strategies))
+  proposal = proposal.concat(await addExecutorsToCloakFragment(cloak, executors))
 
   await propose(timelock, proposal, developer)
 })()
