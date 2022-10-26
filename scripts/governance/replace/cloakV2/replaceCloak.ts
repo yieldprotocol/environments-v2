@@ -4,6 +4,7 @@ import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloa
 import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloakFragment'
 import { addRollerToCloakFragment } from '../../../fragments/cloak/addRollerToCloakFragment'
 import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloakFragment'
+import { giveRootToCloakFragment } from '../../../fragments/cloak/giveRootToCloakFragment'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER } from '../../../../shared/constants'
 
 import {
@@ -27,8 +28,16 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies 
   const witch = Witch__factory.connect(protocol.get(WITCH)!, signerAcc)
   const roller = Roller__factory.connect(protocol.get(ROLLER)!, signerAcc)
 
+  const hosts = []
+  for (let joinAddress of joins.values()) hosts.push(joinAddress)
+  for (let fyTokenAddress of fyTokens.values()) hosts.push(fyTokenAddress)
+  for (let strategiesAddress of strategies.values()) hosts.push(strategiesAddress)
+  hosts.push(protocol.get(CAULDRON)!)
+
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+
+  proposal = proposal.concat(await giveRootToCloakFragment(signerAcc, cloak, hosts))
   proposal = proposal.concat(await addFYTokenToCloakFragment(signerAcc, cloak, fyTokens))
   proposal = proposal.concat(await addLadleToCloakFragment(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloakFragment(signerAcc, cloak, cauldron, witch, fyTokens, joins))
