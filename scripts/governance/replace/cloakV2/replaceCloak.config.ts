@@ -13,6 +13,7 @@ export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
+export const strategies: Map<string, string> = base_config.strategies
 export const external: Map<string, string> = base_config.external
 
 // ----- deployment parameters -----
