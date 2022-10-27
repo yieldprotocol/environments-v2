@@ -1,6 +1,6 @@
 import { ethers, network } from 'hardhat'
-
 import * as hre from 'hardhat'
+import { FactoryOptions } from 'hardhat/types'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
@@ -38,7 +38,7 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
-  const signerAcc = await getOwnerOrImpersonate(developer as string, BigNumber.from('1000000000000000000'))
+  const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
 
@@ -77,7 +77,7 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
   if (balance !== undefined) {
     await hre.network.provider.request({
       method: hre.network.name.includes('tenderly') ? 'tenderly_setBalance' : 'hardhat_setBalance',
-      params: [account, ethers.utils.parseEther(balance.toString()).toHexString()],
+      params: [account, ethers.utils.hexValue(balance.toHexString())],
     })
   }
 
@@ -235,8 +235,8 @@ export function writeVerificationHelper(contract: string, address: string) {
 
 /// --------- CONTRACT VERIFICATION ---------
 
-export function verify(name: string, contract: BaseContract, args: any, libs?: any) {
-  const libsargs = libs !== undefined ? `--libraries ${libs.toString()}` : ''
+export function verify(name: string, contract: BaseContract, args: any, libs?: FactoryOptions) {
+  const libsargs = libs !== undefined ? `--libraries ${libs.libraries}` : ''
   if (network.name == 'localhost') return
   else if (network.name == 'tenderly') tenderlyVerify(name, contract)
   else console.log(`npx hardhat verify --network ${network.name} ${contract.address} ${args.join(' ')} ${libsargs}`)

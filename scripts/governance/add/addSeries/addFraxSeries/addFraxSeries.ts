@@ -25,8 +25,8 @@ import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/up
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 import { onChainTestProposal } from '../../../../fragments/utils/onChainTestProposal'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
