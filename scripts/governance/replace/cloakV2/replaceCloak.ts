@@ -4,8 +4,9 @@ import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloa
 import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloakFragment'
 import { addRollerToCloakFragment } from '../../../fragments/cloak/addRollerToCloakFragment'
 import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloakFragment'
-import { giveRootToCloakFragment } from '../../../fragments/cloak/giveRootToCloakFragment'
-import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER } from '../../../../shared/constants'
+import { grantRootFragment } from '../../../fragments/permissions/grantRootFragment'
+import { revokeRootFragment } from '../../../fragments/permissions/revokeRootFragment'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER, CLOAK_V1 } from '../../../../shared/constants'
 
 import {
   Timelock__factory,
@@ -37,7 +38,8 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await giveRootToCloakFragment(signerAcc, cloak, hosts))
+  proposal = proposal.concat(await revokeRootFragment(signerAcc, governance.get(CLOAK_V1)!, hosts))
+  proposal = proposal.concat(await grantRootFragment(signerAcc, cloak.address, hosts))
   proposal = proposal.concat(await addFYTokenToCloakFragment(signerAcc, cloak, fyTokens))
   proposal = proposal.concat(await addLadleToCloakFragment(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloakFragment(signerAcc, cloak, cauldron, witch, fyTokens, joins))

@@ -57,6 +57,7 @@ export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 1
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
+export const CLOAK_V1 = 'cloakV1'
 export const MULTISIG = 'multisig'
 export const YIELDMATH = 'yieldMath'
 export const CAULDRON = 'cauldron'
