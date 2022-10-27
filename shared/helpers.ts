@@ -95,15 +95,17 @@ export const getOwnerOrImpersonate = async (
 
 /** @dev Advance time by a number of seconds */
 export const advanceTime = async (time: number) => {
-  if (time > 0) {
-    if (hre.network.name.includes('tenderly')) {
-      await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
-      await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
-    } else {
-      await network.provider.send('evm_increaseTime', [time])
-      await network.provider.send('evm_mine', [])
+  if (isFork()) {
+    if (time > 0) {
+      if (hre.network.name.includes('tenderly')) {
+        await network.provider.send('evm_increaseTime', [ethers.utils.hexValue(time)])
+        await network.provider.send('evm_increaseBlocks', [ethers.utils.hexValue(1)])
+      } else {
+        await network.provider.send('evm_increaseTime', [time])
+        await network.provider.send('evm_mine', [])
+      }
+      console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
     }
-    console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
   }
 }
 

@@ -14,6 +14,8 @@ import 'solidity-coverage'
 import "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
+import "./augmentations"
+
 function infuraNodeUrl(network: any) {
   let infuraKey
   try {
@@ -116,7 +118,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/f6c6cdd5-12e5-4645-a511-520bb4d33f1b",
+      url: "https://rpc.tenderly.co/fork/d9877041-2a85-41ce-b9d3-4ac38c3478ba",
       // update chainId if necessary
       forkNetwork: "42161",
       username: "Yield",
