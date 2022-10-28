@@ -154,8 +154,8 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: USDC,
     ilkId: YVUSDC,
     duration: 600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.84'), // 105 / 125
     max: parseUnits('1000000', 6),
   },
   // WBTC
@@ -163,8 +163,8 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: ETH,
     ilkId: WBTC,
     duration: 600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
   {
@@ -172,7 +172,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: WBTC,
     duration: 600,
     vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
   {
@@ -180,7 +180,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: WBTC,
     duration: 600,
     vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
   {
@@ -188,7 +188,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: WBTC,
     duration: 600,
     vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
   // WSTETH
@@ -196,8 +196,8 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: ETH,
     ilkId: WSTETH,
     duration: 600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.84'), // 105 / 125
     max: parseUnits('1000'),
   },
   {
@@ -212,16 +212,16 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: USDC,
     ilkId: WSTETH,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
   },
   {
     baseId: FRAX,
     ilkId: WSTETH,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
   },
   // LINK
@@ -230,7 +230,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: LINK,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('10000'),
   },
   {
@@ -238,23 +238,23 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: LINK,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: USDC,
     ilkId: LINK,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: FRAX,
     ilkId: LINK,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   // ENS
@@ -263,7 +263,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: ENS,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('10000'),
   },
   {
@@ -271,23 +271,23 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: ENS,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: USDC,
     ilkId: ENS,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: FRAX,
     ilkId: ENS,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   // UNI
@@ -296,7 +296,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: UNI,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('10000'),
   },
   {
@@ -304,30 +304,30 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: UNI,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: USDC,
     ilkId: UNI,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
   {
     baseId: FRAX,
     ilkId: UNI,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62'), // 105 / 167
     max: parseUnits('10000'),
   },
 ]
 
 /// @notice Limits to be used in an auction
 /// @param base identifier (bytes6 tag)
-/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
+/// @param initial percentage of the collateral to be offered (fixed point with 18 decimals)
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.

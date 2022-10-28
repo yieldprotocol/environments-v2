@@ -98,7 +98,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
 
 /// @notice Limits to be used in an auction
 /// @param base identifier (bytes6 tag)
-/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
+/// @param initial percentage of the collateral to be offered (fixed point with 18 decimals)
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
