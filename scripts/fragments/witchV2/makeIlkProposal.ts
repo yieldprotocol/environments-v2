@@ -12,6 +12,7 @@ import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../../../shared/constants'
+import { setLineAndLimitProposal } from './setLineAndLimitProposal'
 
 export const makeIlkProposal = async (
   ownerAcc: SignerWithAddress,
@@ -23,26 +24,7 @@ export const makeIlkProposal = async (
   auctionLineAndLimits: AuctionLineAndLimit[],
   joins: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
-  const proposal: Array<{ target: string; data: string }> = []
-
-  for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
-    console.log(
-      `Witch#setLineAndLimit(${bytesToString(ilkId)}, ${bytesToString(
-        baseId
-      )}, ${duration}, ${vaultProportion}, ${collateralProportion}, ${max})`
-    )
-    proposal.push({
-      target: witch.address,
-      data: witch.interface.encodeFunctionData('setLineAndLimit', [
-        ilkId,
-        baseId,
-        duration,
-        vaultProportion,
-        collateralProportion,
-        max,
-      ]),
-    })
-  }
+  const proposal = setLineAndLimitProposal(witch, auctionLineAndLimits)
 
   const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
   for (const ilkId of ilkIds) {

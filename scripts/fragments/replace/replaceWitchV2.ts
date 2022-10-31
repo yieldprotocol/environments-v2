@@ -5,14 +5,14 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { Cauldron, ContangoLadle, Witch } from '../../../typechain'
+import { Cauldron, Ladle, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const replaceWitchV2 = async (
   ownerAcc: SignerWithAddress,
   witch: Witch,
   cauldron: Cauldron,
-  ladle: ContangoLadle,
+  ladle: Ladle,
   auctionLineAndLimits: AuctionLineAndLimit[],
   bases: Array<[string, string]>,
   fyTokens: Map<string, string>

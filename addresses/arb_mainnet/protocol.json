@@ -42,7 +42,7 @@
       "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
     ],
     [
-      "witch",
+      "witchV1",
       "0x08173D0885B00BDD640aaE57D05AbB74cd00d669"
     ],
     [
@@ -96,6 +96,10 @@
     [
       "yieldSpaceMultiOracle",
       "0xb958bA862D70C0a4bD0ea976f9a1907686dd41e2"
+    ],
+    [
+      "witch",
+      "0x07C2C74811cB14a5003C3ccff7EC436d504ffFb6"
     ]
   ]
 }

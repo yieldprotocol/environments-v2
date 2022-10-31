@@ -19,6 +19,7 @@ typechain/
 deployments/
 
 # Secret files
+.env
 .arbiscanKey
 .alchemyKey
 .etherscanKey
@@ -50,11 +51,11 @@ crytic-export/
 # Typescript
 dist/
 
-
 .idea/
 .DS_Store
 addresses/localhost/
 addresses/tenderly/
+tmp/
 
 # Foundry
 foundry/out

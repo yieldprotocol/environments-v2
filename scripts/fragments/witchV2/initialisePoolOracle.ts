@@ -2,7 +2,7 @@ import { advanceTime, bytesToString, getOwnerOrImpersonate } from '../../../shar
 import { POOL_ORACLE } from '../../../shared/constants'
 import { ethers, network } from 'hardhat'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
-import { PoolOracle__factory } from '../../../typechain/factories/contracts/PoolOracle__factory'
+import { PoolOracle__factory } from '../../../typechain'
 
 const { developer, protocol, pools, auctionLineAndLimits } = require(process.env.CONF!)
 
