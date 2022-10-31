@@ -120,8 +120,9 @@ module.exports = {
       // update chainId if necessary
       forkNetwork: "42161",
       username: "Yield",
-      project: "contango",
-      timeout: 60_000_000
+      project: "v2",
+      timeout: 60_000_000,
+      gasPrice: 100_000_000
     },
     mainnet: {
       accounts,
@@ -134,7 +135,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 500_000_000,
+      gasPrice: 300_000_000,
       chainId: 42161,
       timeout: 60000
     },

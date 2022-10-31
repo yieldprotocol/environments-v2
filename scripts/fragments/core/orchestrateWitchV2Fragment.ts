@@ -5,7 +5,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Cauldron, Ladle, EmergencyBrake, Timelock, Witch } from '../../../typechain'
+import { Cauldron, EmergencyBrake, Timelock, Witch } from '../../../typechain'
 
 export const orchestrateWitchV2Fragment = async (
   ownerAcc: SignerWithAddress,
@@ -20,7 +20,7 @@ export const orchestrateWitchV2Fragment = async (
     target: witch.address,
     data: witch.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
   })
-  console.log(`cauldron.revokeRole(witch)`)
+  console.log(`witch.revokeRole(deployer)`)
 
   proposal.push({
     target: witch.address,
