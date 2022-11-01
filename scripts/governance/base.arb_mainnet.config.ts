@@ -1,16 +1,22 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { CHI, DAI, ETH, FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, RATE, USDC, WAD } from '../../shared/constants'
+import { CHI, DAI, ETH, RATE, USDC, WAD } from '../../shared/constants'
 
+import { FYETH2203, FYETH2206, FYETH2209, FYETH2212, FYETH2303 } from '../../shared/constants'
+import { FYDAI2203, FYDAI2206, FYDAI2209, FYDAI2212, FYDAI2303 } from '../../shared/constants'
+import { FYUSDC2203, FYUSDC2206, FYUSDC2209, FYUSDC2212, FYUSDC2303 } from '../../shared/constants'
+
+export const external = readAddressMappingIfExists('external.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const assets = readAddressMappingIfExists('assets.json')
+export const joins = readAddressMappingIfExists('joins.json')
+export const fyTokens = readAddressMappingIfExists('fyTokens.json')
+export const pools = readAddressMappingIfExists('pools.json')
 export const strategies = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
-export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
-export const pools = readAddressMappingIfExists('pools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
-export const external = readAddressMappingIfExists('external.json')
 
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -26,20 +32,6 @@ export const whales: Map<string, string> = new Map([
   [DAI, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
   [USDC, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
 ])
-// https://tokenlists.org/token-list?url=https://bridge.arbitrum.io/token-list-42161.json
-export const assets: Map<string, string> = new Map([
-  [ETH, '0x82af49447d8a07e3bd95bd0d56f35241523fbab1'],
-  [DAI, '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1'],
-  [USDC, '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'],
-])
-
-export const joins = readAddressMappingIfExists('joins.json')
-
-// export const joins: Map<string, string> = new Map([
-//   [ETH, '0xaf93a04d5D8D85F69AF65ED66A9717DB0796fB10'],
-//   [DAI, '0xc31cce4fFA203d8F8D865b6cfaa4F36AD77E9810'],
-//   [USDC, '0x1229C71482E458fa2cd51d13eB157Bd2b5D5d1Ee'],
-// ])
 
 export const rateChiSources: Array<[string, string, string, string]> = [
   [DAI, RATE, WAD.toString(), WAD.toString()],
@@ -87,10 +79,30 @@ export const chainlinkAuctionLimits: Array<[string, number, number, number, numb
   [USDC, 3600, 751000, 1000000, 5000, 6],
 ]
 
+// baseId, accepted ilks
+export const ilks: Map<string, string[]> = new Map([
+  [DAI, [ETH, DAI, USDC]],
+  [USDC, [ETH, DAI, USDC]],
+  [ETH, [ETH, DAI, USDC]],
+])
+
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2203, [ETH, DAI, USDC]],
-  [FYUSDC2203, [ETH, DAI, USDC]],
-  [FYDAI2206, [ETH, DAI, USDC]],
-  [FYUSDC2206, [ETH, DAI, USDC]],
+  [FYDAI2203, ilks.get(DAI)!],
+  [FYDAI2206, ilks.get(DAI)!],
+  [FYDAI2209, ilks.get(DAI)!],
+  [FYDAI2212, ilks.get(DAI)!],
+  [FYDAI2303, ilks.get(DAI)!],
+
+  [FYUSDC2203, ilks.get(USDC)!],
+  [FYUSDC2206, ilks.get(USDC)!],
+  [FYUSDC2209, ilks.get(USDC)!],
+  [FYUSDC2212, ilks.get(USDC)!],
+  [FYUSDC2303, ilks.get(USDC)!],
+
+  [FYETH2203, ilks.get(ETH)!],
+  [FYETH2206, ilks.get(ETH)!],
+  [FYETH2209, ilks.get(ETH)!],
+  [FYETH2212, ilks.get(ETH)!],
+  [FYETH2303, ilks.get(ETH)!],
 ]

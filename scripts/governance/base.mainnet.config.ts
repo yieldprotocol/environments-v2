@@ -27,7 +27,16 @@ import {
   EFRAX,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
-import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
+import { FCASH_MAR22, FCASH_JUN22, FCASH_SEP22, FCASH_DEC22, FCASH_MAR23 } from '../../shared/constants'
+import { FYETH2203, FYETH2206, FYETH2209, FYETH2212, FYETH2303 } from '../../shared/constants'
+import { FYDAI2203, FYDAI2206, FYDAI2209, FYDAI2212, FYDAI2303 } from '../../shared/constants'
+import { FYUSDC2203, FYUSDC2206, FYUSDC2209, FYUSDC2212, FYUSDC2303 } from '../../shared/constants'
+import { FYFRAX2206, FYFRAX2209, FYFRAX2212, FYFRAX2303 } from '../../shared/constants'
+
+import { FETH2212, FETH2303 } from '../../shared/constants'
+import { FDAI2203, FDAI2206, FDAI2209, FDAI2212, FDAI2303 } from '../../shared/constants'
+import { FUSDC2203, FUSDC2206, FUSDC2209, FUSDC2212, FUSDC2303 } from '../../shared/constants'
+
 import { ethers } from 'ethers'
 
 export const external = readAddressMappingIfExists('external.json')
@@ -36,6 +45,8 @@ export const governance = readAddressMappingIfExists('governance.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
 export const strategies = readAddressMappingIfExists('strategies.json')
+export const assets = readAddressMappingIfExists('assets.json')
+export const joins = readAddressMappingIfExists('joins.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
 export const newPools = readAddressMappingIfExists('newPools.json')
@@ -66,45 +77,6 @@ export const whales: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x3336581a28870d343e085beae4cec23f47838899'],
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
-])
-
-export const assets: Map<string, string> = new Map([
-  [ETH, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
-  [DAI, '0x6B175474E89094C44Da98b954EedeAC495271d0F'],
-  [USDC, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'],
-  [WBTC, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'],
-  [WSTETH, '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0'],
-  [STETH, '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'],
-  [LINK, '0x514910771af9ca656af840dff83e8264ecf986ca'],
-  [ENS, '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'],
-  [YVUSDC, '0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE'],
-  [YVDAI, '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'],
-  [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
-  [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
-  [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
-  [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
-  [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
-  [YSDAI6MMSASSET, '0x7ACFe277dEd15CabA6a8Da2972b1eb93fe1e2cCD'],
-  [YSDAI6MJDASSET, '0x1144e14E9B0AA9e181342c7e6E0a9BaDB4ceD295'],
-  [YSUSDC6MMSASSET, '0xFBc322415CBC532b54749E31979a803009516b5D'],
-  [YSUSDC6MJDASSET, '0x8e8D6aB093905C400D583EfD37fbeEB1ee1c0c39'],
-  [YSETH6MMSASSET, '0xcf30A5A994f9aCe5832e30C138C9697cda5E1247'],
-  [YSETH6MJDASSET, '0x831dF23f7278575BA0b136296a285600cD75d076'],
-  [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
-  [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
-])
-
-export const joins: Map<string, string> = new Map([
-  [ETH, '0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0'],
-  [DAI, '0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc'],
-  [USDC, '0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4'],
-  [WBTC, '0x00De0AEFcd3069d88f85b4F18b144222eaAb92Af'],
-  [WSTETH, '0x5364d336c2d2391717bD366b29B6F351842D7F82'],
-  [LINK, '0xbDaBb91cDbDc252CBfF3A707819C5f7Ec2B92833'],
-  [ENS, '0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969'],
-  [YVUSDC, '0x403ae7384E89b086Ea2935d5fAFed07465242B38'],
-  [UNI, '0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779'],
-  [FRAX, '0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -223,12 +195,71 @@ export const yearnAuctionLimits: Array<[string, number, number, number, number, 
   [YVUSDC, 3600, 800000, 10000000, 5000, 6],
 ]
 
+// baseId, accepted ilks
+export const ilks: Map<string, string[]> = new Map([
+  [DAI, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [USDC, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
+  [ETH, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FRAX, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
+])
+
+// baseId, maturity, fCashAssetId
+export const fCashAssets: Map<string, Map<number, string>> = new Map([
+  [
+    DAI,
+    new Map([
+      [FCASH_MAR22, FYDAI2203],
+      [FCASH_JUN22, FYDAI2206],
+      [FCASH_SEP22, FYDAI2209],
+      [FCASH_DEC22, FYDAI2212],
+      [FCASH_MAR23, FYDAI2303],
+    ]),
+  ],
+  [
+    USDC,
+    new Map([
+      [FCASH_MAR22, FYUSDC2203],
+      [FCASH_JUN22, FYUSDC2206],
+      [FCASH_SEP22, FYUSDC2209],
+      [FCASH_DEC22, FYUSDC2212],
+      [FCASH_MAR23, FYUSDC2303],
+    ]),
+  ],
+  [
+    ETH,
+    new Map([
+      [FCASH_MAR22, FYETH2203],
+      [FCASH_JUN22, FYETH2206],
+      [FCASH_SEP22, FYETH2209],
+      [FCASH_DEC22, FYETH2212],
+      [FCASH_MAR23, FYETH2303],
+    ]),
+  ],
+  [FRAX, new Map()],
+])
+
 // seriesId, accepted ilks
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2203, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
-  [FYDAI2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDC2206, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
-]
+  [FYDAI2203, ilks.get(DAI)!.concat([assets.get(FDAI2203)!])],
+  [FYDAI2206, ilks.get(DAI)!.concat([assets.get(FDAI2206)!])],
+  [FYDAI2209, ilks.get(DAI)!.concat([assets.get(FDAI2209)!])],
+  [FYDAI2212, ilks.get(DAI)!.concat([assets.get(FDAI2212)!])],
+  [FYDAI2303, ilks.get(DAI)!.concat([assets.get(FDAI2303)!])],
 
-export const eulerAddress = '0x27182842E098f60e3D576794A5bFFb0777E025d3'
+  [FYUSDC2203, ilks.get(USDC)!.concat([assets.get(FUSDC2203)!])],
+  [FYUSDC2206, ilks.get(USDC)!.concat([assets.get(FUSDC2206)!])],
+  [FYUSDC2209, ilks.get(USDC)!.concat([assets.get(FUSDC2209)!])],
+  [FYUSDC2212, ilks.get(USDC)!.concat([assets.get(FUSDC2212)!])],
+  [FYUSDC2303, ilks.get(USDC)!.concat([assets.get(FUSDC2303)!])],
+
+  [FYETH2203, ilks.get(ETH)!],
+  [FYETH2206, ilks.get(ETH)!],
+  [FYETH2209, ilks.get(ETH)!],
+  [FYETH2212, ilks.get(ETH)!.concat([assets.get(FETH2212)!])],
+  [FYETH2303, ilks.get(ETH)!.concat([assets.get(FETH2303)!])],
+
+  [FYFRAX2206, ilks.get(FRAX)!],
+  [FYFRAX2209, ilks.get(FRAX)!],
+  [FYFRAX2212, ilks.get(FRAX)!],
+  [FYFRAX2303, ilks.get(FRAX)!],
+]
