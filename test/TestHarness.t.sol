@@ -6,10 +6,10 @@ import "forge-std/StdJson.sol";
 import "forge-std/console.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol";
 import "@yield-protocol/vault-v2/contracts/interfaces/ILadle.sol";
-import "@yield-protocol/vault-v2/contracts/test/utils/TestConstants.sol";
 import "@yield-protocol/utils-v2/contracts/token/IERC20.sol";
 import "@yield-protocol/utils-v2/contracts/token/IERC2612.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
+import "./TestConstants.sol";
 
 contract TestHarness is Test, TestConstants {
     using stdJson for string;
@@ -28,6 +28,8 @@ contract TestHarness is Test, TestConstants {
 
     function setUp() public {
         vm.createSelectFork('mainnet');
+        uint256 test = 0;
+        console.log("%d", test-1);
     }
 
     function testBorrowAnyAssetWithAnyCollateral() public {
@@ -44,9 +46,9 @@ contract TestHarness is Test, TestConstants {
         bytes[] memory ilkIds = json.readBytesArray(".ilkIds");
         // joins
         address[] memory joins = json.readAddressArray(".joinAddresses");
-        // // bases
+        // bases
         address[] memory bases = json.readAddressArray(".baseAddresses");
-        // // fyTokens
+        // fyTokens
         address[] memory fyTokens = json.readAddressArray(".fyTokenAddresses");
 
         for(uint8 i = 0; i < ilks.length; i++) {

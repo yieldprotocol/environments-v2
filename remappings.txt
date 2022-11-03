@@ -1,0 +1,4 @@
+@yield-protocol/utils-v2/=lib/yield-utils-v2/
+@yield-protocol/yieldspace-tv/=lib/yieldspace-tv/
+@yield-protocol/vault-v2/contracts=lib/vault-v2/packages/foundry/contracts/
+forge-std/=lib/forge-std/src
