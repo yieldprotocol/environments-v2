@@ -2632,10 +2632,17 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.5.tgz"
   "version" "0.18.5"
 
+<<<<<<< HEAD
 "@yield-protocol/yieldspace-tv@^0.1.8":
   "integrity" "sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ=="
   "resolved" "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.8.tgz"
   "version" "0.1.8"
+=======
+"@yield-protocol/yieldspace-tv@^0.1.9-rc.1":
+  version "0.1.9-rc.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.1.tgz#c4d52a01370472c74bda0ab770a8bc64224d0a82"
+  integrity sha512-MrWvsQggSMfQtqydG50IqNgn9SMgdpP3yRiNS6YfZXpqzk5j6/sxSosIN5ZCXXYHRLqhrd2Uiy0BIBVTtZWPCw==
+>>>>>>> b03a9a1a (fix: update deps)
 
 "abab@^2.0.0":
   "integrity" "sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA=="
