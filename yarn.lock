@@ -2639,10 +2639,10 @@
   resolved "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-0.12.0-rc5.tgz"
   integrity sha512-4gNxe0wmJjh5ijAPIgS9IX15rpBV5rJloPqLWGy06EkmmoH6b5CeHcjswHP5nCZFggcBhfY5bE02u7As26Qguw==
 
-"@yield-protocol/utils-v2@2.6.0-rc.1":
-  version "2.6.0-rc.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.0-rc.1.tgz"
-  integrity sha512-o1XdJWga3GuDJR7qYPD63fqtRpVxaiJ0ZaPxVVz9KuuRgSBFeNVl5sgp1xNobnnWg7uEtZFdicy8RgtpEsgAOQ==
+"@yield-protocol/utils-v2@2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.3.tgz#bf0f7ea28141208e18a0f86e7bc53d77963f5631"
+  integrity sha512-qvvKQu1+c3wIzKzNzrwGsvhzgR5MnJE84yOevV3XKowBXYTS1ePDu2oxLlq2sC4XNtWZl8Y3GWalVD5wQGkN3Q==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
@@ -2660,15 +2660,15 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.5":
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.5.tgz#1eee4311ebab90fd46c72637ff95a5d7d5e88469"
-  integrity sha512-uZZgqQ/DhjFr6iWbH6H+EiHAkd2c9rmd5Ul2KUPhVloi/RtY7fadH+JEBlh9uJivo3Vu9XBftZuwM04Tpx4Hlw==
+"@yield-protocol/vault-v2@0.18.6-rc.0":
+  version "0.18.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.6-rc.0.tgz#f6560c577f2f3d62a8e6b607fcd5cd79ee44bf72"
+  integrity sha512-i+9Xui8O5Msm+oMQLDG89LZSHCxucQnPzRC8lu93eFhAvWQrbZY9JupP5+vlKxxZ+ptGvyGQsO5Ekk1TeERmQA==
 
-"@yield-protocol/yieldspace-tv@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.8.tgz"
-  integrity sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ==
+"@yield-protocol/yieldspace-tv@^0.1.9-rc.1":
+  version "0.1.9-rc.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.1.tgz#c4d52a01370472c74bda0ab770a8bc64224d0a82"
+  integrity sha512-MrWvsQggSMfQtqydG50IqNgn9SMgdpP3yRiNS6YfZXpqzk5j6/sxSosIN5ZCXXYHRLqhrd2Uiy0BIBVTtZWPCw==
 
 abab@^2.0.0:
   version "2.0.6"

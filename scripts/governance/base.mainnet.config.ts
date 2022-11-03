@@ -1,3 +1,4 @@
+import { ethers } from 'hardhat'
 import { readAddressMappingIfExists } from '../../shared/helpers'
 import {
   ETH,
@@ -28,16 +29,10 @@ import {
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FCASH_MAR22, FCASH_JUN22, FCASH_SEP22, FCASH_DEC22, FCASH_MAR23 } from '../../shared/constants'
-import { FYETH2203, FYETH2206, FYETH2209, FYETH2212, FYETH2303 } from '../../shared/constants'
-import { FYDAI2203, FYDAI2206, FYDAI2209, FYDAI2212, FYDAI2303 } from '../../shared/constants'
-import { FYUSDC2203, FYUSDC2206, FYUSDC2209, FYUSDC2212, FYUSDC2303 } from '../../shared/constants'
-import { FYFRAX2206, FYFRAX2209, FYFRAX2212, FYFRAX2303 } from '../../shared/constants'
 
 import { FETH2212, FETH2303 } from '../../shared/constants'
 import { FDAI2203, FDAI2206, FDAI2209, FDAI2212, FDAI2303 } from '../../shared/constants'
 import { FUSDC2203, FUSDC2206, FUSDC2209, FUSDC2212, FUSDC2303 } from '../../shared/constants'
-
-import { ethers } from 'ethers'
 
 export const external = readAddressMappingIfExists('external.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
@@ -195,71 +190,60 @@ export const yearnAuctionLimits: Array<[string, number, number, number, number, 
   [YVUSDC, 3600, 800000, 10000000, 5000, 6],
 ]
 
-// baseId, accepted ilks
-export const ilks: Map<string, string[]> = new Map([
+/// @dev Ilks that are common to all series of a given base
+/// @param baseId bytes6 identifier
+/// @param ilkIds bytes6[] identifier array
+export const recurrentIlks: Map<string, string[]> = new Map([
   [DAI, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [USDC, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, YVUSDC, UNI]],
   [ETH, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
   [FRAX, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI]],
 ])
 
-// baseId, maturity, fCashAssetId
+/// @dev FCash asset ids, by baseId and maturity
+/// @param baseId bytes6 identifier
+/// @param maturity in Notional Finance
+/// @param fCashAssetId bytes6 identifier
 export const fCashAssets: Map<string, Map<number, string>> = new Map([
   [
     DAI,
     new Map([
-      [FCASH_MAR22, FYDAI2203],
-      [FCASH_JUN22, FYDAI2206],
-      [FCASH_SEP22, FYDAI2209],
-      [FCASH_DEC22, FYDAI2212],
-      [FCASH_MAR23, FYDAI2303],
+      [FCASH_MAR22, FDAI2203],
+      [FCASH_JUN22, FDAI2206],
+      [FCASH_SEP22, FDAI2209],
+      [FCASH_DEC22, FDAI2212],
+      [FCASH_MAR23, FDAI2303],
     ]),
   ],
   [
     USDC,
     new Map([
-      [FCASH_MAR22, FYUSDC2203],
-      [FCASH_JUN22, FYUSDC2206],
-      [FCASH_SEP22, FYUSDC2209],
-      [FCASH_DEC22, FYUSDC2212],
-      [FCASH_MAR23, FYUSDC2303],
+      [FCASH_MAR22, FUSDC2203],
+      [FCASH_JUN22, FUSDC2206],
+      [FCASH_SEP22, FUSDC2209],
+      [FCASH_DEC22, FUSDC2212],
+      [FCASH_MAR23, FUSDC2303],
     ]),
   ],
   [
     ETH,
     new Map([
-      [FCASH_MAR22, FYETH2203],
-      [FCASH_JUN22, FYETH2206],
-      [FCASH_SEP22, FYETH2209],
-      [FCASH_DEC22, FYETH2212],
-      [FCASH_MAR23, FYETH2303],
+      [FCASH_DEC22, FETH2212],
+      [FCASH_MAR23, FETH2303],
     ]),
   ],
-  [FRAX, new Map()],
 ])
 
-// seriesId, accepted ilks
-export const seriesIlks: Array<[string, string[]]> = [
-  [FYDAI2203, ilks.get(DAI)!.concat([assets.get(FDAI2203)!])],
-  [FYDAI2206, ilks.get(DAI)!.concat([assets.get(FDAI2206)!])],
-  [FYDAI2209, ilks.get(DAI)!.concat([assets.get(FDAI2209)!])],
-  [FYDAI2212, ilks.get(DAI)!.concat([assets.get(FDAI2212)!])],
-  [FYDAI2303, ilks.get(DAI)!.concat([assets.get(FDAI2303)!])],
+/// @dev Return the ilks for any given series
+export function seriesIlks(baseId: string, maturity: number): string[] {
+  const output = recurrentIlks.get(baseId)!
+  const fCashMaturity = closestFCashMaturity(maturity)
+  const fCashAsset = fCashAssets.get(baseId)?.get(fCashMaturity)
+  if (fCashAsset !== undefined) output.push(fCashAsset)
+  return output
+}
 
-  [FYUSDC2203, ilks.get(USDC)!.concat([assets.get(FUSDC2203)!])],
-  [FYUSDC2206, ilks.get(USDC)!.concat([assets.get(FUSDC2206)!])],
-  [FYUSDC2209, ilks.get(USDC)!.concat([assets.get(FUSDC2209)!])],
-  [FYUSDC2212, ilks.get(USDC)!.concat([assets.get(FUSDC2212)!])],
-  [FYUSDC2303, ilks.get(USDC)!.concat([assets.get(FUSDC2303)!])],
-
-  [FYETH2203, ilks.get(ETH)!],
-  [FYETH2206, ilks.get(ETH)!],
-  [FYETH2209, ilks.get(ETH)!],
-  [FYETH2212, ilks.get(ETH)!.concat([assets.get(FETH2212)!])],
-  [FYETH2303, ilks.get(ETH)!.concat([assets.get(FETH2303)!])],
-
-  [FYFRAX2206, ilks.get(FRAX)!],
-  [FYFRAX2209, ilks.get(FRAX)!],
-  [FYFRAX2212, ilks.get(FRAX)!],
-  [FYFRAX2303, ilks.get(FRAX)!],
-]
+/// @dev From any timestamp, find the previous closest fCash maturity
+export function closestFCashMaturity(maturity: number): number {
+  return maturity - (maturity % (86400 * 90))
+}
