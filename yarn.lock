@@ -2665,10 +2665,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.5.tgz#1eee4311ebab90fd46c72637ff95a5d7d5e88469"
   integrity sha512-uZZgqQ/DhjFr6iWbH6H+EiHAkd2c9rmd5Ul2KUPhVloi/RtY7fadH+JEBlh9uJivo3Vu9XBftZuwM04Tpx4Hlw==
 
-"@yield-protocol/yieldspace-tv@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.8.tgz"
-  integrity sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ==
+"@yield-protocol/yieldspace-tv@^0.1.9-rc.1":
+  version "0.1.9-rc.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.1.tgz#c4d52a01370472c74bda0ab770a8bc64224d0a82"
+  integrity sha512-MrWvsQggSMfQtqydG50IqNgn9SMgdpP3yRiNS6YfZXpqzk5j6/sxSosIN5ZCXXYHRLqhrd2Uiy0BIBVTtZWPCw==
 
 abab@^2.0.0:
   version "2.0.6"
