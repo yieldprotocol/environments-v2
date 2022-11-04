@@ -71,12 +71,11 @@ export const v2Limits: AuctionLineAndLimit[] = [
 
 /// @notice Limits to be used in an auction
 /// @param base identifier (bytes6 tag)
-/// @param initial percentage of the collateral to be offered (fixed point with 18 decimals)
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
-export const v1Limits: Array<[string, string, number, number, number]> = [
-  [ETH, '720000000000000000', 0, 30000, 12], // DAI/ETH is 72% LTV
-  [DAI, '760000000000000000', 0, 100, 18], // USDC/DAI is 76% LTV
-  [USDC, '760000000000000000', 0, 100, 6], // DAI/USDC is 76% LTV
+export const v1Limits: Array<[string, number, number, number]> = [
+  [ETH, 0, 30000, 12],
+  [DAI, 0, 100, 18],
+  [USDC, 0, 100, 6],
 ]
