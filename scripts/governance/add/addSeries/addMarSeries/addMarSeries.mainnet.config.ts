@@ -153,10 +153,10 @@ export const poolsInit: Array<[string, BigNumber]> = [
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-  [FYDAI2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
-  [FYUSDC2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX, YVUSDC]],
-  [FYFRAX2303, [ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, UNI, FRAX]],
+  [FYETH2303, base_config.seriesIlks(ETH, EOMAR23)],
+  [FYDAI2303, base_config.seriesIlks(DAI, EOMAR23)],
+  [FYUSDC2303, base_config.seriesIlks(USDC, EOMAR23)],
+  [FYFRAX2303, base_config.seriesIlks(FRAX, EOMAR23)],
 ]
 
 /// Parameters to roll each strategy
