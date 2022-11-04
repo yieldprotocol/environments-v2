@@ -15,23 +15,13 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
-import {
-  ETH,
-  DAI,
-  USDC,
-  FYETH2212,
-  FYDAI2212,
-  FYUSDC2212,
-  FYETH2303,
-  FYDAI2303,
-  FYUSDC2303,
-} from '../../../../shared/constants'
+import { ETH, DAI, USDC, FYDAI2212, FYDAI2303 } from '../../../../shared/constants'
 import { AuctionLineAndLimit } from '../../confTypes' // Note we use the series id as the asset id
 
 // ----- proposal parameters -----
 
 /// The Witch v2 will accept payment in these fyToken
-export const seriesIds: Array<string> = [FYETH2212, FYDAI2212, FYUSDC2212, FYETH2303, FYDAI2303, FYUSDC2303]
+export const seriesIds: Array<string> = [FYDAI2212, FYDAI2303]
 
 /// Auction configuration for each asset pair
 /// @param baseId assets in scope as underlying for vaults to be auctioned
@@ -59,23 +49,6 @@ export const v2Limits: AuctionLineAndLimit[] = [
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
-  },
-  // DAI
-  {
-    baseId: ETH,
-    ilkId: DAI,
-    duration: 600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
-    max: parseUnits('1000000'),
-  },
-  {
-    baseId: USDC,
-    ilkId: DAI,
-    duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
-    max: parseUnits('1000000'),
   },
   // USDC
   {
