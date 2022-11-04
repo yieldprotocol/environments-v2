@@ -36,8 +36,9 @@ import {
   FYDAI2209,
   FYETH2209,
   FYUSDC2209,
+  YIELDMATH,
 } from '../../../../../shared/constants'
-import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+import { Join__factory } from '../../../../../typechain'
 
 import * as base_config from '../../../base.mainnet.config'
 
@@ -53,7 +54,8 @@ export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
-export const newJoins: Map<string, string> = readAddressMappingIfExists('newJoins.json')
+
+import { ContractDeployment } from '../../../confTypes'
 
 /// @notice Configuration of the acummulator
 /// @param Asset identifier (bytes6 tag)
@@ -171,14 +173,14 @@ export const g1: number = 9000 // todo: Allan
 /// @param time stretch, in 64.64
 /// @param g1, in 64.64
 /// @param g2, in 64.64
-export const ePoolData: Array<[string, string, string, BigNumber, BigNumber, BigNumber]> = [
+export const ePoolData: Array<[string, string, string, string, BigNumber, string]> = [
   [
     FYUSDT2212,
     eulerAddress,
     assets.get(EUSDT) as string,
     newFYTokens.get(FYUSDT2212) as string,
     timeStretch.get(FYUSDT2212) as BigNumber,
-    g1,
+    g1.toString(),
   ],
   [
     FYUSDT2303,
@@ -186,7 +188,7 @@ export const ePoolData: Array<[string, string, string, BigNumber, BigNumber, Big
     assets.get(EUSDT) as string,
     newFYTokens.get(FYUSDT2303) as string,
     timeStretch.get(FYUSDT2303) as BigNumber,
-    g1,
+    g1.toString(),
   ],
 ]
 
@@ -240,4 +242,43 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
   [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
+]
+
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: YIELDMATH,
+    contract: 'YieldMath',
+    args: [],
+  },
+  {
+    addressFile: 'fyTokens.json',
+    name: FYUSDT2212,
+    contract: 'FYToken',
+    args: [
+      FYUSDT2212,
+      USDT,
+      protocol.get(COMPOUND) as string,
+      joins.get(USDT) as string,
+      EODEC22.toString(),
+      'FYUSDT2212',
+      'FYUSDT2212',
+    ],
+  },
+  {
+    addressFile: 'pools.json',
+    name: FYUSDT2212,
+    contract: 'PoolEuler',
+    args: [
+      FYUSDT2212,
+      eulerAddress,
+      assets.get(EUSDT) as string,
+      newFYTokens.get(FYUSDT2212) as string,
+      timeStretch.get(FYUSDT2212) as BigNumber,
+      g1.toString(),
+    ],
+    libs: {
+      YieldMath: protocol.get('yieldMath')!,
+    },
+  },
 ]
