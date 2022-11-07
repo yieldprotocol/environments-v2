@@ -25,6 +25,7 @@ import {
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
   EFRAX,
+  CRAB,
 } from '../../shared/constants'
 import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
 import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
@@ -66,6 +67,7 @@ export const whales: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x3336581a28870d343e085beae4cec23f47838899'],
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
+  [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -92,6 +94,7 @@ export const assets: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x831dF23f7278575BA0b136296a285600cD75d076'],
   [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
   [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
+  [CRAB, '0x3B960E47784150F5a63777201ee2B15253D713e8'],
 ])
 
 export const joins: Map<string, string> = new Map([
