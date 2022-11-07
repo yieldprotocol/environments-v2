@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
-import { IOracle, CrabOracle } from '../../../../../typechain'
+import { IOracle, CrabOracle, CompositeMultiOracle, UniswapV3Oracle } from '../../../../../typechain'
 import { Ladle } from '../../../../../typechain'
 import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
@@ -8,17 +8,28 @@ import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/a
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 import { orchestrateCrabOracleProposal } from '../../../../fragments/oracles/orchestrateCrabOracleProposal'
 import { updateCrabOracleSourcesProposal } from '../../../../fragments/oracles/updateCrabOracleSourcesProposal'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updateUniswapSourcesProposal } from '../../../../fragments/oracles/updateUniswapSourcesProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
-const { seriesIlks, crabOracleSource } = require(process.env.CONF as string)
+const { seriesIlks, crabOracleSource, compositeSources, uniswapOracleSources } = require(process.env.CONF as string)
 const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(process.env.CONF as string)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
   const crabOracle = await ethers.getContractAt('CrabOracle', protocol.get('crabOracle') as string, ownerAcc)
-
+  const compositeOracle = (await ethers.getContractAt(
+    'CompositeMultiOracle',
+    protocol.get('compositeOracle') as string,
+    ownerAcc
+  )) as unknown as CompositeMultiOracle
+  const uniswapOracle = (await ethers.getContractAt(
+    'UniswapV3Oracle',
+    protocol.get('uniswapOracle') as string,
+    ownerAcc
+  )) as unknown as UniswapV3Oracle
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
   const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
@@ -34,21 +45,19 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-
   // Oracles
-  // Orchestrate Strategy Oracle
+  proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapOracleSources))
+  // Orchestrate Crab Oracle
   proposal = proposal.concat(await orchestrateCrabOracleProposal(ownerAcc.address, crabOracle, timelock, cloak))
-  // Add Strategy Oracle Source
   proposal = proposal.concat(await updateCrabOracleSourcesProposal(crabOracle, crabOracleSource))
-
+  proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
-
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
-  // Bases and Ilks
+  // Ilks
   proposal = proposal.concat(
     await makeIlkProposal(
       ownerAcc,
-      crabOracle as unknown as IOracle,
+      compositeOracle as unknown as IOracle,
       cauldron,
       witch,
       cloak,
@@ -57,7 +66,6 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
       strategyAuctionLimits
     )
   )
-
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   if (proposal.length > 0) {

@@ -8,10 +8,17 @@ export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const newJoins: Map<string, string> = base_config.newJoins
+export const whales: Map<string, string> = base_config.whales
 
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
+    name: 'crabOracle',
+    contract: 'CrabOracle',
+    args: [],
+  },
+  {
+    addressFile: 'newJoins.json',
     name: CRAB,
     contract: 'FlashJoin',
     args: [assets.get(CRAB)!],
@@ -24,6 +31,16 @@ export const crabOracleSource: [string, string, string, string] = [
   assets.get(CRAB) as string,
   protocol.get('uniswapOracle') as string,
 ]
+
+export const uniswapOracleSources: [string, string, string, number][] = [
+  [ETH, OSQTH, '0x82c427AdFDf2d245Ec51D8046b41c4ee87F0d29C', 100],
+]
+
+/// @notice Sources that will be added to the Composite Oracle
+/// @param Base asset identifier (bytes6 tag)
+/// @param Quote asset identifier (bytes6 tag)
+/// @param Address for the source
+export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, protocol.get('crabOracle') as string]]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
 /// @param Base asset identifier (bytes6 tag)
