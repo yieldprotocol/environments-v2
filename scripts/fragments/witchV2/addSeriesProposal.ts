@@ -12,6 +12,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { bytesToString } from '../../../shared/helpers'
 import { Cauldron, EmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../typechain'
+import { SeriesToAdd } from '../../governance/confTypes'
 
 export const addSeriesProposal = async (
   ownerAcc: any,
@@ -19,18 +20,18 @@ export const addSeriesProposal = async (
   ladle: Ladle,
   witch: Witch,
   cloak: EmergencyBrake,
-  assetsToAdd: Map<string, string>, // seriesId, fyTokenAddress
+  seriesToAdd: SeriesToAdd[],
   pools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [seriesId, fyTokenAddress] of assetsToAdd) {
+  for (let { seriesId, fyToken: fyTokenAddress } of seriesToAdd) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
     const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
 
     const baseId = await fyToken.underlyingId()
 
-    const poolAddress = pools.get(seriesId)
+    const poolAddress = pools.getOrThrow(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool = Pool__factory.connect(poolAddress, ownerAcc)

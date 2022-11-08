@@ -1,40 +1,42 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
 import {
-  ETH,
+  CHAINLINK,
   DAI,
+  EDAI,
+  ENS,
+  ETH,
+  EUSDC,
+  EWETH,
+  FRAX,
+  FYDAI2203,
+  FYDAI2206,
+  FYUSDC2203,
+  FYUSDC2206,
+  LIDO,
+  LINK,
+  STETH,
+  UNI,
   USDC,
   WBTC,
   WSTETH,
-  STETH,
-  LINK,
-  ENS,
-  UNI,
-  YVDAI,
-  YVUSDC,
-  FRAX,
-  EWETH,
-  EDAI,
-  EUSDC,
-  YSDAI6MMS,
-  YSDAI6MMSASSET,
   YSDAI6MJDASSET,
+  YSDAI6MMSASSET,
   YSETH6MJDASSET,
   YSETH6MMSASSET,
   YSFRAX6MJDASSET,
   YSFRAX6MMSASSET,
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
-  EFRAX,
+  YVDAI,
+  YVUSDC,
 } from '../../shared/constants'
-import { CHAINLINK, COMPOSITE, LIDO, UNISWAP, COMPOUND, YEARN } from '../../shared/constants'
-import { FYDAI2203, FYDAI2206, FYUSDC2203, FYUSDC2206, EOMAR22, EOJUN22 } from '../../shared/constants'
-import { ethers } from 'ethers'
 
 export const external = readAddressMappingIfExists('external.json')
 export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
+export const joins = readAddressMappingIfExists('joins.json')
 export const strategies = readAddressMappingIfExists('strategies.json')
 export const newJoins = readAddressMappingIfExists('newJoins.json')
 export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
@@ -92,19 +94,6 @@ export const assets: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x831dF23f7278575BA0b136296a285600cD75d076'],
   [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
   [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
-])
-
-export const joins: Map<string, string> = new Map([
-  [ETH, '0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0'],
-  [DAI, '0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc'],
-  [USDC, '0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4'],
-  [WBTC, '0x00De0AEFcd3069d88f85b4F18b144222eaAb92Af'],
-  [WSTETH, '0x5364d336c2d2391717bD366b29B6F351842D7F82'],
-  [LINK, '0xbDaBb91cDbDc252CBfF3A707819C5f7Ec2B92833'],
-  [ENS, '0x5AAfd8F0bfe3e1e6bAE781A6641096317D762969'],
-  [YVUSDC, '0x403ae7384E89b086Ea2935d5fAFed07465242B38'],
-  [UNI, '0x41567f6A109f5bdE283Eb5501F21e3A0bEcbB779'],
-  [FRAX, '0x5655A973A49e1F9c1408bb9A617Fd0DBD0352464'],
 ])
 
 export const chiSources: Array<[string, string]> = [

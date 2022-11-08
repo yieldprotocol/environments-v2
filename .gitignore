@@ -54,10 +54,12 @@ dist/
 .idea/
 .DS_Store
 addresses/localhost/
-addresses/tenderly/
+addresses/tenderly*
 tmp/
 
 # Foundry
 foundry/out
 out/
-forge-cache/
+
+# Proposal on root
+./proposal.txt
