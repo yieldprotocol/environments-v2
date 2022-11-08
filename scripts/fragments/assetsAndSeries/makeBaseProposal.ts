@@ -9,13 +9,13 @@
 import { id } from '@yield-protocol/utils-v2'
 import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
 import { CHI, RATE } from '../../../shared/constants'
-import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
+import { Cauldron, EmergencyBrake, IOracle, Join__factory, OldWitch } from '../../../typechain'
 
 export const makeBaseProposal = async (
   ownerAcc: any,
   lendingOracle: IOracle,
   cauldron: Cauldron,
-  witch: Witch,
+  witch: OldWitch,
   cloak: EmergencyBrake,
   bases: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {

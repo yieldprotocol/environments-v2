@@ -21,28 +21,6 @@ export const enum ProposalState {
   Proposed = 1,
   Approved = 2,
 }
-/** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
-export const getOwnerOrImpersonate = async (impersonatedAddress: string, balance?: BigNumber) => {
-  if (network.name.includes('tenderly')) {
-    console.log(`Impersonating ${impersonatedAddress} on Tenderly`)
-    if (balance) {
-      await network.provider.send('tenderly_addBalance', [
-        impersonatedAddress,
-        ethers.utils.parseEther('1000').toHexString(),
-      ])
-    }
-    return await ethers.getSigner(impersonatedAddress)
-  }
-
-  let [ownerAcc] = await ethers.getSigners()
-  const on_fork = ownerAcc.address === '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-  if (on_fork) {
-    console.log(`Impersonating ${impersonatedAddress} on localhost`)
-    await hre.network.provider.request({
-      method: 'hardhat_impersonateAccount',
-      params: [impersonatedAddress],
-    })
-    ownerAcc = await ethers.getSigner(impersonatedAddress)
 
 export const awaitAndRequireProposal =
   (timelock: Timelock, txHash: string, requiredConfirmations: number) =>
