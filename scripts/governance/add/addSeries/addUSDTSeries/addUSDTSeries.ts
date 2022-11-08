@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute, stringToBytes6 } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose, stringToBytes6 } from '../../../../../shared/helpers'
 
 import {
   IOracle,
@@ -9,11 +9,12 @@ import {
   AccumulatorMultiOracle,
   OnChainTest,
 } from '../../../../../typechain'
-import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../../typechain'
+import { Cauldron, Ladle, OldWitch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
 import { COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../../shared/constants'
 
 import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
 import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSourcesProposal'
@@ -21,12 +22,11 @@ import { orchestrateAccumulatorOracleProposal } from '../../../../fragments/orac
 import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { initStrategiesProposal } from '../../../../fragments/core/strategies/initStrategiesProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/core/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategiesProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 import { onChainTestProposal } from '../../../../fragments/utils/onChainTestProposal'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
@@ -79,7 +79,12 @@ const { chainlinkSources } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as Cauldron
   const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
-  const witch = (await ethers.getContractAt('Witch', protocol.get('witch') as string, ownerAcc)) as unknown as Witch
+  const witch = (await ethers.getContractAt(
+    'OldWitch',
+    protocol.get('witch') as string,
+    ownerAcc
+  )) as unknown as OldWitch
+  console.log(witch.interface)
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -107,8 +112,8 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
 
   // todo: Alberto, which oracles do we need?
-  // proposal = proposal.concat(await updateCompositeSourcesProposal(compositeOracle, compositeSources))
-  // proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
+  proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
+  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 
   proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
@@ -140,7 +145,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
 
   // // Series
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
@@ -151,6 +156,6 @@ const { chainlinkSources } = require(process.env.CONF as string)
   // proposal = proposal.concat(await onChainTestProposal(cauldron, onChainTest, assetsAndJoins))
   if (proposal.length > 0) {
     // Propose, Approve & execute
-    await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+    await propose(timelock, proposal, governance.get('multisig') as string)
   }
 })()

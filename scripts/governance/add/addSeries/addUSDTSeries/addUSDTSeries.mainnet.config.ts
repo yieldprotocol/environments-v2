@@ -37,8 +37,8 @@ import {
   FYETH2209,
   FYUSDC2209,
   YIELDMATH,
+  LADLE,
 } from '../../../../../shared/constants'
-import { Join__factory } from '../../../../../typechain'
 
 import * as base_config from '../../../base.mainnet.config'
 
@@ -52,6 +52,7 @@ export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
+export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
@@ -71,6 +72,76 @@ export const rateChiSources: Array<[string, string, string, string]> = [
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the asset
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
+
+export const timeStretch: Map<string, BigNumber> = new Map([
+  [FYUSDT2212, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
+]) // todo: Allan
+
+// Sell base to the pool fee, as fp4
+export const g1: number = 9000 // todo: Allan
+
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: YIELDMATH,
+    contract: 'YieldMath',
+    args: [],
+  },
+  {
+    addressFile: 'newJoins.json',
+    name: USDT,
+    contract: 'Join',
+    args: [assets.get(USDT) as string],
+  },
+  {
+    addressFile: 'newFYTokens.json',
+    name: FYUSDT2212,
+    contract: 'FYToken',
+    args: [
+      USDT,
+      protocol.get(COMPOUND) as string,
+      newJoins.get(USDT) as string,
+      EODEC22.toString(),
+      'FYUSDT2212',
+      'FYUSDT2212',
+    ],
+    libs: {
+      SafeERC20Namer: protocol.get('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'newPools.json',
+    name: FYUSDT2212,
+    contract: 'PoolEuler',
+    args: [
+      eulerAddress,
+      assets.get(EUSDT) as string,
+      newFYTokens.get(FYUSDT2212) as string,
+      timeStretch.get(FYUSDT2212)!.toString(),
+      g1.toString(),
+    ],
+    libs: {
+      YieldMath: protocol.get('yieldMath')!,
+    },
+  },
+  {
+    addressFile: 'newStrategies.json',
+    name: YSUSDT6MJD,
+    contract: 'Strategy',
+    args: [
+      'Yield Strategy USDT 6M Jun Dec',
+      YSUSDT6MJD,
+      protocol.get(LADLE)!,
+      assets.get(USDT)!,
+      FRAX,
+      newJoins.get(USDT)!,
+    ],
+    libs: {
+      SafeERC20Namer: protocol.get('safeERC20Namer')!,
+    },
+  },
+]
 
 /// @notice Assets that will be made into a base
 /// @param Asset identifier (bytes6 tag)
@@ -155,16 +226,8 @@ export const newCompositeLimits: Array<[string, string, number, number, number, 
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
   [FYUSDT2212, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EODEC22, 'FYUSDT2212', 'FYUSDT2212'],
-  [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
+  // [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
 ]
-
-export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2212, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
-]) // todo: Allan
-
-// Sell base to the pool fee, as fp4
-export const g1: number = 9000 // todo: Allan
 
 /// @notice Deploy YieldSpace pools
 /// @param pool identifier, usually matching the series (bytes6 tag)
@@ -182,14 +245,14 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
     timeStretch.get(FYUSDT2212) as BigNumber,
     g1.toString(),
   ],
-  [
-    FYUSDT2303,
-    eulerAddress,
-    assets.get(EUSDT) as string,
-    newFYTokens.get(FYUSDT2303) as string,
-    timeStretch.get(FYUSDT2303) as BigNumber,
-    g1.toString(),
-  ],
+  // [
+  //   FYUSDT2303,
+  //   eulerAddress,
+  //   assets.get(EUSDT) as string,
+  //   newFYTokens.get(FYUSDT2303) as string,
+  //   timeStretch.get(FYUSDT2303) as BigNumber,
+  //   g1.toString(),
+  // ],
 ]
 
 /// @notice Pool initialization parameters
@@ -199,7 +262,7 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
 /// @param amount of fyToken to initialize pool with
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYUSDT2212, USDT, WAD.mul(100), ZERO],
-  [FYUSDT2303, USDT, WAD.mul(100), ZERO],
+  // [FYUSDT2303, USDT, WAD.mul(100), ZERO],
 ]
 
 /// @notice Ilks to accept for series
@@ -207,7 +270,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
-  [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
+  // [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 /// @notice Deploy strategies
@@ -218,7 +281,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
   ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
-  ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
+  // ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
 ]
 
 /// @notice Strategy initialization parameters
@@ -229,7 +292,7 @@ export const strategiesData: Array<[string, string, string, string, string]> = [
 export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
   [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, WAD.mul(100)],
-  [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
+  // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -242,43 +305,4 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
 /// @param Decimals to append to auction ceiling and minimum vault debt.
 export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
   [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
-]
-
-export const contractDeployments: ContractDeployment[] = [
-  {
-    addressFile: 'protocol.json',
-    name: YIELDMATH,
-    contract: 'YieldMath',
-    args: [],
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYUSDT2212,
-    contract: 'FYToken',
-    args: [
-      FYUSDT2212,
-      USDT,
-      protocol.get(COMPOUND) as string,
-      joins.get(USDT) as string,
-      EODEC22.toString(),
-      'FYUSDT2212',
-      'FYUSDT2212',
-    ],
-  },
-  {
-    addressFile: 'pools.json',
-    name: FYUSDT2212,
-    contract: 'PoolEuler',
-    args: [
-      FYUSDT2212,
-      eulerAddress,
-      assets.get(EUSDT) as string,
-      newFYTokens.get(FYUSDT2212) as string,
-      timeStretch.get(FYUSDT2212) as BigNumber,
-      g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol.get('yieldMath')!,
-    },
-  },
 ]

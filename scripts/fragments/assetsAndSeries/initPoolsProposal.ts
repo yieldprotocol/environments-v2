@@ -22,7 +22,11 @@ export const initPoolsProposal = async (
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
-    const base: IERC20Metadata = (await ethers.getContractAt('IERC20', await pool.base(), ownerAcc)) as IERC20Metadata
+    const base: IERC20Metadata = (await ethers.getContractAt(
+      'IERC20Metadata',
+      await pool.base(),
+      ownerAcc
+    )) as IERC20Metadata
     const baseName = await base.symbol()
 
     console.log(`Timelock balance of ${baseName} is ${await base.balanceOf(timelock.address)}`)
