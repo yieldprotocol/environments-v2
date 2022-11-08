@@ -1,8 +1,8 @@
 #!/bin/bash
 
 set -eux
-HERE=$(dirname $0)
-RUN="npx hardhat run --network tenderly"
+export HERE=$(dirname $0)
+RUN="npx hardhat run --network tenderly_contango"
 
 # Phase 1: Deploy Contracts
 export CONF=$PWD/$HERE/contango.mainnet.deployments
