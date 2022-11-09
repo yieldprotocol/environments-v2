@@ -1,6 +1,8 @@
 import { ethers } from 'hardhat'
 import { impersonate } from '../shared/helpers'
 import { WAD } from '../shared/constants'
+import { IERC20Metadata } from '../typechain';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 const { governance, whales, strategies, newPools, poolsInit, rollData } = require(process.env.CONF as string)
 
 /**
@@ -11,9 +13,9 @@ const { governance, whales, strategies, newPools, poolsInit, rollData } = requir
     const poolAddress = newPools.get(seriesId) as string
     const pool = (await ethers.getContractAt('Pool', poolAddress))
     const baseAddress = await pool.base()
-    const base = (await ethers.getContractAt('IERC20Metadata', baseAddress))
+    const base = (await ethers.getContractAt('IERC20Metadata', baseAddress)) as IERC20Metadata
 
-    const whaleAcc = await impersonate(whales.get(baseId) as string, WAD)
+    const whaleAcc = (await impersonate(whales.get(baseId) as string, WAD)) as SignerWithAddress
     await base.connect(whaleAcc).transfer(governance.get('timelock') as string, baseAmount.add(fyTokenAmount).add(1)) // Add 1 in case we need it for a tv pool fix
 
     console.log(`Loaded Timelock with ${baseAmount.add(fyTokenAmount)} of ${await base.symbol()} to init pools`)

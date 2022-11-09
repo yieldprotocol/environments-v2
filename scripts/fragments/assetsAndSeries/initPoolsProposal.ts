@@ -17,7 +17,7 @@ export const initPoolsProposal = async (
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [seriesId, baseAmount] of poolsInit) {
+  for (let [seriesId, ilkId, baseAmount] of poolsInit) {
     const poolAddress = newPools.get(seriesId) as string
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
