@@ -84,7 +84,6 @@ const { chainlinkSources } = require(process.env.CONF as string)
     protocol.get('witch') as string,
     ownerAcc
   )) as unknown as OldWitch
-  console.log(witch.interface)
   const cloak = (await ethers.getContractAt(
     'EmergencyBrake',
     governance.get('cloak') as string,
@@ -101,17 +100,14 @@ const { chainlinkSources } = require(process.env.CONF as string)
   for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, assetsToAdd.get(assetId) as string, joinAddress])
   }
-  console.table(assetsAndJoins)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
   // Oracles
-  // proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
+  proposal = proposal.concat(await orchestrateAccumulatorOracleProposal(deployer, accumulatorOracle, timelock, cloak))
   proposal = proposal.concat(await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources))
   proposal = proposal.concat(await updateChainlinkSourcesProposal(chainlinkOracle, chainlinkSources))
-
-  // todo: Alberto, which oracles do we need?
   proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 
@@ -136,9 +132,9 @@ const { chainlinkSources } = require(process.env.CONF as string)
     )
   )
 
-  // proposal = proposal.concat(
-  //   await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
-  // )
+  proposal = proposal.concat(
+    await updateIlkProposal(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
+  )
   proposal = proposal.concat(
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
@@ -147,7 +143,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins, newFYTokens, newPools)
   )
-  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
   // Strategies
