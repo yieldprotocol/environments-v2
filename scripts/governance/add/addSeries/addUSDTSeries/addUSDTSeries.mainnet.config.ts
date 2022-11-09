@@ -199,8 +199,8 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [USDT, USDT, 1000000, 200000, 0, 6],
   [USDT, FRAX, 1150000, 100000, 1000, 6],
   [USDT, UNI, 1670000, 100000, 1000, 6],
-  // [USDT, WSTETH, 1400000, 100000, 1000, 6],
-  // [USDT, ENS, 1670000, 100000, 1000, 6],
+  [USDT, WSTETH, 1400000, 100000, 1000, 6],
+  [USDT, ENS, 1670000, 100000, 1000, 6],
 ]
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
@@ -281,7 +281,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, LINK, UNI]],
+  [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
   // [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
