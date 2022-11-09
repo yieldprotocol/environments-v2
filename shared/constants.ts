@@ -142,8 +142,8 @@ export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) 
 export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
 export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
 export const FYFRAX2306 = ethers.utils.formatBytes32String('1810').slice(0, 14)
-export const FYUSDT2212 = ethers.utils.formatBytes32String('2508').slice(0, 14)
-export const FYUSDT2303 = ethers.utils.formatBytes32String('2509').slice(0, 14)
+export const FYUSDT2212 = ethers.utils.formatBytes32String('3808').slice(0, 14)
+export const FYUSDT2303 = ethers.utils.formatBytes32String('3809').slice(0, 14)
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec

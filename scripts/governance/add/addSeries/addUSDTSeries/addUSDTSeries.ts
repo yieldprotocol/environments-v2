@@ -43,8 +43,8 @@ const {
   strategiesData,
   strategiesInit,
 } = require(process.env.CONF as string)
-const { bases, newChainlinkLimits, chainlinkAuctionLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process
-  .env.CONF as string)
+const { bases, newChainlinkLimits, auctionLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env
+  .CONF as string)
 const { chainlinkSources } = require(process.env.CONF as string)
 
 /**
@@ -128,7 +128,20 @@ const { chainlinkSources } = require(process.env.CONF as string)
       cloak,
       newJoins,
       newChainlinkLimits,
-      chainlinkAuctionLimits
+      auctionLimits
+    )
+  )
+
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      compositeOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      newJoins,
+      newCompositeLimits,
+      auctionLimits
     )
   )
 
