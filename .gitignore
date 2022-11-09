@@ -53,7 +53,7 @@ dist/
 
 .idea/
 .DS_Store
-# addresses/localhost/
+addresses/localhost/
 addresses/tenderly/
 tmp/
 

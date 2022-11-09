@@ -199,10 +199,9 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [USDT, USDT, 1000000, 200000, 0, 6],
   [USDT, FRAX, 1150000, 100000, 1000, 6],
   [USDT, UNI, 1670000, 100000, 1000, 6],
-  [USDT, WSTETH, 1400000, 100000, 1000, 6],
-  [USDT, ENS, 1670000, 100000, 1000, 6],
 ]
 
+// To be used with Chainlink and Composite oracle ilk proposals
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 /// @notice Limits to be used in an auction
 /// @param base identifier (bytes6 tag)
@@ -211,9 +210,7 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
 /// @param Maximum concurrently auctionable for this asset, modified by decimals
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to auction ceiling and minimum vault debt.
-export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
-]
+export const auctionLimits: Array<[string, number, number, number, number, number]> = []
 
 /// @notice Configure an asset as an ilk for a base using the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
@@ -223,10 +220,9 @@ export const chainlinkAuctionLimits: Array<[string, number, number, number, numb
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newCompositeLimits: Array<[string, string, number, number, number, number]> = [
-  [USDT, WSTETH, 1400000, 1000000, 5000, 18], // TODO: ALBERTO
-  [USDT, ENS, 1670000, 1000000, 5000, 18],
+  [USDT, WSTETH, 1400000, 100000, 1000, 6],
+  [USDT, ENS, 1670000, 100000, 1000, 6],
 ]
-
 /// @notice Deploy fyToken series
 /// @param series identifier (bytes6 tag)
 /// @param underlying identifier (bytes6 tag)
@@ -237,7 +233,15 @@ export const newCompositeLimits: Array<[string, string, number, number, number, 
 /// @param Symbol for the series
 // seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
 export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-  [FYUSDT2212, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EODEC22, 'FYUSDT2212', 'FYUSDT2212'],
+  [
+    FYUSDT2212,
+    USDT,
+    protocol.get(ACCUMULATOR) as string,
+    joins.get(USDT) as string,
+    EODEC22,
+    'FYUSDT2212',
+    'FYUSDT2212',
+  ],
   // [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
 ]
 
