@@ -5,9 +5,17 @@ HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addFraxSeries.mainnet.config
 RUN="npx hardhat run --network localhost"
 
+$RUN $HERE/../../redeploy/arbitrum/deployAccumulatorOracle.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployJoins.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployFYTokens.ts # deploy fyTokens
 $RUN $HERE/../../deploy/deployPools.ts # deploy pools
 $RUN $HERE/../../deploy/deployStrategies.ts # deploy strategies
 # Add funds to the timelock
 $RUN $HERE/loadTimelock.ts
+
+$RUN $HERE/deployOnChainTest.ts
+$RUN $HERE/addFraxSeries.ts
+$RUN $HERE/addFraxSeries.ts
+$RUN $HERE/addFraxSeries.ts
+
+$RUN $HERE/addFraxSeries.test.ts 
