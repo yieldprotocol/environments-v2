@@ -118,7 +118,6 @@ const { chainlinkSources } = require(process.env.CONF as string)
     await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases)
   )
 
-  // todo: Alberto
   proposal = proposal.concat(
     await makeIlkProposal(
       ownerAcc,
@@ -152,11 +151,11 @@ const { chainlinkSources } = require(process.env.CONF as string)
     await updateIlkProposal(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
   )
 
-  // // Series
+  // Series
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins, newFYTokens, newPools)
   )
-  // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
 
   // Strategies
