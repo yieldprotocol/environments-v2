@@ -58,16 +58,6 @@ export const newStrategies: Map<string, string> = base_config.newStrategies
 
 import { ContractDeployment } from '../../../confTypes'
 
-/// @notice Configuration of the acummulator
-/// @param Asset identifier (bytes6 tag)
-/// @param Acummulator type (bytes6 tag)
-/// @param start Initial value for the acummulator (18 decimal fixed point)
-/// @param increasePerSecond Acummulator multiplier, per second (18 decimal fixed point)
-export const rateChiSources: Array<[string, string, string, string]> = [
-  [USDT, RATE, WAD.toString(), '1000000001546067000'],
-  [USDT, CHI, WAD.toString(), WAD.toString()],
-]
-
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the asset
@@ -148,6 +138,16 @@ export const contractDeployments: ContractDeployment[] = [
 /// @param Address for the related Join
 export const bases: Array<[string, string]> = [[USDT, newJoins.get(USDT) as string]]
 
+/// @notice Configuration of the acummulator
+/// @param Asset identifier (bytes6 tag)
+/// @param Acummulator type (bytes6 tag)
+/// @param start Initial value for the acummulator (18 decimal fixed point)
+/// @param increasePerSecond Acummulator multiplier, per second (18 decimal fixed point)
+export const rateChiSources: Array<[string, string, string, string]> = [
+  [USDT, RATE, WAD.toString(), '1000000001546067000'],
+  [USDT, CHI, WAD.toString(), WAD.toString()],
+]
+
 /// @notice Sources that will be added to the Chainlink Oracle
 /// @param Base asset identifier (bytes6 tag)
 /// @param Address for the base asset
@@ -199,8 +199,20 @@ export const newChainlinkLimits: Array<[string, string, number, number, number, 
   [USDT, USDT, 1000000, 200000, 0, 6],
   [USDT, FRAX, 1150000, 100000, 1000, 6],
   [USDT, UNI, 1670000, 100000, 1000, 6],
-  [USDT, WSTETH, 1400000, 100000, 1000, 6],
-  [USDT, ENS, 1670000, 100000, 1000, 6],
+  // [USDT, WSTETH, 1400000, 100000, 1000, 6],
+  // [USDT, ENS, 1670000, 100000, 1000, 6],
+]
+
+// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
+/// @notice Limits to be used in an auction
+/// @param base identifier (bytes6 tag)
+/// @param duration of auctions in seconds
+/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
+/// @param Maximum concurrently auctionable for this asset, modified by decimals
+/// @param Minimum vault debt, modified by decimals
+/// @param Decimals to append to auction ceiling and minimum vault debt.
+export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
+  [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Composite Oracle
@@ -269,7 +281,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
-  [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, LINK, UNI]],
   // [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
@@ -293,16 +305,4 @@ export const strategiesInit: Array<[string, string, string, BigNumber]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
   [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, WAD.mul(100)],
   // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
-]
-
-// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-/// @notice Limits to be used in an auction
-/// @param base identifier (bytes6 tag)
-/// @param duration of auctions in seconds
-/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
-/// @param Maximum concurrently auctionable for this asset, modified by decimals
-/// @param Minimum vault debt, modified by decimals
-/// @param Decimals to append to auction ceiling and minimum vault debt.
-export const chainlinkAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [USDT, 3600, 1000000, 1000000, 1000, 18], // todo: Alberto
 ]
