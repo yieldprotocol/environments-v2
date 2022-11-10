@@ -104,6 +104,10 @@
     [
       "notionalJoinFactory",
       "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
+    ],
+    [
+      "healderModule",
+      "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
     ]
   ]
 }

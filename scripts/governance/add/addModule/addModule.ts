@@ -1,3 +1,4 @@
+import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 
 import { Ladle__factory, Timelock__factory } from '../../../../typechain'
@@ -11,6 +12,9 @@ const { developer, governance, protocol, moduleAddress } = require(process.env.C
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
+
+  const moduleAddress = protocol.get('repayCloseModule') as string
+  console.log(moduleAddress)
 
   const ladle = Ladle__factory.connect(protocol.get('ladle')!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.get('timelock')!, ownerAcc)

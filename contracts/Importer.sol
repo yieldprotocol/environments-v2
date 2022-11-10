@@ -2,6 +2,8 @@
 pragma solidity >=0.8.13;
 
 import "@yield-protocol/vault-v2/contracts/modules/HealerModule.sol";
+import "@yield-protocol/vault-v2/contracts/modules/RepayCloseModule.sol";
+// import "@yield-protocol/vault-v2/contracts/modules/RepayFromLadleModule.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/accumulator/AccumulatorMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkUSDMultiOracle.sol";
