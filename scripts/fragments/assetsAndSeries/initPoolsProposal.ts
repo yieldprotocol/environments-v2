@@ -5,6 +5,7 @@
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
+import { id } from '@yield-protocol/utils-v2'
 
 import { IERC20Metadata, Pool, Timelock } from '../../../typechain'
 
@@ -37,6 +38,13 @@ export const initPoolsProposal = async (
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),
     })
     console.log(`Transferring ${baseAmount} of ${baseName} from Timelock to Pool`)
+
+    // Give init access to the timelock
+    proposal.push({
+      target: pool.address,
+      data: pool.interface.encodeFunctionData('grantRoles', [[id(pool.interface, 'init(address)')], timelock.address]),
+    })
+    console.log(`pool.grantRoles(gov, timelock)`)
 
     // Initialize pool
     proposal.push({
