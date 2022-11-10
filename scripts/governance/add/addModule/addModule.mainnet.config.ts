@@ -1,7 +1,5 @@
 import * as base_config from '../../base.mainnet.config'
 
-import { ETH, CAULDRON } from '../../../../shared/constants'
-
 export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -11,19 +9,3 @@ export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
-
-import { readAddressMappingIfExists } from '../../../../shared/helpers'
-
-export const assets = () => readAddressMappingIfExists('assets.json')
-export const protocol = () => readAddressMappingIfExists('protocol.json')
-
-import { ContractDeployment } from '../../confTypes'
-
-export const contractDeployments: ContractDeployment[] = [
-  {
-    addressFile: 'protocol.json',
-    name: 'repayCloseModule',
-    contract: 'RepayCloseModule',
-    args: [() => assets().getOrThrow(ETH) as string, () => protocol().getOrThrow(CAULDRON) as string],
-  },
-]
