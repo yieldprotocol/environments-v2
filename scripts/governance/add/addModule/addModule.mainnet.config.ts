@@ -6,16 +6,16 @@ export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
-
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol
-export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const newFYTokens: Map<string, string> = base_config.newFYTokens
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-// export const moduleAddress = protocol.get('repayFromLadleModule') as string
+import { readAddressMappingIfExists } from '../../../../shared/helpers'
+
+export const assets = () => readAddressMappingIfExists('assets.json')
+export const protocol = () => readAddressMappingIfExists('protocol.json')
 
 import { ContractDeployment } from '../../confTypes'
 
@@ -24,6 +24,6 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'protocol.json',
     name: 'repayCloseModule',
     contract: 'RepayCloseModule',
-    args: [assets.get(ETH) as string, protocol.get(CAULDRON) as string],
+    args: [() => assets().getOrThrow(ETH) as string, () => protocol().getOrThrow(CAULDRON) as string],
   },
 ]

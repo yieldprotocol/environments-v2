@@ -18,14 +18,12 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
 
   for (let params_ of contractDeployments) {
     const params: ContractDeployment = params_ // Only way I know to cast this
-    console.log(params)
 
     const deployedAddress = readAddressMappingIfExists(params.addressFile).get(params.name)
     let deployed: Contract
     if (deployedAddress === undefined) {
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
-      console.log(params.args.map((f) => console.log(f)))
 
       deployed = await contractFactory.deploy(...params.args.map((f) => f()))
 
