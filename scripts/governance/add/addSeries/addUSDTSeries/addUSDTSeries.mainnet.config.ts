@@ -38,13 +38,14 @@ import {
   FYUSDC2209,
   YIELDMATH,
   LADLE,
+  ONEUSDC,
 } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
-export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const developer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
+export const deployer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
 export const whales: Map<string, string> = base_config.whales
 export const eulerAddress = base_config.eulerAddress
 export const governance: Map<string, string> = base_config.governance
@@ -57,6 +58,8 @@ export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
 import { ContractDeployment } from '../../../confTypes'
+
+const ONEUSDT = ONEUSDC
 
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)
@@ -277,7 +280,7 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
 /// @param amount of base to initialize pool with
 /// @param amount of fyToken to initialize pool with
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-  [FYUSDT2212, USDT, WAD.mul(100), ZERO],
+  [FYUSDT2212, USDT, ONEUSDT.mul(100), ZERO],
   // [FYUSDT2303, USDT, WAD.mul(100), ZERO],
 ]
 
@@ -305,8 +308,9 @@ export const strategiesData: Array<[string, string, string, string, string]> = [
 /// @param address of initial pool
 /// @param series identifier (bytes6 tag)
 /// @param amount of base to initialize strategy with
-export const strategiesInit: Array<[string, string, string, BigNumber]> = [
+/// @param fix this is true unless it is a nonTv pool
+export const strategiesInit: Array<[string, string, string, BigNumber, boolean]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
-  [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, WAD.mul(100)],
+  [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, ONEUSDT.mul(100), true],
   // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
 ]
