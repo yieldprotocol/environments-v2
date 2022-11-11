@@ -160,7 +160,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => YSUSDT6MJD,
       () => protocol().get(LADLE)!,
       () => assets.get(USDT)!,
-      () => FRAX,
+      () => USDT,
       () => newJoins().get(USDT)!,
     ],
     libs: {
@@ -176,7 +176,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => YSUSDT6MMS,
       () => protocol().get(LADLE)!,
       () => assets.get(USDT)!,
-      () => FRAX,
+      () => USDT,
       () => newJoins().get(USDT)!,
     ],
     libs: {
