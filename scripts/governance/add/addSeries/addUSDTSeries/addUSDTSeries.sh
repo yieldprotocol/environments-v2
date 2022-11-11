@@ -2,8 +2,9 @@
 
 set -eux
 export HERE=$(dirname $0)
-export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
 RUN="npx hardhat run --network localhost"
+
+export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
 
 $RUN $HERE/../../../../../shared/deploy.ts
 $RUN $HERE/../../../../../tools/loadTimelock.ts

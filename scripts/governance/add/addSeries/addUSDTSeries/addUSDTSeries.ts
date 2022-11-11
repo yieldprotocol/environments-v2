@@ -55,33 +55,37 @@ const { chainlinkSources } = require(process.env.CONF as string)
 
   const chainlinkOracle = (await ethers.getContractAt(
     'ChainlinkMultiOracle',
-    protocol.get(CHAINLINK) as string,
+    protocol().getOrThrow(CHAINLINK) as string,
     ownerAcc
   )) as unknown as ChainlinkMultiOracle
   const compositeOracle = (await ethers.getContractAt(
     'CompositeMultiOracle',
-    protocol.get(COMPOSITE) as string,
+    protocol().getOrThrow(COMPOSITE) as string,
     ownerAcc
   )) as unknown as CompositeMultiOracle
   const uniswapOracle = (await ethers.getContractAt(
     'UniswapV3Oracle',
-    protocol.get(UNISWAP) as string,
+    protocol().getOrThrow(UNISWAP) as string,
     ownerAcc
   )) as unknown as UniswapV3Oracle
   const accumulatorOracle = (await ethers.getContractAt(
     'AccumulatorMultiOracle',
-    protocol.get(ACCUMULATOR) as string,
+    protocol().getOrThrow(ACCUMULATOR) as string,
     ownerAcc
   )) as unknown as AccumulatorMultiOracle
   const cauldron = (await ethers.getContractAt(
     'Cauldron',
-    protocol.get('cauldron') as string,
+    protocol().getOrThrow('cauldron') as string,
     ownerAcc
   )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const ladle = (await ethers.getContractAt(
+    'Ladle',
+    protocol().getOrThrow('ladle') as string,
+    ownerAcc
+  )) as unknown as Ladle
   const witch = (await ethers.getContractAt(
     'OldWitch',
-    protocol.get('witch') as string,
+    protocol().getOrThrow('witch') as string,
     ownerAcc
   )) as unknown as OldWitch
   const cloak = (await ethers.getContractAt(

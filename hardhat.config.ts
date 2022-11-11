@@ -118,9 +118,9 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/d9877041-2a85-41ce-b9d3-4ac38c3478ba",
+      url: "https://rpc.tenderly.co/fork/94a4d0ee-3d31-45e8-b70e-426db8552326",
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000,
@@ -148,7 +148,7 @@ module.exports = {
   tenderly: {
 		username: "Yield",
 		project: "v2",
-    forkNetwork: "42161",
+    forkNetwork: "1",
 	},
   etherscan: {
     apiKey: {

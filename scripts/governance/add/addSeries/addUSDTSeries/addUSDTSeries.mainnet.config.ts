@@ -49,13 +49,13 @@ export const deployer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
 export const whales: Map<string, string> = base_config.whales
 export const eulerAddress = base_config.eulerAddress
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
-export const joins: Map<string, string> = base_config.joins
-export const newFYTokens: Map<string, string> = base_config.newFYTokens
-export const newJoins: Map<string, string> = base_config.newJoins
-export const newPools: Map<string, string> = base_config.newPools
-export const newStrategies: Map<string, string> = base_config.newStrategies
+
+import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+
+export const fyTokens = () => readAddressMappingIfExists('fyTokens.json')
+export const joins = () => readAddressMappingIfExists('joins.json')
+export const protocol = () => readAddressMappingIfExists('protocol.json')
 
 import { ContractDeployment } from '../../../confTypes'
 
@@ -82,56 +82,56 @@ export const contractDeployments: ContractDeployment[] = [
     args: [],
   },
   {
-    addressFile: 'newJoins.json',
+    addressFile: 'joins.json',
     name: USDT,
     contract: 'Join',
-    args: [assets.get(USDT) as string],
+    args: [() => assets.getOrThrow(USDT) as string],
   },
   {
-    addressFile: 'newFYTokens.json',
+    addressFile: 'fyTokens.json',
     name: FYUSDT2212,
     contract: 'FYToken',
     args: [
-      USDT,
-      protocol.get(COMPOUND) as string,
-      newJoins.get(USDT) as string,
-      EODEC22.toString(),
-      'FYUSDT2212',
-      'FYUSDT2212',
+      () => assets.getOrThrow(USDT),
+      () => protocol().getOrThrow(COMPOUND) as string,
+      () => joins().getOrThrow(USDT) as string,
+      () => EODEC22.toString(),
+      () => 'FYUSDT2212',
+      () => 'FYUSDT2212',
     ],
     libs: {
-      SafeERC20Namer: protocol.get('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
   },
   {
-    addressFile: 'newPools.json',
+    addressFile: 'pools.json',
     name: FYUSDT2212,
     contract: 'PoolEuler',
     args: [
-      eulerAddress,
-      assets.get(EUSDT) as string,
-      newFYTokens.get(FYUSDT2212) as string,
-      timeStretch.get(FYUSDT2212)!.toString(),
-      g1.toString(),
+      () => eulerAddress,
+      () => assets.getOrThrow(EUSDT) as string,
+      () => fyTokens().getOrThrow(FYUSDT2212) as string,
+      () => timeStretch.get(FYUSDT2212)!.toString(),
+      () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol.get('yieldMath')!,
+      YieldMath: protocol().getOrThrow('yieldMath')!,
     },
   },
   {
-    addressFile: 'newStrategies.json',
+    addressFile: 'strategies.json',
     name: YSUSDT6MJD,
     contract: 'Strategy',
     args: [
-      'Yield Strategy USDT 6M Jun Dec',
-      YSUSDT6MJD,
-      protocol.get(LADLE)!,
-      assets.get(USDT)!,
-      FRAX,
-      newJoins.get(USDT)!,
+      () => 'Yield Strategy USDT 6M Jun Dec',
+      () => YSUSDT6MJD,
+      () => protocol().getOrThrow(LADLE)!,
+      () => assets.getOrThrow(USDT)!,
+      () => assets.getOrThrow(FRAX),
+      () => joins().getOrThrow(USDT)!,
     ],
     libs: {
-      SafeERC20Namer: protocol.get('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
   },
 ]
@@ -139,7 +139,7 @@ export const contractDeployments: ContractDeployment[] = [
 /// @notice Assets that will be made into a base
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the related Join
-export const bases: Array<[string, string]> = [[USDT, newJoins.get(USDT) as string]]
+export const bases: Array<[string, string]> = [[USDT, joins().getOrThrow(USDT) as string]]
 
 /// @notice Configuration of the acummulator
 /// @param Asset identifier (bytes6 tag)
@@ -164,18 +164,20 @@ export const chainlinkSources: Array<[string, string, string, string, string]> =
 /// @notice Oracles that will be used for Chi
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the chi oracle
-export const newChiSources: Array<[string, string]> = [[USDT, protocol.get(ACCUMULATOR) as string]]
+export const newChiSources: Array<[string, string]> = [[USDT, protocol().getOrThrow(ACCUMULATOR) as string]]
 
 /// @notice Oracles that will be used for Rate
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the rate oracle
-export const newRateSources: Array<[string, string]> = [[USDT, protocol.get(ACCUMULATOR) as string]]
+export const newRateSources: Array<[string, string]> = [[USDT, protocol().getOrThrow(ACCUMULATOR) as string]]
 
 /// @notice Sources that will be added to the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [[USDT, ETH, protocol.get(CHAINLINK) as string]]
+export const compositeSources: Array<[string, string, string]> = [
+  [USDT, ETH, protocol().getOrThrow(CHAINLINK) as string],
+]
 
 /// @notice Paths that will be added to the Composite Oracle
 /// @param Base asset identifier (bytes6 tag)
@@ -239,8 +241,8 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
   [
     FYUSDT2212,
     USDT,
-    protocol.get(ACCUMULATOR) as string,
-    joins.get(USDT) as string,
+    protocol().getOrThrow(ACCUMULATOR) as string,
+    joins().getOrThrow(USDT) as string,
     EODEC22,
     'FYUSDT2212',
     'FYUSDT2212',
@@ -260,7 +262,7 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
     FYUSDT2212,
     eulerAddress,
     assets.get(EUSDT) as string,
-    newFYTokens.get(FYUSDT2212) as string,
+    fyTokens().getOrThrow(FYUSDT2212) as string,
     timeStretch.get(FYUSDT2212) as BigNumber,
     g1.toString(),
   ],
@@ -299,7 +301,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Address for the related asset
 export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
+  ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, joins().getOrThrow(USDT) as string, assets.get(USDT) as string],
   // ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
 ]
 
