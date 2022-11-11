@@ -23,86 +23,96 @@ export const orchestrateAuctionAssetsFragment = async (
   for (const baseId of baseIds) {
     const join = Join__factory.connect((await ladle.joins(baseId))!, ownerAcc)
 
-    // Allow Witch to join base
-    proposal.push({
-      target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [
-        id(join.interface, 'join(address,uint128)'),
-        witch.address,
-      ]),
-    })
-
-    // Allow to revoke the above permission on emergencies
-    const plan = [
-      {
-        contact: join.address,
-        signatures: [id(join.interface, 'join(address,uint128)')],
-      },
-    ]
-
-    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+    if (!(await join.hasRole(id(join.interface, 'join(address,uint128)'), witch.address))) {
+      // Allow Witch to join base
       proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        target: join.address,
+        data: join.interface.encodeFunctionData('grantRole', [
+          id(join.interface, 'join(address,uint128)'),
+          witch.address,
+        ]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(baseId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`join(${bytesToString(baseId)}).grantRole(join(address,uint128), witch)`)
+
+      // Allow to revoke the above permission on emergencies
+      const plan = [
+        {
+          contact: join.address,
+          signatures: [id(join.interface, 'join(address,uint128)')],
+        },
+      ]
+
+      if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+        proposal.push({
+          target: cloak.address,
+          data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        })
+        // console.log(`cloak.plan(witch, join(${bytesToString(baseId)})): ${await cloak.hash(witch.address, plan)}`)
+      }
     }
   }
 
   for (const seriesId of seriesIds) {
     const fyToken = await ethers.getContractAt('FYToken', (await cauldron.series(seriesId)).fyToken, ownerAcc)
 
-    // Allow Witch to burn fyTokens
-    proposal.push({
-      target: fyToken.address,
-      data: fyToken.interface.encodeFunctionData('grantRole', [
-        id(fyToken.interface, 'burn(address,uint256)'),
-        witch.address,
-      ]),
-    })
-
-    // Allow to revoke the above permission on emergencies
-    const plan = [
-      {
-        contact: fyToken.address,
-        signatures: [id(fyToken.interface, 'burn(address,uint256)')],
-      },
-    ]
-
-    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+    if (!(await fyToken.hasRole(id(fyToken.interface, 'burn(address,uint256)'), witch.address))) {
+      // Allow Witch to burn fyTokens
       proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        target: fyToken.address,
+        data: fyToken.interface.encodeFunctionData('grantRole', [
+          id(fyToken.interface, 'burn(address,uint256)'),
+          witch.address,
+        ]),
       })
-      console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`fyToken(${bytesToString(seriesId)}).grantRole(burn(address,uint256), witch)`)
+
+      // Allow to revoke the above permission on emergencies
+      const plan = [
+        {
+          contact: fyToken.address,
+          signatures: [id(fyToken.interface, 'burn(address,uint256)')],
+        },
+      ]
+
+      if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+        proposal.push({
+          target: cloak.address,
+          data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        })
+        // console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+      }
     }
   }
 
   for (const ilkId of ilkIds) {
     const join = await ethers.getContractAt('Join', await ladle.joins(ilkId), ownerAcc)
-    // Allow Witch to exit ilk
-    proposal.push({
-      target: join.address,
-      data: join.interface.encodeFunctionData('grantRole', [
-        id(join.interface, 'exit(address,uint128)'),
-        witch.address,
-      ]),
-    })
 
-    // Log a plan to undo the orchestration above in emergencies
-    const plan = [
-      {
-        contact: join.address,
-        signatures: [id(join.interface, 'exit(address,uint128)')],
-      },
-    ]
-
-    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+    if (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address))) {
+      // Allow Witch to exit ilk
       proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        target: join.address,
+        data: join.interface.encodeFunctionData('grantRole', [
+          id(join.interface, 'exit(address,uint128)'),
+          witch.address,
+        ]),
       })
-      console.log(`cloak.plan(witch, exit(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`join(${bytesToString(ilkId)}).grantRole(exit(address,uint128), witch)`)
+
+      // Log a plan to undo the orchestration above in emergencies
+      const plan = [
+        {
+          contact: join.address,
+          signatures: [id(join.interface, 'exit(address,uint128)')],
+        },
+      ]
+
+      if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+        proposal.push({
+          target: cloak.address,
+          data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+        })
+        // console.log(`cloak.plan(witch, exit(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      }
     }
   }
 

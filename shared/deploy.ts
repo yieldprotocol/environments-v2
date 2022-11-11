@@ -14,7 +14,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
  */
 ;(async () => {
   let deployerAcc = await getOwnerOrImpersonate(deployer as string)
-  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, deployerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), deployerAcc)
 
   for (let params_ of contractDeployments) {
     const params: ContractDeployment = params_ // Only way I know to cast this
@@ -25,7 +25,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
-      deployed = await contractFactory.deploy(...params.args)
+      deployed = await contractFactory.deploy(...params.args.map((f) => f()))
 
       await deployed.deployed()
       console.log(`${params.name} deployed at ${deployed.address}`)

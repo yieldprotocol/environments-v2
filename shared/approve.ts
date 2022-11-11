@@ -6,15 +6,16 @@ import {
   isFork,
   ProposalState,
   readProposal,
-} from '../shared/helpers'
+} from './helpers'
 import { Timelock__factory } from '../typechain'
+import { MULTISIG, TIMELOCK } from './constants'
 const { governance } = require(process.env.CONF as string)
 
 /** @dev Approve on the timelock using the hash from 'tmp/proposal.txt' */
 
 ;(async () => {
-  const signerAcc = await getOwnerOrImpersonate(governance.get('multisig')!, utils.parseEther('1'))
-  const timelock = Timelock__factory.connect(governance.get('timelock')!, signerAcc)
+  const signerAcc = await getOwnerOrImpersonate(governance.getOrThrow(MULTISIG), utils.parseEther('1'))
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), signerAcc)
   const [proposalHash] = readProposal()
   console.log(`Proposal: ${proposalHash}`)
 
