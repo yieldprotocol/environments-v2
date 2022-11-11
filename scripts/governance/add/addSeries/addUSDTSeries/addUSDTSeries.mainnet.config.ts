@@ -49,7 +49,7 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'newJoins.json',
     name: USDT,
-    contract: 'Join',
+    contract: 'FlashJoin',
     args: [() => assets.get(USDT) as string],
   },
   {

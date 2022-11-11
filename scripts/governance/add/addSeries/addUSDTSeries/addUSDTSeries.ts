@@ -19,7 +19,7 @@ import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
 import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSourcesProposal'
 import { orchestrateAccumulatorOracleProposal } from '../../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
-import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { orchestrateFlashJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateFlashJoinProposal'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
@@ -115,7 +115,9 @@ const { chainlinkSources } = require(process.env.CONF as string)
   proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
 
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
+  proposal = proposal.concat(
+    await orchestrateFlashJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins)
+  )
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
   // Bases and Ilks
   proposal = proposal.concat(

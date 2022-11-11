@@ -1,29 +1,13 @@
-/**
- * @dev This script adds one or more assets to the protocol.
- *
- * It takes as inputs the governance, protocol, assets and joins json address files.
- * It uses the Wand to:
- *  - Add the asset to Cauldron.
- *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
- * The Timelock and Cloak get ROOT access to the new Join. Root access is NOT removed from the Wand.
- * The Timelock gets access to governance functions in the new Join.
- * A plan is recorded in the Cloak to isolate the Join from the Ladle.
- * It adds to the assets and joins json address files.
- * @notice The assetIds can't be already in use
- */
-
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, verify } from '../../../shared/helpers'
+import { bytesToString } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Ladle, Join__factory, EmergencyBrake } from '../../../typechain'
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
   deployer: string,
   ladle: Ladle,
-  timelock: Timelock,
   cloak: EmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -33,7 +17,7 @@ export const orchestrateJoinProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [assetId, , joinAddress] of assets) {
-    const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
+    const join = Join__factory.connect(joinAddress, ownerAcc)
     await join.asset() // Check it's a valid join
 
     if (await join.hasRole(ROOT, deployer)) {
@@ -43,15 +27,6 @@ export const orchestrateJoinProposal = async (
       })
       console.log(`join.revokeRole(ROOT, deployer)`)
     }
-
-    // proposal.push({
-    //   target: join.address,
-    //   data: join.interface.encodeFunctionData('grantRoles', [
-    //     [id(join.interface, 'setFlashFeeFactor(uint256)')],
-    //     timelock.address,
-    //   ]),
-    // })
-    // console.log(`join.grantRoles(gov, timelock)`)
 
     if (!(await join.hasRole(ROOT, cloak.address))) {
       proposal.push({
