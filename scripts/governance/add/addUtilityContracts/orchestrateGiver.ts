@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../../shared/constants'
 import { Timelock, Giver, Cauldron } from '../../../../typechain'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiverProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
@@ -31,5 +31,5 @@ const { protocol, governance } = require(process.env.CONF as string)
     deployer
   )
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await propose(timelock, proposal, developer)
 })()
