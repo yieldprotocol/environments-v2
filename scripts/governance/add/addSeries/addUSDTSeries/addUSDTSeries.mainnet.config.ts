@@ -106,6 +106,22 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
+    addressFile: 'newFYTokens.json',
+    name: FYUSDT2303,
+    contract: 'FYToken',
+    args: [
+      () => USDT,
+      () => protocol().get(COMPOUND) as string,
+      () => newJoins().get(USDT) as string,
+      () => EOMAR23.toString(),
+      () => 'FYUSDT2303',
+      () => 'FYUSDT2303',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+    },
+  },
+  {
     addressFile: 'newPools.json',
     name: FYUSDT2212,
     contract: 'PoolEuler',
@@ -121,12 +137,43 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
+    addressFile: 'newPools.json',
+    name: FYUSDT2303,
+    contract: 'PoolEuler',
+    args: [
+      () => eulerAddress,
+      () => assets.get(EUSDT) as string,
+      () => newFYTokens().get(FYUSDT2303) as string,
+      () => timeStretch.get(FYUSDT2303)!.toString(),
+      () => g1.toString(),
+    ],
+    libs: {
+      YieldMath: protocol().get('yieldMath')!,
+    },
+  },
+  {
     addressFile: 'newStrategies.json',
     name: YSUSDT6MJD,
     contract: 'Strategy',
     args: [
       () => 'Yield Strategy USDT 6M Jun Dec',
       () => YSUSDT6MJD,
+      () => protocol().get(LADLE)!,
+      () => assets.get(USDT)!,
+      () => FRAX,
+      () => newJoins().get(USDT)!,
+    ],
+    libs: {
+      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'newStrategies.json',
+    name: YSUSDT6MMS,
+    contract: 'Strategy',
+    args: [
+      () => 'Yield Strategy USDT 6M Mar Sep',
+      () => YSUSDT6MMS,
       () => protocol().get(LADLE)!,
       () => assets.get(USDT)!,
       () => FRAX,
@@ -185,7 +232,7 @@ export const compositeSources: Array<[string, string, string]> = [[USDT, ETH, pr
 /// @param Path to traverse (array of bytes6 tags)
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [USDT, ENS, [ETH]],
-  [USDT, WSTETH, [ETH, STETH]], // TODO: ALBERTO
+  [USDT, WSTETH, [ETH, STETH]],
 ]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
@@ -247,7 +294,15 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     'FYUSDT2212',
     'FYUSDT2212',
   ],
-  // [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
+  [
+    FYUSDT2303,
+    USDT,
+    protocol().get(ACCUMULATOR) as string,
+    newJoins().get(USDT) as string,
+    EOMAR23,
+    'FYUSDT2303',
+    'FYUSDT2303',
+  ],
 ]
 
 /// @notice Deploy YieldSpace pools
@@ -266,14 +321,14 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
     timeStretch.get(FYUSDT2212) as BigNumber,
     g1.toString(),
   ],
-  // [
-  //   FYUSDT2303,
-  //   eulerAddress,
-  //   assets.get(EUSDT) as string,
-  //   newFYTokens.get(FYUSDT2303) as string,
-  //   timeStretch.get(FYUSDT2303) as BigNumber,
-  //   g1.toString(),
-  // ],
+  [
+    FYUSDT2303,
+    eulerAddress,
+    assets.get(EUSDT) as string,
+    newFYTokens().get(FYUSDT2303) as string,
+    timeStretch.get(FYUSDT2303) as BigNumber,
+    g1.toString(),
+  ],
 ]
 
 /// @notice Pool initialization parameters
@@ -283,7 +338,7 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
 /// @param amount of fyToken to initialize pool with
 export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
   [FYUSDT2212, USDT, ONEUSDT.mul(100), ZERO],
-  // [FYUSDT2303, USDT, WAD.mul(100), ZERO],
+  [FYUSDT2303, USDT, ONEUSDT.mul(100), ZERO],
 ]
 
 /// @notice Ilks to accept for series
@@ -291,7 +346,7 @@ export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
-  // [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
+  [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
 ]
 
 /// @notice Deploy strategies
@@ -302,7 +357,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
   ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins().get(USDT) as string, assets.get(USDT) as string],
-  // ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
+  ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins().get(USDT) as string, assets.get(USDT) as string],
 ]
 
 /// @notice Strategy initialization parameters
@@ -314,5 +369,5 @@ export const strategiesData: Array<[string, string, string, string, string]> = [
 export const strategiesInit: Array<[string, string, string, BigNumber, boolean]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
   [YSUSDT6MJD, newPools().get(FYUSDT2212) as string, FYUSDT2212, ONEUSDT.mul(100), true],
-  // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
+  [YSUSDT6MMS, newPools().get(FYUSDT2303) as string, FYUSDT2303, ONEUSDT.mul(100), true],
 ]
