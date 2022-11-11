@@ -5,6 +5,7 @@ import { orchestrateLeverProposal } from '../../../fragments/utils/orchestrateLe
 import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiverProposal'
 import { setFlashFeeOnJoinProposal } from '../../../fragments/setFlashFeeOnJoinProposal'
 import { setFlashFeeOnFytokenProposal } from '../../../fragments/setFlashFeeOnFyTokenProposal'
+import { TIMELOCK } from '../../../../shared/constants'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance, joinFlashFees, fyTokenFlashFees } = require(process.env.CONF as string)
@@ -14,7 +15,7 @@ const { protocol, governance, joinFlashFees, fyTokenFlashFees } = require(proces
  */
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
-  const timelock = (await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)) as Timelock
+  const timelock = (await ethers.getContractAt('Timelock', governance.get(TIMELOCK) as string, ownerAcc)) as Timelock
   const giver = (await ethers.getContractAt('Giver', protocol.get('giver') as string, ownerAcc)) as Giver
   const yieldStrategyLever = (await ethers.getContractAt(
     'YieldStrategyLever',
