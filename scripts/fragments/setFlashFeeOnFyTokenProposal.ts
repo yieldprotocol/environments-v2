@@ -1,4 +1,5 @@
 import { ethers } from 'hardhat'
+import { LADLE } from '../../shared/constants'
 import { Ladle, FYToken, IPool } from '../../typechain'
 const { protocol } = require(process.env.CONF as string)
 
@@ -6,7 +7,7 @@ export const setFlashFeeOnFytokenProposal = async (
   flashFees: [string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string)) as Ladle
+  const ladle = (await ethers.getContractAt('Ladle', protocol().getOrThrow(LADLE) as string)) as Ladle
 
   for (let [seriesId, flashFee] of flashFees) {
     let pool: any = (await ethers.getContractAt(
