@@ -20,9 +20,9 @@ const { protocol, governance, joinFlashFees, fyTokenFlashFees } = require(proces
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), ownerAcc)
-  const giver = Giver__factory.connect(protocol.getOrThrow(GIVER), ownerAcc)
-  const yieldStrategyLever = YieldStrategyLever__factory.connect(protocol.getOrThrow(YIELD_STRATEGY_LEVER), ownerAcc)
-  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON), ownerAcc)
+  const giver = Giver__factory.connect(protocol().getOrThrow(GIVER), ownerAcc)
+  const yieldStrategyLever = YieldStrategyLever__factory.connect(protocol().getOrThrow(YIELD_STRATEGY_LEVER), ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON), ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = await orchestrateLeverProposal(yieldStrategyLever, giver)
   proposal = proposal.concat(await orchestrateGiverProposal(giver, cauldron, timelock, deployer))
