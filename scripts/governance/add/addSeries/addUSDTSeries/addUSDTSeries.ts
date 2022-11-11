@@ -101,7 +101,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
 
   let assetsAndJoins: [string, string, string][] = []
 
-  for (let [assetId, joinAddress] of newJoins) {
+  for (let [assetId, joinAddress] of newJoins()) {
     assetsAndJoins.push([assetId, assetsToAdd.get(assetId) as string, joinAddress])
   }
 
@@ -129,7 +129,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
       cauldron,
       witch,
       cloak,
-      newJoins,
+      newJoins(),
       newChainlinkLimits,
       auctionLimits
     )
@@ -142,7 +142,7 @@ const { chainlinkSources } = require(process.env.CONF as string)
       cauldron,
       witch,
       cloak,
-      newJoins,
+      newJoins(),
       newCompositeLimits,
       auctionLimits
     )
@@ -157,14 +157,14 @@ const { chainlinkSources } = require(process.env.CONF as string)
 
   // Series
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins(), newFYTokens(), newPools())
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
+  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools(), poolsInit))
 
   // Strategies
-  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies, timelock, strategiesData))
-  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies, ladle, timelock, strategiesInit))
+  proposal = proposal.concat(await orchestrateStrategiesProposal(ownerAcc, newStrategies(), timelock, strategiesData))
+  proposal = proposal.concat(await initStrategiesProposal(ownerAcc, newStrategies(), ladle, timelock, strategiesInit))
   // proposal = proposal.concat(await onChainTestProposal(cauldron, onChainTest, assetsAndJoins))
   if (proposal.length > 0) {
     // Propose, Approve & execute

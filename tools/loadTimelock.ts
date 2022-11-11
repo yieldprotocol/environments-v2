@@ -11,7 +11,7 @@ const { governance, whales, strategies, newPools, poolsInit, strategiesInit, rol
 ;(async () => {
   if(poolsInit !== undefined) {
     for (let [seriesId, baseId, baseAmount, fyTokenAmount] of poolsInit) {
-      const poolAddress = newPools.get(seriesId) as string
+      const poolAddress = newPools().get(seriesId) as string
       const pool = (await ethers.getContractAt('Pool', poolAddress))
       const baseAddress = await pool.base()
       const base = (await ethers.getContractAt('IERC20Metadata', baseAddress)) as IERC20Metadata
