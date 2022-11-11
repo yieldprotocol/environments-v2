@@ -1,45 +1,8 @@
 import { BigNumber } from 'ethers'
-import {
-  ACCUMULATOR,
-  CHI,
-  DAI,
-  EOJUN22,
-  EOSEP22,
-  ETH,
-  FYUSDT2212,
-  FYUSDT2303,
-  ONE64,
-  RATE,
-  secondsInOneYear,
-  FRAX,
-  USDC,
-  EWETH,
-  WBTC,
-  LINK,
-  STETH,
-  WSTETH,
-  ENS,
-  UNI,
-  WAD,
-  YSUSDT6MMS,
-  YSUSDT6MJD,
-  USDT,
-  EUSDT,
-  ZERO,
-  COMPOUND,
-  EOMAR23,
-  EODEC22,
-  CHAINLINK,
-  FYETH2206,
-  FYUSDC2206,
-  FYDAI2206,
-  FYDAI2209,
-  FYETH2209,
-  FYUSDC2209,
-  YIELDMATH,
-  LADLE,
-  ONEUSDC,
-} from '../../../../../shared/constants'
+import { CHI, RATE, WAD, ONEUSDC, ZERO, ONE64, secondsInOneYear } from '../../../../../shared/constants'
+import { FYUSDT2212, FYUSDT2303, YSUSDT6MMS, YSUSDT6MJD, EOMAR23, EODEC22 } from '../../../../../shared/constants'
+import { ACCUMULATOR, CHAINLINK, YIELDMATH, LADLE } from '../../../../../shared/constants'
+import { DAI, ETH, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT, EUSDT } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
 
@@ -95,7 +58,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => USDT,
-      () => protocol().get(COMPOUND) as string,
+      () => protocol().get(ACCUMULATOR) as string,
       () => newJoins().get(USDT) as string,
       () => EODEC22.toString(),
       () => 'FYUSDT2212',
@@ -111,7 +74,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => USDT,
-      () => protocol().get(COMPOUND) as string,
+      () => protocol().get(ACCUMULATOR) as string,
       () => newJoins().get(USDT) as string,
       () => EOMAR23.toString(),
       () => 'FYUSDT2303',
