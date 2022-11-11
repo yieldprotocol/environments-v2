@@ -28,16 +28,16 @@ export const contractDeployments: ContractDeployment[] = [
 /// @param assetId
 /// @param flashFeeAmount
 export const joinFlashFees: [string, string][] = [
-  ['0x303000000000', '1'],
-  ['0x303100000000', '1'],
-  ['0x303200000000', '1'],
+  ['0x303000000000', '0'],
+  ['0x303100000000', '0'],
+  ['0x303200000000', '0'],
 ]
 
 /// @notice Flashfeefactor to be set on fyTokens
 /// @param seriesId
 /// @param flashFee
 export const fyTokenFlashFees: [string, string][] = [
-  ['0x303030380000', '1'],
-  ['0x303130380000', '1'],
-  ['0x303230380000', '1'],
+  ['0x303030380000', '0'],
+  ['0x303130380000', '0'],
+  ['0x303230380000', '0'],
 ]
