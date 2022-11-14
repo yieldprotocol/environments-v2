@@ -176,6 +176,22 @@ Strategies need to be initialized by transferring some initial funds and then in
  - Divest from strategy
  - Roll strategy
 
+## Enable Leveraged Liquidity Providing
+Pre:
+ - Init Strategies
+ - Add Collateral (Strategy Tokens)
+ - Add Ilk to Series (Strategy Tokens to their underlying)
+
+Leveraged liquidity providing is enabled by adding strategy tokens as collateral for their underlying, and by allowing flash loans on underlying and related fyToken.
+ - Enable flash loans on fyToken - Call `fyToken.setFlashFee(0)`
+ - Enable flash loans on underlying join - Call `join.setFlashFee(0)`
+
+### Enable Leveraged Liquidity Providing Test
+ - Invest with YieldLeverStrategy
+ - Divest using REPAY with pools at a high rate
+ - Divest using CLOSE with pools at a low rate
+ - Divest using REDEEM after maturity
+
 ## Roll Strategies
 Pre:
  - Add series

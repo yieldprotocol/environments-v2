@@ -57,12 +57,14 @@ export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 1
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
+export const CLOAK_V1 = 'cloakV1'
 export const MULTISIG = 'multisig'
 export const YIELDMATH = 'yieldMath'
 export const CAULDRON = 'cauldron'
 export const LADLE = 'ladle'
 export const REPAY_FROM_LADLE_MODULE = 'repayFromLadleModule'
 export const WITCH = 'witch'
+export const ROLLER = 'roller'
 export const WITCH_V1 = 'witchV1'
 export const CHAINLINK = 'chainlinkOracle'
 export const CHAINLINKUSD = 'chainlinkUSDOracle'
@@ -82,6 +84,8 @@ export const CONTANGO_CAULDRON = 'contangoCauldron'
 export const CONTANGO_LADLE = 'contangoLadle'
 export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
 export const FCASH = 'fCash'
+export const GIVER = 'giver'
+export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00

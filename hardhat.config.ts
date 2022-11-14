@@ -126,26 +126,6 @@ module.exports = {
       timeout: 60_000_000,
       gasPrice: 100_000_000
     },
-    tenderly_fcash: {
-      // update url of fork
-      url: "https://rpc.tenderly.co/fork/b979e547-aae0-4fd1-9845-8d208a0d12a1",
-      // update chainId if necessary
-      forkNetwork: "1",
-      username: "Yield",
-      project: "v2",
-      timeout: 60_000_000
-    },
-    tenderly_contango: {
-      // update url of fork
-      url: "https://rpc.tenderly.co/fork/ad78e186-fed7-44d1-8c8c-9ae231d178a5",
-      // update chainId if necessary
-      forkNetwork: "1",
-      username: "Yield",
-      project: "contango",
-      timeout: 60_000_000,
-      gasPrice: 100_000_000,
-      gasMultiplier: 1.2,
-    },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
