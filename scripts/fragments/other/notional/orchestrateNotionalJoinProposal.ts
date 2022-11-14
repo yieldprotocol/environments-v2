@@ -37,20 +37,28 @@ export const orchestrateNotionalJoinProposal = async (
       console.log(`join.grantRole(ROOT, cloak)`)
     }
 
-    if (!(await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address))) {
+    if (
+      !(
+        (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'join(address,uint128)'), join.address)) ||
+        (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address))
+      )
+    ) {
       proposal.push({
         target: underlyingJoin.address,
         data: underlyingJoin.interface.encodeFunctionData('grantRoles', [
-          [id(underlyingJoin.interface, 'exit(address,uint128)')],
+          [
+            id(underlyingJoin.interface, 'join(address,uint128)'),
+            id(underlyingJoin.interface, 'exit(address,uint128)'),
+          ],
           join.address,
         ]),
       })
-      console.log(`underlyingJoin.grantRoles(exit, join)`)
+      console.log(`underlyingJoin.grantRoles(join/exit, join)`)
 
       const plan = [
         {
           contact: underlyingJoin.address,
-          signatures: [id(join.interface, 'exit(address,uint128)')],
+          signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
         },
       ]
 
