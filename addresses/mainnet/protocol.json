@@ -104,6 +104,10 @@
     [
       "notionalJoinFactory",
       "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
+    ],
+    [
+      "witch",
+      "0x08d2F5c96bB1F6BE04B49bcD869d5Af01db4c400"
     ]
   ]
 }
