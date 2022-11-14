@@ -1,6 +1,6 @@
 import * as base_config from '../../base.mainnet.config'
 
-import { ETH, CAULDRON } from '../../../../shared/constants'
+import { ETH, CAULDRON, REPAY_FROM_LADLE_MODULE } from '../../../../shared/constants'
 
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
@@ -16,8 +16,8 @@ import { ContractDeployment } from '../../confTypes'
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
-    name: 'repayCloseModule',
-    contract: 'RepayCloseModule',
+    name: REPAY_FROM_LADLE_MODULE,
+    contract: 'RepayFromLadleModule',
     args: [() => assets().getOrThrow(ETH) as string, () => protocol().getOrThrow(CAULDRON) as string],
   },
 ]
