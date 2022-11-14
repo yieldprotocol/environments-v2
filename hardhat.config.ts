@@ -116,11 +116,11 @@ module.exports = {
       chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
-    tenderly: {
+    tenderly_notional: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/d9877041-2a85-41ce-b9d3-4ac38c3478ba",
+      url: "https://rpc.tenderly.co/fork/46e4247e-af98-4916-aef9-85d9d2a2dfb1",
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000,
