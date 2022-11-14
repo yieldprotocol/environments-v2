@@ -1,10 +1,10 @@
 #!/bin/bash
 
 set -eux
-RUN="npx hardhat run --network mainnet"
 HERE=$(dirname $0)
+export CONF=$PWD/$HERE/addJuneSeries.mainnet.config
+RUN="npx hardhat run --network localhost"
 
-$RUN $HERE/addJuneSeries-1.ts
-$RUN $HERE/addJuneSeries-2.ts
-$RUN $HERE/addJuneSeries-2.ts
-$RUN $HERE/addJuneSeries-2.ts
+$RUN $HERE/../../../deploy/deployFYTokens.ts
+$RUN $HERE/../../../deploy/deployEulerPools.ts
+$RUN $HERE/../../../deploy/deployNonTVPools.ts

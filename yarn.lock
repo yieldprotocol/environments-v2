@@ -2606,13 +2606,12 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-0.12.0-rc5.tgz"
   "version" "0.12.0-rc5"
 
-"@yield-protocol/utils-v2@^2.4.2":
-  "integrity" "sha512-+Gr+9iFbjnnbahVVrNiePa107En2vXvUBOCAhxGa1UXPumpyOZzK9WunHca5zwJzajwy3/bwHxanON08nqD58Q=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.1.tgz"
-  "version" "2.6.1"
+"@yield-protocol/utils-v2@2.6.4-rc.2":
+  version "2.6.4-rc.2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.4-rc.2.tgz#b9f80e7710d21fcd35e5cf1e65214a9700d3a661"
+  integrity sha512-gQ2mesPx8OSaJ5nqBsu62jdY5GVvh6aFzbac56Zam1ndpVshlpbJ4W4jGxBrsyPnN8rQfhI/iJlre+njVu1pnA==
   dependencies:
-    "ethereumjs-util" "^7.0.8"
-    "ethers" "^5.0.7"
+    ethereumjs-util "^7.0.8"
 
 "@yield-protocol/utils-v2@2.6.0-rc.1":
   "integrity" "sha512-o1XdJWga3GuDJR7qYPD63fqtRpVxaiJ0ZaPxVVz9KuuRgSBFeNVl5sgp1xNobnnWg7uEtZFdicy8RgtpEsgAOQ=="
@@ -2627,10 +2626,10 @@
   "resolved" "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   "version" "2.5.0"
 
-"@yield-protocol/vault-v2@0.18.3":
-  "integrity" "sha512-66D6yzOc6xQzEHtLhp9BvKfEZd1SXzZYwhswdnCy7Q5ubMS9MC5upj1WMw7cDnXWvoPv6HiOrfCjFe3QhpUmQQ=="
-  "resolved" "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.3.tgz"
-  "version" "0.18.3"
+"@yield-protocol/vault-v2@0.18.5":
+  "integrity" "sha512-uZZgqQ/DhjFr6iWbH6H+EiHAkd2c9rmd5Ul2KUPhVloi/RtY7fadH+JEBlh9uJivo3Vu9XBftZuwM04Tpx4Hlw=="
+  "resolved" "https://registry.npmjs.org/@yield-protocol/vault-v2/-/vault-v2-0.18.5.tgz"
+  "version" "0.18.5"
 
 "@yield-protocol/yieldspace-tv@^0.1.8":
   "integrity" "sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ=="
@@ -5256,6 +5255,13 @@
   "version" "2.3.0"
   dependencies:
     "cssom" "~0.3.6"
+
+"csv-parser@^3.0.0":
+  "integrity" "sha512-s6OYSXAK3IdKqYO33y09jhypG/bSDHPuyCme/IdEHfWpLf/jKcpitVFyOC6UemgGk8v7Q5u2XE0vvwmanxhGlQ=="
+  "resolved" "https://registry.npmjs.org/csv-parser/-/csv-parser-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "minimist" "^1.2.0"
 
 "d@^1.0.1", "d@1":
   "integrity" "sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA=="

@@ -63,12 +63,12 @@ export const assetsToAdd: Array<[string, string, string, string, number, string]
 /// @param dust: minimum debt in any given vault for the pair, with added dec
 /// @param dec: number of zeros to append to line and dust
 export const notionalDebtLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, FETH2212, 1100000, 5000, 1, 18],
-  [DAI, FDAI2212, 1100000, 5000000, 5000, 18],
-  [USDC, FUSDC2212, 1100000, 5000000, 5000, 6],
-  [ETH, FETH2303, 1100000, 5000, 1, 18],
-  [DAI, FDAI2303, 1100000, 5000000, 5000, 18],
-  [USDC, FUSDC2303, 1100000, 5000000, 5000, 6],
+  [ETH, FETH2212, 1100000, 400, 1, 18],
+  [DAI, FDAI2212, 1100000, 500000, 5000, 18],
+  [USDC, FUSDC2212, 1100000, 500000, 5000, 6],
+  [ETH, FETH2303, 1100000, 400, 1, 18],
+  [DAI, FDAI2303, 1100000, 500000, 5000, 18],
+  [USDC, FUSDC2303, 1100000, 500000, 5000, 6],
 ]
 
 /// @dev Parameters for liquidations
