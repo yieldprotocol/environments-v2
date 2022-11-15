@@ -2,7 +2,6 @@ import {
   Timelock__factory,
   Cauldron__factory,
   Giver__factory,
-  YieldStrategyLever__factory,
   YieldNotionalLever__factory,
 } from '../../../../typechain'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
@@ -12,7 +11,7 @@ import { setFlashFeeOnFytokenProposal } from '../../../fragments/setFlashFeeOnFy
 import { TIMELOCK, CAULDRON, GIVER, YIELD_NOTIONAL_LEVER } from '../../../../shared/constants'
 import { orchestrateNotionalIlks } from '../../../fragments/utils/orchestrateNotionalIlks'
 
-const { developer, deployer } = require(process.env.CONF as string)
+const { developer } = require(process.env.CONF as string)
 const { protocol, governance, joinFlashFees, fyTokenFlashFees, ilkInfo } = require(process.env.CONF as string)
 
 /**
