@@ -9,6 +9,6 @@ RUN="npx hardhat run --network localhost"
 
 # $RUN $HERE/../../../../shared/deploy.ts
 
-# $RUN $HERE/activateWitchV2.ts
-$RUN $HERE/../../../../shared/approve.ts
-$RUN $HERE/../../../../shared/execute.ts
+$RUN $HERE/activateWitchV2.ts
+# $RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/execute.ts
