@@ -106,6 +106,13 @@
       "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
     ],
     [
+      "giver",
+      "0xa98F3211997FDB072B6a8E2C2A26C34BC447f873"
+    ],
+    [
+      "yieldStrategyLever",
+      "0x5582b8398FB586F1b79edd1a6e83f1c5aa558955"
+    ],
       "healerModule",
       "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
     ],
