@@ -26,7 +26,7 @@
       "0x1bF78bE42cD72bbFCCEEf67dCC0a0E2a0EB5da57"
     ],
     [
-      "witch",
+      "witchV1",
       "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061"
     ],
     [
@@ -112,6 +112,13 @@
     [
       "yieldStrategyLever",
       "0x5582b8398FB586F1b79edd1a6e83f1c5aa558955"
+    ],
+      "healerModule",
+      "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
+    ],
+    [
+      "witch",
+      "0x08d2F5c96bB1F6BE04B49bcD869d5Af01db4c400"
     ]
   ]
 }
