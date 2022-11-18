@@ -108,6 +108,10 @@
     [
       "healerModule",
       "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
+    ],
+    [
+      "repayFromLadleModule",
+      "0x721D2C95aB9D17aF925fA6f80C396E9382C48EEd"
     ]
   ]
 }
