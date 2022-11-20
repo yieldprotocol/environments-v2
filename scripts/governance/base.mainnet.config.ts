@@ -32,7 +32,7 @@ import {
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
-export const protocol = readAddressMappingIfExists('protocol.json')
+export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
@@ -125,12 +125,12 @@ export const lidoSource = assets.get(WSTETH) as string
 export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
 
 export const compositeSources: Array<[string, string, string]> = [
-  [DAI, ETH, protocol.get(CHAINLINK) as string],
-  [USDC, ETH, protocol.get(CHAINLINK) as string],
-  [WBTC, ETH, protocol.get(CHAINLINK) as string],
-  [STETH, ETH, protocol.get(CHAINLINK) as string],
-  [WSTETH, STETH, protocol.get(LIDO) as string],
-  [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on rinkeby
+  [DAI, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [USDC, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [WBTC, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [STETH, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [WSTETH, STETH, protocol().getOrThrow(LIDO) as string],
+  [ENS, ETH, protocol().getOrThrow(CHAINLINK) as string], // We don't use Uniswap on rinkeby
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [

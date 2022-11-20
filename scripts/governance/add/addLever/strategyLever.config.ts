@@ -6,8 +6,8 @@ import * as base_config from '../../base.arb_mainnet.config'
 import { ContractDeployment } from '../../confTypes'
 
 export const chainId: number = base_config.chainId
-export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
-export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
+export const deployer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const whales: Map<string, string> = base_config.whales
 export const governance: Map<string, string> = base_config.governance
 export const protocol = () => readAddressMappingIfExists('protocol.json')
@@ -41,7 +41,10 @@ export const joinFlashFees: [string, string][] = [
 /// @param seriesId
 /// @param flashFee
 export const fyTokenFlashFees: [string, string][] = [
-  ['0x303030380000', '0'],
-  ['0x303130380000', '0'],
-  ['0x303230380000', '0'],
+  ['0x303030380000', '0'], //FYETH2212
+  ['0x303130380000', '0'], //FYDAI2212
+  ['0x303230380000', '0'], //FYUSDC2212
+  ['0x303030390000', '0'], //FYETH2303
+  ['0x303130390000', '0'], //FYDAI2303
+  ['0x303230390000', '0'], //FYUSDC2303
 ]
