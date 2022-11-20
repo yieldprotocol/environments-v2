@@ -2647,15 +2647,9 @@
     ethereumjs-util "^7.0.8"
 
 "@yield-protocol/utils-v2@^2.4.2":
-<<<<<<< HEAD
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.3.tgz#bf0f7ea28141208e18a0f86e7bc53d77963f5631"
   integrity sha512-qvvKQu1+c3wIzKzNzrwGsvhzgR5MnJE84yOevV3XKowBXYTS1ePDu2oxLlq2sC4XNtWZl8Y3GWalVD5wQGkN3Q==
-=======
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.1.tgz"
-  integrity sha512-+Gr+9iFbjnnbahVVrNiePa107En2vXvUBOCAhxGa1UXPumpyOZzK9WunHca5zwJzajwy3/bwHxanON08nqD58Q==
->>>>>>> main
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
