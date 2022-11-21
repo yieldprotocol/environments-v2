@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers'
 import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import { ETH, DAI, USDC } from '../../../../../shared/constants'
 import { EOJUN23 } from '../../../../../shared/constants'
-import { FYETH2212, FYDAI2212, FYUSDC2212, FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
+import { FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../../shared/constants'
 
@@ -157,19 +157,28 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'strategies.json',
     name: YSETH6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => 18, () => fyTokens().getOrThrow(FYETH2212)!],
+    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => fyTokens().getOrThrow(FYETH2306)!],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
   },
   {
     addressFile: 'strategies.json',
     name: YSDAI6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => 18, () => fyTokens().getOrThrow(FYDAI2212)!],
+    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => fyTokens().getOrThrow(FYDAI2306)!],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
   },
   {
     addressFile: 'strategies.json',
     name: YSUSDC6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => 6, () => fyTokens().getOrThrow(FYUSDC2212)!],
+    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => fyTokens().getOrThrow(FYUSDC2306)!],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
   },
 ]
 
