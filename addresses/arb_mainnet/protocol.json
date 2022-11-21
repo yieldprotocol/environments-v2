@@ -100,6 +100,10 @@
     [
       "witch",
       "0x07C2C74811cB14a5003C3ccff7EC436d504ffFb6"
+    ],
+    [
+      "repayFromLadleModule",
+      "0xB8B238bBa16a3f773fb7fE61213bb94371fc6b01"
     ]
   ]
 }
