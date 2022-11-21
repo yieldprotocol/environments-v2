@@ -32,7 +32,7 @@ import {
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
-export const protocol = () => readAddressMappingIfExists('protocol.json')
+export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
