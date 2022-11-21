@@ -2,11 +2,11 @@ import { BigNumber } from 'ethers'
 import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import { ETH, DAI, USDC } from '../../../../../shared/constants'
 import { EOJUN23 } from '../../../../../shared/constants'
-import { FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
+import { FYETH2212, FYDAI2212, FYUSDC2212, FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../../shared/constants'
 
-import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
+import { ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
 
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
@@ -146,68 +146,31 @@ export const contractDeployments: ContractDeployment[] = [
       YieldMath: protocol().getOrThrow('yieldMath')!,
     },
   },
-  // strategies
-  // {
-  //   addressFile: 'protocol.json',
-  //   name: YIELDMATH,
-  //   contract: 'YieldMath',
-  //   args: [],
-  // },
-  // {
-  //   addressFile: 'pools.json',
-  //   name: FYFRAX2212,
-  //   contract: 'PoolNonTv',
-  //   args: [assets.get(FRAX)!, fyTokens.get(FYFRAX2212)!, timeStretch.get(FYFRAX2212)!.toString(), g1.toString()],
-  //   libs: {
-  //     YieldMath: protocol().getOrThrow('yieldMath')!,
-  //   },
-  // },
-  // {
-  //   addressFile: 'strategies.json',
-  //   name: YSFRAX6MJD,
-  //   contract: 'Strategy',
-  //   args: [
-  //     'Yield Strategy FRAX 6M Jun Dec',
-  //     YSFRAX6MJD,
-  //     protocol.get(LADLE)!,
-  //     assets.get(FRAX)!,
-  //     FRAX,
-  //     joins.get(FRAX)!,
-  //   ],
-  //   libs: {
-  //     SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
-  //   },
-  // },
-]
-
-/// @notice Deploy plain YieldSpace pools
-/// @param pool identifier, usually matching the series (bytes6 tag)
-/// @param base address
-/// @param fyToken address
-/// @param time stretch, in 64.64
-/// @param g1, in 64.64
-export const nonTVPoolData: Array<[string, string, string, BigNumber, number]> = [
-  [
-    FYETH2306,
-    assets.get(ETH) as string,
-    newFYTokens.get(FYETH2306) as string,
-    timeStretch.get(FYETH2306) as BigNumber,
-    g1,
-  ],
-  [
-    FYDAI2306,
-    assets.get(DAI) as string,
-    newFYTokens.get(FYDAI2306) as string,
-    timeStretch.get(FYDAI2306) as BigNumber,
-    g1,
-  ],
-  [
-    FYUSDC2306,
-    assets.get(USDC) as string,
-    newFYTokens.get(FYUSDC2306) as string,
-    timeStretch.get(FYUSDC2306) as BigNumber,
-    g1,
-  ],
+  /// @notice Deploy strategies
+  /// @param strategy name
+  /// @param strategy identifier (bytes6 tag)
+  /// @param Address for the Ladle
+  /// @param Address for the underlying asset
+  /// @param Underlying asset identifier (bytes6 tag)
+  /// @param Address for the underlying asset join
+  {
+    addressFile: 'strategies.json',
+    name: YSETH6MJD,
+    contract: 'Strategy',
+    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => 18, () => fyTokens().getOrThrow(FYETH2212)!],
+  },
+  {
+    addressFile: 'strategies.json',
+    name: YSDAI6MJD,
+    contract: 'Strategy',
+    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => 18, () => fyTokens().getOrThrow(FYDAI2212)!],
+  },
+  {
+    addressFile: 'strategies.json',
+    name: YSUSDC6MJD,
+    contract: 'Strategy',
+    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => 6, () => fyTokens().getOrThrow(FYUSDC2212)!],
+  },
 ]
 
 /// @notice Pool initialization parameters
