@@ -126,16 +126,6 @@ module.exports = {
       timeout: 60_000_000,
       gasPrice: 100_000_000
     },
-    tenderly_witchV2: {
-      // update url of fork
-      url: "https://rpc.tenderly.co/fork/823d359c-7a51-4241-84c3-664f750a700d",
-      // update chainId if necessary
-      forkNetwork: "1",
-      username: "Yield",
-      project: "v2",
-      timeout: 60_000_000,
-      gasPrice: 30_000_000_000
-    },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
