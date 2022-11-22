@@ -1,12 +1,15 @@
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 
 import {
-  Pool__factory,
-  Cauldron__factory,
-  Ladle__factory,
   Timelock__factory,
   OldEmergencyBrake__factory,
+  Cauldron__factory,
+  Ladle__factory,
+  Witch__factory,
+  Pool__factory,
 } from '../../../../../typechain'
+
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../../../shared/constants'
 
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
@@ -22,10 +25,11 @@ const { protocol, governance, joins, newPools, newFYTokens } = require(process.e
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const cauldron = Cauldron__factory.connect(protocol.getOrThrow('cauldron')!, ownerAcc)
-  const ladle = Ladle__factory.connect(protocol.getOrThrow('ladle')!, ownerAcc)
-  const timelock = Timelock__factory.connect(governance.getOrThrow('timelock')!, ownerAcc)
-  const cloak = OldEmergencyBrake__factory.connect(governance.getOrThrow('cloak')!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
+  const cloak = OldEmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE)!, ownerAcc)
+  const witch = Witch__factory.connect(protocol.getOrThrow(WITCH)!, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
   for (let [seriesId, poolAddress] of newPools) {
@@ -35,7 +39,7 @@ const { protocol, governance, joins, newPools, newFYTokens } = require(process.e
   }
 
   proposal = proposal.concat(
-    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, witch, timelock, cloak, joins, newFYTokens, newPools)
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))

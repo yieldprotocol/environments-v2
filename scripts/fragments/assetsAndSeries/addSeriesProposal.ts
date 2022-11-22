@@ -13,13 +13,14 @@ import { bytesToString } from '../../../shared/helpers'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
 import {
-  Cauldron,
-  OldEmergencyBrake,
-  FYToken__factory,
-  Join__factory,
-  Ladle,
-  Pool__factory,
   Timelock,
+  OldEmergencyBrake,
+  Cauldron,
+  Ladle,
+  Witch,
+  Join__factory,
+  FYToken__factory,
+  Pool__factory,
 } from '../../../typechain'
 
 export const addSeriesProposal = async (
@@ -27,6 +28,7 @@ export const addSeriesProposal = async (
   deployer: string,
   cauldron: Cauldron,
   ladle: Ladle,
+  witch: Witch,
   timelock: Timelock,
   cloak: OldEmergencyBrake,
   joins: Map<string, string>, // assetId, joinAddress
@@ -96,6 +98,31 @@ export const addSeriesProposal = async (
       ]),
     })
     console.log(`fyToken.grantRoles(mint/burn, ladle)`)
+
+    // Allow Witch to burn fyTokens
+    proposal.push({
+      target: fyToken.address,
+      data: fyToken.interface.encodeFunctionData('grantRole', [
+        id(fyToken.interface, 'burn(address,uint256)'),
+        witch.address,
+      ]),
+    })
+
+    // Allow to revoke the above permission on emergencies
+    const plan = [
+      {
+        contact: fyToken.address,
+        signatures: [id(fyToken.interface, 'burn(address,uint256)')],
+      },
+    ]
+
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+      })
+      console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+    }
 
     // Orchestrate Timelock for the fyToken governance functions
     proposal.push({

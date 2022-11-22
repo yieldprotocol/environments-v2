@@ -60,6 +60,16 @@ export const migrateStrategiesProposal = async (
     })
 
     console.log(`Strategy ${oldStrategyAddress} rolled onto ${newStrategyAddress}`)
+
+    // Revoke init permissions from the old strategy
+    proposal.push({
+      target: newStrategy.address,
+      data: newStrategy.interface.encodeFunctionData('revokeRoles', [
+        [id(newStrategy.interface, 'mint(address,address,uint256,uint256)')],
+        oldStrategy.address,
+      ]),
+    })
+    console.log(`strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
   }
 
   return proposal
