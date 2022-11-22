@@ -14,7 +14,7 @@ import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
 import {
   Cauldron,
-  EmergencyBrake,
+  OldEmergencyBrake,
   FYToken__factory,
   Join__factory,
   Ladle,
@@ -28,7 +28,7 @@ export const addSeriesProposal = async (
   cauldron: Cauldron,
   ladle: Ladle,
   timelock: Timelock,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   joins: Map<string, string>, // assetId, joinAddress
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
   newPools: Map<string, string> // seriesId, poolAddress

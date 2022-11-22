@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Pool, Timelock, EmergencyBrake, Cauldron } from '../../../typechain'
+import { Pool, Timelock, OldEmergencyBrake } from '../../../typechain'
 
 /**
  * @dev This script orchestrates new pools
@@ -12,7 +12,7 @@ export const orchestrateNewPoolsProposal = async (
   deployer: string,
   pool: Pool,
   timelock: Timelock,
-  cloak: EmergencyBrake
+  cloak: OldEmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them

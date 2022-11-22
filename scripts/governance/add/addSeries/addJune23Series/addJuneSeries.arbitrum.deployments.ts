@@ -21,13 +21,12 @@ export const governance: Map<string, string> = base_config.governance
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
-export const fyTokens = () => readAddressMappingIfExists('fyTokens.json')
-export const pools = () => readAddressMappingIfExists('pools.json')
-export const strategies = () => readAddressMappingIfExists('strategies.json')
-export const newFYTokens: Map<string, string> = base_config.newFYTokens
-export const newJoins: Map<string, string> = base_config.newJoins
-export const newPools: Map<string, string> = base_config.newPools
-export const newStrategies: Map<string, string> = base_config.newStrategies
+export const fyTokens: Map<string, string> = base_config.fyTokens
+export const pools: Map<string, string> = base_config.pools
+export const strategies: Map<string, string> = base_config.strategies
+export const newFYTokens = () => readAddressMappingIfExists('newFYTokens.json')
+export const newPools = () => readAddressMappingIfExists('newPools.json')
+export const newStrategies = () => readAddressMappingIfExists('newStrategies.json')
 
 /// @notice Time stretch to be set in the PoolFactory prior to pool deployment
 /// @param series identifier (bytes6 tag)
@@ -51,7 +50,7 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Name for the series
   /// @param Symbol for the series
   {
-    addressFile: 'fyTokens.json',
+    addressFile: 'newFYTokens.json',
     name: FYETH2306,
     contract: 'FYToken',
     args: [
@@ -67,7 +66,7 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
-    addressFile: 'fyTokens.json',
+    addressFile: 'newFYTokens.json',
     name: FYDAI2306,
     contract: 'FYToken',
     args: [
@@ -83,7 +82,7 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
-    addressFile: 'fyTokens.json',
+    addressFile: 'newFYTokens.json',
     name: FYUSDC2306,
     contract: 'FYToken',
     args: [
@@ -105,12 +104,12 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param time stretch, in 64.64
   /// @param g1, in 64.64
   {
-    addressFile: 'pools.json',
+    addressFile: 'newPools.json',
     name: FYETH2306,
     contract: 'PoolNonTv',
     args: [
       () => assets.get(ETH)!,
-      () => fyTokens().getOrThrow(FYETH2306)!,
+      () => newFYTokens().getOrThrow(FYETH2306)!,
       () => timeStretch.get(FYETH2306)!.toString(),
       () => g1.toString(),
     ],
@@ -119,12 +118,12 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
-    addressFile: 'pools.json',
+    addressFile: 'newPools.json',
     name: FYDAI2306,
     contract: 'PoolNonTv',
     args: [
       () => assets.get(DAI)!,
-      () => fyTokens().getOrThrow(FYDAI2306)!,
+      () => newFYTokens().getOrThrow(FYDAI2306)!,
       () => timeStretch.get(FYDAI2306)!.toString(),
       () => g1.toString(),
     ],
@@ -133,12 +132,12 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
   {
-    addressFile: 'pools.json',
+    addressFile: 'newPools.json',
     name: FYUSDC2306,
     contract: 'PoolNonTv',
     args: [
       () => assets.get(USDC)!,
-      () => fyTokens().getOrThrow(FYUSDC2306)!,
+      () => newFYTokens().getOrThrow(FYUSDC2306)!,
       () => timeStretch.get(FYUSDC2306)!.toString(),
       () => g1.toString(),
     ],
@@ -154,60 +153,30 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Underlying asset identifier (bytes6 tag)
   /// @param Address for the underlying asset join
   {
-    addressFile: 'strategies.json',
+    addressFile: 'newStrategies.json',
     name: YSETH6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => fyTokens().getOrThrow(FYETH2306)!],
+    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => newFYTokens().getOrThrow(FYETH2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
   },
   {
-    addressFile: 'strategies.json',
+    addressFile: 'newStrategies.json',
     name: YSDAI6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => fyTokens().getOrThrow(FYDAI2306)!],
+    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => newFYTokens().getOrThrow(FYDAI2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
   },
   {
-    addressFile: 'strategies.json',
+    addressFile: 'newStrategies.json',
     name: YSUSDC6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => fyTokens().getOrThrow(FYUSDC2306)!],
+    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => newFYTokens().getOrThrow(FYUSDC2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
   },
-]
-
-/// @notice Pool initialization parameters
-/// @param pool identifier, usually matching the series (bytes6 tag)
-/// @param amount of base to initialize pool with
-export const poolsInit: Array<[string, BigNumber]> = [
-  [FYETH2306, WAD.div(10)],
-  [FYDAI2306, WAD.mul(100)],
-  [FYUSDC2306, ONEUSDC.mul(100)],
-]
-
-/// @notice Ilks to accept for series
-/// @param series identifier (bytes6 tag)
-/// @param newly accepted ilks (array of bytes6 tags)
-export const seriesIlks: Array<[string, string[]]> = [
-  [FYETH2306, [ETH, DAI, USDC]],
-  [FYDAI2306, [ETH, DAI, USDC]],
-  [FYUSDC2306, [ETH, DAI, USDC]],
-]
-
-/// Parameters to roll each strategy
-/// @param strategyId
-/// @param nextSeriesId
-/// @param buffer Amount of base sent to the Roller to make up for market losses when using a flash loan for rolling
-/// @param lender ERC3156 flash lender used for rolling
-/// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
-export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  [YSETH6MJD, FYETH2306, ZERO, ZERO_ADDRESS, false],
-  [YSDAI6MJD, FYDAI2306, ZERO, ZERO_ADDRESS, false],
-  [YSUSDC6MJD, FYUSDC2306, ZERO, ZERO_ADDRESS, false],
 ]

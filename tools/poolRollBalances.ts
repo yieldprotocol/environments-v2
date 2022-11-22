@@ -4,6 +4,7 @@ const { strategies, rollData } = require(process.env.CONF as string)
 
 ;(async () => {
   for (let [strategyId] of rollData) {
+
     console.log(strategyId)
     const strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string)
     console.log(`Strategy: ${strategy.address}`)

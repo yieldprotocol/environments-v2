@@ -1,12 +1,8 @@
 import { BigNumber } from 'ethers'
-import { ZERO, ZERO_ADDRESS, WAD, ONEUSDC, ONE64, secondsInOneYear } from '../../../../../shared/constants'
+import { WAD, ONEUSDC } from '../../../../../shared/constants'
 import { ETH, DAI, USDC } from '../../../../../shared/constants'
-import { EOJUN23 } from '../../../../../shared/constants'
 import { FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
-import { ACCUMULATOR } from '../../../../../shared/constants'
-
-import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
 
 import * as base_config from '../../../base.arb_mainnet.config'
 
@@ -44,13 +40,17 @@ export const seriesIlks: Array<[string, string[]]> = [
 ]
 
 /// Parameters to roll each strategy
-/// @param strategyId
-/// @param nextSeriesId
-/// @param buffer Amount of base sent to the Roller to make up for market losses when using a flash loan for rolling
-/// @param lender ERC3156 flash lender used for rolling
-/// @param fix If true, transfer one base wei to the pool to allow the Strategy to start enhanced TV pools
-export const rollData: Array<[string, string, BigNumber, string, boolean]> = [
-  [YSETH6MJD, FYETH2306, ZERO, ZERO_ADDRESS, false],
-  [YSDAI6MJD, FYDAI2306, ZERO, ZERO_ADDRESS, false],
-  [YSUSDC6MJD, FYUSDC2306, ZERO, ZERO_ADDRESS, false],
+/// @param source strategy
+/// @param seriesId(poolId) on the destination strategy
+/// @param destination strategy
+export const migrateData: Array<[string, string, string]> = [
+  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!],
+  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!],
+  [strategies.getOrThrow(YSUSDC6MJD)!, FYUSDC2306, newStrategies.getOrThrow(YSUSDC6MJD)!],
+]
+
+export const loadTimelock: Array<[string, BigNumber]> = [
+  [ETH, poolsInit[0][1]],
+  [DAI, poolsInit[1][1]],
+  [USDC, poolsInit[2][1]],
 ]
