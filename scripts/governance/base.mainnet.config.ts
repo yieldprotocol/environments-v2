@@ -125,12 +125,12 @@ export const lidoSource = assets.get(WSTETH) as string
 export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
 
 export const compositeSources: Array<[string, string, string]> = [
-  [DAI, ETH, protocol().getOrThrow(CHAINLINK) as string],
-  [USDC, ETH, protocol().getOrThrow(CHAINLINK) as string],
-  [WBTC, ETH, protocol().getOrThrow(CHAINLINK) as string],
-  [STETH, ETH, protocol().getOrThrow(CHAINLINK) as string],
-  [WSTETH, STETH, protocol().getOrThrow(LIDO) as string],
-  [ENS, ETH, protocol().getOrThrow(CHAINLINK) as string], // We don't use Uniswap on rinkeby
+  [DAI, ETH, protocol.getOrThrow(CHAINLINK) as string],
+  [USDC, ETH, protocol.getOrThrow(CHAINLINK) as string],
+  [WBTC, ETH, protocol.getOrThrow(CHAINLINK) as string],
+  [STETH, ETH, protocol.getOrThrow(CHAINLINK) as string],
+  [WSTETH, STETH, protocol.getOrThrow(LIDO) as string],
+  [ENS, ETH, protocol.getOrThrow(CHAINLINK) as string], // We don't use Uniswap on rinkeby
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [

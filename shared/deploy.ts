@@ -25,6 +25,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
+      console.log(`Deploying ${params.name} with ${params.args.map((f) => f())}`)
       deployed = await contractFactory.deploy(...params.args.map((f) => f()))
 
       await deployed.deployed()

@@ -1,19 +1,19 @@
-import { ethers } from 'hardhat'
 import { impersonate } from '../shared/helpers'
-import { WAD } from '../shared/constants'
+import { WAD, LADLE } from '../shared/constants'
+import { ERC20__factory, Ladle__factory, Join__factory } from '../typechain'
 const { whales, joinLoans, protocol } = require(process.env.CONF as string)
 /**
  * @dev This script loads Joins with arbitrary amounts. Only usable on forks.
  */
 ;(async () => {
-  let ladleAcc = await impersonate(protocol.get('ladle') as string, WAD)
-  const ladle = (await ethers.getContractAt('Ladle', ladleAcc.address, ladleAcc))
+  let ladleAcc = await impersonate(protocol.getOrThrow(LADLE)!, WAD)
+  const ladle = Ladle__factory.connect(ladleAcc.address, ladleAcc)
 
   for (let [assetId, loanAmount] of joinLoans) {
-    const whaleAcc = await impersonate(whales.get(assetId) as string, WAD)
+    const whaleAcc = await impersonate(whales.getOrThrow(assetId)!, WAD)
 
-    const join = (await ethers.getContractAt('Join', await ladle.joins(assetId), ladleAcc))
-    const asset = (await ethers.getContractAt('ERC20', await join.asset(), whaleAcc))
+    const join = Join__factory.connect(await ladle.joins(assetId), ladleAcc)
+    const asset = ERC20__factory.connect(await join.asset(), whaleAcc)
 
     await asset.transfer(join.address, loanAmount)
     await join.join(join.address, loanAmount)
