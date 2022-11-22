@@ -82,7 +82,7 @@
       "0x89343a24a217172A569A0bD68763Bf0671A3efd8"
     ],
     [
-      "yieldMath",
+      "oldYieldMath",
       "0x9D34dF69958675450ab8E53c8Df5531203398Dc9"
     ],
     [
@@ -104,6 +104,10 @@
     [
       "repayFromLadleModule",
       "0xB8B238bBa16a3f773fb7fE61213bb94371fc6b01"
+    ],
+    [
+      "yieldMath",
+      "0x3A717F3a896Cbb979b4eFf347649508F5f5C4cDe"
     ]
   ]
 }
