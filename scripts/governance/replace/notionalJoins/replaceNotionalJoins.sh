@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network tenderly"
 
 # Phase 1: Deploy Contracts
 export CONF=$PWD/$HERE/replaceNotionalJoins.mainnet.deployments
