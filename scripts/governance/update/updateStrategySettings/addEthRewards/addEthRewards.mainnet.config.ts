@@ -13,24 +13,13 @@ export const strategies: Map<string, string> = base_config.strategies
 
 export const strategiesData: Array<[string, string, string, string, number, number, number]> = [
   // name, symbol, baseId, rewardsTokenAddress, rewards start, rewards stop, rewards rate
-  // ALBERTO: Where do i get these addresses from and where to store them?  a new json file in addresses folder?
-  // Also what about start, stop, rate?
-  [
-    'Yield Strategy ETH 6M Mar Sep',
-    YSETH6MMS,
-    ETH,
-    '0xC7aE076086623ecEA2450e364C838916a043F9a8',
-    1669881600,
-    1672559999,
-    3733573675916,
-  ],
   [
     'Yield Strategy ETH 6M Jun Dec',
     YSETH6MJD,
     ETH,
-    '0xC7aE076086623ecEA2450e364C838916a043F9a8',
-    1669881600,
-    1672559999,
+    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    1669852800,
+    1672531199,
     3733573675916,
   ],
 ]

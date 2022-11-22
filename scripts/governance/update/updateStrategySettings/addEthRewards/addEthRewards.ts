@@ -3,15 +3,14 @@ import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 import { addEthRewardsProposal } from '../../../../../scripts/fragments/strategies/addEthRewardsProposal'
 import { Timelock } from '../../../../../typechain'
 
-const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol, chainId } = require(process.env.CONF as string)
+const { developer } = require(process.env.CONF as string)
+const { governance } = require(process.env.CONF as string)
 const { strategies, strategiesData } = require(process.env.CONF as string)
 
 /**
  * @dev This script creates a proposal to call `setRewards()` and `setRewardsTokens()` on all ETH strategies
  */
 ;(async () => {
-  //needed?
   const ownerAcc = await getOwnerOrImpersonate(developer)
   const timelock = (await ethers.getContractAt(
     'Timelock',
