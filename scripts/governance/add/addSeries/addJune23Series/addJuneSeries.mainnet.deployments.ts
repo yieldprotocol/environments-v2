@@ -1,6 +1,16 @@
 import { BigNumber } from 'ethers'
 import { ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import { ETH, DAI, USDC, FRAX, EWETH, EDAI, EUSDC, EULER } from '../../../../../shared/constants'
+import {
+  FCASH,
+  FETH2306,
+  FDAI2306,
+  FUSDC2306,
+  FCASH_JUN23,
+  FCASH_ETH,
+  FCASH_DAI,
+  FCASH_USDC,
+} from '../../../../../shared/constants'
 import { EOJUN23 } from '../../../../../shared/constants'
 import { FYETH2306, FYDAI2306, FYUSDC2306, FYFRAX2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSFRAX6MJD } from '../../../../../shared/constants'
@@ -229,5 +239,48 @@ export const contractDeployments: ContractDeployment[] = [
     libs: {
       SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
+  },
+  /// @dev Assets for which we will deploy a Join
+  /// @param notionalId: asset id of an fCash tenor in the Yield Protocol
+  /// @param fcash: address of the fCash contract
+  /// @param underlying: address of the fCash underlying
+  /// @param underlyingJoin: address of the fCash underlying Join
+  /// @param fCashMaturity: maturity in Notional Finance
+  /// @param fCashCurrency: id of the underlying in Notional Finance
+  {
+    addressFile: 'newJoins.json',
+    name: FETH2306,
+    contract: 'NotionalJoin',
+    args: [
+      () => external.getOrThrow(FCASH),
+      () => assets.getOrThrow(ETH),
+      () => joins.getOrThrow(ETH),
+      () => FCASH_JUN23,
+      () => FCASH_ETH,
+    ],
+  },
+  {
+    addressFile: 'newJoins.json',
+    name: FDAI2306,
+    contract: 'NotionalJoin',
+    args: [
+      () => external.getOrThrow(FCASH),
+      () => assets.getOrThrow(DAI),
+      () => joins.getOrThrow(DAI),
+      () => FCASH_JUN23,
+      () => FCASH_DAI,
+    ],
+  },
+  {
+    addressFile: 'newJoins.json',
+    name: FUSDC2306,
+    contract: 'NotionalJoin',
+    args: [
+      () => external.getOrThrow(FCASH),
+      () => assets.getOrThrow(USDC),
+      () => joins.getOrThrow(USDC),
+      () => FCASH_JUN23,
+      () => FCASH_USDC,
+    ],
   },
 ]

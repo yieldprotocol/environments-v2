@@ -11,10 +11,10 @@ $RUN $HERE/../../../../../shared/deploy.ts
 # Phase 2: Proposal
 export CONF=$PWD/$HERE/addJuneSeries.mainnet.config
 # $RUN $HERE/../../../../../tools/poolRollBalances.ts
-$RUN $HERE/../../../../../tools/joinLoan.ts
-$RUN $HERE/../../../../../tools/loadTimelock.ts
-$RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
-# 
-$RUN $HERE/addJuneSeries.ts
-$RUN $HERE/../../../../../shared/approve.ts
-$RUN $HERE/../../../../../shared/execute.ts
+# $RUN $HERE/../../../../../tools/joinLoan.ts
+# $RUN $HERE/../../../../../tools/loadTimelock.ts
+# $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
+#  
+# $RUN $HERE/addJuneSeries.ts
+# $RUN $HERE/../../../../../shared/approve.ts
+# $RUN $HERE/../../../../../shared/execute.ts

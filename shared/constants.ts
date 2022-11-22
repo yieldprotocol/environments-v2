@@ -54,6 +54,9 @@ export const YSETH6MMSASSET = ethers.utils.formatBytes32String('34').slice(0, 14
 export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14)
 export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
 export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
+export const FETH2306 = ethers.utils.formatBytes32String('38').slice(0, 14)
+export const FDAI2306 = ethers.utils.formatBytes32String('39').slice(0, 14)
+export const FUSDC2306 = ethers.utils.formatBytes32String('40').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -101,6 +104,8 @@ export const FCASH_JUN22 = 1656288000 // 213 * (86400 * 90)
 export const FCASH_SEP22 = 1664064000 // 214 * (86400 * 90)
 export const FCASH_DEC22 = 1671840000 // 215 * (86400 * 90)
 export const FCASH_MAR23 = 1679616000 // 216 * (86400 * 90)
+export const FCASH_JUN23 = 1687392000 // 217 * (86400 * 90)
+
 export const FCASH_ETH = '1'
 export const FCASH_DAI = '2'
 export const FCASH_USDC = '3'
