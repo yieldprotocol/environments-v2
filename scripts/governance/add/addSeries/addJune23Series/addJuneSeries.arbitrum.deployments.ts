@@ -70,7 +70,7 @@ export const contractDeployments: ContractDeployment[] = [
     name: FYDAI2306,
     contract: 'FYToken',
     args: [
-      () => ETH,
+      () => DAI,
       () => protocol().getOrThrow(ACCUMULATOR),
       () => joins.getOrThrow(DAI),
       () => EOJUN23,

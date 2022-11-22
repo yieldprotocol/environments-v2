@@ -34,9 +34,9 @@ const { protocol, governance, joins, newPools, newFYTokens } = require(process.e
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool, timelock, cloak))
   }
 
-  // proposal = proposal.concat(
-  //   await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
-  // )
+  proposal = proposal.concat(
+    await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, timelock, cloak, joins, newFYTokens, newPools)
+  )
   // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
   // proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   // proposal = proposal.concat(await migrateStrategiesProposal(ownerAcc, migrateData))

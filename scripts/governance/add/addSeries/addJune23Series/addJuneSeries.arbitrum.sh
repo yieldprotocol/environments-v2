@@ -5,8 +5,8 @@ export HERE=$(dirname $0)
 RUN="npx hardhat run --network localhost"
 
 # Phase 1: Deploy Contracts
-# export CONF=$PWD/$HERE/addJuneSeries.arbitrum.deployments
-# $RUN $HERE/../../../../../shared/deploy.ts
+export CONF=$PWD/$HERE/addJuneSeries.arbitrum.deployments
+$RUN $HERE/../../../../../shared/deploy.ts
 
 # Phase 2: Proposal
 export CONF=$PWD/$HERE/addJuneSeries.arbitrum.config
