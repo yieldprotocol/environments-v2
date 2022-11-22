@@ -1,6 +1,6 @@
-import { ETH, YSETH6MJD, YSETH6MMS } from '../../../../shared/constants'
+import { ETH, YSETH6MJD, YSETH6MMS } from '../../../../../shared/constants'
 
-import * as base_config from '../../base.mainnet.config'
+import * as base_config from '../../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -15,6 +15,22 @@ export const strategiesData: Array<[string, string, string, string, number, numb
   // name, symbol, baseId, rewardsTokenAddress, rewards start, rewards stop, rewards rate
   // ALBERTO: Where do i get these addresses from and where to store them?  a new json file in addresses folder?
   // Also what about start, stop, rate?
-  ['Yield Strategy ETH 6M Mar Sep', YSETH6MMS, ETH, '0xC7aE076086623ecEA2450e364C838916a043F9a8', 0, 1700554661, 69],
-  ['Yield Strategy ETH 6M Jun Dec', YSETH6MJD, ETH, '0xC7aE076086623ecEA2450e364C838916a043F9a8', 0, 1700554661, 69],
+  [
+    'Yield Strategy ETH 6M Mar Sep',
+    YSETH6MMS,
+    ETH,
+    '0xC7aE076086623ecEA2450e364C838916a043F9a8',
+    1669881600,
+    1672559999,
+    3733573675916,
+  ],
+  [
+    'Yield Strategy ETH 6M Jun Dec',
+    YSETH6MJD,
+    ETH,
+    '0xC7aE076086623ecEA2450e364C838916a043F9a8',
+    1669881600,
+    1672559999,
+    3733573675916,
+  ],
 ]
