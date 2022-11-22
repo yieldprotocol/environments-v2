@@ -50,7 +50,7 @@ export const migrateData: Array<[string, string, string]> = [
 ]
 
 export const loadTimelock: Array<[string, BigNumber]> = [
-  [ETH, poolsInit[0][1]],
-  [DAI, poolsInit[1][1]],
-  [USDC, poolsInit[2][1]],
+  [ETH, poolsInit[0][1].add(1)],
+  [DAI, poolsInit[1][1].add(1)],
+  [USDC, poolsInit[2][1].add(1)],
 ]

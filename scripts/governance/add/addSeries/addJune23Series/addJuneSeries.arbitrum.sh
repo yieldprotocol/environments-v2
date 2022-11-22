@@ -12,8 +12,8 @@ $RUN $HERE/../../../../../shared/deploy.ts
 export CONF=$PWD/$HERE/addJuneSeries.arbitrum.config
 # $RUN $HERE/../../../../../tools/poolRollBalances.ts
 # $RUN $HERE/../../../../../tools/joinLoan.ts
-# $RUN $HERE/../../../../../tools/loadTimelock.ts
-# $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
+$RUN $HERE/../../../../../tools/loadTimelock.ts
+$RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
 
 $RUN $HERE/addJuneSeries.ts
 $RUN $HERE/../../../../../shared/approve.ts

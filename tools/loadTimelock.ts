@@ -14,8 +14,6 @@ const { governance, protocol, whales, loadTimelock } = require(process.env.CONF 
   for (let [assetId, amount] of loadTimelock) {
     const asset = IERC20Metadata__factory.connect(await cauldron.assets(assetId), ownerAcc)
 
-    console.log(assetId)
-    console.log(whales.get(assetId))
     const whaleAcc = await impersonate(whales.get(assetId) as string, WAD)
     await asset.connect(whaleAcc).transfer(governance.getOrThrow(TIMELOCK)!, amount)
 
