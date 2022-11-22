@@ -52,21 +52,21 @@ const {
 
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, cloak, assetsAndJoins))
-  // proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
-  // proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
-  // proposal = proposal.concat(
-  //   await makeIlkProposal(
-  //     ownerAcc,
-  //     notionalOracle as unknown as IOracle,
-  //     cauldron,
-  //     witch,
-  //     cloak,
-  //     newJoins,
-  //     notionalDebtLimits,
-  //     auctionLimits
-  //   )
-  // )
-  // proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
+  proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(
+    await makeIlkProposal(
+      ownerAcc,
+      notionalOracle as unknown as IOracle,
+      cauldron,
+      witch,
+      cloak,
+      newJoins,
+      notionalDebtLimits,
+      auctionLimits
+    )
+  )
+  proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
 
   await propose(timelock, proposal, developer)
 })()

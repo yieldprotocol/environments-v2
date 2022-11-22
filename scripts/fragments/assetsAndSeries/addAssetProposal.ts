@@ -1,20 +1,11 @@
-/**
- * @dev This script adds one or more assets to the protocol.
- *
- * It uses the Wand to:
- *  - Add the asset to Cauldron.
- *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
- * @notice The assetIds can't be already in use
- */
-
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-import { EmergencyBrake, Cauldron, Ladle } from '../../../typechain'
+import { OldEmergencyBrake, Cauldron, Ladle } from '../../../typechain'
 
 export const addAssetProposal = async (
   ownerAcc: any,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   cauldron: Cauldron,
   ladle: Ladle,
   assets: [string, string, string][]
@@ -53,20 +44,20 @@ export const addAssetProposal = async (
 
     console.log(`Adding asset ${assetId} at ${assetAddress} with join ${joinAddress}`)
 
-    const plan = [
-      {
-        contact: ladle.address,
-        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
-      },
-    ]
-
-    if ((await cloak.plans(await cloak.hash(ladle.address, plan))).state === 0) {
-      proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
-      })
-      console.log(`cloak.plan(join, join(${bytesToString(assetId)})): ${await cloak.hash(join.address, plan)}`)
-    }
+    //    const plan = [
+    //      {
+    //        contact: ladle.address,
+    //        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
+    //      },
+    //    ]
+    //
+    //    if ((await cloak.plans(await cloak.hash(ladle.address, plan))).state === 0) {
+    //      proposal.push({
+    //        target: cloak.address,
+    //        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
+    //      })
+    //      console.log(`cloak.plan(join, join(${assetId})): ${await cloak.hash(join.address, plan)}`)
+    //    }
   }
 
   return proposal

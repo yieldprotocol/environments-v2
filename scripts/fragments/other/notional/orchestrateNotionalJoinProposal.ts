@@ -2,12 +2,12 @@ import { id } from '@yield-protocol/utils-v2'
 import { bytesToString } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
 
-import { Ladle, Timelock, EmergencyBrake, Join__factory, NotionalJoin__factory } from '../../../../typechain'
+import { OldEmergencyBrake, Join__factory, NotionalJoin__factory } from '../../../../typechain'
 
 export const orchestrateNotionalJoinProposal = async (
   ownerAcc: any,
   deployer: string,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
