@@ -31,7 +31,7 @@
     "@yield-protocol/strategy-v2": "^2.0.0-rc.1",
     "@yield-protocol/utils-v2": "2.6.4-rc.2",
     "@yield-protocol/vault-v2": "0.18.6",
-    "@yield-protocol/yieldspace-tv": "0.1.9-rc.2",
+    "@yield-protocol/yieldspace-tv": "0.1.9-rc.3",    
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
