@@ -2647,9 +2647,9 @@
     ethereumjs-util "^7.0.8"
 
 "@yield-protocol/utils-v2@^2.4.2":
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.1.tgz"
-  integrity sha512-+Gr+9iFbjnnbahVVrNiePa107En2vXvUBOCAhxGa1UXPumpyOZzK9WunHca5zwJzajwy3/bwHxanON08nqD58Q==
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.3.tgz#bf0f7ea28141208e18a0f86e7bc53d77963f5631"
+  integrity sha512-qvvKQu1+c3wIzKzNzrwGsvhzgR5MnJE84yOevV3XKowBXYTS1ePDu2oxLlq2sC4XNtWZl8Y3GWalVD5wQGkN3Q==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
@@ -2664,10 +2664,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.7-rc.1.tgz#f789ca115300d182c293e86d98377e8986cdd6ca"
   integrity sha512-NWjxcvzKHLs/Y4p/biSiqj1aWf7uAkbFQQfKa7v0jt/LCB114KzyWmh04oDLnCilWl2h7iI3TUg0I7xemj4ONQ==
 
-"@yield-protocol/yieldspace-tv@0.1.9-rc.2":
-  version "0.1.9-rc.2"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.2.tgz#b378b0374a4bc65cbac9f97a7068eb2205473dae"
-  integrity sha512-KPkzPh2kfS9zfgbn8YmpmYxwSteC70o4jPhor5kUdermUAlyUKYYDxqFYu7llp+d40Y0M+yJSrPKN9OEQUhmfw==
+"@yield-protocol/yieldspace-tv@0.1.9-rc.3":
+  version "0.1.9-rc.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.3.tgz#6c2ef893c8830a588b73d86e4e27d9df57ea8b90"
+  integrity sha512-Es9rf9oegKkHX0C/oIHv32mrWmyaTBbE7RAm5OL5HfNGmZqBY2lfEKbSod/XCdHmzee4Hacul5pgyQ53XUIvhA==
 
 abab@^2.0.0:
   version "2.0.6"
