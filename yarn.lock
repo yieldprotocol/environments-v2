@@ -2659,10 +2659,10 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.7-rc.0":
-  version "0.18.7-rc.0"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.7-rc.0.tgz#b6e82e75237e7e05455b3c6b8421b721a8cfb9eb"
-  integrity sha512-jzRwq5Q2K63eCnKJezAzsLHE08W3yM3tW6tEJs+2cK4w83u0O7WxJCraf5mJj+lSl2Ca78fxYyzD89k1IepbPg==
+"@yield-protocol/vault-v2@0.18.7-rc.1":
+  version "0.18.7-rc.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.7-rc.1.tgz#f789ca115300d182c293e86d98377e8986cdd6ca"
+  integrity sha512-NWjxcvzKHLs/Y4p/biSiqj1aWf7uAkbFQQfKa7v0jt/LCB114KzyWmh04oDLnCilWl2h7iI3TUg0I7xemj4ONQ==
 
 "@yield-protocol/yieldspace-tv@0.1.9-rc.2":
   version "0.1.9-rc.2"

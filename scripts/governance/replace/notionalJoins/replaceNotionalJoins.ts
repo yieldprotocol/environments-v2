@@ -25,7 +25,7 @@ const { developer, deployer, protocol, governance, newJoins, newAssets, joinRepl
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, cloak, newJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, newAssets))
-  proposal = proposal.concat(await drainJoinsFragment(ownerAcc, timelock, joinReplacements))
+  proposal = proposal.concat(await drainJoinsFragment(ownerAcc, timelock, ladle, joinReplacements))
 
   await propose(timelock, proposal, developer)
 })()

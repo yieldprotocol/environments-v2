@@ -3,11 +3,12 @@
  */
 import { id } from '@yield-protocol/utils-v2'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { Join__factory, Timelock } from '../../../typechain'
+import { Join__factory, Timelock, Ladle } from '../../../typechain'
 
 export const drainJoinsFragment = async (
   ownerAcc: SignerWithAddress,
   timelock: Timelock,
+  ladle: Ladle,
   joinReplacements: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
@@ -51,6 +52,16 @@ export const drainJoinsFragment = async (
       data: newJoin.interface.encodeFunctionData('join', [oldJoin.address, storedBalance]),
     })
     console.log(`Joining ${storedBalance} of ${oldJoin.asset()} at ${newJoin.address}`)
+
+    // isolate from ladle
+    proposal.push({
+      target: oldJoin.address,
+      data: oldJoin.interface.encodeFunctionData('revokeRoles', [
+        [id(oldJoin.interface, 'join(address,uint128)'), id(oldJoin.interface, 'exit(address,uint128)')],
+        ladle.address,
+      ]),
+    })
+    console.log(`lodJoin.revokeRoles(join/exit, ladle)`)
 
     // revoke permissions
     proposal.push({
