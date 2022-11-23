@@ -40,8 +40,6 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools }
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  console.log('Yo')
-
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   const cloak = OldEmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const notionalOracle = NotionalMultiOracle__factory.connect(protocol.get(NOTIONAL)!, ownerAcc)
@@ -49,17 +47,12 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools }
   const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE)!, ownerAcc)
   const witch = Witch__factory.connect(protocol.getOrThrow(WITCH)!, ownerAcc)
 
-  console.log('Hey')
-
   const fCashAddress = external.getOrThrow(FCASH)!
   let assetsAndJoins: Array<[string, string, string]> = []
   for (let [assetId, joinAddress] of newJoins) {
     assetsAndJoins.push([assetId, fCashAddress, joinAddress])
     console.log(`Using ${fCashAddress} as Join for ${joinAddress}`)
   }
-  console.log(assetsAndJoins)
-
-  console.log('Hmm')
 
   let proposal: Array<{ target: string; data: string }> = []
   for (let [seriesId, poolAddress] of newPools) {

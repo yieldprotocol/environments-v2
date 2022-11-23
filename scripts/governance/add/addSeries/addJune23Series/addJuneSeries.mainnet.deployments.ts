@@ -14,7 +14,7 @@ import {
 import { EOJUN23 } from '../../../../../shared/constants'
 import { FYETH2306, FYDAI2306, FYUSDC2306, FYFRAX2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSFRAX6MJD } from '../../../../../shared/constants'
-import { COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
+import { SAFE_ERC20_NAMER, YIELDMATH, COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'
 
 import { ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
 
@@ -74,7 +74,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYETH2306',
     ],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -90,7 +90,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYDAI2306',
     ],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -106,7 +106,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYUSDC2306',
     ],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -122,7 +122,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYFRAX2306',
     ],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   /// @notice Deploy plain YieldSpace pools
@@ -144,7 +144,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   {
@@ -159,7 +159,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   {
@@ -174,7 +174,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   /// @notice Deploy plain YieldSpace pools
@@ -194,7 +194,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   /// @notice Deploy strategies
@@ -210,7 +210,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'Strategy',
     args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => newFYTokens().getOrThrow(FYETH2306)!],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -219,7 +219,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'Strategy',
     args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => newFYTokens().getOrThrow(FYDAI2306)!],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -228,7 +228,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'Strategy',
     args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => newFYTokens().getOrThrow(FYUSDC2306)!],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -237,7 +237,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'Strategy',
     args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSFRAX6MJD, () => newFYTokens().getOrThrow(FYFRAX2306)!],
     libs: {
-      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   /// @dev Assets for which we will deploy a Join
