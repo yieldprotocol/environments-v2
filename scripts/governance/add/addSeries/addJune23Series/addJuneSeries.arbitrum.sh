@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network tenderly"
 
 # Phase 1: Deploy Contracts
 export CONF=$PWD/$HERE/addJuneSeries.arbitrum.deployments
@@ -15,6 +15,6 @@ export CONF=$PWD/$HERE/addJuneSeries.arbitrum.config
 $RUN $HERE/../../../../../tools/loadTimelock.ts
 $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
 
-$RUN $HERE/addJuneSeries.ts
+$RUN $HERE/addJuneSeries.arbitrum.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts

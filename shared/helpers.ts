@@ -255,5 +255,6 @@ export const tenderlyVerify = async (name: string, contract: BaseContract) => {
       name,
       address: contract.address,
     })
+    console.log(`${name} at ${contract.address} verified on tenderly`)
   }
 }

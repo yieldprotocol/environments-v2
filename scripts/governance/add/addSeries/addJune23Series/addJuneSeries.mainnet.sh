@@ -15,6 +15,6 @@ $RUN $HERE/../../../../../tools/joinLoan.ts
 $RUN $HERE/../../../../../tools/loadTimelock.ts
 $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
  
-$RUN $HERE/addJuneSeries.ts
+$RUN $HERE/addJuneSeries.mainnet.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
