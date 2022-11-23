@@ -11,7 +11,7 @@ import {
   IOracle,
 } from '../../../../../typechain'
 
-import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, FCASH, NOTIONAL } from '../../../../../shared/constants'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, FCASH, NOTIONAL, MULTISIG } from '../../../../../shared/constants'
 
 import { orchestrateNotionalJoinProposal } from '../../../../fragments/other/notional/orchestrateNotionalJoinProposal'
 import { updateNotionalSourcesProposal } from '../../../../fragments/oracles/updateNotionalSourcesProposal'
@@ -22,6 +22,7 @@ import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/a
 import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategiesProposal'
 import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 
 const {
   developer,
@@ -33,7 +34,8 @@ const {
   poolsInit,
   migrateData,
 } = require(process.env.CONF as string)
-const { external, governance, protocol, joins, newJoins, newFYTokens, newPools } = require(process.env.CONF as string)
+const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, newStrategies } = require(process.env
+  .CONF as string)
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies
  */
@@ -55,6 +57,11 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools }
   }
 
   let proposal: Array<{ target: string; data: string }> = []
+
+  proposal = proposal.concat(
+    await orchestrateStrategiesProposal(ownerAcc, deployer, governance.getOrThrow(MULTISIG)!, timelock, newStrategies)
+  )
+
   for (let [seriesId, poolAddress] of newPools) {
     const pool = Pool__factory.connect(poolAddress as string, ownerAcc)
     console.log(`orchestrating ${seriesId} pool at address: ${poolAddress}`)
