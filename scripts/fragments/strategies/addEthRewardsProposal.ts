@@ -5,32 +5,28 @@
  *  - create proposal to setRewards and setRewardsToken
  */
 
-import { ethers } from 'hardhat'
-import { id } from '@yield-protocol/utils-v2'
-import { ROOT } from '../../../shared/constants'
-import { Timelock, Strategy, Roller, Strategy__factory } from '../../../typechain'
+import { Strategy__factory } from '../../../typechain'
 
 export const addEthRewardsProposal = async (
   ownerAcc: any,
-  timelock: Timelock,
   strategies: Map<string, string>,
-  strategiesData: Array<[string, string, string, string, number, number, number]>
+  strategiesData: Array<[string, string, string, number, number, number]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [name, symbol, baseId, rewardsAddress, start, stop, rate] of strategiesData) {
-    const strategy = Strategy__factory.connect(strategies.getOrThrow(symbol)!, ownerAcc) as Strategy
+  for (let [strategyId, rewardsAddress, start, stop, rate] of strategiesData) {
+    const strategy = Strategy__factory.connect(strategies.getOrThrow(strategyId)!, ownerAcc)
 
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewardsToken', [rewardsAddress]),
     })
-    console.log(`strategy(${symbol}).setRewardsAddress(${rewardsAddress})`)
+    console.log(`strategy(${strategyId}).setRewardsAddress(${rewardsAddress})`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewards', [start, stop, rate]),
     })
-    console.log(`strategy(${symbol}).setRewards(${start}, ${stop}, ${rate})`)
+    console.log(`strategy(${strategyId}).setRewards(${start}, ${stop}, ${rate})`)
   }
 
   return proposal

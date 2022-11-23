@@ -1,4 +1,4 @@
-import { ETH, YSETH6MJD, YSETH6MMS } from '../../../../../shared/constants'
+import { ETH, YSETH6MJD } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
 
@@ -11,15 +11,7 @@ export const protocol: Map<string, string> = base_config.protocol()
 export const assets: Map<string, string> = base_config.assets
 export const strategies: Map<string, string> = base_config.strategies
 
-export const strategiesData: Array<[string, string, string, string, number, number, number]> = [
-  // name, symbol, baseId, rewardsTokenAddress, rewards start, rewards stop, rewards rate
-  [
-    'Yield Strategy ETH 6M Jun Dec',
-    YSETH6MJD,
-    ETH,
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    1669852800,
-    1672531199,
-    3733573675916,
-  ],
+export const rewardsData: Array<[string, string, number, number, number]> = [
+  // strategyId, rewardsTokenAddress, rewards start, rewards stop, rewards rate
+  [YSETH6MJD, assets.getOrThrow(ETH)!, 1669852800, 1672531199, 3733573675916],
 ]
