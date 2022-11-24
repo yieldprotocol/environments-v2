@@ -15,7 +15,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'protocol.json',
     name: 'crabOracle',
     contract: 'CrabOracle',
-    args: [],
+    args: [CRAB, OSQTH, ETH, assets.get(CRAB) as string, protocol.get('uniswapOracle') as string],
   },
   {
     addressFile: 'newJoins.json',
@@ -23,13 +23,6 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FlashJoin',
     args: [assets.get(CRAB)!],
   },
-]
-
-export const crabOracleSource: [string, string, string, string] = [
-  CRAB,
-  OSQTH,
-  assets.get(CRAB) as string,
-  protocol.get('uniswapOracle') as string,
 ]
 
 export const uniswapOracleSources: [string, string, string, number][] = [
