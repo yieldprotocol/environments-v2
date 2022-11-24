@@ -1,5 +1,4 @@
 import { ethers } from 'hardhat'
-
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import {
@@ -13,7 +12,7 @@ import { WAD } from '../../../../../shared/constants'
 const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
 
 /**
- * @dev This script tests borrowing against strategy token
+ * @dev This script tests borrowing against crab strategy token
  */
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer, WAD)

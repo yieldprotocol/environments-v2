@@ -1,4 +1,4 @@
-import { CRAB, ETH, FYETH2212, OSQTH } from '../../../../../shared/constants'
+import { CRAB, DAI, ETH, FYETH2212, OSQTH, USDC } from '../../../../../shared/constants'
 import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 
@@ -50,13 +50,17 @@ export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, pr
 /// @param Minimum vault debt, modified by decimals
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newCrabLimits: Array<[string, string, number, number, number, number]> = [
-  [ETH, CRAB, 1100000, 1000000, 5000, 18],
+  [ETH, CRAB, 1400000, 250000, 50, 18],
+  [USDC, CRAB, 1330000, 250000, 50, 6],
+  [DAI, CRAB, 1330000, 250000, 50, 18],
 ]
 
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
 export const seriesIlks: Array<[string, string[]]> = [[FYETH2212, [CRAB]]]
+// dai
+// usdc
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 /// @notice Limits to be used in an auction
