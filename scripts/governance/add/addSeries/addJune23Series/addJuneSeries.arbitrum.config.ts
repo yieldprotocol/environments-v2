@@ -43,10 +43,16 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param source strategy
 /// @param seriesId(poolId) on the destination strategy
 /// @param destination strategy
-export const migrateData: Array<[string, string, string]> = [
-  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!],
-  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!],
-  [strategies.getOrThrow(YSUSDC6MJD)!, FYUSDC2306, newStrategies.getOrThrow(YSUSDC6MJD)!],
+/// @param pool to invest in
+export const migrateData: Array<[string, string, string, string]> = [
+  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!, newPools.getOrThrow(FYETH2306)!],
+  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!, newPools.getOrThrow(FYDAI2306)!],
+  [
+    strategies.getOrThrow(YSUSDC6MJD)!,
+    FYUSDC2306,
+    newStrategies.getOrThrow(YSUSDC6MJD)!,
+    newPools.getOrThrow(FYUSDC2306)!,
+  ],
 ]
 
 /// Parameters to fund the Timelock

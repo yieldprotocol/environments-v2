@@ -48,11 +48,22 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param source strategy
 /// @param seriesId(poolId) on the destination strategy
 /// @param destination strategy
-export const migrateData: Array<[string, string, string]> = [
-  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!],
-  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!],
-  [strategies.getOrThrow(YSUSDC6MJD)!, FYUSDC2306, newStrategies.getOrThrow(YSUSDC6MJD)!],
-  [strategies.getOrThrow(YSFRAX6MJD)!, FYFRAX2306, newStrategies.getOrThrow(YSFRAX6MJD)!],
+/// @param pool to invest in
+export const migrateData: Array<[string, string, string, string]> = [
+  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!, newPools.getOrThrow(YSETH6MJD)!],
+  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!, newPools.getOrThrow(YSDAI6MJD)!],
+  [
+    strategies.getOrThrow(YSUSDC6MJD)!,
+    FYUSDC2306,
+    newStrategies.getOrThrow(YSUSDC6MJD)!,
+    newPools.getOrThrow(YSUSDC6MJD)!,
+  ],
+  [
+    strategies.getOrThrow(YSFRAX6MJD)!,
+    FYFRAX2306,
+    newStrategies.getOrThrow(YSFRAX6MJD)!,
+    newPools.getOrThrow(YSFRAX6MJD)!,
+  ],
 ]
 
 /// @dev The Notional Oracle is fed with Yield Protocol asset pairs to register.

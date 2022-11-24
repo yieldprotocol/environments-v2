@@ -54,7 +54,6 @@ dist/
 .idea/
 .DS_Store
 addresses/localhost/
-addresses/tenderly*
 tmp/
 
 # Foundry

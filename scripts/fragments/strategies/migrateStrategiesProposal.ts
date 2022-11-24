@@ -8,12 +8,12 @@ import { ethers } from 'hardhat'
 
 export const migrateStrategiesProposal = async (
   ownerAcc: any,
-  migrateData: Array<[string, string, string]>
+  migrateData: Array<[string, string, string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [oldStrategyAddress, newSeriesId, newStrategyAddress] of migrateData) {
+  for (let [oldStrategyAddress, newSeriesId, newStrategyAddress, newPool] of migrateData) {
     console.log(`Using Strategy V1 at ${oldStrategyAddress}`)
 
     const oldStrategy = StrategyV1__factory.connect(oldStrategyAddress, ownerAcc)
@@ -70,6 +70,14 @@ export const migrateStrategiesProposal = async (
       ]),
     })
     console.log(`strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
+
+    // Invest
+    proposal.push({
+      target: newStrategy.address,
+      data: newStrategy.interface.encodeFunctionData('invest', [newPool]),
+    })
+
+    console.log(`Strategy ${newStrategy.address} invested onto ${newPool}`)
   }
 
   return proposal
