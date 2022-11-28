@@ -14,6 +14,8 @@ import 'solidity-coverage'
 import "@tenderly/hardhat-tenderly";
 // tdly.setup();
 
+import "./augmentations"
+
 function infuraNodeUrl(network: any) {
   let infuraKey
   try {
@@ -118,25 +120,16 @@ module.exports = {
       // update url of fork
       url: "https://rpc.tenderly.co/fork/7addf4db-61bb-4f29-8bcc-cc37bd0e4a91",
       // update chainId if necessary
-      forkNetwork: "42161",
+      forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000,
       gasPrice: 100_000_000
     },
-    tenderly_fcash: {
-      // update url of fork
-      url: "https://rpc.tenderly.co/fork/b979e547-aae0-4fd1-9845-8d208a0d12a1",
-      // update chainId if necessary
-      forkNetwork: "1",
-      username: "Yield",
-      project: "v2",
-      timeout: 60_000_000
-    },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 20_000_000_000,
+      gasPrice: 15_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')

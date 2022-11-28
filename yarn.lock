@@ -2639,18 +2639,17 @@
   resolved "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-0.12.0-rc5.tgz"
   integrity sha512-4gNxe0wmJjh5ijAPIgS9IX15rpBV5rJloPqLWGy06EkmmoH6b5CeHcjswHP5nCZFggcBhfY5bE02u7As26Qguw==
 
-"@yield-protocol/utils-v2@2.6.0-rc.1":
-  version "2.6.0-rc.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.0-rc.1.tgz"
-  integrity sha512-o1XdJWga3GuDJR7qYPD63fqtRpVxaiJ0ZaPxVVz9KuuRgSBFeNVl5sgp1xNobnnWg7uEtZFdicy8RgtpEsgAOQ==
+"@yield-protocol/utils-v2@2.6.4-rc.2":
+  version "2.6.4-rc.2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.4-rc.2.tgz#b9f80e7710d21fcd35e5cf1e65214a9700d3a661"
+  integrity sha512-gQ2mesPx8OSaJ5nqBsu62jdY5GVvh6aFzbac56Zam1ndpVshlpbJ4W4jGxBrsyPnN8rQfhI/iJlre+njVu1pnA==
   dependencies:
     ethereumjs-util "^7.0.8"
-    ethers "^5.0.7"
 
 "@yield-protocol/utils-v2@^2.4.2":
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.1.tgz"
-  integrity sha512-+Gr+9iFbjnnbahVVrNiePa107En2vXvUBOCAhxGa1UXPumpyOZzK9WunHca5zwJzajwy3/bwHxanON08nqD58Q==
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.3.tgz#bf0f7ea28141208e18a0f86e7bc53d77963f5631"
+  integrity sha512-qvvKQu1+c3wIzKzNzrwGsvhzgR5MnJE84yOevV3XKowBXYTS1ePDu2oxLlq2sC4XNtWZl8Y3GWalVD5wQGkN3Q==
   dependencies:
     ethereumjs-util "^7.0.8"
     ethers "^5.0.7"
@@ -2660,15 +2659,16 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.5":
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.5.tgz#1eee4311ebab90fd46c72637ff95a5d7d5e88469"
-  integrity sha512-uZZgqQ/DhjFr6iWbH6H+EiHAkd2c9rmd5Ul2KUPhVloi/RtY7fadH+JEBlh9uJivo3Vu9XBftZuwM04Tpx4Hlw==
 
-"@yield-protocol/yieldspace-tv@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.8.tgz"
-  integrity sha512-JvbR76AJY9ekJF1pZI5FV4R1MqOh2wU1Gj7EJ+q1OhplHxhWBzfgrKc8hpVu9C6Di0+HVdZjZ/DN/gz8EiNdgQ==
+"@yield-protocol/yieldspace-tv@0.1.9-rc.3":
+  version "0.1.9-rc.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.3.tgz#6c2ef893c8830a588b73d86e4e27d9df57ea8b90"
+  integrity sha512-Es9rf9oegKkHX0C/oIHv32mrWmyaTBbE7RAm5OL5HfNGmZqBY2lfEKbSod/XCdHmzee4Hacul5pgyQ53XUIvhA==
+
+"@yield-protocol/vault-v2@0.18.6":
+  version "0.18.6"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.6.tgz#78c1580476b960365b02ab71a2e3fc56b895c95f"
+  integrity sha512-txr4/sZek5jx3ls+J3KlDSNWvazXcqnaPnqaJoa9eUe2PhxhdNIuPHQYXUNoexxrfK2pbeWVpDkOPpphFqFm6w==
 
 abab@^2.0.0:
   version "2.0.6"
@@ -5134,7 +5134,7 @@ cssstyle@^2.0.0:
 
 csv-parser@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/csv-parser/-/csv-parser-3.0.0.tgz#b88a6256d79e090a97a1b56451f9327b01d710e7"
+  resolved "https://registry.npmjs.org/csv-parser/-/csv-parser-3.0.0.tgz"
   integrity sha512-s6OYSXAK3IdKqYO33y09jhypG/bSDHPuyCme/IdEHfWpLf/jKcpitVFyOC6UemgGk8v7Q5u2XE0vvwmanxhGlQ==
   dependencies:
     minimist "^1.2.0"
@@ -10162,7 +10162,7 @@ minimalistic-crypto-utils@^1.0.1:
 
 "minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
+  resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz"
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"

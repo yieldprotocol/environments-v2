@@ -14,11 +14,16 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
   pools: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId] of compositeSources) {
-    const pool = pools.get(baseId)!
+  for (let [baseId, quoteId, oracle] of compositeSources) {
+    if (oracle !== yieldSpaceMultiOracle.address) {
+      // Not all compositeSources are necessarily YieldSpaceMultiOracle sources
+      continue
+    }
+
+    const pool = pools.getOrThrow(baseId)
     if ((await ethers.provider.getCode(pool)) === '0x') throw `Pool Address ${pool} contains no code`
 
-    console.log(`Adding ${baseId}/${quoteId} from ${poolOracle.address}`)
+    console.log(`Adding ${bytesToString(baseId)}/${bytesToString(quoteId)} from ${poolOracle.address}`)
     // Check if the poolOracle has been initialised with enough time
     proposal.push({
       target: poolOracle.address,

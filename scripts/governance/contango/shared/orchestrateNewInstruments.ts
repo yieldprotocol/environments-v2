@@ -1,10 +1,14 @@
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
+import {
+  CLOAK,
+  COMPOSITE,
+  CONTANGO_CAULDRON,
+  CONTANGO_LADLE,
+  CONTANGO_WITCH,
+  POOL_ORACLE,
+  TIMELOCK,
+  YIELD_SPACE_MULTI_ORACLE,
+} from '../../../../shared/constants'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import {
   Cauldron__factory,
   CompositeMultiOracle__factory,
@@ -16,19 +20,14 @@ import {
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
-import {
-  CLOAK,
-  COMPOSITE,
-  CONTANGO_CAULDRON,
-  CONTANGO_LADLE,
-  CONTANGO_WITCH,
-  MULTISIG,
-  POOL_ORACLE,
-  TIMELOCK,
-  YIELD_SPACE_MULTI_ORACLE,
-} from '../../../../shared/constants'
-import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
+import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
+import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
+import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
+import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
 
 const {
   developer,
@@ -54,17 +53,17 @@ const {
 
   const allJoins = new Map<string, string>([...joins, ...newJoins])
 
-  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
-  const cauldron = Cauldron__factory.connect(protocol.get(CONTANGO_CAULDRON)!, ownerAcc)
-  const ladle = ContangoLadle__factory.connect(protocol.get(CONTANGO_LADLE)!, ownerAcc)
-  const witch = ContangoWitch__factory.connect(protocol.get(CONTANGO_WITCH)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
-  const compositeMultiOracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CONTANGO_CAULDRON), ownerAcc)
+  const ladle = ContangoLadle__factory.connect(protocol.getOrThrow(CONTANGO_LADLE), ownerAcc)
+  const witch = ContangoWitch__factory.connect(protocol.getOrThrow(CONTANGO_WITCH), ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK), ownerAcc)
+  const compositeMultiOracle = CompositeMultiOracle__factory.connect(protocol.getOrThrow(COMPOSITE), ownerAcc)
   const yieldSpaceMultiOracle = YieldSpaceMultiOracle__factory.connect(
-    protocol.get(YIELD_SPACE_MULTI_ORACLE)!,
+    protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE),
     ownerAcc
   )
-  const poolOracle = PoolOracle__factory.connect(protocol.get(POOL_ORACLE)!, ownerAcc)
+  const poolOracle = PoolOracle__factory.connect(protocol.getOrThrow(POOL_ORACLE), ownerAcc)
 
   const proposal = [
     await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsToAdd),
@@ -86,5 +85,5 @@ const {
     await addIlksToSeriesProposal(cauldron, seriesIlks),
   ].flat(1)
 
-  await proposeApproveExecute(timelock, proposal, governance.get(MULTISIG)!, developer)
+  await propose(timelock, proposal, developer)
 })()

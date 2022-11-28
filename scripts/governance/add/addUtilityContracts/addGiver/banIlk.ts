@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
-import { Timelock, Giver } from '../../../../typechain'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { banIlkProposal } from '../../../fragments/utils/banlkProposal'
+import { Timelock, Giver } from '../../../../../typechain'
+import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
+import { banIlkProposal } from '../../../../fragments/utils/banlkProposal'
 const { developer, deployer } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 /**
