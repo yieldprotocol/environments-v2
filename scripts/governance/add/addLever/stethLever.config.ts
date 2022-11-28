@@ -1,4 +1,4 @@
-import { CAULDRON, GIVER, YIELD_STRATEGY_LEVER } from '../../../../shared/constants'
+import { CAULDRON, GIVER, YIELD_STETH_LEVER } from '../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
 import * as base_config from '../../base.arb_mainnet.config'
@@ -16,7 +16,7 @@ export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
-    name: YIELD_STRATEGY_LEVER,
+    name: YIELD_STETH_LEVER,
     contract: 'YieldStEthLever',
     args: [() => protocol().getOrThrow(GIVER)],
   },
