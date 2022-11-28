@@ -18,31 +18,28 @@ import { CHAINLINK, CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../..
 import { ASSETS, SERIES } from '../../../../../shared/typed-constants'
 import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes' // Note we use the series id as the asset id
 
-export const rateChiSources: Array<[string, string, string, string]> = ASSETS.map(({ bytes: base }) => [
-  [base, RATE, WAD.toString(), WAD.toString()] as [string, string, string, string],
-  [base, CHI, WAD.toString(), WAD.toString()] as [string, string, string, string],
+export const rateChiSources = ASSETS.map(({ bytes: base }) => [
+  [base, RATE, WAD.toString(), WAD.toString()] as const,
+  [base, CHI, WAD.toString(), WAD.toString()] as const,
 ]).flat()
 
 // Assets that will be made into a base
 export const bases: Array<[string, string]> = ASSETS.map(({ bytes: base }) => [base, joins.getOrThrow(base)])
 
 // Input data: baseId, quoteId, oracle name
-export const compositeSources: Array<[string, string, string]> = [
-  SERIES.map(
-    (series) =>
-      [series.bytes, series.asset.bytes, protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE)] as [string, string, string]
-  ), // All fyTokens as collateral use the same oracle
+export const compositeSources = [
+  SERIES.map((series) => [series.bytes, series.asset.bytes, protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE)] as const), // All fyTokens as collateral use the same oracle
   ASSETS.map(({ bytes: base }) =>
-    ASSETS.map(({ bytes: quote }) => [base, quote, protocol.getOrThrow(CHAINLINK)] as [string, string, string])
+    ASSETS.map(({ bytes: quote }) => [base, quote, protocol.getOrThrow(CHAINLINK)] as const)
   )
     .flat()
     .filter(([base, quote]) => base !== quote), // Resolve any base against all other bases
 ].flat()
 
 // Input data: assetId, assetId, [intermediate assetId]
-export const compositePaths: Array<[string, string, Array<string>]> = ASSETS.map((asset) =>
+export const compositePaths = ASSETS.map((asset) =>
   SERIES.filter((series) => series.asset.code !== asset.code).map(
-    (series) => [asset.bytes, series.bytes, [series.asset.bytes]] as [string, string, Array<string>]
+    (series) => [asset.bytes, series.bytes, [series.asset.bytes]] as const
   )
 ).flat()
 
@@ -50,11 +47,9 @@ export const compositePaths: Array<[string, string, Array<string>]> = ASSETS.map
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the asset
 /// @param Address for the join
-export const assetsToAdd: Array<[string, string, string]> = [
-  ASSETS.map(({ bytes: base }) => [base, assets.getOrThrow(base), joins.getOrThrow(base)] as [string, string, string]),
-  SERIES.map(
-    ({ bytes: base }) => [base, fyTokens.getOrThrow(base), joins.getOrThrow(base)] as [string, string, string]
-  ),
+export const assetsToAdd = [
+  ASSETS.map(({ bytes: base }) => [base, assets.getOrThrow(base), joins.getOrThrow(base)] as const),
+  SERIES.map(({ bytes: base }) => [base, fyTokens.getOrThrow(base), joins.getOrThrow(base)] as const),
 ].flat()
 
 export const seriesToAdd: SeriesToAdd[] = SERIES.map(({ bytes: seriesId }) => ({
@@ -70,17 +65,10 @@ export const seriesToAdd: SeriesToAdd[] = SERIES.map(({ bytes: seriesId }) => ({
 /// @param Maximum protocol debt, decimals to be added
 /// @param Minimum vault debt, decimals to be added
 /// @param Decimals to add to maximum protocol debt, and minimum vault debt.
-export const fyTokenDebtLimits: Array<[string, string, number, number, number, number]> = ASSETS.map((asset) =>
+export const fyTokenDebtLimits = ASSETS.map((asset) =>
   SERIES.filter((series) => series.asset.code !== asset.code).map((series) => {
     const collateralisationRatio = asset.stable && series.asset.stable ? 1100000 : 1400000
-    return [asset.bytes, series.bytes, collateralisationRatio, asset.maxDebt, asset.minDebt, asset.decimals] as [
-      string,
-      string,
-      number,
-      number,
-      number,
-      number
-    ]
+    return [asset.bytes, series.bytes, collateralisationRatio, asset.maxDebt, asset.minDebt, asset.decimals] as const
   })
 ).flat()
 
