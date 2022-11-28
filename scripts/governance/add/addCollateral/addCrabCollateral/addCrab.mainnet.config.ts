@@ -13,14 +13,14 @@ import {
   UNISWAP,
   USDC,
 } from '../../../../../shared/constants'
-import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes'
+import { ContractDeployment } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 
 export const assets: Map<string, string> = base_config.assets
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol
+export const protocol = base_config.protocol
 export const newJoins: Map<string, string> = base_config.newJoins
 export const whales: Map<string, string> = base_config.whales
 
@@ -29,13 +29,13 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'protocol.json',
     name: 'crabOracle',
     contract: 'CrabOracle',
-    args: [CRAB, OSQTH, ETH, assets.get(CRAB)!, protocol.get(UNISWAP)!],
+    args: [() => CRAB, () => OSQTH, () => ETH, () => assets.getOrThrow(CRAB)!, () => protocol().getOrThrow(UNISWAP)!],
   },
   {
     addressFile: 'newJoins.json',
     name: CRAB,
     contract: 'FlashJoin',
-    args: [assets.get(CRAB)!],
+    args: [() => assets.getOrThrow(CRAB)!],
   },
 ]
 
@@ -47,7 +47,7 @@ export const uniswapOracleSources: [string, string, string, number][] = [
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, protocol.get(CRAB_ORACLE)!]]
+export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, protocol().getOrThrow(CRAB_ORACLE)!]]
 
 export const newCompositePaths: Array<[string, string, Array<string>]> = [
   [CRAB, USDC, [ETH]],
@@ -78,8 +78,6 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYUSDC2303, [CRAB]],
   [FYDAI2303, [CRAB]],
 ]
-// dai
-// usdc
 
 // Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
 /// @notice Limits to be used in an auction

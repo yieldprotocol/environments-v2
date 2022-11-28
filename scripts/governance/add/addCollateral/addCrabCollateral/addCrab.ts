@@ -48,8 +48,8 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
   proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapOracleSources))
   proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
-  proposal = proposal.concat(await addAssetProposal(ownerAcc, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, cloak, assetsAndJoins))
+  proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
   // Ilks
   proposal = proposal.concat(
     await makeIlkProposal(
