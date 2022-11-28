@@ -1,4 +1,18 @@
-import { CRAB, DAI, ETH, FYETH2212, OSQTH, USDC } from '../../../../../shared/constants'
+import {
+  CRAB,
+  CRAB_ORACLE,
+  DAI,
+  ETH,
+  FYDAI2212,
+  FYDAI2303,
+  FYETH2212,
+  FYETH2303,
+  FYUSDC2212,
+  FYUSDC2303,
+  OSQTH,
+  UNISWAP,
+  USDC,
+} from '../../../../../shared/constants'
 import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 
@@ -15,7 +29,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'protocol.json',
     name: 'crabOracle',
     contract: 'CrabOracle',
-    args: [CRAB, OSQTH, ETH, assets.get(CRAB) as string, protocol.get('uniswapOracle') as string],
+    args: [CRAB, OSQTH, ETH, assets.get(CRAB)!, protocol.get(UNISWAP)!],
   },
   {
     addressFile: 'newJoins.json',
@@ -33,7 +47,12 @@ export const uniswapOracleSources: [string, string, string, number][] = [
 /// @param Base asset identifier (bytes6 tag)
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, protocol.get('crabOracle') as string]]
+export const compositeSources: Array<[string, string, string]> = [[CRAB, ETH, protocol.get(CRAB_ORACLE)!]]
+
+export const newCompositePaths: Array<[string, string, Array<string>]> = [
+  [CRAB, USDC, [ETH]],
+  [CRAB, DAI, [ETH]],
+]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
 /// @param Base asset identifier (bytes6 tag)
@@ -51,7 +70,14 @@ export const newCrabLimits: Array<[string, string, number, number, number, numbe
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
-export const seriesIlks: Array<[string, string[]]> = [[FYETH2212, [CRAB]]]
+export const seriesIlks: Array<[string, string[]]> = [
+  [FYETH2212, [CRAB]],
+  [FYUSDC2212, [CRAB]],
+  [FYDAI2212, [CRAB]],
+  [FYETH2303, [CRAB]],
+  [FYUSDC2303, [CRAB]],
+  [FYDAI2303, [CRAB]],
+]
 // dai
 // usdc
 

@@ -3,7 +3,7 @@
 set -eux
 HERE=$(dirname $0)
 export CONF=$PWD/$HERE/addCrab.mainnet.config
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network tenderly"
 
 $RUN $HERE/../../../../../shared/deploy.ts
 $RUN $HERE/addCrab.ts

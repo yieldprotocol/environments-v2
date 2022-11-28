@@ -7,9 +7,15 @@ import {
   impersonate,
   getOwnerOrImpersonate,
 } from '../../../../../shared/helpers'
-import { ERC20, Ladle, FYToken, CrabOracle, CompositeMultiOracle } from '../../../../../typechain'
-import { WAD } from '../../../../../shared/constants'
-const { developer, seriesIlks, assets, whales } = require(process.env.CONF as string)
+import {
+  FYToken,
+  ERC20__factory,
+  Ladle__factory,
+  Cauldron__factory,
+  CompositeMultiOracle__factory,
+} from '../../../../../typechain'
+import { CAULDRON, COMPOSITE, LADLE, WAD } from '../../../../../shared/constants'
+const { developer, seriesIlks, assets, whales, protocol } = require(process.env.CONF as string)
 
 /**
  * @dev This script tests borrowing against crab strategy token
@@ -18,25 +24,15 @@ const { developer, seriesIlks, assets, whales } = require(process.env.CONF as st
   let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
   let whaleAcc: SignerWithAddress
 
-  const protocol = readAddressMappingIfExists('protocol.json')
-
-  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
-  const ladle = (await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)) as unknown as Ladle
+  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
 
   let oracle
   for (let [seriesId, ilks] of seriesIlks) {
     for (const ilk of ilks) {
-      var collateral = (await ethers.getContractAt(
-        'ERC20',
-        assets.get(ilk) as string, // Strategy Token
-        ownerAcc
-      )) as unknown as ERC20
+      const collateral = ERC20__factory.connect(assets.get(ilk)!, ownerAcc)
 
-      oracle = (await ethers.getContractAt(
-        'CompositeMultiOracle',
-        protocol.get('compositeOracle') as string,
-        ownerAcc
-      )) as unknown as CompositeMultiOracle
+      oracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
 
       whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
       console.log(`series: ${seriesId}`)
