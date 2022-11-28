@@ -7,7 +7,7 @@ import { AuctionLineAndLimit } from '../../confTypes'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'
 import {
   Cauldron__factory,
-  EmergencyBrake__factory,
+  OldEmergencyBrake__factory,
   Ladle__factory,
   Timelock__factory,
   Witch__factory,
@@ -24,7 +24,7 @@ const { protocol, governance, developer, v1Limits, v2Limits, seriesIds } = requi
   const ownerAcc = await getOwnerOrImpersonate(developer as string)
 
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
+  const cloak = OldEmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
   const witchV1 = OldWitch__factory.connect(protocol.get(WITCH_V1)!, ownerAcc)

@@ -54,6 +54,8 @@ export const YSETH6MMSASSET = ethers.utils.formatBytes32String('34').slice(0, 14
 export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14)
 export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
 export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
+export const CRAB = ethers.utils.formatBytes32String('38').slice(0, 14)
+export const OSQTH = ethers.utils.formatBytes32String('39').slice(0, 14)
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -79,6 +81,7 @@ export const NOTIONAL = 'notionalOracle'
 export const IDENTITY = 'identityOracle'
 export const POOL_ORACLE = 'poolOracle'
 export const YIELD_SPACE_MULTI_ORACLE = 'yieldSpaceMultiOracle'
+export const CRAB_ORACLE = 'crabOracle'
 export const CONTANGO_WITCH = 'contangoWitch'
 export const CONTANGO_CAULDRON = 'contangoCauldron'
 export const CONTANGO_LADLE = 'contangoLadle'
