@@ -15,7 +15,6 @@ import "@yield-protocol/vault-v2/contracts/oracles/lido/LidoOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/lido/IWstETH.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/yearn/YearnVaultMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/yearn/IYvToken.sol";
-import "@yield-protocol/vault-v2/contracts/oracles/crab/CrabOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/yieldspace/YieldSpaceMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol";
