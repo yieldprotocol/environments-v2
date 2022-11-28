@@ -1,23 +1,22 @@
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
 
-import { Ladle, Timelock, EmergencyBrake, Join__factory, NotionalJoin__factory } from '../../../../typechain'
+import { OldEmergencyBrake, Join__factory, NotionalJoin__factory } from '../../../../typechain'
 
 export const orchestrateNotionalJoinProposal = async (
   ownerAcc: any,
   deployer: string,
-  cloak: EmergencyBrake,
-  assets: [string, string, string][]
+  cloak: OldEmergencyBrake,
+  joins: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [assetId, , joinAddress] of assets) {
+  for (let [, joinAddress] of joins) {
     const join = NotionalJoin__factory.connect(joinAddress, ownerAcc)
-    await join.asset() // Check it's a valid join
+    const assetAddress = await join.asset() // Check it's a valid join
 
     const underlyingJoin = Join__factory.connect(await join.underlyingJoin(), ownerAcc)
 
@@ -67,9 +66,7 @@ export const orchestrateNotionalJoinProposal = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [join.address, plan]),
         })
-        console.log(
-          `cloak.plan(underlyingJoin, exit(${bytesToString(assetId)})): ${await cloak.hash(join.address, plan)}`
-        )
+        console.log(`cloak.plan(underlyingJoin, exit(${assetAddress})): ${await cloak.hash(join.address, plan)}`)
       }
     }
   }
