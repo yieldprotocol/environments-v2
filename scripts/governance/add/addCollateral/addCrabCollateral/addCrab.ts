@@ -28,17 +28,17 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const compositeOracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
-  const uniswapOracle = UniswapV3Oracle__factory.connect(protocol.get(UNISWAP)!, ownerAcc)
-  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
-  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
-  const witch = OldWitch__factory.connect(protocol.get(WITCH_V1)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
-  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
+  const uniswapOracle = UniswapV3Oracle__factory.connect(protocol().getOrThrow(UNISWAP)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
+  const witch = OldWitch__factory.connect(protocol().getOrThrow(WITCH_V1)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   let assetsAndJoins: [string, string, string][] = []
 
   for (let [assetId, joinAddress] of newJoins) {
-    assetsAndJoins.push([assetId, assets.get(assetId) as string, joinAddress])
+    assetsAndJoins.push([assetId, assets.getOrThrow(assetId) as string, joinAddress])
   }
   console.table(assetsAndJoins)
 
