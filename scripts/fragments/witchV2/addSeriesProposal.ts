@@ -11,7 +11,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { bytesToString } from '../../../shared/helpers'
-import { Cauldron, EmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../typechain'
+import { Cauldron, FYToken__factory, Ladle, OldEmergencyBrake, Pool__factory, Witch } from '../../../typechain'
 import { SeriesToAdd } from '../../governance/confTypes'
 
 export const addSeriesProposal = async (
@@ -19,7 +19,7 @@ export const addSeriesProposal = async (
   cauldron: Cauldron,
   ladle: Ladle,
   witch: Witch,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   seriesToAdd: SeriesToAdd[],
   pools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {

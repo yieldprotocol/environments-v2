@@ -6,17 +6,17 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
-import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { WAD } from '../../../shared/constants'
+import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { setLineAndLimitProposal } from './setLineAndLimitProposal'
 
 export const makeIlkProposal = async (
   ownerAcc: SignerWithAddress,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   spotOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
