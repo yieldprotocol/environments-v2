@@ -29,10 +29,10 @@ export class Series {
 }
 
 export const ASSETS: Array<Asset> = [
-  new Asset('00', 'ETH', false, 10, 1, 18),
-  new Asset('01', 'DAI', true, 10000, 1000, 18),
-  new Asset('02', 'USDC', true, 10000, 1000, 6),
-  new Asset('18', 'FRAX', true, 10000, 1000, 18),
+  new Asset('00', 'ETH', false, 100, 1, 18),
+  new Asset('01', 'DAI', true, 100000, 1000, 18),
+  new Asset('02', 'USDC', true, 100000, 1000, 6),
+  new Asset('18', 'FRAX', true, 100000, 1000, 18),
 ]
 
 export const EXPIRIES: Array<Expiry> = [
