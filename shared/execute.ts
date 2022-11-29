@@ -24,7 +24,7 @@ const { developer, governance } = require(process.env.CONF as string)
     const executeRequest: TransactionRequest = {
       to: timelock.address,
       data: executeCall,
-      gasLimit: 10_000_000,
+      gasLimit: 20_000_000,
     }
     const gasEstimate = await signerAcc.estimateGas(executeRequest)
     const ethBalance = await signerAcc.getBalance()
