@@ -9,12 +9,13 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
+import { bytesToString } from '../../../shared/helpers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-import { EmergencyBrake, Cauldron, Ladle } from '../../../typechain'
+import { OldEmergencyBrake, Cauldron, Ladle } from '../../../typechain'
 
 export const addAssetProposal = async (
   ownerAcc: any,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   cauldron: Cauldron,
   ladle: Ladle,
   assets: [string, string, string][]
@@ -55,7 +56,7 @@ export const addAssetProposal = async (
 
     const plan = [
       {
-        contact: ladle.address,
+        contact: join.address,
         signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
       },
     ]

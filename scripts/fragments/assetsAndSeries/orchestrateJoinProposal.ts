@@ -15,12 +15,12 @@
 import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Join, OldEmergencyBrake } from '../../../typechain'
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
   deployer: string,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
