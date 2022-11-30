@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
 import { FactoryOptions } from 'hardhat/types'
 
-import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
+import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap, tenderlyVerify } from './helpers'
 import { Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
@@ -42,6 +42,9 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
         console.log(`${params.name}.grantRoles(ROOT, timelock)`)
       }
     } else {
+      const factoryOptions: FactoryOptions = { libraries: params.libs }
+      const contractFactory = await ethers.getContractAt(params.contract, deployedAddress)
+      await tenderlyVerify(params.contract, contractFactory)
       console.log(`Reusing ${params.name} at: ${deployedAddress}`)
     }
   }

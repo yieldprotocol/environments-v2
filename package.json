@@ -65,6 +65,8 @@
   "dependencies": {
     "@tenderly/hardhat-tenderly": "^1.1.6",
     "@yield-protocol/vault-v2": "0.18.5",
+    "@yield-protocol/yieldspace-interfaces": "^2.3.2",
+    "@yield-protocol/yvarb": "^1.0.1-rc",
     "csv-parser": "^3.0.0",
     "latest": "^0.2.0"
   }
