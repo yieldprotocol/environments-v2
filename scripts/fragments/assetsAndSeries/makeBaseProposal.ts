@@ -7,16 +7,16 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
 import { CHI, RATE } from '../../../shared/constants'
-import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
+import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
 
 export const makeBaseProposal = async (
   ownerAcc: any,
   lendingOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   bases: Array<[string, string]>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []

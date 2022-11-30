@@ -13,18 +13,14 @@
  */
 
 import { ethers } from 'hardhat'
-import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Join, OldEmergencyBrake } from '../../../typechain'
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
   deployer: string,
-  ladle: Ladle,
-  timelock: Timelock,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
@@ -44,36 +40,12 @@ export const orchestrateJoinProposal = async (
       console.log(`join.revokeRole(ROOT, deployer)`)
     }
 
-    // proposal.push({
-    //   target: join.address,
-    //   data: join.interface.encodeFunctionData('grantRoles', [
-    //     [id(join.interface, 'setFlashFeeFactor(uint256)')],
-    //     timelock.address,
-    //   ]),
-    // })
-    // console.log(`join.grantRoles(gov, timelock)`)
-
     if (!(await join.hasRole(ROOT, cloak.address))) {
       proposal.push({
         target: join.address,
         data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
       })
       console.log(`join.grantRole(ROOT, cloak)`)
-    }
-
-    const plan = [
-      {
-        contact: join.address,
-        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
-      },
-    ]
-
-    if ((await cloak.plans(await cloak.hash(ladle.address, plan))).state === 0) {
-      proposal.push({
-        target: cloak.address,
-        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
-      })
-      console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
     }
   }
 
