@@ -63,8 +63,8 @@ export const newCompositePaths: Array<[string, string, Array<string>]> = [
 /// @param Decimals to append to debt ceiling and minimum vault debt.
 export const newCrabLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, CRAB, 1400000, 250, 1, 18],
-  [USDC, CRAB, 1330000, 250, 1, 6],
-  [DAI, CRAB, 1330000, 250, 1, 18],
+  [USDC, CRAB, 1330000, 250000, 1000, 6],
+  [DAI, CRAB, 1330000, 250000, 1000, 18],
 ]
 
 /// @notice Ilks to accept for series
