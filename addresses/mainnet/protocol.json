@@ -132,6 +132,10 @@
     [
       "yieldMath",
       "0xE7A9771c692c428df17EcAD6cD58d4938C010a2e"
+    ],
+    [
+      "crabOracle",
+      "0x35d753A30a750C0291CD86baEDef7d27d55879F9"
     ]
   ]
 }
