@@ -9,6 +9,7 @@ import {
   EmergencyBrake__factory,
   Timelock__factory,
   OldWitch__factory,
+  OldEmergencyBrake__factory,
 } from '../../../../../typechain'
 
 import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
@@ -33,7 +34,7 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
   const witch = OldWitch__factory.connect(protocol().getOrThrow(WITCH_V1)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
+  const cloak = OldEmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   let assetsAndJoins: [string, string, string][] = []
 
