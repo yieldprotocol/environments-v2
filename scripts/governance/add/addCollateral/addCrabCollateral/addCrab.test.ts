@@ -24,22 +24,21 @@ const { developer, seriesIlks, assets, whales, protocol } = require(process.env.
   let ownerAcc = await getOwnerOrImpersonate(developer, WAD)
   let whaleAcc: SignerWithAddress
 
-  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
-  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
 
   let oracle
   for (let [seriesId, ilks] of seriesIlks) {
     for (const ilk of ilks) {
       const collateral = ERC20__factory.connect(assets.get(ilk)!, ownerAcc)
 
-      oracle = CompositeMultiOracle__factory.connect(protocol.get(COMPOSITE)!, ownerAcc)
+      oracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
 
-      whaleAcc = await impersonate(whales.get(ilk) as string, WAD)
+      whaleAcc = await impersonate(whales.get(ilk) as string, WAD.mul(10))
       console.log(`series: ${seriesId}`)
       console.log(`ilk: ${ilk}`)
       const series = await cauldron.series(seriesId)
       const fyToken = (await ethers.getContractAt('FYToken', series.fyToken, ownerAcc)) as unknown as FYToken
-
       const dust = (await cauldron.debt(series.baseId, ilk)).min
       const ratio = (await cauldron.spotOracles(series.baseId, ilk)).ratio
       var borrowed = BigNumber.from(10)
@@ -51,7 +50,6 @@ const { developer, seriesIlks, assets, whales, protocol } = require(process.env.
         .mul(101)
         .div(100)
       const collateralBalanceBefore = await collateral.balanceOf(whaleAcc.address)
-
       // Build vault
       await ladle.connect(whaleAcc).build(seriesId, ilk, 0)
       const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
