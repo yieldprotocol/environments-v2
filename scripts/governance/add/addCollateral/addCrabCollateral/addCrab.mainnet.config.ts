@@ -13,8 +13,9 @@ import {
   UNISWAP,
   USDC,
 } from '../../../../../shared/constants'
-import { ContractDeployment } from '../../../confTypes'
+import { AuctionLineAndLimit, ContractDeployment } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
+import { parseUnits } from 'ethers/lib/utils'
 
 export const assets: Map<string, string> = base_config.assets
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -34,7 +35,7 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'newJoins.json',
     name: CRAB,
-    contract: 'FlashJoin',
+    contract: 'Join',
     args: [() => assets.getOrThrow(CRAB)!],
   },
 ]
@@ -79,14 +80,39 @@ export const seriesIlks: Array<[string, string[]]> = [
   [FYDAI2303, [CRAB]],
 ]
 
-// Input data: ilkId, duration, initialOffer, auctionLine, auctionDust, dec
-/// @notice Limits to be used in an auction
-/// @param base identifier (bytes6 tag)
-/// @param duration of auctions in seconds
-/// @param initial percentage of the collateral to be offered (fixed point with 6 decimals)
-/// @param Maximum concurrently auctionable for this asset, modified by decimals
-/// @param Minimum vault debt, modified by decimals
-/// @param Decimals to append to auction ceiling and minimum vault debt.
-export const strategyAuctionLimits: Array<[string, number, number, number, number, number]> = [
-  [CRAB, 3600, 1000000, 1000000, 5000, 18],
+/// Auction configuration for each asset pair
+/// @param baseId assets in scope as underlying for vaults to be auctioned
+/// @param ilkId assets in scope as collateral for vaults to be auctioned
+/// @param duration time that it takes for the auction to offer maximum collateral
+/// @param vaultProportion proportion of a vault that will be auctioned at a time
+/// @param collateralProportion proportion of the collateral that will be paid out
+/// at the begining of an auction
+/// @param max If the aggregated collateral under auction for vaults of this pair
+/// exceeds this number, no more auctions of for this pair can be started.
+export const v2Limits: AuctionLineAndLimit[] = [
+  // DAI
+  {
+    baseId: ETH,
+    ilkId: CRAB,
+    duration: 600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.75'), // 105 / 140
+    max: parseUnits('1000000'),
+  },
+  {
+    baseId: USDC,
+    ilkId: CRAB,
+    duration: 600,
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    max: parseUnits('1000000'),
+  },
+  {
+    baseId: DAI,
+    ilkId: CRAB,
+    duration: 600,
+    vaultProportion: parseUnits('1'),
+    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
+    max: parseUnits('1000000'),
+  },
 ]

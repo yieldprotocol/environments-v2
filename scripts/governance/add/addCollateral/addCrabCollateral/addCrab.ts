@@ -6,25 +6,25 @@ import {
   UniswapV3Oracle__factory,
   Cauldron__factory,
   Ladle__factory,
-  EmergencyBrake__factory,
   Timelock__factory,
-  OldWitch__factory,
+  Witch__factory,
   OldEmergencyBrake__factory,
 } from '../../../../../typechain'
 
 import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
+
 import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateUniswapSourcesProposal } from '../../../../fragments/oracles/updateUniswapSourcesProposal'
-import { CAULDRON, CLOAK, COMPOSITE, LADLE, TIMELOCK, UNISWAP, WITCH_V1 } from '../../../../../shared/constants'
+import { CAULDRON, CLOAK, COMPOSITE, LADLE, TIMELOCK, UNISWAP, WITCH } from '../../../../../shared/constants'
 import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { makeIlkProposal } from '../../../../fragments/witchV2/makeIlkProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
 const { seriesIlks, compositeSources, uniswapOracleSources, newCompositePaths } = require(process.env.CONF as string)
-const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(process.env.CONF as string)
+const { newCrabLimits, v2Limits, assets, newJoins } = require(process.env.CONF as string)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
@@ -33,7 +33,7 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
   const uniswapOracle = UniswapV3Oracle__factory.connect(protocol().getOrThrow(UNISWAP)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
-  const witch = OldWitch__factory.connect(protocol().getOrThrow(WITCH_V1)!, ownerAcc)
+  const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const cloak = OldEmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   let assetsAndJoins: [string, string, string][] = []
@@ -55,13 +55,13 @@ const { newCrabLimits, strategyAuctionLimits, assets, newJoins } = require(proce
   proposal = proposal.concat(
     await makeIlkProposal(
       ownerAcc,
+      cloak,
       compositeOracle as unknown as IOracle,
       cauldron,
       witch,
-      cloak,
-      newJoins,
       newCrabLimits,
-      strategyAuctionLimits
+      v2Limits,
+      newJoins
     )
   )
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
