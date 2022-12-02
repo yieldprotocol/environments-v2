@@ -97,22 +97,22 @@ export const v2Limits: AuctionLineAndLimit[] = [
     duration: 600,
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.75'), // 105 / 140
-    max: parseUnits('1000000'),
+    max: parseUnits('1000'),
   },
   {
     baseId: USDC,
     ilkId: CRAB,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
-    max: parseUnits('1000000'),
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.78947368421'), // 105 / 133
+    max: parseUnits('1000'),
   },
   {
     baseId: DAI,
     ilkId: CRAB,
     duration: 600,
-    vaultProportion: parseUnits('1'),
-    collateralProportion: parseUnits('0.9545454545'), // 105 / 110
-    max: parseUnits('1000000'),
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.78947368421'), // 105 / 133
+    max: parseUnits('1000'),
   },
 ]
