@@ -18,11 +18,12 @@ import * as base_config from '../../../base.mainnet.config'
 import { parseUnits } from 'ethers/lib/utils'
 
 export const assets: Map<string, string> = base_config.assets
-export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
+export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
+export const deployer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const governance: Map<string, string> = base_config.governance
 export const protocol = base_config.protocol
 export const newJoins: Map<string, string> = base_config.newJoins
+export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
 
 export const contractDeployments: ContractDeployment[] = [
