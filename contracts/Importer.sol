@@ -24,6 +24,7 @@ import "@yield-protocol/vault-v2/contracts/other/notional/ERC1155Mock.sol";
 import "@yield-protocol/vault-v2/contracts/other/ether/WrapEtherModule.sol";
 import "@yield-protocol/vault-v2/contracts/utils/Giver.sol";
 import "@yield-protocol/vault-v2/contracts/Join.sol";
+import "@yield-protocol/vault-v2/contracts/FlashJoin.sol";
 import "@yield-protocol/vault-v2/contracts/FYToken.sol";
 import "@yield-protocol/vault-v2/contracts/Cauldron.sol";
 import "@yield-protocol/vault-v2/contracts/Ladle.sol";

@@ -34,6 +34,10 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       addressMap.set(params.name, deployed.address)
       writeAddressMap(params.addressFile, addressMap)
 
+      const deployerAddressMap = readAddressMappingIfExists('deployers.json')
+      deployerAddressMap.set(deployed.address, deployerAcc.address)
+      writeAddressMap('deployers.json', deployerAddressMap)
+
       verify(params.name, deployed, params.args, params.libs)
 
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl

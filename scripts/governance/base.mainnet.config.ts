@@ -36,6 +36,7 @@ import {
 export const external = readAddressMappingIfExists('external.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const deployers = readAddressMappingIfExists('deployers.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
 export const joins = readAddressMappingIfExists('joins.json')

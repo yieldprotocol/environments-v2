@@ -16,10 +16,10 @@ import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
 
 import { Join, OldEmergencyBrake } from '../../../typechain'
+const { deployers } = require(process.env.CONF as string)
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
-  deployer: string,
   cloak: OldEmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -28,10 +28,11 @@ export const orchestrateJoinProposal = async (
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
+  let deployer
   for (let [assetId, , joinAddress] of assets) {
     const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
     await join.asset() // Check it's a valid join
-
+    deployer = deployers.get(joinAddress)
     if (await join.hasRole(ROOT, deployer)) {
       proposal.push({
         target: join.address,
