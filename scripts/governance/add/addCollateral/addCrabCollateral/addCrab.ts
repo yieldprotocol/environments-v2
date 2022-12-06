@@ -49,7 +49,7 @@ const { newCrabLimits, v2Limits, assets, newJoins } = require(process.env.CONF a
   proposal = proposal.concat(await updateUniswapSourcesProposal(uniswapOracle, uniswapOracleSources))
   proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
-  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, deployer, cloak, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateJoinProposal(ownerAcc, cloak, assetsAndJoins))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
   // Ilks
   proposal = proposal.concat(
