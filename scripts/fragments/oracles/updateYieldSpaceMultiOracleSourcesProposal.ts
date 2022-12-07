@@ -20,11 +20,13 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
       continue
     }
 
+    const pair = `${bytesToString(baseId)}/${bytesToString(quoteId)}`
+
     const pool = pools.getOrThrow(baseId)
     if ((await ethers.provider.getCode(pool)) === '0x') throw `Pool Address ${pool} contains no code`
 
-    console.log(`Adding ${bytesToString(baseId)}/${bytesToString(quoteId)} from ${poolOracle.address}`)
     // Check if the poolOracle has been initialised with enough time
+    console.log(`YieldSpaceMultiOracle: checking ${pair} on PoolOracle`)
     proposal.push({
       target: poolOracle.address,
       data: poolOracle.interface.encodeFunctionData('peek', [pool]),
@@ -34,7 +36,7 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
       target: yieldSpaceMultiOracle.address,
       data: yieldSpaceMultiOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, pool]),
     })
-    console.log(`pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${pool}`)
+    console.log(`YieldSpaceMultiOracle: pair: ${pair} set to Pool: ${pool}`)
   }
 
   return proposal
