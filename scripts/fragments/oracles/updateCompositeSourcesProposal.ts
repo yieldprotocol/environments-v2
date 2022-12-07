@@ -22,7 +22,7 @@ export const updateCompositeSourcesProposal = async (
     const pair = `${bytesToString(baseId)}/${bytesToString(quoteId)}`
 
     if (added.has(pair) || added.has(`${bytesToString(quoteId)}/${bytesToString(baseId)}`)) {
-      console.log(`${pair} already set, skipping`)
+      console.log(`CompositeMultiOracle: ${pair} already dealt with, skipping`)
       continue
     }
     added.add(pair)
@@ -43,6 +43,8 @@ export const updateCompositeSourcesProposal = async (
         data: compositeOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, oracle.address]),
       })
       console.log(`CompositeMultiOracle: pair: ${pair} set to ${oracle.address}`)
+    } else {
+      console.log(`CompositeMultiOracle: pair: ${pair} already set to ${existent}`)
     }
   }
 
