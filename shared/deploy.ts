@@ -25,7 +25,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
-      deployed = await contractFactory.deploy(...params.args.map((f) => f()))
+      deployed = await contractFactory.deploy(...params.args.map((f) => f()), { gasLimit: 20_000_000 })
 
       await deployed.deployed()
       console.log(`${params.name} deployed at ${deployed.address}`)

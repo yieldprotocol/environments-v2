@@ -62,6 +62,7 @@ export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
 export const CLOAK_V1 = 'cloakV1'
 export const MULTISIG = 'multisig'
+export const SAFE_ERC20_NAMER = 'safeERC20Namer'
 export const YIELDMATH = 'yieldMath'
 export const CAULDRON = 'cauldron'
 export const LADLE = 'ladle'
@@ -91,6 +92,7 @@ export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
 export const FCASH = 'fCash'
 export const GIVER = 'giver'
 export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
+export const EULER = 'euler'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
