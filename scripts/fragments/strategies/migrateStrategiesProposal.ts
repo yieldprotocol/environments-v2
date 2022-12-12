@@ -2,7 +2,7 @@
  * @dev This script migrates strategies from v1 to v2.
  */
 import { id } from '@yield-protocol/utils-v2'
-import { ERC20__factory, Strategy__factory, StrategyV1__factory } from '../../../typechain'
+import { ERC20__factory, Strategy__factory, StrategyV1__factory, Pool__factory } from '../../../typechain'
 import { MAX256 } from '../../../shared/constants'
 import { ethers } from 'hardhat'
 
@@ -13,7 +13,7 @@ export const migrateStrategiesProposal = async (
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [oldStrategyAddress, newSeriesId, newStrategyAddress, newPool] of migrateData) {
+  for (let [oldStrategyAddress, newSeriesId, newStrategyAddress, newPoolAddress] of migrateData) {
     console.log(`Using Strategy V1 at ${oldStrategyAddress}`)
 
     const oldStrategy = StrategyV1__factory.connect(oldStrategyAddress, ownerAcc)
@@ -71,13 +71,25 @@ export const migrateStrategiesProposal = async (
     })
     console.log(`strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
 
+    const newPool = Pool__factory.connect(newPoolAddress, ownerAcc)
+
+    // Allow new strategy to init the new pool
+    proposal.push({
+      target: newPool.address,
+      data: newPool.interface.encodeFunctionData('grantRoles', [
+        [id(newPool.interface, 'init(address)')],
+        newStrategy.address,
+      ]),
+    })
+    console.log(`pool ${newPoolAddress} grantRoles(init, ${newStrategyAddress})`)
+
     // Invest
     proposal.push({
       target: newStrategy.address,
-      data: newStrategy.interface.encodeFunctionData('invest', [newPool]),
+      data: newStrategy.interface.encodeFunctionData('invest', [newPoolAddress]),
     })
 
-    console.log(`Strategy ${newStrategy.address} invested onto ${newPool}`)
+    console.log(`Strategy ${newStrategy.address} invested onto ${newPoolAddress}`)
   }
 
   return proposal

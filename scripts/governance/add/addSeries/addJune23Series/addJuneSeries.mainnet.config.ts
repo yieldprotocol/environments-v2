@@ -96,16 +96,6 @@ export const notionalDebtLimits: Array<[string, string, number, number, number, 
 /// @dev Parameters to govern liquidations
 export const auctionLineAndLimits: AuctionLineAndLimit[] = []
 
-/// Parameters to fund the Timelock
-/// @param assetId
-/// @param amount
-export const loadTimelock: Array<[string, BigNumber]> = [
-  [ETH, poolsInit[0][1].add(1)],
-  [DAI, poolsInit[1][1].add(1)],
-  [USDC, poolsInit[2][1].add(1)],
-  [FRAX, poolsInit[3][1].add(1)],
-]
-
 /// Strategies to print redeemable and available funds for.
 export const rollData: Array<[string]> = [[YSETH6MJD], [YSDAI6MJD], [YSUSDC6MJD], [YSFRAX6MJD]]
 

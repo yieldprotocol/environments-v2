@@ -54,12 +54,3 @@ export const migrateData: Array<[string, string, string, string]> = [
     newPools.getOrThrow(FYUSDC2306)!,
   ],
 ]
-
-/// Parameters to fund the Timelock
-/// @param assetId
-/// @param amount
-export const loadTimelock: Array<[string, BigNumber]> = [
-  [ETH, poolsInit[0][1].add(1)],
-  [DAI, poolsInit[1][1].add(1)],
-  [USDC, poolsInit[2][1].add(1)],
-]

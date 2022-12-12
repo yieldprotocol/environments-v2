@@ -20,7 +20,6 @@ import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkPr
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategiesProposal'
-import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 
@@ -88,7 +87,6 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, 
   )
 
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   proposal = proposal.concat(await migrateStrategiesProposal(ownerAcc, migrateData))
   console.log(`Proposal with ${proposal.length} steps`)
   await propose(timelock, proposal, developer)
