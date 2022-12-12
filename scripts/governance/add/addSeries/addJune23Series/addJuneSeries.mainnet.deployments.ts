@@ -1,17 +1,9 @@
 import { BigNumber } from 'ethers'
 import { ONE64, secondsInOneYear } from '../../../../../shared/constants'
 import { ETH, DAI, USDC, FRAX, EWETH, EDAI, EUSDC, EULER } from '../../../../../shared/constants'
-import {
-  FCASH,
-  FETH2306,
-  FDAI2306,
-  FUSDC2306,
-  FCASH_JUN23,
-  FCASH_ETH,
-  FCASH_DAI,
-  FCASH_USDC,
-} from '../../../../../shared/constants'
 import { EOJUN23 } from '../../../../../shared/constants'
+import { FCASH, FETH2306, FDAI2306, FUSDC2306 } from '../../../../../shared/constants'
+import { FCASH_JUN23, FCASH_ETH, FCASH_DAI, FCASH_USDC } from '../../../../../shared/notional'
 import { FYETH2306, FYDAI2306, FYUSDC2306, FYFRAX2306 } from '../../../../../shared/constants'
 import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSFRAX6MJD } from '../../../../../shared/constants'
 import { SAFE_ERC20_NAMER, YIELDMATH, COMPOUND, ACCUMULATOR } from '../../../../../shared/constants'

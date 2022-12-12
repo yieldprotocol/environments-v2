@@ -5,7 +5,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Cauldron, Ladle, OldEmergencyBrake, Witch, Join__factory } from '../../../typechain'
 
 export const orchestrateAuctionAssetsFragment = async (
@@ -32,7 +32,7 @@ export const orchestrateAuctionAssetsFragment = async (
           witch.address,
         ]),
       })
-      console.log(`join(${bytesToString(baseId)}).grantRole(join(address,uint128), witch)`)
+      console.log(`join(${getName(baseId)}).grantRole(join(address,uint128), witch)`)
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -47,7 +47,7 @@ export const orchestrateAuctionAssetsFragment = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, join(${bytesToString(baseId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }
@@ -64,7 +64,7 @@ export const orchestrateAuctionAssetsFragment = async (
           witch.address,
         ]),
       })
-      console.log(`fyToken(${bytesToString(seriesId)}).grantRole(burn(address,uint256), witch)`)
+      console.log(`fyToken(${getName(seriesId)}).grantRole(burn(address,uint256), witch)`)
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -79,7 +79,7 @@ export const orchestrateAuctionAssetsFragment = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }
@@ -96,7 +96,7 @@ export const orchestrateAuctionAssetsFragment = async (
           witch.address,
         ]),
       })
-      console.log(`join(${bytesToString(ilkId)}).grantRole(exit(address,uint128), witch)`)
+      console.log(`join(${getName(ilkId)}).grantRole(exit(address,uint128), witch)`)
 
       // Log a plan to undo the orchestration above in emergencies
       const plan = [
@@ -111,7 +111,7 @@ export const orchestrateAuctionAssetsFragment = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, exit(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }

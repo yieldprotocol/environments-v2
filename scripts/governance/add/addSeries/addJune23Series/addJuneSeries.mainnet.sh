@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network localhost"
+RUN="npx hardhat run --network tenderly"
 
 # Phase 1: Deploy Contracts
 export CONF=$PWD/$HERE/addJuneSeries.mainnet.deployments
@@ -16,4 +16,4 @@ $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
  
 $RUN $HERE/addJuneSeries.mainnet.ts
 $RUN $HERE/../../../../../shared/approve.ts
-$RUN $HERE/../../../../../shared/execute.ts
+$RUN $HERE/../../../../../shared/execute.ts 

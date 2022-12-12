@@ -7,7 +7,7 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { bytesToBytes32, getName } from '../../../shared/helpers'
 import { CHI, RATE } from '../../../shared/constants'
 import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
 
@@ -55,7 +55,7 @@ export const makeBaseProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, join(${getName(assetId)})): ${await cloak.hash(witch.address, plan)}`)
     }
 
     // Add the asset as a base
@@ -63,7 +63,7 @@ export const makeBaseProposal = async (
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('setLendingOracle', [assetId, lendingOracle.address]),
     })
-    console.log(`Asset ${bytesToString(assetId)} made into base using ${lendingOracle.address}`)
+    console.log(`Asset ${getName(assetId)} made into base using ${lendingOracle.address}`)
   }
 
   return proposal

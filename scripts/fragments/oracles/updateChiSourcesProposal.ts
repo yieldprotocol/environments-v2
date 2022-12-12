@@ -3,7 +3,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { CHI } from '../../../shared/constants'
 
 import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
@@ -28,7 +28,7 @@ export const updateChiSourcesProposal = async (
       target: lendingOracle.address,
       data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, CHI, sourceAddress]),
     })
-    console.log(`Chi(${bytesToString(baseId)}): ${sourceAddress}`)
+    console.log(`Chi(${getName(baseId)}): ${sourceAddress}`)
   }
 
   return proposal

@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
 import { FactoryOptions } from 'hardhat/types'
 
-import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap } from './helpers'
+import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap, getName } from './helpers'
 import { Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
@@ -25,11 +25,11 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
-      console.log(`Deploying ${params.name} with ${params.args.map((f) => f())}`)
+      console.log(`Deploying ${getName(params.name)} with ${params.args.map((f) => f())}`)
       deployed = await contractFactory.deploy(...params.args.map((f) => f()), { gasLimit: 20_000_000 })
 
       await deployed.deployed()
-      console.log(`${params.name} deployed at ${deployed.address}`)
+      console.log(`${getName(params.name)} deployed at ${deployed.address}`)
 
       const addressMap = readAddressMappingIfExists(params.addressFile)
       addressMap.set(params.name, deployed.address)
@@ -40,10 +40,10 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
       if (deployed.interface.functions['ROOT()'] && !(await deployed.hasRole(ROOT, timelock.address))) {
         await (await deployed.grantRole(ROOT, timelock.address)).wait(1)
-        console.log(`${params.name}.grantRoles(ROOT, timelock)`)
+        console.log(`${getName(params.name)}.grantRoles(ROOT, timelock)`)
       }
     } else {
-      console.log(`Reusing ${params.name} at: ${deployedAddress}`)
+      console.log(`Reusing ${getName(params.name)} at: ${deployedAddress}`)
     }
   }
 })()

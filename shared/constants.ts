@@ -56,7 +56,7 @@ function nextYieldMaturity(timestamp: number): number {
 
 // Returns the timestamp divided by the seconds in a 30 day month, in hexadecimal
 export const getIteration = (timestamp: number) => {
-  const hex = ethers.utils.hexlify(Math.floor(timestamp / 2592000))
+  const hex = ethers.utils.hexlify(Math.floor(timestamp / 2592000)).toUpperCase()
   // return the three last characters of the hexadecimal
   return hex.slice(hex.length - 3, hex.length)
 }
@@ -105,10 +105,6 @@ export const STETH = ethers.utils.formatBytes32String('05').slice(0, 14)
 export const LINK = ethers.utils.formatBytes32String('06').slice(0, 14)
 export const ENS = ethers.utils.formatBytes32String('07').slice(0, 14)
 export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
-//NOTE, We are using the following YVUSDC constant to represent the yvUSDC token (api 0.4.3)
-//      found here: https://etherscan.io/token/0xa354F35829Ae975e850e23e9615b11Da1B3dC4DE
-//      There is also another yvUSDC token (api 0.3.0) that we are not using found here:
-//      https://etherscan.io/token/0x5f18c75abdae578b483e5f43f12a39cf75b973a9 <<NOT USING THIS ONE
 export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
 export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
 export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
@@ -207,18 +203,6 @@ export const YSUSDC6MJD = getStrategyId(USDC, 'MJD') // 1 032 FF 000 000 - Yield
 export const YSFRAX6MMS = getStrategyId(FRAX, 'MMS') // 1 138 FF 000 001 - Yield Strategy FRAX 6M Mar Sep - YSFRAX6MMS
 export const YSFRAX6MJD = getStrategyId(FRAX, 'MJD') // 1 138 FF 000 000 - Yield Strategy FRAX 6M Jun Dec - YSFRAX6MJD
 
-export const DISPLAY_NAMES = new Map([
-  [ETH, 'ETH'],
-  [USDC, 'USDC'],
-  [DAI, 'DAI'],
-  [WBTC, 'WBTC'],
-  [WSTETH, 'WSTETH'],
-  [LINK, 'LINK'],
-  [ENS, 'ENS'],
-  [UNI, 'UNI'],
-  [FRAX, 'FRAX'],
-])
-
 // LEGACY IDENTIFIERS
 
 export const YSDAI6MMS_V1 = 'YSDAI6MMS'
@@ -252,3 +236,80 @@ export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) 
 export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
 export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
 export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
+
+export const DISPLAY_NAMES = new Map([
+  [ETH, 'ETH'],
+  [DAI, 'DAI'],
+  [USDC, 'USDC'],
+  [WBTC, 'WBTC'],
+  [WSTETH, 'WSTETH'],
+  [STETH, 'STETH'],
+  [LINK, 'LINK'],
+  [ENS, 'ENS'],
+  [YVDAI, 'YVDAI'],
+  [YVUSDC, 'YVUSDC'],
+  [UNI, 'UNI'],
+  [MKR, 'MKR'],
+  [FRAX, 'FRAX'],
+  [CVX3CRV, 'CVX3CRV'],
+  [EWETH, 'EWETH'],
+  [EDAI, 'EDAI'],
+  [EUSDC, 'EUSDC'],
+  [EFRAX, 'EFRAX'],
+  [FDAI2203, 'FDAI2203'],
+  [FUSDC2203, 'FUSDC2203'],
+  [FDAI2206, 'FDAI2206'],
+  [FUSDC2206, 'FUSDC2206'],
+  [FDAI2209, 'FDAI2209'],
+  [FUSDC2209, 'FUSDC2209'],
+  [FDAI2212, 'FDAI2212'],
+  [FUSDC2212, 'FUSDC2212'],
+  [FDAI2303, 'FDAI2303'],
+  [FUSDC2303, 'FUSDC2303'],
+  [FETH2212, 'FETH2212'],
+  [FETH2303, 'FETH2303'],
+  [FETH2306, 'FETH2306'],
+  [FDAI2306, 'FDAI2306'],
+  [FUSDC2306, 'FUSDC2306'],
+  [FYETH2203, 'FYETH2203'],
+  [FYETH2206, 'FYETH2206'],
+  [FYETH2209, 'FYETH2209'],
+  [FYETH2212, 'FYETH2212'],
+  [FYETH2303, 'FYETH2303'],
+  [FYDAI2112, 'FYDAI2112'],
+  [FYDAI2203, 'FYDAI2203'],
+  [FYDAI2206, 'FYDAI2206'],
+  [FYDAI2209, 'FYDAI2209'],
+  [FYDAI2212, 'FYDAI2212'],
+  [FYDAI2303, 'FYDAI2303'],
+  [FYUSDC2112, 'FYUSDC2112'],
+  [FYUSDC2203, 'FYUSDC2203'],
+  [FYUSDC2206, 'FYUSDC2206'],
+  [FYUSDC2209, 'FYUSDC2209'],
+  [FYUSDC2212, 'FYUSDC2212'],
+  [FYUSDC2303, 'FYUSDC2303'],
+  [FYFRAX2206, 'FYFRAX2206'],
+  [FYFRAX2209, 'FYFRAX2209'],
+  [FYFRAX2212, 'FYFRAX2212'],
+  [FYFRAX2303, 'FYFRAX2303'],
+  [FYETH2306, 'FYETH2306'],
+  [FYDAI2306, 'FYDAI2306'],
+  [FYUSDC2306, 'FYUSDC2306'],
+  [FYFRAX2306, 'FYFRAX2306'],
+  [YSETH6MMS, 'YSETH6MMS'],
+  [YSETH6MJD, 'YSETH6MJD'],
+  [YSDAI6MMS, 'YSDAI6MMS'],
+  [YSDAI6MJD, 'YSDAI6MJD'],
+  [YSUSDC6MMS, 'YSUSDC6MMS'],
+  [YSUSDC6MJD, 'YSUSDC6MJD'],
+  [YSFRAX6MMS, 'YSFRAX6MMS'],
+  [YSFRAX6MJD, 'YSFRAX6MJD'],
+  [YSDAI6MMS_V1, 'YSDAI6MMS_V1'],
+  [YSDAI6MJD_V1, 'YSDAI6MJD_V1'],
+  [YSUSDC6MMS_V1, 'YSUSDC6MMS_V1'],
+  [YSUSDC6MJD_V1, 'YSUSDC6MJD_V1'],
+  [YSETH6MMS_V1, 'YSETH6MMS_V1'],
+  [YSETH6MJD_V1, 'YSETH6MJD_V1'],
+  [YSFRAX6MMS_V1, 'YSFRAX6MMS_V1'],
+  [YSFRAX6MJD_V1, 'YSFRAX6MJD_V1'],
+])

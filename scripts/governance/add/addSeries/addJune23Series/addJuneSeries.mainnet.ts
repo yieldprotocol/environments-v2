@@ -1,4 +1,4 @@
-import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose, getName } from '../../../../../shared/helpers'
 
 import {
   Timelock__factory,
@@ -63,7 +63,7 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, 
 
   for (let [seriesId, poolAddress] of newPools) {
     const pool = Pool__factory.connect(poolAddress as string, ownerAcc)
-    console.log(`orchestrating ${seriesId} pool at address: ${poolAddress}`)
+    console.log(`orchestrating ${getName(seriesId)} pool at address: ${poolAddress}`)
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool, timelock, cloak))
   }
 

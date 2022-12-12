@@ -1,5 +1,5 @@
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../../shared/helpers'
+import { getName } from '../../../../shared/helpers'
 import { ROOT } from '../../../../shared/constants'
 
 import { OldEmergencyBrake, Join__factory, NotionalJoin__factory } from '../../../../typechain'
@@ -67,9 +67,7 @@ export const orchestrateNotionalJoinProposal = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [join.address, plan]),
         })
-        console.log(
-          `cloak.plan(underlyingJoin, exit(${bytesToString(assetId)})): ${await cloak.hash(join.address, plan)}`
-        )
+        console.log(`cloak.plan(underlyingJoin, exit(${getName(assetId)})): ${await cloak.hash(join.address, plan)}`)
       }
     }
   }
