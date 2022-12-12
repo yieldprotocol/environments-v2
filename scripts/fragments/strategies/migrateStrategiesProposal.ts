@@ -2,7 +2,13 @@
  * @dev This script migrates strategies from v1 to v2.
  */
 import { id } from '@yield-protocol/utils-v2'
-import { ERC20__factory, Strategy__factory, StrategyV1__factory, Pool__factory } from '../../../typechain'
+import {
+  ERC20__factory,
+  Strategy__factory,
+  StrategyV1__factory,
+  Pool__factory,
+  FYToken__factory,
+} from '../../../typechain'
 import { MAX256 } from '../../../shared/constants'
 import { ethers } from 'hardhat'
 

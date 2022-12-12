@@ -9,7 +9,6 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../shared/helpers'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
 
 import {
@@ -121,7 +120,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, burn(${seriesId})): ${await cloak.hash(witch.address, plan)}`)
     }
 
     // Orchestrate Timelock for the fyToken governance functions
@@ -161,9 +160,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
       })
-      console.log(
-        `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
-      )
+      console.log(`cloak.plan(ladle, fyToken(${seriesId})): ${await cloak.hash(ladle.address, ladlePlan)}`)
     }
 
     // Register emergency plan to disconnect fyToken from join
@@ -179,7 +176,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
       })
-      console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
+      console.log(`cloak.plan(fyToken, join(${baseId})): ${await cloak.hash(fyToken.address, joinPlan)}`)
     }
   }
 

@@ -17,7 +17,7 @@ import { migrateStrategiesProposal } from '../../../../fragments/strategies/migr
 import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 
-const { developer, deployer, seriesIlks, poolsInit, migrateData } = require(process.env.CONF as string)
+const { developer, deployer, seriesIlks, migrateData } = require(process.env.CONF as string)
 const { governance, protocol, joins, newFYTokens, newPools, newStrategies } = require(process.env.CONF as string)
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies

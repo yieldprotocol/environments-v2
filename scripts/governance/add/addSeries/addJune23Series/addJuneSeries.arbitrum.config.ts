@@ -1,8 +1,13 @@
-import { BigNumber } from 'ethers'
-import { WAD, ONEUSDC } from '../../../../../shared/constants'
 import { ETH, DAI, USDC } from '../../../../../shared/constants'
 import { FYETH2306, FYDAI2306, FYUSDC2306 } from '../../../../../shared/constants'
-import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD } from '../../../../../shared/constants'
+import {
+  YSETH6MJD,
+  YSDAI6MJD,
+  YSUSDC6MJD,
+  YSETH6MJD_V1,
+  YSDAI6MJD_V1,
+  YSUSDC6MJD_V1,
+} from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.arb_mainnet.config'
 
@@ -21,15 +26,6 @@ export const newJoins: Map<string, string> = base_config.newJoins
 export const newPools: Map<string, string> = base_config.newPools
 export const newStrategies: Map<string, string> = base_config.newStrategies
 
-/// @notice Pool initialization parameters
-/// @param pool identifier, usually matching the series (bytes6 tag)
-/// @param amount of base to initialize pool with
-export const poolsInit: Array<[string, BigNumber]> = [
-  [FYETH2306, WAD.div(10)],
-  [FYDAI2306, WAD.mul(100)],
-  [FYUSDC2306, ONEUSDC.mul(100)],
-]
-
 /// @notice Ilks to accept for series
 /// @param series identifier (bytes6 tag)
 /// @param newly accepted ilks (array of bytes6 tags)
@@ -45,10 +41,20 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param destination strategy
 /// @param pool to invest in
 export const migrateData: Array<[string, string, string, string]> = [
-  [strategies.getOrThrow(YSETH6MJD)!, FYETH2306, newStrategies.getOrThrow(YSETH6MJD)!, newPools.getOrThrow(FYETH2306)!],
-  [strategies.getOrThrow(YSDAI6MJD)!, FYDAI2306, newStrategies.getOrThrow(YSDAI6MJD)!, newPools.getOrThrow(FYDAI2306)!],
   [
-    strategies.getOrThrow(YSUSDC6MJD)!,
+    strategies.getOrThrow(YSETH6MJD_V1)!,
+    FYETH2306,
+    newStrategies.getOrThrow(YSETH6MJD)!,
+    newPools.getOrThrow(FYETH2306)!,
+  ],
+  [
+    strategies.getOrThrow(YSDAI6MJD_V1)!,
+    FYDAI2306,
+    newStrategies.getOrThrow(YSDAI6MJD)!,
+    newPools.getOrThrow(FYDAI2306)!,
+  ],
+  [
+    strategies.getOrThrow(YSUSDC6MJD_V1)!,
     FYUSDC2306,
     newStrategies.getOrThrow(YSUSDC6MJD)!,
     newPools.getOrThrow(FYUSDC2306)!,
