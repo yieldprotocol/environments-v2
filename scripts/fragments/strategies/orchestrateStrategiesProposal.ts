@@ -56,6 +56,13 @@ export const orchestrateStrategiesProposal = async (
       data: ladle.interface.encodeFunctionData('addIntegration', [strategyAddress, true]),
     })
     console.log(`ladle.addIntegration(${getName(strategyId)}, ${strategyAddress})`)
+
+    // Add the strategy as an token to the Ladle
+    proposal.push({
+      target: ladle.address,
+      data: ladle.interface.encodeFunctionData('addToken', [strategyAddress, true]),
+    })
+    console.log(`ladle.addToken(${getName(strategyId)}, ${strategyAddress})`)
   }
 
   return proposal

@@ -34,7 +34,14 @@ const { governance, protocol, joins, newFYTokens, newPools, newStrategies } = re
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal = proposal.concat(
-    await orchestrateStrategiesProposal(ownerAcc, deployer, governance.getOrThrow(MULTISIG)!, timelock, newStrategies)
+    await orchestrateStrategiesProposal(
+      ownerAcc,
+      deployer,
+      governance.getOrThrow(MULTISIG)!,
+      timelock,
+      ladle,
+      newStrategies
+    )
   )
 
   for (let [seriesId, poolAddress] of newPools) {
