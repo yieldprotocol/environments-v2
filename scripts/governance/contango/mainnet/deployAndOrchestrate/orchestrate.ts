@@ -90,7 +90,7 @@ const {
     await orchestrateJoinProposal(ownerAcc, deployer, cloak, assetsToAdd),
     await updateAccumulatorSourcesProposal(accumulatorOracle, rateChiSources),
     await updateYieldSpaceMultiOracleSourcesProposal(yieldSpaceMultiOracle, poolOracle, compositeSources, pools),
-    await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources),
+    await updateCompositeSourcesProposal(ownerAcc, compositeMultiOracle, compositeSources, false),
     await updateCompositePathsProposal(compositeMultiOracle, compositePaths),
     await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsToAdd),
     await makeBaseProposal(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases),

@@ -3,7 +3,7 @@ import { parseUnits } from 'ethers/lib/utils'
 import * as base_config from '../../../base.mainnet.config'
 
 export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
-export const deployer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
+export const deployer: string = '0x05950b4e68f103d5aBEf20364dE219a247e59C23'
 
 export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol()
@@ -86,7 +86,7 @@ export const auctionLineAndLimits: AuctionLineAndLimit[] = ASSETS.map((asset) =>
       duration: 600,
       vaultProportion,
       collateralProportion,
-      max: parseUnits((asset.maxDebt * 100).toString(), asset.decimals),
+      max: parseUnits((asset.maxDebt * 10).toString(), asset.decimals),
     }
   })
 ).flat()

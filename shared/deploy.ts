@@ -25,7 +25,8 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
-      deployed = await contractFactory.deploy(...params.args.map((f) => f()))
+      const expandedArgs = params.args.map((f) => f())
+      deployed = await contractFactory.deploy(...expandedArgs)
 
       await deployed.deployed()
       console.log(`${params.name} deployed at ${deployed.address}`)
@@ -38,7 +39,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       deployerAddressMap.set(deployed.address, deployerAcc.address)
       writeAddressMap('deployers.json', deployerAddressMap)
 
-      verify(params.name, deployed, params.args, params.libs)
+      verify(params.name, deployed, expandedArgs, params.libs)
 
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
       if (deployed.interface.functions['ROOT()'] && !(await deployed.hasRole(ROOT, timelock.address))) {
