@@ -2634,10 +2634,10 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@^2.0.0-rc.3":
-  version "2.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.0-rc.3.tgz#dcd34e221ba27cac1d6c1e0931305084d7b6e9f0"
-  integrity sha512-ITvmh99PIKnSqIGZ5X0kHZN4tjsLpqBJuS2AlypNKNUgl5KGh1SMrHjpZJvghvzqJs4S34rLkzGhBRpTXL3+YQ==
+"@yield-protocol/strategy-v2@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.0.tgz#fb46e950f4307a9649e4ab7ad63311a6502d06da"
+  integrity sha512-3kmIxsNhY/gVgnKo+33jcW2g4V9ij5dO7EGP1oY++fZYg3jNUiFpao8hoBpdSG0vOH4VcPfktwnA+Pr7MxNUZQ==
 
 "@yield-protocol/utils-v2@2.6.6":
   version "2.6.6"
