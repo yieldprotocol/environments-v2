@@ -7,13 +7,15 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Timelock, Strategy__factory } from '../../../typechain'
+import { getName } from '../../../shared/helpers'
+import { Timelock, Strategy__factory, Ladle } from '../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
   ownerAcc: any,
   deployer: string,
   multisig: string,
   timelock: Timelock,
+  ladle: Ladle,
   strategies: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
@@ -34,19 +36,33 @@ export const orchestrateStrategiesProposal = async (
         timelock.address,
       ]),
     })
-    console.log(`strategy(${strategyId}).grantRoles(gov, timelock)`)
+    console.log(`strategy(${getName(strategyId)}).grantRoles(gov, timelock)`)
 
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('grantRoles', [[id(strategy.interface, 'eject()')], multisig]),
     })
-    console.log(`strategy(${strategyId}).grantRoles(gov, timelock)`)
+    console.log(`strategy(${getName(strategyId)}).grantRoles(gov, timelock)`)
 
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
     })
-    console.log(`strategy(${strategyId}).revokeRole(ROOT, deployer)`)
+    console.log(`strategy(${getName(strategyId)}).revokeRole(ROOT, deployer)`)
+
+    // Add the strategy as an integration to the Ladle
+    proposal.push({
+      target: ladle.address,
+      data: ladle.interface.encodeFunctionData('addIntegration', [strategyAddress, true]),
+    })
+    console.log(`ladle.addIntegration(${getName(strategyId)}, ${strategyAddress})`)
+
+    // Add the strategy as an token to the Ladle
+    proposal.push({
+      target: ladle.address,
+      data: ladle.interface.encodeFunctionData('addToken', [strategyAddress, true]),
+    })
+    console.log(`ladle.addToken(${getName(strategyId)}, ${strategyAddress})`)
   }
 
   return proposal

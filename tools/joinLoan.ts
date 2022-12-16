@@ -6,8 +6,9 @@ const { whales, joinLoans, protocol } = require(process.env.CONF as string)
  * @dev This script loads Joins with arbitrary amounts. Only usable on forks.
  */
 ;(async () => {
-  let ladleAcc = await impersonate(protocol.getOrThrow(LADLE)!, WAD)
-  const ladle = Ladle__factory.connect(ladleAcc.address, ladleAcc)
+  const ladleAddress = protocol.getOrThrow(LADLE)!
+  const ladleAcc = await impersonate(ladleAddress, WAD)
+  const ladle = Ladle__factory.connect(ladleAddress, ladleAcc)
 
   for (let [assetId, loanAmount] of joinLoans) {
     const whaleAcc = await impersonate(whales.getOrThrow(assetId)!, WAD)

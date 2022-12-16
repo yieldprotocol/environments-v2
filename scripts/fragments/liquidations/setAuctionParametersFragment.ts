@@ -2,7 +2,7 @@
  * @dev Configure the auction parameters for Witch v2 liquidations
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
@@ -24,7 +24,7 @@ export const setAuctionParametersFragment = async (
         max,
       ]),
     })
-    console.log(`Adding baseId: ${bytesToString(baseId)} - ilkId: ${bytesToString(ilkId)} to the Witch`)
+    console.log(`Adding baseId: ${getName(baseId)} - ilkId: ${getName(ilkId)} to the Witch`)
   }
 
   return proposal

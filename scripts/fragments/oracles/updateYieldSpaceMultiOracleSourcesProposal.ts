@@ -4,7 +4,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { PoolOracle, YieldSpaceMultiOracle } from '../../../typechain'
 
 export const updateYieldSpaceMultiOracleSourcesProposal = async (
@@ -23,7 +23,7 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
     const pool = pools.getOrThrow(baseId)
     if ((await ethers.provider.getCode(pool)) === '0x') throw `Pool Address ${pool} contains no code`
 
-    console.log(`Adding ${bytesToString(baseId)}/${bytesToString(quoteId)} from ${poolOracle.address}`)
+    console.log(`Adding ${getName(baseId)}/${getName(quoteId)} from ${poolOracle.address}`)
     // Check if the poolOracle has been initialised with enough time
     proposal.push({
       target: poolOracle.address,
@@ -34,7 +34,7 @@ export const updateYieldSpaceMultiOracleSourcesProposal = async (
       target: yieldSpaceMultiOracle.address,
       data: yieldSpaceMultiOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, pool]),
     })
-    console.log(`pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${pool}`)
+    console.log(`pair: ${getName(baseId)}/${getName(quoteId)} -> ${pool}`)
   }
 
   return proposal

@@ -9,7 +9,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 
 import { Cauldron, ERC20Mock } from '../../../typechain'
 
@@ -31,7 +31,7 @@ export const reserveAssetProposal = async (
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('addAsset', [assetId, assetAddress]),
     })
-    console.log(`[Asset: ${bytesToString(assetId)}: ${assetAddress}],`)
+    console.log(`[Asset: ${getName(assetId)}: ${assetAddress}],`)
   }
 
   return proposal

@@ -7,7 +7,7 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
+import { getName, bytesToBytes32 } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
@@ -41,7 +41,7 @@ export const makeIlkProposal = async (
         auction.max,
       ]),
     })
-    console.log(`Asset ${bytesToString(auction.ilkId)} set as ilk on witch at ${witch.address}`)
+    console.log(`Asset ${getName(auction.ilkId)} set as ilk on witch at ${witch.address}`)
 
     // Allow Witch to exit ilk
     proposal.push({
@@ -65,17 +65,17 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(auction.ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, join(${getName(auction.ilkId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
-    proposal.push({
-      target: spotOracle.address,
-      data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
-    })
+    // console.log(`Adding for ${getName(baseId)}/${getName(ilkId)} from ${spotOracle.address as string}`)
+    // proposal.push({
+    //   target: spotOracle.address,
+    //   data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
+    // })
 
     // Set the spot oracle in the Cauldron
     proposal.push({

@@ -1,4 +1,4 @@
-import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose, getName } from '../../../../../shared/helpers'
 
 import {
   Timelock__factory,
@@ -20,7 +20,6 @@ import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkPr
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
 import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategiesProposal'
-import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
 
@@ -59,12 +58,19 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, 
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal = proposal.concat(
-    await orchestrateStrategiesProposal(ownerAcc, deployer, governance.getOrThrow(MULTISIG)!, timelock, newStrategies)
+    await orchestrateStrategiesProposal(
+      ownerAcc,
+      deployer,
+      governance.getOrThrow(MULTISIG)!,
+      timelock,
+      ladle,
+      newStrategies
+    )
   )
 
   for (let [seriesId, poolAddress] of newPools) {
     const pool = Pool__factory.connect(poolAddress as string, ownerAcc)
-    console.log(`orchestrating ${seriesId} pool at address: ${poolAddress}`)
+    console.log(`orchestrating ${getName(seriesId)} pool at address: ${poolAddress}`)
     proposal = proposal.concat(await orchestrateNewPoolsProposal(deployer as string, pool, timelock, cloak))
   }
 
@@ -88,7 +94,6 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, 
   )
 
   proposal = proposal.concat(await addIlksToSeriesProposal(cauldron, seriesIlks))
-  proposal = proposal.concat(await initPoolsProposal(ownerAcc, timelock, newPools, poolsInit))
   proposal = proposal.concat(await migrateStrategiesProposal(ownerAcc, migrateData))
   console.log(`Proposal with ${proposal.length} steps`)
   await propose(timelock, proposal, developer)

@@ -6,7 +6,7 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
@@ -18,7 +18,7 @@ export const setLineAndLimitProposal = (
 
   for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
     console.log(
-      `Witch#setLineAndLimit(${bytesToString(ilkId)}, ${bytesToString(
+      `Witch#setLineAndLimit(${getName(ilkId)}, ${getName(
         baseId
       )}, ${duration}, ${vaultProportion}, ${collateralProportion}, ${max})`
     )

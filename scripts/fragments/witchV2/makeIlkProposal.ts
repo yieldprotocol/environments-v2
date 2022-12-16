@@ -6,7 +6,7 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { bytesToBytes32, getName } from '../../../shared/helpers'
 import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
@@ -54,13 +54,13 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, exit(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
     // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
+    console.log(`Adding for ${getName(baseId)}/${getName(ilkId)} from ${spotOracle.address as string}`)
     proposal.push({
       target: spotOracle.address,
       data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),

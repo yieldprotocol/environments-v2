@@ -6,7 +6,7 @@
 
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, verify } from '../../../shared/helpers'
+import { getName, verify } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 
 import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
@@ -48,7 +48,7 @@ export const replaceJoinProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
       })
-      console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
+      console.log(`cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
     }
 
     // Allow Ladle to join and exit on the asset Join

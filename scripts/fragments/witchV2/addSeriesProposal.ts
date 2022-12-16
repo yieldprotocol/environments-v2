@@ -10,7 +10,7 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Cauldron, OldEmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../typechain'
 import { SeriesToAdd } from '../../governance/confTypes'
 
@@ -79,9 +79,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
       })
-      console.log(
-        `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
-      )
+      console.log(`cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
     }
 
     // Allow Witch to burn fyTokens
@@ -106,7 +104,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, burn(${bytesToString(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
   return proposal

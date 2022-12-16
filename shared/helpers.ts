@@ -7,6 +7,7 @@ import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { Timelock } from '../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { DISPLAY_NAMES } from './constants'
 
 /// --------- PROPOSAL EXECUTION ---------
 
@@ -104,7 +105,9 @@ export const advanceTime = async (time: number) => {
         await network.provider.send('evm_increaseTime', [time])
         await network.provider.send('evm_mine', [])
       }
-      console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
+      const provider: BaseProvider = ethers.provider
+      const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+      console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days) to ${now + time}`)
     }
   }
 }
@@ -118,9 +121,14 @@ export const advanceTimeTo = async (time: number) => {
 
 /// --------- DATA MANIPULATION ---------
 
-export function bytesToString(bytes: string): string {
-  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+// Get name from identifier
+export const getName = (id: string) => {
+  return DISPLAY_NAMES.get(id) || id
 }
+
+// export function getName(bytes: string): string {
+//   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+// }
 
 export function stringToBytes(str: string, bytes?: number) {
   if (bytes == undefined) bytes = str.length
@@ -136,7 +144,7 @@ export function stringToBytes32(x: string): string {
 }
 
 export function bytesToBytes32(bytes: string): string {
-  return stringToBytes32(bytesToString(bytes))
+  return stringToBytes32(getName(bytes))
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
@@ -255,6 +263,6 @@ export const tenderlyVerify = async (name: string, contract: BaseContract) => {
       name,
       address: contract.address,
     })
-    console.log(`${name} at ${contract.address} verified on tenderly`)
+    console.log(`${getName(name)} at ${contract.address} verified on tenderly`)
   }
 }

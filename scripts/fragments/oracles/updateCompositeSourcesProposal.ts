@@ -3,7 +3,7 @@
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { bytesToBytes32, getName } from '../../../shared/helpers'
 import { WAD } from '../../../shared/constants'
 import { CompositeMultiOracle, IOracle__factory } from '../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
@@ -27,7 +27,7 @@ export const updateCompositeSourcesProposal = async (
       target: compositeOracle.address,
       data: compositeOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, oracle.address]),
     })
-    console.log(`pair: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${oracle.address}`)
+    console.log(`pair: ${getName(baseId)}/${getName(quoteId)} -> ${oracle.address}`)
   }
 
   return proposal

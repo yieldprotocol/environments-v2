@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, stringToBytes32, bytesToString } from '../../../shared/helpers'
+import { jsonToMap, stringToBytes32, getName } from '../../../shared/helpers'
 import { ETH, DAI, USDC, WBTC } from '../../../shared/constants'
 
 import { Cauldron } from '../../../typechain/Cauldron'
@@ -86,7 +86,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
         witch.address,
       ]),
     })
-    console.log(`Witch granted join access to join(${bytesToString(baseId)}`)
+    console.log(`Witch granted join access to join(${getName(baseId)}`)
 
     proposal.push({
       target: join.address,
@@ -95,7 +95,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
         oldWitchAddress,
       ]),
     })
-    console.log(`Old Witch revoked join access to join(${bytesToString(baseId)}`)
+    console.log(`Old Witch revoked join access to join(${getName(baseId)}`)
 
     const plan = [
       {
@@ -109,7 +109,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
       data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string, plan]),
     })
     console.log(
-      `cloak.plan(witch, join(${bytesToString(baseId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`
+      `cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`
     )
   }
 
@@ -122,7 +122,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
       target: witch.address,
       data: witch.interface.encodeFunctionData('setIlk', [ilkId, ilk.duration, ilk.initialOffer, ilk.dust, ilk.active]),
     })
-    console.log(`[Asset: ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}],`)
+    console.log(`[Asset: ${getName(ilkId)} set as ilk on witch at ${witch.address}],`)
 
     proposal.push({
       target: join.address,
@@ -131,7 +131,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
         witch.address,
       ]),
     })
-    console.log(`Witch granted exit access to join(${bytesToString(ilkId)})`)
+    console.log(`Witch granted exit access to join(${getName(ilkId)})`)
 
     proposal.push({
       target: join.address,
@@ -140,7 +140,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
         oldWitch.address,
       ]),
     })
-    console.log(`Old Witch revoked exit access to join(${bytesToString(ilkId)})`)
+    console.log(`Old Witch revoked exit access to join(${getName(ilkId)})`)
 
     const plan = [
       {
@@ -154,7 +154,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
       data: cloak.interface.encodeFunctionData('plan', [protocol.get('witch') as string, plan]),
     })
     console.log(
-      `cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`
+      `cloak.plan(witch, join(${getName(ilkId)})): ${await cloak.hash(protocol.get('witch') as string, plan)}`
     )
   }
 
