@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Timelock, EmergencyBrake, Cauldron } from '../../../typechain'
+import { Cauldron, OldEmergencyBrake, Timelock } from '../../../typechain'
 
 /**
  * @dev This script orchestrates the Cauldron
@@ -16,7 +16,7 @@ export const orchestrateCauldronProposal = async (
   deployer: string,
   cauldron: Cauldron,
   timelock: Timelock,
-  cloak: EmergencyBrake
+  cloak: OldEmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them

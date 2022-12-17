@@ -15,12 +15,12 @@
 import { ethers } from 'hardhat'
 import { ROOT } from '../../../shared/constants'
 
-import { Ladle, Join, Timelock, EmergencyBrake } from '../../../typechain'
+import { Join, OldEmergencyBrake } from '../../../typechain'
+const { deployers } = require(process.env.CONF as string)
 
 export const orchestrateJoinProposal = async (
   ownerAcc: any,
-  deployer: string,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   assets: [string, string, string][]
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
@@ -28,10 +28,11 @@ export const orchestrateJoinProposal = async (
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
+  let deployer
   for (let [assetId, , joinAddress] of assets) {
     const join = (await ethers.getContractAt('Join', joinAddress, ownerAcc)) as Join
     await join.asset() // Check it's a valid join
-
+    deployer = deployers.get(joinAddress)
     if (await join.hasRole(ROOT, deployer)) {
       proposal.push({
         target: join.address,

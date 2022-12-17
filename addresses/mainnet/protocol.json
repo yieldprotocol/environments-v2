@@ -122,12 +122,40 @@
       "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
     ],
     [
+      "repayFromLadleModule",
+      "0xd47a7473C83a1cC145407e82Def5Ae15F8b338c2"
+    ],
+    [
       "witch",
       "0x08d2F5c96bB1F6BE04B49bcD869d5Af01db4c400"
     ],
     [
       "yieldMath",
       "0xE7A9771c692c428df17EcAD6cD58d4938C010a2e"
+    ],
+    [
+      "crabOracle",
+      "0x35d753A30a750C0291CD86baEDef7d27d55879F9"
+    ],
+    [
+      "contangoCauldron",
+      "0xf2F7c33234160387e5Dc82B1412b522AB44876C7"
+    ],
+    [
+      "contangoLadle",
+      "0x30E7348163016B3b6E1621A3Cb40e8CF33CE97db"
+    ],
+    [
+      "contangoWitch",
+      "0xB132C10acabCB8966Fa38e5AE9745039b7c8008b"
+    ],
+    [
+      "poolOracle",
+      "0x96bF9aB0E421a3da31D4506c967A825312455767"
+    ],
+    [
+      "yieldSpaceMultiOracle",
+      "0x210F4e1942bEEc4038743A8f885B870E0c27b414"
     ]
   ]
 }

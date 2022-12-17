@@ -7,11 +7,10 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { getName, bytesToBytes32 } from '../../../shared/helpers'
-import { WAD } from '../../../shared/constants'
+import { getName } from '../../../shared/helpers'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-import { IOracle, OldEmergencyBrake, Cauldron, Witch, Join__factory } from '../../../typechain'
+import { IOracle, Cauldron, Witch, Join__factory, OldEmergencyBrake } from '../../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any,
@@ -70,13 +69,6 @@ export const makeIlkProposal = async (
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
-    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    // console.log(`Adding for ${getName(baseId)}/${getName(ilkId)} from ${spotOracle.address as string}`)
-    // proposal.push({
-    //   target: spotOracle.address,
-    //   data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
-    // })
-
     // Set the spot oracle in the Cauldron
     proposal.push({
       target: cauldron.address,

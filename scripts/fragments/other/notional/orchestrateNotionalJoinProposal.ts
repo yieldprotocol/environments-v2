@@ -8,16 +8,16 @@ export const orchestrateNotionalJoinProposal = async (
   ownerAcc: any,
   deployer: string,
   cloak: OldEmergencyBrake,
-  assets: [string, string, string][]
+  joins: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Give access to each of the Join governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, Timelock already has ROOT as the deployer
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [assetId, , joinAddress] of assets) {
+  for (let [, joinAddress] of joins) {
     const join = NotionalJoin__factory.connect(joinAddress, ownerAcc)
-    await join.asset() // Check it's a valid join
+    const assetAddress = await join.asset() // Check it's a valid join
 
     const underlyingJoin = Join__factory.connect(await join.underlyingJoin(), ownerAcc)
 
