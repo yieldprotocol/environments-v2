@@ -53,185 +53,185 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Maturity in unix time (seconds since Jan 1, 1970)
   /// @param Name for the series
   /// @param Symbol for the series
-  {
-    addressFile: 'newFYTokens.json',
-    name: FYETH2306,
-    contract: 'FYToken',
-    args: [
-      () => ETH,
-      () => protocol().getOrThrow(COMPOUND),
-      () => joins.getOrThrow(ETH),
-      () => EOJUN23,
-      () => 'FYETH2306',
-      () => 'FYETH2306',
-    ],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newFYTokens.json',
-    name: FYDAI2306,
-    contract: 'FYToken',
-    args: [
-      () => DAI,
-      () => protocol().getOrThrow(COMPOUND),
-      () => joins.getOrThrow(DAI),
-      () => EOJUN23,
-      () => 'FYDAI2306',
-      () => 'FYDAI2306',
-    ],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newFYTokens.json',
-    name: FYUSDC2306,
-    contract: 'FYToken',
-    args: [
-      () => USDC,
-      () => protocol().getOrThrow(COMPOUND),
-      () => joins.getOrThrow(USDC),
-      () => EOJUN23,
-      () => 'FYUSDC2306',
-      () => 'FYUSDC2306',
-    ],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newFYTokens.json',
-    name: FYFRAX2306,
-    contract: 'FYToken',
-    args: [
-      () => FRAX,
-      () => protocol().getOrThrow(ACCUMULATOR),
-      () => joins.getOrThrow(FRAX),
-      () => EOJUN23,
-      () => 'FYFRAX2306',
-      () => 'FYFRAX2306',
-    ],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  /// @notice Deploy plain YieldSpace pools
-  /// @param pool identifier, usually matching the series (bytes6 tag)
-  /// @param euler main address
-  /// @param shares address
-  /// @param fyToken address
-  /// @param time stretch, in 64.64
-  /// @param g1, in 64.64
-  {
-    addressFile: 'newPools.json',
-    name: FYETH2306,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.get(EWETH)!,
-      () => newFYTokens().getOrThrow(FYETH2306)!,
-      () => timeStretch.get(FYETH2306)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol().getOrThrow(YIELDMATH)!,
-    },
-  },
-  {
-    addressFile: 'newPools.json',
-    name: FYDAI2306,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.get(EDAI)!,
-      () => newFYTokens().getOrThrow(FYDAI2306)!,
-      () => timeStretch.get(FYDAI2306)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol().getOrThrow(YIELDMATH)!,
-    },
-  },
-  {
-    addressFile: 'newPools.json',
-    name: FYUSDC2306,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.get(EUSDC)!,
-      () => newFYTokens().getOrThrow(FYUSDC2306)!,
-      () => timeStretch.get(FYUSDC2306)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol().getOrThrow(YIELDMATH)!,
-    },
-  },
-  /// @notice Deploy plain YieldSpace pools
-  /// @param pool identifier, usually matching the series (bytes6 tag)
-  /// @param base address
-  /// @param fyToken address
-  /// @param time stretch, in 64.64
-  /// @param g1, in 64.64
-  {
-    addressFile: 'newPools.json',
-    name: FYFRAX2306,
-    contract: 'PoolNonTv',
-    args: [
-      () => assets.get(FRAX)!,
-      () => newFYTokens().getOrThrow(FYFRAX2306)!,
-      () => timeStretch.get(FYFRAX2306)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol().getOrThrow(YIELDMATH)!,
-    },
-  },
-  /// @notice Deploy strategies
-  /// @param strategy name
-  /// @param strategy identifier (bytes6 tag)
-  /// @param Address for the Ladle
-  /// @param Address for the underlying asset
-  /// @param Underlying asset identifier (bytes6 tag)
-  /// @param Address for the underlying asset join
-  {
-    addressFile: 'newStrategies.json',
-    name: YSETH6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => newFYTokens().getOrThrow(FYETH2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSDAI6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => newFYTokens().getOrThrow(FYDAI2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSUSDC6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => newFYTokens().getOrThrow(FYUSDC2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSFRAX6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSFRAX6MJD, () => newFYTokens().getOrThrow(FYFRAX2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
+  //  {
+  //    addressFile: 'newFYTokens.json',
+  //    name: FYETH2306,
+  //    contract: 'FYToken',
+  //    args: [
+  //      () => ETH,
+  //      () => protocol().getOrThrow(COMPOUND),
+  //      () => joins.getOrThrow(ETH),
+  //      () => EOJUN23,
+  //      () => 'FYETH2306',
+  //      () => 'FYETH2306',
+  //    ],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newFYTokens.json',
+  //    name: FYDAI2306,
+  //    contract: 'FYToken',
+  //    args: [
+  //      () => DAI,
+  //      () => protocol().getOrThrow(COMPOUND),
+  //      () => joins.getOrThrow(DAI),
+  //      () => EOJUN23,
+  //      () => 'FYDAI2306',
+  //      () => 'FYDAI2306',
+  //    ],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newFYTokens.json',
+  //    name: FYUSDC2306,
+  //    contract: 'FYToken',
+  //    args: [
+  //      () => USDC,
+  //      () => protocol().getOrThrow(COMPOUND),
+  //      () => joins.getOrThrow(USDC),
+  //      () => EOJUN23,
+  //      () => 'FYUSDC2306',
+  //      () => 'FYUSDC2306',
+  //    ],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newFYTokens.json',
+  //    name: FYFRAX2306,
+  //    contract: 'FYToken',
+  //    args: [
+  //      () => FRAX,
+  //      () => protocol().getOrThrow(ACCUMULATOR),
+  //      () => joins.getOrThrow(FRAX),
+  //      () => EOJUN23,
+  //      () => 'FYFRAX2306',
+  //      () => 'FYFRAX2306',
+  //    ],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  /// @notice Deploy Euler YieldSpace pools
+  //  /// @param pool identifier, usually matching the series (bytes6 tag)
+  //  /// @param euler main address
+  //  /// @param shares address
+  //  /// @param fyToken address
+  //  /// @param time stretch, in 64.64
+  //  /// @param g1, in 64.64
+  //  {
+  //    addressFile: 'newPools.json',
+  //    name: FYETH2306,
+  //    contract: 'PoolEuler',
+  //    args: [
+  //      () => external.getOrThrow(EULER)!,
+  //      () => assets.get(EWETH)!,
+  //      () => newFYTokens().getOrThrow(FYETH2306)!,
+  //      () => timeStretch.get(FYETH2306)!.toString(),
+  //      () => g1.toString(),
+  //    ],
+  //    libs: {
+  //      YieldMath: protocol().getOrThrow(YIELDMATH)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newPools.json',
+  //    name: FYDAI2306,
+  //    contract: 'PoolEuler',
+  //    args: [
+  //      () => external.getOrThrow(EULER)!,
+  //      () => assets.get(EDAI)!,
+  //      () => newFYTokens().getOrThrow(FYDAI2306)!,
+  //      () => timeStretch.get(FYDAI2306)!.toString(),
+  //      () => g1.toString(),
+  //    ],
+  //    libs: {
+  //      YieldMath: protocol().getOrThrow(YIELDMATH)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newPools.json',
+  //    name: FYUSDC2306,
+  //    contract: 'PoolEuler',
+  //    args: [
+  //      () => external.getOrThrow(EULER)!,
+  //      () => assets.get(EUSDC)!,
+  //      () => newFYTokens().getOrThrow(FYUSDC2306)!,
+  //      () => timeStretch.get(FYUSDC2306)!.toString(),
+  //      () => g1.toString(),
+  //    ],
+  //    libs: {
+  //      YieldMath: protocol().getOrThrow(YIELDMATH)!,
+  //    },
+  //  },
+  //  /// @notice Deploy plain YieldSpace pools
+  //  /// @param pool identifier, usually matching the series (bytes6 tag)
+  //  /// @param base address
+  //  /// @param fyToken address
+  //  /// @param time stretch, in 64.64
+  //  /// @param g1, in 64.64
+  //  {
+  //    addressFile: 'newPools.json',
+  //    name: FYFRAX2306,
+  //    contract: 'PoolNonTv',
+  //    args: [
+  //      () => assets.get(FRAX)!,
+  //      () => newFYTokens().getOrThrow(FYFRAX2306)!,
+  //      () => timeStretch.get(FYFRAX2306)!.toString(),
+  //      () => g1.toString(),
+  //    ],
+  //    libs: {
+  //      YieldMath: protocol().getOrThrow(YIELDMATH)!,
+  //    },
+  //  },
+  //  /// @notice Deploy strategies
+  //  /// @param strategy name
+  //  /// @param strategy identifier (bytes6 tag)
+  //  /// @param Address for the Ladle
+  //  /// @param Address for the underlying asset
+  //  /// @param Underlying asset identifier (bytes6 tag)
+  //  /// @param Address for the underlying asset join
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSETH6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => newFYTokens().getOrThrow(FYETH2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSDAI6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => newFYTokens().getOrThrow(FYDAI2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSUSDC6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => newFYTokens().getOrThrow(FYUSDC2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSFRAX6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSFRAX6MJD, () => newFYTokens().getOrThrow(FYFRAX2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
   /// @dev Assets for which we will deploy a Join
   /// @param notionalId: asset id of an fCash tenor in the Yield Protocol
   /// @param fcash: address of the fCash contract
