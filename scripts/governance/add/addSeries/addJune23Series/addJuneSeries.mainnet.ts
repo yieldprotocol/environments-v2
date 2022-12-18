@@ -77,7 +77,7 @@ const { external, governance, protocol, joins, newJoins, newFYTokens, newPools, 
   proposal = proposal.concat(
     await addSeriesProposal(ownerAcc, deployer, cauldron, ladle, witch, timelock, cloak, joins, newFYTokens, newPools)
   )
-  proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, cloak, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateNotionalJoinProposal(ownerAcc, deployer, cloak, newJoins))
   proposal = proposal.concat(await updateNotionalSourcesProposal(notionalOracle, notionalSources))
   proposal = proposal.concat(await addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
   proposal = proposal.concat(
