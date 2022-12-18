@@ -1,6 +1,5 @@
 import { ethers, BigNumber } from 'ethers'
 import { FCASH_JUN23 } from './notional'
-import { stringToBytes6 } from './helpers'
 
 export const ZERO = BigNumber.from(0)
 export const ZERO_ADDRESS = '0x' + '00'.repeat(20)
@@ -23,6 +22,10 @@ export const secondsIn40Years = secondsInOneYear.mul(40) // Seconds in 40 years
 export const ts = ONE64.div(secondsIn25Years)
 export const secondsInOneMinute = 60
 export const secondsInOneHour = 60 * secondsInOneMinute
+
+export function stringToBytes6(x: string): string {
+  return ethers.utils.formatBytes32String(x).slice(0, 14)
+}
 
 export const CHI = stringToBytes6('CHI')
 export const RATE = stringToBytes6('RATE')
