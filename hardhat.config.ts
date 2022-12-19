@@ -118,7 +118,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/137374eb-e7f5-4a61-bc79-ab642d1e5898",
+      url: "https://rpc.tenderly.co/fork/70430d77-01cd-4134-a798-7fde30e9c079",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
@@ -129,7 +129,7 @@ module.exports = {
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 15_000_000_000,
+      gasPrice: 35_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')

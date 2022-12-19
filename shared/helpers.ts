@@ -51,7 +51,6 @@ export const propose = async (
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
 
     writeProposal(proposalHash, timelock.interface.encodeFunctionData('execute', [proposal]))
-
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${proposalHash}`)

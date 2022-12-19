@@ -5,7 +5,7 @@
 import { ETH, DAI, USDC, WBTC, WSTETH, LINK, ENS, FRAX, UNI } from '../../../../shared/constants'
 import * as base_config from '../../base.mainnet.config'
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol
+export const protocol = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 
 export const developer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
@@ -15,13 +15,15 @@ export const developer = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 /// @param ilkId The ilk id.
 /// @param minDebt The new minimum debt.
 export const newDebtMin: Array<[string, string, number]> = [
-  [FRAX, FRAX, 1000],
+  [FRAX, FRAX, 0],
   [FRAX, ETH, 1000],
   [FRAX, DAI, 1000],
   [FRAX, USDC, 1000],
   [FRAX, WBTC, 1000],
   [FRAX, LINK, 1000],
   [FRAX, UNI, 1000],
+  [FRAX, WSTETH, 1000],
+  [FRAX, ENS, 1000],
 ]
 
 /// @notice Limits to be used in an auction
