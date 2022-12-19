@@ -95,3 +95,9 @@ Smart Contracts successfully verified
 FUSDC2306 deployed at 0x53B0C1b8fEB4dEcdcc068367119110E20c3BCBD3
 npx hardhat verify --network mainnet 0x53B0C1b8fEB4dEcdcc068367119110E20c3BCBD3 0x1344A36A1B56144C3Bc62E7757377D288fDE0369 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4 1687392000 3 
 FUSDC2306.grantRoles(ROOT, timelock)
+Deploying YSDAI6MJD with Yield Strategy DAI 6M Jun Dec,YSDAI6MJD,0x9ca4D6fbE0Ba91d553e74805d2E2545b04AbEfEA
+Smart Contracts successfully verified
+  Contract 0x9ca2a34ea52bc1264d399aca042c0e83091feece verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x9ca2a34ea52bc1264d399aca042c0e83091feece
+YSDAI6MJD deployed at 0x9ca2a34ea52bc1264D399aCa042c0e83091FEECe
+npx hardhat verify --network mainnet 0x9ca2a34ea52bc1264D399aCa042c0e83091FEECe "Yield Strategy DAI 6M Jun Dec" YSDAI6MJD 0x9ca4D6fbE0Ba91d553e74805d2E2545b04AbEfEA --libraries addresses/mainnet/safeERC20Namer.js
+YSDAI6MJD.grantRoles(ROOT, timelock)

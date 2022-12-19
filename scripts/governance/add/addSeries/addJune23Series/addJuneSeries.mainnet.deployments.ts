@@ -196,15 +196,15 @@ export const contractDeployments: ContractDeployment[] = [
   //  /// @param Address for the underlying asset
   //  /// @param Underlying asset identifier (bytes6 tag)
   //  /// @param Address for the underlying asset join
-  {
-    addressFile: 'newStrategies.json',
-    name: YSETH6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => 'YSETH6MJD', () => newFYTokens().getOrThrow(FYETH2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSETH6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => 'YSETH6MJD', () => newFYTokens().getOrThrow(FYETH2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
   {
     addressFile: 'newStrategies.json',
     name: YSDAI6MJD,
@@ -214,24 +214,24 @@ export const contractDeployments: ContractDeployment[] = [
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSUSDC6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => 'YSUSDC6MJD', () => newFYTokens().getOrThrow(FYUSDC2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSFRAX6MJD,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy FRAX 6M Jun Dec', () => 'YSFRAX6MJD', () => newFYTokens().getOrThrow(FYFRAX2306)!],
-    libs: {
-      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSUSDC6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => 'YSUSDC6MJD', () => newFYTokens().getOrThrow(FYUSDC2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
+  //  {
+  //    addressFile: 'newStrategies.json',
+  //    name: YSFRAX6MJD,
+  //    contract: 'Strategy',
+  //    args: [() => 'Yield Strategy FRAX 6M Jun Dec', () => 'YSFRAX6MJD', () => newFYTokens().getOrThrow(FYFRAX2306)!],
+  //    libs: {
+  //      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+  //    },
+  //  },
   /// @dev Assets for which we will deploy a Join
   /// @param notionalId: asset id of an fCash tenor in the Yield Protocol
   /// @param fcash: address of the fCash contract
