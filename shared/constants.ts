@@ -153,6 +153,8 @@ export const FYFRAX2306 = stringToBytes6('1810')
 
 export const YSDAI6MMS = 'YSDAI6MMS' // Yield Strategy DAI 6M Mar Sep
 export const YSDAI6MJD = 'YSDAI6MJD' // Yield Strategy DAI 6M Jun Dec
+export const YSUSDT6MMS = 'YSUSDT6MMS' // Yield Strategy USDT 6M Mar Sep
+export const YSUSDT6MJD = 'YSUSDT6MJD' // Yield Strategy USDT 6M Jun Dec
 export const YSUSDC6MMS = 'YSUSDC6MMS' // Yield Strategy USDC 6M Mar Sep
 export const YSUSDC6MJD = 'YSUSDC6MJD' // Yield Strategy USDC 6M Jun Dec
 export const YSETH6MMS = 'YSETH6MMS' // Yield Strategy ETH 6M Mar Sep

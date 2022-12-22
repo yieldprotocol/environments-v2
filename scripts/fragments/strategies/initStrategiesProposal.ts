@@ -15,12 +15,12 @@ export const initStrategiesProposal = async (
   strategies: Map<string, string>,
   ladle: Ladle,
   timelock: Timelock,
-  strategiesInit: Array<[string, string, string, BigNumber]>
+  strategiesInit: Array<[string, string, string, BigNumber, boolean]>
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [strategyId, startPoolAddress, startPoolId, initAmount] of strategiesInit) {
+  for (let [strategyId, startPoolAddress, startPoolId, initAmount, fix] of strategiesInit) {
     const strategyAddress = strategies.get(strategyId) as string
     if ((await ethers.provider.getCode(strategyAddress)) === '0x')
       throw `Address ${strategyAddress} contains no code for a Strategy`
@@ -42,6 +42,13 @@ export const initStrategiesProposal = async (
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [strategy.address, initAmount]),
     })
+    if (fix) {
+      proposal.push({
+        target: base.address,
+        data: base.interface.encodeFunctionData('transfer', [startPoolAddress, 1]),
+      })
+      console.log(`Transfering 1 wei of ${await base.name()} to ${startPoolAddress} for fix`)
+    }
     console.log(`Transferring ${initAmount} of ${base.address} to ${strategy.address}`)
     proposal.push({
       target: strategy.address,
@@ -53,7 +60,7 @@ export const initStrategiesProposal = async (
     //   target: strategy.address,
     //   data: strategy.interface.encodeFunctionData('transfer', [ZERO_ADDRESS, initAmount]), // Burn the strategy tokens minted
     // })
-    console.log(`Burning strategy tokens`)
+    // console.log(`Burning strategy tokens`)
     proposal.push({
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addIntegration', [strategy.address, true]),
