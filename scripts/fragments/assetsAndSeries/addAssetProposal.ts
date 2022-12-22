@@ -9,11 +9,13 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
+import { bytesToString } from '../../../shared/helpers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-import { Cauldron, Ladle } from '../../../typechain'
+import { OldEmergencyBrake, Cauldron, Ladle } from '../../../typechain'
 
 export const addAssetProposal = async (
   ownerAcc: any,
+  cloak: OldEmergencyBrake,
   cauldron: Cauldron,
   ladle: Ladle,
   assets: [string, string, string][]
@@ -51,6 +53,21 @@ export const addAssetProposal = async (
     })
 
     console.log(`Adding asset ${assetId} at ${assetAddress} with join ${joinAddress}`)
+
+    const plan = [
+      {
+        contact: join.address,
+        signatures: [id(join.interface, 'join(address,uint128)'), id(join.interface, 'exit(address,uint128)')],
+      },
+    ]
+
+    if ((await cloak.plans(await cloak.hash(ladle.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
+      })
+      console.log(`cloak.plan(join, join(${bytesToString(assetId)})): ${await cloak.hash(join.address, plan)}`)
+    }
   }
 
   return proposal

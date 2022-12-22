@@ -27,6 +27,8 @@ import {
   YSFRAX6MMSASSET,
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
+  EFRAX,
+  CRAB,
   YVDAI,
   YVUSDC,
   EFRAX,
@@ -35,8 +37,9 @@ import {
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
-export const protocol = readAddressMappingIfExists('protocol.json')
+export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
+export const deployers = readAddressMappingIfExists('deployers.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
 export const joins = readAddressMappingIfExists('joins.json')
@@ -72,6 +75,7 @@ export const whales: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x3336581a28870d343e085beae4cec23f47838899'],
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
+  [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -100,6 +104,7 @@ export const assets: Map<string, string> = new Map([
   [YSETH6MJDASSET, '0x831dF23f7278575BA0b136296a285600cD75d076'],
   [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
   [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
+  [CRAB, '0x3B960E47784150F5a63777201ee2B15253D713e8'],
 ])
 
 export const chiSources: Array<[string, string]> = [
@@ -131,12 +136,12 @@ export const lidoSource = assets.get(WSTETH) as string
 export const yearnSources: Array<[string, string, string]> = [[USDC, YVUSDC, assets.get(YVUSDC) as string]]
 
 export const compositeSources: Array<[string, string, string]> = [
-  [DAI, ETH, protocol.get(CHAINLINK) as string],
-  [USDC, ETH, protocol.get(CHAINLINK) as string],
-  [WBTC, ETH, protocol.get(CHAINLINK) as string],
-  [STETH, ETH, protocol.get(CHAINLINK) as string],
-  [WSTETH, STETH, protocol.get(LIDO) as string],
-  [ENS, ETH, protocol.get(CHAINLINK) as string], // We don't use Uniswap on rinkeby
+  [DAI, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [USDC, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [WBTC, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [STETH, ETH, protocol().getOrThrow(CHAINLINK) as string],
+  [WSTETH, STETH, protocol().getOrThrow(LIDO) as string],
+  [ENS, ETH, protocol().getOrThrow(CHAINLINK) as string], // We don't use Uniswap on rinkeby
 ]
 
 export const compositePaths: Array<[string, string, Array<string>]> = [

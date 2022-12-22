@@ -6,7 +6,7 @@ export const whales: Map<string, string> = base_config.whales
 
 export const external: Map<string, string> = base_config.external
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol
+export const protocol = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const newJoins: Map<string, string> = base_config.newJoins

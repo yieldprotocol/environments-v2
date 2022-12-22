@@ -6,11 +6,11 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { bytesToString } from '../../../shared/helpers'
-import { Cauldron, Ladle, EmergencyBrake, Witch, Join__factory } from '../../../typechain'
+import { Cauldron, Ladle, OldEmergencyBrake, Witch, Join__factory } from '../../../typechain'
 
 export const orchestrateAuctionAssetsFragment = async (
   ownerAcc: SignerWithAddress,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   cauldron: Cauldron,
   ladle: Ladle,
   witch: Witch,
