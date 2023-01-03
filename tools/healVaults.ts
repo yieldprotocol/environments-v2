@@ -7,7 +7,7 @@ const { whales, protocol, vaultIds } = require(process.env.CONF as string)
 import { impersonate, bytesToBytes32 } from '../shared/helpers'
 
 /**
- * @dev This script tops up uncollateralized vaults to 99% of the required collateralization, so that they get liquidated.
+ * @dev This script tops up uncollateralized vaults to one wei below the required collateralization, so that they get liquidated.
  */
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
@@ -25,7 +25,7 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
     const level = BigNumber.from(await cauldron.callStatic.level(vaultId)) // Level is the absolute amount below the collateralized point
 
     const levelAsInk = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0])
-    const healAmount = levelAsInk.mul(99).div(100)
+    const healAmount = levelAsInk.sub(1)
     console.log(`${vaultId} ${vault.ilkId} ${vault.seriesId} ${level} ${levelAsInk}`)
 
     // Remove once the amounts are known
@@ -36,7 +36,7 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
     await ladle.batch([
       ladle.interface.encodeFunctionData('transfer', [ilk.address, ilkJoin.address, healAmount]),
       ladle.interface.encodeFunctionData('moduleCall', [
-        healer.address, healer.interface.encodeFunctionData('heal', [vaultId, level.mul(-99).div(100), 0])
+        healer.address, healer.interface.encodeFunctionData('heal', [vaultId, healAmount, 0])
       ]),
     ], { gasLimit: 10000000 })
     console.log(`Healed ${healAmount} of ${vault.ilkId} to the vault ${vaultId}`)
