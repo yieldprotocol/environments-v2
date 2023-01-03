@@ -5,6 +5,7 @@
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
+import { id } from '@yield-protocol/utils-v2'
 
 import { IERC20Metadata, Pool, Timelock } from '../../../typechain'
 
@@ -17,12 +18,16 @@ export const initPoolsProposal = async (
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [seriesId, baseAmount] of poolsInit) {
+  for (let [seriesId, ilkId, baseAmount] of poolsInit) {
     const poolAddress = newPools.get(seriesId) as string
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
     else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
     const pool: Pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
-    const base: IERC20Metadata = (await ethers.getContractAt('IERC20', await pool.base(), ownerAcc)) as IERC20Metadata
+    const base: IERC20Metadata = (await ethers.getContractAt(
+      'IERC20Metadata',
+      await pool.base(),
+      ownerAcc
+    )) as IERC20Metadata
     const baseName = await base.symbol()
 
     console.log(`Timelock balance of ${baseName} is ${await base.balanceOf(timelock.address)}`)
@@ -33,6 +38,13 @@ export const initPoolsProposal = async (
       data: base.interface.encodeFunctionData('transfer', [poolAddress, baseAmount]),
     })
     console.log(`Transferring ${baseAmount} of ${baseName} from Timelock to Pool`)
+
+    // Give init access to the timelock
+    proposal.push({
+      target: pool.address,
+      data: pool.interface.encodeFunctionData('grantRoles', [[id(pool.interface, 'init(address)')], timelock.address]),
+    })
+    console.log(`pool.grantRoles(gov, timelock)`)
 
     // Initialize pool
     proposal.push({
