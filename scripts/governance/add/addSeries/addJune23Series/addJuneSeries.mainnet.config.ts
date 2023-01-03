@@ -98,8 +98,8 @@ export const notionalSources: Array<[string, string, string, string]> = [
 /// @param dec: number of zeros to append to line and dust
 export const notionalDebtLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, FETH2306, 1100000, 400, 1, 18],
-  [DAI, FDAI2306, 1100000, 500000, 5000, 18],
-  [USDC, FUSDC2306, 1100000, 500000, 5000, 6],
+  [DAI, FDAI2306, 1100000, 500000, 1000, 18],
+  [USDC, FUSDC2306, 1100000, 500000, 1000, 6],
 ]
 
 /// @dev Parameters to govern liquidations
