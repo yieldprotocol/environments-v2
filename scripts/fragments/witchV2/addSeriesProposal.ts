@@ -11,7 +11,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { getName } from '../../../shared/helpers'
-import { Cauldron, OldEmergencyBrake, FYToken__factory, Ladle, Pool__factory, Witch } from '../../../typechain'
+import { Cauldron, FYToken__factory, Ladle, OldEmergencyBrake, Pool__factory, Witch } from '../../../typechain'
 import { SeriesToAdd } from '../../governance/confTypes'
 
 export const addSeriesProposal = async (

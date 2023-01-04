@@ -6,17 +6,17 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { bytesToBytes32, getName } from '../../../shared/helpers'
-import { Cauldron, EmergencyBrake, IOracle, Join__factory, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
-import { WAD } from '../../../shared/constants'
+import { ethers } from 'hardhat'
+import { getName } from '../../../shared/helpers'
+import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { setLineAndLimitProposal } from './setLineAndLimitProposal'
 
 export const makeIlkProposal = async (
   ownerAcc: SignerWithAddress,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   spotOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
@@ -59,19 +59,22 @@ export const makeIlkProposal = async (
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
-    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    console.log(`Adding for ${getName(baseId)}/${getName(ilkId)} from ${spotOracle.address as string}`)
-    proposal.push({
-      target: spotOracle.address,
-      data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
-    })
-
+    console.log(
+      `Setting spot oracle for ${getName(baseId)}/${getName(ilkId)} to address: ${
+        spotOracle.address
+      }, ratio: ${ethers.utils.formatUnits(ratio, 6)}`
+    )
     // Set the spot oracle in the Cauldron
     proposal.push({
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('setSpotOracle', [baseId, ilkId, spotOracle.address, ratio]),
     })
 
+    console.log(
+      `Setting debt limits for ${getName(baseId)}/${getName(
+        ilkId
+      )} maxDebt: ${line}, minDebt: ${dust}, decimals: ${dec}`
+    )
     // Set the base/ilk limits in the Cauldron
     proposal.push({
       target: cauldron.address,

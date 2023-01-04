@@ -5,12 +5,12 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Cauldron, EmergencyBrake, Timelock, Witch } from '../../../typechain'
+import { Cauldron, OldEmergencyBrake, Timelock, Witch } from '../../../typechain'
 
 export const orchestrateWitchV2Fragment = async (
   ownerAcc: SignerWithAddress,
   timelock: Timelock,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   cauldron: Cauldron,
   witch: Witch
 ): Promise<Array<{ target: string; data: string }>> => {

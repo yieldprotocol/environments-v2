@@ -6,6 +6,7 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
+import { ethers } from 'hardhat'
 import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
@@ -18,9 +19,13 @@ export const setLineAndLimitProposal = (
 
   for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
     console.log(
-      `Witch#setLineAndLimit(${getName(ilkId)}, ${getName(
+      `Witch#setLineAndLimit(ilkId: ${getName(ilkId)}, baseId: ${getName(
         baseId
-      )}, ${duration}, ${vaultProportion}, ${collateralProportion}, ${max})`
+      )}, duration: ${duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
+        vaultProportion
+      )}, collateralProportion: ${ethers.utils.formatUnits(collateralProportion)}, max: ${ethers.utils.formatUnits(
+        max
+      )})`
     )
     proposal.push({
       target: witch.address,

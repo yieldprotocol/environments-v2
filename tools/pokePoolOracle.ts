@@ -17,15 +17,14 @@ async function main() {
       .filter(({ maturity }) => maturity > now)
 
   const idlePools =
-    (await Promise.all(activePools.map(async ({ address }) => ({ address, updated: await poolOracle.callStatic["update(address)"](address) }))))
+    (await Promise.all(activePools.map(async ({ address }) => ({ address, updated: await poolOracle.callStatic.updatePool(address) }))))
       .filter(({ updated }) => updated)
       .map(({ address }) => address)
 
   if (idlePools.length > 0) {
     console.log("Pools to update:", idlePools)
-    
-    const tx = await poolOracle["update(address[])"](idlePools)
-    await tx.wait(1)
+
+    await (await poolOracle.updatePools(idlePools)).wait(1)
 
     await advanceTime(60 * 5);
   } else {

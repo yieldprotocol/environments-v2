@@ -1,10 +1,10 @@
 import { id } from '@yield-protocol/utils-v2'
-import { ContangoLadle, EmergencyBrake } from '../../../../typechain'
+import { ContangoLadle, OldEmergencyBrake } from '../../../../typechain'
 
 export const orchestrateContangoLadle = async (
   contangoAddress: string,
   contangoLadle: ContangoLadle,
-  cloak: EmergencyBrake
+  cloak: OldEmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

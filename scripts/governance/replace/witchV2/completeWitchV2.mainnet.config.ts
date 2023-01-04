@@ -110,7 +110,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: ETH,
     ilkId: WBTC,
     duration: 600,
-    vaultProportion: parseUnits('1'),
+    vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
@@ -118,7 +118,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: DAI,
     ilkId: WBTC,
     duration: 600,
-    vaultProportion: parseUnits('1'),
+    vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },
@@ -126,7 +126,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     baseId: USDC,
     ilkId: WBTC,
     duration: 600,
-    vaultProportion: parseUnits('1'),
+    vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.7'), // 105 / 150
     max: parseUnits('100', 8),
   },

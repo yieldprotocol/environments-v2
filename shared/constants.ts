@@ -1,5 +1,6 @@
 import { ethers, BigNumber } from 'ethers'
 import { FCASH_JUN23 } from './notional'
+import { stringToBytes6 } from './helpers'
 
 export const ZERO = BigNumber.from(0)
 export const ZERO_ADDRESS = '0x' + '00'.repeat(20)
@@ -23,11 +24,11 @@ export const ts = ONE64.div(secondsIn25Years)
 export const secondsInOneMinute = 60
 export const secondsInOneHour = 60 * secondsInOneMinute
 
-export const CHI = ethers.utils.formatBytes32String('CHI').slice(0, 14)
-export const RATE = ethers.utils.formatBytes32String('RATE').slice(0, 14)
-export const G1 = ethers.utils.formatBytes32String('g1')
-export const G2 = ethers.utils.formatBytes32String('g2')
-export const TS = ethers.utils.formatBytes32String('ts')
+export const CHI = stringToBytes6('CHI')
+export const RATE = stringToBytes6('RATE')
+export const G1 = stringToBytes6('g1')
+export const G2 = stringToBytes6('g2')
+export const TS = stringToBytes6('ts')
 
 // Return the timestamp of the next Yield maturity from a given timestamp
 function nextYieldMaturity(timestamp: number): number {
@@ -96,44 +97,46 @@ export const getStrategyId = (assetId: string, frequency: string) => {
   return '0x1' + stripAsset(assetId) + 'FF' + '000' + (frequency === 'MJD' ? '000' : '001')
 }
 
-export const ETH = ethers.utils.formatBytes32String('00').slice(0, 14)
-export const DAI = ethers.utils.formatBytes32String('01').slice(0, 14)
-export const USDC = ethers.utils.formatBytes32String('02').slice(0, 14)
-export const WBTC = ethers.utils.formatBytes32String('03').slice(0, 14)
-export const WSTETH = ethers.utils.formatBytes32String('04').slice(0, 14)
-export const STETH = ethers.utils.formatBytes32String('05').slice(0, 14)
-export const LINK = ethers.utils.formatBytes32String('06').slice(0, 14)
-export const ENS = ethers.utils.formatBytes32String('07').slice(0, 14)
-export const YVDAI = ethers.utils.formatBytes32String('08').slice(0, 14)
-export const YVUSDC = ethers.utils.formatBytes32String('09').slice(0, 14)
-export const UNI = ethers.utils.formatBytes32String('10').slice(0, 14)
-export const MKR = ethers.utils.formatBytes32String('11').slice(0, 14)
-export const FDAI2203 = ethers.utils.formatBytes32String('12').slice(0, 14)
-export const FUSDC2203 = ethers.utils.formatBytes32String('13').slice(0, 14)
-export const FDAI2206 = ethers.utils.formatBytes32String('14').slice(0, 14)
-export const FUSDC2206 = ethers.utils.formatBytes32String('15').slice(0, 14)
-export const FDAI2209 = ethers.utils.formatBytes32String('16').slice(0, 14)
-export const FUSDC2209 = ethers.utils.formatBytes32String('17').slice(0, 14)
-export const FRAX = ethers.utils.formatBytes32String('18').slice(0, 14)
-export const CVX3CRV = ethers.utils.formatBytes32String('19').slice(0, 14)
-export const EWETH = ethers.utils.formatBytes32String('20').slice(0, 14)
-export const EDAI = ethers.utils.formatBytes32String('21').slice(0, 14)
-export const EUSDC = ethers.utils.formatBytes32String('22').slice(0, 14)
-export const FDAI2212 = ethers.utils.formatBytes32String('23').slice(0, 14)
-export const FUSDC2212 = ethers.utils.formatBytes32String('24').slice(0, 14)
-export const FDAI2303 = ethers.utils.formatBytes32String('25').slice(0, 14)
-export const FUSDC2303 = ethers.utils.formatBytes32String('26').slice(0, 14)
-export const EFRAX = ethers.utils.formatBytes32String('27').slice(0, 14)
-export const FETH2212 = ethers.utils.formatBytes32String('28').slice(0, 14)
-export const FETH2303 = ethers.utils.formatBytes32String('29').slice(0, 14)
-export const YSDAI6MMSASSET = ethers.utils.formatBytes32String('30').slice(0, 14)
-export const YSDAI6MJDASSET = ethers.utils.formatBytes32String('31').slice(0, 14)
-export const YSUSDC6MMSASSET = ethers.utils.formatBytes32String('32').slice(0, 14)
-export const YSUSDC6MJDASSET = ethers.utils.formatBytes32String('33').slice(0, 14)
-export const YSETH6MMSASSET = ethers.utils.formatBytes32String('34').slice(0, 14)
-export const YSETH6MJDASSET = ethers.utils.formatBytes32String('35').slice(0, 14)
-export const YSFRAX6MMSASSET = ethers.utils.formatBytes32String('36').slice(0, 14)
-export const YSFRAX6MJDASSET = ethers.utils.formatBytes32String('37').slice(0, 14)
+export const ETH = stringToBytes6('00')
+export const DAI = stringToBytes6('01')
+export const USDC = stringToBytes6('02')
+export const WBTC = stringToBytes6('03')
+export const WSTETH = stringToBytes6('04')
+export const STETH = stringToBytes6('05')
+export const LINK = stringToBytes6('06')
+export const ENS = stringToBytes6('07')
+export const YVDAI = stringToBytes6('08')
+export const YVUSDC = stringToBytes6('09')
+export const UNI = stringToBytes6('10')
+export const MKR = stringToBytes6('11')
+export const FDAI2203 = stringToBytes6('12')
+export const FUSDC2203 = stringToBytes6('13')
+export const FDAI2206 = stringToBytes6('14')
+export const FUSDC2206 = stringToBytes6('15')
+export const FDAI2209 = stringToBytes6('16')
+export const FUSDC2209 = stringToBytes6('17')
+export const FRAX = stringToBytes6('18')
+export const CVX3CRV = stringToBytes6('19')
+export const EWETH = stringToBytes6('20')
+export const EDAI = stringToBytes6('21')
+export const EUSDC = stringToBytes6('22')
+export const FDAI2212 = stringToBytes6('23')
+export const FUSDC2212 = stringToBytes6('24')
+export const FDAI2303 = stringToBytes6('25')
+export const FUSDC2303 = stringToBytes6('26')
+export const EFRAX = stringToBytes6('27')
+export const FETH2212 = stringToBytes6('28')
+export const FETH2303 = stringToBytes6('29')
+export const YSDAI6MMSASSET = stringToBytes6('30')
+export const YSDAI6MJDASSET = stringToBytes6('31')
+export const YSUSDC6MMSASSET = stringToBytes6('32')
+export const YSUSDC6MJDASSET = stringToBytes6('33')
+export const YSETH6MMSASSET = stringToBytes6('34')
+export const YSETH6MJDASSET = stringToBytes6('35')
+export const YSFRAX6MMSASSET = stringToBytes6('36')
+export const YSFRAX6MJDASSET = stringToBytes6('37')
+export const CRAB = stringToBytes6('38')
+export const OSQTH = stringToBytes6('39')
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -160,6 +163,8 @@ export const NOTIONAL = 'notionalOracle'
 export const IDENTITY = 'identityOracle'
 export const POOL_ORACLE = 'poolOracle'
 export const YIELD_SPACE_MULTI_ORACLE = 'yieldSpaceMultiOracle'
+export const CRAB_ORACLE = 'crabOracle'
+export const CONTANGO = 'contango'
 export const CONTANGO_WITCH = 'contangoWitch'
 export const CONTANGO_CAULDRON = 'contangoCauldron'
 export const CONTANGO_LADLE = 'contangoLadle'
@@ -215,27 +220,27 @@ export const YSFRAX6MMS_V1 = 'YSFRAX6MMS'
 export const YSFRAX6MJD_V1 = 'YSFRAX6MJD'
 
 // Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
-export const FYETH2203 = ethers.utils.formatBytes32String('0005').slice(0, 14) // End of 5th quarter from 1st January 2021
-export const FYETH2206 = ethers.utils.formatBytes32String('0006').slice(0, 14) // End of 6th quarter from 1st January 2021
-export const FYETH2209 = ethers.utils.formatBytes32String('0007').slice(0, 14)
-export const FYETH2212 = ethers.utils.formatBytes32String('0008').slice(0, 14)
-export const FYETH2303 = ethers.utils.formatBytes32String('0009').slice(0, 14)
-export const FYDAI2112 = ethers.utils.formatBytes32String('0104').slice(0, 14)
-export const FYDAI2203 = ethers.utils.formatBytes32String('0105').slice(0, 14)
-export const FYDAI2206 = ethers.utils.formatBytes32String('0106').slice(0, 14)
-export const FYDAI2209 = ethers.utils.formatBytes32String('0107').slice(0, 14)
-export const FYDAI2212 = ethers.utils.formatBytes32String('0108').slice(0, 14)
-export const FYDAI2303 = ethers.utils.formatBytes32String('0109').slice(0, 14)
-export const FYUSDC2112 = ethers.utils.formatBytes32String('0204').slice(0, 14)
-export const FYUSDC2203 = ethers.utils.formatBytes32String('0205').slice(0, 14)
-export const FYUSDC2206 = ethers.utils.formatBytes32String('0206').slice(0, 14)
-export const FYUSDC2209 = ethers.utils.formatBytes32String('0207').slice(0, 14)
-export const FYUSDC2212 = ethers.utils.formatBytes32String('0208').slice(0, 14)
-export const FYUSDC2303 = ethers.utils.formatBytes32String('0209').slice(0, 14)
-export const FYFRAX2206 = ethers.utils.formatBytes32String('0306').slice(0, 14) // Incorrectly labelled
-export const FYFRAX2209 = ethers.utils.formatBytes32String('0307').slice(0, 14) // Incorrectly labelled
-export const FYFRAX2212 = ethers.utils.formatBytes32String('1808').slice(0, 14)
-export const FYFRAX2303 = ethers.utils.formatBytes32String('1809').slice(0, 14)
+export const FYETH2203 = stringToBytes6('0005') // End of 5th quarter from 1st January 2021
+export const FYETH2206 = stringToBytes6('0006') // End of 6th quarter from 1st January 2021
+export const FYETH2209 = stringToBytes6('0007')
+export const FYETH2212 = stringToBytes6('0008')
+export const FYETH2303 = stringToBytes6('0009')
+export const FYDAI2112 = stringToBytes6('0104')
+export const FYDAI2203 = stringToBytes6('0105')
+export const FYDAI2206 = stringToBytes6('0106')
+export const FYDAI2209 = stringToBytes6('0107')
+export const FYDAI2212 = stringToBytes6('0108')
+export const FYDAI2303 = stringToBytes6('0109')
+export const FYUSDC2112 = stringToBytes6('0204')
+export const FYUSDC2203 = stringToBytes6('0205')
+export const FYUSDC2206 = stringToBytes6('0206')
+export const FYUSDC2209 = stringToBytes6('0207')
+export const FYUSDC2212 = stringToBytes6('0208')
+export const FYUSDC2303 = stringToBytes6('0209')
+export const FYFRAX2206 = stringToBytes6('0306') // Incorrectly labelled
+export const FYFRAX2209 = stringToBytes6('0307') // Incorrectly labelled
+export const FYFRAX2212 = stringToBytes6('1808')
+export const FYFRAX2303 = stringToBytes6('1809')
 
 export const DISPLAY_NAMES = new Map([
   [ETH, 'ETH'],

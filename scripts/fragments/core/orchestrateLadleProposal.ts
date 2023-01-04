@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Timelock, EmergencyBrake, Cauldron, Ladle } from '../../../typechain'
+import { Cauldron, Ladle, OldEmergencyBrake, Timelock } from '../../../typechain'
 
 /**
  * @dev This script orchestrates the Ladle
@@ -19,7 +19,7 @@ export const orchestrateLadleProposal = async (
   cauldron: Cauldron,
   ladle: Ladle,
   timelock: Timelock,
-  cloak: EmergencyBrake
+  cloak: OldEmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
