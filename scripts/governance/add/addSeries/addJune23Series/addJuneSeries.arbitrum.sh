@@ -14,6 +14,6 @@ export CONF=$PWD/$HERE/addJuneSeries.arbitrum.config
 # $RUN $HERE/../../../../../tools/joinLoan.ts
 
 # $RUN $HERE/../../../../../tools/advanceTimeToMaturity.ts
-$RUN $HERE/addJuneSeries.arbitrum.ts
+# $RUN $HERE/addJuneSeries.arbitrum.ts
 # $RUN $HERE/../../../../../shared/approve.ts
-# $RUN $HERE/../../../../../shared/execute.ts
+$RUN $HERE/../../../../../shared/execute.ts
