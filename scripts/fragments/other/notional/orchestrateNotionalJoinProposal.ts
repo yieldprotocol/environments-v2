@@ -15,7 +15,7 @@ export const orchestrateNotionalJoinProposal = async (
   // Store a plan for isolating Join from Ladle and Witch
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let [, joinAddress] of joins) {
+  for (let [assetId, joinAddress] of joins) {
     const join = NotionalJoin__factory.connect(joinAddress, ownerAcc)
     const assetAddress = await join.asset() // Check it's a valid join
 

@@ -129,7 +129,7 @@ module.exports = {
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 15_000_000_000,
+      gasPrice: 35_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
@@ -148,7 +148,7 @@ module.exports = {
   tenderly: {
 		username: "Yield",
 		project: "v2",
-    forkNetwork: "42161",
+    forkNetwork: "1",
 	},
   etherscan: {
     apiKey: {
