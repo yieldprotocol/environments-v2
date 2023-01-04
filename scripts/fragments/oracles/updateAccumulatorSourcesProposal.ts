@@ -2,7 +2,7 @@
  * @dev This script replaces one or more chi data sources in the AccumulatorMultiOracle.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { AccumulatorMultiOracle } from '../../../typechain'
 
 export const updateAccumulatorSourcesProposal = async (
@@ -21,9 +21,9 @@ export const updateAccumulatorSourcesProposal = async (
         target: lendingOracle.address,
         data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, kind, startRate, perSecondRate]),
       })
-      console.log(`Accumulator(${bytesToString(baseId)}/${kind}): ${startRate}, ${perSecondRate}`)
+      console.log(`Accumulator(${getName(baseId)}/${kind}): ${startRate}, ${perSecondRate}`)
     } else {
-      console.log(`Accumulator for (${bytesToString(baseId)}/${kind}): already set`)
+      console.log(`Accumulator for (${getName(baseId)}/${kind}): already set`)
     }
   }
 

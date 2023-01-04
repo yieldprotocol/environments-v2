@@ -3,7 +3,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { RATE } from '../../../shared/constants'
 
 import { ERC20Mock, CompoundMultiOracle } from '../../../typechain'
@@ -28,7 +28,7 @@ export const updateRateSourcesProposal = async (
       target: lendingOracle.address,
       data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, RATE, sourceAddress]),
     })
-    console.log(`Rate(${bytesToString(baseId)}): ${sourceAddress}`)
+    console.log(`Rate(${getName(baseId)}): ${sourceAddress}`)
   }
 
   return proposal

@@ -7,8 +7,8 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { CHI, RATE } from '../../../shared/constants'
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+
+import { getName } from '../../../shared/helpers'
 import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
 
 export const makeBaseProposal = async (
@@ -22,16 +22,6 @@ export const makeBaseProposal = async (
   const proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, joinAddress] of bases) {
     const join = Join__factory.connect(joinAddress, ownerAcc)
-
-    // Test that the sources for rate and chi have been set. Peek will fail with 'Source not found' if they have not.
-    proposal.push({
-      target: lendingOracle.address,
-      data: lendingOracle.interface.encodeFunctionData('peek', [bytesToBytes32(assetId), bytesToBytes32(RATE), 0]),
-    })
-    proposal.push({
-      target: lendingOracle.address,
-      data: lendingOracle.interface.encodeFunctionData('peek', [bytesToBytes32(assetId), bytesToBytes32(CHI), 0]),
-    })
 
     // Allow Witch to join base
     proposal.push({
@@ -55,7 +45,7 @@ export const makeBaseProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(assetId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, join(${getName(assetId)})): ${await cloak.hash(witch.address, plan)}`)
     }
 
     // Add the asset as a base
@@ -63,7 +53,7 @@ export const makeBaseProposal = async (
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('setLendingOracle', [assetId, lendingOracle.address]),
     })
-    console.log(`Asset ${bytesToString(assetId)} made into base using ${lendingOracle.address}`)
+    console.log(`Asset ${getName(assetId)} made into base using ${lendingOracle.address}`)
   }
 
   return proposal

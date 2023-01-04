@@ -2,7 +2,7 @@
  * @dev This script updates the auction limits on the Witch.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 
 import { OldWitch } from '../../../typechain'
 
@@ -19,7 +19,7 @@ export const updateWitchLimitsFragment = async (
       target: witch.address,
       data: witch.interface.encodeFunctionData('setIlk', [ilkId, ilk.duration, ilk.initialOffer, line, dust, dec]),
     })
-    console.log(`${bytesToString(ilkId)}: ${limits.line}/${limits.dust}/${limits.dec} -> ${line}/${dust}/${dec}`)
+    console.log(`${getName(ilkId)}: ${limits.line}/${limits.dust}/${limits.dec} -> ${line}/${dust}/${dec}`)
   }
   return proposal
 }
