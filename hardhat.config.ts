@@ -148,7 +148,7 @@ module.exports = {
   tenderly: {
 		username: "Yield",
 		project: "v2",
-    forkNetwork: "42161",
+    forkNetwork: "1",
 	},
   etherscan: {
     apiKey: {
