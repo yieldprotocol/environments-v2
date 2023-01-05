@@ -4,7 +4,7 @@ export const protocol: Map<string, string> = base_config.protocol
 export const whales: Map<string, string> = base_config.whales
 
 export const vaultIds = [
-  '0xd536d12fd683c74c282043d2',
+  //  '0xd536d12fd683c74c282043d2',
   '0xaf901b59f1ab2599fea88cf1',
   '0xc09b2ddd5b19df16a79fe64f',
   '0xed2ecdc2898656e0d3673a1a',
