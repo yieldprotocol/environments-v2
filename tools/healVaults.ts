@@ -30,10 +30,9 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
 
     // Remove once the amounts are known
     const whaleAcc = await impersonate(whales.getOrThrow(vault.ilkId)!, WAD)
-    await ilk.connect(whaleAcc).transfer(ownerAcc.address, healAmount)
 
-    await ilk.approve(ladle.address, healAmount)
-    await ladle.batch([
+    await ilk.connect(whaleAcc).approve(ladle.address, healAmount)
+    await ladle.connect(whaleAcc).batch([
       ladle.interface.encodeFunctionData('transfer', [ilk.address, ilkJoin.address, healAmount]),
       ladle.interface.encodeFunctionData('moduleCall', [
         healer.address, healer.interface.encodeFunctionData('heal', [vaultId, healAmount, 0])
