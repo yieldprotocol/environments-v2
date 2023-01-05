@@ -3,7 +3,7 @@ import { ethers } from 'hardhat'
 const { strategies, rollData } = require(process.env.CONF as string)
 
 ;(async () => {
-  for (let [strategyId] of rollData) {
+  for (let strategyId of rollData) {
 
     console.log(strategyId)
     const strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string)

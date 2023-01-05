@@ -98,15 +98,15 @@ export const notionalSources: Array<[string, string, string, string]> = [
 /// @param dec: number of zeros to append to line and dust
 export const notionalDebtLimits: Array<[string, string, number, number, number, number]> = [
   [ETH, FETH2306, 1100000, 400, 1, 18],
-  [DAI, FDAI2306, 1100000, 500000, 5000, 18],
-  [USDC, FUSDC2306, 1100000, 500000, 5000, 6],
+  [DAI, FDAI2306, 1100000, 500000, 1000, 18],
+  [USDC, FUSDC2306, 1100000, 500000, 1000, 6],
 ]
 
 /// @dev Parameters to govern liquidations
 export const auctionLineAndLimits: AuctionLineAndLimit[] = []
 
 /// Strategies to print redeemable and available funds for.
-export const rollData: Array<[string]> = [[YSETH6MJD], [YSDAI6MJD], [YSUSDC6MJD], [YSFRAX6MJD]]
+export const rollData: Array<string> = [YSETH6MJD_V1, YSDAI6MJD_V1, YSUSDC6MJD_V1, YSFRAX6MJD_V1]
 
 // Amount to be donated to the Joins in forks
 export const joinLoans: Map<string, BigNumber> = new Map([[FRAX, WAD.mul(5000)]])

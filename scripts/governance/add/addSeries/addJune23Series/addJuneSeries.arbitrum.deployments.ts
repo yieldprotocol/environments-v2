@@ -156,7 +156,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'newStrategies.json',
     name: YSETH6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => YSETH6MJD, () => newFYTokens().getOrThrow(FYETH2306)!],
+    args: [() => 'Yield Strategy ETH 6M Jun Dec', () => 'YSETH6MJD', () => newFYTokens().getOrThrow(FYETH2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
@@ -165,7 +165,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'newStrategies.json',
     name: YSDAI6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => YSDAI6MJD, () => newFYTokens().getOrThrow(FYDAI2306)!],
+    args: [() => 'Yield Strategy DAI 6M Jun Dec', () => 'YSDAI6MJD', () => newFYTokens().getOrThrow(FYDAI2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
@@ -174,7 +174,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'newStrategies.json',
     name: YSUSDC6MJD,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => YSUSDC6MJD, () => newFYTokens().getOrThrow(FYUSDC2306)!],
+    args: [() => 'Yield Strategy USDC 6M Jun Dec', () => 'YSUSDC6MJD', () => newFYTokens().getOrThrow(FYUSDC2306)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
