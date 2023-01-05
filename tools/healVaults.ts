@@ -28,14 +28,17 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
     const healAmount = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0]).add(1000000)
     console.log(`${vaultId} ${vault.ilkId} ${vault.seriesId} ${level} ${healAmount}`)
 
-    await ilk.approve(ladle.address, healAmount)
-    await ladle.batch([
+    let tx = await ilk.approve(ladle.address, healAmount, { gasLimit: 55_000 })
+    tx.wait(1)
+    tx = await ladle.batch([
       ladle.interface.encodeFunctionData('transfer', [ilk.address, ilkJoin.address, healAmount]),
       ladle.interface.encodeFunctionData('moduleCall', [
         healer.address, healer.interface.encodeFunctionData('heal', [vaultId, healAmount, 0])
       ]),
-    ])
-    await witch.cancel(vaultId, { gasLimit: 150_000 })
+    ], { gasLimit: 150_000 })
+    tx.wait(1)
+    tx = await witch.cancel(vaultId, { gasLimit: 150_000 })
+    tx.wait(1)
     console.log(`Healed ${healAmount} of ${vault.ilkId} to the vault ${vaultId}`)
   }
 })()
