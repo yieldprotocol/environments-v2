@@ -5,10 +5,10 @@ import {
   getOwnerOrImpersonate,
 } from '../../../../../../shared/helpers'
 
-import { orchestrateJoinProposal } from '../../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../../fragments/core/removeDeployerRootToCloak'
+import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAsset'
+import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlk'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeries'
 
 import {
   IOracle,
@@ -22,13 +22,13 @@ import {
   Cvx3CrvOracle,
 } from '../../../../../../typechain'
 import { CONVEX3CRV, CVX3CRV } from '../../../../../../shared/constants'
-import { addTokenProposal } from '../../../../../fragments/ladle/addTokenProposal'
-import { addIntegrationProposal } from '../../../../../fragments/ladle/addIntegrationProposal'
-import { addModuleProposal } from '../../../../../fragments/ladle/addModuleProposal'
-import { orchestrateCvx3CrvOracleProposal } from '../../../../../fragments/oracles/orchestrateCvx3CrvOracleProposal'
-import { updateCompositePathsProposal } from '../../../../../fragments/oracles/updateCompositePathsProposal'
-import { updateCompositeSourcesProposal } from '../../../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCvx3CrvOracleSourcesProposal } from '../../../../../fragments/oracles/updateCvx3CrvOracleSourcesProposal'
+import { addTokenProposal } from '../../../../../fragments/ladle/addToken'
+import { addIntegrationProposal } from '../../../../../fragments/ladle/addIntegration'
+import { addModuleProposal } from '../../../../../fragments/ladle/addModule'
+import { orchestrateCvx3CrvOracleProposal } from '../../../../../fragments/oracles/orchestrateCvx3CrvOracle'
+import { updateCompositePathsProposal } from '../../../../../fragments/oracles/updateCompositePaths'
+import { updateCompositeSourcesProposal } from '../../../../../fragments/oracles/updateCompositeSources'
+import { updateCvx3CrvOracleSourcesProposal } from '../../../../../fragments/oracles/updateCvx3CrvOracleSources'
 import { removeLadlePermissionsProposal } from './removeLadlePermissionsProposal'
 
 const { developer, deployer, assets } = require(process.env.CONF as string)

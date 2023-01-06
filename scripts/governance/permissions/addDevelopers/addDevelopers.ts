@@ -1,5 +1,5 @@
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { grantDevelopersProposal } from '../../../fragments/permissions/grantDevelopersProposal'
+import { grantDevelopersProposal } from '../../../fragments/permissions/grantDevelopers'
 import { Timelock__factory, EmergencyBrake__factory } from '../../../../typechain'
 import { TIMELOCK, CLOAK, MULTISIG } from '../../../../shared/constants'
 

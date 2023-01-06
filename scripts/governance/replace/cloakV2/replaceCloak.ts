@@ -1,10 +1,10 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { addFYTokenToCloakFragment } from '../../../fragments/cloak/addFYTokenToCloakFragment'
-import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloakFragment'
-import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloakFragment'
-import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloakFragment'
-import { grantRootFragment } from '../../../fragments/permissions/grantRootFragment'
-import { revokeRootFragment } from '../../../fragments/permissions/revokeRootFragment'
+import { addFYTokenToCloakFragment } from '../../../fragments/cloak/addFYTokenToCloak'
+import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloak'
+import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloak'
+import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloak'
+import { grantRootFragment } from '../../../fragments/permissions/grantRoot'
+import { revokeRootFragment } from '../../../fragments/permissions/revokeRoot'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER, CLOAK_V1 } from '../../../../shared/constants'
 
 import {

@@ -11,11 +11,11 @@ import {
 
 import { TIMELOCK, CLOAK, MULTISIG, CAULDRON, LADLE, WITCH } from '../../../../../shared/constants'
 
-import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategiesProposal'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
+import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategies'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
 
 const { developer, deployer, seriesIlks, migrateData } = require(process.env.CONF as string)
 const { governance, protocol, joins, newFYTokens, newPools, newStrategies } = require(process.env.CONF as string)

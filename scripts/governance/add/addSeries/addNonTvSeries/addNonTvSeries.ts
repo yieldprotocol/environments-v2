@@ -13,17 +13,17 @@ import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake, Pool } from '../../..
 import { COMPOUND, COMPOSITE, CHAINLINK, UNISWAP } from '../../../../../shared/constants'
 
 import { orchestrateModuleProposal } from '../../../../fragments/modules/orchestrateModuleProposal'
-import { updateChiSourcesProposal } from '../../../../fragments/oracles/updateChiSourcesProposal'
-import { updateRateSourcesProposal } from '../../../../fragments/oracles/updateRateSourcesProposal'
-import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
-import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
+import { updateChiSourcesProposal } from '../../../../fragments/oracles/updateChiSources'
+import { updateRateSourcesProposal } from '../../../../fragments/oracles/updateRateSources'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePaths'
+import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase'
+import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlk'
 import { registerPoolsWithLadle } from '../../../../fragments/assetsAndSeries/registerPoolsWithLadle'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategiesProposal'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { initPoolsProposal } from '../../../../fragments/pools/initPools'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
+import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategies'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol, chainId } = require(process.env.CONF as string)

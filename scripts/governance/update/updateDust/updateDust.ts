@@ -4,7 +4,7 @@
  * It takes as inputs the governance and protocol address files.
  */
 import { ethers } from 'hardhat'
-import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
+import { updateDustProposal } from '../../../fragments/limits/updateDust'
 
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import {

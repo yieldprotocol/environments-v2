@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { CONTANGO_CAULDRON, CONTANGO_LADLE, CONTANGO_WITCH } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
-import { orchestrateWitchV2 } from '../../../../fragments/core/orchestrateWitchFragment'
+import { orchestrateWitchV2 } from '../../../../fragments/core/orchestrateWitch'
 import { replaceWitchV2 } from '../../../../fragments/replace/replaceWitch'
 
 const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens } = require(process.env.CONF as string)

@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
 
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
+import { orchestrateJoinProposal } from '../../../fragments/core/removeDeployerRootToCloak'
 // import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlkProposal'
-import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBaseProposal'
+import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAsset'
+import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlk'
+import { makeBaseProposal } from '../../../fragments/assetsAndSeries/makeBase'
 
 import {
   AccumulatorMultiOracle,

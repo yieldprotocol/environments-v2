@@ -5,10 +5,10 @@ import {
   YieldStrategyLever__factory,
 } from '../../../../typechain'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateLeverProposal } from '../../../fragments/utils/orchestrateLeverProposal'
-import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiverProposal'
+import { orchestrateLeverProposal } from '../../../fragments/utils/orchestrateLever'
+import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiver'
 import { setFlashFeeOnJoinProposal } from '../../../fragments/setFlashFeeOnJoinProposal'
-import { setFlashFeeOnFytokenProposal } from '../../../fragments/flash/setFlashFeeOnFyTokenProposal'
+import { setFlashFeeOnFytokenProposal } from '../../../fragments/flash/setFlashFeeOnFyToken'
 import { TIMELOCK, CAULDRON, GIVER, YIELD_STRATEGY_LEVER } from '../../../../shared/constants'
 
 const { developer, deployer } = require(process.env.CONF as string)

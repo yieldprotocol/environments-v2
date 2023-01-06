@@ -1,7 +1,7 @@
 import { CONTANGO_WITCH, TIMELOCK } from '../../../../shared/constants'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { ContangoWitch__factory, Timelock__factory } from '../../../../typechain'
-import { setLineAndLimitProposal } from '../../../fragments/liquidations/setLineAndLimitProposal'
+import { setLineAndLimitProposal } from '../../../fragments/witch/setLineAndLimitProposal'
 
 const { developer, protocol, governance, auctionLineAndLimits } = require(process.env.CONF!)
 

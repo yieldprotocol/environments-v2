@@ -10,15 +10,15 @@ import { Cauldron, Ladle, Witch, Timelock, EmergencyBrake } from '../../../../..
 
 import { CHAINLINKUSD, ACCUMULATOR } from '../../../../../../shared/constants'
 
-import { updateAccumulatorSourcesProposal } from '../../../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { updateChainlinkUSDSourcesProposal } from '../../../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
-import { makeBaseProposal } from '../../../../../fragments/assetsAndSeries/makeBaseProposal'
-import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/updateIlkProposal'
-import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { initPoolsProposal } from '../../../../../fragments/assetsAndSeries/initPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategiesProposal'
-import { initStrategiesProposal } from '../../../../../fragments/strategies/initStrategiesProposal'
+import { updateAccumulatorSourcesProposal } from '../../../../../fragments/oracles/updateAccumulatorSources'
+import { updateChainlinkUSDSourcesProposal } from '../../../../../fragments/oracles/updateChainlinkUSDSources'
+import { makeBaseProposal } from '../../../../../fragments/assetsAndSeries/makeBase'
+import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/updateIlk'
+import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeries'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { initPoolsProposal } from '../../../../../fragments/pools/initPools'
+import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategies'
+import { initStrategiesProposal } from '../../../../../fragments/strategies/initStrategies'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)

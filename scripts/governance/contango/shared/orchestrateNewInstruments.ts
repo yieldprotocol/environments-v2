@@ -20,13 +20,13 @@ import {
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
-import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
+import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAsset'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeries'
+import { orchestrateJoinProposal } from '../../../fragments/core/removeDeployerRootToCloak'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePaths'
+import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSources'
+import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSources'
+import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeries'
 import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
 
 const {

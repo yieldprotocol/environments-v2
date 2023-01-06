@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
 import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
-import { updateRatioProposal } from '../../../fragments/oracles/updateRatioProposal'
-import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
+import { updateRatioProposal } from '../../../fragments/oracles/updateRatio'
+import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/witch/updateWitchLimitsInitialOfferProposal'
 
 import { Timelock, Cauldron, Witch } from '../../../../typechain'
 const { developer } = require(process.env.CONF as string)

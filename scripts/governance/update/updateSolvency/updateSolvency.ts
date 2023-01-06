@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
 
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateSpotOraclesProposal'
+import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSources'
+import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePaths'
+import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateSpotOracles'
 
 import { COMPOSITE } from '../../../../shared/constants'
 

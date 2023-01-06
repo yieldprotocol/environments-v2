@@ -1,7 +1,7 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateAuctionAssetsFragment } from '../../../fragments/liquidations/orchestrateAuctionAssetsFragment'
-import { setAuctionParametersFragment } from '../../../fragments/liquidations/setAuctionParametersFragment'
-import { updateWitchLimitsFragment } from '../../../fragments/liquidations/updateWitchLimitsFragment'
+import { orchestrateAuctionAssetsFragment } from '../../../fragments/witch/orchestrateAuctionAssetsFragment'
+import { setAuctionParametersFragment } from '../../../fragments/witch/setAuctionParametersFragment'
+import { updateWitchLimitsFragment } from '../../../fragments/witch/updateWitchLimitsFragment'
 
 import { AuctionLineAndLimit } from '../../confTypes'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'

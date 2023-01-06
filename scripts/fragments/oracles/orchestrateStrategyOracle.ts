@@ -12,7 +12,7 @@ import { Timelock } from '../../../typechain'
  * The Timelock gets access to governance functions.
  */
 
-export const orchestrateStrategyOracleProposal = async (
+export const orchestrateStrategyOracle = async (
   deployer: string,
   strategyOracle: StrategyOracle,
   timelock: Timelock,
