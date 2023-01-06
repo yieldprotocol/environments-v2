@@ -1,5 +1,5 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitchV2Fragment'
+import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitchFragment'
 import { protectFromLiquidationsFragment } from '../../../fragments/liquidations/protectFromLiquidationsFragment'
 import { orchestrateAuctionAssetsFragment } from '../../../fragments/liquidations/orchestrateAuctionAssetsFragment'
 import { setAuctionParametersFragment } from '../../../fragments/liquidations/setAuctionParametersFragment'

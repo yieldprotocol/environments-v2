@@ -2,7 +2,6 @@ import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { addFYTokenToCloakFragment } from '../../../fragments/cloak/addFYTokenToCloakFragment'
 import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloakFragment'
 import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloakFragment'
-import { addRollerToCloakFragment } from '../../../fragments/cloak/addRollerToCloakFragment'
 import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloakFragment'
 import { grantRootFragment } from '../../../fragments/permissions/grantRootFragment'
 import { revokeRootFragment } from '../../../fragments/permissions/revokeRootFragment'
@@ -27,7 +26,6 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies 
   const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, signerAcc)
   const ladle = Ladle__factory.connect(protocol.get(LADLE)!, signerAcc)
   const witch = Witch__factory.connect(protocol.get(WITCH)!, signerAcc)
-  const roller = Roller__factory.connect(protocol.get(ROLLER)!, signerAcc)
 
   const hosts = []
   for (let joinAddress of joins.values()) hosts.push(joinAddress)
@@ -43,7 +41,6 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies 
   proposal = proposal.concat(await addFYTokenToCloakFragment(signerAcc, cloak, fyTokens))
   proposal = proposal.concat(await addLadleToCloakFragment(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloakFragment(signerAcc, cloak, cauldron, witch, fyTokens, joins))
-  proposal = proposal.concat(await addRollerToCloakFragment(signerAcc, cloak, roller, strategies))
   proposal = proposal.concat(await addExecutorsToCloakFragment(cloak, executors))
 
   await propose(timelock, proposal, developer)

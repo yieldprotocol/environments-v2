@@ -8,7 +8,7 @@ import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { orchestrateLeverProposal } from '../../../fragments/utils/orchestrateLeverProposal'
 import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiverProposal'
 import { setFlashFeeOnJoinProposal } from '../../../fragments/setFlashFeeOnJoinProposal'
-import { setFlashFeeOnFytokenProposal } from '../../../fragments/setFlashFeeOnFyTokenProposal'
+import { setFlashFeeOnFytokenProposal } from '../../../fragments/flash/setFlashFeeOnFyTokenProposal'
 import { TIMELOCK, CAULDRON, GIVER, YIELD_STRATEGY_LEVER } from '../../../../shared/constants'
 
 const { developer, deployer } = require(process.env.CONF as string)

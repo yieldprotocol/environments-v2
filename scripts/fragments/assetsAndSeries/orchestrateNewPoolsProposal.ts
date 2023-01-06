@@ -11,12 +11,11 @@ import { Pool, Timelock, OldEmergencyBrake } from '../../../typechain'
 export const orchestrateNewPoolsProposal = async (
   deployer: string,
   pool: Pool,
-  timelock: Timelock,
-  cloak: OldEmergencyBrake
+  timelock: Timelock
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
-  // Give ROOT to the cloak, revoke ROOT from the deployer
+  // Revoke ROOT from the deployer
   proposal.push({
     target: pool.address,
     data: pool.interface.encodeFunctionData('grantRoles', [
@@ -25,12 +24,6 @@ export const orchestrateNewPoolsProposal = async (
     ]),
   })
   console.log(`pool.grantRoles(gov, timelock)`)
-
-  proposal.push({
-    target: pool.address,
-    data: pool.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
-  })
-  console.log(`cauldron.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: pool.address,

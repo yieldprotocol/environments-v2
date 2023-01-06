@@ -7,8 +7,8 @@
 import { ethers } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { WAD, ETH, DAI, USDC, WBTC } from '../../shared/constants'
-import { jsonToMap, stringToBytes6 } from '../../shared/helpers'
+import { WAD, ETH, DAI, USDC, WBTC } from '../shared/constants'
+import { jsonToMap, stringToBytes6 } from '../shared/helpers'
 import { BigNumber } from 'ethers'
 
 import { ERC20Mock } from '../../typechain/ERC20Mock'

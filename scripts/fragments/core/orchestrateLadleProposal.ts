@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Cauldron, Ladle, OldEmergencyBrake, Timelock } from '../../../typechain'
+import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
 
 /**
  * @dev This script orchestrates the Ladle
@@ -19,7 +19,7 @@ export const orchestrateLadleProposal = async (
   cauldron: Cauldron,
   ladle: Ladle,
   timelock: Timelock,
-  cloak: OldEmergencyBrake
+  cloak: EmergencyBrake
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -27,6 +27,13 @@ export const orchestrateLadleProposal = async (
   // Give ROOT to the cloak, revoke ROOT from the deployer
   // Orchestrate Ladle to use the permissioned functions in Cauldron
   // Store a plan for isolating Cauldron from Ladle
+
+  proposal.push({
+    target: ladle.address,
+    data: ladle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
+  })
+  console.log(`ladle.grantRole(ROOT, cloak)`)
+
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('grantRoles', [
@@ -42,12 +49,6 @@ export const orchestrateLadleProposal = async (
     ]),
   })
   console.log(`ladle.grantRoles(gov, timelock)`)
-
-  proposal.push({
-    target: ladle.address,
-    data: ladle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
-  })
-  console.log(`ladle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: ladle.address,
@@ -71,27 +72,6 @@ export const orchestrateLadleProposal = async (
     ]),
   })
   console.log(`cauldron.grantRoles(ladle)`)
-
-  const plan = [
-    {
-      contact: cauldron.address,
-      signatures: [
-        id(cauldron.interface, 'build(address,bytes12,bytes6,bytes6)'),
-        id(cauldron.interface, 'destroy(bytes12)'),
-        id(cauldron.interface, 'tweak(bytes12,bytes6,bytes6)'),
-        id(cauldron.interface, 'give(bytes12,address)'),
-        id(cauldron.interface, 'pour(bytes12,int128,int128)'),
-        id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
-        id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
-      ],
-    },
-  ]
-
-  proposal.push({
-    target: cloak.address,
-    data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
-  })
-  console.log(`cloak.plan(ladle): ${await cloak.hash(ladle.address, plan)}`)
 
   return proposal
 }

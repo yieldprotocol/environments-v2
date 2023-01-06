@@ -6,47 +6,37 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
+import { ethers } from 'hardhat'
 import { getName } from '../../../shared/helpers'
+import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
-
-import { IOracle, Cauldron, Witch, Join__factory, OldEmergencyBrake } from '../../../typechain'
+import { setLineAndLimitProposal } from '../liquidations/setLineAndLimitProposal'
 
 export const makeIlkProposal = async (
-  ownerAcc: any,
+  ownerAcc: SignerWithAddress,
+  cloak: OldEmergencyBrake,
   spotOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
-  cloak: OldEmergencyBrake,
-  joins: Map<string, string>,
   debtLimits: Array<[string, string, number, number, number, number]>,
-  auctionLineAndLimits: AuctionLineAndLimit[]
+  auctionLineAndLimits: AuctionLineAndLimit[],
+  joins: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
-  const proposal: Array<{ target: string; data: string }> = []
+  const proposal = setLineAndLimitProposal(witch, auctionLineAndLimits)
 
-  for (let auction of auctionLineAndLimits) {
-    console.log(auction.ilkId)
-    const join = Join__factory.connect(joins.getOrThrow(auction.ilkId)!, ownerAcc)
+  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
+  for (const ilkId of ilkIds) {
+    const join = Join__factory.connect(joins.get(ilkId)!, ownerAcc)
 
-    // Configure auction limits for the ilk on the witch
-    proposal.push({
-      target: witch.address,
-      data: witch.interface.encodeFunctionData('setLineAndLimit', [
-        auction.ilkId,
-        auction.baseId,
-        auction.duration,
-        auction.vaultProportion,
-        auction.collateralProportion,
-        auction.max,
-      ]),
-    })
-    console.log(`Asset ${getName(auction.ilkId)} set as ilk on witch at ${witch.address}`)
+    console.log(`Allowing witch to exit join: ${join.address}`)
 
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
-      data: join.interface.encodeFunctionData('grantRoles', [
-        [id(join.interface, 'exit(address,uint128)')],
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'exit(address,uint128)'),
         witch.address,
       ]),
     })
@@ -64,17 +54,27 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${getName(auction.ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
+    console.log(
+      `Setting spot oracle for ${getName(baseId)}/${getName(ilkId)} to address: ${
+        spotOracle.address
+      }, ratio: ${ethers.utils.formatUnits(ratio, 6)}`
+    )
     // Set the spot oracle in the Cauldron
     proposal.push({
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('setSpotOracle', [baseId, ilkId, spotOracle.address, ratio]),
     })
 
+    console.log(
+      `Setting debt limits for ${getName(baseId)}/${getName(
+        ilkId
+      )} maxDebt: ${line}, minDebt: ${dust}, decimals: ${dec}`
+    )
     // Set the base/ilk limits in the Cauldron
     proposal.push({
       target: cauldron.address,

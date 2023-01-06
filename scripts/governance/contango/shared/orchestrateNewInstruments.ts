@@ -26,7 +26,7 @@ import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orch
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
 import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
-import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
+import { addSeriesProposal } from '../../../fragments/assetsAndSeries/addSeriesProposal'
 import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
 
 const {

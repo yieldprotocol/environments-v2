@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
 import * as hre from 'hardhat'
-import { jsonToMap } from '../../shared/helpers'
-import { WAD } from '../../shared/constants'
+import { jsonToMap } from '../../../shared/helpers'
+import { WAD } from '../../../shared/constants'
 
 import { Timelock } from '../../typechain/Timelock'
 import { Relay } from '../../typechain/Relay'

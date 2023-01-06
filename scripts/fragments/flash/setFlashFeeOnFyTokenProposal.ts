@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
-import { LADLE } from '../../shared/constants'
-import { Ladle, FYToken, IPool } from '../../typechain'
+import { LADLE } from '../../../shared/constants'
+import { Ladle, FYToken, IPool } from '../../../typechain'
 const { protocol } = require(process.env.CONF as string)
 
 export const setFlashFeeOnFytokenProposal = async (

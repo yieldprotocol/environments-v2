@@ -1,4 +1,4 @@
-import { Timelock, EmergencyBrake } from '../../../typechain'
+import { EmergencyBrake } from '../../../typechain'
 
 /**
  * @dev This script orchestrates the Cloak
