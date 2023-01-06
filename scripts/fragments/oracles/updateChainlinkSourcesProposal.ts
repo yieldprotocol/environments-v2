@@ -7,8 +7,6 @@
  */
 
 import { ethers } from 'hardhat'
-import { ZERO_ADDRESS } from '../../../shared/constants'
-import { getContract, readAddressMappingIfExists } from '../../../shared/helpers'
 
 import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechain'
 

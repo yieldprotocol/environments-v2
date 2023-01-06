@@ -4,7 +4,7 @@
  * It uses the cauldron to set the debt limits for the supplied base/ilk pairs.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 
 import { Cauldron } from '../../../typechain'
 
@@ -20,7 +20,7 @@ export const updateLimitsProposal = async (
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('setDebtLimits', [baseId, ilkId, maxDebt, minDebt, decDebt]),
     })
-    console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)}: ${maxDebt}/${minDebt}|${decDebt}`)
+    console.log(`${getName(baseId)}/${getName(ilkId)}: ${maxDebt}/${minDebt}|${decDebt}`)
   }
   return proposal
 }

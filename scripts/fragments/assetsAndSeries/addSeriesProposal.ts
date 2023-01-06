@@ -9,17 +9,18 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString } from '../../../shared/helpers'
 import { ROOT, ZERO_ADDRESS } from '../../../shared/constants'
+import { getName } from '../../../shared/helpers'
 
 import {
-  Cauldron,
-  EmergencyBrake,
-  FYToken__factory,
-  Join__factory,
-  Ladle,
-  Pool__factory,
   Timelock,
+  OldEmergencyBrake,
+  Cauldron,
+  Ladle,
+  Witch,
+  Join__factory,
+  FYToken__factory,
+  Pool__factory,
 } from '../../../typechain'
 
 export const addSeriesProposal = async (
@@ -27,8 +28,9 @@ export const addSeriesProposal = async (
   deployer: string,
   cauldron: Cauldron,
   ladle: Ladle,
+  witch: Witch,
   timelock: Timelock,
-  cloak: EmergencyBrake,
+  cloak: OldEmergencyBrake,
   joins: Map<string, string>, // assetId, joinAddress
   newFYTokens: Map<string, string>, // seriesId, fyTokenAddress
   newPools: Map<string, string> // seriesId, poolAddress
@@ -36,44 +38,32 @@ export const addSeriesProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   for (let [seriesId, fyTokenAddress] of newFYTokens) {
-    console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
+    console.log(`Using fyToken at ${fyTokenAddress} for ${getName(seriesId)}`)
     const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
 
     const baseId = await fyToken.underlyingId()
 
     const poolAddress = newPools.get(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
-    else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
+    else console.log(`Using pool at ${poolAddress} for ${getName(seriesId)}`)
     const pool = Pool__factory.connect(poolAddress, ownerAcc)
 
-    // const joinAddress = (await ladle.joins(baseId)) as string
-    // if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${baseId} not found`
-    // else console.log(`Using join at ${joinAddress} for ${baseId}`)
     const join = Join__factory.connect(joins.get(baseId) as string, ownerAcc)
-
-    // This test fails if adding the base in the same proposal. All tests should move on-chain.
-    // const chiOracleAddress = (await cauldron.lendingOracles(baseId)) as string
-    // if (chiOracleAddress === undefined || chiOracleAddress === ZERO_ADDRESS)
-    //   throw `${baseId} not a base in the Cauldron`
-    // else console.log(`Using oracle at ${chiOracleAddress} for ${baseId}`)
-
-    // Give access to each of the fyToken governance functions to the timelock, through a proposal to bundle them
-    // Give ROOT to the cloak, Timelock already has ROOT as the deployer
-    // Store a plan for isolating FYToken from Ladle and Base Join
+    console.log(`Using join at ${join.address} for ${getName(baseId)}`)
 
     // Add fyToken/series to the Cauldron
     proposal.push({
       target: cauldron.address,
       data: cauldron.interface.encodeFunctionData('addSeries', [seriesId, baseId, fyToken.address]),
     })
-    console.log(`Adding ${seriesId} for ${baseId} using ${fyToken.address}`)
+    console.log(`Adding ${getName(seriesId)} for ${getName(baseId)} using ${fyToken.address}`)
 
     // Register pool in Ladle
     proposal.push({
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addPool', [seriesId, pool.address]),
     })
-    console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
+    console.log(`Adding ${getName(seriesId)} pool to Ladle using ${pool.address}`)
 
     // ==== Orchestrate fyToken ====
 
@@ -96,6 +86,31 @@ export const addSeriesProposal = async (
       ]),
     })
     console.log(`fyToken.grantRoles(mint/burn, ladle)`)
+
+    // Allow Witch to burn fyTokens
+    proposal.push({
+      target: fyToken.address,
+      data: fyToken.interface.encodeFunctionData('grantRole', [
+        id(fyToken.interface, 'burn(address,uint256)'),
+        witch.address,
+      ]),
+    })
+
+    // Allow to revoke the above permission on emergencies
+    const plan = [
+      {
+        contact: fyToken.address,
+        signatures: [id(fyToken.interface, 'burn(address,uint256)')],
+      },
+    ]
+
+    if ((await cloak.plans(await cloak.hash(witch.address, plan))).state === 0) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
+      })
+      console.log(`cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+    }
 
     // Orchestrate Timelock for the fyToken governance functions
     proposal.push({
@@ -134,9 +149,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, ladlePlan]),
       })
-      console.log(
-        `cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`
-      )
+      console.log(`cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(ladle.address, ladlePlan)}`)
     }
 
     // Register emergency plan to disconnect fyToken from join
@@ -152,7 +165,7 @@ export const addSeriesProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [fyToken.address, joinPlan]),
       })
-      console.log(`cloak.plan(fyToken, join(${bytesToString(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
+      console.log(`cloak.plan(fyToken, join(${getName(baseId)})): ${await cloak.hash(fyToken.address, joinPlan)}`)
     }
   }
 

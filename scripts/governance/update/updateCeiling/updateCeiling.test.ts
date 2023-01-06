@@ -9,7 +9,7 @@ import { ethers } from 'hardhat'
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
-  bytesToString,
+  getName,
   getGovernanceProtocolAddresses,
 } from '../../../shared/helpers'
 import { Cauldron } from '../../../typechain/Cauldron'
@@ -27,8 +27,7 @@ import { newLimits, developer } from './updateCeiling.config'
   )) as unknown as Cauldron
   for (let [baseId, ilkId, maxDebt] of newLimits) {
     const debt = await cauldron.debt(baseId, ilkId)
-    if (debt.max.toString() === maxDebt.toString())
-      console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} set: ${debt.max}`)
-    else console.log(`${bytesToString(baseId)}/${bytesToString(ilkId)} not updated, still at ${debt.max}`)
+    if (debt.max.toString() === maxDebt.toString()) console.log(`${getName(baseId)}/${getName(ilkId)} set: ${debt.max}`)
+    else console.log(`${getName(baseId)}/${getName(ilkId)} not updated, still at ${debt.max}`)
   }
 })()

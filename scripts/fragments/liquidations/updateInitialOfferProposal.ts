@@ -4,7 +4,7 @@
  * It uses the cauldron to set the debt limits for the supplied base/ilk pairs.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 
 import { Witch } from '../../../typechain'
 
@@ -28,7 +28,7 @@ export const updateInitialOfferProposal = async (
         limits.dec,
       ]),
     })
-    console.log(`${bytesToString(ilkId)}: ${ilk.initialOffer} -> ${initialOffer}`)
+    console.log(`${getName(ilkId)}: ${ilk.initialOffer} -> ${initialOffer}`)
   }
   return proposal
 }

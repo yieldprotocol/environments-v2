@@ -3,7 +3,7 @@
  * These data paths are assets that will be used as base and quote of an iteratively calculated price.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { CompositeMultiOracle } from '../../../typechain'
 
 export const updateCompositePathsProposal = async (
@@ -17,7 +17,7 @@ export const updateCompositePathsProposal = async (
       target: compositeOracle.address,
       data: compositeOracle.interface.encodeFunctionData('setPath', [baseId, quoteId, path]),
     })
-    console.log(`[path: ${bytesToString(baseId)}/${bytesToString(quoteId)} -> ${path}],`)
+    console.log(`[path: ${getName(baseId)}/${getName(quoteId)} -> ${path}],`)
   }
 
   return proposal

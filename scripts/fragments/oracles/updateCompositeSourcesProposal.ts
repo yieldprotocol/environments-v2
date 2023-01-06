@@ -3,8 +3,8 @@
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
-import { WAD, ZERO_ADDRESS } from '../../../shared/constants'
+import { getName } from '../../../shared/helpers'
+import { ZERO_ADDRESS } from '../../../shared/constants'
 import { CompositeMultiOracle, CompositeMultiOracle__factory, IOracle__factory } from '../../../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
@@ -19,9 +19,9 @@ export const updateCompositeSourcesProposal = async (
   const added = new Set<string>()
 
   for (let [baseId, quoteId, oracleAddress] of compositeSources) {
-    const pair = `${bytesToString(baseId)}/${bytesToString(quoteId)}`
+    const pair = `${getName(baseId)}/${getName(quoteId)}`
 
-    if (added.has(pair) || added.has(`${bytesToString(quoteId)}/${bytesToString(baseId)}`)) {
+    if (added.has(pair) || added.has(`${getName(quoteId)}/${getName(baseId)}`)) {
       console.log(`CompositeMultiOracle: ${pair} already dealt with, skipping`)
       continue
     }
@@ -31,13 +31,6 @@ export const updateCompositeSourcesProposal = async (
 
     const existent = await oracle.sources(baseId, quoteId)
     if (existent === ZERO_ADDRESS || overrideExistent) {
-      // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-      console.log(`CompositeMultiOracle: checking ${pair} on ${oracleAddress}`)
-      proposal.push({
-        target: oracle.address,
-        data: oracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(quoteId), WAD]),
-      })
-
       proposal.push({
         target: compositeOracle.address,
         data: compositeOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, oracle.address]),
