@@ -24,21 +24,19 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
     const ilkJoin = Join__factory.connect(await ladle.joins(vault.ilkId), ownerAcc)
     const spotOracle = IOracle__factory.connect((await cauldron.spotOracles(baseId, ilkId)).oracle, ownerAcc)
     const level = BigNumber.from(await cauldron.callStatic.level(vaultId)) // Level is the absolute amount below the collateralized point
+    console.log(`${vaultId} ${vault.ilkId} ${vault.seriesId} ${level}`)
 
-    const healAmount = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0]).add(1000000)
-    console.log(`${vaultId} ${vault.ilkId} ${vault.seriesId} ${level} ${healAmount}`)
+    // const healAmount = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0]).add(1000000)
+    const healAmount = await ilk.balanceOf(ownerAcc.address)
 
-    let tx = await ilk.approve(ladle.address, healAmount, { gasLimit: 55_000 })
-    tx.wait(1)
-    tx = await ladle.batch([
+    await ilk.approve(ladle.address, healAmount, { gasLimit: 55_000 })
+    await ladle.batch([
       ladle.interface.encodeFunctionData('transfer', [ilk.address, ilkJoin.address, healAmount]),
       ladle.interface.encodeFunctionData('moduleCall', [
         healer.address, healer.interface.encodeFunctionData('heal', [vaultId, healAmount, 0])
       ]),
     ], { gasLimit: 150_000 })
-    tx.wait(1)
-    tx = await witch.cancel(vaultId, { gasLimit: 150_000 })
-    tx.wait(1)
+    await witch.cancel(vaultId, { gasLimit: 150_000 })
     console.log(`Healed ${healAmount} of ${vault.ilkId} to the vault ${vaultId}`)
   }
 })()
