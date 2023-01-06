@@ -7,7 +7,7 @@ import { ZERO_ADDRESS } from '../../../shared/constants'
 
 import { Ladle, Pool } from '../../../typechain'
 
-export const registerPoolsWithLadle = async (
+export const addPoolProposal = async (
   ownerAcc: any,
   ladle: Ladle,
   newPools: Map<string, string> // seriesId, poolAddress
