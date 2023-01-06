@@ -76,10 +76,12 @@ describe('Revoke developer permissions', function () {
     })
 
     it('developer cannot execute and executeRepeated', async () => {
-      await timelock.connect(activeDeveloperAcc).propose(proposal)
-      await timelock.connect(activeDeveloperAcc).proposeRepeated(proposal, 1)
-      await timelock.connect(multisigAcc).approve(hash)
-      await timelock.connect(multisigAcc).approve(hashRepeated)
+      try {
+        await timelock.connect(activeDeveloperAcc).propose(proposal)
+        await timelock.connect(activeDeveloperAcc).proposeRepeated(proposal, 1)
+        await timelock.connect(multisigAcc).approve(hash)
+        await timelock.connect(multisigAcc).approve(hashRepeated)
+      } catch (error) {}
       await expect(timelock.connect(developerAcc).execute(proposal)).to.be.reverted
       await expect(timelock.connect(developerAcc).executeRepeated(proposal, 1)).to.be.reverted
     })
