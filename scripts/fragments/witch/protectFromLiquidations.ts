@@ -2,11 +2,9 @@
  * @dev Protect an address from liquidations.
  */
 
-import { getName } from '../../../shared/helpers'
-
 import { Witch } from '../../../typechain'
 
-export const protectFromLiquidationsFragment = async (
+export const protectFromLiquidations = async (
   witch: Witch,
   owner: string
 ): Promise<Array<{ target: string; data: string }>> => {

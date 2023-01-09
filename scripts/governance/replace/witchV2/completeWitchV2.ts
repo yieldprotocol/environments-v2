@@ -1,6 +1,6 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateAuctionAssetsFragment } from '../../../fragments/witch/orchestrateAuctionAssetsFragment'
-import { setAuctionParametersFragment } from '../../../fragments/witch/setAuctionParametersFragment'
+import { orchestrateAuctionAssetsFragment } from '../../../fragments/witch/orchestrateAuctionAssets'
+import { setAuctionParametersFragment } from '../../../fragments/witch/setAuctionParameters'
 import { updateWitchLimitsFragment } from '../../../fragments/witch/updateWitchLimitsFragment'
 
 import { AuctionLineAndLimit } from '../../confTypes'

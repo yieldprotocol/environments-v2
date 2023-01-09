@@ -6,7 +6,7 @@ import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-export const setAuctionParametersFragment = async (
+export const setAuctionParameters = async (
   witch: Witch,
   auctionLineAndLimits: AuctionLineAndLimit[]
 ): Promise<Array<{ target: string; data: string }>> => {

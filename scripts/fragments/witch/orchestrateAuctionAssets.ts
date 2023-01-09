@@ -8,7 +8,7 @@ import { ethers } from 'hardhat'
 import { getName } from '../../../shared/helpers'
 import { Cauldron, Ladle, OldEmergencyBrake, Witch, Join__factory } from '../../../typechain'
 
-export const orchestrateAuctionAssetsFragment = async (
+export const orchestrateAuctionAssets = async (
   ownerAcc: SignerWithAddress,
   cloak: OldEmergencyBrake,
   cauldron: Cauldron,

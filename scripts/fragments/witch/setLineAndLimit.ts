@@ -11,7 +11,7 @@ import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-export const setLineAndLimitProposal = (
+export const setLineAndLimit = (
   witch: Witch,
   auctionLineAndLimits: AuctionLineAndLimit[]
 ): Array<{ target: string; data: string }> => {
