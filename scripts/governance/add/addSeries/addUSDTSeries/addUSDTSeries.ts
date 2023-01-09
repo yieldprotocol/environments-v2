@@ -22,7 +22,7 @@ import { orchestrateAccumulatorOracleProposal } from '../../../../fragments/orac
 import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSources'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { initPoolsProposal } from '../../../../fragments/pools/initPools'
 import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategies'

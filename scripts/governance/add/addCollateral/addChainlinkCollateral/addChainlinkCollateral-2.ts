@@ -9,7 +9,7 @@ import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeploy
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSources'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { IOracle } from '../../../../../typechain'
 import {
   developer,

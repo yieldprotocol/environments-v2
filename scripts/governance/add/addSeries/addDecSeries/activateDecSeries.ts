@@ -12,7 +12,7 @@ import { Pool, Cauldron, Ladle, Roller, EmergencyBrake, Timelock } from '../../.
 
 import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestrateRollerProposal'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { rollStrategiesProposal } from '../../../../fragments/strategies/rollStrategies'
 import { initPoolsProposal } from '../../../../fragments/pools/initPools'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'

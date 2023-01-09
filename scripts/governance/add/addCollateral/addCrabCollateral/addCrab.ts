@@ -13,7 +13,7 @@ import {
 
 import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 
 import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSources'
 import { updateUniswapSourcesProposal } from '../../../../fragments/oracles/updateUniswapSources'

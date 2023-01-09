@@ -18,7 +18,7 @@ import { updateNotionalSourcesProposal } from '../../../../fragments/oracles/upd
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategies'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'

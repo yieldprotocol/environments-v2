@@ -24,7 +24,7 @@ import {
 } from '../../../../../typechain'
 import { OldEmergencyBrake__factory } from '../../../../../typechain/factories/contracts/OldEmergencyBrake.sol'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase'
 import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
 import { orchestrateCauldronProposal } from '../../../../fragments/core/orchestrateCauldron'

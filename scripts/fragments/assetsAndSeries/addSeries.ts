@@ -3,11 +3,11 @@
  */
 
 import { Cauldron, FYToken__factory, Ladle, EmergencyBrake, Witch } from '../../../typechain'
-import { SeriesToAdd } from '../../governance/confTypes'
+import { Series } from '../../governance/confTypes'
 import { addFYToken } from '../ladle/addFYToken'
 import { addPool } from '../ladle/addPool'
 import { addFYTokenToWitch } from '../witch/addFYTokenToWitch'
-import { addIlksToSeries } from './addIlksToSeries'
+import { addIlkToSeries } from './addIlkToSeries'
 
 export const addSeries = async (
   ownerAcc: any,
@@ -15,29 +15,29 @@ export const addSeries = async (
   ladle: Ladle,
   witch: Witch,
   cloak: EmergencyBrake,
-  seriesToAdd: SeriesToAdd[],
+  series: Series,
   pools: Map<string, string> // seriesId, poolAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let { seriesId, fyToken: fyTokenAddress, ilkIds } of seriesToAdd) {
-    console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
-    const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
-    const baseId = await fyToken.underlyingId()
+  console.log(`Using fyToken at ${series.fyToken} for ${series.seriesId}`)
+  const fyToken = FYToken__factory.connect(series.fyToken.address, ownerAcc)
+  const baseId = await fyToken.underlyingId()
 
-    const poolAddress = pools.getOrThrow(seriesId)
+  const poolAddress = pools.getOrThrow(series.seriesId)
 
-    proposal.push({
-      target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('addSeries', [seriesId, baseId, fyToken.address]),
-    })
-    console.log(`Adding ${seriesId} using ${fyToken.address}`)
+  proposal.push({
+    target: cauldron.address,
+    data: cauldron.interface.encodeFunctionData('addSeries', [series.seriesId, baseId, fyToken.address]),
+  })
+  console.log(`Adding ${series.seriesId} using ${fyToken.address}`)
 
-    proposal = proposal.concat(await addIlksToSeries(cauldron, [seriesId, ilkIds]))
-    proposal = proposal.concat(await addPool(ladle, seriesId, poolAddress))
-    proposal = proposal.concat(await addFYToken(cloak, ladle, seriesId, fyToken))
-    proposal = proposal.concat(await addFYTokenToWitch(cloak, witch, seriesId, fyToken))
+  for (let ilk of series.ilks) {
+    proposal = proposal.concat(await addIlkToSeries(cauldron, series, ilk))
   }
+  proposal = proposal.concat(await addPool(ladle, series.seriesId, poolAddress))
+  proposal = proposal.concat(await addFYToken(cloak, ladle, series.seriesId, fyToken))
+  proposal = proposal.concat(await addFYTokenToWitch(cloak, witch, series.seriesId, fyToken))
 
   return proposal
 }

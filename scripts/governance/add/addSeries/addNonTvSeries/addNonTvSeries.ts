@@ -19,7 +19,7 @@ import { updateCompositePathsProposal } from '../../../../fragments/oracles/upda
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase'
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlk'
 import { registerPoolsWithLadle } from '../../../../fragments/assetsAndSeries/registerPoolsWithLadle'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { initPoolsProposal } from '../../../../fragments/pools/initPools'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
 import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategies'

@@ -6,7 +6,7 @@ import { orchestrateNotionalJoinProposal } from '../../../../../fragments/other/
 import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSources'
 import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlk'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 
 import {
   Cauldron__factory,

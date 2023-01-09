@@ -7,7 +7,7 @@ import {
   Timelock__factory,
 } from '../../../../../../../typechain'
 
-import { addIlksToSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { addSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addSeries'
 import { initPoolsProposal } from '../../../../../../fragments/pools/initPools'
 import { orchestrateNewPoolsProposal } from '../../../../../../fragments/assetsAndSeries/orchestrateNonTvPoolsProposal'

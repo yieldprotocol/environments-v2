@@ -7,11 +7,10 @@
  */
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { getName } from '../../../shared/helpers'
 import { Cauldron, IOracle, Join__factory, EmergencyBrake, Witch } from '../../../typechain'
-import { AuctionLineAndLimit } from '../../governance/confTypes'
+import { Ilk } from '../../governance/confTypes'
 import { addIlkToWitch } from '../witch/addIlkToWitch'
 import { setLineAndLimit } from '../witch/setLineAndLimit'
 
@@ -21,42 +20,47 @@ export const makeIlk = async (
   spotOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
-  debtLimits: Array<[string, string, number, number, number, number]>,
-  auctionLineAndLimits: AuctionLineAndLimit[],
+  ilk: Ilk,
   joins: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
-  let proposal = setLineAndLimit(witch, auctionLineAndLimits)
+  let proposal = setLineAndLimit(witch, ilk.auctionLineAndLimit)
 
-  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
-  for (const ilkId of ilkIds) {
-    const join = Join__factory.connect(joins.get(ilkId)!, ownerAcc)
+  const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
 
-    proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilkId, join))
-  }
+  proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk.ilkId, join))
 
-  for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
-    console.log(
-      `Setting spot oracle for ${getName(baseId)}/${getName(ilkId)} to address: ${
-        spotOracle.address
-      }, ratio: ${ethers.utils.formatUnits(ratio, 6)}`
-    )
-    // Set the spot oracle in the Cauldron
-    proposal.push({
-      target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('setSpotOracle', [baseId, ilkId, spotOracle.address, ratio]),
-    })
+  console.log(
+    `Setting spot oracle for ${getName(ilk.baseId)}/${getName(ilk.ilkId)} to address: ${
+      spotOracle.address
+    }, ratio: ${ethers.utils.formatUnits(ilk.debtLimits.ratio, 6)}`
+  )
+  // Set the spot oracle in the Cauldron
+  proposal.push({
+    target: cauldron.address,
+    data: cauldron.interface.encodeFunctionData('setSpotOracle', [
+      ilk.baseId,
+      ilk.ilkId,
+      spotOracle.address,
+      ilk.debtLimits.ratio,
+    ]),
+  })
 
-    console.log(
-      `Setting debt limits for ${getName(baseId)}/${getName(
-        ilkId
-      )} maxDebt: ${line}, minDebt: ${dust}, decimals: ${dec}`
-    )
-    // Set the base/ilk limits in the Cauldron
-    proposal.push({
-      target: cauldron.address,
-      data: cauldron.interface.encodeFunctionData('setDebtLimits', [baseId, ilkId, line, dust, dec]),
-    })
-  }
+  console.log(
+    `Setting debt limits for ${getName(ilk.baseId)}/${getName(ilk.ilkId)} maxDebt: ${ilk.debtLimits.line}, minDebt: ${
+      ilk.debtLimits.dust
+    }, decimals: ${ilk.debtLimits.dec}`
+  )
+  // Set the base/ilk limits in the Cauldron
+  proposal.push({
+    target: cauldron.address,
+    data: cauldron.interface.encodeFunctionData('setDebtLimits', [
+      ilk.baseId,
+      ilk.ilkId,
+      ilk.debtLimits.line,
+      ilk.debtLimits.dust,
+      ilk.debtLimits.dec,
+    ]),
+  })
 
   return proposal
 }

@@ -13,32 +13,30 @@ import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const setLineAndLimit = (
   witch: Witch,
-  auctionLineAndLimits: AuctionLineAndLimit[]
+  auctionLineAndLimits: AuctionLineAndLimit
 ): Array<{ target: string; data: string }> => {
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
-    console.log(
-      `Witch#setLineAndLimit(ilkId: ${getName(ilkId)}, baseId: ${getName(
-        baseId
-      )}, duration: ${duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
-        vaultProportion
-      )}, collateralProportion: ${ethers.utils.formatUnits(collateralProportion)}, max: ${ethers.utils.formatUnits(
-        max
-      )})`
-    )
-    proposal.push({
-      target: witch.address,
-      data: witch.interface.encodeFunctionData('setLineAndLimit', [
-        ilkId,
-        baseId,
-        duration,
-        vaultProportion,
-        collateralProportion,
-        max,
-      ]),
-    })
-  }
+  console.log(
+    `Witch#setLineAndLimit(ilkId: ${getName(auctionLineAndLimits.ilkId)}, baseId: ${getName(
+      auctionLineAndLimits.baseId
+    )}, duration: ${auctionLineAndLimits.duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
+      auctionLineAndLimits.vaultProportion
+    )}, collateralProportion: ${ethers.utils.formatUnits(
+      auctionLineAndLimits.collateralProportion
+    )}, max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)})`
+  )
+  proposal.push({
+    target: witch.address,
+    data: witch.interface.encodeFunctionData('setLineAndLimit', [
+      auctionLineAndLimits.ilkId,
+      auctionLineAndLimits.baseId,
+      auctionLineAndLimits.duration,
+      auctionLineAndLimits.vaultProportion,
+      auctionLineAndLimits.collateralProportion,
+      auctionLineAndLimits.max,
+    ]),
+  })
 
   return proposal
 }

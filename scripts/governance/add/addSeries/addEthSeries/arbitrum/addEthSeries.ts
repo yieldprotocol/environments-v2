@@ -15,7 +15,7 @@ import { updateChainlinkUSDSourcesProposal } from '../../../../../fragments/orac
 import { makeBaseProposal } from '../../../../../fragments/assetsAndSeries/makeBase'
 import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/updateIlk'
 import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeries'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { initPoolsProposal } from '../../../../../fragments/pools/initPools'
 import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategies'
 import { initStrategiesProposal } from '../../../../../fragments/strategies/initStrategies'

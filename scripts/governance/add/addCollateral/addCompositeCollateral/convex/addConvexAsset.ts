@@ -8,7 +8,7 @@ import {
 import { orchestrateJoinProposal } from '../../../../../fragments/core/removeDeployerRootToCloak'
 import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlk'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 
 import {
   IOracle,

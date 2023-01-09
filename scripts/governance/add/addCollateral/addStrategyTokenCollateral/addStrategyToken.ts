@@ -5,7 +5,7 @@ import { Cauldron, Ladle, OldWitch, Timelock, EmergencyBrake } from '../../../..
 import { COMPOSITE } from '../../../../../shared/constants'
 import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateStrategyOracleProposal } from '../../../../fragments/oracles/orchestrateStrategyOracle'
 import { updatStrategyOracleSourcesProposal } from '../../../../fragments/oracles/updateStrategyOracleSources'

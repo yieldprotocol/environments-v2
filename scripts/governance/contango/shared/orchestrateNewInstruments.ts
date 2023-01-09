@@ -21,7 +21,7 @@ import {
   YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAsset'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeries'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlkToSeries'
 import { orchestrateJoinProposal } from '../../../fragments/core/removeDeployerRootToCloak'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSources'

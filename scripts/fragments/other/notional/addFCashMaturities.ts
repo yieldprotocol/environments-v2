@@ -2,7 +2,7 @@ import { orchestrateJoin } from '../../core/removeDeployerRootToCloak'
 import { updateNotionalSources } from '../../oracles/updateNotionalSources'
 import { addAsset } from '../../assetsAndSeries/addAsset'
 import { makeIlk } from '../../assetsAndSeries/makeIlk'
-import { addIlksToSeries } from '../../assetsAndSeries/addIlksToSeries'
+import { addIlksToSeries } from '../../assetsAndSeries/addIlkToSeries'
 import {
   IOracle,
   NotionalJoin__factory,
