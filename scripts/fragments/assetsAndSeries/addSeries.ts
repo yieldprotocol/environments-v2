@@ -7,6 +7,7 @@ import { SeriesToAdd } from '../../governance/confTypes'
 import { addFYToken } from '../ladle/addFYToken'
 import { addPool } from '../ladle/addPool'
 import { addFYTokenToWitch } from '../witch/addFYTokenToWitch'
+import { addIlksToSeries } from './addIlksToSeries'
 
 export const addSeries = async (
   ownerAcc: any,
@@ -19,9 +20,10 @@ export const addSeries = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  for (let { seriesId, fyToken: fyTokenAddress } of seriesToAdd) {
+  for (let { seriesId, fyToken: fyTokenAddress, ilkIds } of seriesToAdd) {
     console.log(`Using fyToken at ${fyTokenAddress} for ${seriesId}`)
     const fyToken = FYToken__factory.connect(fyTokenAddress, ownerAcc)
+    const baseId = await fyToken.underlyingId()
 
     const poolAddress = pools.getOrThrow(seriesId)
 
@@ -31,6 +33,7 @@ export const addSeries = async (
     })
     console.log(`Adding ${seriesId} using ${fyToken.address}`)
 
+    proposal = proposal.concat(await addIlksToSeries(cauldron, [seriesId, ilkIds]))
     proposal = proposal.concat(await addPool(ladle, seriesId, poolAddress))
     proposal = proposal.concat(await addFYToken(cloak, ladle, seriesId, fyToken))
     proposal = proposal.concat(await addFYTokenToWitch(cloak, witch, seriesId, fyToken))

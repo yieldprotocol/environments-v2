@@ -20,4 +20,5 @@ export interface ContractDeployment {
 export interface SeriesToAdd {
   seriesId: string
   fyToken: string
+  ilkIds: string[]
 }
