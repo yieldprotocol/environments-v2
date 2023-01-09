@@ -1,3 +1,5 @@
+// Add an existing ilk to a series
+
 import { Cauldron } from '../../../typechain'
 import { Ilk, Series } from '../../governance/confTypes'
 

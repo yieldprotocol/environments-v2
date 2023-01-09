@@ -5,7 +5,7 @@
 import { ethers } from 'hardhat'
 
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { updateLimitsProposal } from '../../../fragments/limits/updateLimits'
+import { updateLimitsProposal } from '../../../fragments/limits/updateDebtLimits'
 import { Cauldron, Timelock } from '../../../../typechain'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)

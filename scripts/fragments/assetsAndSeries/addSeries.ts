@@ -1,6 +1,8 @@
-/**
- * @dev This script adds one or more series to the protocol.
- */
+// Add a series to the protocol:
+//  - The series will be added to the Cauldron
+//  - The ilks will be enabled for the series
+//  - The fyToken and pool will be added to the Ladle
+//  - The fyToken will be added to the Witch
 
 import { Cauldron, FYToken__factory, Ladle, EmergencyBrake, Witch } from '../../../typechain'
 import { Series } from '../../governance/confTypes'

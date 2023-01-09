@@ -25,15 +25,23 @@ export interface AuctionLineAndLimit {
 export interface DebtLimit {
   baseId: string
   ilkId: string
-  ratio: number
   line: number
   dust: number
   dec: number
 }
 
+export interface Collateralization {
+  baseId: string
+  ilkId: string
+  oracle: string
+  ratio: number
+}
+
 export interface Ilk {
   baseId: string
   ilkId: string
+  asset: Asset
+  collateralization: Collateralization
   debtLimits: DebtLimit
   auctionLineAndLimit: AuctionLineAndLimit
 }

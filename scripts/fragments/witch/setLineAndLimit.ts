@@ -11,10 +11,10 @@ import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-export const setLineAndLimit = (
+export const setLineAndLimit = async (
   witch: Witch,
   auctionLineAndLimits: AuctionLineAndLimit
-): Array<{ target: string; data: string }> => {
+): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
   console.log(

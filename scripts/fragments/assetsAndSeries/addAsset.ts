@@ -1,4 +1,5 @@
-import { ethers } from 'hardhat'
+// Add an asset to the cauldron and the corresponding join to the ladle
+
 import { Asset } from '../../governance/confTypes'
 import { addJoin } from '../ladle/addJoin'
 import { EmergencyBrake, Cauldron, Ladle, Join__factory } from '../../../typechain'

@@ -1,10 +1,6 @@
-/**
- * @dev This script makes one or more assets into bases.
- *
- * It takes as inputs the governance and protocol address files.
- * Sets the lending oracle and allows the Witch to liquidate debt.
- * A plan is recorded in the Cloak to isolate the Join from the Witch.
- */
+// Make an asset into a base.
+// - A lending oracle is set for the asset.
+// - The asset is added to the Witch.
 
 import { getName } from '../../../shared/helpers'
 import { Cauldron, IOracle, Join__factory, EmergencyBrake, Witch } from '../../../typechain'

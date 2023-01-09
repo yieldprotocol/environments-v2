@@ -3,7 +3,7 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared
 
 import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSources'
 import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePaths'
-import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateSpotOracles'
+import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateCollateralization'
 
 import { COMPOSITE } from '../../../../shared/constants'
 
