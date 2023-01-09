@@ -3,13 +3,11 @@
  * These data sources are IOracle contracts that will be used either directly or as part of paths.
  */
 
-import { getName } from '../../../shared/helpers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-import { CompositeMultiOracle, CompositeMultiOracle__factory, IOracle__factory } from '../../../typechain'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { getName } from '../../../shared/helpers'
+import { CompositeMultiOracle } from '../../../typechain'
 
 export const updateCompositeSourcesProposal = async (
-  ownerAcc: SignerWithAddress,
   compositeOracle: CompositeMultiOracle,
   compositeSources: Array<[string, string, string]>,
   overrideExistent: boolean = true
@@ -27,15 +25,13 @@ export const updateCompositeSourcesProposal = async (
     }
     added.add(pair)
 
-    const oracle = CompositeMultiOracle__factory.connect(oracleAddress, ownerAcc)
-
-    const existent = await oracle.sources(baseId, quoteId)
+    const existent = await compositeOracle.sources(baseId, quoteId)
     if (existent === ZERO_ADDRESS || overrideExistent) {
       proposal.push({
         target: compositeOracle.address,
-        data: compositeOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, oracle.address]),
+        data: compositeOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, oracleAddress]),
       })
-      console.log(`CompositeMultiOracle: pair: ${pair} set to ${oracle.address}`)
+      console.log(`CompositeMultiOracle: pair: ${pair} set to ${oracleAddress}`)
     } else {
       console.log(`CompositeMultiOracle: pair: ${pair} already set to ${existent}`)
     }

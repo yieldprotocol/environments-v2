@@ -1,22 +1,21 @@
 import { parseUnits } from 'ethers/lib/utils'
+import { CHAINLINKUSD, CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
+import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
+import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes'
+import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+import * as base_config from '../../../base.arb_mainnet.config'
 
-import * as base_config from '../../../base.mainnet.config'
-
-export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
-export const deployer: string = '0x05950b4e68f103d5aBEf20364dE219a247e59C23'
+export const developer: string = '0x05950b4e68f103d5aBEf20364dE219a247e59C23'
+export const deployers = readAddressMappingIfExists('deployers.json')
 
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol()
+export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
-
-import { CHAINLINK, CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
-import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
-import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes' // Note we use the series id as the asset id
 
 export const rateChiSources = ASSETS_ARBITRUM.map(({ bytes: base }) => [
   [base, RATE, WAD.toString(), WAD.toString()] as const,
@@ -32,7 +31,7 @@ export const compositeSources = [
     (series) => [series.bytes, series.asset.bytes, protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE)] as const
   ), // All fyTokens as collateral use the same oracle
   ASSETS_ARBITRUM.map(({ bytes: base }) =>
-    ASSETS_ARBITRUM.map(({ bytes: quote }) => [base, quote, protocol.getOrThrow(CHAINLINK)] as const)
+    ASSETS_ARBITRUM.map(({ bytes: quote }) => [base, quote, protocol.getOrThrow(CHAINLINKUSD)] as const)
   )
     .flat()
     .filter(([base, quote]) => base !== quote), // Resolve any base against all other bases
@@ -50,7 +49,6 @@ export const compositePaths = ASSETS_ARBITRUM.map((asset) =>
 /// @param Address for the asset
 /// @param Address for the join
 export const assetsToAdd = [
-  ASSETS_ARBITRUM.map(({ bytes: base }) => [base, assets.getOrThrow(base), joins.getOrThrow(base)] as const),
   SERIES_ARBITRUM.map(({ bytes: base }) => [base, fyTokens.getOrThrow(base), joins.getOrThrow(base)] as const),
 ].flat()
 
