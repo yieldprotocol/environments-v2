@@ -1,5 +1,5 @@
 import { parseUnits } from 'ethers/lib/utils'
-import { CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
+import { YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
 import * as base_config from '../../../base.arb_mainnet.config'
@@ -16,14 +16,6 @@ export const joins: Map<string, string> = base_config.joins
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
-
-export const rateChiSources = ASSETS_ARBITRUM.map(({ bytes: base }) => [
-  [base, RATE, WAD.toString(), WAD.toString()] as const,
-  [base, CHI, WAD.toString(), WAD.toString()] as const,
-]).flat()
-
-// Assets that will be made into a base
-export const bases: Array<[string, string]> = ASSETS_ARBITRUM.map(({ bytes: base }) => [base, joins.getOrThrow(base)])
 
 // Input data: baseId, quoteId, oracle name
 export const compositeSources = SERIES_ARBITRUM.map(
