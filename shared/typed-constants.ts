@@ -37,9 +37,9 @@ export const ASSETS_MAINNET: Array<Asset> = [
 ]
 
 export const ASSETS_ARBITRUM: Array<Asset> = [
-  new Asset('00', 'ETH', false, 50, 1, 18),
-  new Asset('01', 'DAI', true, 50_000, 1000, 18),
-  new Asset('02', 'USDC', true, 50_000, 1000, 6),
+  new Asset('00', 'ETH', false, 50000000, 25000, 12),
+  new Asset('01', 'DAI', true, 50_000, 40, 18),
+  new Asset('02', 'USDC', true, 50_000, 40, 6),
 ]
 
 export const EXPIRIES: Array<Expiry> = [{ timestamp: EOJUN23, display: '2306' }]

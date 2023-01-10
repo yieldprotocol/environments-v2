@@ -10,7 +10,7 @@ $RUN $HERE/../../../../../shared/deploy.ts
 
 # Phase 2: Orchestrate
 export CONF=$PWD/$HERE/contango.config
-$RUN $HERE/orchestrate.ts
+$RUN $HERE/../../shared/orchestrateNewInstruments.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
 
