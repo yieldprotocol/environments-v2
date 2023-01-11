@@ -77,7 +77,6 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
-  [RETH, '0xae78736Cd615f374D3085123A210448E74Fc6393'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -107,6 +106,7 @@ export const assets: Map<string, string> = new Map([
   [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
   [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
   [CRAB, '0x3B960E47784150F5a63777201ee2B15253D713e8'],
+  [RETH, '0xae78736Cd615f374D3085123A210448E74Fc6393'],
 ])
 
 export const chiSources: Array<[string, string]> = [

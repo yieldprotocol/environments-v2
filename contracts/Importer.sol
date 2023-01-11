@@ -35,6 +35,7 @@ import "@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolNonTv.sol";
 import "@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolYearnVault.sol";
 import "@yield-protocol/yieldspace-tv/src/Pool/Modules/PoolEuler.sol";
 import "@yield-protocol/yieldspace-tv/src/oracle/PoolOracle.sol";
+import "@yield-protocol/vault-v2/contracts/oracles/rocket/RETHOracle.sol";
 import "@yield-protocol/utils-v2/contracts/utils/Timelock.sol";
 import "@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol";
 import "@yield-protocol/utils-v2/contracts/utils/OnChainTest.sol";

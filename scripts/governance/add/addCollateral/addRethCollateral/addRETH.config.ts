@@ -4,11 +4,12 @@ import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.mainnet.config'
 
 import { Asset, ContractDeployment, Ilk, Series } from '../../../confTypes'
-
+export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
-export const governance = () => readAddressMappingIfExists('governance.json')
-export const joins = () => readAddressMappingIfExists('newjoins.json')
+export const governance = readAddressMappingIfExists('governance.json')
+export const joins = readAddressMappingIfExists('newJoins.json')
 export const assets: Map<string, string> = base_config.assets
 export const asset: Asset = { assetId: RETH, address: assets.getOrThrow(RETH) as string }
 export const ilk: Ilk = {
@@ -18,7 +19,7 @@ export const ilk: Ilk = {
   collateralization: {
     baseId: ETH,
     ilkId: asset.assetId,
-    oracle: 'rethOracle',
+    oracle: protocol().getOrThrow('rethOracle')! as string,
     ratio: 1100000,
   },
   debtLimits: {

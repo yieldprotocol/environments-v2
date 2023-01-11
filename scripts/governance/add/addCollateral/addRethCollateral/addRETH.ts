@@ -18,7 +18,7 @@ const { developer, ilk, protocol, governance, joins, series } = require(process.
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
-  const cloak = EmergencyBrake__factory.connect(protocol().getOrThrow(CLOAK)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
