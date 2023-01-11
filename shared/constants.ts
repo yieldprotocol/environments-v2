@@ -140,6 +140,7 @@ export const YSFRAX6MMSASSET = stringToBytes6('36')
 export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
 export const OSQTH = stringToBytes6('39')
+export const RETH = stringToBytes6('40')
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -260,6 +261,7 @@ export const DISPLAY_NAMES = new Map([
   [MKR, 'MKR'],
   [FRAX, 'FRAX'],
   [CVX3CRV, 'CVX3CRV'],
+  [RETH, 'RETH'],
   [EWETH, 'EWETH'],
   [EDAI, 'EDAI'],
   [EUSDC, 'EUSDC'],
