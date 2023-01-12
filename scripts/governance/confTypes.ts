@@ -18,6 +18,9 @@ export interface AuctionLineAndLimit {
   ilkId: string
   duration: number
   vaultProportion: BigNumber
+  // The value is set as x/y, where:
+  // x: the payment to liquidators at the start of the auction.
+  // y: the collateralisation ratio.
   collateralProportion: BigNumber
   max: BigNumber
 }

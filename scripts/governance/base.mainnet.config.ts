@@ -77,6 +77,7 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
+  [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
 ])
 
 export const assets: Map<string, string> = new Map([

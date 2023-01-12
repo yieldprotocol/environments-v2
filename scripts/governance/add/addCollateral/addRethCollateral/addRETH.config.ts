@@ -4,6 +4,7 @@ import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.mainnet.config'
 
 import { Asset, ContractDeployment, Ilk, Series } from '../../../confTypes'
+export const whales = base_config.whales
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
@@ -12,6 +13,22 @@ export const governance = readAddressMappingIfExists('governance.json')
 export const joins = readAddressMappingIfExists('newJoins.json')
 export const assets: Map<string, string> = base_config.assets
 export const asset: Asset = { assetId: RETH, address: assets.getOrThrow(RETH) as string }
+
+export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: 'rethOracle',
+    contract: 'RETHOracle',
+    args: [() => ETH, () => RETH, () => assets.getOrThrow(RETH)!],
+  },
+  {
+    addressFile: 'newJoins.json',
+    name: RETH,
+    contract: 'Join',
+    args: [() => assets.getOrThrow(RETH)!],
+  },
+]
+
 export const ilk: Ilk = {
   baseId: ETH,
   ilkId: asset.assetId,
@@ -38,21 +55,6 @@ export const ilk: Ilk = {
     max: parseUnits('1000'),
   },
 }
-
-export const contractDeployments: ContractDeployment[] = [
-  {
-    addressFile: 'protocol.json',
-    name: 'rethOracle',
-    contract: 'RETHOracle',
-    args: [() => ETH, () => RETH, () => assets.getOrThrow(RETH)!],
-  },
-  {
-    addressFile: 'newJoins.json',
-    name: RETH,
-    contract: 'Join',
-    args: [() => assets.getOrThrow(RETH)!],
-  },
-]
 
 export const series: Series[] = [
   {

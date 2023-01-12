@@ -140,7 +140,7 @@ export const YSFRAX6MMSASSET = stringToBytes6('36')
 export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
 export const OSQTH = stringToBytes6('39')
-export const RETH = stringToBytes6('40')
+export const RETH = stringToBytes6('0xE03016000000')
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -184,6 +184,7 @@ export const NOTIONAL_PROVIDER = '12'
 export const CONVEX_PROVIDER = '13'
 export const EULER_PROVIDER = '14'
 export const OPYN_PROVIDER = '15'
+export const ROCKET_PROVIDER = '16'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
