@@ -176,6 +176,7 @@ export const EULER = 'euler'
 export const FCASH = 'fCash'
 export const GIVER = 'giver'
 export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
+export const HEALER = 'healerModule'
 
 export const LIDO_PROVIDER = '10'
 export const YEARN_PROVIDER = '11'
