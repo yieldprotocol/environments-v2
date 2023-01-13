@@ -47,15 +47,7 @@ export const executors = [
   '0x1662BbbDdA3fb169f10C495AE27596Af7f8fD3E1', // Marco Mariscal
 ]
 
-export const users: Array<string> = [
-  protocol.getOrThrow(CAULDRON),
-  protocol.getOrThrow(LADLE),
-  protocol.getOrThrow(WITCH),
-  protocol.getOrThrow(WITCH_V1),
-  protocol.getOrThrow(GIVER),
-  protocol.getOrThrow(ROLLER),
-  protocol.getOrThrow(YIELD_STRATEGY_LEVER),
-]
+export const users: Array<string> = [protocol.getOrThrow(LADLE), protocol.getOrThrow(WITCH)]
 
 fyTokens.forEach((value: string) => {
   users.push(value)
