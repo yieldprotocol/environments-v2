@@ -5,52 +5,64 @@
  * The ROOT role is revoked from the deployer
  */
 
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-import { Timelock, Strategy, Roller } from '../../../typechain'
+import { getName } from '../../../shared/helpers'
+import { Timelock, Strategy__factory, Ladle } from '../../../typechain'
 
 export const orchestrateStrategiesProposal = async (
   ownerAcc: any,
-  strategies: Map<string, string>,
+  deployer: string,
+  multisig: string,
   timelock: Timelock,
-  strategiesData: Array<[string, string, string]>
+  ladle: Ladle,
+  strategies: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [name, symbol, baseId, ,] of strategiesData) {
-    const strategy = (await ethers.getContractAt('Strategy', strategies.get(symbol) as string, ownerAcc)) as Strategy
+  for (let [strategyId, strategyAddress] of strategies) {
+    const strategy = Strategy__factory.connect(strategyAddress, ownerAcc)
 
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('grantRoles', [
         [
-          ROOT,
           id(strategy.interface, 'setRewardsToken(address)'),
           id(strategy.interface, 'setRewards(uint32,uint32,uint96)'),
-          id(strategy.interface, 'setYield(address)'),
-          id(strategy.interface, 'setTokenId(bytes6)'),
-          id(strategy.interface, 'resetTokenJoin()'),
-          id(strategy.interface, 'setNextPool(address,bytes6)'),
-          id(strategy.interface, 'startPool(uint256,uint256)'),
+          id(strategy.interface, 'invest(address)'),
+          id(strategy.interface, 'eject()'),
+          id(strategy.interface, 'restart()'),
         ],
         timelock.address,
       ]),
     })
-    console.log(`strategy(${symbol}).grantRoles(gov, timelock)`)
-    // proposal.push({
-    //   target: strategy.address,
-    //   data: strategy.interface.encodeFunctionData('grantRoles', [
-    //     [id(strategy.interface, 'startPool(uint256,uint256)')],
-    //     roller.address,
-    //   ]),
-    // })
-    // console.log(`strategy(${symbol}).grantRoles(startPool, roller)`)
+    console.log(`strategy(${getName(strategyId)}).grantRoles(gov, timelock)`)
+
     proposal.push({
       target: strategy.address,
-      data: strategy.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
+      data: strategy.interface.encodeFunctionData('grantRoles', [[id(strategy.interface, 'eject()')], multisig]),
     })
-    console.log(`strategy(${symbol}).revokeRole(ROOT, deployer)`)
+    console.log(`strategy(${getName(strategyId)}).grantRoles(gov, timelock)`)
+
+    proposal.push({
+      target: strategy.address,
+      data: strategy.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
+    })
+    console.log(`strategy(${getName(strategyId)}).revokeRole(ROOT, deployer)`)
+
+    // Add the strategy as an integration to the Ladle
+    proposal.push({
+      target: ladle.address,
+      data: ladle.interface.encodeFunctionData('addIntegration', [strategyAddress, true]),
+    })
+    console.log(`ladle.addIntegration(${getName(strategyId)}, ${strategyAddress})`)
+
+    // Add the strategy as an token to the Ladle
+    proposal.push({
+      target: ladle.address,
+      data: ladle.interface.encodeFunctionData('addToken', [strategyAddress, true]),
+    })
+    console.log(`ladle.addToken(${getName(strategyId)}, ${strategyAddress})`)
   }
 
   return proposal

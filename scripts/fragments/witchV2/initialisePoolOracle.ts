@@ -1,4 +1,4 @@
-import { advanceTime, bytesToString, getOwnerOrImpersonate } from '../../../shared/helpers'
+import { advanceTime, getName, getOwnerOrImpersonate } from '../../../shared/helpers'
 import { POOL_ORACLE } from '../../../shared/constants'
 import { ethers, network } from 'hardhat'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
@@ -22,7 +22,7 @@ const { developer, protocol, pools, auctionLineAndLimits } = require(process.env
     const tx = await poolOracle.update(pool)
     tx.wait(1)
 
-    console.log(`Initialised PoolOracle for pool: ${bytesToString(ilkId)}-${pool}`)
+    console.log(`Initialised PoolOracle for pool: ${getName(ilkId)}-${pool}`)
   }
 
   if (network.name === 'localhost' || network.name.includes('tenderly')) {

@@ -31,6 +31,9 @@ import {
   CRAB,
   YVDAI,
   YVUSDC,
+  EFRAX,
+  USDT,
+  EUSDT,
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
@@ -63,6 +66,7 @@ export const whales: Map<string, string> = new Map([
   [YVDAI, '0x50da1e9c57c334bb3a7bc10ddb6860331ec3c62a'],
   [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
   [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
+  [USDT, '0x5041ed759dd4afc3a72b8192c143f72f4724081a'],
   [YSDAI6MMSASSET, '0x232c412d3613d5915fc1ebf6eb8d14f11b6a260d'],
   [YSDAI6MJDASSET, '0x9185df15078547055604f5c0b02fc1c8d93594a5'],
   [YSUSDC6MMSASSET, '0x3250e201c2eb06d086138f181e0fb6d1fe33f7d1'],
@@ -87,9 +91,11 @@ export const assets: Map<string, string> = new Map([
   [YVDAI, '0xdA816459F1AB5631232FE5e97a05BBBb94970c95'],
   [UNI, '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'],
   [FRAX, '0x853d955aCEf822Db058eb8505911ED77F175b99e'],
+  [USDT, '0xdAC17F958D2ee523a2206206994597C13D831ec7'],
   [EWETH, '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'],
   [EDAI, '0xe025E3ca2bE02316033184551D4d3Aa22024D9DC'],
   [EUSDC, '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'],
+  [EUSDT, '0x4d19F33948b99800B6113Ff3e83beC9b537C85d2'],
   [YSDAI6MMSASSET, '0x7ACFe277dEd15CabA6a8Da2972b1eb93fe1e2cCD'],
   [YSDAI6MJDASSET, '0x1144e14E9B0AA9e181342c7e6E0a9BaDB4ceD295'],
   [YSUSDC6MMSASSET, '0xFBc322415CBC532b54749E31979a803009516b5D'],
@@ -156,6 +162,7 @@ export const assetsToAdd: Array<[string, string]> = [
   [ENS, assets.get(ENS) as string],
   [UNI, assets.get(UNI) as string],
   [YVUSDC, assets.get(YVUSDC) as string],
+  [USDT, assets.get(USDT) as string],
 ]
 
 // Assets for which we will have an Oracle, but not a Join

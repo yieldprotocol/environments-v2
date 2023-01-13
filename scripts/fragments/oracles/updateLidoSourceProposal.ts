@@ -3,7 +3,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { WAD, WSTETH, STETH } from '../../../shared/constants'
 
 import { LidoOracle, IWstETH } from '../../../typechain'
@@ -19,22 +19,14 @@ export const updateLidoSourceProposal = async (
 
   const wstEth = (await ethers.getContractAt('IWstETH', source, ownerAcc)) as unknown as IWstETH
 
-  console.log(
-    `Current rate for ${bytesToString(STETH)}/${bytesToString(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(
-      WAD
-    )}`
-  )
-  console.log(
-    `Current rate for ${bytesToString(WSTETH)}/${bytesToString(STETH)}: ${await wstEth.callStatic.getStETHByWstETH(
-      WAD
-    )}`
-  )
+  console.log(`Current rate for ${getName(STETH)}/${getName(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`)
+  console.log(`Current rate for ${getName(WSTETH)}/${getName(STETH)}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`)
 
   proposal.push({
     target: lidoOracle.address,
     data: lidoOracle.interface.encodeFunctionData('setSource', [source]),
   })
 
-  console.log(`source: ${bytesToString(STETH)}/${bytesToString(WSTETH)} -> ${source}`)
+  console.log(`source: ${getName(STETH)}/${getName(WSTETH)} -> ${source}`)
   return proposal
 }

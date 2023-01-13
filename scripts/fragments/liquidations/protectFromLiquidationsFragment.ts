@@ -2,7 +2,7 @@
  * @dev Protect an address from liquidations.
  */
 
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 
 import { Witch } from '../../../typechain'
 

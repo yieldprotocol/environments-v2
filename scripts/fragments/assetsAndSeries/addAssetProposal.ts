@@ -1,15 +1,6 @@
-/**
- * @dev This script adds one or more assets to the protocol.
- *
- * It uses the Wand to:
- *  - Add the asset to Cauldron.
- *  - Deploy a new Join, which gets added to the Ladle, which gets permissions to join and exit.
- * @notice The assetIds can't be already in use
- */
-
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { OldEmergencyBrake, Cauldron, Ladle } from '../../../typechain'
 
@@ -66,7 +57,7 @@ export const addAssetProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
       })
-      console.log(`cloak.plan(join, join(${bytesToString(assetId)})): ${await cloak.hash(join.address, plan)}`)
+      console.log(`cloak.plan(join, join(${getName(assetId)})): ${await cloak.hash(join.address, plan)}`)
     }
   }
 

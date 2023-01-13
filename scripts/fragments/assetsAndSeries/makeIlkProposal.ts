@@ -6,42 +6,41 @@
  * A plan is recorded in the Cloak to isolate the Join from the Witch.
  */
 
-import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { bytesToString, bytesToBytes32 } from '../../../shared/helpers'
-import { WAD } from '../../../shared/constants'
+import { getName } from '../../../shared/helpers'
+import { AuctionLineAndLimit } from '../../governance/confTypes'
 
-import { IOracle, Cauldron, Ladle, OldWitch, Join, OldEmergencyBrake } from '../../../typechain'
+import { IOracle, Cauldron, Witch, Join__factory, OldEmergencyBrake } from '../../../typechain'
 
 export const makeIlkProposal = async (
   ownerAcc: any,
   spotOracle: IOracle,
   cauldron: Cauldron,
-  witch: OldWitch,
+  witch: Witch,
   cloak: OldEmergencyBrake,
   joins: Map<string, string>,
   debtLimits: Array<[string, string, number, number, number, number]>,
-  auctionLimits: Array<[string, number, string, number, number, number]>
+  auctionLineAndLimits: AuctionLineAndLimit[]
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
-  for (let [ilkId, duration, initialOffer, auctionLine, auctionDust, ilkDec] of auctionLimits) {
-    console.log(ilkId)
-    const join = (await ethers.getContractAt('Join', joins.get(ilkId) as string, ownerAcc)) as Join
+  for (let auction of auctionLineAndLimits) {
+    console.log(auction.ilkId)
+    const join = Join__factory.connect(joins.getOrThrow(auction.ilkId)!, ownerAcc)
 
     // Configure auction limits for the ilk on the witch
     proposal.push({
       target: witch.address,
-      data: witch.interface.encodeFunctionData('setIlk', [
-        ilkId,
-        duration,
-        initialOffer,
-        auctionLine,
-        auctionDust,
-        ilkDec,
+      data: witch.interface.encodeFunctionData('setLineAndLimit', [
+        auction.ilkId,
+        auction.baseId,
+        auction.duration,
+        auction.vaultProportion,
+        auction.collateralProportion,
+        auction.max,
       ]),
     })
-    console.log(`Asset ${bytesToString(ilkId)} set as ilk on witch at ${witch.address}`)
+    console.log(`Asset ${getName(auction.ilkId)} set as ilk on witch at ${witch.address}`)
 
     // Allow Witch to exit ilk
     proposal.push({
@@ -65,18 +64,11 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, join(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, join(${getName(auction.ilkId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
-    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
-    proposal.push({
-      target: spotOracle.address,
-      data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
-    })
-
     // Set the spot oracle in the Cauldron
     proposal.push({
       target: cauldron.address,

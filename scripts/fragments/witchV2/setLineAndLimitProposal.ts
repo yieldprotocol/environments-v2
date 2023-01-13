@@ -7,7 +7,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
@@ -19,7 +19,7 @@ export const setLineAndLimitProposal = (
 
   for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {
     console.log(
-      `Witch#setLineAndLimit(ilkId: ${bytesToString(ilkId)}, baseId: ${bytesToString(
+      `Witch#setLineAndLimit(ilkId: ${getName(ilkId)}, baseId: ${getName(
         baseId
       )}, duration: ${duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
         vaultProportion

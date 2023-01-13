@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { jsonToMap, bytesToString } from '../../../shared/helpers'
+import { jsonToMap, getName } from '../../../shared/helpers'
 import { ROOT } from '../../../shared/constants'
 import { Join } from '../../../typechain/Join'
 import { Timelock } from '../../../typechain/Timelock'
@@ -34,7 +34,7 @@ import { EmergencyBrake } from '../../../typechain/EmergencyBrake'
       target: cloak.address,
       data: join.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
     })
-    console.log(`join(${bytesToString(assetId)}).grantRole(ROOT, cloak)`)
+    console.log(`join(${getName(assetId)}).grantRole(ROOT, cloak)`)
   }
 
   // Propose, approve, execute

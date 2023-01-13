@@ -97,7 +97,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: CRAB,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.78571429'), // 110 / 140
     max: parseUnits('1000'),
   },
   {
@@ -105,7 +105,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: CRAB,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368421'), // 105 / 133
+    collateralProportion: parseUnits('0.82706767'), // 110 / 133
     max: parseUnits('1000'),
   },
   {
@@ -113,7 +113,7 @@ export const v2Limits: AuctionLineAndLimit[] = [
     ilkId: CRAB,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368421'), // 105 / 133
+    collateralProportion: parseUnits('0.82706767'), // 110 / 133
     max: parseUnits('1000'),
   },
 ]

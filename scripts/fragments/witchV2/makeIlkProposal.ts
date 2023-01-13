@@ -9,8 +9,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { WAD } from '../../../shared/constants'
-import { bytesToBytes32, bytesToString } from '../../../shared/helpers'
+import { getName } from '../../../shared/helpers'
 import { Cauldron, IOracle, Join__factory, OldEmergencyBrake, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { setLineAndLimitProposal } from './setLineAndLimitProposal'
@@ -55,20 +54,13 @@ export const makeIlkProposal = async (
         target: cloak.address,
         data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
       })
-      console.log(`cloak.plan(witch, exit(${bytesToString(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+      console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
     }
   }
 
   for (let [baseId, ilkId, ratio, line, dust, dec] of debtLimits) {
-    // This step in the proposal ensures that the source has been added to the oracle, `peek` will fail with 'Source not found' if not
-    console.log(`Adding for ${bytesToString(baseId)}/${bytesToString(ilkId)} from ${spotOracle.address as string}`)
-    proposal.push({
-      target: spotOracle.address,
-      data: spotOracle.interface.encodeFunctionData('peek', [bytesToBytes32(baseId), bytesToBytes32(ilkId), WAD]),
-    })
-
     console.log(
-      `Setting spot oracle for ${bytesToString(baseId)}/${bytesToString(ilkId)} to address: ${
+      `Setting spot oracle for ${getName(baseId)}/${getName(ilkId)} to address: ${
         spotOracle.address
       }, ratio: ${ethers.utils.formatUnits(ratio, 6)}`
     )
@@ -79,7 +71,7 @@ export const makeIlkProposal = async (
     })
 
     console.log(
-      `Setting debt limits for ${bytesToString(baseId)}/${bytesToString(
+      `Setting debt limits for ${getName(baseId)}/${getName(
         ilkId
       )} maxDebt: ${line}, minDebt: ${dust}, decimals: ${dec}`
     )
