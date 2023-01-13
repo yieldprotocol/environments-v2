@@ -26,8 +26,8 @@ import { impersonate, bytesToBytes32 } from '../shared/helpers'
     const level = BigNumber.from(await cauldron.callStatic.level(vaultId)) // Level is the absolute amount below the collateralized point
     console.log(`${vaultId} ${vault.ilkId} ${vault.seriesId} ${level}`)
 
-    // const healAmount = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0]).add(1000000)
-    const healAmount = await ilk.balanceOf(ownerAcc.address)
+    const healAmount = BigNumber.from((await spotOracle.peek(bytesToBytes32(baseId), bytesToBytes32(ilkId), level.mul(-1).toString()))[0]).add(1000000)
+    // const healAmount = await ilk.balanceOf(ownerAcc.address) // Use this if you want to heal with your total balance, so as not remain with dust.
 
     await ilk.approve(ladle.address, healAmount, { gasLimit: 55_000 })
     await ladle.batch([
