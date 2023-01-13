@@ -1,11 +1,11 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { addFYTokenToCloakFragment } from '../../../fragments/cloak/addFYTokenToCloak'
-import { addLadleToCloakFragment } from '../../../fragments/cloak/addLadleToCloak'
-import { addWitchToCloakFragment } from '../../../fragments/cloak/addWitchToCloak'
-import { addExecutorsToCloakFragment } from '../../../fragments/cloak/addExecutorsToCloak'
-import { grantRootFragment } from '../../../fragments/permissions/grantRoot'
-import { revokeRootFragment } from '../../../fragments/permissions/revokeRoot'
-import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ROLLER, CLOAK_V1 } from '../../../../shared/constants'
+import { addFYTokenToCloak } from '../../../fragments/cloak/addFYTokenToCloak'
+import { addLadleToCloak } from '../../../fragments/cloak/addLadleToCloak'
+import { addWitchToCloak } from '../../../fragments/cloak/addWitchToCloak'
+import { addExecutorsToCloak } from '../../../fragments/cloak/addExecutorsToCloak'
+import { grantRoot } from '../../../fragments/permissions/grantRoot'
+import { revokeRoot } from '../../../fragments/permissions/revokeRoot'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, CLOAK_V1 } from '../../../../shared/constants'
 
 import {
   Timelock__factory,
@@ -13,10 +13,11 @@ import {
   Cauldron__factory,
   Ladle__factory,
   Witch__factory,
-  Roller__factory,
 } from '../../../../typechain'
+import { checkPlan } from '../../../fragments/cloak/checkPlan'
 
-const { governance, protocol, developer, executors, fyTokens, joins, strategies } = require(process.env.CONF as string)
+const { governance, protocol, developer, executors, fyTokens, joins, strategies, users } = require(process.env
+  .CONF as string)
 
 ;(async () => {
   const signerAcc = await getOwnerOrImpersonate(developer as string)
@@ -36,12 +37,12 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await revokeRootFragment(signerAcc, governance.get(CLOAK_V1)!, hosts))
-  proposal = proposal.concat(await grantRootFragment(signerAcc, cloak.address, hosts))
-  proposal = proposal.concat(await addFYTokenToCloakFragment(signerAcc, cloak, fyTokens))
-  proposal = proposal.concat(await addLadleToCloakFragment(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
-  proposal = proposal.concat(await addWitchToCloakFragment(signerAcc, cloak, cauldron, witch, fyTokens, joins))
-  proposal = proposal.concat(await addExecutorsToCloakFragment(cloak, executors))
-
+  proposal = proposal.concat(await revokeRoot(signerAcc, governance.get(CLOAK_V1)!, hosts))
+  proposal = proposal.concat(await grantRoot(signerAcc, cloak.address, hosts))
+  proposal = proposal.concat(await addFYTokenToCloak(signerAcc, cloak, fyTokens))
+  proposal = proposal.concat(await addLadleToCloak(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
+  proposal = proposal.concat(await addWitchToCloak(signerAcc, cloak, cauldron, witch, fyTokens, joins))
+  proposal = proposal.concat(await addExecutorsToCloak(cloak, executors))
+  proposal = proposal.concat(await checkPlan(cloak, users))
   await propose(timelock, proposal, developer)
 })()

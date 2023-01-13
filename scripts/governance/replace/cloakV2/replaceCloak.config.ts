@@ -1,6 +1,17 @@
 import { ContractDeployment } from '../../confTypes'
 
-import { TIMELOCK, CLOAK, MULTISIG } from '../../../../shared/constants'
+import {
+  TIMELOCK,
+  CLOAK,
+  MULTISIG,
+  CAULDRON,
+  WITCH,
+  LADLE,
+  GIVER,
+  ROLLER,
+  YIELD_STRATEGY_LEVER,
+  WITCH_V1,
+} from '../../../../shared/constants'
 
 import * as base_config from '../../base.arb_mainnet.config'
 
@@ -22,7 +33,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'governance.json',
     name: CLOAK,
     contract: 'EmergencyBrake',
-    args: [governance.get(MULTISIG)!, governance.get(TIMELOCK)!, developer],
+    args: [() => governance.get(MULTISIG)!, () => governance.get(TIMELOCK)!, () => developer],
   },
 ]
 
@@ -35,3 +46,17 @@ export const executors = [
   '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497', // Egill Hreinsson
   '0x1662BbbDdA3fb169f10C495AE27596Af7f8fD3E1', // Marco Mariscal
 ]
+
+export const users: Array<string> = [
+  protocol.getOrThrow(CAULDRON),
+  protocol.getOrThrow(LADLE),
+  protocol.getOrThrow(WITCH),
+  protocol.getOrThrow(WITCH_V1),
+  protocol.getOrThrow(GIVER),
+  protocol.getOrThrow(ROLLER),
+  protocol.getOrThrow(YIELD_STRATEGY_LEVER),
+]
+
+fyTokens.forEach((value: string) => {
+  users.push(value)
+})
