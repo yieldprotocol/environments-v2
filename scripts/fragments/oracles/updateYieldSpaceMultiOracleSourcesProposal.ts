@@ -5,11 +5,10 @@
 
 import { ethers } from 'hardhat'
 import { getName } from '../../../shared/helpers'
-import { PoolOracle, YieldSpaceMultiOracle } from '../../../typechain'
+import { YieldSpaceMultiOracle } from '../../../typechain'
 
 export const updateYieldSpaceMultiOracleSourcesProposal = async (
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
-  poolOracle: PoolOracle,
   compositeSources: Array<[string, string, string]>,
   pools: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {

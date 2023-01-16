@@ -14,11 +14,11 @@ export const addAssetProposal = async (
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`
-    console.log(`Using asset at ${assetAddress}`)
+    console.log(`Using asset at ${assetAddress} for ${getName(assetId)}`)
 
     if ((await ethers.provider.getCode(joinAddress)) === '0x') throw `Address ${joinAddress} contains no code`
     const join = await ethers.getContractAt('Join', joinAddress, ownerAcc)
-    console.log(`Using join at ${joinAddress}`)
+    console.log(`Using join at ${joinAddress} for ${getName(assetId)}`)
 
     if ((await cauldron.assets(assetId)) === ZERO_ADDRESS) {
       // Add asset to Cauldron
@@ -43,7 +43,7 @@ export const addAssetProposal = async (
       data: ladle.interface.encodeFunctionData('addJoin', [assetId, joinAddress]),
     })
 
-    console.log(`Adding asset ${assetId} at ${assetAddress} with join ${joinAddress}`)
+    console.log(`Adding asset ${getName(assetId)} at ${assetAddress} with join ${joinAddress}`)
 
     const plan = [
       {

@@ -43,7 +43,7 @@ export const addSeriesProposal = async (
 
     const baseId = await fyToken.underlyingId()
 
-    const poolAddress = newPools.get(seriesId)
+    const poolAddress = newPools.getOrThrow(seriesId)
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
     else console.log(`Using pool at ${poolAddress} for ${getName(seriesId)}`)
     const pool = Pool__factory.connect(poolAddress, ownerAcc)
