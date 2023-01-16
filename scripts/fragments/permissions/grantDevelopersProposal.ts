@@ -20,12 +20,7 @@ export const grantDevelopersProposal = async (
     proposal.push({
       target: timelock.address,
       data: timelock.interface.encodeFunctionData('grantRoles', [
-        [
-          id(timelock.interface, 'propose((address,bytes)[])'),
-          id(timelock.interface, 'proposeRepeated((address,bytes)[],uint256)'),
-          id(timelock.interface, 'execute((address,bytes)[])'),
-          id(timelock.interface, 'executeRepeated((address,bytes)[],uint256)'),
-        ],
+        [id(timelock.interface, 'propose((address,bytes)[])'), id(timelock.interface, 'execute((address,bytes)[])')],
         grantedAccount,
       ]),
     })

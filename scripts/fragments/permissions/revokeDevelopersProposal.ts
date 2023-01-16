@@ -22,9 +22,9 @@ export const revokeDevelopersProposal = async (
       data: timelock.interface.encodeFunctionData('revokeRoles', [
         [
           id(timelock.interface, 'propose((address,bytes)[])'),
-          id(timelock.interface, 'proposeRepeated((address,bytes)[],uint256)'),
+          '0x013a652d', // proposeRepeated((address,bytes)[],uint256) - Not existing in the interface anymore
           id(timelock.interface, 'execute((address,bytes)[])'),
-          id(timelock.interface, 'executeRepeated((address,bytes)[],uint256)'),
+          '0xf9a28e8b', // executeRepeated((address,bytes)[],uint256) - Not existing in the interface anymore
         ],
         revokedAccount,
       ]),
