@@ -14,6 +14,10 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
+// baseId
+// ilkId
+// oracle
+// ratio (6 decimals. 1000000 == 100%)
 export const spotOracles = [
   [DAI, ETH, protocol.getOrThrow(COMPOSITE), 100_000000], // We don't wanna borrow this asset, so we set the ratio to 10000%
   [USDC, ETH, protocol.getOrThrow(COMPOSITE), 100_000000], // We don't wanna borrow this asset, so we set the ratio to 10000%

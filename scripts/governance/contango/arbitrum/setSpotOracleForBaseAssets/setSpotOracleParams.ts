@@ -13,7 +13,6 @@ const { developer, protocol, governance, spotOracles } = require(process.env.CON
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol.get(CONTANGO_CAULDRON)!, ownerAcc)
 
-  // 6 decimals. 1000000 == 100%
   const proposal = await updateSpotOraclesProposal(cauldron, spotOracles)
 
   await propose(timelock, proposal, developer)
