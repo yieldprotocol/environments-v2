@@ -156,6 +156,10 @@
     [
       "yieldSpaceMultiOracle",
       "0x210F4e1942bEEc4038743A8f885B870E0c27b414"
+    ],
+    [
+      "assert",
+      "0xecF5aE5D132f2138305379DC43C80ddbb3bE7d98"
     ]
   ]
 }
