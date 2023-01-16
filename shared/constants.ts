@@ -139,7 +139,7 @@ export const YSETH6MJDASSET = stringToBytes6('35')
 export const YSFRAX6MMSASSET = stringToBytes6('36')
 export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
-export const OSQTH = stringToBytes6('39')
+export const OSQTH = stringToBytes6('39') // Since we used this one in crab proposal we won't be able to change the identifier
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'

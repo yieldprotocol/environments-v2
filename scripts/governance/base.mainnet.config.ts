@@ -27,7 +27,7 @@ import {
   YSFRAX6MMSASSET,
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
-  EFRAX,
+  OSQTH,
   CRAB,
   YVDAI,
   YVUSDC,
@@ -76,6 +76,7 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
+  [OSQTH, '0x82c427AdFDf2d245Ec51D8046b41c4ee87F0d29C'],
 ])
 
 export const assets: Map<string, string> = new Map([
@@ -105,6 +106,7 @@ export const assets: Map<string, string> = new Map([
   [YSFRAX6MMSASSET, '0x1565F539E96c4d440c38979dbc86Fd711C995DD6'],
   [YSFRAX6MJDASSET, '0x47cC34188A2869dAA1cE821C8758AA8442715831'],
   [CRAB, '0x3B960E47784150F5a63777201ee2B15253D713e8'],
+  [OSQTH, '0xf1B99e3E573A1a9C5E6B2Ce818b617F0E664E86B'],
 ])
 
 export const chiSources: Array<[string, string]> = [
