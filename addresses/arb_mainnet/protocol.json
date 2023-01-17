@@ -108,6 +108,10 @@
     [
       "yieldMath",
       "0x3A717F3a896Cbb979b4eFf347649508F5f5C4cDe"
+    ],
+    [
+      "onChainTest",
+      "0xB5d97BFe6456008b9118bB5568d9379C5d6c8832"
     ]
   ]
 }
