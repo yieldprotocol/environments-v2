@@ -6,4 +6,4 @@ export CONF=$PWD/$HERE/queryEvents.mainnet.config
 RUN="npx hardhat run --network mainnet"
 
 
-$RUN $HERE/queryEvents.ts
+$RUN $HERE/queryStrategyTransfersToPool.ts
