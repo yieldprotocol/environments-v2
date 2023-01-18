@@ -3,7 +3,7 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared
 
 import { Cauldron, Timelock } from '../../../../typechain'
 
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlkToSeries'
 
 const { developer, governance, protocol, seriesIlks } = require(process.env.CONF as string)
 

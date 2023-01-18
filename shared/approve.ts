@@ -24,9 +24,10 @@ const { governance } = require(process.env.CONF as string)
 
   if ((await timelock.proposals(proposalHash)).state === ProposalState.Proposed) {
     console.log('Approving')
-    const tx = await timelock.approve(proposalHash)
+    const tx = await timelock.approve(proposalHash, { gasLimit: 150_000 })
     await requireProposalState(tx, ProposalState.Approved)
     console.log(`Approved: ${proposalHash}`)
-    if (isFork()) advanceTime(await timelock.delay())
+    const delay = await timelock.delay()
+    if (delay > 0 && isFork()) advanceTime(delay)
   }
 })()

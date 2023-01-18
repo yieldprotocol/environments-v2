@@ -5,7 +5,7 @@
 import { ethers } from 'hardhat'
 
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
-import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
+import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/witch/updateWitchLimitsInitialOfferProposal'
 import { Witch, Timelock } from '../../../../typechain'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)

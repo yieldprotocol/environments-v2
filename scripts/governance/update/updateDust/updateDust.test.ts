@@ -8,7 +8,7 @@ const { protocol, developer, newDebtMin, newAuctionMin } = require(process.env.C
 ////////////////
 import { ethers } from 'hardhat'
 import { DISPLAY_NAMES } from '../../../../shared/constants'
-import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
+import { updateDustProposal } from '../../../fragments/limits/updateDust'
 
 import { getOwnerOrImpersonate } from '../../../../shared/helpers'
 import { Cauldron__factory } from '../../../../typechain'

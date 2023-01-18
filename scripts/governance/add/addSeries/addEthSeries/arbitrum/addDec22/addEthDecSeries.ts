@@ -7,12 +7,12 @@ import {
   Timelock__factory,
 } from '../../../../../../../typechain'
 
-import { addIlksToSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { addSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addSeriesProposal'
-import { initPoolsProposal } from '../../../../../../fragments/assetsAndSeries/initPoolsProposal'
+import { addIlksToSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addIlkToSeries'
+import { addSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addSeries'
+import { initPoolsProposal } from '../../../../../../fragments/pools/initPools'
 import { orchestrateNewPoolsProposal } from '../../../../../../fragments/assetsAndSeries/orchestrateNonTvPoolsProposal'
-import { initStrategiesProposal } from '../../../../../../fragments/strategies/initStrategiesProposal'
-import { orchestrateStrategiesProposal } from '../../../../../../fragments/strategies/orchestrateStrategiesProposal'
+import { initStrategiesProposal } from '../../../../../../fragments/strategies/initStrategies'
+import { orchestrateStrategiesProposal } from '../../../../../../fragments/strategies/orchestrateStrategies'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)

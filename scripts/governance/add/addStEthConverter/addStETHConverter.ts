@@ -6,8 +6,8 @@ import {
   getOriginalChainId,
 } from '../../../../shared/helpers'
 
-import { addTokenProposal } from '../../../fragments/ladle/addTokenProposal'
-import { addIntegrationProposal } from '../../../fragments/ladle/addIntegrationProposal'
+import { addTokenProposal } from '../../../fragments/ladle/addToken'
+import { addIntegrationProposal } from '../../../fragments/ladle/addIntegration'
 import { Cauldron, Ladle, Timelock } from '../../../../typechain'
 import { STETH, WSTETH } from '../../../../shared/constants'
 

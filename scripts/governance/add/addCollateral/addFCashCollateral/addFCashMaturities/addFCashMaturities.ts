@@ -2,11 +2,11 @@ import { propose, getOwnerOrImpersonate } from '../../../../../../shared/helpers
 
 import { NOTIONAL, CAULDRON, LADLE, WITCH_V1, CLOAK, TIMELOCK } from '../../../../../../shared/constants'
 
-import { orchestrateNotionalJoinProposal } from '../../../../../fragments/other/notional/orchestrateNotionalJoinProposal'
-import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSourcesProposal'
-import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateNotionalJoinProposal } from '../../../../../fragments/other/notional/addNotionalJoin'
+import { updateNotionalSourcesProposal } from '../../../../../fragments/oracles/updateNotionalSources'
+import { addAssetProposal } from '../../../../../fragments/assetsAndSeries/addAsset'
+import { makeIlkProposal } from '../../../../../fragments/assetsAndSeries/makeIlk'
+import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 
 import {
   Cauldron__factory,

@@ -1,8 +1,8 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitchV2Fragment'
-import { protectFromLiquidationsFragment } from '../../../fragments/liquidations/protectFromLiquidationsFragment'
-import { orchestrateAuctionAssetsFragment } from '../../../fragments/liquidations/orchestrateAuctionAssetsFragment'
-import { setAuctionParametersFragment } from '../../../fragments/liquidations/setAuctionParametersFragment'
+import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitch'
+import { protectFromLiquidationsFragment } from '../../../fragments/witch/protectFromLiquidations'
+import { orchestrateAuctionAssetsFragment } from '../../../fragments/witch/orchestrateAuctionAssets'
+import { setAuctionParametersFragment } from '../../../fragments/witch/setAuctionParameters'
 import { AuctionLineAndLimit } from '../../confTypes'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'
 import {
