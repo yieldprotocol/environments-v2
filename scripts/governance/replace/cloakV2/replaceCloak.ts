@@ -34,18 +34,21 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies,
 
   const onChainTest = OnChainTest__factory.connect(protocol.get(ONCHAINTEST)!, signerAcc)
 
-  const hosts = []
-  for (let joinAddress of joins.values()) hosts.push(joinAddress)
-  for (let fyTokenAddress of fyTokens.values()) hosts.push(fyTokenAddress)
-  for (let strategiesAddress of strategies.values()) hosts.push(strategiesAddress)
-  hosts.push(protocol.get(CAULDRON)!)
-  hosts.push(protocol.get(GIVER)!)
+  const hostsV1 = []
+  for (let joinAddress of joins.values()) hostsV1.push(joinAddress)
+  for (let fyTokenAddress of fyTokens.values()) hostsV1.push(fyTokenAddress)
+
+  hostsV1.push(protocol.get(CAULDRON)!)
+  hostsV1.push(protocol.get(GIVER)!)
+
+  const hostsV2 = [...hostsV1]
+  for (let strategiesAddress of strategies.values()) hostsV2.push(strategiesAddress)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await revokeRoot(signerAcc, governance.get(CLOAK_V1)!, hosts))
-  proposal = proposal.concat(await grantRoot(signerAcc, cloak.address, hosts))
+  proposal = proposal.concat(await revokeRoot(signerAcc, governance.get(CLOAK_V1)!, hostsV1))
+  proposal = proposal.concat(await grantRoot(signerAcc, cloak.address, hostsV2))
   proposal = proposal.concat(await addFYTokenToCloak(signerAcc, cloak, fyTokens))
   proposal = proposal.concat(await addLadleToCloak(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloak(signerAcc, cloak, cauldron, witch, fyTokens, joins))
