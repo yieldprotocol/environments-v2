@@ -31,7 +31,7 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies,
   const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, signerAcc)
   const ladle = Ladle__factory.connect(protocol.get(LADLE)!, signerAcc)
   const witch = Witch__factory.connect(protocol.get(WITCH)!, signerAcc)
-  const giver = Giver__factory.connect(protocol.get(GIVER)!, signerAcc)
+
   const onChainTest = OnChainTest__factory.connect(protocol.get(ONCHAINTEST)!, signerAcc)
 
   const hosts = []
@@ -50,8 +50,13 @@ const { governance, protocol, developer, executors, fyTokens, joins, strategies,
   proposal = proposal.concat(await addLadleToCloak(signerAcc, cloak, cauldron, ladle, fyTokens, joins))
   proposal = proposal.concat(await addWitchToCloak(signerAcc, cloak, cauldron, witch, fyTokens, joins))
   proposal = proposal.concat(await addExecutorsToCloak(cloak, executors))
-  proposal = proposal.concat(await addGiverToCloak(cloak, giver, cauldron))
-  proposal = proposal.concat(await addLeverToCloak(cloak, levers, giver))
+
+  if (protocol.get(GIVER) !== undefined) {
+    const giver = Giver__factory.connect(protocol.get(GIVER)!, signerAcc)
+    proposal = proposal.concat(await addGiverToCloak(cloak, giver, cauldron))
+    proposal = proposal.concat(await addLeverToCloak(cloak, levers, giver))
+  }
+
   proposal = proposal.concat(await checkPlan(cloak, onChainTest, users))
 
   await propose(timelock, proposal, developer)
