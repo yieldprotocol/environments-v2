@@ -80,6 +80,16 @@ export const getSeriesId = (assetId: string, timestamp: number) => {
   return '0x0' + stripAsset(assetId) + 'FF' + '000' + getIteration(timestamp).replace('0x', '')
 }
 
+// Return the poolId as:
+// 2,
+// followed by the base asset identifier,
+// followed by 'FF' for Yield,
+// followed by 3 zeros,
+// followed by the iteration
+export const getPoolId = (assetId: string, timestamp: number) => {
+  return '0x2' + stripAsset(assetId) + 'FF' + '000' + getIteration(timestamp).replace('0x', '')
+}
+
 // Return the fCash identifier as:
 // 4,
 // followed by the base asset identifier,
@@ -203,6 +213,9 @@ export const FYUSDC2306 = getSeriesId(USDC, EOJUN23) // 0x0 032 FF 000 28B
 export const FYFRAX2306 = getSeriesId(FRAX, EOJUN23) // 0x0 138 FF 000 28B
 export const FYUSDT2306 = getSeriesId(USDT, EOJUN23) // 0x0 0A0 FF 000 28B
 
+export const FYUSDT2303LP = getPoolId(USDT, EOMAR23) // 0x2 0A0 FF 000 28A
+export const FYUSDT2306LP = getPoolId(USDT, EOJUN23) // 0x2 0A0 FF 000 28B
+
 export const FETH2306 = getFCashAssetId(ETH, FCASH_JUN23) // 0x4 030 12 000 28B
 export const FDAI2306 = getFCashAssetId(DAI, FCASH_JUN23) // 0x4 031 12 000 28B
 export const FUSDC2306 = getFCashAssetId(USDC, FCASH_JUN23) // 0x4 032 12 000 28B
@@ -316,6 +329,8 @@ export const DISPLAY_NAMES = new Map([
   [FYUSDC2306, 'FYUSDC2306'],
   [FYFRAX2306, 'FYFRAX2306'],
   [FYUSDT2306, 'FYUSDT2306'],
+  [FYUSDT2303LP, 'FYUSDT2303LP'],
+  [FYUSDT2306LP, 'FYUSDT2306LP'],
   [YSETH6MMS, 'YSETH6MMS'],
   [YSETH6MJD, 'YSETH6MJD'],
   [YSDAI6MMS, 'YSDAI6MMS'],

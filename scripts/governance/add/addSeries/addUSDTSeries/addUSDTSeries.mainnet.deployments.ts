@@ -6,6 +6,8 @@ import {
   EUSDT,
   FYUSDT2303,
   FYUSDT2306,
+  FYUSDT2303LP,
+  FYUSDT2306LP,
   EOMAR23,
   EOJUN23,
   ONE64,
@@ -40,8 +42,8 @@ import { ContractDeployment, Accumulator, OracleSource, OraclePath, Asset } from
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
 
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303LP, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2306LP, ONE64.div(secondsInOneYear.mul(45))],
 ]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
@@ -53,7 +55,7 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'joins.json',
     name: USDT,
-    contract: 'Join',
+    contract: 'FlashJoin',
     args: [() => assets.get(USDT) as string],
   },
   {
@@ -90,13 +92,13 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'pools.json',
-    name: FYUSDT2303,
+    name: FYUSDT2303LP,
     contract: 'PoolEuler',
     args: [
       () => eulerAddress,
       () => assets.get(EUSDT) as string,
       () => fyTokens().get(FYUSDT2303) as string,
-      () => timeStretch.get(FYUSDT2303)!.toString(),
+      () => timeStretch.get(FYUSDT2303LP)!.toString(),
       () => g1.toString(),
     ],
     libs: {
@@ -105,13 +107,13 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'pools.json',
-    name: FYUSDT2306,
+    name: FYUSDT2306LP,
     contract: 'PoolEuler',
     args: [
       () => eulerAddress,
       () => assets.get(EUSDT) as string,
       () => fyTokens().get(FYUSDT2306) as string,
-      () => timeStretch.get(FYUSDT2306)!.toString(),
+      () => timeStretch.get(FYUSDT2306LP)!.toString(),
       () => g1.toString(),
     ],
     libs: {

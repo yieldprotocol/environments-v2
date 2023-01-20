@@ -1,15 +1,23 @@
 import { BigNumber } from 'ethers'
-import { WAD, ONEUSDC, ONEWBTC, ZERO, CHI, RATE, FYUSDT2303, FYUSDT2306 } from '../../../../../shared/constants'
+import { WAD, ONEUSDC, ONEWBTC, ZERO, CHI, RATE, YSDAI6MJD } from '../../../../../shared/constants'
 import { ACCUMULATOR, CHAINLINK, COMPOSITE } from '../../../../../shared/constants'
 import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT } from '../../../../../shared/constants'
+import {
+  FYUSDT2303,
+  FYUSDT2306,
+  FYUSDT2303LP,
+  FYUSDT2306LP,
+  YSUSDT6MMS,
+  YSUSDT6MJD,
+} from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
-export const deployer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
 export const whales: Map<string, string> = base_config.whales
-export const eulerAddress = base_config.eulerAddress
+
+export const deployers: Map<string, string> = base_config.deployers
 export const governance: Map<string, string> = base_config.governance
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
@@ -414,6 +422,10 @@ export const series: Series[] = [
       assetId: FYUSDT2303,
       address: fyTokens.getOrThrow(FYUSDT2303)!,
     },
+    pool: {
+      assetId: FYUSDT2303LP,
+      address: pools.getOrThrow(FYUSDT2303LP)!,
+    },
     chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     ilks: ilks,
   },
@@ -424,96 +436,15 @@ export const series: Series[] = [
       assetId: FYUSDT2306,
       address: fyTokens.getOrThrow(FYUSDT2306)!,
     },
+    pool: {
+      assetId: FYUSDT2306LP,
+      address: pools.getOrThrow(FYUSDT2306LP)!,
+    },
     chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     ilks: ilks,
   },
 ]
 
-/// @notice Deploy fyToken series
-/// @param series identifier (bytes6 tag)
-/// @param underlying identifier (bytes6 tag)
-/// @param Address for the chi oracle
-/// @param Address for the related Join
-/// @param Maturity in unix time (seconds since Jan 1, 1970)
-/// @param Name for the series
-/// @param Symbol for the series
-// seriesId, underlyingId, chiOracleAddress, joinAddress, maturity, name, symbol
-// export const fyTokenData: Array<[string, string, string, string, number, string, string]> = [
-//   [
-//     FYUSDT2212,
-//     USDT,
-//     protocol().get(ACCUMULATOR) as string,
-//     newJoins.get(USDT) as string,
-//     EODEC22,
-//     'FYUSDT2212',
-//     'FYUSDT2212',
-//   ],
-//   // [FYUSDT2303, USDT, protocol.get(COMPOUND) as string, joins.get(USDT) as string, EOMAR23, 'FYUSDT2303', 'FYUSDT2303'],
-// ]
-//
-// /// @notice Deploy YieldSpace pools
-// /// @param pool identifier, usually matching the series (bytes6 tag)
-// /// @param base address
-// /// @param fyToken address
-// /// @param time stretch, in 64.64
-// /// @param g1, in 64.64
-// /// @param g2, in 64.64
-// export const ePoolData: Array<[string, string, string, string, BigNumber, string]> = [
-//   [
-//     FYUSDT2212,
-//     eulerAddress,
-//     assets.get(EUSDT) as string,
-//     newFYTokens.get(FYUSDT2212) as string,
-//     timeStretch.get(FYUSDT2212) as BigNumber,
-//     g1.toString(),
-//   ],
-//   // [
-//   //   FYUSDT2303,
-//   //   eulerAddress,
-//   //   assets.get(EUSDT) as string,
-//   //   newFYTokens.get(FYUSDT2303) as string,
-//   //   timeStretch.get(FYUSDT2303) as BigNumber,
-//   //   g1.toString(),
-//   // ],
-// ]
-//
-// /// @notice Pool initialization parameters
-// /// @param pool identifier, usually matching the series (bytes6 tag)
-// /// @param base identifier (bytes6 tag)
-// /// @param amount of base to initialize pool with
-// /// @param amount of fyToken to initialize pool with
-// export const poolsInit: Array<[string, string, BigNumber, BigNumber]> = [
-//   [FYUSDT2212, USDT, ONEUSDT.mul(100), ZERO],
-//   // [FYUSDT2303, USDT, WAD.mul(100), ZERO],
-// ]
-//
-// /// @notice Ilks to accept for series
-// /// @param series identifier (bytes6 tag)
-// /// @param newly accepted ilks (array of bytes6 tags)
-// export const seriesIlks: Array<[string, string[]]> = [
-//   [FYUSDT2212, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
-//   // [FYUSDT2303, [USDT, ETH, DAI, USDC, FRAX, WBTC, WSTETH, LINK, ENS, UNI]],
-// ]
-//
-// /// @notice Deploy strategies
-// /// @param strategy name
-// /// @param strategy identifier (bytes6 tag)
-// /// @param Address for the related Join
-// /// @param Address for the related asset
-// export const strategiesData: Array<[string, string, string, string, string]> = [
-//   // name, symbol, baseId
-//   ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
-//   // ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
-// ]
-//
-// /// @notice Strategy initialization parameters
-// /// @param strategy identifier (bytes6 tag)
-// /// @param address of initial pool
-// /// @param series identifier (bytes6 tag)
-// /// @param amount of base to initialize strategy with
-// /// @param fix this is true unless it is a nonTv pool
-// export const strategiesInit: Array<[string, string, string, BigNumber, boolean]> = [
-//   // [strategyId, startPoolAddress, startPoolId, initAmount]
-//   [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, ONEUSDT.mul(100), true],
-//   // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
-// ]
+/// ----- STRATEGIES -----
+
+export const newStrategies: string[] = [YSUSDT6MMS, YSUSDT6MJD]

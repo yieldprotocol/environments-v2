@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
-import { ROOT } from '../../../shared/constants'
-import { Pool, Timelock, OldEmergencyBrake } from '../../../typechain'
+import { Pool, Timelock, AccessControl__factory } from '../../../typechain'
+import { removeDeployer } from '../core/removeDeployer'
 
 /**
  * @dev This script orchestrates new pools
@@ -8,14 +8,13 @@ import { Pool, Timelock, OldEmergencyBrake } from '../../../typechain'
  * The Timelock gets access to governance functions.
  */
 
-export const orchestrateNewPools = async (
-  deployer: string,
-  pool: Pool,
-  timelock: Timelock
+export const orchestratePool = async (
+  timelock: Timelock,
+  pool: Pool
 ): Promise<Array<{ target: string; data: string }>> => {
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
+
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
-  // Revoke ROOT from the deployer
   proposal.push({
     target: pool.address,
     data: pool.interface.encodeFunctionData('grantRoles', [
@@ -25,11 +24,8 @@ export const orchestrateNewPools = async (
   })
   console.log(`pool.grantRoles(gov, timelock)`)
 
-  proposal.push({
-    target: pool.address,
-    data: pool.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(`pool.revokeRole(ROOT, deployer)`)
+  // Revoke ROOT from the deployer
+  proposal = proposal.concat(await removeDeployer(AccessControl__factory.connect(pool.address, pool.signer)))
 
   return proposal
 }

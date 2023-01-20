@@ -12,7 +12,7 @@ import { addSeriesProposal } from '../../../../../../fragments/assetsAndSeries/a
 import { initPoolsProposal } from '../../../../../../fragments/pools/initPools'
 import { orchestrateNewPoolsProposal } from '../../../../../../fragments/assetsAndSeries/orchestrateNonTvPoolsProposal'
 import { initStrategiesProposal } from '../../../../../../fragments/strategies/initStrategies'
-import { orchestrateStrategiesProposal } from '../../../../../../fragments/strategies/orchestrateStrategies'
+import { orchestrateStrategiesProposal } from '../../../../../../fragments/strategies/orchestrateStrategy'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)

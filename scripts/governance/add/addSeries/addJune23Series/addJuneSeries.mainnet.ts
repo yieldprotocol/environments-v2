@@ -20,8 +20,8 @@ import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategies'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategy'
 
 const {
   developer,

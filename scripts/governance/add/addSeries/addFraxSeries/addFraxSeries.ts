@@ -18,7 +18,7 @@ import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlk'
 import { updateAccumulatorSourcesProposal } from '../../../../fragments/oracles/updateAccumulatorSources'
 import { orchestrateAccumulatorOracleProposal } from '../../../../fragments/oracles/orchestrateAccumulatorOracle'
-import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSources'
 import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSources'
@@ -26,7 +26,7 @@ import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/a
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { initPoolsProposal } from '../../../../fragments/pools/initPools'
 import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategies'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategy'
 import { onChainTestProposal } from '../../../../fragments/utils/onChainTest'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 const { developer, deployer } = require(process.env.CONF as string)

@@ -3,10 +3,9 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-
-import { addToken } from './addToken'
 import { Ladle, FYToken, EmergencyBrake } from '../../../typechain'
 import { getName } from '../../../shared/helpers'
+import { addToken } from './addToken'
 
 export const addFYToken = async (
   cloak: EmergencyBrake,
@@ -26,6 +25,7 @@ export const addFYToken = async (
   })
   console.log(`Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`)
 
+  // Add ladle/fyToken orchestration to cloak
   proposal.push({
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('add', [

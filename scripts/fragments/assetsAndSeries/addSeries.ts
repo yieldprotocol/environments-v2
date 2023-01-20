@@ -23,11 +23,11 @@ export const addSeries = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`Using fyToken at ${series.fyToken.address} for ${series.seriesId}`)
+  console.log(`Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`)
   const fyToken = FYToken__factory.connect(series.fyToken.address, ownerAcc)
   const baseId = await fyToken.underlyingId()
-
-  const poolAddress = pools.getOrThrow(series.seriesId)
+  console.log(`Using pool at ${series.pool.address} as ${series.pool.assetId}`)
+  const poolAddress = pools.getOrThrow(series.pool.assetId)!
 
   proposal.push({
     target: cauldron.address,

@@ -17,7 +17,7 @@ import { updateIlkProposal } from '../../../../../fragments/assetsAndSeries/upda
 import { addSeriesProposal } from '../../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { initPoolsProposal } from '../../../../../fragments/pools/initPools'
-import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategies'
+import { orchestrateStrategiesProposal } from '../../../../../fragments/strategies/orchestrateStrategy'
 import { initStrategiesProposal } from '../../../../../fragments/strategies/initStrategies'
 
 const { developer, deployer } = require(process.env.CONF as string)

@@ -3,7 +3,6 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-
 import { Ladle, Join, EmergencyBrake } from '../../../typechain'
 import { getName } from '../../../shared/helpers'
 
@@ -24,6 +23,7 @@ export const addJoin = async (
     ]),
   })
 
+  // Add ladle/fyToken orchestration to cloak
   proposal.push({
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('add', [

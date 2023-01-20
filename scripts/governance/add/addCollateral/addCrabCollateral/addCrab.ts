@@ -11,7 +11,7 @@ import {
   OldEmergencyBrake__factory,
 } from '../../../../../typechain'
 
-import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 

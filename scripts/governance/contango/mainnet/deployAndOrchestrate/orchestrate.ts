@@ -26,7 +26,7 @@ import { OldEmergencyBrake__factory } from '../../../../../typechain/factories/c
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase'
-import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
 import { orchestrateCauldronProposal } from '../../../../fragments/core/orchestrateCauldron'
 import { orchestrateLadleProposal } from '../../../../fragments/core/orchestrateLadle'
 import { orchestrateWitchV2Fragment } from '../../../../fragments/core/orchestrateWitch'
