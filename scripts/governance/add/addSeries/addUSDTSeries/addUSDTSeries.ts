@@ -31,6 +31,7 @@ import { updateCompositePaths } from '../../../../fragments/oracles/updateCompos
 import { updateCompositeSources } from '../../../../fragments/oracles/updateCompositeSources'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
+import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 // import { updateIlk } from '../../../../fragments/assetsAndSeries/updateIlk'
 // import { addIlksToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 // import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
@@ -38,12 +39,10 @@ import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
 // import { initStrategies } from '../../../../fragments/strategies/initStrategies'
 // import { orchestrateStrategies } from '../../../../fragments/strategies/orchestrateStrategies'
 // import { onChainTest } from '../../../../fragments/utils/onChainTest'
-// import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol } = require(process.env.CONF as string)
-const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, newJoins } = require(process.env
+const { governance, protocol, joins } = require(process.env.CONF as string)
+const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, ilks } = require(process.env
   .CONF as string)
-// const { bases, newChainlinkLimits, auctionLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
@@ -71,45 +70,18 @@ const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, 
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
 
   // Add Asset
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt.asset, newJoins))
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt.asset, joins))
 
   // Add Underlying
   proposal = proposal.concat(
-    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, usdt, newJoins)
+    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, usdt, joins)
   )
 
-  //  proposal = proposal.concat(
-  //    await makeIlk(
-  //      ownerAcc,
-  //      chainlinkOracle as unknown as IOracle,
-  //      cauldron,
-  //      witch,
-  //      cloak,
-  //      newJoins(),
-  //      newChainlinkLimits,
-  //      auctionLimits
-  //    )
-  //  )
-  //
-  //  proposal = proposal.concat(
-  //    await makeIlk(
-  //      ownerAcc,
-  //      compositeOracle as unknown as IOracle,
-  //      cauldron,
-  //      witch,
-  //      cloak,
-  //      newJoins(),
-  //      newCompositeLimits,
-  //      auctionLimits
-  //    )
-  //  )
-  //
-  //  proposal = proposal.concat(
-  //    await updateIlk(chainlinkOracle as unknown as IOracle, cauldron, newChainlinkLimits)
-  //  )
-  //  proposal = proposal.concat(
-  //    await updateIlk(compositeOracle as unknown as IOracle, cauldron, newCompositeLimits)
-  //  )
+  // Add Ilks
+  for (let ilk of ilks) {
+    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
+  }
+
   //
   //  // Series
   //  proposal = proposal.concat(

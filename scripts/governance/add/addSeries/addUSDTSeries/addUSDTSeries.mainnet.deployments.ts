@@ -80,7 +80,7 @@ export const g1: number = 9000 // todo: Allan
 
 export const contractDeployments: ContractDeployment[] = [
   {
-    addressFile: 'newJoins.json',
+    addressFile: 'joins.json',
     name: USDT,
     contract: 'Join',
     args: [() => assets.get(USDT) as string],

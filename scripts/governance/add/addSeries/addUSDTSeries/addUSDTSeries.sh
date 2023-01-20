@@ -6,7 +6,7 @@ RUN="npx hardhat run --network localhost"
 
 
 export CONF=$PWD/$HERE/addUSDTSeries.mainnet.deployments
-# $RUN $HERE/../../../../../shared/deploy.ts
+$RUN $HERE/../../../../../shared/deploy.ts
 
 export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
 # $RUN $HERE/../../../../../tools/loadTimelock.ts

@@ -1,5 +1,6 @@
 /**
  * @dev Configure the auction parameters for Witch v2 liquidations
+ * @notice Set max to zero to make a pair not liquidable
  */
 
 import { getName } from '../../../shared/helpers'
