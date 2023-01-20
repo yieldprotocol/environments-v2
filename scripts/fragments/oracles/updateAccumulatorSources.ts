@@ -4,26 +4,36 @@
 
 import { getName } from '../../../shared/helpers'
 import { AccumulatorMultiOracle } from '../../../typechain'
+import { Accumulator } from '../../governance/confTypes'
 
 export const updateAccumulatorSources = async (
-  lendingOracle: AccumulatorMultiOracle,
-  newSources: Array<[string, string, string, string]>
+  accumulatorOracle: AccumulatorMultiOracle,
+  accumulators: Accumulator[]
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`compoundOracle: ${lendingOracle.address}`)
+  console.log(`accumulator oracle: ${accumulatorOracle.address}`)
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, kind, startRate, perSecondRate] of newSources) {
-    const source = await lendingOracle.sources(baseId, kind)
+  for (let accumulator of accumulators) {
+    const source = await accumulatorOracle.sources(accumulator.baseId, accumulator.kind)
 
     if (source.lastUpdated.isZero()) {
       proposal.push({
-        target: lendingOracle.address,
-        data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, kind, startRate, perSecondRate]),
+        target: accumulatorOracle.address,
+        data: accumulatorOracle.interface.encodeFunctionData('setSource', [
+          accumulator.baseId,
+          accumulator.kind,
+          accumulator.startRate,
+          accumulator.perSecondRate,
+        ]),
       })
-      console.log(`Accumulator(${getName(baseId)}/${kind}): ${startRate}, ${perSecondRate}`)
+      console.log(
+        `Accumulator(${getName(accumulator.baseId)}/${accumulator.kind}): ${accumulator.startRate}, ${
+          accumulator.perSecondRate
+        }`
+      )
     } else {
-      console.log(`Accumulator for (${getName(baseId)}/${kind}): already set`)
+      console.log(`Accumulator for (${getName(accumulator.baseId)}/${getName(accumulator.kind)}): already set`)
     }
   }
 

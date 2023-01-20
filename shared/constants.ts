@@ -140,6 +140,7 @@ export const YSFRAX6MMSASSET = stringToBytes6('36')
 export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
 export const OSQTH = stringToBytes6('39')
+export const USDT = '0x30A000000000'
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -192,7 +193,6 @@ export const EOJUN22 = 1656039600 // Friday, Jun 24, 2022 3:00:00 PM GMT+00:00
 export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
 export const EOMAR23 = 1680274800 // Friday, Mar 31 2023 15:00:00 GMT+0000
-
 export const EOJUN23 = 1688137200 // TODO: nextYieldMaturity(FCASH_JUN23) // 1688137200 - Friday, Jun 30 2023 15:00:00 GMT+0000
 
 export const FYETH2306 = getSeriesId(ETH, EOJUN23) // 0x0 030 FF 000 28B
@@ -248,9 +248,12 @@ export const FYFRAX2212 = stringToBytes6('1808')
 export const FYFRAX2303 = stringToBytes6('1809')
 
 export const DISPLAY_NAMES = new Map([
+  [CHI, 'CHI'],
+  [RATE, 'RATE'],
   [ETH, 'ETH'],
   [DAI, 'DAI'],
   [USDC, 'USDC'],
+  [USDT, 'USDT'],
   [WBTC, 'WBTC'],
   [WSTETH, 'WSTETH'],
   [STETH, 'STETH'],

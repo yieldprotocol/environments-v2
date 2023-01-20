@@ -37,6 +37,32 @@ export interface Collateralization {
   ratio: number
 }
 
+export interface OracleSource {
+  baseId: string
+  baseAddress: string
+  quoteId: string
+  quoteAddress: string
+  sourceAddress: string
+}
+
+export interface OraclePath {
+  baseId: string
+  quoteId: string
+  path: string[]
+}
+
+export interface Accumulator {
+  baseId: string
+  kind: string
+  startRate: BigNumber
+  perSecondRate: BigNumber
+}
+
+export interface Base {
+  asset: Asset
+  rateOracle: string
+}
+
 export interface Ilk {
   baseId: string
   ilkId: string
@@ -48,6 +74,8 @@ export interface Ilk {
 
 export interface Series {
   seriesId: string
+  base: Asset
   fyToken: Asset
+  chiOracle: string
   ilks: Ilk[]
 }

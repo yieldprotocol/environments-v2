@@ -59,7 +59,7 @@ export const newPools = () => readAddressMappingIfExists('newPools.json')
 export const newStrategies = () => readAddressMappingIfExists('newStrategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { ContractDeployment } from '../../../confTypes'
+import { ContractDeployment, Accumulator, OracleSource, OraclePath } from '../../../confTypes'
 
 const ONEUSDT = ONEUSDC
 
@@ -75,6 +75,8 @@ export const timeStretch: Map<string, BigNumber> = new Map([
 
 // Sell base to the pool fee, as fp4
 export const g1: number = 9000 // todo: Allan
+
+// ----- CONTRACT DEPLOYMENTS -----
 
 export const contractDeployments: ContractDeployment[] = [
   {
@@ -138,19 +140,26 @@ export const contractDeployments: ContractDeployment[] = [
   },
 ]
 
-/// @notice Assets that will be made into a base
-/// @param Asset identifier (bytes6 tag)
-/// @param Address for the related Join
-export const bases: Array<[string, string]> = [[USDT, newJoins().get(USDT) as string]]
+// ----- ORACLES -----
 
 /// @notice Configuration of the acummulator
 /// @param Asset identifier (bytes6 tag)
 /// @param Acummulator type (bytes6 tag)
 /// @param start Initial value for the acummulator (18 decimal fixed point)
 /// @param increasePerSecond Acummulator multiplier, per second (18 decimal fixed point)
-export const rateChiSources: Array<[string, string, string, string]> = [
-  [USDT, RATE, WAD.toString(), '1000000001546067000'],
-  [USDT, CHI, WAD.toString(), WAD.toString()],
+export const accumulators: Accumulator[] = [
+  {
+    baseId: USDT,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: BigNumber.from('1000000001546067000'),
+  },
+  {
+    baseId: USDT,
+    kind: CHI,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
 ]
 
 /// @notice Sources that will be added to the Chainlink Oracle
@@ -159,9 +168,48 @@ export const rateChiSources: Array<[string, string, string, string]> = [
 /// @param Quote asset identifier (bytes6 tag)
 /// @param Address for the quote asset
 /// @param Address for the chainlink aggregator
-export const chainlinkSources: Array<[string, string, string, string, string]> = [
-  [USDT, assets.get(USDT) as string, ETH, assets.get(ETH) as string, '0x14d04Fff8D21bd62987a5cE9ce543d2F1edF5D3E'],
+export const chainlinkSources: OracleSource[] = [
+  {
+    baseId: USDT,
+    baseAddress: assets.getOrThrow(USDT)!,
+    quoteId: ETH,
+    quoteAddress: assets.getOrThrow(ETH)!,
+    sourceAddress: '0x14d04Fff8D21bd62987a5cE9ce543d2F1edF5D3E',
+  },
 ]
+
+/// @notice Sources that will be added to the Composite Oracle
+/// @param Base asset identifier (bytes6 tag)
+/// @param Quote asset identifier (bytes6 tag)
+/// @param Address for the source
+export const compositeSources: OracleSource[] = [
+  {
+    baseId: USDT,
+    baseAddress: '', // TODO: Is this the best way of ignoring this?
+    quoteId: ETH,
+    quoteAddress: '',
+    sourceAddress: protocol().getOrThrow(CHAINLINK)!,
+  },
+]
+
+/// @notice Paths that will be added to the Composite Oracle
+/// @param Base asset identifier (bytes6 tag)
+/// @param Quote asset identifier (bytes6 tag)
+/// @param Path to traverse (array of bytes6 tags)
+export const compositePaths: OraclePath[] = [
+  {
+    baseId: USDT,
+    quoteId: ENS,
+    path: [ETH],
+  },
+  {
+    baseId: USDT,
+    quoteId: WSTETH,
+    path: [ETH, STETH],
+  },
+]
+
+// ----- SOMETHING ELSE -----
 
 /// @notice Oracles that will be used for Chi
 /// @param Asset identifier (bytes6 tag)
@@ -173,20 +221,10 @@ export const newChiSources: Array<[string, string]> = [[USDT, protocol().get(ACC
 /// @param Address for the rate oracle
 export const newRateSources: Array<[string, string]> = [[USDT, protocol().get(ACCUMULATOR) as string]]
 
-/// @notice Sources that will be added to the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Quote asset identifier (bytes6 tag)
-/// @param Address for the source
-export const compositeSources: Array<[string, string, string]> = [[USDT, ETH, protocol().get(CHAINLINK) as string]]
-
-/// @notice Paths that will be added to the Composite Oracle
-/// @param Base asset identifier (bytes6 tag)
-/// @param Quote asset identifier (bytes6 tag)
-/// @param Path to traverse (array of bytes6 tags)
-export const newCompositePaths: Array<[string, string, Array<string>]> = [
-  [USDT, ENS, [ETH]],
-  [USDT, WSTETH, [ETH, STETH]], // TODO: ALBERTO
-]
+/// @notice Assets that will be made into a base
+/// @param Asset identifier (bytes6 tag)
+/// @param Address for the related Join
+export const bases: Array<[string, string]> = [[USDT, newJoins().get(USDT) as string]]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
 /// @param Base asset identifier (bytes6 tag)
