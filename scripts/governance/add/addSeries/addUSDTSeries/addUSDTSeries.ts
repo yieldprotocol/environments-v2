@@ -18,10 +18,9 @@ import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAc
 import { updateChainlinkSources } from '../../../../fragments/oracles/updateChainlinkSources'
 import { updateCompositePaths } from '../../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../../fragments/oracles/updateCompositeSources'
+import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 // import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
 // import { updateIlk } from '../../../../fragments/assetsAndSeries/updateIlk'
-// import { orchestrateJoin } from '../../../../fragments/core/removeDeployerRootToCloak'
-// import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 // import { addIlksToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 // import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
 // import { initPools } from '../../../../fragments/pools/initPools'
@@ -31,19 +30,8 @@ import { updateCompositeSources } from '../../../../fragments/oracles/updateComp
 // import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)
-const {
-  accumulators,
-  chainlinkSources,
-  compositeSources,
-  compositePaths,
-  //  newFYTokens,
-  //  newPools,
-  //  seriesIlks,
-  //  poolsInit,
-  //  newStrategies,
-  //  strategiesData,
-  //  strategiesInit,
-} = require(process.env.CONF as string)
+const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, newJoins } = require(process.env
+  .CONF as string)
 // const { bases, newChainlinkLimits, auctionLimits, assetsToAdd, newCompositeLimits, newJoins } = require(process.env.CONF as string)
 
 /**
@@ -98,12 +86,6 @@ const {
     ownerAcc
   )) as unknown as Timelock
 
-  //  let assetsAndJoins: [string, string, string][] = []
-  //
-  //  for (let [assetId, joinAddress] of newJoins()) {
-  //    assetsAndJoins.push([assetId, assetsToAdd.get(assetId) as string, joinAddress])
-  //  }
-
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -114,8 +96,8 @@ const {
   proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
 
-  //  proposal = proposal.concat(await orchestrateJoin(ownerAcc, deployer, ladle, timelock, cloak, assetsAndJoins))
-  //  proposal = proposal.concat(await addAsset(ownerAcc, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt, newJoins))
+
   //  // Bases and Ilks
   //  proposal = proposal.concat(
   //    await makeBase(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases)

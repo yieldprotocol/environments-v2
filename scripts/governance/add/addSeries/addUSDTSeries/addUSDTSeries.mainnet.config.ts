@@ -53,13 +53,13 @@ export const assets: Map<string, string> = base_config.assets
 
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-export const newFYTokens = () => readAddressMappingIfExists('newFYTokens.json')
-export const newJoins = () => readAddressMappingIfExists('newJoins.json')
-export const newPools = () => readAddressMappingIfExists('newPools.json')
-export const newStrategies = () => readAddressMappingIfExists('newStrategies.json')
+export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
+export const newJoins = readAddressMappingIfExists('newJoins.json')
+export const newPools = readAddressMappingIfExists('newPools.json')
+export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { ContractDeployment, Accumulator, OracleSource, OraclePath } from '../../../confTypes'
+import { Accumulator, OracleSource, OraclePath, Asset } from '../../../confTypes'
 
 const ONEUSDT = ONEUSDC
 
@@ -75,70 +75,6 @@ export const timeStretch: Map<string, BigNumber> = new Map([
 
 // Sell base to the pool fee, as fp4
 export const g1: number = 9000 // todo: Allan
-
-// ----- CONTRACT DEPLOYMENTS -----
-
-export const contractDeployments: ContractDeployment[] = [
-  {
-    addressFile: 'protocol.json',
-    name: YIELDMATH,
-    contract: 'YieldMath',
-    args: [],
-  },
-  {
-    addressFile: 'newJoins.json',
-    name: USDT,
-    contract: 'Join',
-    args: [() => assets.get(USDT) as string],
-  },
-  {
-    addressFile: 'newFYTokens.json',
-    name: FYUSDT2212,
-    contract: 'FYToken',
-    args: [
-      () => USDT,
-      () => protocol().get(COMPOUND) as string,
-      () => newJoins().get(USDT) as string,
-      () => EODEC22.toString(),
-      () => 'FYUSDT2212',
-      () => 'FYUSDT2212',
-    ],
-    libs: {
-      SafeERC20Namer: protocol().get('safeERC20Namer')!,
-    },
-  },
-  {
-    addressFile: 'newPools.json',
-    name: FYUSDT2212,
-    contract: 'PoolEuler',
-    args: [
-      () => eulerAddress,
-      () => assets.get(EUSDT) as string,
-      () => newFYTokens().get(FYUSDT2212) as string,
-      () => timeStretch.get(FYUSDT2212)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol().get('yieldMath')!,
-    },
-  },
-  {
-    addressFile: 'newStrategies.json',
-    name: YSUSDT6MJD,
-    contract: 'Strategy',
-    args: [
-      () => 'Yield Strategy USDT 6M Jun Dec',
-      () => YSUSDT6MJD,
-      () => protocol().get(LADLE)!,
-      () => assets.get(USDT)!,
-      () => FRAX,
-      () => newJoins().get(USDT)!,
-    ],
-    libs: {
-      SafeERC20Namer: protocol().get('safeERC20Namer')!,
-    },
-  },
-]
 
 // ----- ORACLES -----
 
@@ -209,7 +145,12 @@ export const compositePaths: OraclePath[] = [
   },
 ]
 
-// ----- SOMETHING ELSE -----
+// ----- ASSETS, BASES, ILKS -----
+
+export const usdt: Asset = {
+  assetId: USDT,
+  address: assets.getOrThrow(USDT)!,
+}
 
 /// @notice Oracles that will be used for Chi
 /// @param Asset identifier (bytes6 tag)
@@ -224,7 +165,7 @@ export const newRateSources: Array<[string, string]> = [[USDT, protocol().get(AC
 /// @notice Assets that will be made into a base
 /// @param Asset identifier (bytes6 tag)
 /// @param Address for the related Join
-export const bases: Array<[string, string]> = [[USDT, newJoins().get(USDT) as string]]
+export const bases: Array<[string, string]> = [[USDT, newJoins.get(USDT) as string]]
 
 /// @notice Configure an asset as an ilk for a base using the Chainlink Oracle
 /// @param Base asset identifier (bytes6 tag)
@@ -280,7 +221,7 @@ export const fyTokenData: Array<[string, string, string, string, number, string,
     FYUSDT2212,
     USDT,
     protocol().get(ACCUMULATOR) as string,
-    newJoins().get(USDT) as string,
+    newJoins.get(USDT) as string,
     EODEC22,
     'FYUSDT2212',
     'FYUSDT2212',
@@ -300,7 +241,7 @@ export const ePoolData: Array<[string, string, string, string, BigNumber, string
     FYUSDT2212,
     eulerAddress,
     assets.get(EUSDT) as string,
-    newFYTokens().get(FYUSDT2212) as string,
+    newFYTokens.get(FYUSDT2212) as string,
     timeStretch.get(FYUSDT2212) as BigNumber,
     g1.toString(),
   ],
@@ -339,7 +280,7 @@ export const seriesIlks: Array<[string, string[]]> = [
 /// @param Address for the related asset
 export const strategiesData: Array<[string, string, string, string, string]> = [
   // name, symbol, baseId
-  ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins().get(USDT) as string, assets.get(USDT) as string],
+  ['Yield Strategy USDT 6M Jun Dec', YSUSDT6MJD, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
   // ['Yield Strategy USDT 6M Sep Mar', YSUSDT6MMS, USDT, newJoins.get(USDT) as string, assets.get(USDT) as string],
 ]
 
@@ -351,6 +292,6 @@ export const strategiesData: Array<[string, string, string, string, string]> = [
 /// @param fix this is true unless it is a nonTv pool
 export const strategiesInit: Array<[string, string, string, BigNumber, boolean]> = [
   // [strategyId, startPoolAddress, startPoolId, initAmount]
-  [YSUSDT6MJD, newPools().get(FYUSDT2212) as string, FYUSDT2212, ONEUSDT.mul(100), true],
+  [YSUSDT6MJD, newPools.get(FYUSDT2212) as string, FYUSDT2212, ONEUSDT.mul(100), true],
   // [YSUSDT6MMS, newPools.get(FYUSDT2303) as string, FYUSDT2303, WAD.mul(100)],
 ]
