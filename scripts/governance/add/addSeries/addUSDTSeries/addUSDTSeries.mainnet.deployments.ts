@@ -1,44 +1,17 @@
 import { BigNumber } from 'ethers'
 import {
   ACCUMULATOR,
-  CHI,
-  DAI,
-  EOJUN22,
-  EOSEP22,
-  ETH,
-  FYUSDT2212,
-  FYUSDT2303,
-  ONE64,
-  RATE,
-  secondsInOneYear,
-  FRAX,
-  USDC,
-  EWETH,
-  WBTC,
-  LINK,
-  STETH,
-  WSTETH,
-  ENS,
-  UNI,
-  WAD,
-  YSUSDT6MMS,
-  YSUSDT6MJD,
+  SAFE_ERC20_NAMER,
   USDT,
   EUSDT,
-  ZERO,
-  COMPOUND,
+  FYUSDT2303,
+  FYUSDT2306,
   EOMAR23,
-  EODEC22,
-  CHAINLINK,
-  FYETH2206,
-  FYUSDC2206,
-  FYDAI2206,
-  FYDAI2209,
-  FYETH2209,
-  FYUSDC2209,
-  YIELDMATH,
-  LADLE,
-  ONEUSDC,
+  EOJUN23,
+  ONE64,
+  secondsInOneYear,
+  YSUSDT6MMS,
+  YSUSDT6MJD,
 } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
@@ -53,15 +26,13 @@ export const assets: Map<string, string> = base_config.assets
 
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-export const newFYTokens = () => readAddressMappingIfExists('newFYTokens.json')
-export const newJoins = () => readAddressMappingIfExists('newJoins.json')
-export const newPools = () => readAddressMappingIfExists('newPools.json')
-export const newStrategies = () => readAddressMappingIfExists('newStrategies.json')
+export const fyTokens = () => readAddressMappingIfExists('fyTokens.json')
+export const joins = () => readAddressMappingIfExists('joins.json')
+export const pools = () => readAddressMappingIfExists('pools.json')
+export const strategies = () => readAddressMappingIfExists('strategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
 import { ContractDeployment, Accumulator, OracleSource, OraclePath, Asset } from '../../../confTypes'
-
-const ONEUSDT = ONEUSDC
 
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)
@@ -69,8 +40,8 @@ const ONEUSDT = ONEUSDC
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
 
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2212, ONE64.div(secondsInOneYear.mul(45))],
   [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(45))],
 ]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
@@ -85,51 +56,91 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'Join',
     args: [() => assets.get(USDT) as string],
   },
-  //  {
-  //    addressFile: 'newFYTokens.json',
-  //    name: FYUSDT2212,
-  //    contract: 'FYToken',
-  //    args: [
-  //      () => USDT,
-  //      () => protocol().get(COMPOUND) as string,
-  //      () => newJoins().get(USDT) as string,
-  //      () => EODEC22.toString(),
-  //      () => 'FYUSDT2212',
-  //      () => 'FYUSDT2212',
-  //    ],
-  //    libs: {
-  //      SafeERC20Namer: protocol().get('safeERC20Namer')!,
-  //    },
-  //  },
-  //  {
-  //    addressFile: 'newPools.json',
-  //    name: FYUSDT2212,
-  //    contract: 'PoolEuler',
-  //    args: [
-  //      () => eulerAddress,
-  //      () => assets.get(EUSDT) as string,
-  //      () => newFYTokens().get(FYUSDT2212) as string,
-  //      () => timeStretch.get(FYUSDT2212)!.toString(),
-  //      () => g1.toString(),
-  //    ],
-  //    libs: {
-  //      YieldMath: protocol().get('yieldMath')!,
-  //    },
-  //  },
-  //  {
-  //    addressFile: 'newStrategies.json',
-  //    name: YSUSDT6MJD,
-  //    contract: 'Strategy',
-  //    args: [
-  //      () => 'Yield Strategy USDT 6M Jun Dec',
-  //      () => YSUSDT6MJD,
-  //      () => protocol().get(LADLE)!,
-  //      () => assets.get(USDT)!,
-  //      () => FRAX,
-  //      () => newJoins().get(USDT)!,
-  //    ],
-  //    libs: {
-  //      SafeERC20Namer: protocol().get('safeERC20Namer')!,
-  //    },
-  //  },
+  {
+    addressFile: 'fyTokens.json',
+    name: FYUSDT2303,
+    contract: 'FYToken',
+    args: [
+      () => USDT,
+      () => protocol().get(ACCUMULATOR) as string,
+      () => joins().get(USDT) as string,
+      () => EOMAR23.toString(),
+      () => 'FYUSDT2303',
+      () => 'FYUSDT2303',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'fyTokens.json',
+    name: FYUSDT2306,
+    contract: 'FYToken',
+    args: [
+      () => USDT,
+      () => protocol().get(ACCUMULATOR) as string,
+      () => joins().get(USDT) as string,
+      () => EOJUN23.toString(),
+      () => 'FYUSDT2306',
+      () => 'FYUSDT2306',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'pools.json',
+    name: FYUSDT2303,
+    contract: 'PoolEuler',
+    args: [
+      () => eulerAddress,
+      () => assets.get(EUSDT) as string,
+      () => fyTokens().get(FYUSDT2303) as string,
+      () => timeStretch.get(FYUSDT2303)!.toString(),
+      () => g1.toString(),
+    ],
+    libs: {
+      YieldMath: protocol().get('yieldMath')!,
+    },
+  },
+  {
+    addressFile: 'pools.json',
+    name: FYUSDT2306,
+    contract: 'PoolEuler',
+    args: [
+      () => eulerAddress,
+      () => assets.get(EUSDT) as string,
+      () => fyTokens().get(FYUSDT2306) as string,
+      () => timeStretch.get(FYUSDT2306)!.toString(),
+      () => g1.toString(),
+    ],
+    libs: {
+      YieldMath: protocol().get('yieldMath')!,
+    },
+  },
+  /// @notice Deploy strategies
+  /// @param strategy name
+  /// @param strategy identifier (bytes6 tag)
+  /// @param Address for the Ladle
+  /// @param Address for the underlying asset
+  /// @param Underlying asset identifier (bytes6 tag)
+  /// @param Address for the underlying asset join
+  {
+    addressFile: 'strategies.json',
+    name: YSUSDT6MJD,
+    contract: 'Strategy',
+    args: [() => 'Yield Strategy USDT 6M Jun Dec', () => 'YSUSDT6MJD', () => fyTokens().getOrThrow(FYUSDT2306)!],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+    },
+  },
+  {
+    addressFile: 'strategies.json',
+    name: YSUSDT6MMS,
+    contract: 'Strategy',
+    args: [() => 'Yield Strategy USDT 6M Mar Sep', () => 'YSUSDT6MJD', () => fyTokens().getOrThrow(FYUSDT2303)!],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
+    },
+  },
 ]

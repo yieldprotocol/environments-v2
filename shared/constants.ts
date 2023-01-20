@@ -141,6 +141,7 @@ export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
 export const OSQTH = stringToBytes6('39')
 export const USDT = '0x30A000000000'
+export const EUSDT = '0xE0A014000000'
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -195,10 +196,12 @@ export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
 export const EOMAR23 = 1680274800 // Friday, Mar 31 2023 15:00:00 GMT+0000
 export const EOJUN23 = 1688137200 // TODO: nextYieldMaturity(FCASH_JUN23) // 1688137200 - Friday, Jun 30 2023 15:00:00 GMT+0000
 
+export const FYUSDT2303 = getSeriesId(USDT, EOMAR23) // 0x0 0A0 FF 000 28A
 export const FYETH2306 = getSeriesId(ETH, EOJUN23) // 0x0 030 FF 000 28B
 export const FYDAI2306 = getSeriesId(DAI, EOJUN23) // 0x0 031 FF 000 28B
 export const FYUSDC2306 = getSeriesId(USDC, EOJUN23) // 0x0 032 FF 000 28B
 export const FYFRAX2306 = getSeriesId(FRAX, EOJUN23) // 0x0 138 FF 000 28B
+export const FYUSDT2306 = getSeriesId(USDT, EOJUN23) // 0x0 0A0 FF 000 28B
 
 export const FETH2306 = getFCashAssetId(ETH, FCASH_JUN23) // 0x4 030 12 000 28B
 export const FDAI2306 = getFCashAssetId(DAI, FCASH_JUN23) // 0x4 031 12 000 28B
@@ -212,6 +215,8 @@ export const YSUSDC6MMS = getStrategyId(USDC, 'MMS') // 1 032 FF 000 001 - Yield
 export const YSUSDC6MJD = getStrategyId(USDC, 'MJD') // 1 032 FF 000 000 - Yield Strategy USDC 6M Jun Dec - YSUSDC6MJD
 export const YSFRAX6MMS = getStrategyId(FRAX, 'MMS') // 1 138 FF 000 001 - Yield Strategy FRAX 6M Mar Sep - YSFRAX6MMS
 export const YSFRAX6MJD = getStrategyId(FRAX, 'MJD') // 1 138 FF 000 000 - Yield Strategy FRAX 6M Jun Dec - YSFRAX6MJD
+export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSFRAX6MMS
+export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSFRAX6MJD
 
 // LEGACY IDENTIFIERS
 
@@ -305,10 +310,12 @@ export const DISPLAY_NAMES = new Map([
   [FYFRAX2209, 'FYFRAX2209'],
   [FYFRAX2212, 'FYFRAX2212'],
   [FYFRAX2303, 'FYFRAX2303'],
+  [FYUSDT2303, 'FYUSDT2303'],
   [FYETH2306, 'FYETH2306'],
   [FYDAI2306, 'FYDAI2306'],
   [FYUSDC2306, 'FYUSDC2306'],
   [FYFRAX2306, 'FYFRAX2306'],
+  [FYUSDT2303, 'FYUSDT2303'],
   [YSETH6MMS, 'YSETH6MMS'],
   [YSETH6MJD, 'YSETH6MJD'],
   [YSDAI6MMS, 'YSDAI6MMS'],
@@ -317,6 +324,8 @@ export const DISPLAY_NAMES = new Map([
   [YSUSDC6MJD, 'YSUSDC6MJD'],
   [YSFRAX6MMS, 'YSFRAX6MMS'],
   [YSFRAX6MJD, 'YSFRAX6MJD'],
+  [YSUSDT6MMS, 'YSUSDT6MMS'],
+  [YSUSDT6MJD, 'YSUSDT6MJD'],
   [YSDAI6MMS_V1, 'YSDAI6MMS_V1'],
   [YSDAI6MJD_V1, 'YSDAI6MJD_V1'],
   [YSUSDC6MMS_V1, 'YSUSDC6MMS_V1'],
