@@ -59,7 +59,7 @@ export const newPools = readAddressMappingIfExists('newPools.json')
 export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { Accumulator, OracleSource, OraclePath, Asset } from '../../../confTypes'
+import { Accumulator, OracleSource, OraclePath, Asset, Base } from '../../../confTypes'
 
 const ONEUSDT = ONEUSDC
 
@@ -147,9 +147,12 @@ export const compositePaths: OraclePath[] = [
 
 // ----- ASSETS, BASES, ILKS -----
 
-export const usdt: Asset = {
-  assetId: USDT,
-  address: assets.getOrThrow(USDT)!,
+export const usdt: Base = {
+  asset: {
+    assetId: USDT,
+    address: assets.getOrThrow(USDT)!,
+  },
+  rateOracle: protocol().getOrThrow(ACCUMULATOR)!,
 }
 
 /// @notice Oracles that will be used for Chi

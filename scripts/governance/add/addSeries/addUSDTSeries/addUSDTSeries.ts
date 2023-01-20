@@ -1,17 +1,28 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, propose, stringToBytes6 } from '../../../../../shared/helpers'
 
+import { IOracle } from '../../../../../typechain'
 import {
-  IOracle,
-  ChainlinkMultiOracle,
-  CompositeMultiOracle,
-  UniswapV3Oracle,
-  AccumulatorMultiOracle,
-  OnChainTest,
+  Timelock__factory,
+  EmergencyBrake__factory,
+  ChainlinkMultiOracle__factory,
+  CompositeMultiOracle__factory,
+  AccumulatorMultiOracle__factory,
+  Cauldron__factory,
+  Ladle__factory,
+  Witch__factory,
 } from '../../../../../typechain'
-import { Cauldron, Ladle, OldWitch, Timelock, EmergencyBrake } from '../../../../../typechain'
 
-import { COMPOSITE, CHAINLINK, UNISWAP, ACCUMULATOR } from '../../../../../shared/constants'
+import {
+  TIMELOCK,
+  CLOAK,
+  CAULDRON,
+  WITCH,
+  LADLE,
+  COMPOSITE,
+  CHAINLINK,
+  ACCUMULATOR,
+} from '../../../../../shared/constants'
 
 import { orchestrateAccumulatorOracle } from '../../../../fragments/oracles/orchestrateAccumulatorOracle'
 import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
@@ -19,7 +30,7 @@ import { updateChainlinkSources } from '../../../../fragments/oracles/updateChai
 import { updateCompositePaths } from '../../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../../fragments/oracles/updateCompositeSources'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
-// import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
+import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
 // import { updateIlk } from '../../../../fragments/assetsAndSeries/updateIlk'
 // import { addIlksToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 // import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
@@ -40,51 +51,14 @@ const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const chainlinkOracle = (await ethers.getContractAt(
-    'ChainlinkMultiOracle',
-    protocol().getOrThrow(CHAINLINK) as string,
-    ownerAcc
-  )) as unknown as ChainlinkMultiOracle
-  const compositeOracle = (await ethers.getContractAt(
-    'CompositeMultiOracle',
-    protocol().getOrThrow(COMPOSITE) as string,
-    ownerAcc
-  )) as unknown as CompositeMultiOracle
-  const uniswapOracle = (await ethers.getContractAt(
-    'UniswapV3Oracle',
-    protocol().getOrThrow(UNISWAP) as string,
-    ownerAcc
-  )) as unknown as UniswapV3Oracle
-  const accumulatorOracle = (await ethers.getContractAt(
-    'AccumulatorMultiOracle',
-    protocol().getOrThrow(ACCUMULATOR) as string,
-    ownerAcc
-  )) as unknown as AccumulatorMultiOracle
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol().getOrThrow('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-  const ladle = (await ethers.getContractAt(
-    'Ladle',
-    protocol().getOrThrow('ladle') as string,
-    ownerAcc
-  )) as unknown as Ladle
-  const witch = (await ethers.getContractAt(
-    'OldWitch',
-    protocol().getOrThrow('witch') as string,
-    ownerAcc
-  )) as unknown as OldWitch
-  const cloak = (await ethers.getContractAt(
-    'EmergencyBrake',
-    governance.get('cloak') as string,
-    ownerAcc
-  )) as unknown as EmergencyBrake
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
+  const chainlinkOracle = ChainlinkMultiOracle__factory.connect(protocol().getOrThrow(CHAINLINK)!, ownerAcc)
+  const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
+  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol().getOrThrow(ACCUMULATOR)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
+  const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
@@ -96,13 +70,14 @@ const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, 
   proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
 
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt, newJoins))
+  // Add Asset
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt.asset, newJoins))
 
-  //  // Bases and Ilks
-  //  proposal = proposal.concat(
-  //    await makeBase(ownerAcc, accumulatorOracle as unknown as IOracle, cauldron, witch, cloak, bases)
-  //  )
-  //
+  // Add Underlying
+  proposal = proposal.concat(
+    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, usdt, newJoins)
+  )
+
   //  proposal = proposal.concat(
   //    await makeIlk(
   //      ownerAcc,
