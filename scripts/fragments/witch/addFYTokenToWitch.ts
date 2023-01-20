@@ -22,6 +22,7 @@ export const addFYTokenToWitch = async (
       witch.address,
     ]),
   })
+  console.log(`Added ${getName(seriesId)} to Witch`)
 
   proposal.push({
     target: cloak.address,

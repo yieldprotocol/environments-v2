@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { WAD, ONEUSDC, ONEWBTC, ZERO, CHI, RATE } from '../../../../../shared/constants'
+import { WAD, ONEUSDC, ONEWBTC, ZERO, CHI, RATE, FYUSDT2303, FYUSDT2306 } from '../../../../../shared/constants'
 import { ACCUMULATOR, CHAINLINK, COMPOSITE } from '../../../../../shared/constants'
 import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT } from '../../../../../shared/constants'
 
@@ -13,16 +13,15 @@ export const eulerAddress = base_config.eulerAddress
 export const governance: Map<string, string> = base_config.governance
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
+export const fyTokens: Map<string, string> = base_config.fyTokens
+export const pools: Map<string, string> = base_config.pools
+export const strategies: Map<string, string> = base_config.strategies
 
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-export const newFYTokens = readAddressMappingIfExists('newFYTokens.json')
-export const newJoins = readAddressMappingIfExists('newJoins.json')
-export const newPools = readAddressMappingIfExists('newPools.json')
-export const newStrategies = readAddressMappingIfExists('newStrategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { Accumulator, OracleSource, OraclePath, Asset, Base, Ilk } from '../../../confTypes'
+import { Accumulator, OracleSource, OraclePath, Asset, Base, Ilk, Series } from '../../../confTypes'
 
 // ----- ORACLES -----
 
@@ -402,6 +401,31 @@ export const ilks: Ilk[] = [
       collateralProportion: WAD.mul(1050000).div(1670000),
       max: WAD.mul(10000),
     },
+  },
+]
+
+/// ----- SERIES -----
+
+export const series: Series[] = [
+  {
+    seriesId: FYUSDT2303,
+    base: usdt.asset,
+    fyToken: {
+      assetId: FYUSDT2303,
+      address: fyTokens.getOrThrow(FYUSDT2303)!,
+    },
+    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
+    ilks: ilks,
+  },
+  {
+    seriesId: FYUSDT2306,
+    base: usdt.asset,
+    fyToken: {
+      assetId: FYUSDT2306,
+      address: fyTokens.getOrThrow(FYUSDT2306)!,
+    },
+    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
+    ilks: ilks,
   },
 ]
 

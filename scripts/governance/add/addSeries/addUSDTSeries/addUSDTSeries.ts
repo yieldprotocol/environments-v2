@@ -32,16 +32,14 @@ import { updateCompositeSources } from '../../../../fragments/oracles/updateComp
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
-// import { updateIlk } from '../../../../fragments/assetsAndSeries/updateIlk'
-// import { addIlksToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
-// import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
+import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
 // import { initPools } from '../../../../fragments/pools/initPools'
 // import { initStrategies } from '../../../../fragments/strategies/initStrategies'
 // import { orchestrateStrategies } from '../../../../fragments/strategies/orchestrateStrategies'
 // import { onChainTest } from '../../../../fragments/utils/onChainTest'
 const { developer, deployer } = require(process.env.CONF as string)
-const { governance, protocol, joins } = require(process.env.CONF as string)
-const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, ilks } = require(process.env
+const { governance, protocol, joins, fyTokens, pools, strategies } = require(process.env.CONF as string)
+const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, ilks, series } = require(process.env
   .CONF as string)
 
 /**
@@ -82,12 +80,10 @@ const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, 
     proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
 
-  //
-  //  // Series
-  //  proposal = proposal.concat(
-  //    await addSeries(ownerAcc, deployer, cauldron, ladle, timelock, cloak, newJoins(), newFYTokens(), newPools())
-  //  )
-  //  proposal = proposal.concat(await addIlksToSeries(cauldron, seriesIlks))
+  // Series
+  for (let oneSeries of series) {
+    proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, oneSeries, pools))
+  }
   //  proposal = proposal.concat(await initPools(ownerAcc, timelock, newPools(), poolsInit))
   //
   //  // Strategies

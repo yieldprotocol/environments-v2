@@ -6,6 +6,7 @@ import { id } from '@yield-protocol/utils-v2'
 
 import { addToken } from './addToken'
 import { Ladle, FYToken, EmergencyBrake } from '../../../typechain'
+import { getName } from '../../../shared/helpers'
 
 export const addFYToken = async (
   cloak: EmergencyBrake,
@@ -23,6 +24,7 @@ export const addFYToken = async (
       ladle.address,
     ]),
   })
+  console.log(`Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`)
 
   proposal.push({
     target: cloak.address,
@@ -40,7 +42,7 @@ export const addFYToken = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle mint and burn ${seriesId})`)
+  console.log(`cloak.add(ladle mint and burn ${getName(seriesId)})`)
 
   // Register fyToken in Ladle
   proposal = proposal.concat(await addToken(ladle, fyToken.address))
