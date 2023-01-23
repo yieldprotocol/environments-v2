@@ -49,12 +49,12 @@ export const ilkToETH: Ilk = {
     baseId: ETH,
     ilkId: reth.assetId,
     oracle: protocol().getOrThrow(RETH_ORACLE)! as string,
-    ratio: 1100000,
+    ratio: 1250000,
   },
   debtLimits: {
     baseId: ETH,
     ilkId: reth.assetId,
-    line: 250,
+    line: 100,
     dust: 1,
     dec: 18,
   },
@@ -63,7 +63,7 @@ export const ilkToETH: Ilk = {
     ilkId: reth.assetId,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78571429'), // 110 / 140
+    collateralProportion: parseUnits('0.84'), // 105 / 125
     max: parseUnits('1000'),
   },
 }
@@ -76,13 +76,13 @@ export const ilkToDAI: Ilk = {
     baseId: DAI,
     ilkId: reth.assetId,
     oracle: protocol().getOrThrow(COMPOSITE)! as string,
-    ratio: 1100000,
+    ratio: 1400000,
   },
   debtLimits: {
     baseId: DAI,
     ilkId: reth.assetId,
-    line: 250,
-    dust: 1,
+    line: 250000,
+    dust: 1000,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -90,7 +90,7 @@ export const ilkToDAI: Ilk = {
     ilkId: reth.assetId,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78571429'), // 110 / 140
+    collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
   },
 }
@@ -103,21 +103,21 @@ export const ilkToUSDC: Ilk = {
     baseId: USDC,
     ilkId: reth.assetId,
     oracle: protocol().getOrThrow(COMPOSITE)! as string,
-    ratio: 1100000,
+    ratio: 1400000,
   },
   debtLimits: {
     baseId: USDC,
     ilkId: reth.assetId,
-    line: 250,
-    dust: 1,
-    dec: 18,
+    line: 250000,
+    dust: 1000,
+    dec: 6,
   },
   auctionLineAndLimit: {
     baseId: USDC,
     ilkId: reth.assetId,
     duration: 600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78571429'), // 110 / 140
+    collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
   },
 }
@@ -168,6 +168,7 @@ export const daiSeries: Series[] = [
     ilks: [ilkToDAI],
   },
 ]
+
 export const usdcSeries: Series[] = [
   {
     seriesId: FYUSDC2303,
