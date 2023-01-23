@@ -107,9 +107,9 @@ const { accumulators, chainlinkSources, compositeSources, compositePaths, usdt, 
   )
 
   // Add Ilks
-  // for (let ilk of ilks) {
-  //   proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
-  // }
+  for (let ilk of ilks) {
+    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
+  }
 
   // Series
   // for (let oneSeries of series) {

@@ -29,7 +29,7 @@ export const addIlkToWitch = async (
         witch.address,
       ]),
     })
-    console.log(`join(${getName(assetId)}).grantRole(exit, witch)`)
+    console.log(`join(${getName(ilk.ilkId)}).grantRole(exit, witch)`)
 
     proposal.push({
       target: cloak.address,
@@ -43,10 +43,10 @@ export const addIlkToWitch = async (
         ],
       ]),
     })
-    // TODO: Maybe check the assetId matches
-    console.log(`cloak.add(witch exit ${getName(assetId)})`)
+    // TODO: Maybe check the ilk.ilkId matches
+    console.log(`cloak.add(witch exit ${getName(ilk.ilkId)})`)
   } else {
-    console.log(`Witch already has an exit role on join(${getName(assetId)})`)
+    console.log(`Witch already has an exit role on join(${getName(ilk.ilkId)})`)
   }
 
   return proposal
