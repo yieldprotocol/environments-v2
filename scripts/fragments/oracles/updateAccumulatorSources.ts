@@ -28,7 +28,7 @@ export const updateAccumulatorSources = async (
         ]),
       })
       console.log(
-        `Accumulator(${getName(accumulator.baseId)}/getName(${accumulator.kind})): ${accumulator.startRate}, ${
+        `Accumulator(${getName(accumulator.baseId)}/${getName(accumulator.kind)}): ${accumulator.startRate}, ${
           accumulator.perSecondRate
         }`
       )
