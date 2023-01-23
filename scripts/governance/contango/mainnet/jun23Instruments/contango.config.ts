@@ -1,12 +1,15 @@
 import { parseUnits } from 'ethers/lib/utils'
-
-import * as base_config from '../../../base.mainnet.config'
+import { CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+import { ASSETS_MAINNET, SERIES_MAINNET } from '../../../../../shared/typed-constants'
+import * as base_config from '../../../base.arb_mainnet.config'
+import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes'
 
 export const developer: string = '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497'
-export const deployer: string = '0x05950b4e68f103d5aBEf20364dE219a247e59C23'
+export const deployers = readAddressMappingIfExists('deployers.json')
 
 export const governance: Map<string, string> = base_config.governance
-export const protocol: Map<string, string> = base_config.protocol()
+export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 
@@ -14,33 +17,22 @@ export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
-import { CHAINLINK, CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
-import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
-import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes' // Note we use the series id as the asset id
-
-export const rateChiSources = ASSETS_ARBITRUM.map(({ bytes: base }) => [
+export const rateChiSources = ASSETS_MAINNET.map(({ bytes: base }) => [
   [base, RATE, WAD.toString(), WAD.toString()] as const,
   [base, CHI, WAD.toString(), WAD.toString()] as const,
 ]).flat()
 
 // Assets that will be made into a base
-export const bases: Array<[string, string]> = ASSETS_ARBITRUM.map(({ bytes: base }) => [base, joins.getOrThrow(base)])
+export const bases: Array<[string, string]> = ASSETS_MAINNET.map(({ bytes: base }) => [base, joins.getOrThrow(base)])
 
 // Input data: baseId, quoteId, oracle name
-export const compositeSources = [
-  SERIES_ARBITRUM.map(
-    (series) => [series.bytes, series.asset.bytes, protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE)] as const
-  ), // All fyTokens as collateral use the same oracle
-  ASSETS_ARBITRUM.map(({ bytes: base }) =>
-    ASSETS_ARBITRUM.map(({ bytes: quote }) => [base, quote, protocol.getOrThrow(CHAINLINK)] as const)
-  )
-    .flat()
-    .filter(([base, quote]) => base !== quote), // Resolve any base against all other bases
-].flat()
+export const compositeSources = SERIES_MAINNET.map(
+  (series) => [series.bytes, series.asset.bytes, protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE)] as const
+) // All fyTokens as collateral use the same oracle
 
 // Input data: assetId, assetId, [intermediate assetId]
-export const compositePaths = ASSETS_ARBITRUM.map((asset) =>
-  SERIES_ARBITRUM.filter((series) => series.asset.code !== asset.code).map(
+export const compositePaths = ASSETS_MAINNET.map((asset) =>
+  SERIES_MAINNET.filter((series) => series.asset.code !== asset.code).map(
     (series) => [asset.bytes, series.bytes, [series.asset.bytes]] as const
   )
 ).flat()
@@ -50,11 +42,10 @@ export const compositePaths = ASSETS_ARBITRUM.map((asset) =>
 /// @param Address for the asset
 /// @param Address for the join
 export const assetsToAdd = [
-  ASSETS_ARBITRUM.map(({ bytes: base }) => [base, assets.getOrThrow(base), joins.getOrThrow(base)] as const),
-  SERIES_ARBITRUM.map(({ bytes: base }) => [base, fyTokens.getOrThrow(base), joins.getOrThrow(base)] as const),
+  SERIES_MAINNET.map(({ bytes: base }) => [base, fyTokens.getOrThrow(base), joins.getOrThrow(base)] as const),
 ].flat()
 
-export const seriesToAdd: SeriesToAdd[] = SERIES_ARBITRUM.map(({ bytes: seriesId }) => ({
+export const seriesToAdd: SeriesToAdd[] = SERIES_MAINNET.map(({ bytes: seriesId }) => ({
   seriesId,
   fyToken: fyTokens.getOrThrow(seriesId),
 }))
@@ -67,15 +58,15 @@ export const seriesToAdd: SeriesToAdd[] = SERIES_ARBITRUM.map(({ bytes: seriesId
 /// @param Maximum protocol debt, decimals to be added
 /// @param Minimum vault debt, decimals to be added
 /// @param Decimals to add to maximum protocol debt, and minimum vault debt.
-export const fyTokenDebtLimits = ASSETS_ARBITRUM.map((asset) =>
-  SERIES_ARBITRUM.filter((series) => series.asset.code !== asset.code).map((series) => {
+export const fyTokenDebtLimits = ASSETS_MAINNET.map((asset) =>
+  SERIES_MAINNET.filter((series) => series.asset.code !== asset.code).map((series) => {
     const collateralisationRatio = asset.stable && series.asset.stable ? 1100000 : 1400000
     return [asset.bytes, series.bytes, collateralisationRatio, asset.maxDebt, asset.minDebt, asset.decimals] as const
   })
 ).flat()
 
-export const auctionLineAndLimits: AuctionLineAndLimit[] = ASSETS_ARBITRUM.map((asset) =>
-  SERIES_ARBITRUM.filter((series) => series.asset.code !== asset.code).map((series) => {
+export const auctionLineAndLimits: AuctionLineAndLimit[] = ASSETS_MAINNET.map((asset) =>
+  SERIES_MAINNET.filter((series) => series.asset.code !== asset.code).map((series) => {
     const stablePair = asset.stable && series.asset.stable
     const vaultProportion = stablePair ? parseUnits('1') : parseUnits('0.5')
     const collateralisationRatio = stablePair ? 1100000 : 1400000
@@ -97,9 +88,9 @@ export const auctionLineAndLimits: AuctionLineAndLimit[] = ASSETS_ARBITRUM.map((
 /// @notice New asset pairs to be accepted
 /// @param Base asset identifier (bytes6 tag)
 /// @param Array of collateral asset identifiers (bytes6 tag array)
-export const seriesIlks: Array<[string, string[]]> = SERIES_ARBITRUM.map((base) => {
-  const ilks = SERIES_ARBITRUM.filter(
-    (ilk) => ilk.asset.code !== base.asset.code && ilk.expiry.code === base.expiry.code
+export const seriesIlks: Array<[string, string[]]> = SERIES_MAINNET.map((base) => {
+  const ilks = SERIES_MAINNET.filter(
+    (ilk) => ilk.asset.code !== base.asset.code && ilk.expiry.timestamp === base.expiry.timestamp
   )
   return [base.bytes, ilks.map(({ bytes }) => bytes)]
 })

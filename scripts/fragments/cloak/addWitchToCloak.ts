@@ -32,19 +32,21 @@ export const addWitchToCloak = async (
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = FYToken__factory.connect(fyTokenAddress, signerAcc)
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('add', [
-        witch.address,
-        [
-          {
-            host: fyToken.address,
-            signature: id(fyToken.interface, 'burn(address,uint256)'),
-          },
-        ],
-      ]),
-    })
-    console.log(`cloak.add(witch burn ${seriesId})`)
+    if ((await fyToken.hasRole(id(fyToken.interface, 'burn(address,uint256)'), witch.address)) == true) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('add', [
+          witch.address,
+          [
+            {
+              host: fyToken.address,
+              signature: id(fyToken.interface, 'burn(address,uint256)'),
+            },
+          ],
+        ]),
+      })
+      console.log(`cloak.add(witch burn ${seriesId})`)
+    }
   }
 
   for (let [assetId, joinAddress] of joins) {

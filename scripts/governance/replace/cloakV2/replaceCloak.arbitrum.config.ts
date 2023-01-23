@@ -11,6 +11,7 @@ import {
   ROLLER,
   YIELD_STRATEGY_LEVER,
   WITCH_V1,
+  ONCHAINTEST,
 } from '../../../../shared/constants'
 
 import * as base_config from '../../base.arb_mainnet.config'
@@ -30,6 +31,12 @@ export const external: Map<string, string> = base_config.external
 // ----- deployment parameters -----
 export const contractDeployments: ContractDeployment[] = [
   {
+    addressFile: 'protocol.json',
+    name: ONCHAINTEST,
+    contract: 'OnChainTest',
+    args: [],
+  },
+  {
     addressFile: 'governance.json',
     name: CLOAK,
     contract: 'EmergencyBrake',
@@ -48,12 +55,8 @@ export const executors = [
 
 export const levers: string[] = [protocol.get(YIELD_STRATEGY_LEVER)!]
 
-export const users: Array<string> = [protocol.getOrThrow(LADLE), protocol.getOrThrow(WITCH), protocol.getOrThrow(GIVER)]
+export const users: Array<string> = [protocol.getOrThrow(LADLE), protocol.getOrThrow(WITCH)]
 
 fyTokens.forEach((value: string) => {
   users.push(value)
-})
-
-levers.forEach((element) => {
-  users.push(element)
 })
