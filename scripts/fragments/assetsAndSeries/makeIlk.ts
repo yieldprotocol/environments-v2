@@ -17,7 +17,8 @@ export const makeIlk = async (
   cauldron: Cauldron,
   witch: Witch,
   ilk: Ilk,
-  joins: Map<string, string> // assetId, joinAddress
+  joins: Map<string, string>, // assetId, joinAddress
+  addToWitch: boolean = true
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -25,7 +26,7 @@ export const makeIlk = async (
 
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk))
   proposal = proposal.concat(await updateDebtLimits(cauldron, ilk))
-  proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk.ilkId, join))
+  if (addToWitch) proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk.ilkId, join))
   proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit))
 
   return proposal

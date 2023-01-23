@@ -140,7 +140,7 @@ export const YSFRAX6MMSASSET = stringToBytes6('36')
 export const YSFRAX6MJDASSET = stringToBytes6('37')
 export const CRAB = stringToBytes6('38')
 export const OSQTH = stringToBytes6('39')
-export const RETH = stringToBytes6('0xE03016000000')
+export const RETH = '0xE03016000000'
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -168,6 +168,7 @@ export const IDENTITY = 'identityOracle'
 export const POOL_ORACLE = 'poolOracle'
 export const YIELD_SPACE_MULTI_ORACLE = 'yieldSpaceMultiOracle'
 export const CRAB_ORACLE = 'crabOracle'
+export const RETH_ORACLE = 'rethOracle'
 export const CONTANGO = 'contango'
 export const CONTANGO_WITCH = 'contangoWitch'
 export const CONTANGO_CAULDRON = 'contangoCauldron'

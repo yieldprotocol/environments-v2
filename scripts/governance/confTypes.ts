@@ -54,3 +54,15 @@ export interface Series {
   fyToken: Asset
   ilks: Ilk[]
 }
+
+export interface OraclePath {
+  baseId: string
+  quoteId: string
+  path: string[]
+}
+
+export interface OracleSource {
+  baseId: string
+  quoteId: string
+  source: string
+}
