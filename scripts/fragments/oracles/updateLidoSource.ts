@@ -10,7 +10,8 @@ import { LidoOracle, IWstETH } from '../../../typechain'
 
 export const updateLidoSource = async (
   lidoOracle: LidoOracle,
-  source: string
+  source: string,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const [ownerAcc] = await ethers.getSigners()
 

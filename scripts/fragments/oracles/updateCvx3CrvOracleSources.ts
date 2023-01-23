@@ -9,7 +9,8 @@ import { CVX3CRV, ETH } from '../../../shared/constants'
 
 export const updateCvx3CrvOracleSources = async (
   oracle: Cvx3CrvOracle,
-  source: [string, string, string, string, string, string]
+  source: [string, string, string, string, string, string],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
