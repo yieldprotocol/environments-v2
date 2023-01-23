@@ -11,7 +11,8 @@ export const addFYToken = async (
   cloak: EmergencyBrake,
   ladle: Ladle,
   seriesId: string,
-  fyToken: FYToken
+  fyToken: FYToken,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

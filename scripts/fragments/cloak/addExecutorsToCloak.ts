@@ -3,7 +3,8 @@ import { EmergencyBrake } from '../../../typechain'
 
 export const addExecutorsToCloak = async (
   cloak: EmergencyBrake,
-  executors: Array<string>
+  executors: Array<string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

@@ -11,7 +11,8 @@ export const removeJoin = async (
   ownerAcc: any,
   cloak: EmergencyBrake,
   ladle: Ladle,
-  assetId: string
+  assetId: string,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

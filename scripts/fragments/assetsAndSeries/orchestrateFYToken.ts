@@ -6,7 +6,8 @@ import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
 export const orchestrateFYToken = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  fyToken: FYToken
+  fyToken: FYToken,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

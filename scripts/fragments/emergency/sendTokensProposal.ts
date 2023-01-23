@@ -7,7 +7,8 @@ import { ERC20, ERC20__factory, Timelock } from '../../../typechain'
 
 export const sendTokensProposal = async (
   timelock: Timelock,
-  data: Array<[string, string, BigNumber]> // [token address, destination address, amount]
+  data: Array<[string, string, BigNumber]>, // [token address, destination address, amount]
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []

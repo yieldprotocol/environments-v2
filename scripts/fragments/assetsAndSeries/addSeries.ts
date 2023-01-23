@@ -19,7 +19,8 @@ export const addSeries = async (
   witch: Witch,
   cloak: EmergencyBrake,
   series: Series,
-  pools: Map<string, string> // seriesId, poolAddress
+  pools: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

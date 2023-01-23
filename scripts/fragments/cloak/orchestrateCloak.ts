@@ -8,7 +8,8 @@ import { EmergencyBrake } from '../../../typechain'
 
 export const orchestrateCloak = async (
   deployer: string,
-  cloak: EmergencyBrake
+  cloak: EmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []

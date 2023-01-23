@@ -12,7 +12,8 @@ export const orchestrateWitch = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
   cauldron: Cauldron,
-  witch: Witch
+  witch: Witch,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

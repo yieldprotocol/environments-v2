@@ -16,7 +16,8 @@ export const orchestrateCauldron = async (
   deployer: string,
   cauldron: Cauldron,
   timelock: Timelock,
-  cloak: OldEmergencyBrake
+  cloak: OldEmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them

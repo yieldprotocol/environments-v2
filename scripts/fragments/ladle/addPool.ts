@@ -8,7 +8,8 @@ import { getName } from '../../../shared/helpers'
 export const addPool = async (
   ladle: Ladle,
   seriesId: string,
-  poolAddress: string
+  poolAddress: string,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   // Register pool in Ladle

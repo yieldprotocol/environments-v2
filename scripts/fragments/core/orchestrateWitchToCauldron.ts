@@ -8,7 +8,8 @@ import { Cauldron, EmergencyBrake, Timelock, Witch } from '../../../typechain'
 export const orchestrateWitchToCauldron = async (
   cloak: EmergencyBrake,
   cauldron: Cauldron,
-  witch: Witch
+  witch: Witch,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

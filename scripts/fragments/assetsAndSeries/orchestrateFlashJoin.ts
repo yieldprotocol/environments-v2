@@ -6,7 +6,8 @@ import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
 export const orchestrateFlashJoin = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  join: FlashJoin
+  join: FlashJoin,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
