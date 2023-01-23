@@ -9,7 +9,8 @@ import { getName } from '../../../shared/helpers'
 
 export const investStrategy = async (
   ownerAcc: any,
-  strategy: Strategy
+  strategy: Strategy,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []

@@ -13,7 +13,8 @@ import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const setLineAndLimit = async (
   witch: Witch,
-  auctionLineAndLimits: AuctionLineAndLimit
+  auctionLineAndLimits: AuctionLineAndLimit,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

@@ -7,7 +7,8 @@ import { ConvexYieldWrapper } from '../../../typechain/ConvexYieldWrapper'
 
 export const pointCollateralVault = async (
   convexYieldWrapper: ConvexYieldWrapper,
-  join: any
+  join: any,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

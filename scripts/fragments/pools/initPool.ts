@@ -13,7 +13,8 @@ import { IERC20Metadata__factory, Pool__factory, Timelock } from '../../../typec
 export const initPool = async (
   ownerAcc: any,
   timelock: Timelock,
-  series: Series
+  series: Series,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []

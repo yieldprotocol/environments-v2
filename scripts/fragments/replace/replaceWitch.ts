@@ -15,7 +15,8 @@ export const replaceWitch = async (
   ladle: Ladle,
   auctionLineAndLimits: AuctionLineAndLimit[],
   bases: Array<[string, string]>,
-  fyTokens: Map<string, string>
+  fyTokens: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

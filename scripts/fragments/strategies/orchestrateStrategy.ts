@@ -15,7 +15,8 @@ export const orchestrateStrategy = async (
   timelock: Timelock,
   ladle: Ladle,
   strategy: Strategy,
-  pools: Map<string, string>
+  pools: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

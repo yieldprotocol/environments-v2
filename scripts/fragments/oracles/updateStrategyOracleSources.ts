@@ -3,7 +3,8 @@ import { StrategyOracle } from '../../../typechain'
 
 export const updatStrategyOracleSources = async (
   oracle: StrategyOracle,
-  spotSources: [string, string][]
+  spotSources: [string, string][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [strategyId, strategy] of spotSources) {

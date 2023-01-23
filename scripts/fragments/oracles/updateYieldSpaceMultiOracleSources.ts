@@ -10,7 +10,8 @@ import { YieldSpaceMultiOracle } from '../../../typechain'
 export const updateYieldSpaceMultiOracleSources = async (
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
   compositeSources: Array<[string, string, string]>,
-  pools: Map<string, string>
+  pools: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, oracle] of compositeSources) {

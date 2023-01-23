@@ -5,7 +5,8 @@ import { AccessControl__factory } from '../../../typechain'
 export const revokeRoot = async (
   signerAcc: SignerWithAddress,
   user: string,
-  hosts: Array<string>
+  hosts: Array<string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

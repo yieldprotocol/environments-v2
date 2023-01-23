@@ -26,7 +26,8 @@ export const addFCashMaturities = async (
   ladle: Ladle,
   witch: Witch,
   notionalAssets: Array<[string, string, string]>,
-  newJoins: Map<string, string>
+  newJoins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

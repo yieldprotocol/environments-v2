@@ -8,7 +8,8 @@ import { UniswapV3Oracle } from '../../../typechain'
 
 export const updateUniswapSources = async (
   oracle: UniswapV3Oracle,
-  sources: [string, string, string, number][]
+  sources: [string, string, string, number][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, poolAddress, twapInterval] of sources) {

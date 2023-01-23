@@ -9,7 +9,8 @@ export const addNotionalJoin = async (
   cloak: EmergencyBrake,
   ladle: Ladle,
   assetId: string,
-  join: NotionalJoin
+  join: NotionalJoin,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

@@ -3,7 +3,8 @@ import { AccessControl } from '../../../typechain'
 
 export const grantRoot = async (
   host: AccessControl,
-  userAddress: string
+  userAddress: string,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

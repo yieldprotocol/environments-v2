@@ -15,7 +15,8 @@ export const rollStrategies = async (
   strategies: Map<string, string>, // strategyId, strategyAddress
   newPools: Map<string, string>, // seriesId, poolAddress
   timelock: Timelock,
-  rollData: Array<[string, string, BigNumber, string, boolean]>
+  rollData: Array<[string, string, BigNumber, string, boolean]>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []

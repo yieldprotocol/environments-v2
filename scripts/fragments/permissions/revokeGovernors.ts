@@ -13,7 +13,8 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 export const revokeGovernors = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  revokedAccounts: string[]
+  revokedAccounts: string[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of revokedAccounts) {

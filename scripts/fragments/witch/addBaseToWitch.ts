@@ -10,7 +10,8 @@ export const addBaseToWitch = async (
   cloak: EmergencyBrake,
   witch: Witch,
   assetId: string,
-  join: Join
+  join: Join,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
