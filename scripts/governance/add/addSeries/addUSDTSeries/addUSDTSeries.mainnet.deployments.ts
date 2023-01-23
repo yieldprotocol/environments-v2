@@ -6,8 +6,6 @@ import {
   EUSDT,
   FYUSDT2303,
   FYUSDT2306,
-  FYUSDT2303LP,
-  FYUSDT2306LP,
   EOMAR23,
   EOJUN23,
   ONE64,
@@ -34,7 +32,7 @@ export const pools = () => readAddressMappingIfExists('pools.json')
 export const strategies = () => readAddressMappingIfExists('strategies.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { ContractDeployment, Accumulator, OracleSource, OraclePath, Asset } from '../../../confTypes'
+import { ContractDeployment } from '../../../confTypes'
 
 /// @notice Assets that will be added to the protocol
 /// @param Asset identifier (bytes6 tag)
@@ -42,8 +40,8 @@ import { ContractDeployment, Accumulator, OracleSource, OraclePath, Asset } from
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
 
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2303LP, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDT2306LP, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(45))],
 ]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
@@ -92,13 +90,13 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'pools.json',
-    name: FYUSDT2303LP,
+    name: FYUSDT2303, // Starting from the September series, pools get their own identifiers different from the fyToken
     contract: 'PoolEuler',
     args: [
       () => eulerAddress,
       () => assets.get(EUSDT) as string,
       () => fyTokens().get(FYUSDT2303) as string,
-      () => timeStretch.get(FYUSDT2303LP)!.toString(),
+      () => timeStretch.get(FYUSDT2303)!.toString(),
       () => g1.toString(),
     ],
     libs: {
@@ -107,13 +105,13 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'pools.json',
-    name: FYUSDT2306LP,
+    name: FYUSDT2306, // Starting from the September series, pools get their own identifiers different from the fyToken
     contract: 'PoolEuler',
     args: [
       () => eulerAddress,
       () => assets.get(EUSDT) as string,
       () => fyTokens().get(FYUSDT2306) as string,
-      () => timeStretch.get(FYUSDT2306LP)!.toString(),
+      () => timeStretch.get(FYUSDT2306)!.toString(),
       () => g1.toString(),
     ],
     libs: {

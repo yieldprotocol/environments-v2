@@ -2,14 +2,7 @@ import { BigNumber } from 'ethers'
 import { WAD, ONEUSDC, ONEWBTC, ZERO, CHI, RATE, YSDAI6MJD } from '../../../../../shared/constants'
 import { ACCUMULATOR, CHAINLINK, COMPOSITE } from '../../../../../shared/constants'
 import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT } from '../../../../../shared/constants'
-import {
-  FYUSDT2303,
-  FYUSDT2306,
-  FYUSDT2303LP,
-  FYUSDT2306LP,
-  YSUSDT6MMS,
-  YSUSDT6MJD,
-} from '../../../../../shared/constants'
+import { FYUSDT2303, FYUSDT2306, YSUSDT6MMS, YSUSDT6MJD } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
 
@@ -416,8 +409,8 @@ export const series: Series[] = [
       address: fyTokens.getOrThrow(FYUSDT2303)!,
     },
     pool: {
-      assetId: FYUSDT2303LP,
-      address: pools.getOrThrow(FYUSDT2303LP)!,
+      assetId: FYUSDT2303,
+      address: pools.getOrThrow(FYUSDT2303)!,
     },
     chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     ilks: ilks,
@@ -430,8 +423,8 @@ export const series: Series[] = [
       address: fyTokens.getOrThrow(FYUSDT2306)!,
     },
     pool: {
-      assetId: FYUSDT2306LP,
-      address: pools.getOrThrow(FYUSDT2306LP)!,
+      assetId: FYUSDT2306,
+      address: pools.getOrThrow(FYUSDT2306)!,
     },
     chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     ilks: ilks,
