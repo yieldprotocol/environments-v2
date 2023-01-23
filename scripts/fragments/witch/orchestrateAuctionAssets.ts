@@ -16,7 +16,8 @@ export const orchestrateAuctionAssets = async (
   witch: Witch,
   baseIds: Array<string>,
   ilkIds: Array<string>,
-  seriesIds: Array<string>
+  seriesIds: Array<string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

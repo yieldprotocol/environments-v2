@@ -10,7 +10,8 @@ import { removeDeployer } from '../core/removeDeployer'
 
 export const orchestratePool = async (
   timelock: Timelock,
-  pool: Pool
+  pool: Pool,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

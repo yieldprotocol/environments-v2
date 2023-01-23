@@ -13,7 +13,8 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 export const grantDevelopers = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  grantedAccounts: string[]
+  grantedAccounts: string[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {

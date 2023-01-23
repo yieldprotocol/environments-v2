@@ -10,7 +10,8 @@ import { Strategy__factory } from '../../../typechain'
 export const addEthRewards = async (
   ownerAcc: any,
   strategies: Map<string, string>,
-  strategiesData: Array<[string, string, string, number, number, number]>
+  strategiesData: Array<[string, string, string, number, number, number]>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

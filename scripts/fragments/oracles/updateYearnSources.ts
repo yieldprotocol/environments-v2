@@ -8,7 +8,8 @@ import { YearnVaultMultiOracle } from '../../../typechain'
 
 export const updateYearnSources = async (
   oracle: YearnVaultMultiOracle,
-  sources: [string, string, string][]
+  sources: [string, string, string][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, yearnVaultId, yvTokenAddress] of sources) {

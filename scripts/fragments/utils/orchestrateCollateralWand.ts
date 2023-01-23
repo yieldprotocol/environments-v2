@@ -10,7 +10,8 @@ export const orchestrateCollateralWand = async (
   ownerAcc: any,
   deployer: string,
   timelock: Timelock,
-  join: Join
+  join: Join,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

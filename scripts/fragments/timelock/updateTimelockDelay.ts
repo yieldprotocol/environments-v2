@@ -3,7 +3,8 @@ import { Timelock } from '../../../typechain'
 
 export const updateTimelockDelay = async (
   timeLock: Timelock,
-  delayAmount: BigNumberish
+  delayAmount: BigNumberish,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

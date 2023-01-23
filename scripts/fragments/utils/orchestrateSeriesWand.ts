@@ -9,7 +9,8 @@ const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateSeriesWand = async (
   ownerAcc: any,
   deployer: string,
-  timelock: Timelock
+  timelock: Timelock,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

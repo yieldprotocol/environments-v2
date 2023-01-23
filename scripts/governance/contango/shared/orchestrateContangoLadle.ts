@@ -4,7 +4,8 @@ import { ContangoLadle, OldEmergencyBrake } from '../../../../typechain'
 export const orchestrateContangoLadle = async (
   contangoAddress: string,
   contangoLadle: ContangoLadle,
-  cloak: OldEmergencyBrake
+  cloak: OldEmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

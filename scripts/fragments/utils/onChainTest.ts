@@ -5,7 +5,8 @@ import { Cauldron, OnChainTest } from '../../../typechain'
 export const onChainTest = async (
   cauldron: Cauldron,
   onChainTest: OnChainTest,
-  assets: [string, string, string][]
+  assets: [string, string, string][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
