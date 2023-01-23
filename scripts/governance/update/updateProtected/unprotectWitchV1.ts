@@ -16,7 +16,7 @@ const { protocol, governance, developer } = require(process.env.CONF as string)
   const witchV2 = Witch__factory.connect(protocol.getOrThrow(WITCH), ownerAcc)
 
   // Build the proposal
-  const proposal = [await protectFromLiquidations(witchV2, protocol.getOrThrow(WITCH_V1), false)].flat(1)
+  const proposal = await protectFromLiquidations(witchV2, protocol.getOrThrow(WITCH_V1), false)
 
   // Propose, Approve & execute
   await propose(timelock, proposal, developer)
