@@ -5,7 +5,8 @@ import { Ilk } from '../../governance/confTypes'
 
 export const updateCollateralization = async (
   cauldron: Cauldron,
-  ilk: Ilk
+  ilk: Ilk,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

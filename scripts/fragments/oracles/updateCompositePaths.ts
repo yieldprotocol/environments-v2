@@ -9,7 +9,8 @@ import { OraclePath } from '../../governance/confTypes'
 
 export const updateCompositePaths = async (
   compositeOracle: CompositeMultiOracle,
-  compositePaths: OraclePath[]
+  compositePaths: OraclePath[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let path of compositePaths) {

@@ -4,7 +4,8 @@ import { ChainlinkUSDMultiOracle, AggregatorV3Interface } from '../../../typecha
 
 export const updateChainlinkUSDSources = async (
   oracle: ChainlinkUSDMultiOracle,
-  spotSources: [string, string, string][]
+  spotSources: [string, string, string][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
