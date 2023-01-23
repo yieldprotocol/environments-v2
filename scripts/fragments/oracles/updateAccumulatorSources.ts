@@ -8,7 +8,8 @@ import { Accumulator } from '../../governance/confTypes'
 
 export const updateAccumulatorSources = async (
   accumulatorOracle: AccumulatorMultiOracle,
-  accumulators: Accumulator[]
+  accumulators: Accumulator[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log(`accumulator oracle: ${accumulatorOracle.address}`)
 
