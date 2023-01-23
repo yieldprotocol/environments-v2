@@ -11,7 +11,8 @@ import { OracleSource } from '../../governance/confTypes'
 export const updateCompositeSources = async (
   compositeOracle: CompositeMultiOracle,
   compositeSources: OracleSource[],
-  overrideExistent: boolean = true
+  overrideExistent: boolean = true,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
