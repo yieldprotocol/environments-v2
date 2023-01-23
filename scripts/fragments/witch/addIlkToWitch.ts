@@ -5,14 +5,20 @@
 import { id } from '@yield-protocol/utils-v2'
 import { getName } from '../../../shared/helpers'
 import { Witch, Join, EmergencyBrake } from '../../../typechain'
+import { setLineAndLimit } from '../witch/setLineAndLimit'
+import { Ilk } from '../../governance/confTypes'
 
 export const addIlkToWitch = async (
   cloak: EmergencyBrake,
   witch: Witch,
-  assetId: string,
+  ilk: Ilk,
   join: Join
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
+
+  // Make sure auctionLineAndLimit is defined.
+  // If line and limit are set are already set, they will be updated
+  proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit!))
 
   if (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address))) {
     // Allow Witch to exit ilk
