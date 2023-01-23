@@ -8,6 +8,7 @@ export const banIlk = async (
   banState: boolean,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}BAN_ILK`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

@@ -15,6 +15,7 @@ export const orchestrateWitch = async (
   witch: Witch,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_WITCH`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

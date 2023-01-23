@@ -11,6 +11,7 @@ export const orchestrateCloak = async (
   cloak: EmergencyBrake,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_CLOAK`)
   // Revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
 

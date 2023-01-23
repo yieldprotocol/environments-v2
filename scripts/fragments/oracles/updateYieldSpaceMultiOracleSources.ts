@@ -13,6 +13,7 @@ export const updateYieldSpaceMultiOracleSources = async (
   pools: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_YIELD_SPACE_MULTI_ORACLE_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, oracle] of compositeSources) {
     if (oracle !== yieldSpaceMultiOracle.address) {

@@ -11,6 +11,7 @@ export const updateAccumulatorSources = async (
   accumulators: Accumulator[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_ACCUMULATOR_SOURCES`)
   console.log(`${'  '.repeat(nesting)}accumulator oracle: ${accumulatorOracle.address}`)
 
   // Build proposal

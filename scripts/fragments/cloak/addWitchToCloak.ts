@@ -11,6 +11,7 @@ export const addWitchToCloak = async (
   joins: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_WITCH_TO_CLOAK`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

@@ -7,6 +7,7 @@ export const setFlashFeeOnJoin = async (
   flashFees: [string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}SET_FLASH_FEE_ON_JOIN`)
   let proposal: Array<{ target: string; data: string }> = []
   const ladle = (await ethers.getContractAt('Ladle', protocol().getOrThrow(LADLE) as string)) as Ladle
 

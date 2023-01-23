@@ -11,6 +11,7 @@ export const updateUniswapSources = async (
   sources: [string, string, string, number][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_UNISWAP_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, poolAddress, twapInterval] of sources) {
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Address ${poolAddress} contains no code`

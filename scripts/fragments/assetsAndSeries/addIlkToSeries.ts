@@ -10,6 +10,7 @@ export const addIlkToSeries = async (
   ilk: Ilk,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_ILK_TO_SERIES`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

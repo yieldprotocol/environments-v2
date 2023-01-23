@@ -7,6 +7,7 @@ export const addLeverToCloak = async (
   giver: Giver,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_LEVER_TO_CLOAK`)
   const proposal: Array<{ target: string; data: string }> = []
   levers.forEach((element) => {
     proposal.push({

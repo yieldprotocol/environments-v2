@@ -14,6 +14,7 @@ export const updateCompositeSources = async (
   overrideExistent: boolean = true,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_COMPOSITE_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
 
   const added = new Set<string>()

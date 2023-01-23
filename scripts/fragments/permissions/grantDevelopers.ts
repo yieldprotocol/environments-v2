@@ -16,6 +16,7 @@ export const grantDevelopers = async (
   grantedAccounts: string[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}GRANT_DEVELOPERS`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let grantedAccount of grantedAccounts) {
     proposal.push({

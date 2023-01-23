@@ -6,7 +6,12 @@ import { id } from '@yield-protocol/utils-v2'
  * The Lever gets access on Giver for give & seize
  */
 
-export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<{ target: string; data: string }>> => {
+export const orchestrateLever = async (
+  Lever: any,
+  giver: Giver,
+  nesting: number = 0
+): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_LEVER`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

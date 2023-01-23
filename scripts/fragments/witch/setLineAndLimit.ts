@@ -16,6 +16,7 @@ export const setLineAndLimit = async (
   auctionLineAndLimits: AuctionLineAndLimit,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}SET_LINE_AND_LIMIT`)
   const proposal: Array<{ target: string; data: string }> = []
 
   console.log(`${'  '.repeat(nesting)}Witch#setLineAndLimit`)

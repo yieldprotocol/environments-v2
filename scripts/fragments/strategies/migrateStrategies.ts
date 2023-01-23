@@ -11,6 +11,7 @@ export const migrateStrategies = async (
   migrateData: Array<[string, string, string, string]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}MIGRATE_STRATEGIES`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 

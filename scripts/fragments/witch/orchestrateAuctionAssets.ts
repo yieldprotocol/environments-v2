@@ -19,6 +19,7 @@ export const orchestrateAuctionAssets = async (
   seriesIds: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_AUCTION_ASSETS`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (const baseId of baseIds) {

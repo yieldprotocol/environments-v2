@@ -14,6 +14,7 @@ export const addFYToken = async (
   fyToken: FYToken,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_FYTOKEN_TO_LADLE`)
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow the ladle to issue and cancel fyToken

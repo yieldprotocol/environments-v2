@@ -16,6 +16,7 @@ export const addIlkToWitch = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_ILK_TO_WITCH`)
   let proposal: Array<{ target: string; data: string }> = []
 
   // Make sure auctionLineAndLimit is defined.

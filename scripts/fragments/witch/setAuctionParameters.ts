@@ -12,6 +12,7 @@ export const setAuctionParameters = async (
   auctionLineAndLimits: AuctionLineAndLimit[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}SET_AUCTION_PARAMETERS`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (const { ilkId, baseId, duration, vaultProportion, collateralProportion, max } of auctionLineAndLimits) {

@@ -7,6 +7,7 @@ export const updateChainlinkUSDSources = async (
   spotSources: [string, string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_CHAINLINK_USD_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
     // TODO: Does the line below work in Arbitrum?

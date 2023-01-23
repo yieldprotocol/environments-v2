@@ -9,6 +9,7 @@ export const orchestrateFYToken = async (
   fyToken: FYToken,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_FYTOKEN`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const fyTokenAsAccessControl = AccessControl__factory.connect(fyToken.address, fyToken.signer)

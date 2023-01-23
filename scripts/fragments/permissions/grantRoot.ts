@@ -6,6 +6,7 @@ export const grantRoot = async (
   userAddress: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}GRANT_ROOT`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

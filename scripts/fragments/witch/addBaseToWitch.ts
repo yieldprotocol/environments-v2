@@ -13,6 +13,7 @@ export const addBaseToWitch = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_BASE_TO_WITCH`)
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow Witch to join base

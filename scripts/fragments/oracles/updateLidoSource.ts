@@ -13,6 +13,7 @@ export const updateLidoSource = async (
   source: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_LIDO_SOURCE`)
   const [ownerAcc] = await ethers.getSigners()
 
   const proposal: Array<{ target: string; data: string }> = []

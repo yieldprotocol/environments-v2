@@ -11,6 +11,7 @@ export const updateNotionalSources = async (
   sources: [string, string, string, string][], // fcash, notionalId, underlyingId, underlying
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_NOTIONAL_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [fcashAddress, notionalId, underlyingId, underlyingAddress] of sources) {
     if ((await ethers.provider.getCode(fcashAddress)) === '0x') throw `Address ${fcashAddress} contains no code`

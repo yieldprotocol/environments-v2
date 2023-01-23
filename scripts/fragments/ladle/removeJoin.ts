@@ -14,6 +14,7 @@ export const removeJoin = async (
   assetId: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}REMOVE_JOIN`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const joinAddress = await ladle.joins(assetId)

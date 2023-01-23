@@ -16,6 +16,7 @@ export const governorsToDevelopers = async (
   accounts: string[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}GOVERNORS_TO_DEVELOPERS`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of accounts) {
     proposal.push({

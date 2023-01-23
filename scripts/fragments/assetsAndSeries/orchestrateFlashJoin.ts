@@ -9,6 +9,7 @@ export const orchestrateFlashJoin = async (
   join: FlashJoin,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_FLASH_JOIN`)
   let proposal: Array<{ target: string; data: string }> = []
 
   console.log(`${'  '.repeat(nesting)}join: ${join.address}`)

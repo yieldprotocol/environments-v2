@@ -13,6 +13,7 @@ export const orchestratePool = async (
   pool: Pool,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_POOL`)
   let proposal: Array<{ target: string; data: string }> = []
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them

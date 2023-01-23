@@ -8,6 +8,7 @@ export const addFYTokenToCloak = async (
   fyTokens: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_FYTOKEN_TO_CLOAK`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {

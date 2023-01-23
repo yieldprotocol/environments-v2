@@ -10,6 +10,7 @@ export const protectFromLiquidations = async (
   protect: boolean,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}PROTECT_FROM_LIQUIDATIONS`)
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

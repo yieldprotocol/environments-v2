@@ -10,6 +10,7 @@ export const sendTokensProposal = async (
   data: Array<[string, string, BigNumber]>, // [token address, destination address, amount]
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}SEND_TOKENS`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
