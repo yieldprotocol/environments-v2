@@ -422,7 +422,6 @@ const fyUSDT2303: Series = {
     assetId: FYUSDT2303,
     address: pools.getOrThrow(FYUSDT2303)!,
   },
-  poolInitAmount: ONEUSDT.mul(100),
   ilks: ilks,
 }
 
@@ -438,7 +437,6 @@ const fyUSDT2306: Series = {
     assetId: FYUSDT2306,
     address: pools.getOrThrow(FYUSDT2306)!,
   },
-  poolInitAmount: ONEUSDT.mul(100),
   ilks: ilks,
 }
 
