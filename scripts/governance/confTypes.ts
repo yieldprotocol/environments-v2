@@ -76,7 +76,8 @@ export interface Series {
   seriesId: string
   base: Asset
   fyToken: Asset
-  pool: Asset
   chiOracle: string
+  pool: Asset
+  poolInitAmount?: BigNumber
   ilks: Ilk[]
 }

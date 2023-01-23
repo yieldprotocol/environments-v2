@@ -1,5 +1,6 @@
 /**
- * @dev This script registers one fyToken with the ladle.
+ * @dev This script registers one base and ilk pair in the Witch.
+ * @notice Make sure you define auctionLineAndLimit in the ilk config.
  */
 
 import { id } from '@yield-protocol/utils-v2'

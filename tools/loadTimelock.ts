@@ -1,22 +1,21 @@
 import { ethers } from 'hardhat'
 import { impersonate } from '../shared/helpers'
-import { TIMELOCK, CAULDRON, WAD } from '../shared/constants'
-import { IERC20Metadata__factory, Cauldron__factory } from '../typechain'
-const { governance, protocol, whales, loadTimelock } = require(process.env.CONF as string)
+import { TIMELOCK, WAD } from '../shared/constants'
+import { IERC20Metadata__factory } from '../typechain'
+const { governance, whales, series } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with assets to initialize pools and strategies. Only usable on testnets.
  */
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
-  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
 
-  for (let [assetId, amount] of loadTimelock) {
-    const asset = IERC20Metadata__factory.connect(await cauldron.assets(assetId), ownerAcc)
+  for (let individualSeries of series) {
+    const asset = IERC20Metadata__factory.connect(individualSeries.base.address , ownerAcc)
 
-    const whaleAcc = await impersonate(whales.get(assetId) as string, WAD)
-    await asset.connect(whaleAcc).transfer(governance.getOrThrow(TIMELOCK)!, amount)
+    const whaleAcc = await impersonate(whales.get(individualSeries.base.assetId) as string, WAD)
+    await asset.connect(whaleAcc).transfer(governance.getOrThrow(TIMELOCK)!, individualSeries.poolInitAmount)
 
-    console.log(`Loaded Timelock with ${amount} of ${await asset.symbol()}`)
+    console.log(`Loaded Timelock with ${individualSeries.poolInitAmount} of ${await asset.symbol()}`)
   }
 })()

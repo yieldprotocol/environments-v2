@@ -24,6 +24,8 @@ export const protocol = () => readAddressMappingIfExists('protocol.json')
 
 import { Accumulator, OracleSource, OraclePath, Asset, Base, Ilk, Series } from '../../../confTypes'
 
+export const ONEUSDT = ONEUSDC
+
 // ----- ORACLES -----
 
 /// @notice Configuration of the acummulator
@@ -213,7 +215,7 @@ export const ilks: Ilk[] = [
       duration: 3600,
       vaultProportion: WAD,
       collateralProportion: WAD.mul(1050000).div(1100000),
-      max: ONEUSDC.mul(10000000),
+      max: ONEUSDT.mul(10000000),
     },
   },
 
@@ -408,11 +410,12 @@ export const series: Series[] = [
       assetId: FYUSDT2303,
       address: fyTokens.getOrThrow(FYUSDT2303)!,
     },
+    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     pool: {
       assetId: FYUSDT2303,
       address: pools.getOrThrow(FYUSDT2303)!,
     },
-    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
+    poolInitAmount: ONEUSDT.mul(100),
     ilks: ilks,
   },
   {
@@ -422,11 +425,12 @@ export const series: Series[] = [
       assetId: FYUSDT2306,
       address: fyTokens.getOrThrow(FYUSDT2306)!,
     },
+    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
     pool: {
       assetId: FYUSDT2306,
       address: pools.getOrThrow(FYUSDT2306)!,
     },
-    chiOracle: protocol().getOrThrow(ACCUMULATOR)!,
+    poolInitAmount: ONEUSDT.mul(100),
     ilks: ilks,
   },
 ]
