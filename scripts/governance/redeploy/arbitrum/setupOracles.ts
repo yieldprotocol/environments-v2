@@ -6,10 +6,10 @@ import {
   getOriginalChainId,
 } from '../../../../shared/helpers'
 
-import { orchestrateChainlinkUSDOracleProposal } from '../../../fragments/oracles/orchestrateChainlinkUSDOracleProposal'
-import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracleProposal'
-import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSourcesProposal'
-import { updateChainlinkUSDSourcesProposal } from '../../../fragments/oracles/updateChainlinkUSDSourcesProposal'
+import { orchestrateChainlinkUSDOracleProposal } from '../../../fragments/oracles/orchestrateChainlinkUSDOracle'
+import { orchestrateAccumulatorOracleProposal } from '../../../fragments/oracles/orchestrateAccumulatorOracle'
+import { updateAccumulatorSourcesProposal } from '../../../fragments/oracles/updateAccumulatorSources'
+import { updateChainlinkUSDSourcesProposal } from '../../../fragments/oracles/updateChainlinkUSDSources'
 
 import { Timelock, EmergencyBrake } from '../../../../typechain'
 import { ChainlinkUSDMultiOracle, AccumulatorMultiOracle } from '../../../../typechain'

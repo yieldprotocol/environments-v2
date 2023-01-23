@@ -13,15 +13,15 @@ import {
 
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, FCASH, NOTIONAL, MULTISIG } from '../../../../../shared/constants'
 
-import { orchestrateNotionalJoinProposal } from '../../../../fragments/other/notional/orchestrateNotionalJoinProposal'
-import { updateNotionalSourcesProposal } from '../../../../fragments/oracles/updateNotionalSourcesProposal'
-import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeriesProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategiesProposal'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/assetsAndSeries/orchestrateNewPoolsProposal'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategiesProposal'
+import { orchestrateNotionalJoinProposal } from '../../../../fragments/other/notional/addNotionalJoin'
+import { updateNotionalSourcesProposal } from '../../../../fragments/oracles/updateNotionalSources'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
+import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
+import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategies'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
 
 const {
   developer,

@@ -2,7 +2,7 @@ import { proposeApproveExecute, getOwnerOrImpersonate } from '../../../../../../
 
 import { NOTIONAL, MULTISIG, CAULDRON, LADLE, WITCH, CLOAK, TIMELOCK } from '../../../../../../shared/constants'
 
-import { addFCashMaturitiesFragment } from '../../../../../fragments/other/notional/addFCashMaturitiesFragment'
+import { addFCashMaturitiesFragment } from '../../../../../fragments/other/notional/addFCashMaturities'
 import {
   Timelock__factory,
   EmergencyBrake__factory,

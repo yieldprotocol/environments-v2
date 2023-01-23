@@ -2,8 +2,8 @@ import { propose, getOwnerOrImpersonate } from '../../../../shared/helpers'
 
 import { CAULDRON, LADLE, CLOAK, TIMELOCK } from '../../../../shared/constants'
 
-import { orchestrateNotionalJoinProposal } from '../../../fragments/other/notional/orchestrateNotionalJoinProposal'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
+import { orchestrateNotionalJoinProposal } from '../../../fragments/other/notional/addNotionalJoin'
+import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAsset'
 import { drainJoinsFragment } from '../../../fragments/emergency/drainJoinsFragment'
 
 import { Cauldron__factory, OldEmergencyBrake__factory, Ladle__factory, Timelock__factory } from '../../../../typechain'

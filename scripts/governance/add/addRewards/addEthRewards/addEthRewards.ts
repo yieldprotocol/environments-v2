@@ -1,5 +1,5 @@
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
-import { addEthRewardsProposal } from '../../../../fragments/strategies/addEthRewardsProposal'
+import { addEthRewardsProposal } from '../../../../fragments/strategies/addEthRewards'
 import { Timelock__factory } from '../../../../../typechain'
 import { TIMELOCK } from '../../../../../shared/constants'
 

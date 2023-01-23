@@ -118,17 +118,18 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/a47156e4-1347-428f-b19b-54e938b8f5f4",
+      url: "https://rpc.tenderly.co/fork/f5e8940e-681d-4c1a-803d-a789bb6d0bfa",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
       project: "v2",
       timeout: 60_000_000,
-      gasPrice: 10_000_000_000
+      gasPrice: 100_000_000
     },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
+      gasPrice: 25_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
@@ -136,6 +137,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
+      gasPrice: 100_000_000,
       chainId: 42161,
       timeout: 60000
     },

@@ -11,14 +11,14 @@ import {
   OldEmergencyBrake__factory,
 } from '../../../../../typechain'
 
-import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 
-import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateUniswapSourcesProposal } from '../../../../fragments/oracles/updateUniswapSourcesProposal'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSources'
+import { updateUniswapSourcesProposal } from '../../../../fragments/oracles/updateUniswapSources'
 import { CAULDRON, CLOAK, COMPOSITE, LADLE, TIMELOCK, UNISWAP, WITCH } from '../../../../../shared/constants'
-import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePaths'
 import { makeIlkProposal } from '../../../../fragments/witchV2/makeIlkProposal'
 
 const { developer, deployer } = require(process.env.CONF as string)

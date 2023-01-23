@@ -10,7 +10,7 @@ import {
   YIELD_SPACE_MULTI_ORACLE,
 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { SERIES } from '../../../../../shared/typed-constants'
+import { SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
 import * as base_config from '../../../base.mainnet.config'
 import { ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
 
@@ -59,7 +59,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'YieldSpaceMultiOracle',
     args: [() => protocol().getOrThrow(POOL_ORACLE)],
   },
-  ...SERIES.map(({ bytes: series }) => ({
+  ...SERIES_ARBITRUM.map(({ bytes: series }) => ({
     addressFile: 'joins.json',
     name: series,
     contract: 'Join',
