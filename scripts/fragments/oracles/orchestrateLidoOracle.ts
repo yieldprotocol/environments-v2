@@ -28,19 +28,19 @@ export const orchestrateLidoOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`lidoOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}lidoOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: lidoOracle.address,
     data: lidoOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`lidoOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}lidoOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: lidoOracle.address,
     data: lidoOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`lidoOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}lidoOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

@@ -23,7 +23,7 @@ export const addFYTokenToWitch = async (
       witch.address,
     ]),
   })
-  console.log(`Added ${getName(seriesId)} to Witch`)
+  console.log(`${'  '.repeat(nesting)}Added ${getName(seriesId)} to Witch`)
 
   proposal.push({
     target: cloak.address,
@@ -37,7 +37,7 @@ export const addFYTokenToWitch = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch burn ${getName(seriesId)})`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(witch burn ${getName(seriesId)})`)
 
   return proposal
 }

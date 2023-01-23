@@ -15,7 +15,7 @@ export const makeAsset = async (
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addAsset', [asset.assetId, asset.address]),
   })
-  console.log(`Make asset: ${getName(asset.assetId)}: ${asset.address},`)
+  console.log(`${'  '.repeat(nesting)}Make asset: ${getName(asset.assetId)}: ${asset.address},`)
 
   return proposal
 }

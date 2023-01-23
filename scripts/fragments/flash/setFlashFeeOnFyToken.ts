@@ -22,7 +22,7 @@ export const setFlashFeeOnFytoken = async (
       target: fyToken.address,
       data: fyToken.interface.encodeFunctionData('setFlashFeeFactor', [flashFee]),
     })
-    console.log(`fyToken.setFlashFeeFactor(flashFee)`)
+    console.log(`${'  '.repeat(nesting)}fyToken.setFlashFeeFactor(flashFee)`)
   }
   return proposal
 }

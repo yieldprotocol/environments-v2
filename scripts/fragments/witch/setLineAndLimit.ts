@@ -18,15 +18,20 @@ export const setLineAndLimit = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 
+  console.log(`${'  '.repeat(nesting)}Witch#setLineAndLimit`)
+  console.log(`${'  '.repeat(nesting + 1)}ilkId: ${getName(auctionLineAndLimits.ilkId)}`)
+  console.log(`${'  '.repeat(nesting + 1)}baseId: ${getName(auctionLineAndLimits.baseId)}`)
+  console.log(`${'  '.repeat(nesting + 1)}duration: ${auctionLineAndLimits.duration} seconds`)
   console.log(
-    `Witch#setLineAndLimit(ilkId: ${getName(auctionLineAndLimits.ilkId)}, baseId: ${getName(
-      auctionLineAndLimits.baseId
-    )}, duration: ${auctionLineAndLimits.duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
-      auctionLineAndLimits.vaultProportion
-    )}, collateralProportion: ${ethers.utils.formatUnits(
-      auctionLineAndLimits.collateralProportion
-    )}, max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)})`
+    `${'  '.repeat(nesting + 1)}vaultProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.vaultProportion)}`
   )
+  console.log(
+    `${'  '.repeat(nesting + 1)}collateralProportion: ${ethers.utils.formatUnits(
+      auctionLineAndLimits.collateralProportion
+    )}`
+  )
+  console.log(`${'  '.repeat(nesting + 1)}max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)}`)
+
   proposal.push({
     target: witch.address,
     data: witch.interface.encodeFunctionData('setLineAndLimit', [

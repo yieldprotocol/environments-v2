@@ -61,9 +61,9 @@ export const addFCashMaturities = async (
     seriesIlks.push([newSeriesId, [newAssetId]])
   }
 
-  proposal = proposal.concat(await orchestrateJoin(ownerAcc, cloak, assetsAndJoins))
-  proposal = proposal.concat(await updateNotionalSources(notionalOracle, notionalSources))
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateJoin(ownerAcc, cloak, assetsAndJoins, nesting + 1))
+  proposal = proposal.concat(await updateNotionalSources(notionalOracle, notionalSources, nesting + 1))
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, assetsAndJoins, nesting + 1))
   proposal = proposal.concat(
     await makeIlk(
       ownerAcc,
@@ -76,7 +76,7 @@ export const addFCashMaturities = async (
       notionalJoins
     )
   )
-  proposal = proposal.concat(await addIlksToSeries(cauldron, seriesIlks))
+  proposal = proposal.concat(await addIlksToSeries(cauldron, seriesIlks, nesting + 1))
 
   return proposal
 }

@@ -19,7 +19,7 @@ export const updateCompositePaths = async (
       target: compositeOracle.address,
       data: compositeOracle.interface.encodeFunctionData('setPath', [path.baseId, path.quoteId, path.path]),
     })
-    console.log(`path: ${getName(path.baseId)}/${getName(path.quoteId)} -> ${path.path}`)
+    console.log(`${'  '.repeat(nesting)}path: ${getName(path.baseId)}/${getName(path.quoteId)} -> ${path.path}`)
   }
 
   return proposal

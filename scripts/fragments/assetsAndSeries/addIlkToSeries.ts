@@ -16,7 +16,7 @@ export const addIlkToSeries = async (
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addIlks', [series.seriesId, [ilk.ilkId]]),
   })
-  console.log(`addIlks ${getName(series.seriesId)}: ${getName(ilk.ilkId)}`)
+  console.log(`${'  '.repeat(nesting)}addIlks ${getName(series.seriesId)}: ${getName(ilk.ilkId)}`)
 
   return proposal
 }

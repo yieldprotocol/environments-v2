@@ -43,14 +43,14 @@ export const addJoinProposal = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle join and exit ${assetId})`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(ladle join and exit ${assetId})`)
 
   // Register join in Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addJoin', [assetId, join.address]),
   })
-  console.log(`Adding ${assetId} join to Ladle using ${join.address}`)
+  console.log(`${'  '.repeat(nesting)}Adding ${assetId} join to Ladle using ${join.address}`)
 
   return proposal
 }

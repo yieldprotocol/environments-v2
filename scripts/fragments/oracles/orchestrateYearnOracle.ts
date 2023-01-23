@@ -28,19 +28,19 @@ export const orchestrateYearnOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`yearnOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}yearnOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: yearnOracle.address,
     data: yearnOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`yearnOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}yearnOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: yearnOracle.address,
     data: yearnOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`yearnOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}yearnOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

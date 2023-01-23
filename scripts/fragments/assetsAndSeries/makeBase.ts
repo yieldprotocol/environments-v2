@@ -14,19 +14,20 @@ export const makeBase = async (
   cauldron: Cauldron,
   witch: Witch,
   base: Base,
-  joins: Map<string, string>
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   const join = Join__factory.connect(joins.getOrThrow(base.assetId)!, ownerAcc)
 
-  proposal = proposal.concat(await addBaseToWitch(cloak, witch, base.assetId, join))
+  proposal = proposal.concat(await addBaseToWitch(cloak, witch, base.assetId, join, nesting + 1))
 
   // Add the asset as a base
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('setLendingOracle', [base.assetId, lendingOracle.address]),
   })
-  console.log(`Asset ${getName(base.assetId)} made into base using ${lendingOracle.address}`)
+  console.log(`${'  '.repeat(nesting)}Asset ${getName(base.assetId)} made into base using ${lendingOracle.address}`)
 
   return proposal
 }

@@ -31,19 +31,19 @@ export const orchestrateCompositeOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`compositeOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}compositeOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: compositeOracle.address,
     data: compositeOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`compositeOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}compositeOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: compositeOracle.address,
     data: compositeOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer.address]),
   })
-  console.log(`compositeOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}compositeOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

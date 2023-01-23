@@ -17,7 +17,7 @@ export const addPoolProposal = async (
 
   for (let [seriesId, poolAddress] of newPools) {
     if (poolAddress === undefined || poolAddress === ZERO_ADDRESS) throw `Pool for ${seriesId} not found`
-    else console.log(`Using pool at ${poolAddress} for ${seriesId}`)
+    else console.log(`${'  '.repeat(nesting)}Using pool at ${poolAddress} for ${seriesId}`)
     const pool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
     // Register pool in Ladle
@@ -25,7 +25,7 @@ export const addPoolProposal = async (
       target: ladle.address,
       data: ladle.interface.encodeFunctionData('addPool', [seriesId, pool.address]),
     })
-    console.log(`Adding ${seriesId} pool to Ladle using ${pool.address}`)
+    console.log(`${'  '.repeat(nesting)}Adding ${seriesId} pool to Ladle using ${pool.address}`)
   }
 
   return proposal

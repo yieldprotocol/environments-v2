@@ -21,25 +21,33 @@ export const initPool = async (
 
   const poolAddress = series.pool.address
   if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
-  else console.log(`Using pool at ${poolAddress} for ${series.seriesId}`)
+  else console.log(`${'  '.repeat(nesting)}Using pool at ${poolAddress} for ${series.seriesId}`)
   const pool = Pool__factory.connect(poolAddress, ownerAcc)
   const base = IERC20Metadata__factory.connect(await pool.base(), ownerAcc)
 
-  console.log(`Timelock balance of ${getName(series.base.assetId)} is ${await base.balanceOf(timelock.address)}`)
+  console.log(
+    `${'  '.repeat(nesting)}Timelock balance of ${getName(series.base.assetId)} is ${await base.balanceOf(
+      timelock.address
+    )}`
+  )
 
   // Supply pool with a baseAmount of underlying for initialization
   proposal.push({
     target: base.address,
     data: base.interface.encodeFunctionData('transfer', [poolAddress, series.poolInitAmount!]),
   })
-  console.log(`Transferring ${series.poolInitAmount!} of ${getName(series.base.assetId)} from Timelock to Pool`)
+  console.log(
+    `${'  '.repeat(nesting)}Transferring ${series.poolInitAmount!} of ${getName(
+      series.base.assetId
+    )} from Timelock to Pool`
+  )
 
   // Initialize pool
   proposal.push({
     target: pool.address,
     data: pool.interface.encodeFunctionData('init', [ZERO_ADDRESS]), // Send the LP tokens to the zero address, maxRatio is set to zero, purposefully reverting this if someone has already initialized the pool
   })
-  console.log(`Initializing ${getName(series.pool.assetId)} at ${poolAddress}`)
+  console.log(`${'  '.repeat(nesting)}Initializing ${getName(series.pool.assetId)} at ${poolAddress}`)
 
   return proposal
 }

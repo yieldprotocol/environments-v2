@@ -24,24 +24,24 @@ export const addSeries = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`)
+  console.log(`${'  '.repeat(nesting)}Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`)
   const fyToken = FYToken__factory.connect(series.fyToken.address, ownerAcc)
   const baseId = await fyToken.underlyingId()
-  console.log(`Using pool at ${series.pool.address} as ${series.pool.assetId}`)
+  console.log(`${'  '.repeat(nesting)}Using pool at ${series.pool.address} as ${series.pool.assetId}`)
   const poolAddress = pools.getOrThrow(series.pool.assetId)!
 
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addSeries', [series.seriesId, baseId, fyToken.address]),
   })
-  console.log(`Adding ${getName(series.seriesId)} using ${fyToken.address}`)
+  console.log(`${'  '.repeat(nesting)}Adding ${getName(series.seriesId)} using ${fyToken.address}`)
 
   for (let ilk of series.ilks) {
-    proposal = proposal.concat(await addIlkToSeries(cauldron, series, ilk))
+    proposal = proposal.concat(await addIlkToSeries(cauldron, series, ilk, nesting + 1))
   }
-  proposal = proposal.concat(await addPool(ladle, series.seriesId, poolAddress))
-  proposal = proposal.concat(await addFYToken(cloak, ladle, series.seriesId, fyToken))
-  proposal = proposal.concat(await addFYTokenToWitch(cloak, witch, series.seriesId, fyToken))
+  proposal = proposal.concat(await addPool(ladle, series.seriesId, poolAddress, nesting + 1))
+  proposal = proposal.concat(await addFYToken(cloak, ladle, series.seriesId, fyToken, nesting + 1))
+  proposal = proposal.concat(await addFYTokenToWitch(cloak, witch, series.seriesId, fyToken, nesting + 1))
 
   return proposal
 }

@@ -22,7 +22,7 @@ export const orchestrateGiver = async (
       giver.address,
     ]),
   })
-  console.log(`cauldron.grantRoles('give', giver)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles('give', giver)`)
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('grantRoles', [
@@ -30,11 +30,11 @@ export const orchestrateGiver = async (
       timelock.address,
     ]),
   })
-  console.log(`timelock.grantRoles('giver', banIlk)`)
+  console.log(`${'  '.repeat(nesting)}timelock.grantRoles('giver', banIlk)`)
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`giver.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}giver.revokeRole(ROOT, deployer)`)
   return proposal
 }

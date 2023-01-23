@@ -27,19 +27,19 @@ export const orchestrateChainlinkUSDOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`chainlinkUSDOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}chainlinkUSDOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: chainlinkUSDOracle.address,
     data: chainlinkUSDOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`chainlinkUSDOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}chainlinkUSDOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: chainlinkUSDOracle.address,
     data: chainlinkUSDOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`chainlinkUSDOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}chainlinkUSDOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

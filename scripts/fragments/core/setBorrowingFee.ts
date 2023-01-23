@@ -36,24 +36,24 @@ import { Ladle } from '../../typechain/Ladle'
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('setFee', [fee]),
   })
-  console.log(`setFee(${fee.toString()})`)
+  console.log(`${'  '.repeat(nesting)}setFee(${fee.toString()})`)
 
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`Proposal: ${txHash}`)
+  console.log(`${'  '.repeat(nesting)}Proposal: ${txHash}`)
   if ((await timelock.proposals(txHash)).state === 0) {
     await timelock.propose(proposal)
     while ((await timelock.proposals(txHash)).state < 1) {}
-    console.log(`Proposed ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Proposed ${txHash}`)
   }
   if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
     while ((await timelock.proposals(txHash)).state < 2) {}
-    console.log(`Approved ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Approved ${txHash}`)
   }
   if ((await timelock.proposals(txHash)).state === 2) {
     await timelock.execute(proposal)
     while ((await timelock.proposals(txHash)).state > 0) {}
-    console.log(`Executed ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Executed ${txHash}`)
   }
 })()

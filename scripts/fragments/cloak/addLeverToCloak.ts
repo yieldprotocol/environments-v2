@@ -23,7 +23,7 @@ export const addLeverToCloak = async (
     })
   })
 
-  console.log(`cloak.add(lever seize on Giver)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(lever seize on Giver)`)
 
   return proposal
 }

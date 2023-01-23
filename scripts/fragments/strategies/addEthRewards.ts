@@ -22,12 +22,12 @@ export const addEthRewards = async (
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewardsToken', [rewardsAddress]),
     })
-    console.log(`strategy(${strategyId}).setRewardsAddress(${rewardsAddress})`)
+    console.log(`${'  '.repeat(nesting)}strategy(${strategyId}).setRewardsAddress(${rewardsAddress})`)
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewards', [start, stop, rate]),
     })
-    console.log(`strategy(${strategyId}).setRewards(${start}, ${stop}, ${rate})`)
+    console.log(`${'  '.repeat(nesting)}strategy(${strategyId}).setRewards(${start}, ${stop}, ${rate})`)
   }
 
   return proposal

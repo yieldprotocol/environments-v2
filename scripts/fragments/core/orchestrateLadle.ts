@@ -33,7 +33,7 @@ export const orchestrateLadle = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`ladle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}ladle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: ladle.address,
@@ -49,13 +49,13 @@ export const orchestrateLadle = async (
       timelock.address,
     ]),
   })
-  console.log(`ladle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}ladle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`ladle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}ladle.revokeRole(ROOT, deployer)`)
 
   proposal.push({
     target: cauldron.address,
@@ -72,7 +72,7 @@ export const orchestrateLadle = async (
       ladle.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(ladle)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles(ladle)`)
 
   return proposal
 }

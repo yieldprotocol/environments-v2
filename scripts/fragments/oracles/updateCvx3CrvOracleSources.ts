@@ -15,7 +15,7 @@ export const updateCvx3CrvOracleSources = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   if ((await ethers.provider.getCode(oracle.address)) === '0x') throw `Address ${oracle.address} contains no code`
-  console.log(`Setting up the source for ${CVX3CRV}/${ETH} at ${oracle.address}`)
+  console.log(`${'  '.repeat(nesting)}Setting up the source for ${CVX3CRV}/${ETH} at ${oracle.address}`)
 
   proposal.push({
     target: oracle.address,

@@ -28,19 +28,19 @@ export const orchestrateUniswapOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`uniswapOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}uniswapOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: uniswapOracle.address,
     data: uniswapOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`uniswapOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}uniswapOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: uniswapOracle.address,
     data: uniswapOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`uniswapOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}uniswapOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

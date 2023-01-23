@@ -23,10 +23,12 @@ export const orchestratePool = async (
       timelock.address,
     ]),
   })
-  console.log(`pool.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}pool.grantRoles(gov, timelock)`)
 
   // Revoke ROOT from the deployer
-  proposal = proposal.concat(await removeDeployer(AccessControl__factory.connect(pool.address, pool.signer)))
+  proposal = proposal.concat(
+    await removeDeployer(AccessControl__factory.connect(pool.address, pool.signer), nesting + 1)
+  )
 
   return proposal
 }

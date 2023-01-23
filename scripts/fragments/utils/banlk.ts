@@ -14,7 +14,7 @@ export const banIlk = async (
     target: giver.address,
     data: giver.interface.encodeFunctionData('banIlk', [banIlk, banState]),
   })
-  console.log(`giver.banIlk(${banIlk},${banState})`)
+  console.log(`${'  '.repeat(nesting)}giver.banIlk(${banIlk},${banState})`)
 
   return proposal
 }

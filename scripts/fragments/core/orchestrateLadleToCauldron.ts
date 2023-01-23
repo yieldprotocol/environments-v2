@@ -43,7 +43,7 @@ export const orchestrateLadleToCauldron = async (
       ladle.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(ladle)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles(ladle)`)
 
   proposal.push({
     target: cloak.address,
@@ -77,7 +77,7 @@ export const orchestrateLadleToCauldron = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle to cauldron)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(ladle to cauldron)`)
 
   return proposal
 }

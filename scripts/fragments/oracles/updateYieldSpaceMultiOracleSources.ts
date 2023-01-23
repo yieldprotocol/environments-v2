@@ -29,7 +29,7 @@ export const updateYieldSpaceMultiOracleSources = async (
       target: yieldSpaceMultiOracle.address,
       data: yieldSpaceMultiOracle.interface.encodeFunctionData('setSource', [baseId, quoteId, pool]),
     })
-    console.log(`YieldSpaceMultiOracle: pair: ${pair} set to Pool: ${pool}`)
+    console.log(`${'  '.repeat(nesting)}YieldSpaceMultiOracle: pair: ${pair} set to Pool: ${pool}`)
   }
 
   return proposal

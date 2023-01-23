@@ -30,19 +30,19 @@ export const orchestrateStrategyOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`strategyOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}strategyOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: strategyOracle.address,
     data: strategyOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`strategyOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}strategyOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: strategyOracle.address,
     data: strategyOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`strategyOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}strategyOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

@@ -20,14 +20,22 @@ export const updateLidoSource = async (
 
   const wstEth = (await ethers.getContractAt('IWstETH', source, ownerAcc)) as unknown as IWstETH
 
-  console.log(`Current rate for ${getName(STETH)}/${getName(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`)
-  console.log(`Current rate for ${getName(WSTETH)}/${getName(STETH)}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`)
+  console.log(
+    `${'  '.repeat(nesting)}Current rate for ${getName(STETH)}/${getName(
+      WSTETH
+    )}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`
+  )
+  console.log(
+    `${'  '.repeat(nesting)}Current rate for ${getName(WSTETH)}/${getName(
+      STETH
+    )}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`
+  )
 
   proposal.push({
     target: lidoOracle.address,
     data: lidoOracle.interface.encodeFunctionData('setSource', [source]),
   })
 
-  console.log(`source: ${getName(STETH)}/${getName(WSTETH)} -> ${source}`)
+  console.log(`${'  '.repeat(nesting)}source: ${getName(STETH)}/${getName(WSTETH)} -> ${source}`)
   return proposal
 }

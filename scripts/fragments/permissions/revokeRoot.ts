@@ -16,7 +16,7 @@ export const revokeRoot = async (
       target: host.address,
       data: host.interface.encodeFunctionData('revokeRole', [ROOT, user]),
     })
-    console.log(`${host.address} revokeRole(ROOT ${user})`)
+    console.log(`${'  '.repeat(nesting)}${host.address} revokeRole(ROOT ${user})`)
   }
 
   return proposal

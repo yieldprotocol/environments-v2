@@ -26,7 +26,7 @@ export const setAuctionParameters = async (
         max,
       ]),
     })
-    console.log(`Adding baseId: ${getName(baseId)} - ilkId: ${getName(ilkId)} to the Witch`)
+    console.log(`${'  '.repeat(nesting)}Adding baseId: ${getName(baseId)} - ilkId: ${getName(ilkId)} to the Witch`)
   }
 
   return proposal

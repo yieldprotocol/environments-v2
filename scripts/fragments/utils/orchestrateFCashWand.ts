@@ -19,40 +19,40 @@ export const orchestrateFCashWand = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
-  console.log(`fCashWand: ${fCashWand.address}`)
+  console.log(`${'  '.repeat(nesting)}fCashWand: ${fCashWand.address}`)
 
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
-  console.log(`cauldron: ${cauldron.address}`)
+  console.log(`${'  '.repeat(nesting)}cauldron: ${cauldron.address}`)
 
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
-  console.log(`ladle: ${ladle.address}`)
+  console.log(`${'  '.repeat(nesting)}ladle: ${ladle.address}`)
 
   const notionalOracle = await ethers.getContractAt(
     'NotionalMultiOracle',
     protocol.get('notionalOracle') as string,
     ownerAcc
   )
-  console.log(`notionalOracle: ${notionalOracle.address}`)
+  console.log(`${'  '.repeat(nesting)}notionalOracle: ${notionalOracle.address}`)
 
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
-  console.log(`cloak: ${cloak.address}`)
+  console.log(`${'  '.repeat(nesting)}cloak: ${cloak.address}`)
 
   const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
-  console.log(`witch: ${witch.address}`)
+  console.log(`${'  '.repeat(nesting)}witch: ${witch.address}`)
 
   const notionalJoinFactory = await ethers.getContractAt(
     'NotionalJoinFactory',
     protocol.get('notionalJoinFactory') as string,
     ownerAcc
   )
-  console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
+  console.log(`${'  '.repeat(nesting)}notionalJoinFactory: ${notionalJoinFactory.address}`)
 
   // grab new Joins
   const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
-  console.log(`daiNewJoin: ${daiNewJoin.address}`)
+  console.log(`${'  '.repeat(nesting)}daiNewJoin: ${daiNewJoin.address}`)
 
   const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
-  console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
+  console.log(`${'  '.repeat(nesting)}usdcNewJoin: ${usdcNewJoin.address}`)
 
   // revoke ROOT on fCashWand
   proposal.push({

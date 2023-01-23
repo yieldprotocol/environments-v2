@@ -16,7 +16,11 @@ export const updateNotionalSources = async (
     if ((await ethers.provider.getCode(fcashAddress)) === '0x') throw `Address ${fcashAddress} contains no code`
     if ((await ethers.provider.getCode(underlyingAddress)) === '0x')
       throw `Address ${underlyingAddress} contains no code`
-    console.log(`Setting up ${fcashAddress} as the source for ${notionalId}/${underlyingId} at ${oracle.address}`)
+    console.log(
+      `${'  '.repeat(nesting)}Setting up ${fcashAddress} as the source for ${notionalId}/${underlyingId} at ${
+        oracle.address
+      }`
+    )
 
     proposal.push({
       target: oracle.address,

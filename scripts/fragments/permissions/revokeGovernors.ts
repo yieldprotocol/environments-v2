@@ -46,7 +46,7 @@ export const revokeGovernors = async (
         revokedAccount,
       ]),
     })
-    console.log(`Revoked governor ${revokedAccount}`)
+    console.log(`${'  '.repeat(nesting)}Revoked governor ${revokedAccount}`)
   }
 
   return proposal

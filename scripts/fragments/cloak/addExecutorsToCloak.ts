@@ -13,7 +13,7 @@ export const addExecutorsToCloak = async (
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('grantRole', [id(cloak.interface, 'execute(address)'), executor]),
     })
-    console.log(`cloak.grantRole(executor ${executor})`)
+    console.log(`${'  '.repeat(nesting)}cloak.grantRole(executor ${executor})`)
   }
 
   return proposal
