@@ -11,8 +11,8 @@ import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
 // uncomment this to verify Tenderly contracts
-// import * as tdly from "@tenderly/hardhat-tenderly";
-// tdly.setup();
+import * as tdly from "@tenderly/hardhat-tenderly";
+tdly.setup();
 
 import "./augmentations"
 
@@ -118,7 +118,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/f5e8940e-681d-4c1a-803d-a789bb6d0bfa",
+      url: "https://rpc.tenderly.co/fork/d4a7b07f-35d7-4f5c-9b76-16b34b959f5f",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
