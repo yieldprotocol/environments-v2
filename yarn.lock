@@ -2639,10 +2639,17 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.0.tgz#fb46e950f4307a9649e4ab7ad63311a6502d06da"
   integrity sha512-3kmIxsNhY/gVgnKo+33jcW2g4V9ij5dO7EGP1oY++fZYg3jNUiFpao8hoBpdSG0vOH4VcPfktwnA+Pr7MxNUZQ==
 
-"@yield-protocol/utils-v2@2.6.7", "@yield-protocol/utils-v2@^2.4.2":
+"@yield-protocol/utils-v2@2.6.7":
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.7.tgz#e592b6677949d30b3779f75ceea9bc6f4a5aedf3"
   integrity sha512-Fqr60Qasn18tjNfe7QW+QaAen1RtFAfHHAPa9WJRYdqzwnESUBbpf3pAz8dTjXU7k2HqjX2Rrmw8BReoVRm/Dg==
+  dependencies:
+    ethereumjs-util "^7.0.8"
+
+"@yield-protocol/utils-v2@^2.4.2":
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.8.tgz#a9cd0b191842a320a3e159567ee6dc4e3b3e21b8"
+  integrity sha512-O2mhFV7zKJjGVOs68fobcnv6E+k1rK6kqSdFVS78WzI6VuACM9xF3s6VH39QbEPp2on3Vkm0PBG33AfhT+T1yA==
   dependencies:
     ethereumjs-util "^7.0.8"
 
@@ -3229,9 +3236,14 @@ aws-sign2@~0.7.0:
   resolved "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.7.0.tgz"
   integrity sha512-08kcGqnYf/YmjoRhfxyu+CLxBjUtHLXLXX/vUfx9l2LYzG3c1m61nrpyFUZI6zeS+Li/wWMMidD9KgrqtGq3mA==
 
-aws4@^1.2.1, aws4@^1.8.0:
+aws4@^1.2.1:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.12.0.tgz#ce1c9d143389679e253b314241ea9aa5cec980d3"
+  integrity sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==
+
+aws4@^1.8.0:
   version "1.11.0"
-  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
+  resolved "https://registry.npmjs.org/aws4/-/aws4-1.11.0.tgz"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
 axe-core@^4.4.2:
@@ -10160,7 +10172,7 @@ minimalistic-crypto-utils@^1.0.1:
 
 "minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
-  resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
