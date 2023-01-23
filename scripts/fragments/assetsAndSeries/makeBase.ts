@@ -1,5 +1,5 @@
 // Make an asset into a base.
-// - A lending oracle is set for the
+// - A lending oracle is set for the new base
 // - The asset is added to the Witch.
 
 import { getName } from '../../../shared/helpers'
