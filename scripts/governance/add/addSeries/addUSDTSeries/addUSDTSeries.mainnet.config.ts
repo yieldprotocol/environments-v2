@@ -113,6 +113,29 @@ export const usdt: Base = {
 export const ilks: Ilk[] = [
   {
     baseId: USDT,
+    ilkId: USDT,
+    asset: {
+      assetId: USDT,
+      address: assets.getOrThrow(USDT)!,
+    },
+    collateralization: {
+      baseId: USDT,
+      ilkId: USDT,
+      oracle: protocol().getOrThrow(CHAINLINK)!,
+      ratio: 1000000,
+    },
+    debtLimits: {
+      baseId: USDT,
+      ilkId: LINK,
+      line: 100000000,
+      dust: 0,
+      dec: 6,
+    },
+    // No auction line and limit for USDT/USDT
+  },
+
+  {
+    baseId: USDT,
     ilkId: ETH,
     asset: {
       assetId: ETH,
@@ -258,36 +281,6 @@ export const ilks: Ilk[] = [
       vaultProportion: WAD.div(2),
       collateralProportion: WAD.mul(1050000).div(1670000),
       max: WAD.mul(100000),
-    },
-  },
-
-  {
-    baseId: USDT,
-    ilkId: USDT,
-    asset: {
-      assetId: USDT,
-      address: assets.getOrThrow(USDT)!,
-    },
-    collateralization: {
-      baseId: USDT,
-      ilkId: USDT,
-      oracle: protocol().getOrThrow(CHAINLINK)!,
-      ratio: 1000000,
-    },
-    debtLimits: {
-      baseId: USDT,
-      ilkId: LINK,
-      line: 100000000,
-      dust: 0,
-      dec: 6,
-    },
-    auctionLineAndLimit: {
-      baseId: USDT,
-      ilkId: USDT,
-      duration: 3600,
-      vaultProportion: ZERO,
-      collateralProportion: ZERO,
-      max: ZERO,
     },
   },
 

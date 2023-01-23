@@ -1,9 +1,10 @@
 // Make an asset into an ilk.
 // - Collateralization config is set for the base/ilk pair.
 // - Debt limits are set for the base/ilk pair.
-// - The asset is added to the Witch.
+// - If liquidations are enabled, the asset is added to the Witch.
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { ZERO } from '../../../shared/constants'
 import { Cauldron, Join__factory, EmergencyBrake, Witch } from '../../../typechain'
 import { Ilk } from '../../governance/confTypes'
 import { addIlkToWitch } from '../witch/addIlkToWitch'
@@ -25,8 +26,12 @@ export const makeIlk = async (
 
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk))
   proposal = proposal.concat(await updateDebtLimits(cauldron, ilk))
-  proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk.ilkId, join))
-  proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit))
+
+  // Some ilks are not liquidable
+  if (ilk.auctionLineAndLimit !== undefined) {
+    proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit))
+    proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk.ilkId, join))
+  }
 
   return proposal
 }

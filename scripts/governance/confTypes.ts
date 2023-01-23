@@ -69,7 +69,7 @@ export interface Ilk {
   asset: Asset
   collateralization: Collateralization
   debtLimits: DebtLimit
-  auctionLineAndLimit: AuctionLineAndLimit
+  auctionLineAndLimit?: AuctionLineAndLimit // Optional, only for liquidable ilks
 }
 
 export interface Series {
