@@ -12,6 +12,7 @@ export const addNotionalJoin = async (
   join: NotionalJoin,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_NOTIONAL_JOIN`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const underlyingJoin = Join__factory.connect(await join.underlyingJoin(), ownerAcc)

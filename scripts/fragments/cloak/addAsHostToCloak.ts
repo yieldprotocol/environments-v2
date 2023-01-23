@@ -6,6 +6,7 @@ export const addAsHostToCloak = async (
   host: AccessControl,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_AS_HOST_TO_CLOAK`)
   // Register host in Cloak, which is done by giving it ROOT
   return await grantRoot(host, cloak.address)
 }

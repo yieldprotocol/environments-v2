@@ -13,6 +13,7 @@ export const addFYTokenToWitch = async (
   fyToken: FYToken,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_FYTOKEN_TO_WITCH`)
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow the witch to burn fyToken

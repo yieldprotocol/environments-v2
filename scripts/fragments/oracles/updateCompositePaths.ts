@@ -12,6 +12,7 @@ export const updateCompositePaths = async (
   compositePaths: OraclePath[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_COMPOSITE_PATHS`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let path of compositePaths) {
     // There is no need to test that the sources for each step in the path have been set in the composite oracle, as `setPath` would revert in that case.

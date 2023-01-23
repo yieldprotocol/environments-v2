@@ -7,6 +7,7 @@ export const removeDeployer = async (
   target: AccessControl,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}REMOVE_DEPLOYER`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const deployer = deployers.get(target.address)

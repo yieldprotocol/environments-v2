@@ -19,6 +19,7 @@ export const makeIlk = async (
   joins: Map<string, string>, // assetId, joinAddress,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}MAKE_ILK`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)

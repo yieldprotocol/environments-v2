@@ -6,6 +6,7 @@ export const addExecutorsToCloak = async (
   executors: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_EXECUTORS_TO_CLOAK`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let executor of executors) {

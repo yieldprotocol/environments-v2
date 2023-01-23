@@ -12,6 +12,7 @@ export const drainJoinsFragment = async (
   joinReplacements: Array<[string, string]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}DRAIN_JOINS`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 

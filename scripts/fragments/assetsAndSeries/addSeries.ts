@@ -22,6 +22,7 @@ export const addSeries = async (
   pools: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_SERIES`)
   let proposal: Array<{ target: string; data: string }> = []
 
   console.log(`${'  '.repeat(nesting)}Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`)

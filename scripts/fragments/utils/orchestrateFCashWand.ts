@@ -16,6 +16,7 @@ export const orchestrateFCashWand = async (
   timelock: Timelock,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_F_CASH_WAND`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)

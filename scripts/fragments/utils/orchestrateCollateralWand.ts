@@ -13,6 +13,7 @@ export const orchestrateCollateralWand = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_COLLATERAL_WAND`)
   let proposal: Array<{ target: string; data: string }> = []
 
   const collateralWand = (await ethers.getContractAt(

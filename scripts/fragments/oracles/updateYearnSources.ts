@@ -11,6 +11,7 @@ export const updateYearnSources = async (
   sources: [string, string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_YEARN_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, yearnVaultId, yvTokenAddress] of sources) {
     if ((await ethers.provider.getCode(yvTokenAddress)) === '0x') throw `Address ${yvTokenAddress} contains no code`

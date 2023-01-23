@@ -6,6 +6,7 @@ export const addModule = async (
   module: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_MODULE`)
   if ((await ethers.provider.getCode(module)) === '0x') throw `Address ${module} contains no code`
 
   const proposal: Array<{ target: string; data: string }> = []

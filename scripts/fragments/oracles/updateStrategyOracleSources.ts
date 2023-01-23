@@ -6,6 +6,7 @@ export const updatStrategyOracleSources = async (
   spotSources: [string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_STRATEGY_ORACLE_SOURCES`)
   const proposal: Array<{ target: string; data: string }> = []
   for (let [strategyId, strategy] of spotSources) {
     if ((await ethers.provider.getCode(strategy)) === '0x') throw `Address ${strategy} contains no code`

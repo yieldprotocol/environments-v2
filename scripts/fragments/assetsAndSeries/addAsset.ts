@@ -14,6 +14,7 @@ export const addAsset = async (
   joins: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_ASSET`)
   let proposal: Array<{ target: string; data: string }> = []
   console.log(`${'  '.repeat(nesting)}Using asset at ${asset.address}`)
 

@@ -13,6 +13,7 @@ export const initStrategy = async (
   strategy: Strategy,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}INIT_STRATEGY`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 

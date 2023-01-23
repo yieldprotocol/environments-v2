@@ -6,6 +6,7 @@ export const updateTimelockDelay = async (
   delayAmount: BigNumberish,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_TIMELOCK_DELAY`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

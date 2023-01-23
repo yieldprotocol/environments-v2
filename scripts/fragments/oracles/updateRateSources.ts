@@ -13,6 +13,7 @@ export const updateRateSources = async (
   newSources: Array<[string, string]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_RATE_SOURCES`)
   const [ownerAcc] = await ethers.getSigners()
   console.log(`${'  '.repeat(nesting)}compoundOracle: ${lendingOracle.address}`)
 

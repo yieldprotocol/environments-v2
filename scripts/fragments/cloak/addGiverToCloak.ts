@@ -7,6 +7,7 @@ export const addGiverToCloak = async (
   cauldron: Cauldron,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_GIVER_TO_CLOAK`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

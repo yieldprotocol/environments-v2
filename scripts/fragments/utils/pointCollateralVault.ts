@@ -10,6 +10,7 @@ export const pointCollateralVault = async (
   join: any,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}POINT_COLLATERAL_VAULT`)
   let proposal: Array<{ target: string; data: string }> = []
 
   if ((await ethers.provider.getCode(convexYieldWrapper.address)) === '0x')

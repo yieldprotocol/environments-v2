@@ -9,6 +9,7 @@ export const makeAsset = async (
   asset: Asset,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}MAKE_ASSET`)
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

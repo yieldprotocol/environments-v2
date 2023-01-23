@@ -6,6 +6,7 @@ export const checkPlan = async (
   users: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}CHECK_PLAN`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let user of users) {

@@ -8,6 +8,7 @@ export const updateDebtLimits = async (
   ilk: Ilk,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}UPDATE_DEBT_LIMITS`)
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

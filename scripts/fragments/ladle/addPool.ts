@@ -11,6 +11,7 @@ export const addPool = async (
   poolAddress: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_POOL`)
   let proposal: Array<{ target: string; data: string }> = []
   // Register pool in Ladle
   proposal.push({

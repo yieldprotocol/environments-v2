@@ -13,6 +13,7 @@ export const addEthRewards = async (
   strategiesData: Array<[string, string, string, number, number, number]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_ETH_REWARDS`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [strategyId, rewardsAddress, start, stop, rate] of strategiesData) {

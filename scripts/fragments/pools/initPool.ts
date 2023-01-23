@@ -16,6 +16,7 @@ export const initPool = async (
   series: Series,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}INIT_POOL`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 

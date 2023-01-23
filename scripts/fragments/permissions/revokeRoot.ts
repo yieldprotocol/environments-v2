@@ -8,6 +8,7 @@ export const revokeRoot = async (
   hosts: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}REVOKE_ROOT`)
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let hostAddress of hosts) {

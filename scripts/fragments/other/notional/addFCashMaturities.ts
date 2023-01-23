@@ -29,6 +29,7 @@ export const addFCashMaturities = async (
   newJoins: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ADD_F_CASH_MATURITIES`)
   let proposal: Array<{ target: string; data: string }> = []
 
   let assetsAndJoins: Array<[string, string, string]> = []

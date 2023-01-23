@@ -18,6 +18,7 @@ export const rollStrategies = async (
   rollData: Array<[string, string, BigNumber, string, boolean]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log(`\n${'  '.repeat(nesting)}ROLL_STRATEGIES`)
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
