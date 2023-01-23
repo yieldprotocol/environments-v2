@@ -30,7 +30,7 @@ export const addFYTokenToCloak = async (
         ],
       ]),
     })
-    console.log(`cloak.add(fyToken ${seriesId} join and exit ${await fyToken.underlyingId()})`)
+    console.log(`${'  '.repeat(nesting)}cloak.add(fyToken ${seriesId} join and exit ${await fyToken.underlyingId()})`)
   }
 
   return proposal

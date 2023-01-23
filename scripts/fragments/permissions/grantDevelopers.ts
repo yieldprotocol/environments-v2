@@ -32,7 +32,7 @@ export const grantDevelopers = async (
         grantedAccount,
       ]),
     })
-    console.log(`Granted developer ${grantedAccount}`)
+    console.log(`${'  '.repeat(nesting)}Granted developer ${grantedAccount}`)
   }
 
   return proposal

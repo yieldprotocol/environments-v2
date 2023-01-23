@@ -34,7 +34,7 @@ export const addBaseToWitch = async (
     ]),
   })
   // TODO: Maybe check the assetId matches
-  console.log(`cloak.add(witch join ${getName(assetId)})`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(witch join ${getName(assetId)})`)
 
   return proposal
 }

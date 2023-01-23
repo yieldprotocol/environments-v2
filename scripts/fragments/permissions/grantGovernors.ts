@@ -44,7 +44,7 @@ export const grantGovernors = async (
         timelock.address,
       ]),
     })
-    console.log(`Granted governor ${grantedAccount}`)
+    console.log(`${'  '.repeat(nesting)}Granted governor ${grantedAccount}`)
   }
 
   return proposal

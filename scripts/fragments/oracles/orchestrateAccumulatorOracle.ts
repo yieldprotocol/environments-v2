@@ -27,19 +27,19 @@ export const orchestrateAccumulatorOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`accumulatorOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}accumulatorOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: accumulatorOracle.address,
     data: accumulatorOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`accumulatorOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}accumulatorOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: accumulatorOracle.address,
     data: accumulatorOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`accumulatorOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}accumulatorOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

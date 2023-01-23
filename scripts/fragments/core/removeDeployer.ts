@@ -15,7 +15,7 @@ export const removeDeployer = async (
       target: target.address,
       data: target.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
     })
-    console.log(`revokeRole(ROOT, deployer)`)
+    console.log(`${'  '.repeat(nesting)}revokeRole(ROOT, deployer)`)
   }
 
   return proposal

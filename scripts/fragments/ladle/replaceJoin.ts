@@ -19,8 +19,8 @@ export const replaceJoin = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await removeJoin(ownerAcc, cloak, ladle, assetId))
-  proposal = proposal.concat(await addJoin(cloak, ladle, assetId, join))
+  proposal = proposal.concat(await removeJoin(ownerAcc, cloak, ladle, assetId, nesting + 1))
+  proposal = proposal.concat(await addJoin(cloak, ladle, assetId, join, nesting + 1))
 
   return proposal
 }

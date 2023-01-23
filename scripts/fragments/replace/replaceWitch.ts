@@ -27,7 +27,7 @@ export const replaceWitch = async (
       witch.address,
     ]),
   })
-  console.log(`cauldron.revokeRoles(witch)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.revokeRoles(witch)`)
 
   for (const [assetId] of bases) {
     const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)
@@ -55,7 +55,7 @@ export const replaceWitch = async (
     })
   }
 
-  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
+  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId, nesting + 1))
   for (const ilkId of ilkIds) {
     const join = await ethers.getContractAt('Join', await ladle.joins(ilkId), ownerAcc)
     // Revoke Witch to exit ilk

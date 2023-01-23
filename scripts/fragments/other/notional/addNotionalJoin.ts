@@ -19,7 +19,7 @@ export const addNotionalJoin = async (
   if (
     !(
       (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'join(address,uint128)'), join.address)) ||
-      (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address))
+      (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address, nesting + 1))
     )
   ) {
     proposal.push({
@@ -29,7 +29,7 @@ export const addNotionalJoin = async (
         join.address,
       ]),
     })
-    console.log(`underlyingJoin.grantRoles(join/exit, join)`)
+    console.log(`${'  '.repeat(nesting)}underlyingJoin.grantRoles(join/exit, join)`)
 
     proposal.push({
       target: cloak.address,
@@ -47,10 +47,12 @@ export const addNotionalJoin = async (
         ],
       ]),
     })
-    console.log(`cloak.add(join to underlying join for ${getName(assetId)})`)
+    console.log(`${'  '.repeat(nesting)}cloak.add(join to underlying join for ${getName(assetId)})`)
   }
 
-  proposal = proposal.concat(await addJoin(cloak, ladle, assetId, Join__factory.connect(join.address, join.signer)))
+  proposal = proposal.concat(
+    await addJoin(cloak, ladle, assetId, Join__factory.connect(join.address, join.signer), nesting + 1)
+  )
 
   return proposal
 }

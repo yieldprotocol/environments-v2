@@ -11,7 +11,9 @@ export const updateChainlinkUSDSources = async (
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
     // TODO: Does the line below work in Arbitrum?
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
-    console.log(`Setting up ${sourceAddress} as the source for ${baseId}/USD at ${oracle.address}`)
+    console.log(
+      `${'  '.repeat(nesting)}Setting up ${sourceAddress} as the source for ${baseId}/USD at ${oracle.address}`
+    )
 
     const aggregator = (await ethers.getContractAt(
       'AggregatorV3Interface',
@@ -20,7 +22,7 @@ export const updateChainlinkUSDSources = async (
         await ethers.getSigners()
       )[0]
     )) as unknown as AggregatorV3Interface
-    console.log(`Aggregator decimals: ${await aggregator.decimals()}`)
+    console.log(`${'  '.repeat(nesting)}Aggregator decimals: ${await aggregator.decimals()}`)
 
     // TODO: We can now instantiate sourceAddress into a ChainlinkV3Aggregator and read the price feed, which would be a better test
 

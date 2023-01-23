@@ -18,7 +18,7 @@ export const orchestrateCloak = async (
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('revokeRole', [await cloak.ROOT(), deployer]),
   })
-  console.log(`cloak.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}cloak.revokeRole(ROOT, deployer)`)
 
   // On deployment the timelock and multisig should get the planner and governor roles, respectively.
 

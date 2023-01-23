@@ -20,9 +20,9 @@ export const addIlk = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal = await makeAsset(cauldron, ilk.asset)
-  proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
+  proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins, nesting + 1))
   for (let series_ of series) {
-    proposal = proposal.concat(await addIlkToSeries(cauldron, series_, ilk))
+    proposal = proposal.concat(await addIlkToSeries(cauldron, series_, ilk, nesting + 1))
   }
 
   return proposal

@@ -23,12 +23,12 @@ export const makeIlk = async (
 
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
 
-  proposal = proposal.concat(await updateCollateralization(cauldron, ilk))
-  proposal = proposal.concat(await updateDebtLimits(cauldron, ilk))
+  proposal = proposal.concat(await updateCollateralization(cauldron, ilk, nesting + 1))
+  proposal = proposal.concat(await updateDebtLimits(cauldron, ilk, nesting + 1))
 
   // Some ilks are not liquidable
   if (ilk.auctionLineAndLimit !== undefined) {
-    proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk, join))
+    proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk, join, nesting + 1))
   }
 
   return proposal

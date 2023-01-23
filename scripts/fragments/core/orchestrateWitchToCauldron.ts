@@ -20,7 +20,7 @@ export const orchestrateWitchToCauldron = async (
       witch.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(witch)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles(witch)`)
 
   proposal.push({
     target: cloak.address,
@@ -38,7 +38,7 @@ export const orchestrateWitchToCauldron = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch give and slurp)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(witch give and slurp)`)
 
   return proposal
 }

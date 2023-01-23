@@ -24,7 +24,7 @@ export const addFYToken = async (
       ladle.address,
     ]),
   })
-  console.log(`Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`)
+  console.log(`${'  '.repeat(nesting)}Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`)
 
   // Add ladle/fyToken orchestration to cloak
   proposal.push({
@@ -43,10 +43,10 @@ export const addFYToken = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle mint and burn ${getName(seriesId)})`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(ladle mint and burn ${getName(seriesId)})`)
 
   // Register fyToken in Ladle
-  proposal = proposal.concat(await addToken(ladle, fyToken.address))
+  proposal = proposal.concat(await addToken(ladle, fyToken.address, nesting + 1))
 
   return proposal
 }

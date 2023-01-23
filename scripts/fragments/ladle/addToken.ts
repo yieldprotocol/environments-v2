@@ -14,7 +14,7 @@ export const addToken = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addToken', [token, true]),
   })
-  console.log(`addToken ${token}`)
+  console.log(`${'  '.repeat(nesting)}addToken ${token}`)
 
   return proposal
 }

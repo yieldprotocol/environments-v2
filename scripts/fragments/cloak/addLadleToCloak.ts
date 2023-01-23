@@ -45,7 +45,7 @@ export const addLadleToCloak = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle to cauldron)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(ladle to cauldron)`)
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = FYToken__factory.connect(fyTokenAddress, signerAcc)
@@ -65,7 +65,7 @@ export const addLadleToCloak = async (
         ],
       ]),
     })
-    console.log(`cloak.add(ladle mint and burn ${seriesId})`)
+    console.log(`${'  '.repeat(nesting)}cloak.add(ladle mint and burn ${seriesId})`)
   }
 
   for (let [assetId, joinAddress] of joins) {
@@ -87,7 +87,7 @@ export const addLadleToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(ladle join and exit ${assetId})`)
+      console.log(`${'  '.repeat(nesting)}cloak.add(ladle join and exit ${assetId})`)
     }
   }
 

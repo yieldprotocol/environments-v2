@@ -14,7 +14,7 @@ export const addModule = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addModule', [module, true]),
   })
-  console.log(`addmodule ${module}`)
+  console.log(`${'  '.repeat(nesting)}addmodule ${module}`)
 
   return proposal
 }

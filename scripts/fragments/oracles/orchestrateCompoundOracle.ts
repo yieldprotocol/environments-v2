@@ -27,19 +27,19 @@ export const orchestrateCompoundOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`compoundOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}compoundOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: compoundOracle.address,
     data: compoundOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`compoundOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}compoundOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: compoundOracle.address,
     data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`compoundOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}compoundOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

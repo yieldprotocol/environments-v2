@@ -16,7 +16,7 @@ export const protectFromLiquidations = async (
     target: witch.address,
     data: witch.interface.encodeFunctionData('setProtected', [owner, protect]),
   })
-  console.log(`${owner} is protected from liquidations`)
+  console.log(`${'  '.repeat(nesting)}${owner} is protected from liquidations`)
 
   return proposal
 }

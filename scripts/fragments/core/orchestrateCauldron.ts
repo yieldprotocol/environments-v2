@@ -36,19 +36,19 @@ export const orchestrateCauldron = async (
       timelock.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`cauldron.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`cauldron.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}cauldron.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

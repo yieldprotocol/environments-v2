@@ -17,7 +17,7 @@ export const checkPlan = async (
         '0x0000000000000000000000000000000000000000000000000000000000000001',
       ]),
     })
-    console.log(`onChainTest.valueAndCallEquator(cloak.check(${user}))`)
+    console.log(`${'  '.repeat(nesting)}onChainTest.valueAndCallEquator(cloak.check(${user}))`)
   }
   return proposal
 }

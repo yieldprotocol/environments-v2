@@ -17,7 +17,7 @@ export const setFlashFeeOnJoin = async (
       target: join.address,
       data: join.interface.encodeFunctionData('setFlashFeeFactor', [flashFee]),
     })
-    console.log(`join.setFlashFeeFactor(flashFee)`)
+    console.log(`${'  '.repeat(nesting)}join.setFlashFeeFactor(flashFee)`)
   }
   return proposal
 }

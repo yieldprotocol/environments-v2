@@ -37,7 +37,7 @@ export const orchestrateStrategy = async (
       timelock.address,
     ]),
   })
-  console.log(`strategy(${getName(strategy.assetId)}).grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}strategy(${getName(strategy.assetId)}).grantRoles(gov, timelock)`)
 
   if (strategy.seriesToInvest !== undefined) {
     const pool = Pool__factory.connect(pools.get(strategy.seriesToInvest.seriesId)!, ownerAcc)
@@ -45,31 +45,33 @@ export const orchestrateStrategy = async (
       target: pool.address,
       data: pool.interface.encodeFunctionData('grantRoles', [[id(pool.interface, 'init(address)')], strategy.address]),
     })
-    console.log(`pool(${getName(strategy.seriesToInvest.seriesId)}).grantRoles(init, strategy)`)
+    console.log(`${'  '.repeat(nesting)}pool(${getName(strategy.seriesToInvest.seriesId)}).grantRoles(init, strategy)`)
   }
 
   proposal.push({
     target: strategy.address,
     data: strategyInterface.encodeFunctionData('grantRoles', [[id(strategyInterface, 'eject()')], multisig]),
   })
-  console.log(`strategy(${getName(strategy.assetId)}).grantRoles(eject, multisig)`)
+  console.log(`${'  '.repeat(nesting)}strategy(${getName(strategy.assetId)}).grantRoles(eject, multisig)`)
 
   // Add the strategy as an integration to the Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addIntegration', [strategy.address, true]),
   })
-  console.log(`ladle.addIntegration(${getName(strategy.assetId)})`)
+  console.log(`${'  '.repeat(nesting)}ladle.addIntegration(${getName(strategy.assetId)})`)
 
   // Add the strategy as an token to the Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addToken', [strategy.address, true]),
   })
-  console.log(`ladle.addToken(${getName(strategy.assetId)})`)
+  console.log(`${'  '.repeat(nesting)}ladle.addToken(${getName(strategy.assetId)})`)
 
   // Revoke ROOT from the deployer
-  proposal = proposal.concat(await removeDeployer(AccessControl__factory.connect(strategy.address, ladle.signer)))
+  proposal = proposal.concat(
+    await removeDeployer(AccessControl__factory.connect(strategy.address, ladle.signer), nesting + 1)
+  )
 
   return proposal
 }

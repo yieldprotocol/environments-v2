@@ -26,13 +26,13 @@ export const orchestrateYieldSpaceMultiOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`yieldSpaceMultiOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}yieldSpaceMultiOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: yieldSpaceMultiOracle.address,
     data: yieldSpaceMultiOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`yieldSpaceMultiOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}yieldSpaceMultiOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

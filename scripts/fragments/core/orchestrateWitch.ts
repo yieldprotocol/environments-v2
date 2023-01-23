@@ -21,13 +21,13 @@ export const orchestrateWitch = async (
     target: witch.address,
     data: witch.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`ladle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}ladle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: witch.address,
     data: witch.interface.encodeFunctionData('revokeRole', [ROOT, ownerAcc.address]),
   })
-  console.log(`witch.revokeRole(deployer)`)
+  console.log(`${'  '.repeat(nesting)}witch.revokeRole(deployer)`)
 
   proposal.push({
     target: witch.address,
@@ -41,7 +41,7 @@ export const orchestrateWitch = async (
       timelock.address,
     ]),
   })
-  console.log(`witch.grantRoles(timelock)`)
+  console.log(`${'  '.repeat(nesting)}witch.grantRoles(timelock)`)
 
   return proposal
 }

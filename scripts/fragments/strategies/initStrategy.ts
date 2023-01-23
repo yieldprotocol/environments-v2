@@ -21,12 +21,14 @@ export const initStrategy = async (
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
   const baseContract = ERC20__factory.connect(strategy.base.address, ownerAcc)
 
-  console.log(`Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`)
+  console.log(
+    `${'  '.repeat(nesting)}Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`
+  )
   proposal.push({
     target: baseContract.address,
     data: baseContract.interface.encodeFunctionData('transfer', [strategyContract.address, strategy.initAmount!]),
   })
-  console.log(`Initializing ${getName(strategyId)} at ${strategyContract.address}`)
+  console.log(`${'  '.repeat(nesting)}Initializing ${getName(strategyId)} at ${strategyContract.address}`)
   proposal.push({
     target: strategyContract.address,
     data: strategyContract.interface.encodeFunctionData('init', [ZERO_ADDRESS]), // Burn the strategy tokens minted

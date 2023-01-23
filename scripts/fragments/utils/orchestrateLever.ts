@@ -16,7 +16,7 @@ export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<
       Lever.address,
     ]),
   })
-  console.log(`giver.grantRoles('give', Lever)`)
+  console.log(`${'  '.repeat(nesting)}giver.grantRoles('give', Lever)`)
 
   proposal.push({
     target: giver.address,
@@ -25,7 +25,7 @@ export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<
       Lever.address,
     ]),
   })
-  console.log(`giver.grantRoles('seize', Lever)`)
+  console.log(`${'  '.repeat(nesting)}giver.grantRoles('seize', Lever)`)
 
   return proposal
 }

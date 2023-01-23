@@ -14,7 +14,7 @@ export const updateRateSources = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const [ownerAcc] = await ethers.getSigners()
-  console.log(`compoundOracle: ${lendingOracle.address}`)
+  console.log(`${'  '.repeat(nesting)}compoundOracle: ${lendingOracle.address}`)
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
@@ -24,12 +24,12 @@ export const updateRateSources = async (
       sourceAddress as string,
       ownerAcc
     )) as unknown as ERC20Mock
-    console.log(`Using ${await cToken.name()} at ${sourceAddress}`)
+    console.log(`${'  '.repeat(nesting)}Using ${await cToken.name()} at ${sourceAddress}`)
     proposal.push({
       target: lendingOracle.address,
       data: lendingOracle.interface.encodeFunctionData('setSource', [baseId, RATE, sourceAddress]),
     })
-    console.log(`Rate(${getName(baseId)}): ${sourceAddress}`)
+    console.log(`${'  '.repeat(nesting)}Rate(${getName(baseId)}): ${sourceAddress}`)
   }
 
   return proposal

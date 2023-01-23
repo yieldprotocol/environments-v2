@@ -14,7 +14,7 @@ export const addIntegration = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addIntegration', [integration, true]),
   })
-  console.log(`addIntegration ${integration}`)
+  console.log(`${'  '.repeat(nesting)}addIntegration ${integration}`)
 
   return proposal
 }

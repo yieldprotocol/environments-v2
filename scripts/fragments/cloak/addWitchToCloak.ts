@@ -29,7 +29,7 @@ export const addWitchToCloak = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch give and slurp)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(witch give and slurp)`)
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = FYToken__factory.connect(fyTokenAddress, signerAcc)
@@ -46,7 +46,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch burn ${seriesId})`)
+      console.log(`${'  '.repeat(nesting)}cloak.add(witch burn ${seriesId})`)
     }
   }
 
@@ -65,7 +65,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch join ${assetId})`)
+      console.log(`${'  '.repeat(nesting)}cloak.add(witch join ${assetId})`)
     }
 
     if ((await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) == true) {
@@ -81,7 +81,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch exit ${assetId})`)
+      console.log(`${'  '.repeat(nesting)}cloak.add(witch exit ${assetId})`)
     }
   }
 

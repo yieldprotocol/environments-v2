@@ -46,13 +46,13 @@ import { Strategy } from '../../../typechain/Strategy'
       wand.address,
     ]),
   })
-  console.log(`ladle.grantRoles(wand)`)
+  console.log(`${'  '.repeat(nesting)}ladle.grantRoles(wand)`)
 
   proposal.push({
     target: wand.address,
     data: wand.interface.encodeFunctionData('point', [ethers.utils.formatBytes32String('ladle'), ladle.address]),
   })
-  console.log(`Wand reorchestration`)
+  console.log(`${'  '.repeat(nesting)}Wand reorchestration`)
 
   for (let assetId of joins.keys()) {
     const joinAddress = joins.get(assetId) as string
@@ -70,7 +70,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(`Join ${assetId} permissions`)
+    console.log(`${'  '.repeat(nesting)}Join ${assetId} permissions`)
 
     const plan = [
       {
@@ -83,7 +83,9 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(`cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
+    console.log(
+      `${'  '.repeat(nesting)}cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`
+    )
   }
 
   for (let seriesId of fyTokens.keys()) {
@@ -100,7 +102,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(`FYToken ${seriesId} permissions`)
+    console.log(`${'  '.repeat(nesting)}FYToken ${seriesId} permissions`)
 
     const plan = [
       {
@@ -113,7 +115,12 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(`cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(ladle.address, plan)}`)
+    console.log(
+      `${'  '.repeat(nesting)}cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(
+        ladle.address,
+        plan
+      )}`
+    )
   }
 
   for (let seriesId of pools.keys()) {
@@ -142,19 +149,19 @@ import { Strategy } from '../../../typechain/Strategy'
 
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`Proposal: ${txHash}`)
+  console.log(`${'  '.repeat(nesting)}Proposal: ${txHash}`)
   if ((await timelock.proposals(txHash)).state === 0) {
     await timelock.propose(proposal)
-    console.log(`Proposed ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Proposed ${txHash}`)
   }
   while ((await timelock.proposals(txHash)).state < 1) {}
   if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
-    console.log(`Approved ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Approved ${txHash}`)
   }
   while ((await timelock.proposals(txHash)).state < 2) {}
   if ((await timelock.proposals(txHash)).state === 2) {
     await timelock.execute(proposal)
-    console.log(`Executed ${txHash}`)
+    console.log(`${'  '.repeat(nesting)}Executed ${txHash}`)
   }
 })()

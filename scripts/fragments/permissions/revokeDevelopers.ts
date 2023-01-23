@@ -37,7 +37,7 @@ export const revokeDevelopers = async (
         revokedAccount,
       ]),
     })
-    console.log(`Revoked developer ${revokedAccount}`)
+    console.log(`${'  '.repeat(nesting)}Revoked developer ${revokedAccount}`)
   }
 
   return proposal

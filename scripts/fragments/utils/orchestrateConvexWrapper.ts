@@ -27,7 +27,7 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(point, timelock)`)
+  console.log(`${'  '.repeat(nesting)}convexYieldWrapper.grantRole(point, timelock)`)
 
   proposal.push({
     target: convexYieldWrapper.address,
@@ -36,7 +36,7 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(recoverERC20, timelock)`)
+  console.log(`${'  '.repeat(nesting)}convexYieldWrapper.grantRole(recoverERC20, timelock)`)
 
   proposal.push({
     target: convexYieldWrapper.address,
@@ -45,19 +45,19 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(shutdownAndRescue, timelock)`)
+  console.log(`${'  '.repeat(nesting)}convexYieldWrapper.grantRole(shutdownAndRescue, timelock)`)
 
   proposal.push({
     target: convexYieldWrapper.address,
     data: convexYieldWrapper.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`convexYieldWrapper.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}convexYieldWrapper.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: convexYieldWrapper.address,
     data: convexYieldWrapper.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`convexYieldWrapper.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}convexYieldWrapper.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

@@ -21,7 +21,7 @@ export const addGiverToCloak = async (
       ],
     ]),
   })
-  console.log(`cloak.add(giver give on cauldron)`)
+  console.log(`${'  '.repeat(nesting)}cloak.add(giver give on cauldron)`)
 
   return proposal
 }

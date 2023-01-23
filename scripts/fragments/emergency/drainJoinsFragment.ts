@@ -27,7 +27,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`oldJoin.grantRoles(exit, join)`)
+    console.log(`${'  '.repeat(nesting)}oldJoin.grantRoles(exit, join)`)
 
     proposal.push({
       target: newJoin.address,
@@ -36,7 +36,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`newJoin.grantRoles(join, join)`)
+    console.log(`${'  '.repeat(nesting)}newJoin.grantRoles(join, join)`)
 
     const storedBalance = await oldJoin.storedBalance()
 
@@ -45,14 +45,14 @@ export const drainJoinsFragment = async (
       target: oldJoin.address,
       data: oldJoin.interface.encodeFunctionData('exit', [newJoin.address, storedBalance]),
     })
-    console.log(`Transferring ${storedBalance} of ${oldJoin.asset()} to ${newJoin.address}`)
+    console.log(`${'  '.repeat(nesting)}Transferring ${storedBalance} of ${oldJoin.asset()} to ${newJoin.address}`)
 
     // join all on new join
     proposal.push({
       target: newJoin.address,
       data: newJoin.interface.encodeFunctionData('join', [oldJoin.address, storedBalance]),
     })
-    console.log(`Joining ${storedBalance} of ${oldJoin.asset()} at ${newJoin.address}`)
+    console.log(`${'  '.repeat(nesting)}Joining ${storedBalance} of ${oldJoin.asset()} at ${newJoin.address}`)
 
     // isolate from ladle
     proposal.push({
@@ -62,7 +62,7 @@ export const drainJoinsFragment = async (
         ladle.address,
       ]),
     })
-    console.log(`lodJoin.revokeRoles(join/exit, ladle)`)
+    console.log(`${'  '.repeat(nesting)}lodJoin.revokeRoles(join/exit, ladle)`)
 
     // revoke permissions
     proposal.push({
@@ -72,7 +72,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`oldJoin.revokeRoles(exit, join)`)
+    console.log(`${'  '.repeat(nesting)}oldJoin.revokeRoles(exit, join)`)
 
     proposal.push({
       target: newJoin.address,
@@ -81,7 +81,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`newJoin.revokeRoles(join, join)`)
+    console.log(`${'  '.repeat(nesting)}newJoin.revokeRoles(join, join)`)
   }
 
   return proposal

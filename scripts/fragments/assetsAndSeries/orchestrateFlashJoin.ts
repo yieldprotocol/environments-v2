@@ -11,10 +11,10 @@ export const orchestrateFlashJoin = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`join: ${join.address}`)
+  console.log(`${'  '.repeat(nesting)}join: ${join.address}`)
   const joinAsAccessControl = AccessControl__factory.connect(join.address, join.signer)
-  proposal = proposal.concat(await removeDeployer(joinAsAccessControl))
-  proposal = proposal.concat(await addAsHostToCloak(cloak, joinAsAccessControl))
+  proposal = proposal.concat(await removeDeployer(joinAsAccessControl, nesting + 1))
+  proposal = proposal.concat(await addAsHostToCloak(cloak, joinAsAccessControl, nesting + 1))
 
   proposal.push({
     target: join.address,
@@ -23,7 +23,7 @@ export const orchestrateFlashJoin = async (
       timelock.address,
     ]),
   })
-  console.log(`join.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}join.grantRoles(gov, timelock)`)
 
   return proposal
 }

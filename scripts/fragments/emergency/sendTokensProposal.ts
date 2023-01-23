@@ -25,7 +25,7 @@ export const sendTokensProposal = async (
       data: token.interface.encodeFunctionData('transfer', [destAddr, amount]),
     })
 
-    console.log(`Transferring ${amount.toString()} of ${token.address} to ${destAddr}`)
+    console.log(`${'  '.repeat(nesting)}Transferring ${amount.toString()} of ${token.address} to ${destAddr}`)
   }
 
   return proposal

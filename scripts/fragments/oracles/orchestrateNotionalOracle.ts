@@ -27,19 +27,19 @@ export const orchestrateNotionalOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`notionalOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}notionalOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: notionalOracle.address,
     data: notionalOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`notionalOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}notionalOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: notionalOracle.address,
     data: notionalOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`notionalOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}notionalOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

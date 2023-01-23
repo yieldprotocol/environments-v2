@@ -15,12 +15,12 @@ export const migrateStrategies = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [oldStrategyAddress, newSeriesId, newStrategyAddress, newPoolAddress] of migrateData) {
-    console.log(`Using Strategy V1 at ${oldStrategyAddress}`)
+    console.log(`${'  '.repeat(nesting)}Using Strategy V1 at ${oldStrategyAddress}`)
 
     const oldStrategy = StrategyV1__factory.connect(oldStrategyAddress, ownerAcc)
     const newStrategy = Strategy__factory.connect(newStrategyAddress, ownerAcc)
 
-    console.log(`Using Strategy V2 at ${newStrategyAddress} for ${newSeriesId}`)
+    console.log(`${'  '.repeat(nesting)}Using Strategy V2 at ${newStrategyAddress} for ${newSeriesId}`)
 
     // Allow the old strategy to init the new strategy
     proposal.push({
@@ -30,21 +30,21 @@ export const migrateStrategies = async (
         oldStrategy.address,
       ]),
     })
-    console.log(`strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
+    console.log(`${'  '.repeat(nesting)}strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
 
     // Set the new strategy as the pool for the old strategy
     proposal.push({
       target: oldStrategy.address,
       data: oldStrategy.interface.encodeFunctionData('setNextPool', [newStrategyAddress, newSeriesId]),
     })
-    console.log(`Next pool on ${oldStrategy.address} set as ${newStrategyAddress}`)
+    console.log(`${'  '.repeat(nesting)}Next pool on ${oldStrategy.address} set as ${newStrategyAddress}`)
 
     // Divest the old strategy
     proposal.push({
       target: oldStrategy.address,
       data: oldStrategy.interface.encodeFunctionData('endPool'),
     })
-    console.log(`${oldStrategy.address} divested`)
+    console.log(`${'  '.repeat(nesting)}${oldStrategy.address} divested`)
 
     // Supply new strategy with a wei of underlying for initialization
     const base = ERC20__factory.connect(await oldStrategy.base(), (await ethers.getSigners())[0])
@@ -52,7 +52,9 @@ export const migrateStrategies = async (
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [newStrategyAddress, 1]),
     })
-    console.log(`Transferring ${1} of ${await base.symbol()} from Timelock to ${newStrategyAddress}`)
+    console.log(
+      `${'  '.repeat(nesting)}Transferring ${1} of ${await base.symbol()} from Timelock to ${newStrategyAddress}`
+    )
 
     // Migrate
     proposal.push({
@@ -60,7 +62,7 @@ export const migrateStrategies = async (
       data: oldStrategy.interface.encodeFunctionData('startPool', [0, MAX256]),
     })
 
-    console.log(`Strategy ${oldStrategyAddress} rolled onto ${newStrategyAddress}`)
+    console.log(`${'  '.repeat(nesting)}Strategy ${oldStrategyAddress} rolled onto ${newStrategyAddress}`)
 
     // Revoke init permissions from the old strategy
     proposal.push({
@@ -70,7 +72,7 @@ export const migrateStrategies = async (
         oldStrategy.address,
       ]),
     })
-    console.log(`strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
+    console.log(`${'  '.repeat(nesting)}strategy ${newStrategyAddress} grantRoles(mint, ${oldStrategyAddress})`)
 
     const newPool = Pool__factory.connect(newPoolAddress, ownerAcc)
 
@@ -82,7 +84,7 @@ export const migrateStrategies = async (
         newStrategy.address,
       ]),
     })
-    console.log(`pool ${newPoolAddress} grantRoles(init, ${newStrategyAddress})`)
+    console.log(`${'  '.repeat(nesting)}pool ${newPoolAddress} grantRoles(init, ${newStrategyAddress})`)
 
     // Invest
     proposal.push({
@@ -90,7 +92,7 @@ export const migrateStrategies = async (
       data: newStrategy.interface.encodeFunctionData('invest', [newPoolAddress]),
     })
 
-    console.log(`Strategy ${newStrategy.address} invested onto ${newPoolAddress}`)
+    console.log(`${'  '.repeat(nesting)}Strategy ${newStrategy.address} invested onto ${newPoolAddress}`)
   }
 
   return proposal

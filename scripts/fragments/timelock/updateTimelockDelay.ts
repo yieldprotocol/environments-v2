@@ -12,7 +12,7 @@ export const updateTimelockDelay = async (
     target: timeLock.address,
     data: timeLock.interface.encodeFunctionData('setDelay', [delayAmount]),
   })
-  console.log(`setDelay to ${delayAmount}`)
+  console.log(`${'  '.repeat(nesting)}setDelay to ${delayAmount}`)
 
   return proposal
 }

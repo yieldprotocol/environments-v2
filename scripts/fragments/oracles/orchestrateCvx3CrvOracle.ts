@@ -28,19 +28,19 @@ export const orchestrateCvx3CrvOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`cvx3crvOracle.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}cvx3crvOracle.grantRoles(gov, timelock)`)
 
   proposal.push({
     target: cvx3crvOracle.address,
     data: cvx3crvOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`cvx3crvOracle.grantRole(ROOT, cloak)`)
+  console.log(`${'  '.repeat(nesting)}cvx3crvOracle.grantRole(ROOT, cloak)`)
 
   proposal.push({
     target: cvx3crvOracle.address,
     data: cvx3crvOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`cvx3crvOracle.revokeRole(ROOT, deployer)`)
+  console.log(`${'  '.repeat(nesting)}cvx3crvOracle.revokeRole(ROOT, deployer)`)
 
   return proposal
 }

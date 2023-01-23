@@ -15,14 +15,14 @@ export const addAsset = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-  console.log(`Using asset at ${asset.address}`)
+  console.log(`${'  '.repeat(nesting)}Using asset at ${asset.address}`)
 
   const joinAddress = joins.getOrThrow(asset.assetId)
-  console.log(`Using join at ${joinAddress}`)
+  console.log(`${'  '.repeat(nesting)}Using join at ${joinAddress}`)
   const join = Join__factory.connect(joinAddress, ownerAcc)
 
-  proposal = proposal.concat(await makeAsset(cauldron, asset))
-  proposal = proposal.concat(await addJoin(cloak, ladle, asset.assetId, join))
+  proposal = proposal.concat(await makeAsset(cauldron, asset, nesting + 1))
+  proposal = proposal.concat(await addJoin(cloak, ladle, asset.assetId, join, nesting + 1))
 
   return proposal
 }

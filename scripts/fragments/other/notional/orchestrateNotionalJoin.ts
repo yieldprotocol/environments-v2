@@ -11,8 +11,12 @@ export const orchestrateNotionalJoin = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await removeDeployer(AccessControl__factory.connect(join.address, join.signer)))
-  proposal = proposal.concat(await addAsHostToCloak(cloak, AccessControl__factory.connect(join.address, join.signer)))
+  proposal = proposal.concat(
+    await removeDeployer(AccessControl__factory.connect(join.address, join.signer), nesting + 1)
+  )
+  proposal = proposal.concat(
+    await addAsHostToCloak(cloak, AccessControl__factory.connect(join.address, join.signer), nesting + 1)
+  )
 
   proposal.push({
     target: join.address,
@@ -21,7 +25,7 @@ export const orchestrateNotionalJoin = async (
       timelock.address,
     ]),
   })
-  console.log(`join.grantRoles(gov, timelock)`)
+  console.log(`${'  '.repeat(nesting)}join.grantRoles(gov, timelock)`)
 
   return proposal
 }

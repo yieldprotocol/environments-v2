@@ -39,7 +39,7 @@ export const governorsToDevelopers = async (
         revokedAccount,
       ]),
     })
-    console.log(`Downgraded account ${revokedAccount}`)
+    console.log(`${'  '.repeat(nesting)}Downgraded account ${revokedAccount}`)
   }
 
   return proposal

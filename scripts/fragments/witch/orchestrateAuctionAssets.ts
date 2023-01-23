@@ -33,7 +33,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`join(${getName(baseId)}).grantRole(join(address,uint128), witch)`)
+      console.log(`${'  '.repeat(nesting)}join(${getName(baseId)}).grantRole(join(address,uint128), witch)`)
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -48,7 +48,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`${'  '.repeat(nesting)}cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }
@@ -65,7 +65,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`fyToken(${getName(seriesId)}).grantRole(burn(address,uint256), witch)`)
+      console.log(`${'  '.repeat(nesting)}fyToken(${getName(seriesId)}).grantRole(burn(address,uint256), witch)`)
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -80,7 +80,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`${'  '.repeat(nesting)}cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }
@@ -97,7 +97,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`join(${getName(ilkId)}).grantRole(exit(address,uint128), witch)`)
+      console.log(`${'  '.repeat(nesting)}join(${getName(ilkId)}).grantRole(exit(address,uint128), witch)`)
 
       // Log a plan to undo the orchestration above in emergencies
       const plan = [
@@ -112,7 +112,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(`${'  '.repeat(nesting)}cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
       }
     }
   }

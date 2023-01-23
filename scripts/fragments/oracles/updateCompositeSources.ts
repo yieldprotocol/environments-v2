@@ -22,7 +22,7 @@ export const updateCompositeSources = async (
     const pair = `${getName(source.baseId)}/${getName(source.quoteId)}`
 
     if (added.has(pair) || added.has(`${getName(source.quoteId)}/${getName(source.baseId)}`)) {
-      console.log(`CompositeMultiOracle: ${pair} already dealt with, skipping`)
+      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: ${pair} already dealt with, skipping`)
       continue
     }
     added.add(pair)
@@ -37,9 +37,9 @@ export const updateCompositeSources = async (
           source.sourceAddress,
         ]),
       })
-      console.log(`CompositeMultiOracle: pair: ${pair} set to ${source.sourceAddress}`)
+      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: pair: ${pair} set to ${source.sourceAddress}`)
     } else {
-      console.log(`CompositeMultiOracle: pair: ${pair} already set to ${existent}`)
+      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: pair: ${pair} already set to ${existent}`)
     }
   }
 

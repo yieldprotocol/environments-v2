@@ -11,7 +11,7 @@ export const updateAccumulatorSources = async (
   accumulators: Accumulator[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`accumulator oracle: ${accumulatorOracle.address}`)
+  console.log(`${'  '.repeat(nesting)}accumulator oracle: ${accumulatorOracle.address}`)
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
@@ -34,7 +34,11 @@ export const updateAccumulatorSources = async (
         }`
       )
     } else {
-      console.log(`Accumulator for (${getName(accumulator.baseId)}/${getName(accumulator.kind)}): already set`)
+      console.log(
+        `${'  '.repeat(nesting)}Accumulator for (${getName(accumulator.baseId)}/${getName(
+          accumulator.kind
+        )}): already set`
+      )
     }
   }
 

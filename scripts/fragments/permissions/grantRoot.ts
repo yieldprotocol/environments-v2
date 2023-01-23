@@ -12,7 +12,7 @@ export const grantRoot = async (
     target: host.address,
     data: host.interface.encodeFunctionData('grantRole', [ROOT, userAddress]),
   })
-  console.log(`${host.address} grantRole(ROOT ${userAddress})`)
+  console.log(`${'  '.repeat(nesting)}${host.address} grantRole(ROOT ${userAddress})`)
 
   return proposal
 }

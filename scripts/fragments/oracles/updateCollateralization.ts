@@ -20,7 +20,9 @@ export const updateCollateralization = async (
     ]),
   })
   console.log(
-    `Spot oracle for ${ilk.baseId}/${ilk.ilkId} set to ${ilk.collateralization.oracle} with ratio ${ilk.collateralization.ratio}`
+    `${'  '.repeat(nesting)}Spot oracle for ${ilk.baseId}/${ilk.ilkId} set to ${
+      ilk.collateralization.oracle
+    } with ratio ${ilk.collateralization.ratio}`
   )
 
   return proposal
