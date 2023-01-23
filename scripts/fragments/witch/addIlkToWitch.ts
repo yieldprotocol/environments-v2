@@ -14,26 +14,34 @@ export const addIlkToWitch = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
-  // Allow Witch to exit ilk
-  proposal.push({
-    target: join.address,
-    data: join.interface.encodeFunctionData('grantRole', [id(join.interface, 'exit(address,uint128)'), witch.address]),
-  })
+  if (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address))) {
+    // Allow Witch to exit ilk
+    proposal.push({
+      target: join.address,
+      data: join.interface.encodeFunctionData('grantRole', [
+        id(join.interface, 'exit(address,uint128)'),
+        witch.address,
+      ]),
+    })
+    console.log(`join(${getName(assetId)}).grantRole(exit, witch)`)
 
-  proposal.push({
-    target: cloak.address,
-    data: cloak.interface.encodeFunctionData('add', [
-      witch.address,
-      [
-        {
-          host: join.address,
-          signature: id(join.interface, 'exit(address,uint128)'),
-        },
-      ],
-    ]),
-  })
-  // TODO: Maybe check the assetId matches
-  console.log(`cloak.add(witch exit ${getName(assetId)})`)
+    proposal.push({
+      target: cloak.address,
+      data: cloak.interface.encodeFunctionData('add', [
+        witch.address,
+        [
+          {
+            host: join.address,
+            signature: id(join.interface, 'exit(address,uint128)'),
+          },
+        ],
+      ]),
+    })
+    // TODO: Maybe check the assetId matches
+    console.log(`cloak.add(witch exit ${getName(assetId)})`)
+  } else {
+    console.log(`Witch already has an exit role on join(${getName(assetId)})`)
+  }
 
   return proposal
 }
