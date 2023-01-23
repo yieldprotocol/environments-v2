@@ -1,5 +1,5 @@
 // Make an asset into a base.
-// - A lending oracle is set for the asset.
+// - A lending oracle is set for the
 // - The asset is added to the Witch.
 
 import { getName } from '../../../shared/helpers'
@@ -17,16 +17,16 @@ export const makeBase = async (
   joins: Map<string, string>
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-  const join = Join__factory.connect(joins.getOrThrow(base.asset.assetId)!, ownerAcc)
+  const join = Join__factory.connect(joins.getOrThrow(base.assetId)!, ownerAcc)
 
-  proposal = proposal.concat(await addBaseToWitch(cloak, witch, base.asset.assetId, join))
+  proposal = proposal.concat(await addBaseToWitch(cloak, witch, base.assetId, join))
 
   // Add the asset as a base
   proposal.push({
     target: cauldron.address,
-    data: cauldron.interface.encodeFunctionData('setLendingOracle', [base.asset.assetId, lendingOracle.address]),
+    data: cauldron.interface.encodeFunctionData('setLendingOracle', [base.assetId, lendingOracle.address]),
   })
-  console.log(`Asset ${getName(base.asset.assetId)} made into base using ${lendingOracle.address}`)
+  console.log(`Asset ${getName(base.assetId)} made into base using ${lendingOracle.address}`)
 
   return proposal
 }

@@ -9,9 +9,9 @@ import {
 
 import { addIlksToSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { addSeriesProposal } from '../../../../../../fragments/assetsAndSeries/addSeries'
-import { initPoolsProposal } from '../../../../../../fragments/pools/initPools'
+import { initPoolsProposal } from '../../../../../../fragments/pools/initPool'
 import { orchestrateNewPoolsProposal } from '../../../../../../fragments/assetsAndSeries/orchestrateNonTvPoolsProposal'
-import { initStrategiesProposal } from '../../../../../../fragments/strategies/initStrategies'
+import { initStrategiesProposal } from '../../../../../../fragments/strategies/initStrategy'
 import { orchestrateStrategiesProposal } from '../../../../../../fragments/strategies/orchestrateStrategy'
 
 const { developer, deployer } = require(process.env.CONF as string)

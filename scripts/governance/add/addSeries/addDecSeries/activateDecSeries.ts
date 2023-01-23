@@ -14,7 +14,7 @@ import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestra
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { rollStrategiesProposal } from '../../../../fragments/strategies/rollStrategies'
-import { initPoolsProposal } from '../../../../fragments/pools/initPools'
+import { initPoolsProposal } from '../../../../fragments/pools/initPool'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
 
 const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)

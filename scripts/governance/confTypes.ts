@@ -58,8 +58,7 @@ export interface Accumulator {
   perSecondRate: BigNumber
 }
 
-export interface Base {
-  asset: Asset
+export interface Base extends Asset {
   rateOracle: string
 }
 
@@ -78,6 +77,11 @@ export interface Series {
   fyToken: Asset
   chiOracle: string
   pool: Asset
-  poolInitAmount?: BigNumber
   ilks: Ilk[]
+}
+
+export interface Strategy extends Asset {
+  base: Base
+  initAmount?: BigNumber
+  seriesToInvest?: Series
 }
