@@ -8,7 +8,8 @@ export const addWitchToCloak = async (
   cauldron: Cauldron,
   witch: Witch,
   fyTokens: Map<string, string>,
-  joins: Map<string, string>
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

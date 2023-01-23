@@ -4,7 +4,11 @@ import { getName } from '../../../shared/helpers'
 import { Asset } from '../../governance/confTypes'
 import { Cauldron } from '../../../typechain'
 
-export const makeAsset = async (cauldron: Cauldron, asset: Asset): Promise<Array<{ target: string; data: string }>> => {
+export const makeAsset = async (
+  cauldron: Cauldron,
+  asset: Asset,
+  nesting: number = 0
+): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

@@ -4,7 +4,8 @@ import { AccessControl, EmergencyBrake, Giver } from '../../../typechain'
 export const addLeverToCloak = async (
   cloak: EmergencyBrake,
   levers: string[],
-  giver: Giver
+  giver: Giver,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   levers.forEach((element) => {

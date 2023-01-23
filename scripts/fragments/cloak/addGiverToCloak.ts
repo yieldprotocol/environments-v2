@@ -4,7 +4,8 @@ import { Cauldron, EmergencyBrake, Giver } from '../../../typechain'
 export const addGiverToCloak = async (
   cloak: EmergencyBrake,
   giver: Giver,
-  cauldron: Cauldron
+  cauldron: Cauldron,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

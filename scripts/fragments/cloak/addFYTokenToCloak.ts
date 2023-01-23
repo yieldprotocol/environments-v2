@@ -5,7 +5,8 @@ import { EmergencyBrake, FYToken__factory, Join__factory } from '../../../typech
 export const addFYTokenToCloak = async (
   signerAcc: SignerWithAddress,
   cloak: EmergencyBrake,
-  fyTokens: Map<string, string>
+  fyTokens: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

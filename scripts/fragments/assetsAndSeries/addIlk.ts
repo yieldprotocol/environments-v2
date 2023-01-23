@@ -16,7 +16,8 @@ export const addIlk = async (
   witch: Witch,
   series: Series[],
   ilk: Ilk,
-  joins: Map<string, string> // assetId, joinAddress
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal = await makeAsset(cauldron, ilk.asset)
   proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))

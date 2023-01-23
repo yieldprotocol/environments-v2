@@ -7,7 +7,8 @@ import { getName } from '../../../shared/helpers'
 export const addIlkToSeries = async (
   cauldron: Cauldron,
   series: Series,
-  ilk: Ilk
+  ilk: Ilk,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

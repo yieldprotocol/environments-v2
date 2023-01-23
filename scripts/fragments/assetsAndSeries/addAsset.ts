@@ -11,7 +11,8 @@ export const addAsset = async (
   cauldron: Cauldron,
   ladle: Ladle,
   asset: Asset,
-  joins: Map<string, string>
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   console.log(`Using asset at ${asset.address}`)

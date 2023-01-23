@@ -3,7 +3,8 @@ import { EmergencyBrake, OnChainTest } from '../../../typechain'
 export const checkPlan = async (
   cloak: EmergencyBrake,
   onChainTest: OnChainTest,
-  users: Array<string>
+  users: Array<string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

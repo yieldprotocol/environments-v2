@@ -9,7 +9,8 @@ export const drainJoinsFragment = async (
   ownerAcc: SignerWithAddress,
   timelock: Timelock,
   ladle: Ladle,
-  joinReplacements: Array<[string, string]>
+  joinReplacements: Array<[string, string]>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []

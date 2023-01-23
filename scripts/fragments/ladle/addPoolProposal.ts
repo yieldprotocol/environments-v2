@@ -10,7 +10,8 @@ import { Ladle, Pool } from '../../../typechain'
 export const addPoolProposal = async (
   ownerAcc: any,
   ladle: Ladle,
-  newPools: Map<string, string> // seriesId, poolAddress
+  newPools: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

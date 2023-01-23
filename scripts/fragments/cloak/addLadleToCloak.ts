@@ -8,7 +8,8 @@ export const addLadleToCloak = async (
   cauldron: Cauldron,
   ladle: Ladle,
   fyTokens: Map<string, string>,
-  joins: Map<string, string>
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

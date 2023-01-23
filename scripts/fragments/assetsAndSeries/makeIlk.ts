@@ -16,7 +16,8 @@ export const makeIlk = async (
   cauldron: Cauldron,
   witch: Witch,
   ilk: Ilk,
-  joins: Map<string, string> // assetId, joinAddress
+  joins: Map<string, string>, // assetId, joinAddress,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

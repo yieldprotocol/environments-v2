@@ -3,7 +3,10 @@ import { ROOT } from '../../../shared/constants'
 import { AccessControl } from '../../../typechain'
 const { deployers } = require(process.env.CONF as string)
 
-export const removeDeployer = async (target: AccessControl): Promise<Array<{ target: string; data: string }>> => {
+export const removeDeployer = async (
+  target: AccessControl,
+  nesting: number = 0
+): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 
   const deployer = deployers.get(target.address)

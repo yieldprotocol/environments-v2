@@ -4,7 +4,8 @@ import { Ladle, FlashJoin } from '../../../typechain'
 const { protocol } = require(process.env.CONF as string)
 
 export const setFlashFeeOnJoin = async (
-  flashFees: [string, string][]
+  flashFees: [string, string][],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
   const ladle = (await ethers.getContractAt('Ladle', protocol().getOrThrow(LADLE) as string)) as Ladle
