@@ -8,7 +8,8 @@ import { NotionalMultiOracle } from '../../../typechain'
 
 export const updateNotionalSources = async (
   oracle: NotionalMultiOracle,
-  sources: [string, string, string, string][] // fcash, notionalId, underlyingId, underlying
+  sources: [string, string, string, string][], // fcash, notionalId, underlyingId, underlying
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
   for (let [fcashAddress, notionalId, underlyingId, underlyingAddress] of sources) {
