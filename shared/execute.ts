@@ -35,5 +35,6 @@ const { developer, governance } = require(process.env.CONF as string)
     const tx = await signerAcc.sendTransaction(executeRequest)
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${proposalHash}`)
+    console.log(`TxHash: ${tx.hash}`)
   }
 })()
