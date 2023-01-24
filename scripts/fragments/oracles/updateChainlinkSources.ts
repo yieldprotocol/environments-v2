@@ -9,26 +9,33 @@
 import { ethers } from 'hardhat'
 
 import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechain'
+import { OracleSource } from '../../governance/confTypes'
+import { getName } from '../../../shared/helpers'
 
 export const updateChainlinkSources = async (
   oracle: ChainlinkMultiOracle,
-  spotSources: [string, string, string, string, string][]
+  spotSources: OracleSource[]
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, baseAddress, quoteId, quoteAddress, sourceAddress] of spotSources) {
-    if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
-    console.log(`Setting up ${sourceAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
+  for (let source of spotSources) {
+    if ((await ethers.provider.getCode(source.sourceAddress)) === '0x')
+      throw `Address ${source.sourceAddress} contains no code`
+    console.log(
+      `Setting up ${source.sourceAddress} as the source for ${getName(source.baseId)}/${getName(source.quoteId)} at ${
+        oracle.address
+      }`
+    )
 
     // TODO: We can now instantiate sourceAddress into a ChainlinkV3Aggregator and read the price feed, which would be a better test
 
     proposal.push({
       target: oracle.address,
       data: oracle.interface.encodeFunctionData('setSource', [
-        baseId,
-        baseAddress,
-        quoteId,
-        quoteAddress,
-        sourceAddress,
+        source.baseId,
+        source.baseAddress,
+        source.quoteId,
+        source.quoteAddress,
+        source.sourceAddress,
       ]),
     })
   }

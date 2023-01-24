@@ -3,6 +3,7 @@
  */
 
 import { Ladle } from '../../../typechain'
+import { getName } from '../../../shared/helpers'
 
 export const addPool = async (
   ladle: Ladle,
@@ -15,7 +16,7 @@ export const addPool = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addPool', [seriesId, poolAddress]),
   })
-  console.log(`Adding ${seriesId} pool to Ladle using ${poolAddress}`)
+  console.log(`Adding ${getName(seriesId)} pool to Ladle using ${poolAddress}`)
 
   return proposal
 }

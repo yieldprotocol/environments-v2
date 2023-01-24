@@ -26,11 +26,11 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
       const expandedArgs = params.args.map((f) => f())
-      console.log(`Deploying ${getName(params.name)} with ${expandedArgs}`)
+      console.log(`Deploying ${getName(params.name)} ${params.contract} with ${expandedArgs}`)
       deployed = await contractFactory.deploy(...expandedArgs)
 
       await deployed.deployed()
-      console.log(`${getName(params.name)} deployed at ${deployed.address}`)
+      console.log(`${getName(params.name)} ${params.contract} deployed at ${deployed.address}`)
 
       const addressMap = readAddressMappingIfExists(params.addressFile)
       addressMap.set(params.name, deployed.address)
@@ -48,7 +48,7 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
         console.log(`${getName(params.name)}.grantRoles(ROOT, timelock)`)
       }
     } else {
-      console.log(`Reusing ${getName(params.name)} at: ${deployedAddress}`)
+      console.log(`Reusing ${getName(params.name)} ${params.contract} at: ${deployedAddress}`)
     }
   }
 })()

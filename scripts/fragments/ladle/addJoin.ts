@@ -3,8 +3,8 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-
 import { Ladle, Join, EmergencyBrake } from '../../../typechain'
+import { getName } from '../../../shared/helpers'
 
 export const addJoin = async (
   cloak: EmergencyBrake,
@@ -23,6 +23,7 @@ export const addJoin = async (
     ]),
   })
 
+  // Add ladle/fyToken orchestration to cloak
   proposal.push({
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('add', [
@@ -39,14 +40,14 @@ export const addJoin = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle join and exit ${assetId})`)
+  console.log(`cloak.add(ladle join and exit ${getName(assetId)})`)
 
   // Register join in Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addJoin', [assetId, join.address]),
   })
-  console.log(`Adding ${assetId} join to Ladle using ${join.address}`)
+  console.log(`Adding ${getName(assetId)} join to Ladle using ${join.address}`)
 
   return proposal
 }
