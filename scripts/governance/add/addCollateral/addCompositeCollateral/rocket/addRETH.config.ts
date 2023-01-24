@@ -12,10 +12,10 @@ import {
   RETH,
   RETH_ORACLE,
   USDC,
-} from '../../../../../shared/constants'
-import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import * as base_config from '../../../base.mainnet.config'
-import { Asset, ContractDeployment, Ilk, OraclePath, OracleSource, Series } from '../../../confTypes'
+} from '../../../../../../shared/constants'
+import { readAddressMappingIfExists } from '../../../../../../shared/helpers'
+import * as base_config from '../../../../base.mainnet.config'
+import { Asset, ContractDeployment, Ilk, OraclePath, OracleSource, Series } from '../../../../confTypes'
 
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const whales = base_config.whales
@@ -29,7 +29,7 @@ export const reth: Asset = { assetId: RETH, address: assets.getOrThrow(RETH) as 
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
-    name: 'rethOracle',
+    name: RETH_ORACLE,
     contract: 'RETHOracle',
     args: [() => ETH, () => RETH, () => assets.getOrThrow(RETH)!],
   },
@@ -127,8 +127,10 @@ export const ilks: Ilk[] = [ilkToETH, ilkToDAI, ilkToUSDC]
 export const oracleSources: OracleSource[] = [
   {
     baseId: ETH,
+    baseAddress: assets.getOrThrow(ETH)!,
     quoteId: RETH,
-    source: protocol().getOrThrow(RETH_ORACLE)! as string,
+    quoteAddress: assets.getOrThrow(RETH)!,
+    sourceAddress: protocol().getOrThrow(RETH_ORACLE)! as string,
   },
 ]
 
@@ -184,4 +186,4 @@ export const usdcSeries: Series[] = [
   },
 ]
 
-export const newSeries: Series[] = [ethSeries, daiSeries, usdcSeries]
+export const newSeries: Series[] = [...ethSeries, ...daiSeries, ...usdcSeries]

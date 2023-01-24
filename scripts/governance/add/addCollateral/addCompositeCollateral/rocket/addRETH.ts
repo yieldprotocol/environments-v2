@@ -7,6 +7,7 @@ import {
   EmergencyBrake__factory,
   Witch__factory,
   CompositeMultiOracle__factory,
+  AccessControl__factory,
 } from '../../../../../../typechain'
 import { addAsset } from '../../../../../fragments/assetsAndSeries/addAsset'
 import { addIlkToSeries } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
@@ -26,18 +27,22 @@ const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePat
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-
+  let ilkStatus: Array<{ ilk: string; addedToWitchNow: boolean }> = []
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   // Update oracles
   proposal = proposal.concat(await updateCompositeSources(compositeOracle, oracleSources))
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, oraclePaths))
   // Permissions
-  proposal = proposal.concat(await grantRoot(joins.getOrThrow(reth.assetId), cloak.address))
+  proposal = proposal.concat(
+    await grantRoot(AccessControl__factory.connect(joins.getOrThrow(reth.assetId), ownerAcc), cloak.address)
+  )
   // Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, reth, joins))
   for (let ilk of ilks) {
-    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
+    let prop = await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins, ilkStatus)
+    proposal = proposal.concat(prop[0])
+    ilkStatus = prop[1]
   }
   // Add ilk to series Series
   for (let series of newSeries) {

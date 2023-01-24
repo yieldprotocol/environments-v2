@@ -73,11 +73,11 @@ export interface Ilk {
 
 export interface Series {
   seriesId: string
-  base: Asset
-  fyToken: Asset
-  chiOracle: string
-  pool: Asset
-  ilks: Ilk[]
+  base?: Asset
+  fyToken?: Asset
+  chiOracle?: string
+  pool?: Asset
+  ilks?: Ilk[]
 }
 
 export interface Strategy extends Asset {

@@ -34,16 +34,21 @@ const { developer, newSeries, assets, whales, protocol } = require(process.env.C
       var borrowed = BigNumber.from(10)
         .pow(await fyToken.decimals())
         .mul(dust)
-      const posted = (await oracle.peek(bytesToBytes32(ilk.baseId), bytesToBytes32(ilk.ilkId), borrowed))[0]
+      const posted = (
+        await oracle.peek(
+          ilk.baseId + '0000000000000000000000000000000000000000000000000000',
+          ilk.ilkId + '0000000000000000000000000000000000000000000000000000',
+          borrowed
+        )
+      )[0]
         .mul(ratio)
         .div(1000000)
         .mul(101)
         .div(100)
       const collateralBalanceBefore = await collateral.balanceOf(whaleAcc.address)
       // Build vault
-      await ladle.connect(whaleAcc).build(seri.seriesId, ilk.ilkId, 0)
-      const logs = await cauldron.queryFilter(cauldron.filters.VaultBuilt(null, null, null, null))
-      const vaultId = logs[logs.length - 1].args.vaultId
+      let data = await (await ladle.connect(whaleAcc).build(seri.seriesId, ilk.ilkId, 0)).wait()
+      const vaultId = data.logs[0].topics[1].slice(0, 26)
       console.log(`vault: ${vaultId}`)
 
       var name = await fyToken.callStatic.name()

@@ -13,15 +13,20 @@ export const addIlkToWitch = async (
   cloak: EmergencyBrake,
   witch: Witch,
   ilk: Ilk,
-  join: Join
-): Promise<Array<{ target: string; data: string }>> => {
+  join: Join,
+  ilkStatus: Array<{ ilk: string; addedToWitchNow: boolean }>
+): Promise<[Array<{ target: string; data: string }>, Array<{ ilk: string; addedToWitchNow: boolean }>]> => {
   let proposal: Array<{ target: string; data: string }> = []
 
   // Make sure auctionLineAndLimit is defined.
   // If line and limit are set are already set, they will be updated
   proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit!))
 
-  if (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address))) {
+  if (
+    (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) &&
+      ilkStatus.find((i) => i.ilk === ilk.ilkId) === undefined) ||
+    ilkStatus.find((i) => i.ilk === ilk.ilkId)?.addedToWitchNow === false
+  ) {
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
@@ -46,9 +51,11 @@ export const addIlkToWitch = async (
     })
     // TODO: Maybe check the ilk.ilkId matches
     console.log(`cloak.add(witch exit ${getName(ilk.ilkId)})`)
+    ilkStatus.push({ ilk: ilk.ilkId, addedToWitchNow: true })
   } else {
     console.log(`Witch already has an exit role on join(${getName(ilk.ilkId)})`)
+    ilkStatus.push({ ilk: ilk.ilkId, addedToWitchNow: false })
   }
 
-  return proposal
+  return [proposal, ilkStatus]
 }
