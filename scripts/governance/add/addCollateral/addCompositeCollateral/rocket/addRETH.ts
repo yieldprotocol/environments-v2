@@ -8,13 +8,14 @@ import {
   Witch__factory,
   CompositeMultiOracle__factory,
   AccessControl__factory,
+  Join__factory,
 } from '../../../../../../typechain'
 import { addAsset } from '../../../../../fragments/assetsAndSeries/addAsset'
 import { addIlkToSeries } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeIlk } from '../../../../../fragments/assetsAndSeries/makeIlk'
+import { orchestrateJoin } from '../../../../../fragments/assetsAndSeries/orchestrateJoin'
 import { updateCompositePaths } from '../../../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../../../fragments/oracles/updateCompositeSources'
-import { grantRoot } from '../../../../../fragments/permissions/grantRoot'
 
 const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePaths, oracleSources } = require(process
   .env.CONF!)
@@ -25,9 +26,9 @@ const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePat
   const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
-  const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
+  let witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-  let ilkStatus: Array<{ ilk: string; addedToWitchNow: boolean }> = []
+  witch = Object.assign(witch, { ilksAdded: [] })
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   // Update oracles
@@ -35,14 +36,12 @@ const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePat
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, oraclePaths))
   // Permissions
   proposal = proposal.concat(
-    await grantRoot(AccessControl__factory.connect(joins.getOrThrow(reth.assetId), ownerAcc), cloak.address)
+    await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(reth.assetId), ownerAcc))
   )
   // Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, reth, joins))
   for (let ilk of ilks) {
-    let prop = await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins, ilkStatus)
-    proposal = proposal.concat(prop[0])
-    ilkStatus = prop[1]
+    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
   // Add ilk to series Series
   for (let series of newSeries) {

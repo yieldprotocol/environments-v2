@@ -16,22 +16,19 @@ export const makeIlk = async (
   cauldron: Cauldron,
   witch: Witch,
   ilk: Ilk,
-  joins: Map<string, string>, // assetId, joinAddress
-  ilkStatus: Array<{ ilk: string; addedToWitchNow: boolean }>
-): Promise<[Array<{ target: string; data: string }>, Array<{ ilk: string; addedToWitchNow: boolean }>]> => {
+  joins: Map<string, string> // assetId, joinAddress
+): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-  console.log(ilk.ilkId)
-  console.log(joins.get(ilk.ilkId)!)
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
-  console.log('here')
+
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk))
   proposal = proposal.concat(await updateDebtLimits(cauldron, ilk))
 
   // Some ilks are not liquidable
   if (ilk.auctionLineAndLimit !== undefined) {
-    let propo = await addIlkToWitch(cloak, witch, ilk, join, ilkStatus)
+    let propo = await addIlkToWitch(cloak, witch, ilk, join)
     proposal = proposal.concat(propo[0])
   }
 
-  return [proposal, ilkStatus]
+  return proposal
 }
