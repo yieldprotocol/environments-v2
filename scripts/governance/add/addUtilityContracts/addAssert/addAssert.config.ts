@@ -1,4 +1,4 @@
-import { ASSERT } from '../../../../../shared/constants'
+import { LIMITED_ASSERT } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
 import * as base_config from '../../../base.mainnet.config'
@@ -15,7 +15,7 @@ export const developer: string = '0xfe90d993367bc93D171A5ED88ab460759DE2bED6'
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
-    name: ASSERT,
+    name: LIMITED_ASSERT,
     contract: 'Assert',
     args: [],
   },
