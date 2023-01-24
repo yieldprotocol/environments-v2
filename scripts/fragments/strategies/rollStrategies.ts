@@ -58,9 +58,7 @@ export const rollStrategies = async (
         target: base.address,
         data: base.interface.encodeFunctionData('transfer', [roller.address, buffer]),
       })
-      console.log(
-        `${'  '.repeat(nesting)}Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`
-      )
+      console.log(indent(nesting, `Transfer ${buffer} of ${base.symbol()} as buffer to roller at ${roller.address}`))
     }
     proposal.push({
       target: roller.address,

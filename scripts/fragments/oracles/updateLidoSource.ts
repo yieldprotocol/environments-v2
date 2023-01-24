@@ -23,14 +23,16 @@ export const updateLidoSource = async (
   const wstEth = (await ethers.getContractAt('IWstETH', source, ownerAcc)) as unknown as IWstETH
 
   console.log(
-    `${'  '.repeat(nesting)}Current rate for ${getName(STETH)}/${getName(
-      WSTETH
-    )}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`
+    indent(
+      nesting,
+      `Current rate for ${getName(STETH)}/${getName(WSTETH)}: ${await wstEth.callStatic.getWstETHByStETH(WAD)}`
+    )
   )
   console.log(
-    `${'  '.repeat(nesting)}Current rate for ${getName(WSTETH)}/${getName(
-      STETH
-    )}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`
+    indent(
+      nesting,
+      `Current rate for ${getName(WSTETH)}/${getName(STETH)}: ${await wstEth.callStatic.getStETHByWstETH(WAD)}`
+    )
   )
 
   proposal.push({

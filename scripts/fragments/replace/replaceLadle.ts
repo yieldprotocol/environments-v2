@@ -70,7 +70,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(indent(nesting, `Join ${assetId} permissions`))
+    console.log(`Join ${assetId} permissions`)
 
     const plan = [
       {
@@ -83,9 +83,7 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(
-      `${'  '.repeat(nesting)}cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`
-    )
+    console.log(`cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   for (let seriesId of fyTokens.keys()) {
@@ -102,7 +100,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(indent(nesting, `FYToken ${seriesId} permissions`))
+    console.log(`FYToken ${seriesId} permissions`)
 
     const plan = [
       {
@@ -115,12 +113,7 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(
-      `${'  '.repeat(nesting)}cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(
-        ladle.address,
-        plan
-      )}`
-    )
+    console.log(`cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   for (let seriesId of pools.keys()) {

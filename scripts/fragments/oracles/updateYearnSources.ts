@@ -18,9 +18,7 @@ export const updateYearnSources = async (
   for (let [baseId, yearnVaultId, yvTokenAddress] of sources) {
     if ((await ethers.provider.getCode(yvTokenAddress)) === '0x') throw `Address ${yvTokenAddress} contains no code`
     console.log(
-      `${'  '.repeat(nesting)}Setting up ${yvTokenAddress} as the source for ${baseId}/${yearnVaultId} at ${
-        oracle.address
-      }`
+      indent(nesting, `Setting up ${yvTokenAddress} as the source for ${baseId}/${yearnVaultId} at ${oracle.address}`)
     )
 
     // TODO: We can now instantiate sourceAddress into a yvToken and read the price feed, which would be a better test

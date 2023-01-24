@@ -19,7 +19,7 @@ export const updateUniswapSources = async (
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Address ${poolAddress} contains no code`
 
     console.log(
-      `${'  '.repeat(nesting)}Setting up ${poolAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`
+      indent(nesting, `Setting up ${poolAddress} as the source for ${baseId}/${quoteId} at ${oracle.address}`)
     )
 
     proposal.push({

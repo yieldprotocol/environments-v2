@@ -14,9 +14,7 @@ export const updateChainlinkUSDSources = async (
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
     // TODO: Does the line below work in Arbitrum?
     if ((await ethers.provider.getCode(sourceAddress)) === '0x') throw `Address ${sourceAddress} contains no code`
-    console.log(
-      `${'  '.repeat(nesting)}Setting up ${sourceAddress} as the source for ${baseId}/USD at ${oracle.address}`
-    )
+    console.log(indent(nesting, `Setting up ${sourceAddress} as the source for ${baseId}/USD at ${oracle.address}`))
 
     const aggregator = (await ethers.getContractAt(
       'AggregatorV3Interface',

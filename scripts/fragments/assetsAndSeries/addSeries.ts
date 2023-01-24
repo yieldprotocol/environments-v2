@@ -26,10 +26,10 @@ export const addSeries = async (
   console.log(indent(nesting, `ADD_SERIES`))
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(indent(nesting, `Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`))
+  console.log(indent(nesting, `Using fyToken at ${series.fyToken.address} as ${getName(series.fyToken.assetId)}`))
   const fyToken = FYToken__factory.connect(series.fyToken.address, ownerAcc)
   const baseId = await fyToken.underlyingId()
-  console.log(indent(nesting, `Using pool at ${series.pool.address} as ${series.pool.assetId}`))
+  console.log(indent(nesting, `Using pool at ${series.pool.address} as ${getName(series.pool.assetId)}`))
   const poolAddress = pools.getOrThrow(series.pool.assetId)!
 
   proposal.push({

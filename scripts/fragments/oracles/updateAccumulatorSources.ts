@@ -31,15 +31,16 @@ export const updateAccumulatorSources = async (
         ]),
       })
       console.log(
-        `Accumulator(${getName(accumulator.baseId)}/${getName(accumulator.kind)}): ${accumulator.startRate}, ${
-          accumulator.perSecondRate
-        }`
+        indent(
+          nesting,
+          `Accumulator(${getName(accumulator.baseId)}/${getName(accumulator.kind)}): ${accumulator.startRate}, ${
+            accumulator.perSecondRate
+          }`
+        )
       )
     } else {
       console.log(
-        `${'  '.repeat(nesting)}Accumulator for (${getName(accumulator.baseId)}/${getName(
-          accumulator.kind
-        )}): already set`
+        indent(nesting, `Accumulator for (${getName(accumulator.baseId)}/${getName(accumulator.kind)}): already set`)
       )
     }
   }

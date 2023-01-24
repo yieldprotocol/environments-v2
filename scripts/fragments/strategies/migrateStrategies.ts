@@ -55,9 +55,7 @@ export const migrateStrategies = async (
       target: base.address,
       data: base.interface.encodeFunctionData('transfer', [newStrategyAddress, 1]),
     })
-    console.log(
-      `${'  '.repeat(nesting)}Transferring ${1} of ${await base.symbol()} from Timelock to ${newStrategyAddress}`
-    )
+    console.log(indent(nesting, `Transferring ${1} of ${await base.symbol()} from Timelock to ${newStrategyAddress}`))
 
     // Migrate
     proposal.push({

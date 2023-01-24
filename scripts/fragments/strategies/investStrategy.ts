@@ -20,9 +20,7 @@ export const investStrategy = async (
   const strategyId = strategy.assetId
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
 
-  console.log(
-    `${'  '.repeat(nesting)}Investing ${getName(strategyId)} in ${getName(strategy.seriesToInvest!.seriesId)}`
-  )
+  console.log(indent(nesting, `Investing ${getName(strategyId)} in ${getName(strategy.seriesToInvest!.seriesId)}`))
   proposal.push({
     target: strategyContract.address,
     data: strategyContract.interface.encodeFunctionData('invest', [strategy.seriesToInvest!.pool.address]),

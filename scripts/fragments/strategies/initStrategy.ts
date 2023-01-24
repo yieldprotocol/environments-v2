@@ -23,9 +23,7 @@ export const initStrategy = async (
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
   const baseContract = ERC20__factory.connect(strategy.base.address, ownerAcc)
 
-  console.log(
-    `${'  '.repeat(nesting)}Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`
-  )
+  console.log(indent(nesting, `Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`))
   proposal.push({
     target: baseContract.address,
     data: baseContract.interface.encodeFunctionData('transfer', [strategyContract.address, strategy.initAmount!]),

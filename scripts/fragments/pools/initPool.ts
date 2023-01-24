@@ -4,6 +4,7 @@
  */
 
 import { ethers } from 'hardhat'
+import { BigNumber } from 'ethers'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { Series } from '../../governance/confTypes'
 import { getName, indent } from '../../../shared/helpers'
@@ -14,6 +15,7 @@ export const initPool = async (
   ownerAcc: any,
   timelock: Timelock,
   series: Series,
+  initAmount: BigNumber,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
@@ -23,26 +25,20 @@ export const initPool = async (
 
   const poolAddress = series.pool.address
   if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Pool at ${poolAddress} contains no code`
-  else console.log(indent(nesting, `Using pool at ${poolAddress} for ${series.seriesId}`))
+  else console.log(indent(nesting, `Using pool at ${poolAddress} for ${getName(series.seriesId)}`))
   const pool = Pool__factory.connect(poolAddress, ownerAcc)
   const base = IERC20Metadata__factory.connect(await pool.base(), ownerAcc)
 
   console.log(
-    `${'  '.repeat(nesting)}Timelock balance of ${getName(series.base.assetId)} is ${await base.balanceOf(
-      timelock.address
-    )}`
+    indent(nesting, `Timelock balance of ${getName(series.base.assetId)} is ${await base.balanceOf(timelock.address)}`)
   )
 
   // Supply pool with a baseAmount of underlying for initialization
   proposal.push({
     target: base.address,
-    data: base.interface.encodeFunctionData('transfer', [poolAddress, series.poolInitAmount!]),
+    data: base.interface.encodeFunctionData('transfer', [poolAddress, initAmount]),
   })
-  console.log(
-    `${'  '.repeat(nesting)}Transferring ${series.poolInitAmount!} of ${getName(
-      series.base.assetId
-    )} from Timelock to Pool`
-  )
+  console.log(indent(nesting, `Transferring ${initAmount} of ${getName(series.base.assetId)} from Timelock to Pool`))
 
   // Initialize pool
   proposal.push({
