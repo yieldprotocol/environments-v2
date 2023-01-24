@@ -2,6 +2,7 @@ import { BigNumber } from 'ethers'
 import {
   ACCUMULATOR,
   SAFE_ERC20_NAMER,
+  EULER,
   USDT,
   EUSDT,
   FYUSDT2303,
@@ -20,7 +21,7 @@ export const chainId: number = base_config.chainId
 export const developer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
 export const deployer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
 export const whales: Map<string, string> = base_config.whales
-export const eulerAddress = base_config.eulerAddress
+export const external: Map<string, string> = base_config.external
 export const governance: Map<string, string> = base_config.governance
 export const assets: Map<string, string> = base_config.assets
 
@@ -54,7 +55,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'joins.json',
     name: USDT,
     contract: 'FlashJoin',
-    args: [() => assets.get(USDT) as string],
+    args: [() => assets.getOrThrow(USDT)!],
   },
   {
     addressFile: 'fyTokens.json',
@@ -62,8 +63,8 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => USDT,
-      () => protocol().get(ACCUMULATOR) as string,
-      () => joins().get(USDT) as string,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins().getOrThrow(USDT)!,
       () => EOMAR23.toString(),
       () => 'FYUSDT2303',
       () => 'FYUSDT2303',
@@ -78,8 +79,8 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => USDT,
-      () => protocol().get(ACCUMULATOR) as string,
-      () => joins().get(USDT) as string,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins().getOrThrow(USDT)!,
       () => EOJUN23.toString(),
       () => 'FYUSDT2306',
       () => 'FYUSDT2306',
@@ -93,9 +94,9 @@ export const contractDeployments: ContractDeployment[] = [
     name: FYUSDT2303, // Starting from the September series, pools get their own identifiers different from the fyToken
     contract: 'PoolEuler',
     args: [
-      () => eulerAddress,
-      () => assets.get(EUSDT) as string,
-      () => fyTokens().get(FYUSDT2303) as string,
+      () => external.getOrThrow(EULER)!,
+      () => assets.getOrThrow(EUSDT)!,
+      () => fyTokens().getOrThrow(FYUSDT2303)!,
       () => timeStretch.get(FYUSDT2303)!.toString(),
       () => g1.toString(),
     ],
@@ -108,10 +109,10 @@ export const contractDeployments: ContractDeployment[] = [
     name: FYUSDT2306, // Starting from the September series, pools get their own identifiers different from the fyToken
     contract: 'PoolEuler',
     args: [
-      () => eulerAddress,
-      () => assets.get(EUSDT) as string,
-      () => fyTokens().get(FYUSDT2306) as string,
-      () => timeStretch.get(FYUSDT2306)!.toString(),
+      () => external.getOrThrow(EULER)!,
+      () => assets.getOrThrow(EUSDT)!,
+      () => fyTokens().getOrThrow(FYUSDT2306)!,
+      () => timeStretch.getOrThrow(FYUSDT2306)!.toString(),
       () => g1.toString(),
     ],
     libs: {
