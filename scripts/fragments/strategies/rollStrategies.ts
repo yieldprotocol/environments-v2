@@ -8,6 +8,7 @@ import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { Pool, Strategy, Timelock } from '../../../typechain'
 import { ZERO, ZERO_ADDRESS, MAX256 } from '../../../shared/constants'
+import { indent } from '../../../shared/helpers'
 
 export const rollStrategies = async (
   ownerAcc: any,
@@ -18,34 +19,35 @@ export const rollStrategies = async (
   rollData: Array<[string, string, BigNumber, string, boolean]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ROLL_STRATEGIES`)
+  console.log()
+  console.log(indent(nesting, `ROLL_STRATEGIES`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [strategyId, nextSeriesId, buffer, lenderAddress, fix] of rollData) {
     const strategyAddress = strategies.get(strategyId)
     if (strategyAddress === undefined) throw `Strategy for ${strategyId} not found`
-    else console.log(`${'  '.repeat(nesting)}Using strategy at ${strategyAddress} for ${strategyId}`)
+    else console.log(indent(nesting, `Using strategy at ${strategyAddress} for ${strategyId}`))
     const strategy = (await ethers.getContractAt('Strategy', strategyAddress, ownerAcc)) as Strategy
     const seriesId = await strategy.seriesId()
 
     const poolAddress = newPools.get(nextSeriesId)
     if (poolAddress === undefined) throw `Pool for ${nextSeriesId} not found`
-    else console.log(`${'  '.repeat(nesting)}Using pool at ${poolAddress} for ${nextSeriesId}`)
+    else console.log(indent(nesting, `Using pool at ${poolAddress} for ${nextSeriesId}`))
     const nextPool = (await ethers.getContractAt('Pool', poolAddress, ownerAcc)) as Pool
 
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setNextPool', [nextPool.address, nextSeriesId]),
     })
-    console.log(`${'  '.repeat(nesting)}Using ${nextSeriesId}:${nextPool.address} as next pool`)
+    console.log(indent(nesting, `Using ${nextSeriesId}:${nextPool.address} as next pool`))
     if (fix) {
       const base = await ethers.getContractAt('ERC20', await strategy.base(), ownerAcc)
       proposal.push({
         target: base.address,
         data: base.interface.encodeFunctionData('transfer', [poolAddress, 1]),
       })
-      console.log(`${'  '.repeat(nesting)}Fix tv pool by sending 1 wei of ${await base.symbol()}`)
+      console.log(indent(nesting, `Fix tv pool by sending 1 wei of ${await base.symbol()}`))
     }
 
     const roller = await ethers.getContractAt('Roller', protocol.get('roller') as string, ownerAcc)
@@ -69,7 +71,7 @@ export const rollStrategies = async (
         timelock.address,
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}Strategy ${strategyId} rolled onto ${nextSeriesId}`)
+    console.log(indent(nesting, `Strategy ${strategyId} rolled onto ${nextSeriesId}`))
   }
 
   return proposal

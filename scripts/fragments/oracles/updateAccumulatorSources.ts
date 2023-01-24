@@ -2,7 +2,7 @@
  * @dev This script replaces one or more chi data sources in the AccumulatorMultiOracle.
  */
 
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { AccumulatorMultiOracle } from '../../../typechain'
 import { Accumulator } from '../../governance/confTypes'
 
@@ -11,8 +11,9 @@ export const updateAccumulatorSources = async (
   accumulators: Accumulator[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_ACCUMULATOR_SOURCES`)
-  console.log(`${'  '.repeat(nesting)}accumulator oracle: ${accumulatorOracle.address}`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_ACCUMULATOR_SOURCES`))
+  console.log(indent(nesting, `accumulator oracle: ${accumulatorOracle.address}`))
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []

@@ -3,6 +3,7 @@ import { ROOT } from '../../../shared/constants'
 import { StrategyOracle } from '../../../typechain'
 import { EmergencyBrake } from '../../../typechain'
 import { Timelock } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions the StrategyOracle
@@ -19,7 +20,8 @@ export const orchestrateStrategyOracle = async (
   cloak: EmergencyBrake,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_STRATEGY_ORACLE`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_STRATEGY_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -31,19 +33,19 @@ export const orchestrateStrategyOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}strategyOracle.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `strategyOracle.grantRoles(gov, timelock)`))
 
   proposal.push({
     target: strategyOracle.address,
     data: strategyOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`${'  '.repeat(nesting)}strategyOracle.grantRole(ROOT, cloak)`)
+  console.log(indent(nesting, `strategyOracle.grantRole(ROOT, cloak)`))
 
   proposal.push({
     target: strategyOracle.address,
     data: strategyOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`${'  '.repeat(nesting)}strategyOracle.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `strategyOracle.revokeRole(ROOT, deployer)`))
 
   return proposal
 }

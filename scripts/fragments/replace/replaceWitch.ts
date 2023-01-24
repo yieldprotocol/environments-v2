@@ -7,6 +7,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const replaceWitch = async (
   ownerAcc: SignerWithAddress,
@@ -18,7 +19,8 @@ export const replaceWitch = async (
   fyTokens: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}REPLACE_WITCH`)
+  console.log()
+  console.log(indent(nesting, `REPLACE_WITCH`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -28,7 +30,7 @@ export const replaceWitch = async (
       witch.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cauldron.revokeRoles(witch)`)
+  console.log(indent(nesting, `cauldron.revokeRoles(witch)`))
 
   for (const [assetId] of bases) {
     const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)

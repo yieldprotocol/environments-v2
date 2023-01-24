@@ -1,5 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
-import { AccessControl, EmergencyBrake, Giver } from '../../../typechain'
+import { EmergencyBrake, Giver } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addLeverToCloak = async (
   cloak: EmergencyBrake,
@@ -7,7 +8,8 @@ export const addLeverToCloak = async (
   giver: Giver,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_LEVER_TO_CLOAK`)
+  console.log()
+  console.log(indent(nesting, `ADD_LEVER_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
   levers.forEach((element) => {
     proposal.push({
@@ -24,7 +26,7 @@ export const addLeverToCloak = async (
     })
   })
 
-  console.log(`${'  '.repeat(nesting)}cloak.add(lever seize on Giver)`)
+  console.log(indent(nesting, `cloak.add(lever seize on Giver)`))
 
   return proposal
 }

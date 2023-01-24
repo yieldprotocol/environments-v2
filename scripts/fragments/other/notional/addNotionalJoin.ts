@@ -1,7 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
-import { getName } from '../../../../shared/helpers'
+import { getName, indent } from '../../../../shared/helpers'
 import { addJoin } from '../../ladle/addJoin'
-
 import { EmergencyBrake, Join__factory, Ladle, NotionalJoin } from '../../../../typechain'
 
 export const addNotionalJoin = async (
@@ -12,7 +11,8 @@ export const addNotionalJoin = async (
   join: NotionalJoin,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_NOTIONAL_JOIN`)
+  console.log()
+  console.log(indent(nesting, `ADD_NOTIONAL_JOIN`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const underlyingJoin = Join__factory.connect(await join.underlyingJoin(), ownerAcc)
@@ -30,7 +30,7 @@ export const addNotionalJoin = async (
         join.address,
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}underlyingJoin.grantRoles(join/exit, join)`)
+    console.log(indent(nesting, `underlyingJoin.grantRoles(join/exit, join)`))
 
     proposal.push({
       target: cloak.address,
@@ -48,7 +48,7 @@ export const addNotionalJoin = async (
         ],
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}cloak.add(join to underlying join for ${getName(assetId)})`)
+    console.log(indent(nesting, `cloak.add(join to underlying join for ${getName(assetId)})`))
   }
 
   proposal = proposal.concat(

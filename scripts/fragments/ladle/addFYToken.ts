@@ -4,7 +4,7 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { Ladle, FYToken, EmergencyBrake } from '../../../typechain'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { addToken } from './addToken'
 
 export const addFYToken = async (
@@ -14,7 +14,8 @@ export const addFYToken = async (
   fyToken: FYToken,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_FYTOKEN_TO_LADLE`)
+  console.log()
+  console.log(indent(nesting, `ADD_FYTOKEN_TO_LADLE`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow the ladle to issue and cancel fyToken
@@ -25,7 +26,7 @@ export const addFYToken = async (
       ladle.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`)
+  console.log(indent(nesting, `Added ${getName(seriesId)} fyToken to Ladle using ${fyToken.address}`))
 
   // Add ladle/fyToken orchestration to cloak
   proposal.push({
@@ -44,7 +45,7 @@ export const addFYToken = async (
       ],
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cloak.add(ladle mint and burn ${getName(seriesId)})`)
+  console.log(indent(nesting, `cloak.add(ladle mint and burn ${getName(seriesId)})`))
 
   // Register fyToken in Ladle
   proposal = proposal.concat(await addToken(ladle, fyToken.address, nesting + 1))

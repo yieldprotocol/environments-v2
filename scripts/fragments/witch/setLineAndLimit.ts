@@ -7,7 +7,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
@@ -16,22 +16,19 @@ export const setLineAndLimit = async (
   auctionLineAndLimits: AuctionLineAndLimit,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}SET_LINE_AND_LIMIT`)
+  console.log()
+  console.log(indent(nesting, `SET_LINE_AND_LIMIT`))
   const proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`${'  '.repeat(nesting)}Witch#setLineAndLimit`)
-  console.log(`${'  '.repeat(nesting + 1)}ilkId: ${getName(auctionLineAndLimits.ilkId)}`)
-  console.log(`${'  '.repeat(nesting + 1)}baseId: ${getName(auctionLineAndLimits.baseId)}`)
-  console.log(`${'  '.repeat(nesting + 1)}duration: ${auctionLineAndLimits.duration} seconds`)
+  console.log(indent(nesting, `Witch#setLineAndLimit`))
+  console.log(indent(nesting + 1, `ilkId: ${getName(auctionLineAndLimits.ilkId)}`))
+  console.log(indent(nesting + 1, `baseId: ${getName(auctionLineAndLimits.baseId)}`))
+  console.log(indent(nesting + 1, `duration: ${auctionLineAndLimits.duration} seconds`))
+  console.log(indent(nesting + 1, `vaultProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.vaultProportion)}`))
   console.log(
-    `${'  '.repeat(nesting + 1)}vaultProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.vaultProportion)}`
+    indent(nesting + 1, `collateralProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.collateralProportion)}`)
   )
-  console.log(
-    `${'  '.repeat(nesting + 1)}collateralProportion: ${ethers.utils.formatUnits(
-      auctionLineAndLimits.collateralProportion
-    )}`
-  )
-  console.log(`${'  '.repeat(nesting + 1)}max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)}`)
+  console.log(indent(nesting + 1, `max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)}`))
 
   proposal.push({
     target: witch.address,

@@ -3,6 +3,7 @@ import { POOL_ORACLE } from '../../../shared/constants'
 import { ethers, network } from 'hardhat'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 import { PoolOracle__factory } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 const { developer, protocol, pools, auctionLineAndLimits } = require(process.env.CONF!)
 
@@ -22,7 +23,7 @@ const { developer, protocol, pools, auctionLineAndLimits } = require(process.env
     const tx = await poolOracle.update(pool)
     tx.wait(1)
 
-    console.log(`${'  '.repeat(nesting)}Initialised PoolOracle for pool: ${getName(ilkId)}-${pool}`)
+    console.log(indent(nesting, `Initialised PoolOracle for pool: ${getName(ilkId)}-${pool}`))
   }
 
   if (network.name === 'localhost' || network.name.includes('tenderly')) {

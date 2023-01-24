@@ -1,6 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, FYToken__factory, Join__factory } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addFYTokenToCloak = async (
   signerAcc: SignerWithAddress,
@@ -8,7 +9,8 @@ export const addFYTokenToCloak = async (
   fyTokens: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_FYTOKEN_TO_CLOAK`)
+  console.log()
+  console.log(indent(nesting, `ADD_FYTOKEN_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
@@ -31,7 +33,7 @@ export const addFYTokenToCloak = async (
         ],
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}cloak.add(fyToken ${seriesId} join and exit ${await fyToken.underlyingId()})`)
+    console.log(indent(nesting, `cloak.add(fyToken ${seriesId} join and exit ${await fyToken.underlyingId()})`))
   }
 
   return proposal

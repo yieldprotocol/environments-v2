@@ -20,7 +20,7 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
   const relay = (await deployContract(ownerAcc, RelayArtifact)) as unknown as Relay
-  console.log(`${'  '.repeat(nesting)}[Relay, '${relay.address}'],`)
+  console.log(indent(nesting, `[Relay, '${relay.address}'],`))
   verify(relay.address, [])
 
   governance.set('relay', relay.address)
@@ -47,21 +47,21 @@ const governance = jsonToMap(fs.readFileSync('./addresses/governance.json', 'utf
       relay.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}timelock.grantRoles(relay, all)`)
+  console.log(indent(nesting, `timelock.grantRoles(relay, all)`))
 
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`${'  '.repeat(nesting)}Proposal: ${txHash}`)
+  console.log(indent(nesting, `Proposal: ${txHash}`))
   if ((await timelock.proposals(txHash)).state === 0) {
     await timelock.propose(proposal)
-    console.log(`${'  '.repeat(nesting)}Proposed ${txHash}`)
+    console.log(indent(nesting, `Proposed ${txHash}`))
   }
   if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
-    console.log(`${'  '.repeat(nesting)}Approved ${txHash}`)
+    console.log(indent(nesting, `Approved ${txHash}`))
   }
   if ((await timelock.proposals(txHash)).state === 2) {
     await timelock.execute(proposal)
-    console.log(`${'  '.repeat(nesting)}Executed ${txHash}`)
+    console.log(indent(nesting, `Executed ${txHash}`))
   }
 })()

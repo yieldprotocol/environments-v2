@@ -1,4 +1,5 @@
 import { EmergencyBrake, OnChainTest } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const checkPlan = async (
   cloak: EmergencyBrake,
@@ -6,7 +7,8 @@ export const checkPlan = async (
   users: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}CHECK_PLAN`)
+  console.log()
+  console.log(indent(nesting, `CHECK_PLAN`))
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let user of users) {
@@ -18,7 +20,7 @@ export const checkPlan = async (
         '0x0000000000000000000000000000000000000000000000000000000000000001',
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}onChainTest.valueAndCallEquator(cloak.check(${user}))`)
+    console.log(indent(nesting, `onChainTest.valueAndCallEquator(cloak.check(${user}))`))
   }
   return proposal
 }

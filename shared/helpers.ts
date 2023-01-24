@@ -118,6 +118,11 @@ export const advanceTimeTo = async (time: number) => {
   await advanceTime(time - now)
 }
 
+/// --------- LOGGING ---------
+
+export const indent = (nesting: number, text: string) => {
+  return '\t'.repeat(nesting) + text
+}
 /// --------- DATA MANIPULATION ---------
 
 // Get name from identifier

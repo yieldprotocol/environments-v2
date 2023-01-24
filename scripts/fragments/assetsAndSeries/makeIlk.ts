@@ -9,6 +9,7 @@ import { Ilk } from '../../governance/confTypes'
 import { addIlkToWitch } from '../witch/addIlkToWitch'
 import { updateDebtLimits } from '../limits/updateDebtLimits'
 import { updateCollateralization } from '../oracles/updateCollateralization'
+import { indent } from '../../../shared/helpers'
 
 export const makeIlk = async (
   ownerAcc: SignerWithAddress,
@@ -19,7 +20,8 @@ export const makeIlk = async (
   joins: Map<string, string>, // assetId, joinAddress,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}MAKE_ILK`)
+  console.log()
+  console.log(indent(nesting, `MAKE_ILK`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)

@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Ladle
@@ -22,7 +23,8 @@ export const orchestrateLadle = async (
   cloak: EmergencyBrake,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_LADLE`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_LADLE`))
   const proposal: Array<{ target: string; data: string }> = []
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
@@ -34,7 +36,7 @@ export const orchestrateLadle = async (
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`${'  '.repeat(nesting)}ladle.grantRole(ROOT, cloak)`)
+  console.log(indent(nesting, `ladle.grantRole(ROOT, cloak)`))
 
   proposal.push({
     target: ladle.address,
@@ -50,13 +52,13 @@ export const orchestrateLadle = async (
       timelock.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}ladle.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `ladle.grantRoles(gov, timelock)`))
 
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`${'  '.repeat(nesting)}ladle.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `ladle.revokeRole(ROOT, deployer)`))
 
   proposal.push({
     target: cauldron.address,
@@ -73,7 +75,7 @@ export const orchestrateLadle = async (
       ladle.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cauldron.grantRoles(ladle)`)
+  console.log(indent(nesting, `cauldron.grantRoles(ladle)`))
 
   return proposal
 }

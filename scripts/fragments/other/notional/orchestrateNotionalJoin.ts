@@ -2,6 +2,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, Join } from '../../../../typechain'
 import { removeDeployer } from '../../core/removeDeployer'
 import { addAsHostToCloak } from '../../cloak/addAsHostToCloak'
+import { indent } from '../../../../shared/helpers'
 
 export const orchestrateNotionalJoin = async (
   timelock: Timelock,
@@ -9,7 +10,8 @@ export const orchestrateNotionalJoin = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_NOTIONAL_JOIN`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_NOTIONAL_JOIN`))
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal = proposal.concat(
@@ -26,7 +28,7 @@ export const orchestrateNotionalJoin = async (
       timelock.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}join.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `join.grantRoles(gov, timelock)`))
 
   return proposal
 }

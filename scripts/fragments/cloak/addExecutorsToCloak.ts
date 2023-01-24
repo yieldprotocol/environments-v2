@@ -1,12 +1,14 @@
 import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addExecutorsToCloak = async (
   cloak: EmergencyBrake,
   executors: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_EXECUTORS_TO_CLOAK`)
+  console.log()
+  console.log(indent(nesting, `ADD_EXECUTORS_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let executor of executors) {
@@ -14,7 +16,7 @@ export const addExecutorsToCloak = async (
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('grantRole', [id(cloak.interface, 'execute(address)'), executor]),
     })
-    console.log(`${'  '.repeat(nesting)}cloak.grantRole(executor ${executor})`)
+    console.log(indent(nesting, `cloak.grantRole(executor ${executor})`))
   }
 
   return proposal

@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-
 import { Cauldron, ChainlinkMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
 import { CollateralWand } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateCollateralWand = async (
@@ -13,7 +13,8 @@ export const orchestrateCollateralWand = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_COLLATERAL_WAND`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_COLLATERAL_WAND`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const collateralWand = (await ethers.getContractAt(

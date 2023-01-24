@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { CompoundMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions a CompoundMultiOracle
@@ -16,7 +17,8 @@ export const orchestrateCompoundOracle = async (
   cloak: EmergencyBrake,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_COMPOUND_ORACLE`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_COMPOUND_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -28,19 +30,19 @@ export const orchestrateCompoundOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}compoundOracle.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `compoundOracle.grantRoles(gov, timelock)`))
 
   proposal.push({
     target: compoundOracle.address,
     data: compoundOracle.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`${'  '.repeat(nesting)}compoundOracle.grantRole(ROOT, cloak)`)
+  console.log(indent(nesting, `compoundOracle.grantRole(ROOT, cloak)`))
 
   proposal.push({
     target: compoundOracle.address,
     data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`${'  '.repeat(nesting)}compoundOracle.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `compoundOracle.revokeRole(ROOT, deployer)`))
 
   return proposal
 }

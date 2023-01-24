@@ -46,13 +46,13 @@ import { Strategy } from '../../../typechain/Strategy'
       wand.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}ladle.grantRoles(wand)`)
+  console.log(indent(nesting, `ladle.grantRoles(wand)`))
 
   proposal.push({
     target: wand.address,
     data: wand.interface.encodeFunctionData('point', [ethers.utils.formatBytes32String('ladle'), ladle.address]),
   })
-  console.log(`${'  '.repeat(nesting)}Wand reorchestration`)
+  console.log(indent(nesting, `Wand reorchestration`))
 
   for (let assetId of joins.keys()) {
     const joinAddress = joins.get(assetId) as string
@@ -70,7 +70,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}Join ${assetId} permissions`)
+    console.log(indent(nesting, `Join ${assetId} permissions`))
 
     const plan = [
       {
@@ -102,7 +102,7 @@ import { Strategy } from '../../../typechain/Strategy'
         ladle.address,
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}FYToken ${seriesId} permissions`)
+    console.log(indent(nesting, `FYToken ${seriesId} permissions`))
 
     const plan = [
       {
@@ -149,19 +149,19 @@ import { Strategy } from '../../../typechain/Strategy'
 
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`${'  '.repeat(nesting)}Proposal: ${txHash}`)
+  console.log(indent(nesting, `Proposal: ${txHash}`))
   if ((await timelock.proposals(txHash)).state === 0) {
     await timelock.propose(proposal)
-    console.log(`${'  '.repeat(nesting)}Proposed ${txHash}`)
+    console.log(indent(nesting, `Proposed ${txHash}`))
   }
   while ((await timelock.proposals(txHash)).state < 1) {}
   if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
-    console.log(`${'  '.repeat(nesting)}Approved ${txHash}`)
+    console.log(indent(nesting, `Approved ${txHash}`))
   }
   while ((await timelock.proposals(txHash)).state < 2) {}
   if ((await timelock.proposals(txHash)).state === 2) {
     await timelock.execute(proposal)
-    console.log(`${'  '.repeat(nesting)}Executed ${txHash}`)
+    console.log(indent(nesting, `Executed ${txHash}`))
   }
 })()

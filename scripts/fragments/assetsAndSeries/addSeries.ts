@@ -10,7 +10,7 @@ import { addFYToken } from '../ladle/addFYToken'
 import { addPool } from '../ladle/addPool'
 import { addFYTokenToWitch } from '../witch/addFYTokenToWitch'
 import { addIlkToSeries } from './addIlkToSeries'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 
 export const addSeries = async (
   ownerAcc: any,
@@ -22,20 +22,21 @@ export const addSeries = async (
   pools: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_SERIES`)
+  console.log()
+  console.log(indent(nesting, `ADD_SERIES`))
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`${'  '.repeat(nesting)}Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`)
+  console.log(indent(nesting, `Using fyToken at ${series.fyToken.address} as ${series.fyToken.assetId}`))
   const fyToken = FYToken__factory.connect(series.fyToken.address, ownerAcc)
   const baseId = await fyToken.underlyingId()
-  console.log(`${'  '.repeat(nesting)}Using pool at ${series.pool.address} as ${series.pool.assetId}`)
+  console.log(indent(nesting, `Using pool at ${series.pool.address} as ${series.pool.assetId}`))
   const poolAddress = pools.getOrThrow(series.pool.assetId)!
 
   proposal.push({
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addSeries', [series.seriesId, baseId, fyToken.address]),
   })
-  console.log(`${'  '.repeat(nesting)}Adding ${getName(series.seriesId)} using ${fyToken.address}`)
+  console.log(indent(nesting, `Adding ${getName(series.seriesId)} using ${fyToken.address}`))
 
   for (let ilk of series.ilks) {
     proposal = proposal.concat(await addIlkToSeries(cauldron, series, ilk, nesting + 1))

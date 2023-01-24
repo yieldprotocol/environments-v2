@@ -3,6 +3,7 @@
  */
 
 import { Witch } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const protectFromLiquidations = async (
   witch: Witch,
@@ -10,14 +11,15 @@ export const protectFromLiquidations = async (
   protect: boolean,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}PROTECT_FROM_LIQUIDATIONS`)
+  console.log()
+  console.log(indent(nesting, `PROTECT_FROM_LIQUIDATIONS`))
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: witch.address,
     data: witch.interface.encodeFunctionData('setProtected', [owner, protect]),
   })
-  console.log(`${'  '.repeat(nesting)}${owner} is protected from liquidations`)
+  console.log(indent(nesting, `${owner} is protected from liquidations`))
 
   return proposal
 }

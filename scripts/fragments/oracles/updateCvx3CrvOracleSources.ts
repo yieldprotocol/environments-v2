@@ -6,17 +6,19 @@ import { ethers } from 'hardhat'
 
 import { Cvx3CrvOracle } from '../../../typechain'
 import { CVX3CRV, ETH } from '../../../shared/constants'
+import { indent } from '../../../shared/helpers'
 
 export const updateCvx3CrvOracleSources = async (
   oracle: Cvx3CrvOracle,
   source: [string, string, string, string, string, string],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_CVX3CRV_ORACLE_SOURCES`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_CVX3CRV_ORACLE_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
 
   if ((await ethers.provider.getCode(oracle.address)) === '0x') throw `Address ${oracle.address} contains no code`
-  console.log(`${'  '.repeat(nesting)}Setting up the source for ${CVX3CRV}/${ETH} at ${oracle.address}`)
+  console.log(indent(nesting, `Setting up the source for ${CVX3CRV}/${ETH} at ${oracle.address}`))
 
   proposal.push({
     target: oracle.address,

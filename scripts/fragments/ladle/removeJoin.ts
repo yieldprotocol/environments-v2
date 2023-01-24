@@ -4,8 +4,8 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
-
 import { Ladle, EmergencyBrake, Join__factory } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const removeJoin = async (
   ownerAcc: any,
@@ -14,12 +14,13 @@ export const removeJoin = async (
   assetId: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}REMOVE_JOIN`)
+  console.log()
+  console.log(indent(nesting, `REMOVE_JOIN`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const joinAddress = await ladle.joins(assetId)
   if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) throw `Join for ${assetId} not found`
-  else console.log(`${'  '.repeat(nesting)}Using join at ${joinAddress} for ${assetId}`)
+  else console.log(indent(nesting, `Using join at ${joinAddress} for ${assetId}`))
   const join = Join__factory.connect(joinAddress, ownerAcc)
 
   // Disallow Ladle to join and exit on the asset Join
@@ -48,14 +49,14 @@ export const removeJoin = async (
       ],
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cloak.remove(ladle join and exit ${assetId})`)
+  console.log(indent(nesting, `cloak.remove(ladle join and exit ${assetId})`))
 
   // Remove join in Ladle - CAN'T BE DONE BECAUSE OF BUG IN LADLE
   // proposal.push({
   //   target: ladle.address,
   //   data: ladle.interface.encodeFunctionData('addJoin', [assetId, ZERO_ADDRESS]),
   // })
-  // console.log(`${'  '.repeat(nesting)}Adding ${assetId} join to Ladle using ${join.address}`)
+  // console.log(indent(nesting, `Adding ${assetId} join to Ladle using ${join.address}`))
 
   return proposal
 }

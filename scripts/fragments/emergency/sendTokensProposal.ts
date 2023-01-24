@@ -4,13 +4,15 @@
 
 import { BigNumber } from 'ethers'
 import { ERC20, ERC20__factory, Timelock } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const sendTokensProposal = async (
   timelock: Timelock,
   data: Array<[string, string, BigNumber]>, // [token address, destination address, amount]
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}SEND_TOKENS`)
+  console.log()
+  console.log(indent(nesting, `SEND_TOKENS`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -26,7 +28,7 @@ export const sendTokensProposal = async (
       data: token.interface.encodeFunctionData('transfer', [destAddr, amount]),
     })
 
-    console.log(`${'  '.repeat(nesting)}Transferring ${amount.toString()} of ${token.address} to ${destAddr}`)
+    console.log(indent(nesting, `Transferring ${amount.toString()} of ${token.address} to ${destAddr}`))
   }
 
   return proposal

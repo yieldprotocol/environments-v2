@@ -1,13 +1,15 @@
 import { ethers } from 'hardhat'
 
 import { ChainlinkUSDMultiOracle, AggregatorV3Interface } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const updateChainlinkUSDSources = async (
   oracle: ChainlinkUSDMultiOracle,
   spotSources: [string, string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_CHAINLINK_USD_SOURCES`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_CHAINLINK_USD_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, baseAddress, sourceAddress] of spotSources) {
     // TODO: Does the line below work in Arbitrum?
@@ -23,7 +25,7 @@ export const updateChainlinkUSDSources = async (
         await ethers.getSigners()
       )[0]
     )) as unknown as AggregatorV3Interface
-    console.log(`${'  '.repeat(nesting)}Aggregator decimals: ${await aggregator.decimals()}`)
+    console.log(indent(nesting, `Aggregator decimals: ${await aggregator.decimals()}`))
 
     // TODO: We can now instantiate sourceAddress into a ChainlinkV3Aggregator and read the price feed, which would be a better test
 

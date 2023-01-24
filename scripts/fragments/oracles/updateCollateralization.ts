@@ -2,13 +2,15 @@
 
 import { Cauldron } from '../../../typechain'
 import { Ilk } from '../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const updateCollateralization = async (
   cauldron: Cauldron,
   ilk: Ilk,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_COLLATERALIZATION`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_COLLATERALIZATION`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

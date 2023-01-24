@@ -5,13 +5,15 @@
 import { ethers } from 'hardhat'
 
 import { YearnVaultMultiOracle } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const updateYearnSources = async (
   oracle: YearnVaultMultiOracle,
   sources: [string, string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_YEARN_SOURCES`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_YEARN_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, yearnVaultId, yvTokenAddress] of sources) {
     if ((await ethers.provider.getCode(yvTokenAddress)) === '0x') throw `Address ${yvTokenAddress} contains no code`

@@ -5,13 +5,15 @@
 import { ethers } from 'hardhat'
 
 import { UniswapV3Oracle } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const updateUniswapSources = async (
   oracle: UniswapV3Oracle,
   sources: [string, string, string, number][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_UNISWAP_SOURCES`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_UNISWAP_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let [baseId, quoteId, poolAddress, twapInterval] of sources) {
     if ((await ethers.provider.getCode(poolAddress)) === '0x') throw `Address ${poolAddress} contains no code`

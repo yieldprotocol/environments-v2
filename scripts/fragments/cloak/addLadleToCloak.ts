@@ -1,6 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, FYToken__factory, Join__factory, Ladle } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addLadleToCloak = async (
   signerAcc: SignerWithAddress,
@@ -11,7 +12,8 @@ export const addLadleToCloak = async (
   joins: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_LADLE_TO_CLOAK`)
+  console.log()
+  console.log(indent(nesting, `ADD_LADLE_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -46,7 +48,7 @@ export const addLadleToCloak = async (
       ],
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cloak.add(ladle to cauldron)`)
+  console.log(indent(nesting, `cloak.add(ladle to cauldron)`))
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = FYToken__factory.connect(fyTokenAddress, signerAcc)
@@ -66,7 +68,7 @@ export const addLadleToCloak = async (
         ],
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}cloak.add(ladle mint and burn ${seriesId})`)
+    console.log(indent(nesting, `cloak.add(ladle mint and burn ${seriesId})`))
   }
 
   for (let [assetId, joinAddress] of joins) {
@@ -88,7 +90,7 @@ export const addLadleToCloak = async (
           ],
         ]),
       })
-      console.log(`${'  '.repeat(nesting)}cloak.add(ladle join and exit ${assetId})`)
+      console.log(indent(nesting, `cloak.add(ladle join and exit ${assetId})`))
     }
   }
 

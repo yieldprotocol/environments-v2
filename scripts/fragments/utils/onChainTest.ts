@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
-
 import { Cauldron, OnChainTest } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const onChainTest = async (
   cauldron: Cauldron,
@@ -8,7 +8,8 @@ export const onChainTest = async (
   assets: [string, string, string][],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ON_CHAIN_TEST`)
+  console.log()
+  console.log(indent(nesting, `ON_CHAIN_TEST`))
   let proposal: Array<{ target: string; data: string }> = []
   for (let [assetId, assetAddress, joinAddress] of assets) {
     if ((await ethers.provider.getCode(assetAddress)) === '0x') throw `Address ${assetAddress} contains no code`

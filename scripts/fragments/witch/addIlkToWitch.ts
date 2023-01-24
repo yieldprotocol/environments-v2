@@ -4,7 +4,7 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Witch, Join, EmergencyBrake } from '../../../typechain'
 import { setLineAndLimit } from '../witch/setLineAndLimit'
 import { Ilk } from '../../governance/confTypes'
@@ -16,7 +16,8 @@ export const addIlkToWitch = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_ILK_TO_WITCH`)
+  console.log()
+  console.log(indent(nesting, `ADD_ILK_TO_WITCH`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Make sure auctionLineAndLimit is defined.
@@ -32,7 +33,7 @@ export const addIlkToWitch = async (
         witch.address,
       ]),
     })
-    console.log(`${'  '.repeat(nesting)}join(${getName(ilk.ilkId)}).grantRole(exit, witch)`)
+    console.log(indent(nesting, `join(${getName(ilk.ilkId)}).grantRole(exit, witch)`))
 
     proposal.push({
       target: cloak.address,
@@ -47,9 +48,9 @@ export const addIlkToWitch = async (
       ]),
     })
     // TODO: Maybe check the ilk.ilkId matches
-    console.log(`${'  '.repeat(nesting)}cloak.add(witch exit ${getName(ilk.ilkId)})`)
+    console.log(indent(nesting, `cloak.add(witch exit ${getName(ilk.ilkId)})`))
   } else {
-    console.log(`${'  '.repeat(nesting)}Witch already has an exit role on join(${getName(ilk.ilkId)})`)
+    console.log(indent(nesting, `Witch already has an exit role on join(${getName(ilk.ilkId)})`))
   }
 
   return proposal

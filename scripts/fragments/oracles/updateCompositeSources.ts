@@ -5,7 +5,7 @@
 
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { CompositeMultiOracle } from '../../../typechain'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { OracleSource } from '../../governance/confTypes'
 
 export const updateCompositeSources = async (
@@ -14,7 +14,8 @@ export const updateCompositeSources = async (
   overrideExistent: boolean = true,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_COMPOSITE_SOURCES`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_COMPOSITE_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
 
   const added = new Set<string>()
@@ -23,7 +24,7 @@ export const updateCompositeSources = async (
     const pair = `${getName(source.baseId)}/${getName(source.quoteId)}`
 
     if (added.has(pair) || added.has(`${getName(source.quoteId)}/${getName(source.baseId)}`)) {
-      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: ${pair} already dealt with, skipping`)
+      console.log(indent(nesting, `CompositeMultiOracle: ${pair} already dealt with, skipping`))
       continue
     }
     added.add(pair)
@@ -38,9 +39,9 @@ export const updateCompositeSources = async (
           source.sourceAddress,
         ]),
       })
-      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: pair: ${pair} set to ${source.sourceAddress}`)
+      console.log(indent(nesting, `CompositeMultiOracle: pair: ${pair} set to ${source.sourceAddress}`))
     } else {
-      console.log(`${'  '.repeat(nesting)}CompositeMultiOracle: pair: ${pair} already set to ${existent}`)
+      console.log(indent(nesting, `CompositeMultiOracle: pair: ${pair} already set to ${existent}`))
     }
   }
 

@@ -4,7 +4,7 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { Ladle, Join, EmergencyBrake } from '../../../typechain'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 
 export const addJoin = async (
   cloak: EmergencyBrake,
@@ -13,7 +13,8 @@ export const addJoin = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_JOIN_TO_LADLE`)
+  console.log()
+  console.log(indent(nesting, `ADD_JOIN_TO_LADLE`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow Ladle to join and exit on the asset Join
@@ -42,14 +43,14 @@ export const addJoin = async (
       ],
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}cloak.add(ladle join and exit ${getName(assetId)})`)
+  console.log(indent(nesting, `cloak.add(ladle join and exit ${getName(assetId)})`))
 
   // Register join in Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addJoin', [assetId, join.address]),
   })
-  console.log(`${'  '.repeat(nesting)}Adding ${getName(assetId)} join to Ladle using ${join.address}`)
+  console.log(indent(nesting, `Adding ${getName(assetId)} join to Ladle using ${join.address}`))
 
   return proposal
 }

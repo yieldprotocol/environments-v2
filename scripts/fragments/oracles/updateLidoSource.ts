@@ -3,7 +3,7 @@
  */
 
 import { ethers } from 'hardhat'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { WAD, WSTETH, STETH } from '../../../shared/constants'
 
 import { LidoOracle, IWstETH } from '../../../typechain'
@@ -13,7 +13,8 @@ export const updateLidoSource = async (
   source: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}UPDATE_LIDO_SOURCE`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_LIDO_SOURCE`))
   const [ownerAcc] = await ethers.getSigners()
 
   const proposal: Array<{ target: string; data: string }> = []
@@ -37,6 +38,6 @@ export const updateLidoSource = async (
     data: lidoOracle.interface.encodeFunctionData('setSource', [source]),
   })
 
-  console.log(`${'  '.repeat(nesting)}source: ${getName(STETH)}/${getName(WSTETH)} -> ${source}`)
+  console.log(indent(nesting, `source: ${getName(STETH)}/${getName(WSTETH)} -> ${source}`))
   return proposal
 }

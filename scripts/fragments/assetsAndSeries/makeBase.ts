@@ -2,7 +2,7 @@
 // - A lending oracle is set for the new base
 // - The asset is added to the Witch.
 
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Cauldron, IOracle, Join__factory, EmergencyBrake, Witch } from '../../../typechain'
 import { addBaseToWitch } from '../witch/addBaseToWitch'
 import { Base } from '../../governance/confTypes'
@@ -17,7 +17,8 @@ export const makeBase = async (
   joins: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}MAKE_BASE`)
+  console.log()
+  console.log(indent(nesting, `MAKE_BASE`))
   let proposal: Array<{ target: string; data: string }> = []
   const join = Join__factory.connect(joins.getOrThrow(base.assetId)!, ownerAcc)
 
@@ -28,7 +29,7 @@ export const makeBase = async (
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('setLendingOracle', [base.assetId, lendingOracle.address]),
   })
-  console.log(`${'  '.repeat(nesting)}Asset ${getName(base.assetId)} made into base using ${lendingOracle.address}`)
+  console.log(indent(nesting, `Asset ${getName(base.assetId)} made into base using ${lendingOracle.address}`))
 
   return proposal
 }

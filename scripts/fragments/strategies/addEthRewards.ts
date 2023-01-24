@@ -6,6 +6,7 @@
  */
 
 import { Strategy__factory } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addEthRewards = async (
   ownerAcc: any,
@@ -13,7 +14,8 @@ export const addEthRewards = async (
   strategiesData: Array<[string, string, string, number, number, number]>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_ETH_REWARDS`)
+  console.log()
+  console.log(indent(nesting, `ADD_ETH_REWARDS`))
   const proposal: Array<{ target: string; data: string }> = []
 
   for (let [strategyId, rewardsAddress, start, stop, rate] of strategiesData) {
@@ -23,12 +25,12 @@ export const addEthRewards = async (
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewardsToken', [rewardsAddress]),
     })
-    console.log(`${'  '.repeat(nesting)}strategy(${strategyId}).setRewardsAddress(${rewardsAddress})`)
+    console.log(indent(nesting, `strategy(${strategyId}).setRewardsAddress(${rewardsAddress})`))
     proposal.push({
       target: strategy.address,
       data: strategy.interface.encodeFunctionData('setRewards', [start, stop, rate]),
     })
-    console.log(`${'  '.repeat(nesting)}strategy(${strategyId}).setRewards(${start}, ${stop}, ${rate})`)
+    console.log(indent(nesting, `strategy(${strategyId}).setRewards(${start}, ${stop}, ${rate})`))
   }
 
   return proposal

@@ -3,7 +3,7 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Witch, Join, EmergencyBrake } from '../../../typechain'
 
 export const addBaseToWitch = async (
@@ -13,7 +13,8 @@ export const addBaseToWitch = async (
   join: Join,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ADD_BASE_TO_WITCH`)
+  console.log()
+  console.log(indent(nesting, `ADD_BASE_TO_WITCH`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow Witch to join base
@@ -35,7 +36,7 @@ export const addBaseToWitch = async (
     ]),
   })
   // TODO: Maybe check the assetId matches
-  console.log(`${'  '.repeat(nesting)}cloak.add(witch join ${getName(assetId)})`)
+  console.log(indent(nesting, `cloak.add(witch join ${getName(assetId)})`))
 
   return proposal
 }

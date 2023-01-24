@@ -2,6 +2,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, FlashJoin } from '../../../typechain'
 import { removeDeployer } from '../core/removeDeployer'
 import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
+import { indent } from '../../../shared/helpers'
 
 export const orchestrateFlashJoin = async (
   timelock: Timelock,
@@ -9,10 +10,11 @@ export const orchestrateFlashJoin = async (
   join: FlashJoin,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`\n${'  '.repeat(nesting)}ORCHESTRATE_FLASH_JOIN`)
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_FLASH_JOIN`))
   let proposal: Array<{ target: string; data: string }> = []
 
-  console.log(`${'  '.repeat(nesting)}join: ${join.address}`)
+  console.log(indent(nesting, `join: ${join.address}`))
   const joinAsAccessControl = AccessControl__factory.connect(join.address, join.signer)
   proposal = proposal.concat(await removeDeployer(joinAsAccessControl, nesting + 1))
   proposal = proposal.concat(await addAsHostToCloak(cloak, joinAsAccessControl, nesting + 1))
@@ -24,7 +26,7 @@ export const orchestrateFlashJoin = async (
       timelock.address,
     ]),
   })
-  console.log(`${'  '.repeat(nesting)}join.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `join.grantRoles(gov, timelock)`))
 
   return proposal
 }
