@@ -20,11 +20,13 @@ import { Asset, ContractDeployment, Ilk, OraclePath, OracleSource, Series } from
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const whales = base_config.whales
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployers = readAddressMappingIfExists('deployers.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
-export const joins = readAddressMappingIfExists('newJoins.json')
+export const joins = readAddressMappingIfExists('joins.json')
 export const assets: Map<string, string> = base_config.assets
-export const reth: Asset = { assetId: RETH, address: assets.getOrThrow(RETH) as string }
+export const reth: Asset = { assetId: RETH, address: assets.getOrThrow(RETH)! }
 
 export const contractDeployments: ContractDeployment[] = [
   {
@@ -34,7 +36,7 @@ export const contractDeployments: ContractDeployment[] = [
     args: [() => ETH, () => RETH, () => assets.getOrThrow(RETH)!],
   },
   {
-    addressFile: 'newJoins.json',
+    addressFile: 'joins.json',
     name: RETH,
     contract: 'Join',
     args: [() => assets.getOrThrow(RETH)!],
@@ -48,8 +50,8 @@ export const ilkToETH: Ilk = {
   collateralization: {
     baseId: ETH,
     ilkId: reth.assetId,
-    oracle: protocol().getOrThrow(RETH_ORACLE)! as string,
-    ratio: 1250000,
+    oracle: protocol().getOrThrow(RETH_ORACLE)!,
+    ratio: 1330000,
   },
   debtLimits: {
     baseId: ETH,
@@ -61,7 +63,7 @@ export const ilkToETH: Ilk = {
   auctionLineAndLimit: {
     baseId: ETH,
     ilkId: reth.assetId,
-    duration: 600,
+    duration: 3600,
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.84'), // 105 / 125
     max: parseUnits('1000'),
@@ -75,8 +77,8 @@ export const ilkToDAI: Ilk = {
   collateralization: {
     baseId: DAI,
     ilkId: reth.assetId,
-    oracle: protocol().getOrThrow(COMPOSITE)! as string,
-    ratio: 1400000,
+    oracle: protocol().getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
   },
   debtLimits: {
     baseId: DAI,
@@ -88,7 +90,7 @@ export const ilkToDAI: Ilk = {
   auctionLineAndLimit: {
     baseId: DAI,
     ilkId: reth.assetId,
-    duration: 600,
+    duration: 3600,
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
@@ -102,8 +104,8 @@ export const ilkToUSDC: Ilk = {
   collateralization: {
     baseId: USDC,
     ilkId: reth.assetId,
-    oracle: protocol().getOrThrow(COMPOSITE)! as string,
-    ratio: 1400000,
+    oracle: protocol().getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
   },
   debtLimits: {
     baseId: USDC,
@@ -115,7 +117,7 @@ export const ilkToUSDC: Ilk = {
   auctionLineAndLimit: {
     baseId: USDC,
     ilkId: reth.assetId,
-    duration: 600,
+    duration: 3600,
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
@@ -130,7 +132,7 @@ export const oracleSources: OracleSource[] = [
     baseAddress: assets.getOrThrow(ETH)!,
     quoteId: RETH,
     quoteAddress: assets.getOrThrow(RETH)!,
-    sourceAddress: protocol().getOrThrow(RETH_ORACLE)! as string,
+    sourceAddress: protocol().getOrThrow(RETH_ORACLE)!,
   },
 ]
 
@@ -150,12 +152,16 @@ export const oraclePaths: OraclePath[] = [
 export const ethSeries: Series[] = [
   {
     seriesId: FYETH2303,
-    fyToken: { assetId: FYETH2303, address: fyTokens.get(FYETH2303) as string },
+    fyToken: { assetId: FYETH2303, address: fyTokens.getOrThrow(FYETH2303)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToETH],
   },
   {
     seriesId: FYETH2306,
-    fyToken: { assetId: FYETH2306, address: fyTokens.get(FYETH2306) as string },
+    fyToken: { assetId: FYETH2306, address: fyTokens.getOrThrow(FYETH2306)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToETH],
   },
 ]
@@ -163,12 +169,16 @@ export const ethSeries: Series[] = [
 export const daiSeries: Series[] = [
   {
     seriesId: FYDAI2303,
-    fyToken: { assetId: FYDAI2303, address: fyTokens.get(FYDAI2303) as string },
+    fyToken: { assetId: FYDAI2303, address: fyTokens.getOrThrow(FYDAI2303)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToDAI],
   },
   {
     seriesId: FYDAI2306,
-    fyToken: { assetId: FYDAI2306, address: fyTokens.get(FYDAI2306) as string },
+    fyToken: { assetId: FYDAI2306, address: fyTokens.getOrThrow(FYDAI2306)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToDAI],
   },
 ]
@@ -176,12 +186,16 @@ export const daiSeries: Series[] = [
 export const usdcSeries: Series[] = [
   {
     seriesId: FYUSDC2303,
-    fyToken: { assetId: FYUSDC2303, address: fyTokens.get(FYUSDC2303) as string },
+    fyToken: { assetId: FYUSDC2303, address: fyTokens.getOrThrow(FYUSDC2303)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToUSDC],
   },
   {
     seriesId: FYUSDC2306,
-    fyToken: { assetId: FYUSDC2306, address: fyTokens.get(FYUSDC2306) as string },
+    fyToken: { assetId: FYUSDC2306, address: fyTokens.getOrThrow(FYUSDC2306)! },
+    chiOracle: '',
+    pool: reth,
     ilks: [ilkToUSDC],
   },
 ]
