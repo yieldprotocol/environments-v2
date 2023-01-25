@@ -18,6 +18,7 @@ import {
   YSFRAX6MMSASSET,
   YSUSDC6MJDASSET,
   YSUSDC6MMSASSET,
+  OSQTH,
   CRAB,
   YVDAI,
   YVUSDC,
@@ -63,4 +64,5 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
   [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
+  [OSQTH, '0x82c427AdFDf2d245Ec51D8046b41c4ee87F0d29C'],
 ])
