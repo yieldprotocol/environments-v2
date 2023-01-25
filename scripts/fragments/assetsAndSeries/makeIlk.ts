@@ -19,7 +19,6 @@ export const makeIlk = async (
   joins: Map<string, string> // assetId, joinAddress
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
-
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
 
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk))

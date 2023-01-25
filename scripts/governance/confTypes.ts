@@ -73,7 +73,7 @@ export interface Ilk {
 
 export interface Series {
   seriesId: string
-  base: Asset
+  base?: Asset
   fyToken: Asset
   chiOracle: string
   pool: Asset
