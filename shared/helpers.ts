@@ -39,6 +39,13 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
+  // Remove duplicate proposal if any
+  proposal = proposal.reduce((accumulator, current) => {
+    if (!accumulator.some((item) => item.target === current.target && item.data === current.data)) {
+      accumulator.push(current)
+    }
+    return accumulator
+  }, [])
   const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
