@@ -5,7 +5,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Cauldron, Ladle, OldEmergencyBrake, Witch, Join__factory } from '../../../typechain'
 
 export const orchestrateAuctionAssets = async (
@@ -16,8 +16,11 @@ export const orchestrateAuctionAssets = async (
   witch: Witch,
   baseIds: Array<string>,
   ilkIds: Array<string>,
-  seriesIds: Array<string>
+  seriesIds: Array<string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_AUCTION_ASSETS`))
   const proposal: Array<{ target: string; data: string }> = []
 
   for (const baseId of baseIds) {
@@ -32,7 +35,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`join(${getName(baseId)}).grantRole(join(address,uint128), witch)`)
+      console.log(indent(nesting, `join(${getName(baseId)}).grantRole(join(address,uint128), witch)`))
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -47,7 +50,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(indent(nesting, `cloak.plan(witch, join(${getName(baseId)})): ${await cloak.hash(witch.address, plan)}`))
       }
     }
   }
@@ -64,7 +67,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`fyToken(${getName(seriesId)}).grantRole(burn(address,uint256), witch)`)
+      console.log(indent(nesting, `fyToken(${getName(seriesId)}).grantRole(burn(address,uint256), witch)`))
 
       // Allow to revoke the above permission on emergencies
       const plan = [
@@ -79,7 +82,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(indent(nesting, `cloak.plan(witch, burn(${getName(seriesId)})): ${await cloak.hash(witch.address, plan)}`))
       }
     }
   }
@@ -96,7 +99,7 @@ export const orchestrateAuctionAssets = async (
           witch.address,
         ]),
       })
-      console.log(`join(${getName(ilkId)}).grantRole(exit(address,uint128), witch)`)
+      console.log(indent(nesting, `join(${getName(ilkId)}).grantRole(exit(address,uint128), witch)`))
 
       // Log a plan to undo the orchestration above in emergencies
       const plan = [
@@ -111,7 +114,7 @@ export const orchestrateAuctionAssets = async (
           target: cloak.address,
           data: cloak.interface.encodeFunctionData('plan', [witch.address, plan]),
         })
-        // console.log(`cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`)
+        // console.log(indent(nesting, `cloak.plan(witch, exit(${getName(ilkId)})): ${await cloak.hash(witch.address, plan)}`))
       }
     }
   }

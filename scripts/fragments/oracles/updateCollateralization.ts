@@ -2,11 +2,15 @@
 
 import { Cauldron } from '../../../typechain'
 import { Ilk } from '../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const updateCollateralization = async (
   cauldron: Cauldron,
-  ilk: Ilk
+  ilk: Ilk,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `UPDATE_COLLATERALIZATION`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -19,7 +23,10 @@ export const updateCollateralization = async (
     ]),
   })
   console.log(
-    `Spot oracle for ${ilk.baseId}/${ilk.ilkId} set to ${ilk.collateralization.oracle} with ratio ${ilk.collateralization.ratio}`
+    indent(
+      nesting,
+      `Spot oracle for ${ilk.baseId}/${ilk.ilkId} set to ${ilk.collateralization.oracle} with ratio ${ilk.collateralization.ratio}`
+    )
   )
 
   return proposal

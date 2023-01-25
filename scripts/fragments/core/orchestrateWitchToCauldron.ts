@@ -4,12 +4,16 @@
 
 import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, Timelock, Witch } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const orchestrateWitchToCauldron = async (
   cloak: EmergencyBrake,
   cauldron: Cauldron,
-  witch: Witch
+  witch: Witch,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_WITCH_TO_CAULDRON`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -19,7 +23,7 @@ export const orchestrateWitchToCauldron = async (
       witch.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(witch)`)
+  console.log(indent(nesting, `cauldron.grantRoles(witch)`))
 
   proposal.push({
     target: cloak.address,
@@ -37,7 +41,7 @@ export const orchestrateWitchToCauldron = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch give and slurp)`)
+  console.log(indent(nesting, `cloak.add(witch give and slurp)`))
 
   return proposal
 }

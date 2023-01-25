@@ -1,15 +1,16 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
-
 import { Cauldron, EmergencyBrake, Ladle, Timelock } from '../../../typechain'
 import { SeriesWand } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateSeriesWand = async (
   ownerAcc: any,
   deployer: string,
-  timelock: Timelock
+  timelock: Timelock,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   let proposal: Array<{ target: string; data: string }> = []
 

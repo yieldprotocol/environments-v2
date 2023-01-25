@@ -1,6 +1,8 @@
 import { Cauldron, Giver, Timelock } from '../../../typechain'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
+import { indent } from '../../../shared/helpers'
+
 /**
  * @dev This script orchestrates the giver
  * The giver gets give access on cauldron. timelock gets access to banIlk.
@@ -10,8 +12,11 @@ export const orchestrateGiver = async (
   giver: Giver,
   cauldron: Cauldron,
   timelock: Timelock,
-  deployer: string
+  deployer: string,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_GIVER`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -21,7 +26,7 @@ export const orchestrateGiver = async (
       giver.address,
     ]),
   })
-  console.log(`cauldron.grantRoles('give', giver)`)
+  console.log(indent(nesting, `cauldron.grantRoles('give', giver)`))
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('grantRoles', [
@@ -29,11 +34,11 @@ export const orchestrateGiver = async (
       timelock.address,
     ]),
   })
-  console.log(`timelock.grantRoles('giver', banIlk)`)
+  console.log(indent(nesting, `timelock.grantRoles('giver', banIlk)`))
   proposal.push({
     target: giver.address,
     data: giver.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`giver.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `giver.revokeRole(ROOT, deployer)`))
   return proposal
 }

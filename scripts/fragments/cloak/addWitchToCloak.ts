@@ -1,6 +1,7 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, FYToken__factory, Join__factory, Witch } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addWitchToCloak = async (
   signerAcc: SignerWithAddress,
@@ -8,8 +9,11 @@ export const addWitchToCloak = async (
   cauldron: Cauldron,
   witch: Witch,
   fyTokens: Map<string, string>,
-  joins: Map<string, string>
+  joins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ADD_WITCH_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -28,7 +32,7 @@ export const addWitchToCloak = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch give and slurp)`)
+  console.log(indent(nesting, `cloak.add(witch give and slurp)`))
 
   for (let [seriesId, fyTokenAddress] of fyTokens) {
     const fyToken = FYToken__factory.connect(fyTokenAddress, signerAcc)
@@ -45,7 +49,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch burn ${seriesId})`)
+      console.log(indent(nesting, `cloak.add(witch burn ${seriesId})`))
     }
   }
 
@@ -64,7 +68,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch join ${assetId})`)
+      console.log(indent(nesting, `cloak.add(witch join ${assetId})`))
     }
 
     if ((await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) == true) {
@@ -80,7 +84,7 @@ export const addWitchToCloak = async (
           ],
         ]),
       })
-      console.log(`cloak.add(witch exit ${assetId})`)
+      console.log(indent(nesting, `cloak.add(witch exit ${assetId})`))
     }
   }
 
