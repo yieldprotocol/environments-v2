@@ -72,7 +72,7 @@ export const ilkToDAI: Ilk = {
     baseId: DAI,
     ilkId: osqth.assetId,
     oracle: protocol().getOrThrow(COMPOSITE)!,
-    ratio: 1670000,
+    ratio: 1330000,
   },
   debtLimits: {
     baseId: DAI,
@@ -86,7 +86,7 @@ export const ilkToDAI: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    collateralProportion: parseUnits('0.78947368'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
@@ -99,7 +99,7 @@ export const ilkToUSDC: Ilk = {
     baseId: USDC,
     ilkId: osqth.assetId,
     oracle: protocol().getOrThrow(COMPOSITE)!,
-    ratio: 1670000,
+    ratio: 1330000,
   },
   debtLimits: {
     baseId: USDC,
@@ -113,7 +113,7 @@ export const ilkToUSDC: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    collateralProportion: parseUnits('0.78947368'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
