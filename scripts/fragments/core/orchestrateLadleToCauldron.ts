@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
-import { ROOT } from '../../../shared/constants'
 import { Cauldron, Ladle, EmergencyBrake, Timelock } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Ladle
@@ -19,8 +19,11 @@ export const orchestrateLadleToCauldron = async (
   cauldron: Cauldron,
   ladle: Ladle,
   timelock: Timelock,
-  cloak: EmergencyBrake
+  cloak: EmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_LADLE_TO_CAULDRON`))
   const proposal: Array<{ target: string; data: string }> = []
 
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
@@ -42,7 +45,7 @@ export const orchestrateLadleToCauldron = async (
       ladle.address,
     ]),
   })
-  console.log(`cauldron.grantRoles(ladle)`)
+  console.log(indent(nesting, `cauldron.grantRoles(ladle)`))
 
   proposal.push({
     target: cloak.address,
@@ -76,7 +79,7 @@ export const orchestrateLadleToCauldron = async (
       ],
     ]),
   })
-  console.log(`cloak.add(ladle to cauldron)`)
+  console.log(indent(nesting, `cloak.add(ladle to cauldron)`))
 
   return proposal
 }

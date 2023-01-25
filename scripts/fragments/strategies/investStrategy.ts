@@ -5,19 +5,22 @@
 
 import { Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 
 export const investStrategy = async (
   ownerAcc: any,
-  strategy: Strategy
+  strategy: Strategy,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `INVEST_STRATEGY`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
   const strategyId = strategy.assetId
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
 
-  console.log(`Investing ${getName(strategyId)} in ${getName(strategy.seriesToInvest!.seriesId)}`)
+  console.log(indent(nesting, `Investing ${getName(strategyId)} in ${getName(strategy.seriesToInvest!.seriesId)}`))
   proposal.push({
     target: strategyContract.address,
     data: strategyContract.interface.encodeFunctionData('invest', [strategy.seriesToInvest!.pool.address]),

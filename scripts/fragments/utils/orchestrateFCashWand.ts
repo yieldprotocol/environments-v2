@@ -2,56 +2,59 @@ import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
-
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
 import { developer } from '../../governance/base.arb_mainnet.config'
 
 const { protocol, governance } = require(process.env.CONF as string)
 const joins = readAddressMappingIfExists('joins.json')
 import { FDAI2212, FUSDC2212 } from '../../../shared/constants'
+import { indent } from '../../../shared/helpers'
 
 export const orchestrateFCashWand = async (
   ownerAcc: any,
   deployer: string,
-  timelock: Timelock
+  timelock: Timelock,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_F_CASH_WAND`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const fCashWand = await ethers.getContractAt('FCashWand', protocol.get('fCashWand') as string, ownerAcc)
-  console.log(`fCashWand: ${fCashWand.address}`)
+  console.log(indent(nesting, `fCashWand: ${fCashWand.address}`))
 
   const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
-  console.log(`cauldron: ${cauldron.address}`)
+  console.log(indent(nesting, `cauldron: ${cauldron.address}`))
 
   const ladle = await ethers.getContractAt('Ladle', protocol.get('ladle') as string, ownerAcc)
-  console.log(`ladle: ${ladle.address}`)
+  console.log(indent(nesting, `ladle: ${ladle.address}`))
 
   const notionalOracle = await ethers.getContractAt(
     'NotionalMultiOracle',
     protocol.get('notionalOracle') as string,
     ownerAcc
   )
-  console.log(`notionalOracle: ${notionalOracle.address}`)
+  console.log(indent(nesting, `notionalOracle: ${notionalOracle.address}`))
 
   const cloak = await ethers.getContractAt('EmergencyBrake', governance.get('cloak') as string, ownerAcc)
-  console.log(`cloak: ${cloak.address}`)
+  console.log(indent(nesting, `cloak: ${cloak.address}`))
 
   const witch = await ethers.getContractAt('OldWitch', protocol.get('witch') as string, ownerAcc)
-  console.log(`witch: ${witch.address}`)
+  console.log(indent(nesting, `witch: ${witch.address}`))
 
   const notionalJoinFactory = await ethers.getContractAt(
     'NotionalJoinFactory',
     protocol.get('notionalJoinFactory') as string,
     ownerAcc
   )
-  console.log(`notionalJoinFactory: ${notionalJoinFactory.address}`)
+  console.log(indent(nesting, `notionalJoinFactory: ${notionalJoinFactory.address}`))
 
   // grab new Joins
   const daiNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FDAI2212) as string, ownerAcc)
-  console.log(`daiNewJoin: ${daiNewJoin.address}`)
+  console.log(indent(nesting, `daiNewJoin: ${daiNewJoin.address}`))
 
   const usdcNewJoin = await ethers.getContractAt('NotionalJoin', joins.get(FUSDC2212) as string, ownerAcc)
-  console.log(`usdcNewJoin: ${usdcNewJoin.address}`)
+  console.log(indent(nesting, `usdcNewJoin: ${usdcNewJoin.address}`))
 
   // revoke ROOT on fCashWand
   proposal.push({

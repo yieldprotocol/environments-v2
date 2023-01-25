@@ -7,25 +7,29 @@
  */
 
 import { ethers } from 'hardhat'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const setLineAndLimit = async (
   witch: Witch,
-  auctionLineAndLimits: AuctionLineAndLimit
+  auctionLineAndLimits: AuctionLineAndLimit,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `SET_LINE_AND_LIMIT`))
   const proposal: Array<{ target: string; data: string }> = []
 
+  console.log(indent(nesting, `Witch#setLineAndLimit`))
+  console.log(indent(nesting + 1, `ilkId: ${getName(auctionLineAndLimits.ilkId)}`))
+  console.log(indent(nesting + 1, `baseId: ${getName(auctionLineAndLimits.baseId)}`))
+  console.log(indent(nesting + 1, `duration: ${auctionLineAndLimits.duration} seconds`))
+  console.log(indent(nesting + 1, `vaultProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.vaultProportion)}`))
   console.log(
-    `Witch#setLineAndLimit(ilkId: ${getName(auctionLineAndLimits.ilkId)}, baseId: ${getName(
-      auctionLineAndLimits.baseId
-    )}, duration: ${auctionLineAndLimits.duration} seconds, vaultProportion: ${ethers.utils.formatUnits(
-      auctionLineAndLimits.vaultProportion
-    )}, collateralProportion: ${ethers.utils.formatUnits(
-      auctionLineAndLimits.collateralProportion
-    )}, max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)})`
+    indent(nesting + 1, `collateralProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.collateralProportion)}`)
   )
+  console.log(indent(nesting + 1, `max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)}`))
+
   proposal.push({
     target: witch.address,
     data: witch.interface.encodeFunctionData('setLineAndLimit', [

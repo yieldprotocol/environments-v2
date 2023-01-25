@@ -6,12 +6,15 @@
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { ERC20__factory, Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 
 export const initStrategy = async (
   ownerAcc: any,
-  strategy: Strategy
+  strategy: Strategy,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `INIT_STRATEGY`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -20,12 +23,12 @@ export const initStrategy = async (
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
   const baseContract = ERC20__factory.connect(strategy.base.address, ownerAcc)
 
-  console.log(`Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`)
+  console.log(indent(nesting, `Transferring ${strategy.initAmount} of ${getName(baseId)} to ${getName(strategyId)}`))
   proposal.push({
     target: baseContract.address,
     data: baseContract.interface.encodeFunctionData('transfer', [strategyContract.address, strategy.initAmount!]),
   })
-  console.log(`Initializing ${getName(strategyId)} at ${strategyContract.address}`)
+  console.log(indent(nesting, `Initializing ${getName(strategyId)} at ${strategyContract.address}`))
   proposal.push({
     target: strategyContract.address,
     data: strategyContract.interface.encodeFunctionData('init', [ZERO_ADDRESS]), // Burn the strategy tokens minted

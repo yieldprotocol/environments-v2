@@ -1,6 +1,8 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Timelock, EmergencyBrake, ConvexYieldWrapper } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
+
 /**
  * @dev This script permissions the ConvexYieldWrapper
  *
@@ -13,8 +15,11 @@ export const orchestrateConvexWrapper = async (
   deployer: string,
   convexYieldWrapper: ConvexYieldWrapper,
   timelock: Timelock,
-  cloak: EmergencyBrake
+  cloak: EmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_CONVEX_WRAPPER`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -26,7 +31,7 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(point, timelock)`)
+  console.log(indent(nesting, `convexYieldWrapper.grantRole(point, timelock)`))
 
   proposal.push({
     target: convexYieldWrapper.address,
@@ -35,7 +40,7 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(recoverERC20, timelock)`)
+  console.log(indent(nesting, `convexYieldWrapper.grantRole(recoverERC20, timelock)`))
 
   proposal.push({
     target: convexYieldWrapper.address,
@@ -44,19 +49,19 @@ export const orchestrateConvexWrapper = async (
       timelock.address,
     ]),
   })
-  console.log(`convexYieldWrapper.grantRole(shutdownAndRescue, timelock)`)
+  console.log(indent(nesting, `convexYieldWrapper.grantRole(shutdownAndRescue, timelock)`))
 
   proposal.push({
     target: convexYieldWrapper.address,
     data: convexYieldWrapper.interface.encodeFunctionData('grantRole', [ROOT, cloak.address]),
   })
-  console.log(`convexYieldWrapper.grantRole(ROOT, cloak)`)
+  console.log(indent(nesting, `convexYieldWrapper.grantRole(ROOT, cloak)`))
 
   proposal.push({
     target: convexYieldWrapper.address,
     data: convexYieldWrapper.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`convexYieldWrapper.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `convexYieldWrapper.revokeRole(ROOT, deployer)`))
 
   return proposal
 }

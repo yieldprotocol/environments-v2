@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Timelock, YieldSpaceMultiOracle } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions a YieldSpaceMultiOracle
@@ -12,8 +13,11 @@ import { Timelock, YieldSpaceMultiOracle } from '../../../typechain'
 export const orchestrateYieldSpaceMultiOracle = async (
   deployer: string,
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
-  timelock: Timelock
+  timelock: Timelock,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_YIELDSPACE_MULTI_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
@@ -25,13 +29,13 @@ export const orchestrateYieldSpaceMultiOracle = async (
       timelock.address,
     ]),
   })
-  console.log(`yieldSpaceMultiOracle.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `yieldSpaceMultiOracle.grantRoles(gov, timelock)`))
 
   proposal.push({
     target: yieldSpaceMultiOracle.address,
     data: yieldSpaceMultiOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
   })
-  console.log(`yieldSpaceMultiOracle.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `yieldSpaceMultiOracle.revokeRole(ROOT, deployer)`))
 
   return proposal
 }

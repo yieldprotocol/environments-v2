@@ -1,12 +1,19 @@
 import { Giver } from '../../../typechain'
 import { id } from '@yield-protocol/utils-v2'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Lever
  * The Lever gets access on Giver for give & seize
  */
 
-export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<{ target: string; data: string }>> => {
+export const orchestrateLever = async (
+  Lever: any,
+  giver: Giver,
+  nesting: number = 0
+): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_LEVER`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -16,7 +23,7 @@ export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<
       Lever.address,
     ]),
   })
-  console.log(`giver.grantRoles('give', Lever)`)
+  console.log(indent(nesting, `giver.grantRoles('give', Lever)`))
 
   proposal.push({
     target: giver.address,
@@ -25,7 +32,7 @@ export const orchestrateLever = async (Lever: any, giver: Giver): Promise<Array<
       Lever.address,
     ]),
   })
-  console.log(`giver.grantRoles('seize', Lever)`)
+  console.log(indent(nesting, `giver.grantRoles('seize', Lever)`))
 
   return proposal
 }

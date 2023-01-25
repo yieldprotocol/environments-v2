@@ -15,6 +15,7 @@ import {
   Timelock,
 } from '../../../../typechain'
 import { AuctionLineAndLimit } from '../../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const addFCashMaturities = async (
   ownerAcc: any,
@@ -26,8 +27,11 @@ export const addFCashMaturities = async (
   ladle: Ladle,
   witch: Witch,
   notionalAssets: Array<[string, string, string]>,
-  newJoins: Map<string, string>
+  newJoins: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ADD_F_CASH_MATURITIES`))
   let proposal: Array<{ target: string; data: string }> = []
 
   let assetsAndJoins: Array<[string, string, string]> = []
@@ -60,9 +64,9 @@ export const addFCashMaturities = async (
     seriesIlks.push([newSeriesId, [newAssetId]])
   }
 
-  proposal = proposal.concat(await orchestrateJoin(ownerAcc, cloak, assetsAndJoins))
-  proposal = proposal.concat(await updateNotionalSources(notionalOracle, notionalSources))
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, assetsAndJoins))
+  proposal = proposal.concat(await orchestrateJoin(ownerAcc, cloak, assetsAndJoins, nesting + 1))
+  proposal = proposal.concat(await updateNotionalSources(notionalOracle, notionalSources, nesting + 1))
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, assetsAndJoins, nesting + 1))
   proposal = proposal.concat(
     await makeIlk(
       ownerAcc,
@@ -75,7 +79,7 @@ export const addFCashMaturities = async (
       notionalJoins
     )
   )
-  proposal = proposal.concat(await addIlksToSeries(cauldron, seriesIlks))
+  proposal = proposal.concat(await addIlksToSeries(cauldron, seriesIlks, nesting + 1))
 
   return proposal
 }

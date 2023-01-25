@@ -6,7 +6,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { Timelock, Ladle, AccessControl__factory, Strategy__factory, Pool__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
 import { removeDeployer } from '../core/removeDeployer'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 export const orchestrateStrategy = async (
@@ -15,8 +15,11 @@ export const orchestrateStrategy = async (
   timelock: Timelock,
   ladle: Ladle,
   strategy: Strategy,
-  pools: Map<string, string>
+  pools: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_STRATEGY`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
@@ -36,7 +39,7 @@ export const orchestrateStrategy = async (
       timelock.address,
     ]),
   })
-  console.log(`strategy(${getName(strategy.assetId)}).grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `strategy(${getName(strategy.assetId)}).grantRoles(gov, timelock)`))
 
   if (strategy.seriesToInvest !== undefined) {
     const pool = Pool__factory.connect(pools.get(strategy.seriesToInvest.seriesId)!, ownerAcc)
@@ -44,31 +47,33 @@ export const orchestrateStrategy = async (
       target: pool.address,
       data: pool.interface.encodeFunctionData('grantRoles', [[id(pool.interface, 'init(address)')], strategy.address]),
     })
-    console.log(`pool(${getName(strategy.seriesToInvest.seriesId)}).grantRoles(init, strategy)`)
+    console.log(indent(nesting, `pool(${getName(strategy.seriesToInvest.seriesId)}).grantRoles(init, strategy)`))
   }
 
   proposal.push({
     target: strategy.address,
     data: strategyInterface.encodeFunctionData('grantRoles', [[id(strategyInterface, 'eject()')], multisig]),
   })
-  console.log(`strategy(${getName(strategy.assetId)}).grantRoles(eject, multisig)`)
+  console.log(indent(nesting, `strategy(${getName(strategy.assetId)}).grantRoles(eject, multisig)`))
 
   // Add the strategy as an integration to the Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addIntegration', [strategy.address, true]),
   })
-  console.log(`ladle.addIntegration(${getName(strategy.assetId)})`)
+  console.log(indent(nesting, `ladle.addIntegration(${getName(strategy.assetId)})`))
 
   // Add the strategy as an token to the Ladle
   proposal.push({
     target: ladle.address,
     data: ladle.interface.encodeFunctionData('addToken', [strategy.address, true]),
   })
-  console.log(`ladle.addToken(${getName(strategy.assetId)})`)
+  console.log(indent(nesting, `ladle.addToken(${getName(strategy.assetId)})`))
 
   // Revoke ROOT from the deployer
-  proposal = proposal.concat(await removeDeployer(AccessControl__factory.connect(strategy.address, ladle.signer)))
+  proposal = proposal.concat(
+    await removeDeployer(AccessControl__factory.connect(strategy.address, ladle.signer), nesting + 1)
+  )
 
   return proposal
 }

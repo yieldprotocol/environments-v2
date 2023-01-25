@@ -3,8 +3,8 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-
 import { Timelock, EmergencyBrake } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev Revokes downgrades governor accounts to developers.
@@ -13,8 +13,11 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 export const governorsToDevelopers = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  accounts: string[]
+  accounts: string[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `GOVERNORS_TO_DEVELOPERS`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of accounts) {
     proposal.push({
@@ -38,7 +41,7 @@ export const governorsToDevelopers = async (
         revokedAccount,
       ]),
     })
-    console.log(`Downgraded account ${revokedAccount}`)
+    console.log(indent(nesting, `Downgraded account ${revokedAccount}`))
   }
 
   return proposal

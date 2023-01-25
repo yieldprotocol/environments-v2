@@ -2,11 +2,15 @@
 
 import { Cauldron } from '../../../typechain'
 import { Ilk } from '../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const updateDebtLimits = async (
   cauldron: Cauldron,
-  ilk: Ilk
+  ilk: Ilk,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `UPDATE_DEBT_LIMITS`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({

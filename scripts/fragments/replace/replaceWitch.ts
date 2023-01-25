@@ -7,6 +7,7 @@ import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
+import { indent } from '../../../shared/helpers'
 
 export const replaceWitch = async (
   ownerAcc: SignerWithAddress,
@@ -15,8 +16,11 @@ export const replaceWitch = async (
   ladle: Ladle,
   auctionLineAndLimits: AuctionLineAndLimit[],
   bases: Array<[string, string]>,
-  fyTokens: Map<string, string>
+  fyTokens: Map<string, string>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `REPLACE_WITCH`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -26,7 +30,7 @@ export const replaceWitch = async (
       witch.address,
     ]),
   })
-  console.log(`cauldron.revokeRoles(witch)`)
+  console.log(indent(nesting, `cauldron.revokeRoles(witch)`))
 
   for (const [assetId] of bases) {
     const join = await ethers.getContractAt('Join', await ladle.joins(assetId), ownerAcc)
@@ -54,7 +58,7 @@ export const replaceWitch = async (
     })
   }
 
-  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId))
+  const ilkIds = new Set(auctionLineAndLimits.map(({ ilkId }) => ilkId, nesting + 1))
   for (const ilkId of ilkIds) {
     const join = await ethers.getContractAt('Join', await ladle.joins(ilkId), ownerAcc)
     // Revoke Witch to exit ilk
