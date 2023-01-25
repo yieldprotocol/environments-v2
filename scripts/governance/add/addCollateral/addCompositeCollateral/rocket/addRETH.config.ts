@@ -65,7 +65,7 @@ export const ilkToETH: Ilk = {
     ilkId: reth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.84'), // 105 / 125
+    collateralProportion: parseUnits('0.78947368'), // 105 / 133
     max: parseUnits('1000'),
   },
 }
@@ -92,7 +92,7 @@ export const ilkToDAI: Ilk = {
     ilkId: reth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
@@ -119,7 +119,7 @@ export const ilkToUSDC: Ilk = {
     ilkId: reth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62874251'), // 105 / 133
     max: parseUnits('1000'),
   },
 }
