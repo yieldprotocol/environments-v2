@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { stringToBytes32, bytesToBytes32, impersonate, getOwnerOrImpersonate } from '../shared/helpers'
+import { impersonate, getOwnerOrImpersonate, bytes6ToBytes32 } from '../shared/helpers'
 import { FYToken, ERC20__factory, Ladle__factory, Cauldron__factory, IOracle__factory } from '../typechain'
 import { CAULDRON, LADLE, WAD } from '../shared/constants'
 const { developer, newSeries, assets, whales, protocol } = require(process.env.CONF as string)
@@ -34,13 +34,7 @@ const { developer, newSeries, assets, whales, protocol } = require(process.env.C
       var borrowed = BigNumber.from(10)
         .pow(await fyToken.decimals())
         .mul(dust)
-      const posted = (
-        await oracle.peek(
-          ilk.baseId + '0000000000000000000000000000000000000000000000000000',
-          ilk.ilkId + '0000000000000000000000000000000000000000000000000000',
-          borrowed
-        )
-      )[0]
+      const posted = (await oracle.peek(bytes6ToBytes32(ilk.baseId), bytes6ToBytes32(ilk.ilkId), borrowed))[0]
         .mul(ratio)
         .div(1000000)
         .mul(101)

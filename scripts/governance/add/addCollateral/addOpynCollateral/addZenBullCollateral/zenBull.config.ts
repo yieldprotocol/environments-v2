@@ -28,6 +28,11 @@ export const joins = readAddressMappingIfExists('newJoins.json')
 export const assets: Map<string, string> = base_config.assets
 export const zenbull: Asset = { assetId: ZENBULL, address: assets.getOrThrow(ZENBULL) as string }
 
+const osqthWethPool = '0x82c427AdFDf2d245Ec51D8046b41c4ee87F0d29C'
+const wethUsdcPool = '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8'
+const eulerDToken = '0x84721A3dB22EB852233AEAE74f9bC8477F8bcc42'
+const eulerEToken = '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D'
+
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
@@ -36,10 +41,10 @@ export const contractDeployments: ContractDeployment[] = [
     args: [
       () => assets.getOrThrow(CRAB)!,
       () => assets.getOrThrow(ZENBULL)!,
-      () => '0x82c427AdFDf2d245Ec51D8046b41c4ee87F0d29C', //osqthWethPool_
-      () => '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8', //wethUsdcPool_
-      () => '0x84721A3dB22EB852233AEAE74f9bC8477F8bcc42', //eulerDToken_
-      () => '0x1b808F49ADD4b8C6b5117d9681cF7312Fcf0dC1D', //eulerEToken_
+      () => osqthWethPool,
+      () => wethUsdcPool,
+      () => eulerDToken,
+      () => eulerEToken,
       () => USDC,
       () => ZENBULL,
     ],
@@ -48,7 +53,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'newJoins.json',
     name: ZENBULL,
     contract: 'Join',
-    args: [() => assets.getOrThrow(ZENBULL)!],
+    args: [() => assets.getOrThrow(ZENBULL)],
   },
 ]
 

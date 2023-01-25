@@ -146,6 +146,10 @@ export function bytesToBytes32(bytes: string): string {
   return stringToBytes32(getName(bytes))
 }
 
+export function bytes6ToBytes32(x: string): string {
+  return x + '00'.repeat(26)
+}
+
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
   const flat = new Map<string, string>()
   map.forEach((value: any, key: string) => {
