@@ -167,11 +167,15 @@ export const ethSeries: Series[] = [
   {
     seriesId: FYETH2303,
     fyToken: { assetId: FYETH2303, address: fyTokens.get(FYETH2303) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToETH],
   },
   {
     seriesId: FYETH2306,
     fyToken: { assetId: FYETH2306, address: fyTokens.get(FYETH2306) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToETH],
   },
 ]
@@ -180,11 +184,15 @@ export const daiSeries: Series[] = [
   {
     seriesId: FYDAI2303,
     fyToken: { assetId: FYDAI2303, address: fyTokens.get(FYDAI2303) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToDAI],
   },
   {
     seriesId: FYDAI2306,
     fyToken: { assetId: FYDAI2306, address: fyTokens.get(FYDAI2306) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToDAI],
   },
 ]
@@ -193,11 +201,15 @@ export const usdcSeries: Series[] = [
   {
     seriesId: FYUSDC2303,
     fyToken: { assetId: FYUSDC2303, address: fyTokens.get(FYUSDC2303) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToUSDC],
   },
   {
     seriesId: FYUSDC2306,
     fyToken: { assetId: FYUSDC2306, address: fyTokens.get(FYUSDC2306) as string },
+    pool: zenbull,
+    chiOracle: '',
     ilks: [ilkToUSDC],
   },
 ]

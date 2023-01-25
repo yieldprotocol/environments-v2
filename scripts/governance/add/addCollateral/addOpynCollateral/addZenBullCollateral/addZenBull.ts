@@ -28,7 +28,6 @@ const { developer, ilks, zenbull, protocol, governance, joins, newSeries, oracle
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-  let ilkStatus: Array<{ ilk: string; addedToWitchNow: boolean }> = []
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
@@ -40,9 +39,7 @@ const { developer, ilks, zenbull, protocol, governance, joins, newSeries, oracle
   // Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, zenbull, joins))
   for (let ilk of ilks) {
-    let prop = await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins, ilkStatus)
-    proposal = proposal.concat(prop[0])
-    ilkStatus = prop[1]
+    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
   // Add ilk to series Series
   for (let series of newSeries) {

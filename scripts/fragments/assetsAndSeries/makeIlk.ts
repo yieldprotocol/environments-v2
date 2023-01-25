@@ -26,8 +26,7 @@ export const makeIlk = async (
 
   // Some ilks are not liquidable
   if (ilk.auctionLineAndLimit !== undefined) {
-    let propo = await addIlkToWitch(cloak, witch, ilk, join)
-    proposal = proposal.concat(propo[0])
+    proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk, join))
   }
 
   return proposal
