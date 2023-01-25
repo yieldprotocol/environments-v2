@@ -5,19 +5,20 @@
 
 import { getName } from '../../../shared/helpers'
 import { CompositeMultiOracle } from '../../../typechain'
+import { OraclePath } from '../../governance/confTypes'
 
 export const updateCompositePaths = async (
   compositeOracle: CompositeMultiOracle,
-  compositePaths: [string, string, string[]][]
+  compositePaths: OraclePath[]
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, path] of compositePaths) {
+  for (let path of compositePaths) {
     // There is no need to test that the sources for each step in the path have been set in the composite oracle, as `setPath` would revert in that case.
     proposal.push({
       target: compositeOracle.address,
-      data: compositeOracle.interface.encodeFunctionData('setPath', [baseId, quoteId, path]),
+      data: compositeOracle.interface.encodeFunctionData('setPath', [path.baseId, path.quoteId, path.path]),
     })
-    console.log(`[path: ${getName(baseId)}/${getName(quoteId)} -> ${path}],`)
+    console.log(`path: ${getName(path.baseId)}/${getName(path.quoteId)} -> ${path.path}`)
   }
 
   return proposal

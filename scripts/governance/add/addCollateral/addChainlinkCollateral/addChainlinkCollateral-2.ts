@@ -5,7 +5,7 @@ import {
   proposeApproveExecute,
   getOwnerOrImpersonate,
 } from '../../../../../shared/helpers'
-import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployerRootToCloak'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
 import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSources'
 import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'

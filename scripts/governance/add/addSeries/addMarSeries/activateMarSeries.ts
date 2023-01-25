@@ -6,8 +6,8 @@ import { Pool } from '../../../../../typechain'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { rollStrategiesProposal } from '../../../../fragments/strategies/rollStrategies'
-import { initPoolsProposal } from '../../../../fragments/pools/initPools'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
+import { initPoolsProposal } from '../../../../fragments/pools/initPool'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
 import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestrateRollerProposal'
 
 const { developer, deployer, seriesIlks, poolsInit, rollData } = require(process.env.CONF as string)

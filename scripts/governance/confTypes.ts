@@ -37,17 +37,51 @@ export interface Collateralization {
   ratio: number
 }
 
+export interface OracleSource {
+  baseId: string
+  baseAddress: string
+  quoteId: string
+  quoteAddress: string
+  sourceAddress: string
+}
+
+export interface OraclePath {
+  baseId: string
+  quoteId: string
+  path: string[]
+}
+
+export interface Accumulator {
+  baseId: string
+  kind: string
+  startRate: BigNumber
+  perSecondRate: BigNumber
+}
+
+export interface Base extends Asset {
+  rateOracle: string
+}
+
 export interface Ilk {
   baseId: string
   ilkId: string
   asset: Asset
   collateralization: Collateralization
   debtLimits: DebtLimit
-  auctionLineAndLimit: AuctionLineAndLimit
+  auctionLineAndLimit?: AuctionLineAndLimit // Optional, only for liquidable ilks
 }
 
 export interface Series {
   seriesId: string
+  base?: Asset
   fyToken: Asset
+  chiOracle: string
+  pool: Asset
   ilks: Ilk[]
+}
+
+export interface Strategy extends Asset {
+  base: Base
+  initAmount?: BigNumber
+  seriesToInvest?: Series
 }

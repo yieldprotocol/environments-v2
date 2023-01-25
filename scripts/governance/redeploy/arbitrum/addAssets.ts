@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { getOwnerOrImpersonate, proposeApproveExecute, readAddressMappingIfExists } from '../../../../shared/helpers'
 
-import { orchestrateJoinProposal } from '../../../fragments/core/removeDeployerRootToCloak'
+import { orchestrateJoinProposal } from '../../../fragments/core/removeDeployer'
 // import { updateChainlinkSourcesProposal } from '../../../fragments/oracles/updateChainlinkSourcesProposal'
 import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAsset'
 import { makeIlkProposal } from '../../../fragments/assetsAndSeries/makeIlk'

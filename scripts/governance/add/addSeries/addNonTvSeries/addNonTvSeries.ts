@@ -20,10 +20,10 @@ import { makeBaseProposal } from '../../../../fragments/assetsAndSeries/makeBase
 import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlk'
 import { registerPoolsWithLadle } from '../../../../fragments/assetsAndSeries/registerPoolsWithLadle'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
-import { initPoolsProposal } from '../../../../fragments/pools/initPools'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategies'
-import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategies'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestrateNewPools'
+import { initPoolsProposal } from '../../../../fragments/pools/initPool'
+import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategy'
+import { initStrategiesProposal } from '../../../../fragments/strategies/initStrategy'
+import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol, chainId } = require(process.env.CONF as string)

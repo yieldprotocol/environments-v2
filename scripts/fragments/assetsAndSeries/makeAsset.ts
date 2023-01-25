@@ -11,7 +11,7 @@ export const makeAsset = async (cauldron: Cauldron, asset: Asset): Promise<Array
     target: cauldron.address,
     data: cauldron.interface.encodeFunctionData('addAsset', [asset.assetId, asset.address]),
   })
-  console.log(`[Asset: ${getName(asset.assetId)}: ${asset.address}],`)
+  console.log(`Make asset: ${getName(asset.assetId)}: ${asset.address},`)
 
   return proposal
 }
