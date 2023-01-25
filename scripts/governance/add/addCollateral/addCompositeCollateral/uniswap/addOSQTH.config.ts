@@ -86,7 +86,7 @@ export const ilkToDAI: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368'), // 105 / 167
+    collateralProportion: parseUnits('0.78947368'), // 105 / 133
     max: parseUnits('1000'),
   },
 }
@@ -113,7 +113,7 @@ export const ilkToUSDC: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368'), // 105 / 167
+    collateralProportion: parseUnits('0.78947368'), // 105 / 133
     max: parseUnits('1000'),
   },
 }
