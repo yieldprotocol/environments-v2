@@ -23,7 +23,6 @@ export const makeIlk = async (
   console.log()
   console.log(indent(nesting, `MAKE_ILK`))
   let proposal: Array<{ target: string; data: string }> = []
-
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
 
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk, nesting + 1))
