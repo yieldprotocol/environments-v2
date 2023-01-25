@@ -119,7 +119,7 @@ export const ilkToUSDC: Ilk = {
     ilkId: reth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368'), // 105 / 133
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
