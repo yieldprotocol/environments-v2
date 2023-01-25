@@ -6,10 +6,10 @@ RUN="npx hardhat run --network tenderly"
 
 
 export CONF=$PWD/$HERE/addUSDTSeries.mainnet.deployments
-$RUN $HERE/../../../../../shared/deploy.ts
+# $RUN $HERE/../../../../../shared/deploy.ts
 
 export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
-$RUN $HERE/../../../../../tools/loadTimelock.ts
-$RUN $HERE/addUSDTSeries.ts
+# $RUN $HERE/../../../../../tools/loadTimelock.ts
+# $RUN $HERE/addUSDTSeries.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
