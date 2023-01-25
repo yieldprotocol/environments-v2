@@ -23,6 +23,7 @@ import {
   YVUSDC,
   USDT,
   RETH,
+  ZENBULL,
 } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
@@ -63,4 +64,5 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
   [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
+  [ZENBULL, '0xaae102ca930508e6da30924bf0374f0f247729d5'],
 ])
