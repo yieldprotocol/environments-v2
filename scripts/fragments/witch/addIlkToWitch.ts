@@ -23,7 +23,7 @@ export const addIlkToWitch = async (
 
   if (
     !(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) &&
-    witch['ilksAdded'].find((i) => i === ilk.ilkId) === undefined
+    witch['ilksAdded']?.find((i) => i === ilk.ilkId) === undefined
   ) {
     // Allow Witch to exit ilk
     proposal.push({
@@ -49,10 +49,9 @@ export const addIlkToWitch = async (
     })
     // TODO: Maybe check the ilk.ilkId matches
     console.log(`cloak.add(witch exit ${getName(ilk.ilkId)})`)
-    witch['ilksAdded'].push(ilk.ilkId)
+    witch['ilksAdded']?.push(ilk.ilkId)
   } else {
     console.log(`Witch already has an exit role on join(${getName(ilk.ilkId)})`)
-    witch['ilksAdded'].push(ilk.ilkId)
   }
 
   return proposal
