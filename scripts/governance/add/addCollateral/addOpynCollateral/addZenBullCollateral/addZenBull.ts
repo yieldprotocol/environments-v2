@@ -7,15 +7,14 @@ import {
   EmergencyBrake__factory,
   Witch__factory,
   CompositeMultiOracle__factory,
-  AccessControl__factory,
+  Join__factory,
 } from '../../../../../../typechain'
 import { addAsset } from '../../../../../fragments/assetsAndSeries/addAsset'
-
 import { addIlkToSeries } from '../../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeIlk } from '../../../../../fragments/assetsAndSeries/makeIlk'
+import { orchestrateJoin } from '../../../../../fragments/assetsAndSeries/orchestrateJoin'
 import { updateCompositePaths } from '../../../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../../../fragments/oracles/updateCompositeSources'
-import { grantRoot } from '../../../../../fragments/permissions/grantRoot'
 
 const { developer, ilks, zenbull, protocol, governance, joins, newSeries, oraclePaths, oracleSources } = require(process
   .env.CONF!)
@@ -34,7 +33,7 @@ const { developer, ilks, zenbull, protocol, governance, joins, newSeries, oracle
   proposal = proposal.concat(await updateCompositeSources(compositeOracle, oracleSources))
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, oraclePaths))
   proposal = proposal.concat(
-    await grantRoot(AccessControl__factory.connect(joins.getOrThrow(zenbull.assetId), ownerAcc), cloak.address)
+    await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(zenbull.assetId), ownerAcc))
   )
   // Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, zenbull, joins))
