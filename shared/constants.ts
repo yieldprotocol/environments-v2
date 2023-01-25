@@ -208,6 +208,7 @@ export const EOSEP22 = 1664550000 // Friday, Sep 30 2022 15:00:00 GMT+0000
 export const EODEC22 = 1672412400 // Friday, Dec 30 2022 15:00:00 GMT+0000
 export const EOMAR23 = 1680274800 // Friday, Mar 31 2023 15:00:00 GMT+0000
 export const EOJUN23 = 1688137200 // TODO: nextYieldMaturity(FCASH_JUN23) // 1688137200 - Friday, Jun 30 2023 15:00:00 GMT+0000
+export const EOSEP23 = 1695999600 // Fri Sep 29 2023 15:00:00 GMT+0000
 
 export const FYUSDT2303 = getSeriesId(USDT, EOMAR23) // 0x0 0A0 FF 000 288
 export const FYETH2306 = getSeriesId(ETH, EOJUN23) // 0x0 030 FF 000 28B
@@ -215,9 +216,11 @@ export const FYDAI2306 = getSeriesId(DAI, EOJUN23) // 0x0 031 FF 000 28B
 export const FYUSDC2306 = getSeriesId(USDC, EOJUN23) // 0x0 032 FF 000 28B
 export const FYFRAX2306 = getSeriesId(FRAX, EOJUN23) // 0x0 138 FF 000 28B
 export const FYUSDT2306 = getSeriesId(USDT, EOJUN23) // 0x0 0A0 FF 000 28B
+export const FYUSDT2309 = getSeriesId(USDT, EOSEP23) // 0x0 0A0 FF 000 28F
 
 export const FYUSDT2303LP = getPoolId(USDT, EOMAR23) // 0x2 0A0 FF 000 288
 export const FYUSDT2306LP = getPoolId(USDT, EOJUN23) // 0x2 0A0 FF 000 28B
+export const FYUSDT2309LP = getPoolId(USDT, EOSEP23) // 0x2 0A0 FF 000 28F
 
 export const FETH2306 = getFCashAssetId(ETH, FCASH_JUN23) // 0x4 030 12 000 28B
 export const FDAI2306 = getFCashAssetId(DAI, FCASH_JUN23) // 0x4 031 12 000 28B

@@ -5,7 +5,7 @@ import { Pool } from '../../../../../typechain'
 
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
-import { rollStrategiesProposal } from '../../../../fragments/strategies/rollStrategies'
+import { rollStrategiesProposal } from '../../../../fragments/strategies/rollStrategy'
 import { initPoolsProposal } from '../../../../fragments/pools/initPool'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
 import { orchestrateRollerProposal } from '../../../../fragments/utils/orchestrateRollerProposal'
