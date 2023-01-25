@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { WAD, ONEUSDC, ONEWBTC, CHI, RATE } from '../../../../../shared/constants'
-import { ACCUMULATOR, CHAINLINK, COMPOSITE, IDENTITY } from '../../../../../shared/constants'
+import { ACCUMULATOR, CHAINLINK, COMPOSITE } from '../../../../../shared/constants'
 import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT } from '../../../../../shared/constants'
 import { FYUSDT2303, FYUSDT2306, YSUSDT6MMS, YSUSDT6MJD } from '../../../../../shared/constants'
 
@@ -113,7 +113,7 @@ const ilkUSDTUSDT: Ilk = {
   collateralization: {
     baseId: USDT,
     ilkId: USDT,
-    oracle: protocol().getOrThrow(IDENTITY)!,
+    oracle: protocol().getOrThrow(CHAINLINK)!,
     ratio: 1000000,
   },
   debtLimits: {
