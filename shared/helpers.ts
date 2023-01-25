@@ -40,13 +40,19 @@ export const propose = async (
   developer?: string
 ) => {
   // Remove duplicate proposal if any
+  let duplicateData = []
   proposal = proposal.reduce((accumulator, current) => {
     if (!accumulator.some((item) => item.target === current.target && item.data === current.data)) {
       accumulator.push(current)
+    } else {
+      duplicateData.push({ target: current.target, data: current.data })
     }
     return accumulator
   }, [])
-
+  if (duplicateData.length > 0) {
+    console.log('Duplicate proposals')
+    console.table(duplicateData)
+  }
   const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
