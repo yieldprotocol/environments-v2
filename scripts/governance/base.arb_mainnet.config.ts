@@ -1,5 +1,5 @@
 import { readAddressMappingIfExists } from '../../shared/helpers'
-import { DAI, ETH, USDC } from '../../shared/constants'
+import { ETH, DAI, USDC, USDT } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
 export const assets = readAddressMappingIfExists('assets.json')
@@ -24,4 +24,5 @@ export const whales: Map<string, string> = new Map([
   [ETH, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
   [DAI, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
   [USDC, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
+  [USDT, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
 ])

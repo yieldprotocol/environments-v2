@@ -2,9 +2,7 @@ import { BigNumber } from 'ethers'
 import {
   ACCUMULATOR,
   SAFE_ERC20_NAMER,
-  EULER,
   USDT,
-  EUSDT,
   FYUSDT2303,
   FYUSDT2306,
   EOMAR23,
@@ -15,7 +13,7 @@ import {
   YSUSDT6MJD,
 } from '../../../../../shared/constants'
 
-import * as base_config from '../../../base.mainnet.config'
+import * as base_config from '../../../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
@@ -92,10 +90,9 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'pools.json',
     name: FYUSDT2303, // Starting from the September series, pools get their own identifiers different from the fyToken
-    contract: 'PoolEuler',
+    contract: 'PoolNonTv',
     args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.getOrThrow(EUSDT)!,
+      () => assets.getOrThrow(USDT)!,
       () => fyTokens().getOrThrow(FYUSDT2303)!,
       () => timeStretch.get(FYUSDT2303)!.toString(),
       () => g1.toString(),
@@ -107,10 +104,9 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'pools.json',
     name: FYUSDT2306, // Starting from the September series, pools get their own identifiers different from the fyToken
-    contract: 'PoolEuler',
+    contract: 'PoolNonTv',
     args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.getOrThrow(EUSDT)!,
+      () => assets.getOrThrow(USDT)!,
       () => fyTokens().getOrThrow(FYUSDT2306)!,
       () => timeStretch.getOrThrow(FYUSDT2306)!.toString(),
       () => g1.toString(),

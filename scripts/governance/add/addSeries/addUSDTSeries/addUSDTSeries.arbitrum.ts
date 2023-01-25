@@ -4,8 +4,7 @@ import { IOracle } from '../../../../../typechain'
 import {
   Timelock__factory,
   EmergencyBrake__factory,
-  ChainlinkMultiOracle__factory,
-  CompositeMultiOracle__factory,
+  ChainlinkUSDMultiOracle__factory,
   AccumulatorMultiOracle__factory,
   Cauldron__factory,
   Ladle__factory,
@@ -13,7 +12,6 @@ import {
   FlashJoin__factory,
   FYToken__factory,
   Pool__factory,
-  Strategy__factory,
 } from '../../../../../typechain'
 
 import {
@@ -23,8 +21,7 @@ import {
   CAULDRON,
   WITCH,
   LADLE,
-  COMPOSITE,
-  CHAINLINK,
+  CHAINLINKUSD,
   ACCUMULATOR,
 } from '../../../../../shared/constants'
 
@@ -33,29 +30,17 @@ import { orchestrateFYToken } from '../../../../fragments/assetsAndSeries/orches
 import { orchestratePool } from '../../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../../fragments/strategies/orchestrateStrategy'
 import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
-import { updateChainlinkSources } from '../../../../fragments/oracles/updateChainlinkSources'
-import { updateCompositePaths } from '../../../../fragments/oracles/updateCompositePaths'
-import { updateCompositeSources } from '../../../../fragments/oracles/updateCompositeSources'
+import { updateChainlinkUSDSources } from '../../../../fragments/oracles/updateChainlinkUSDSources'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
-import { initPool } from '../../../../fragments/pools/initPool'
 import { initStrategy } from '../../../../fragments/strategies/initStrategy'
 import { investStrategy } from '../../../../fragments/strategies/investStrategy'
 
 const { developer } = require(process.env.CONF as string)
-const { governance, protocol, joins, fyTokens, pools, strategies } = require(process.env.CONF as string)
-const {
-  accumulators,
-  chainlinkSources,
-  compositeSources,
-  compositePaths,
-  usdt,
-  ilks,
-  newSeries,
-  newStrategies,
-} = require(process.env.CONF as string)
+const { governance, protocol, joins, pools } = require(process.env.CONF as string)
+const { accumulators, chainlinkSources, usdt, ilks, newSeries, newStrategies } = require(process.env.CONF as string)
 
 /**
  * @dev This script sets up the oracles
@@ -65,8 +50,7 @@ const {
 
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
-  const chainlinkOracle = ChainlinkMultiOracle__factory.connect(protocol().getOrThrow(CHAINLINK)!, ownerAcc)
-  const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
+  const chainlinkUsdOracle = ChainlinkUSDMultiOracle__factory.connect(protocol().getOrThrow(CHAINLINKUSD)!, ownerAcc)
   const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol().getOrThrow(ACCUMULATOR)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE)!, ownerAcc)
@@ -93,9 +77,7 @@ const {
 
   // Oracles
   proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulators))
-  proposal = proposal.concat(await updateChainlinkSources(chainlinkOracle, chainlinkSources))
-  proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
-  proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
+  proposal = proposal.concat(await updateChainlinkUSDSources(chainlinkUsdOracle, chainlinkSources))
 
   // Add Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt, joins))
