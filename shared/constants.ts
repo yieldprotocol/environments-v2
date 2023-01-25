@@ -61,7 +61,6 @@ function nextYieldMaturity(timestamp: number): number {
 // Returns the timestamp divided by the seconds in a 30 day month, in hexadecimal
 export const getIteration = (timestamp: number) => {
   const hex = ethers.utils.hexlify(Math.floor(timestamp / 2592000))
-  console.log(`Iteration: ${timestamp / 2592000} ${hex.replace('0x', '').slice(-3).padStart(3, '0').toUpperCase()}`)
   // return the three last characters of the hexadecimal, padded with zeros if necessary
   return hex.replace('0x', '').slice(-3).padStart(3, '0').toUpperCase()
 }
