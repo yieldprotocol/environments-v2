@@ -16,12 +16,11 @@ import {
 } from '../../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../../shared/helpers'
 import * as base_config from '../../../../base.mainnet.config'
-
 import { Asset, ContractDeployment, Ilk, OraclePath, OracleSource, Series } from '../../../../confTypes'
-export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const whales = base_config.whales
+
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
+export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const whales = base_config.whales
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const deployers = readAddressMappingIfExists('deployers.json')
@@ -46,12 +45,12 @@ export const ilkToETH: Ilk = {
     baseId: ETH,
     ilkId: osqth.assetId,
     oracle: protocol().getOrThrow(UNISWAP)!,
-    ratio: 1330000,
+    ratio: 1400000,
   },
   debtLimits: {
     baseId: ETH,
     ilkId: osqth.assetId,
-    line: 100,
+    line: 50,
     dust: 1,
     dec: 18,
   },
@@ -60,7 +59,7 @@ export const ilkToETH: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.84'), // 105 / 125
+    collateralProportion: parseUnits('0.75'), // 105 / 140
     max: parseUnits('1000'),
   },
 }
@@ -78,8 +77,8 @@ export const ilkToDAI: Ilk = {
   debtLimits: {
     baseId: DAI,
     ilkId: osqth.assetId,
-    line: 250000,
-    dust: 1000,
+    line: 25000,
+    dust: 100,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -87,7 +86,7 @@ export const ilkToDAI: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
@@ -105,8 +104,8 @@ export const ilkToUSDC: Ilk = {
   debtLimits: {
     baseId: USDC,
     ilkId: osqth.assetId,
-    line: 250000,
-    dust: 1000,
+    line: 25000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {
@@ -114,7 +113,7 @@ export const ilkToUSDC: Ilk = {
     ilkId: osqth.assetId,
     duration: 3600,
     vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.75'), // 105 / 140
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
   },
 }
