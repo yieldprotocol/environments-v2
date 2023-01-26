@@ -187,7 +187,7 @@ const ilkUSDTUSDC: Ilk = {
   },
 }
 
-export const ilks: Ilk[] = [ilkUSDTUSDT, ilkUSDTETH, ilkUSDTDAI, ilkUSDTUSDC]
+export const newIlks: Ilk[] = [ilkUSDTUSDT, ilkUSDTETH, ilkUSDTDAI, ilkUSDTUSDC]
 
 /// ----- SERIES -----
 
@@ -203,7 +203,7 @@ const fyUSDT2303: Series = {
     assetId: FYUSDT2303,
     address: pools.getOrThrow(FYUSDT2303)!,
   },
-  ilks: ilks,
+  ilks: newIlks,
 }
 
 const fyUSDT2306: Series = {
@@ -218,7 +218,7 @@ const fyUSDT2306: Series = {
     assetId: FYUSDT2306,
     address: pools.getOrThrow(FYUSDT2306)!,
   },
-  ilks: ilks,
+  ilks: newIlks,
 }
 
 export const newSeries: Series[] = [fyUSDT2303, fyUSDT2306]

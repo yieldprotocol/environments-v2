@@ -2,10 +2,10 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network arb_mainnet"
+RUN="npx hardhat run --network mainnet"
 
 # Phase 1: Deploy Contracts
-# export CONF=$PWD/$HERE/rollSep23Series.arbitrum.deployments
+# export CONF=$PWD/$HERE/rollSep23Series.mainnet.deployments
 # $RUN $HERE/../../../../shared/deploy.ts
 
 # Phase 2: Proposal

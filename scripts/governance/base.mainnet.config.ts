@@ -15,6 +15,14 @@ import {
   YVUSDC,
   USDT,
   RETH,
+  YSDAI6MMSASSET,
+  YSDAI6MJDASSET,
+  YSUSDC6MMSASSET,
+  YSUSDC6MJDASSET,
+  YSETH6MMSASSET,
+  YSETH6MJDASSET,
+  YSFRAX6MMSASSET,
+  YSFRAX6MJDASSET,
 } from '../../shared/constants'
 import {
   FYETH2303,
@@ -1696,35 +1704,35 @@ const fyFRAX2306: Series = {
   ilks: ethIlks,
 }
 
-const fyUSDT2303: Series = {
-  seriesId: FYUSDT2303,
-  base: usdt,
-  fyToken: {
-    assetId: FYUSDT2303,
-    address: fyTokens.getOrThrow(FYUSDT2303)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDT2303,
-    address: pools.getOrThrow(FYUSDT2303)!,
-  },
-  ilks: usdtIlks,
-}
-
-const fyUSDT2306: Series = {
-  seriesId: FYUSDT2306,
-  base: usdt,
-  fyToken: {
-    assetId: FYUSDT2306,
-    address: fyTokens.getOrThrow(FYUSDT2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDT2306,
-    address: pools.getOrThrow(FYUSDT2306)!,
-  },
-  ilks: usdtIlks,
-}
+// const fyUSDT2303: Series = {
+//   seriesId: FYUSDT2303,
+//   base: usdt,
+//   fyToken: {
+//     assetId: FYUSDT2303,
+//     address: fyTokens.getOrThrow(FYUSDT2303)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDT2303,
+//     address: pools.getOrThrow(FYUSDT2303)!,
+//   },
+//   ilks: usdtIlks,
+// }
+//
+// const fyUSDT2306: Series = {
+//   seriesId: FYUSDT2306,
+//   base: usdt,
+//   fyToken: {
+//     assetId: FYUSDT2306,
+//     address: fyTokens.getOrThrow(FYUSDT2306)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDT2306,
+//     address: pools.getOrThrow(FYUSDT2306)!,
+//   },
+//   ilks: usdtIlks,
+// }
 
 export const series: Map<string, Series> = new Map([
   [FYETH2303, fyETH2303],
@@ -1735,17 +1743,17 @@ export const series: Map<string, Series> = new Map([
   [FYUSDC2306, fyUSDC2306],
   [FYFRAX2303, fyFRAX2303],
   [FYFRAX2306, fyFRAX2306],
-  [FYUSDT2303, fyUSDT2303],
-  [FYUSDT2306, fyUSDT2306],
+  //  [FYUSDT2303, fyUSDT2303],
+  //  [FYUSDT2306, fyUSDT2306],
 ])
 
 /// ----- STRATEGIES -----
 
-const ysETH6MMS: Strategy = {
-  assetId: YSETH6MMS,
-  address: strategyAddresses.getOrThrow(YSETH6MMS)!,
-  base: eth,
-}
+// const ysETH6MMS: Strategy = {
+//   assetId: YSETH6MMS,
+//   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
+//   base: eth,
+// }
 
 const ysETH6MJD: Strategy = {
   assetId: YSETH6MJD,
@@ -1753,11 +1761,11 @@ const ysETH6MJD: Strategy = {
   base: eth,
 }
 
-const ysDAI6MMS: Strategy = {
-  assetId: YSDAI6MMS,
-  address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
-  base: dai,
-}
+// const ysDAI6MMS: Strategy = {
+//   assetId: YSDAI6MMS,
+//   address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+//   base: dai,
+// }
 
 const ysDAI6MJD: Strategy = {
   assetId: YSDAI6MJD,
@@ -1765,11 +1773,11 @@ const ysDAI6MJD: Strategy = {
   base: dai,
 }
 
-const ysUSDC6MMS: Strategy = {
-  assetId: YSUSDC6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-  base: usdc,
-}
+// const ysUSDC6MMS: Strategy = {
+//   assetId: YSUSDC6MMS,
+//   address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+//   base: usdc,
+// }
 
 const ysUSDC6MJD: Strategy = {
   assetId: YSUSDC6MJD,
@@ -1777,11 +1785,11 @@ const ysUSDC6MJD: Strategy = {
   base: usdc,
 }
 
-const ysFRAX6MMS: Strategy = {
-  assetId: YSFRAX6MMS,
-  address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
-  base: frax,
-}
+// const ysFRAX6MMS: Strategy = {
+//   assetId: YSFRAX6MMS,
+//   address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
+//   base: frax,
+// }
 
 const ysFRAX6MJD: Strategy = {
   assetId: YSFRAX6MJD,
@@ -1789,25 +1797,27 @@ const ysFRAX6MJD: Strategy = {
   base: frax,
 }
 
-const ysUSDT6MMS: Strategy = {
-  assetId: YSUSDT6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-  base: usdt,
-}
-
-const ysUSDT6MJD: Strategy = {
-  assetId: YSUSDT6MJD,
-  address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
-  base: usdt,
-}
+// const ysUSDT6MMS: Strategy = {
+//   assetId: YSUSDT6MMS,
+//   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+//   base: usdt,
+// }
+//
+// const ysUSDT6MJD: Strategy = {
+//   assetId: YSUSDT6MJD,
+//   address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
+//   base: usdt,
+// }
 
 export const strategies: Map<string, Strategy> = new Map([
-  [YSETH6MMS, ysETH6MMS],
+  //   [YSETH6MMS, ysETH6MMS],
   [YSETH6MJD, ysETH6MJD],
-  [YSDAI6MMS, ysDAI6MMS],
+  //   [YSDAI6MMS, ysDAI6MMS],
   [YSDAI6MJD, ysDAI6MJD],
-  [YSUSDC6MMS, ysUSDC6MMS],
+  //   [YSUSDC6MMS, ysUSDC6MMS],
   [YSUSDC6MJD, ysUSDC6MJD],
-  [YSUSDT6MMS, ysUSDT6MMS],
-  [YSUSDT6MJD, ysUSDT6MJD],
+  //   [YSFRAX6MMS, ysFRAX6MMS],
+  [YSFRAX6MJD, ysFRAX6MJD],
+  //  [YSUSDT6MMS, ysUSDT6MMS],
+  //  [YSUSDT6MJD, ysUSDT6MJD],
 ])

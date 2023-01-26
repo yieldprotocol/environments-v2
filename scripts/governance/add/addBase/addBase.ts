@@ -96,8 +96,10 @@ const {
   // Oracles
   proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulators))
   proposal = proposal.concat(await updateChainlinkSources(chainlinkOracle, chainlinkSources))
-  proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
-  proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
+  if (compositeSources !== undefined)
+    proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
+  if (compositePaths !== undefined)
+    proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
 
   // Add Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, newBase, joins))
