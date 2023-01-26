@@ -1,6 +1,6 @@
-import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 
-import { IOracle } from '../../../../../typechain'
+import { IOracle } from '../../../../typechain'
 import {
   Timelock__factory,
   EmergencyBrake__factory,
@@ -13,7 +13,7 @@ import {
   FlashJoin__factory,
   FYToken__factory,
   Pool__factory,
-} from '../../../../../typechain'
+} from '../../../../typechain'
 
 import {
   MULTISIG,
@@ -25,22 +25,22 @@ import {
   COMPOSITE,
   CHAINLINK,
   ACCUMULATOR,
-} from '../../../../../shared/constants'
+} from '../../../../shared/constants'
 
-import { orchestrateFlashJoin } from '../../../../fragments/assetsAndSeries/orchestrateFlashJoin'
-import { orchestrateFYToken } from '../../../../fragments/assetsAndSeries/orchestrateFYToken'
-import { orchestratePool } from '../../../../fragments/pools/orchestratePool'
-import { orchestrateStrategy } from '../../../../fragments/strategies/orchestrateStrategy'
-import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
-import { updateChainlinkSources } from '../../../../fragments/oracles/updateChainlinkSources'
-import { updateCompositePaths } from '../../../../fragments/oracles/updateCompositePaths'
-import { updateCompositeSources } from '../../../../fragments/oracles/updateCompositeSources'
-import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
-import { makeBase } from '../../../../fragments/assetsAndSeries/makeBase'
-import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
-import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
-import { initStrategy } from '../../../../fragments/strategies/initStrategy'
-import { investStrategy } from '../../../../fragments/strategies/investStrategy'
+import { orchestrateFlashJoin } from '../../../fragments/assetsAndSeries/orchestrateFlashJoin'
+import { orchestrateFYToken } from '../../../fragments/assetsAndSeries/orchestrateFYToken'
+import { orchestratePool } from '../../../fragments/pools/orchestratePool'
+import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
+import { updateAccumulatorSources } from '../../../fragments/oracles/updateAccumulatorSources'
+import { updateChainlinkSources } from '../../../fragments/oracles/updateChainlinkSources'
+import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
+import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
+import { addAsset } from '../../../fragments/assetsAndSeries/addAsset'
+import { makeBase } from '../../../fragments/assetsAndSeries/makeBase'
+import { makeIlk } from '../../../fragments/assetsAndSeries/makeIlk'
+import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
+import { initStrategy } from '../../../fragments/strategies/initStrategy'
+import { investStrategy } from '../../../fragments/strategies/investStrategy'
 
 const { developer } = require(process.env.CONF as string)
 const { governance, protocol, joins, pools } = require(process.env.CONF as string)
@@ -49,7 +49,7 @@ const {
   chainlinkSources,
   compositeSources,
   compositePaths,
-  usdt,
+  newBase,
   ilks,
   newSeries,
   newStrategies,
@@ -75,7 +75,11 @@ const {
 
   // Orchestrate new contracts
   proposal = proposal.concat(
-    await orchestrateFlashJoin(timelock, cloak, FlashJoin__factory.connect(joins.getOrThrow(usdt.assetId)!, ownerAcc))
+    await orchestrateFlashJoin(
+      timelock,
+      cloak,
+      FlashJoin__factory.connect(joins.getOrThrow(newBase.assetId)!, ownerAcc)
+    )
   )
   for (let series of newSeries) {
     proposal = proposal.concat(
@@ -96,11 +100,11 @@ const {
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, compositePaths))
 
   // Add Asset
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, usdt, joins))
+  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, newBase, joins))
 
   // Add Underlying
   proposal = proposal.concat(
-    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, usdt, joins)
+    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, newBase, joins)
   )
 
   // Add Ilks
