@@ -35,13 +35,6 @@ export const strategyAddresses = readAddressMappingIfExists('strategies.json') /
 
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const additionalDevelopers: Array<string> = [
-  '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB',
-  '0xfe90d993367bc93D171A5ED88ab460759DE2bED6',
-]
-
-export const additionalGovernors: Array<string> = []
 export const whales: Map<string, string> = new Map([
   [ETH, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
   [DAI, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
@@ -49,7 +42,7 @@ export const whales: Map<string, string> = new Map([
   [USDT, '0xBA12222222228d8Ba445958a75a0704d566BF2C8'],
 ])
 
-import { Base, Ilk, Series, Strategy, Strategy_V1 } from './confTypes'
+import { Base, Ilk, Series, Strategy } from './confTypes'
 
 export const ONEUSDT = ONEUSDC
 
