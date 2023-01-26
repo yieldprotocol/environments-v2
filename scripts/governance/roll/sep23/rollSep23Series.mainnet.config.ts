@@ -1,7 +1,7 @@
 import { USDT } from '../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../shared/constants'
 import { ONEUSDC } from '../../../../shared/constants'
-import { FYUSDT2309, FYUSDT2309LP, YSUSDT6MMS } from '../../../../shared/constants'
+import { FYUSDT2309, YSUSDT6MMS } from '../../../../shared/constants'
 
 import * as base_config from '../../base.mainnet.config'
 
@@ -37,8 +37,8 @@ const fyUSDT2309: Series = {
   },
   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
   pool: {
-    assetId: FYUSDT2309LP,
-    address: pools.getOrThrow(FYUSDT2309LP)!,
+    assetId: FYUSDT2309,
+    address: pools.getOrThrow(FYUSDT2309)!,
   },
   ilks: usdtIlks,
 }

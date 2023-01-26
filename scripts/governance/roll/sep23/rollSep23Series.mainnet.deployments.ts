@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { ONE64, secondsInOneYear } from '../../../../shared/constants'
-import { EULER, USDT, EUSDT, EOSEP23, FYUSDT2309, FYUSDT2309LP } from '../../../../shared/constants'
+import { EULER, USDT, EUSDT, EOSEP23, FYUSDT2309 } from '../../../../shared/constants'
 import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR } from '../../../../shared/constants'
 
 import { ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
@@ -63,7 +63,7 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param g1, in 64.64
   {
     addressFile: 'pools.json',
-    name: FYUSDT2309LP,
+    name: FYUSDT2309,
     contract: 'PoolEuler',
     args: [
       () => external.getOrThrow(EULER)!,
