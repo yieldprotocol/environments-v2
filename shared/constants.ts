@@ -1,5 +1,5 @@
 import { ethers, BigNumber } from 'ethers'
-import { FCASH_JUN23 } from './notional'
+import { FCASH_JUN23, FCASH_SEP23 } from './notional'
 
 export const ZERO = BigNumber.from(0)
 export const ZERO_ADDRESS = '0x' + '00'.repeat(20)
@@ -239,6 +239,9 @@ export const FYUSDT2309LP = getPoolId(USDT, EOSEP23) // 0x2 0A0 FF 000 28F
 export const FETH2306 = getFCashAssetId(ETH, FCASH_JUN23) // 0x4 030 12 000 28B
 export const FDAI2306 = getFCashAssetId(DAI, FCASH_JUN23) // 0x4 031 12 000 28B
 export const FUSDC2306 = getFCashAssetId(USDC, FCASH_JUN23) // 0x4 032 12 000 28B
+export const FETH2309 = getFCashAssetId(ETH, FCASH_SEP23) // 0x4 030 12 000 28F
+export const FDAI2309 = getFCashAssetId(DAI, FCASH_SEP23) // 0x4 031 12 000 28F
+export const FUSDC2309 = getFCashAssetId(USDC, FCASH_SEP23) // 0x4 032 12 000 28F
 
 export const YSETH6MMS = getStrategyId(ETH, 'MMS') // 1 030 FF 000 001 - Yield Strategy ETH 6M Mar Sep - YSETH6MMS
 export const YSETH6MJD = getStrategyId(ETH, 'MJD') // 1 030 FF 000 000 - Yield Strategy ETH 6M Jun Dec - YSETH6MJD
