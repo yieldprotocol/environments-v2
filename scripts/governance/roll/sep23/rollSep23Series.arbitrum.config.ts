@@ -1,9 +1,9 @@
-import { ETH, DAI, USDC, USDT } from '../../../shared/constants'
-import { ACCUMULATOR, CHAINLINKUSD } from '../../../shared/constants'
-import { WAD, ONEUSDC } from '../../../shared/constants'
-import { FYUSDT2309, FYUSDT2309LP, YSUSDT6MMS } from '../../../shared/constants'
+import { ETH, DAI, USDC, USDT } from '../../../../shared/constants'
+import { ACCUMULATOR, CHAINLINKUSD } from '../../../../shared/constants'
+import { WAD, ONEUSDC } from '../../../../shared/constants'
+import { FYUSDT2309, FYUSDT2309LP, YSUSDT6MMS } from '../../../../shared/constants'
 
-import * as base_config from '../base.arb_mainnet.config'
+import * as base_config from '../../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
@@ -17,7 +17,7 @@ export const strategies: Map<string, string> = base_config.strategies
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
 
-import { Base, Ilk, Series, Strategy } from '../confTypes'
+import { Base, Ilk, Series, Strategy } from '../../confTypes'
 
 export const ONEUSDT = ONEUSDC
 

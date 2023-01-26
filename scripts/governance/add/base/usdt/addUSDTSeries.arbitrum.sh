@@ -10,6 +10,6 @@ $RUN $HERE/../../../../../shared/deploy.ts
 
 # export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.config
 # $RUN $HERE/../../../../../tools/loadTimelock.ts
-# $RUN $HERE/addUSDTSeries.arbitrum.ts
+# $RUN $HERE/../addBase.arbitrum.ts
 # $RUN $HERE/../../../../../shared/approve.ts
 # $RUN $HERE/../../../../../shared/execute.ts
