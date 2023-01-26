@@ -1,4 +1,5 @@
 import { EmergencyBrake } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Cloak
@@ -8,8 +9,11 @@ import { EmergencyBrake } from '../../../typechain'
 
 export const orchestrateCloak = async (
   deployer: string,
-  cloak: EmergencyBrake
+  cloak: EmergencyBrake,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_CLOAK`))
   // Revoke ROOT from the deployer
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -17,7 +21,7 @@ export const orchestrateCloak = async (
     target: cloak.address,
     data: cloak.interface.encodeFunctionData('revokeRole', [await cloak.ROOT(), deployer]),
   })
-  console.log(`cloak.revokeRole(ROOT, deployer)`)
+  console.log(indent(nesting, `cloak.revokeRole(ROOT, deployer)`))
 
   // On deployment the timelock and multisig should get the planner and governor roles, respectively.
 

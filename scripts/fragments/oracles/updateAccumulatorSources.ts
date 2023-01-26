@@ -2,15 +2,18 @@
  * @dev This script replaces one or more chi data sources in the AccumulatorMultiOracle.
  */
 
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { AccumulatorMultiOracle } from '../../../typechain'
 import { Accumulator } from '../../governance/confTypes'
 
 export const updateAccumulatorSources = async (
   accumulatorOracle: AccumulatorMultiOracle,
-  accumulators: Accumulator[]
+  accumulators: Accumulator[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
-  console.log(`accumulator oracle: ${accumulatorOracle.address}`)
+  console.log()
+  console.log(indent(nesting, `UPDATE_ACCUMULATOR_SOURCES`))
+  console.log(indent(nesting, `accumulator oracle: ${accumulatorOracle.address}`))
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
@@ -28,12 +31,17 @@ export const updateAccumulatorSources = async (
         ]),
       })
       console.log(
-        `Accumulator(${getName(accumulator.baseId)}/${getName(accumulator.kind)}): ${accumulator.startRate}, ${
-          accumulator.perSecondRate
-        }`
+        indent(
+          nesting,
+          `Accumulator(${getName(accumulator.baseId)}/${getName(accumulator.kind)}): ${accumulator.startRate}, ${
+            accumulator.perSecondRate
+          }`
+        )
       )
     } else {
-      console.log(`Accumulator for (${getName(accumulator.baseId)}/${getName(accumulator.kind)}): already set`)
+      console.log(
+        indent(nesting, `Accumulator for (${getName(accumulator.baseId)}/${getName(accumulator.kind)}): already set`)
+      )
     }
   }
 

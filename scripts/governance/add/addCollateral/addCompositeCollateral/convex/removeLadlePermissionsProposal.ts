@@ -9,7 +9,8 @@ import { Cauldron, Ladle } from '../../../../../../typechain'
 
 export const removeLadlePermissionsProposal = async (
   cauldron: Cauldron,
-  ladle: Ladle
+  ladle: Ladle,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   const proposal: Array<{ target: string; data: string }> = []
 

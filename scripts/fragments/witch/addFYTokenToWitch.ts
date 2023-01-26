@@ -3,15 +3,18 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 import { Witch, FYToken, EmergencyBrake } from '../../../typechain'
 
 export const addFYTokenToWitch = async (
   cloak: EmergencyBrake,
   witch: Witch,
   seriesId: string,
-  fyToken: FYToken
+  fyToken: FYToken,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ADD_FYTOKEN_TO_WITCH`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Allow the witch to burn fyToken
@@ -22,7 +25,7 @@ export const addFYTokenToWitch = async (
       witch.address,
     ]),
   })
-  console.log(`Added ${getName(seriesId)} to Witch`)
+  console.log(indent(nesting, `Added ${getName(seriesId)} to Witch`))
 
   proposal.push({
     target: cloak.address,
@@ -36,7 +39,7 @@ export const addFYTokenToWitch = async (
       ],
     ]),
   })
-  console.log(`cloak.add(witch burn ${getName(seriesId)})`)
+  console.log(indent(nesting, `cloak.add(witch burn ${getName(seriesId)})`))
 
   return proposal
 }

@@ -1,10 +1,6 @@
-/**
- * @dev This script revokes governor role permissions from an account. This involves the Timelock and Cloak.
- */
-
 import { id } from '@yield-protocol/utils-v2'
-
 import { Timelock, EmergencyBrake } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 /**
  * @dev Revokes governor permissions from an account.
@@ -13,8 +9,11 @@ import { Timelock, EmergencyBrake } from '../../../typechain'
 export const revokeGovernors = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  revokedAccounts: string[]
+  revokedAccounts: string[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `REVOKE_GOVERNORS`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let revokedAccount of revokedAccounts) {
     proposal.push({
@@ -45,7 +44,7 @@ export const revokeGovernors = async (
         revokedAccount,
       ]),
     })
-    console.log(`Revoked governor ${revokedAccount}`)
+    console.log(indent(nesting, `Revoked governor ${revokedAccount}`))
   }
 
   return proposal

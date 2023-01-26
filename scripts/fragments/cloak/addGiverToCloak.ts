@@ -1,11 +1,15 @@
 import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, Giver } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const addGiverToCloak = async (
   cloak: EmergencyBrake,
   giver: Giver,
-  cauldron: Cauldron
+  cauldron: Cauldron,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ADD_GIVER_TO_CLOAK`))
   const proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
@@ -20,7 +24,7 @@ export const addGiverToCloak = async (
       ],
     ]),
   })
-  console.log(`cloak.add(giver give on cauldron)`)
+  console.log(indent(nesting, `cloak.add(giver give on cauldron)`))
 
   return proposal
 }

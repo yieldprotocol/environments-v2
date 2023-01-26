@@ -4,13 +4,17 @@
 import { id } from '@yield-protocol/utils-v2'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { Join__factory, Timelock, Ladle } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
 export const drainJoinsFragment = async (
   ownerAcc: SignerWithAddress,
   timelock: Timelock,
   ladle: Ladle,
-  joinReplacements: Array<[string, string]>
+  joinReplacements: Array<[string, string]>,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `DRAIN_JOINS`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
 
@@ -26,7 +30,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`oldJoin.grantRoles(exit, join)`)
+    console.log(indent(nesting, `oldJoin.grantRoles(exit, join)`))
 
     proposal.push({
       target: newJoin.address,
@@ -35,7 +39,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`newJoin.grantRoles(join, join)`)
+    console.log(indent(nesting, `newJoin.grantRoles(join, join)`))
 
     const storedBalance = await oldJoin.storedBalance()
 
@@ -44,14 +48,14 @@ export const drainJoinsFragment = async (
       target: oldJoin.address,
       data: oldJoin.interface.encodeFunctionData('exit', [newJoin.address, storedBalance]),
     })
-    console.log(`Transferring ${storedBalance} of ${oldJoin.asset()} to ${newJoin.address}`)
+    console.log(indent(nesting, `Transferring ${storedBalance} of ${oldJoin.asset()} to ${newJoin.address}`))
 
     // join all on new join
     proposal.push({
       target: newJoin.address,
       data: newJoin.interface.encodeFunctionData('join', [oldJoin.address, storedBalance]),
     })
-    console.log(`Joining ${storedBalance} of ${oldJoin.asset()} at ${newJoin.address}`)
+    console.log(indent(nesting, `Joining ${storedBalance} of ${oldJoin.asset()} at ${newJoin.address}`))
 
     // isolate from ladle
     proposal.push({
@@ -61,7 +65,7 @@ export const drainJoinsFragment = async (
         ladle.address,
       ]),
     })
-    console.log(`lodJoin.revokeRoles(join/exit, ladle)`)
+    console.log(indent(nesting, `lodJoin.revokeRoles(join/exit, ladle)`))
 
     // revoke permissions
     proposal.push({
@@ -71,7 +75,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`oldJoin.revokeRoles(exit, join)`)
+    console.log(indent(nesting, `oldJoin.revokeRoles(exit, join)`))
 
     proposal.push({
       target: newJoin.address,
@@ -80,7 +84,7 @@ export const drainJoinsFragment = async (
         timelock.address,
       ]),
     })
-    console.log(`newJoin.revokeRoles(join, join)`)
+    console.log(indent(nesting, `newJoin.revokeRoles(join, join)`))
   }
 
   return proposal

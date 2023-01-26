@@ -2,17 +2,21 @@ import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, FYToken } from '../../../typechain'
 import { removeDeployer } from '../core/removeDeployer'
 import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
+import { indent } from '../../../shared/helpers'
 
 export const orchestrateFYToken = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  fyToken: FYToken
+  fyToken: FYToken,
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `ORCHESTRATE_FYTOKEN`))
   let proposal: Array<{ target: string; data: string }> = []
 
   const fyTokenAsAccessControl = AccessControl__factory.connect(fyToken.address, fyToken.signer)
-  proposal = proposal.concat(await removeDeployer(fyTokenAsAccessControl))
-  proposal = proposal.concat(await addAsHostToCloak(cloak, fyTokenAsAccessControl))
+  proposal = proposal.concat(await removeDeployer(fyTokenAsAccessControl, nesting + 1))
+  proposal = proposal.concat(await addAsHostToCloak(cloak, fyTokenAsAccessControl, nesting + 1))
 
   proposal.push({
     target: fyToken.address,
@@ -21,7 +25,7 @@ export const orchestrateFYToken = async (
       timelock.address,
     ]),
   })
-  console.log(`fyToken.grantRoles(gov, timelock)`)
+  console.log(indent(nesting, `fyToken.grantRoles(gov, timelock)`))
 
   return proposal
 }

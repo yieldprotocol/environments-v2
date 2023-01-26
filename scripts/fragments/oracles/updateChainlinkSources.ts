@@ -10,12 +10,15 @@ import { ethers } from 'hardhat'
 
 import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechain'
 import { OracleSource } from '../../governance/confTypes'
-import { getName } from '../../../shared/helpers'
+import { getName, indent } from '../../../shared/helpers'
 
 export const updateChainlinkSources = async (
   oracle: ChainlinkMultiOracle,
-  spotSources: OracleSource[]
+  spotSources: OracleSource[],
+  nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
+  console.log()
+  console.log(indent(nesting, `UPDATE_CHAINLINK_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let source of spotSources) {
     if ((await ethers.provider.getCode(source.sourceAddress)) === '0x')

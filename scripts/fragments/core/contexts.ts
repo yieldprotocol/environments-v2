@@ -50,7 +50,7 @@ export class DeployedContext {
     const pools = readAddressMappingIfExists('pools.json')
     const [owner] = await ethers.getSigners()
 
-    const timelock = await getContract<Timelock>(owner, 'Timelock', governance.get('timelock'))
+    const timelock = await getContract<Timelock>(owner, 'Timelock', governance.get('timelock', nesting + 1))
 
     return new DeployedContext(
       assets,
@@ -68,7 +68,7 @@ export class DeployedContext {
       await getContract<Cauldron>(owner, 'Cauldron', protocol.get('cauldron')),
       await getContract<Wand>(owner, 'Wand', protocol.get('wand')),
       await getContract<Ladle>(owner, 'Ladle', protocol.get('ladle')),
-      await getContract<Witch>(owner, 'Witch', protocol.get('witch'))
+      await getContract<Witch>(owner, 'Witch', protocol.get('witch', nesting + 1))
     )
   }
 
@@ -83,14 +83,14 @@ export class DeployedContext {
    * Find the pool registered in Ladle by its series ID
    */
   async getPoolForSeries(seriesId: string): Promise<Pool> {
-    return getContract<Pool>(this.owner, 'Pool', await this.ladle.pools(seriesId))
+    return getContract<Pool>(this.owner, 'Pool', await this.ladle.pools(seriesId, nesting + 1))
   }
 
   /**
    * Find the Join registered in Ladle by the asset ID
    */
   async getJoinForAsset(assetId: string): Promise<Join> {
-    return getContract<Join>(this.owner, 'Join', await this.ladle.joins(assetId))
+    return getContract<Join>(this.owner, 'Join', await this.ladle.joins(assetId, nesting + 1))
   }
 
   /**
