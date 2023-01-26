@@ -3,10 +3,11 @@ import { ACCUMULATOR } from '../../../../shared/constants'
 import { ONEUSDC } from '../../../../shared/constants'
 import { FYUSDT2309, FYUSDT2309LP, YSUSDT6MMS } from '../../../../shared/constants'
 
-import * as base_config from '../../base.arb_mainnet.config'
+import * as base_config from '../../base.mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
 
 export const governance: Map<string, string> = base_config.governance

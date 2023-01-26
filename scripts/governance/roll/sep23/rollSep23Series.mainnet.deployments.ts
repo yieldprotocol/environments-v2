@@ -14,7 +14,7 @@ export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = base_config.whales
 
 export const governance: Map<string, string> = base_config.governance
-export const external: Map<string, string> = base_config.governance
+export const external: Map<string, string> = base_config.external
 export const assets: Map<string, string> = base_config.assets
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const joins = () => readAddressMappingIfExists('joins.json')

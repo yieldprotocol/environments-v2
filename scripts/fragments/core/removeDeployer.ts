@@ -12,7 +12,7 @@ export const removeDeployer = async (
   console.log(indent(nesting, `REMOVE_DEPLOYER`))
   let proposal: Array<{ target: string; data: string }> = []
 
-  const deployer = deployers.get(target.address)
+  const deployer = deployers.getOrThrow(target.address)!
   if (await target.hasRole(ROOT, deployer)) {
     proposal.push({
       target: target.address,
