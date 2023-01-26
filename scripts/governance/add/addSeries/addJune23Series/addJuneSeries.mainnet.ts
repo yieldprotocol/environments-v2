@@ -19,7 +19,7 @@ import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset
 import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { addSeriesProposal } from '../../../../fragments/assetsAndSeries/addSeries'
 import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
-import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategies'
+import { migrateStrategiesProposal } from '../../../../fragments/strategies/migrateStrategy'
 import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
 import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategy'
 
