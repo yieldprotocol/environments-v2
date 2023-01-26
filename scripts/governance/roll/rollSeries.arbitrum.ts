@@ -1,4 +1,4 @@
-import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../shared/helpers'
 
 import {
   Timelock__factory,
@@ -8,16 +8,14 @@ import {
   Witch__factory,
   FYToken__factory,
   Pool__factory,
-} from '../../../../../typechain'
+} from '../../../typechain'
 
-import { TIMELOCK, CLOAK, MULTISIG, CAULDRON, LADLE, WITCH } from '../../../../../shared/constants'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../shared/constants'
 
-import { addSeries } from '../../../../fragments/assetsAndSeries/addSeries'
-import { orchestrateFYToken } from '../../../../fragments/assetsAndSeries/orchestrateFYToken'
-import { orchestratePool } from '../../../../fragments/pools/orchestratePool'
-import { rollStrategy } from '../../../../fragments/strategies/rollStrategy'
-import { orchestrateNewPoolsProposal } from '../../../../fragments/pools/orchestratePool'
-import { orchestrateStrategiesProposal } from '../../../../fragments/strategies/orchestrateStrategy'
+import { addSeries } from '../../fragments/assetsAndSeries/addSeries'
+import { orchestrateFYToken } from '../../fragments/assetsAndSeries/orchestrateFYToken'
+import { orchestratePool } from '../../fragments/pools/orchestratePool'
+import { rollStrategy } from '../../fragments/strategies/rollStrategy'
 
 const { developer, governance, protocol, newSeries, pools, rollStrategies } = require(process.env.CONF as string)
 

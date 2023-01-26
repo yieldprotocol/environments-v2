@@ -1,13 +1,13 @@
 import { BigNumber } from 'ethers'
-import { ONE64, secondsInOneYear } from '../../../../../shared/constants'
-import { EULER, USDT, EUSDT, EOSEP23, FYUSDT2309, FYUSDT2309LP } from '../../../../../shared/constants'
-import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR } from '../../../../../shared/constants'
+import { ONE64, secondsInOneYear } from '../../../shared/constants'
+import { EULER, USDT, EUSDT, EOSEP23, FYUSDT2309, FYUSDT2309LP } from '../../../shared/constants'
+import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR } from '../../../shared/constants'
 
-import { ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
+import { ContractDeployment } from '../confTypes' // Note we use the series id as the asset id
 
-import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+import { readAddressMappingIfExists } from '../../../shared/helpers'
 
-import * as base_config from '../../../base.arb_mainnet.config'
+import * as base_config from '../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
