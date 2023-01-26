@@ -26,15 +26,20 @@ import {
 } from '../../shared/constants'
 import {
   FYETH2303,
-  FYETH2306,
   FYDAI2303,
-  FYDAI2306,
   FYUSDC2303,
-  FYUSDC2306,
   FYFRAX2303,
-  FYFRAX2306,
   FYUSDT2303,
+  FYETH2306,
+  FYDAI2306,
+  FYUSDC2306,
+  FYFRAX2306,
   FYUSDT2306,
+  FYETH2309,
+  FYDAI2309,
+  FYUSDC2309,
+  FYFRAX2309,
+  FYUSDT2309,
 } from '../../shared/constants'
 import {
   YSETH6MJD,
@@ -1614,6 +1619,21 @@ const fyETH2306: Series = {
   ilks: ethIlks,
 }
 
+const fyETH2309: Series = {
+  seriesId: FYETH2309,
+  base: eth,
+  fyToken: {
+    assetId: FYETH2309,
+    address: fyTokens.getOrThrow(FYETH2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYETH2309,
+    address: pools.getOrThrow(FYETH2306)!,
+  },
+  ilks: ethIlks,
+}
+
 const fyDAI2303: Series = {
   seriesId: FYDAI2303,
   base: dai,
@@ -1644,6 +1664,21 @@ const fyDAI2306: Series = {
   ilks: daiIlks,
 }
 
+const fyDAI2309: Series = {
+  seriesId: FYDAI2309,
+  base: dai,
+  fyToken: {
+    assetId: FYDAI2306,
+    address: fyTokens.getOrThrow(FYDAI2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYDAI2309,
+    address: pools.getOrThrow(FYDAI2309)!,
+  },
+  ilks: daiIlks,
+}
+
 const fyUSDC2303: Series = {
   seriesId: FYUSDC2303,
   base: usdc,
@@ -1669,6 +1704,21 @@ const fyUSDC2306: Series = {
   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
   pool: {
     assetId: FYUSDC2306,
+    address: pools.getOrThrow(FYUSDC2306)!,
+  },
+  ilks: usdcIlks,
+}
+
+const fyUSDC2309: Series = {
+  seriesId: FYUSDC2309,
+  base: usdc,
+  fyToken: {
+    assetId: FYUSDC2309,
+    address: fyTokens.getOrThrow(FYUSDC2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDC2309,
     address: pools.getOrThrow(FYUSDC2306)!,
   },
   ilks: usdcIlks,
@@ -1704,6 +1754,21 @@ const fyFRAX2306: Series = {
   ilks: ethIlks,
 }
 
+const fyFRAX2309: Series = {
+  seriesId: FYFRAX2309,
+  base: frax,
+  fyToken: {
+    assetId: FYFRAX2309,
+    address: fyTokens.getOrThrow(FYFRAX2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYFRAX2309,
+    address: pools.getOrThrow(FYFRAX2309)!,
+  },
+  ilks: ethIlks,
+}
+
 const fyUSDT2303: Series = {
   seriesId: FYUSDT2303,
   base: usdt,
@@ -1718,6 +1783,7 @@ const fyUSDT2303: Series = {
   },
   ilks: usdtIlks,
 }
+
 const fyUSDT2306: Series = {
   seriesId: FYUSDT2306,
   base: usdt,
@@ -1733,26 +1799,46 @@ const fyUSDT2306: Series = {
   ilks: usdtIlks,
 }
 
+const fyUSDT2309: Series = {
+  seriesId: FYUSDT2309,
+  base: usdt,
+  fyToken: {
+    assetId: FYUSDT2309,
+    address: fyTokens.getOrThrow(FYUSDT2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDT2309,
+    address: pools.getOrThrow(FYUSDT2309)!,
+  },
+  ilks: usdtIlks,
+}
+
 export const series: Map<string, Series> = new Map([
   [FYETH2303, fyETH2303],
-  [FYETH2306, fyETH2306],
   [FYDAI2303, fyDAI2303],
-  [FYDAI2306, fyDAI2306],
   [FYUSDC2303, fyUSDC2303],
-  [FYUSDC2306, fyUSDC2306],
   [FYFRAX2303, fyFRAX2303],
-  [FYFRAX2306, fyFRAX2306],
   [FYUSDT2303, fyUSDT2303],
+  [FYETH2306, fyETH2306],
+  [FYDAI2306, fyDAI2306],
+  [FYUSDC2306, fyUSDC2306],
+  [FYFRAX2306, fyFRAX2306],
   [FYUSDT2306, fyUSDT2306],
+  [FYETH2309, fyETH2309],
+  [FYDAI2309, fyDAI2309],
+  [FYUSDC2309, fyUSDC2309],
+  [FYFRAX2309, fyFRAX2309],
+  [FYUSDT2309, fyUSDT2309],
 ])
 
 /// ----- STRATEGIES -----
 
-// const ysETH6MMS: Strategy = {
-//   assetId: YSETH6MMS,
-//   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
-//   base: eth,
-// }
+const ysETH6MMS: Strategy = {
+  assetId: YSETH6MMS,
+  address: strategyAddresses.getOrThrow(YSETH6MMS)!,
+  base: eth,
+}
 
 const ysETH6MJD: Strategy = {
   assetId: YSETH6MJD,
@@ -1760,11 +1846,11 @@ const ysETH6MJD: Strategy = {
   base: eth,
 }
 
-// const ysDAI6MMS: Strategy = {
-//   assetId: YSDAI6MMS,
-//   address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
-//   base: dai,
-// }
+const ysDAI6MMS: Strategy = {
+  assetId: YSDAI6MMS,
+  address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+  base: dai,
+}
 
 const ysDAI6MJD: Strategy = {
   assetId: YSDAI6MJD,
@@ -1772,11 +1858,11 @@ const ysDAI6MJD: Strategy = {
   base: dai,
 }
 
-// const ysUSDC6MMS: Strategy = {
-//   assetId: YSUSDC6MMS,
-//   address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-//   base: usdc,
-// }
+const ysUSDC6MMS: Strategy = {
+  assetId: YSUSDC6MMS,
+  address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+  base: usdc,
+}
 
 const ysUSDC6MJD: Strategy = {
   assetId: YSUSDC6MJD,
@@ -1784,11 +1870,11 @@ const ysUSDC6MJD: Strategy = {
   base: usdc,
 }
 
-// const ysFRAX6MMS: Strategy = {
-//   assetId: YSFRAX6MMS,
-//   address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
-//   base: frax,
-// }
+const ysFRAX6MMS: Strategy = {
+  assetId: YSFRAX6MMS,
+  address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
+  base: frax,
+}
 
 const ysFRAX6MJD: Strategy = {
   assetId: YSFRAX6MJD,
@@ -1809,13 +1895,13 @@ const ysUSDT6MJD: Strategy = {
 }
 
 export const strategies: Map<string, Strategy> = new Map([
-  //   [YSETH6MMS, ysETH6MMS],
+  [YSETH6MMS, ysETH6MMS],
   [YSETH6MJD, ysETH6MJD],
-  //   [YSDAI6MMS, ysDAI6MMS],
+  [YSDAI6MMS, ysDAI6MMS],
   [YSDAI6MJD, ysDAI6MJD],
-  //   [YSUSDC6MMS, ysUSDC6MMS],
+  [YSUSDC6MMS, ysUSDC6MMS],
   [YSUSDC6MJD, ysUSDC6MJD],
-  //   [YSFRAX6MMS, ysFRAX6MMS],
+  [YSFRAX6MMS, ysFRAX6MMS],
   [YSFRAX6MJD, ysFRAX6MJD],
   [YSUSDT6MMS, ysUSDT6MMS],
   [YSUSDT6MJD, ysUSDT6MJD],

@@ -1,5 +1,5 @@
 import { id } from '@yield-protocol/utils-v2'
-import { EmergencyBrake, Timelock, AccessControl__factory, Join } from '../../../../typechain'
+import { EmergencyBrake, Timelock, AccessControl__factory, NotionalJoin } from '../../../../typechain'
 import { removeDeployer } from '../../core/removeDeployer'
 import { addAsHostToCloak } from '../../cloak/addAsHostToCloak'
 import { indent } from '../../../../shared/helpers'
@@ -7,7 +7,7 @@ import { indent } from '../../../../shared/helpers'
 export const orchestrateNotionalJoin = async (
   timelock: Timelock,
   cloak: EmergencyBrake,
-  join: Join,
+  join: NotionalJoin,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
@@ -24,7 +24,7 @@ export const orchestrateNotionalJoin = async (
   proposal.push({
     target: join.address,
     data: join.interface.encodeFunctionData('grantRoles', [
-      [id(join.interface, 'retrieve(address,address)'), id(join.interface, 'retrieve(address,uint256,address)')],
+      [id(join.interface, 'retrieve(address,address)'), id(join.interface, 'retrieveERC1155(address,uint256,address)')],
       timelock.address,
     ]),
   })

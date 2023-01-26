@@ -8,9 +8,9 @@ import * as base_config from '../../../base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const developer: string = '0x9152F1f95b0819DA526BF6e0cB800559542b5b25'
+export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
 
-export const deployers: Map<string, string> = base_config.deployers
 export const governance: Map<string, string> = base_config.governance
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins

@@ -68,7 +68,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYUSDT2303',
     ],
     libs: {
-      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -84,7 +84,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => 'FYUSDT2306',
     ],
     libs: {
-      SafeERC20Namer: protocol().get('safeERC20Namer')!,
+      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
   },
   {
@@ -98,7 +98,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().get('yieldMath')!,
+      YieldMath: protocol().getOrThrow('yieldMath')!,
     },
   },
   {
@@ -112,7 +112,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().get('yieldMath')!,
+      YieldMath: protocol().getOrThrow('yieldMath')!,
     },
   },
   {

@@ -1,6 +1,7 @@
 import * as base_config from '../../../../base.mainnet.config'
 
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
+export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
 
 export const external: Map<string, string> = base_config.external
@@ -132,8 +133,8 @@ export const newIlks: Array<[Series, Ilk]> = [
   [fyUSDC2309, ilkUSDCFUSDC2309],
 ]
 
-export const newJoins: Array<[string, string]> = [
-  [FETH2309, joins.getOrThrow(FETH2309)!],
-  [FDAI2309, joins.getOrThrow(FDAI2309)!],
-  [FUSDC2309, joins.getOrThrow(FUSDC2309)!],
+export const newJoins: Array<string> = [
+  joins.getOrThrow(FETH2309)!,
+  joins.getOrThrow(FDAI2309)!,
+  joins.getOrThrow(FUSDC2309)!,
 ]
