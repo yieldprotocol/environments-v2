@@ -123,18 +123,18 @@ const frax: Base = {
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const usdt: Base = {
-  assetId: USDT,
-  address: assets.getOrThrow(USDT)!,
-  rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
-}
+// const usdt: Base = {
+//   assetId: USDT,
+//   address: assets.getOrThrow(USDT)!,
+//   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
+// }
 
 export const bases: Map<string, Base> = new Map([
   [ETH, eth],
   [DAI, dai],
   [USDC, usdc],
   [FRAX, frax],
-  [USDT, usdt],
+  //  [USDT, usdt],
 ])
 
 /// -------------------------------- ETH --------------------------------
@@ -1229,298 +1229,298 @@ const ilkFRAXENS: Ilk = {
 
 /// ---------------------------- USDT ----------------------------
 
-const ilkUSDTUSDT: Ilk = {
-  baseId: USDT,
-  ilkId: USDT,
-  asset: {
-    assetId: USDT,
-    address: assets.getOrThrow(USDT)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: USDT,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1000000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: USDT,
-    line: 100000000,
-    dust: 0,
-    dec: 6,
-  },
-  // No auction line and limit for USDT/USDT
-}
+// const ilkUSDTUSDT: Ilk = {
+//   baseId: USDT,
+//   ilkId: USDT,
+//   asset: {
+//     assetId: USDT,
+//     address: assets.getOrThrow(USDT)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: USDT,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1000000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: USDT,
+//     line: 100000000,
+//     dust: 0,
+//     dec: 6,
+//   },
+//   // No auction line and limit for USDT/USDT
+// }
 
-const ilkUSDTETH: Ilk = {
-  baseId: USDT,
-  ilkId: ETH,
-  asset: {
-    assetId: ETH,
-    address: assets.getOrThrow(ETH)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: ETH,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1400000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: ETH,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: ETH,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1400000),
-    max: WAD.mul(1000), // $10M
-  },
-}
-
-const ilkUSDTDAI: Ilk = {
-  baseId: USDT,
-  ilkId: DAI,
-  asset: {
-    assetId: DAI,
-    address: assets.getOrThrow(DAI)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: DAI,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1100000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: DAI,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: DAI,
-    duration: 3600,
-    vaultProportion: WAD,
-    collateralProportion: WAD.mul(1050000).div(1100000),
-    max: WAD.mul(10000000),
-  },
-}
-
-const ilkUSDTUSDC: Ilk = {
-  baseId: USDT,
-  ilkId: USDC,
-  asset: {
-    assetId: USDC,
-    address: assets.getOrThrow(USDC)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: USDC,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1100000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: USDC,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: USDC,
-    duration: 3600,
-    vaultProportion: WAD,
-    collateralProportion: WAD.mul(1050000).div(1100000),
-    max: ONEUSDT.mul(10000000),
-  },
-}
-
-const ilkUSDTWBTC: Ilk = {
-  baseId: USDT,
-  ilkId: WBTC,
-  asset: {
-    assetId: WBTC,
-    address: assets.getOrThrow(WBTC)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: WBTC,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1500000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: WBTC,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: WBTC,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1500000),
-    max: ONEWBTC.mul(1000),
-  },
-}
-
-const ilkUSDTWSTETH: Ilk = {
-  baseId: USDT,
-  ilkId: WSTETH,
-  asset: {
-    assetId: WSTETH,
-    address: assets.getOrThrow(WSTETH)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: WSTETH,
-    oracle: protocol.getOrThrow(COMPOSITE)!,
-    ratio: 1400000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: WSTETH,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: WSTETH,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1400000),
-    max: WAD.mul(10000),
-  },
-}
-
-const ilkUSDTLINK: Ilk = {
-  baseId: USDT,
-  ilkId: LINK,
-  asset: {
-    assetId: LINK,
-    address: assets.getOrThrow(LINK)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: LINK,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1670000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: LINK,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: LINK,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1670000),
-    max: WAD.mul(100000),
-  },
-}
-
-const ilkUSDTUNI: Ilk = {
-  baseId: USDT,
-  ilkId: UNI,
-  asset: {
-    assetId: UNI,
-    address: assets.getOrThrow(UNI)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: UNI,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1670000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: UNI,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: UNI,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1670000),
-    max: WAD.mul(100000),
-  },
-}
-
-const ilkUSDTENS: Ilk = {
-  baseId: USDT,
-  ilkId: ENS,
-  asset: {
-    assetId: ENS,
-    address: assets.getOrThrow(ENS)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: ENS,
-    oracle: protocol.getOrThrow(COMPOSITE)!,
-    ratio: 1670000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: ENS,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: ENS,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1670000),
-    max: WAD.mul(10000),
-  },
-}
-
-const ilkUSDTFRAX: Ilk = {
-  baseId: USDT,
-  ilkId: FRAX,
-  asset: {
-    assetId: FRAX,
-    address: assets.getOrThrow(FRAX)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: FRAX,
-    oracle: protocol.getOrThrow(CHAINLINK)!,
-    ratio: 1150000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: FRAX,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: FRAX,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1150000),
-    max: WAD.mul(10000000),
-  },
-}
+// const ilkUSDTETH: Ilk = {
+//   baseId: USDT,
+//   ilkId: ETH,
+//   asset: {
+//     assetId: ETH,
+//     address: assets.getOrThrow(ETH)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: ETH,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1400000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: ETH,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: ETH,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1400000),
+//     max: WAD.mul(1000), // $10M
+//   },
+// }
+//
+// const ilkUSDTDAI: Ilk = {
+//   baseId: USDT,
+//   ilkId: DAI,
+//   asset: {
+//     assetId: DAI,
+//     address: assets.getOrThrow(DAI)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: DAI,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1100000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: DAI,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: DAI,
+//     duration: 3600,
+//     vaultProportion: WAD,
+//     collateralProportion: WAD.mul(1050000).div(1100000),
+//     max: WAD.mul(10000000),
+//   },
+// }
+//
+// const ilkUSDTUSDC: Ilk = {
+//   baseId: USDT,
+//   ilkId: USDC,
+//   asset: {
+//     assetId: USDC,
+//     address: assets.getOrThrow(USDC)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: USDC,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1100000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: USDC,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: USDC,
+//     duration: 3600,
+//     vaultProportion: WAD,
+//     collateralProportion: WAD.mul(1050000).div(1100000),
+//     max: ONEUSDT.mul(10000000),
+//   },
+// }
+//
+// const ilkUSDTWBTC: Ilk = {
+//   baseId: USDT,
+//   ilkId: WBTC,
+//   asset: {
+//     assetId: WBTC,
+//     address: assets.getOrThrow(WBTC)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: WBTC,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1500000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: WBTC,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: WBTC,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1500000),
+//     max: ONEWBTC.mul(1000),
+//   },
+// }
+//
+// const ilkUSDTWSTETH: Ilk = {
+//   baseId: USDT,
+//   ilkId: WSTETH,
+//   asset: {
+//     assetId: WSTETH,
+//     address: assets.getOrThrow(WSTETH)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: WSTETH,
+//     oracle: protocol.getOrThrow(COMPOSITE)!,
+//     ratio: 1400000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: WSTETH,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: WSTETH,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1400000),
+//     max: WAD.mul(10000),
+//   },
+// }
+//
+// const ilkUSDTLINK: Ilk = {
+//   baseId: USDT,
+//   ilkId: LINK,
+//   asset: {
+//     assetId: LINK,
+//     address: assets.getOrThrow(LINK)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: LINK,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1670000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: LINK,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: LINK,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1670000),
+//     max: WAD.mul(100000),
+//   },
+// }
+//
+// const ilkUSDTUNI: Ilk = {
+//   baseId: USDT,
+//   ilkId: UNI,
+//   asset: {
+//     assetId: UNI,
+//     address: assets.getOrThrow(UNI)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: UNI,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1670000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: UNI,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: UNI,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1670000),
+//     max: WAD.mul(100000),
+//   },
+// }
+//
+// const ilkUSDTENS: Ilk = {
+//   baseId: USDT,
+//   ilkId: ENS,
+//   asset: {
+//     assetId: ENS,
+//     address: assets.getOrThrow(ENS)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: ENS,
+//     oracle: protocol.getOrThrow(COMPOSITE)!,
+//     ratio: 1670000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: ENS,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: ENS,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1670000),
+//     max: WAD.mul(10000),
+//   },
+// }
+//
+// const ilkUSDTFRAX: Ilk = {
+//   baseId: USDT,
+//   ilkId: FRAX,
+//   asset: {
+//     assetId: FRAX,
+//     address: assets.getOrThrow(FRAX)!,
+//   },
+//   collateralization: {
+//     baseId: USDT,
+//     ilkId: FRAX,
+//     oracle: protocol.getOrThrow(CHAINLINK)!,
+//     ratio: 1150000,
+//   },
+//   debtLimits: {
+//     baseId: USDT,
+//     ilkId: FRAX,
+//     line: 100000,
+//     dust: 1000,
+//     dec: 6,
+//   },
+//   auctionLineAndLimit: {
+//     baseId: USDT,
+//     ilkId: FRAX,
+//     duration: 3600,
+//     vaultProportion: WAD.div(2),
+//     collateralProportion: WAD.mul(1050000).div(1150000),
+//     max: WAD.mul(10000000),
+//   },
+// }
 
 export const ethIlks: Ilk[] = [
   ilkETHETH,
@@ -1567,24 +1567,24 @@ export const fraxIlks: Ilk[] = [
   ilkFRAXENS,
   ilkFRAXFRAX,
 ]
-export const usdtIlks: Ilk[] = [
-  ilkUSDTETH,
-  ilkUSDTDAI,
-  ilkUSDTUSDC,
-  ilkUSDTWBTC,
-  ilkUSDTWSTETH,
-  ilkUSDTLINK,
-  ilkUSDTUNI,
-  ilkUSDTENS,
-  ilkUSDTFRAX,
-]
+// export const usdtIlks: Ilk[] = [
+//   ilkUSDTETH,
+//   ilkUSDTDAI,
+//   ilkUSDTUSDC,
+//   ilkUSDTWBTC,
+//   ilkUSDTWSTETH,
+//   ilkUSDTLINK,
+//   ilkUSDTUNI,
+//   ilkUSDTENS,
+//   ilkUSDTFRAX,
+// ]
 
 export const ilks: Map<string, Ilk[]> = new Map([
   [ETH, ethIlks],
   [DAI, daiIlks],
   [USDC, usdcIlks],
   [FRAX, fraxIlks],
-  [USDT, usdtIlks],
+  //  [USDT, usdtIlks],
 ])
 
 /// ----- SERIES -----
@@ -1619,20 +1619,20 @@ const fyETH2306: Series = {
   ilks: ethIlks,
 }
 
-const fyETH2309: Series = {
-  seriesId: FYETH2309,
-  base: eth,
-  fyToken: {
-    assetId: FYETH2309,
-    address: fyTokens.getOrThrow(FYETH2309)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYETH2309,
-    address: pools.getOrThrow(FYETH2306)!,
-  },
-  ilks: ethIlks,
-}
+// const fyETH2309: Series = {
+//   seriesId: FYETH2309,
+//   base: eth,
+//   fyToken: {
+//     assetId: FYETH2309,
+//     address: fyTokens.getOrThrow(FYETH2309)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYETH2309,
+//     address: pools.getOrThrow(FYETH2306)!,
+//   },
+//   ilks: ethIlks,
+// }
 
 const fyDAI2303: Series = {
   seriesId: FYDAI2303,
@@ -1664,20 +1664,20 @@ const fyDAI2306: Series = {
   ilks: daiIlks,
 }
 
-const fyDAI2309: Series = {
-  seriesId: FYDAI2309,
-  base: dai,
-  fyToken: {
-    assetId: FYDAI2306,
-    address: fyTokens.getOrThrow(FYDAI2309)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYDAI2309,
-    address: pools.getOrThrow(FYDAI2309)!,
-  },
-  ilks: daiIlks,
-}
+// const fyDAI2309: Series = {
+//   seriesId: FYDAI2309,
+//   base: dai,
+//   fyToken: {
+//     assetId: FYDAI2306,
+//     address: fyTokens.getOrThrow(FYDAI2309)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYDAI2309,
+//     address: pools.getOrThrow(FYDAI2309)!,
+//   },
+//   ilks: daiIlks,
+// }
 
 const fyUSDC2303: Series = {
   seriesId: FYUSDC2303,
@@ -1709,20 +1709,20 @@ const fyUSDC2306: Series = {
   ilks: usdcIlks,
 }
 
-const fyUSDC2309: Series = {
-  seriesId: FYUSDC2309,
-  base: usdc,
-  fyToken: {
-    assetId: FYUSDC2309,
-    address: fyTokens.getOrThrow(FYUSDC2309)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDC2309,
-    address: pools.getOrThrow(FYUSDC2306)!,
-  },
-  ilks: usdcIlks,
-}
+// const fyUSDC2309: Series = {
+//   seriesId: FYUSDC2309,
+//   base: usdc,
+//   fyToken: {
+//     assetId: FYUSDC2309,
+//     address: fyTokens.getOrThrow(FYUSDC2309)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDC2309,
+//     address: pools.getOrThrow(FYUSDC2306)!,
+//   },
+//   ilks: usdcIlks,
+// }
 
 const fyFRAX2303: Series = {
   seriesId: FYFRAX2303,
@@ -1754,65 +1754,65 @@ const fyFRAX2306: Series = {
   ilks: ethIlks,
 }
 
-const fyFRAX2309: Series = {
-  seriesId: FYFRAX2309,
-  base: frax,
-  fyToken: {
-    assetId: FYFRAX2309,
-    address: fyTokens.getOrThrow(FYFRAX2309)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYFRAX2309,
-    address: pools.getOrThrow(FYFRAX2309)!,
-  },
-  ilks: ethIlks,
-}
+// const fyFRAX2309: Series = {
+//   seriesId: FYFRAX2309,
+//   base: frax,
+//   fyToken: {
+//     assetId: FYFRAX2309,
+//     address: fyTokens.getOrThrow(FYFRAX2309)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYFRAX2309,
+//     address: pools.getOrThrow(FYFRAX2309)!,
+//   },
+//   ilks: ethIlks,
+// }
 
-const fyUSDT2303: Series = {
-  seriesId: FYUSDT2303,
-  base: usdt,
-  fyToken: {
-    assetId: FYUSDT2303,
-    address: fyTokens.getOrThrow(FYUSDT2303)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDT2303,
-    address: pools.getOrThrow(FYUSDT2303)!,
-  },
-  ilks: usdtIlks,
-}
+// const fyUSDT2303: Series = {
+//   seriesId: FYUSDT2303,
+//   base: usdt,
+//   fyToken: {
+//     assetId: FYUSDT2303,
+//     address: fyTokens.getOrThrow(FYUSDT2303)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDT2303,
+//     address: pools.getOrThrow(FYUSDT2303)!,
+//   },
+//   ilks: usdtIlks,
+// }
 
-const fyUSDT2306: Series = {
-  seriesId: FYUSDT2306,
-  base: usdt,
-  fyToken: {
-    assetId: FYUSDT2306,
-    address: fyTokens.getOrThrow(FYUSDT2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDT2306,
-    address: pools.getOrThrow(FYUSDT2306)!,
-  },
-  ilks: usdtIlks,
-}
+// const fyUSDT2306: Series = {
+//   seriesId: FYUSDT2306,
+//   base: usdt,
+//   fyToken: {
+//     assetId: FYUSDT2306,
+//     address: fyTokens.getOrThrow(FYUSDT2306)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDT2306,
+//     address: pools.getOrThrow(FYUSDT2306)!,
+//   },
+//   ilks: usdtIlks,
+// }
 
-const fyUSDT2309: Series = {
-  seriesId: FYUSDT2309,
-  base: usdt,
-  fyToken: {
-    assetId: FYUSDT2309,
-    address: fyTokens.getOrThrow(FYUSDT2309)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDT2309,
-    address: pools.getOrThrow(FYUSDT2309)!,
-  },
-  ilks: usdtIlks,
-}
+// const fyUSDT2309: Series = {
+//   seriesId: FYUSDT2309,
+//   base: usdt,
+//   fyToken: {
+//     assetId: FYUSDT2309,
+//     address: fyTokens.getOrThrow(FYUSDT2309)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYUSDT2309,
+//     address: pools.getOrThrow(FYUSDT2309)!,
+//   },
+//   ilks: usdtIlks,
+// }
 
 export const series: Map<string, Series> = new Map([
   [FYETH2303, fyETH2303],
@@ -1825,20 +1825,20 @@ export const series: Map<string, Series> = new Map([
   [FYUSDC2306, fyUSDC2306],
   [FYFRAX2306, fyFRAX2306],
   [FYUSDT2306, fyUSDT2306],
-  [FYETH2309, fyETH2309],
-  [FYDAI2309, fyDAI2309],
-  [FYUSDC2309, fyUSDC2309],
-  [FYFRAX2309, fyFRAX2309],
-  [FYUSDT2309, fyUSDT2309],
+  //  [FYETH2309, fyETH2309],
+  //  [FYDAI2309, fyDAI2309],
+  //  [FYUSDC2309, fyUSDC2309],
+  //  [FYFRAX2309, fyFRAX2309],
+  //  [FYUSDT2309, fyUSDT2309],
 ])
 
 /// ----- STRATEGIES -----
 
-const ysETH6MMS: Strategy = {
-  assetId: YSETH6MMS,
-  address: strategyAddresses.getOrThrow(YSETH6MMS)!,
-  base: eth,
-}
+// const ysETH6MMS: Strategy = {
+//   assetId: YSETH6MMS,
+//   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
+//   base: eth,
+// }
 
 const ysETH6MJD: Strategy = {
   assetId: YSETH6MJD,
@@ -1846,11 +1846,11 @@ const ysETH6MJD: Strategy = {
   base: eth,
 }
 
-const ysDAI6MMS: Strategy = {
-  assetId: YSDAI6MMS,
-  address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
-  base: dai,
-}
+// const ysDAI6MMS: Strategy = {
+//   assetId: YSDAI6MMS,
+//   address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+//   base: dai,
+// }
 
 const ysDAI6MJD: Strategy = {
   assetId: YSDAI6MJD,
@@ -1858,11 +1858,11 @@ const ysDAI6MJD: Strategy = {
   base: dai,
 }
 
-const ysUSDC6MMS: Strategy = {
-  assetId: YSUSDC6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-  base: usdc,
-}
+// const ysUSDC6MMS: Strategy = {
+//   assetId: YSUSDC6MMS,
+//   address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+//   base: usdc,
+// }
 
 const ysUSDC6MJD: Strategy = {
   assetId: YSUSDC6MJD,
@@ -1870,11 +1870,11 @@ const ysUSDC6MJD: Strategy = {
   base: usdc,
 }
 
-const ysFRAX6MMS: Strategy = {
-  assetId: YSFRAX6MMS,
-  address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
-  base: frax,
-}
+// const ysFRAX6MMS: Strategy = {
+//   assetId: YSFRAX6MMS,
+//   address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
+//   base: frax,
+// }
 
 const ysFRAX6MJD: Strategy = {
   assetId: YSFRAX6MJD,
@@ -1882,27 +1882,27 @@ const ysFRAX6MJD: Strategy = {
   base: frax,
 }
 
-const ysUSDT6MMS: Strategy = {
-  assetId: YSUSDT6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-  base: usdt,
-}
+// const ysUSDT6MMS: Strategy = {
+//   assetId: YSUSDT6MMS,
+//   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+//   base: usdt,
+// }
 
-const ysUSDT6MJD: Strategy = {
-  assetId: YSUSDT6MJD,
-  address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
-  base: usdt,
-}
+// const ysUSDT6MJD: Strategy = {
+//   assetId: YSUSDT6MJD,
+//   address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
+//   base: usdt,
+// }
 
 export const strategies: Map<string, Strategy> = new Map([
-  [YSETH6MMS, ysETH6MMS],
+  //  [YSETH6MMS, ysETH6MMS],
   [YSETH6MJD, ysETH6MJD],
-  [YSDAI6MMS, ysDAI6MMS],
+  //  [YSDAI6MMS, ysDAI6MMS],
   [YSDAI6MJD, ysDAI6MJD],
-  [YSUSDC6MMS, ysUSDC6MMS],
+  //  [YSUSDC6MMS, ysUSDC6MMS],
   [YSUSDC6MJD, ysUSDC6MJD],
-  [YSFRAX6MMS, ysFRAX6MMS],
+  //  [YSFRAX6MMS, ysFRAX6MMS],
   [YSFRAX6MJD, ysFRAX6MJD],
-  [YSUSDT6MMS, ysUSDT6MMS],
-  [YSUSDT6MJD, ysUSDT6MJD],
+  //  [YSUSDT6MMS, ysUSDT6MMS],
+  //  [YSUSDT6MJD, ysUSDT6MJD],
 ])
