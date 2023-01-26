@@ -50,7 +50,7 @@ const {
   compositeSources,
   compositePaths,
   newBase,
-  ilks,
+  newIlks,
   newSeries,
   newStrategies,
 } = require(process.env.CONF as string)
@@ -108,7 +108,7 @@ const {
   )
 
   // Add Ilks
-  for (let ilk of ilks) {
+  for (let ilk of newIlks) {
     proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
 

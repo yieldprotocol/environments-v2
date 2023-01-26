@@ -16,13 +16,13 @@ export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
-export const strategies: Map<string, string> = base_config.strategies
+export const strategyAddresses: Map<string, string> = base_config.strategyAddresses
 
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 
-import { Accumulator, OracleSource, OraclePath, Asset, Base, Ilk, Series, Strategy } from '../../../confTypes'
+import { Accumulator, OracleSource, Base, Ilk, Series, Strategy } from '../../../confTypes'
 
 export const ONEUSDT = ONEUSDC
 
@@ -227,7 +227,7 @@ export const newSeries: Series[] = [fyUSDT2303, fyUSDT2306]
 
 const ysUSDT6MMS: Strategy = {
   assetId: YSUSDT6MMS,
-  address: strategies.getOrThrow(YSUSDT6MMS)!,
+  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
   base: usdt,
   initAmount: ONEUSDT.mul(100),
   seriesToInvest: fyUSDT2303,
@@ -235,7 +235,7 @@ const ysUSDT6MMS: Strategy = {
 
 const ysUSDT6MJD: Strategy = {
   assetId: YSUSDT6MJD,
-  address: strategies.getOrThrow(YSUSDT6MJD)!,
+  address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
   base: usdt,
   initAmount: ONEUSDT.mul(100),
   seriesToInvest: fyUSDT2306,

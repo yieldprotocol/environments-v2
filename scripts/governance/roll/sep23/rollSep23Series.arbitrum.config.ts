@@ -13,134 +13,19 @@ export const governance: Map<string, string> = base_config.governance
 export const protocol: Map<string, string> = base_config.protocol
 export const assets: Map<string, string> = base_config.assets
 export const joins: Map<string, string> = base_config.joins
-export const strategies: Map<string, string> = base_config.strategies
 export const fyTokens: Map<string, string> = base_config.fyTokens
 export const pools: Map<string, string> = base_config.pools
+export const strategyAddresses: Map<string, string> = base_config.strategyAddresses
 
-import { Base, Ilk, Series, Strategy } from '../../confTypes'
+export const series: Map<string, Series> = base_config.series
+export const strategies: Map<string, Strategy> = base_config.strategies
+
+import { Series, Strategy } from '../../confTypes'
 
 export const ONEUSDT = ONEUSDC
 
-export const usdt: Base = {
-  assetId: USDT,
-  address: assets.getOrThrow(USDT)!,
-  rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
-}
-
-const ilkUSDTUSDT: Ilk = {
-  baseId: USDT,
-  ilkId: USDT,
-  asset: {
-    assetId: USDT,
-    address: assets.getOrThrow(USDT)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: USDT,
-    oracle: protocol.getOrThrow(CHAINLINKUSD)!,
-    ratio: 1000000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: USDT,
-    line: 100000000,
-    dust: 0,
-    dec: 6,
-  },
-  // No auction line and limit for USDT/USDT
-}
-
-const ilkUSDTETH: Ilk = {
-  baseId: USDT,
-  ilkId: ETH,
-  asset: {
-    assetId: ETH,
-    address: assets.getOrThrow(ETH)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: ETH,
-    oracle: protocol.getOrThrow(CHAINLINKUSD)!,
-    ratio: 1400000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: ETH,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: ETH,
-    duration: 3600,
-    vaultProportion: WAD.div(2),
-    collateralProportion: WAD.mul(1050000).div(1400000),
-    max: WAD.mul(1000), // $10M
-  },
-}
-
-const ilkUSDTDAI: Ilk = {
-  baseId: USDT,
-  ilkId: DAI,
-  asset: {
-    assetId: DAI,
-    address: assets.getOrThrow(DAI)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: DAI,
-    oracle: protocol.getOrThrow(CHAINLINKUSD)!,
-    ratio: 1100000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: DAI,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: DAI,
-    duration: 3600,
-    vaultProportion: WAD,
-    collateralProportion: WAD.mul(1050000).div(1100000),
-    max: WAD.mul(10000000),
-  },
-}
-
-const ilkUSDTUSDC: Ilk = {
-  baseId: USDT,
-  ilkId: USDC,
-  asset: {
-    assetId: USDC,
-    address: assets.getOrThrow(USDC)!,
-  },
-  collateralization: {
-    baseId: USDT,
-    ilkId: USDC,
-    oracle: protocol.getOrThrow(CHAINLINKUSD)!,
-    ratio: 1100000,
-  },
-  debtLimits: {
-    baseId: USDT,
-    ilkId: USDC,
-    line: 100000,
-    dust: 1000,
-    dec: 6,
-  },
-  auctionLineAndLimit: {
-    baseId: USDT,
-    ilkId: USDC,
-    duration: 3600,
-    vaultProportion: WAD,
-    collateralProportion: WAD.mul(1050000).div(1100000),
-    max: ONEUSDT.mul(10000000),
-  },
-}
-
-export const ilks: Ilk[] = [ilkUSDTUSDT, ilkUSDTETH, ilkUSDTDAI, ilkUSDTUSDC]
+const usdt = base_config.bases.get(USDT)!
+const usdtIlks = base_config.ilks.get(USDT)!
 
 const fyUSDT2309: Series = {
   seriesId: FYUSDT2309,
@@ -154,14 +39,14 @@ const fyUSDT2309: Series = {
     assetId: FYUSDT2309LP,
     address: pools.getOrThrow(FYUSDT2309LP)!,
   },
-  ilks: ilks,
+  ilks: usdtIlks,
 }
 
 export const newSeries: Series[] = [fyUSDT2309]
 
 const ysUSDT6MMS: Strategy = {
   assetId: YSUSDT6MMS,
-  address: strategies.getOrThrow(YSUSDT6MMS)!,
+  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
   base: usdt,
   seriesToInvest: fyUSDT2309,
 }

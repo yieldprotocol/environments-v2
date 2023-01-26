@@ -40,7 +40,8 @@ import { investStrategy } from '../../../fragments/strategies/investStrategy'
 
 const { developer } = require(process.env.CONF as string)
 const { governance, protocol, joins, pools } = require(process.env.CONF as string)
-const { accumulators, chainlinkSources, ilks, newBase, newSeries, newStrategies } = require(process.env.CONF as string)
+const { accumulators, chainlinkSources, newIlks, newBase, newSeries, newStrategies } = require(process.env
+  .CONF as string)
 
 /**
  * @dev This script sets up the oracles
@@ -92,7 +93,7 @@ const { accumulators, chainlinkSources, ilks, newBase, newSeries, newStrategies 
   )
 
   // Add Ilks
-  for (let ilk of ilks) {
+  for (let ilk of newIlks) {
     proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
 
