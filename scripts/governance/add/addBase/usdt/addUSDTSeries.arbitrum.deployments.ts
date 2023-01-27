@@ -11,6 +11,7 @@ import {
   secondsInOneYear,
   YSUSDT6MMS,
   YSUSDT6MJD,
+  YIELDMATH,
 } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.arb_mainnet.config'
@@ -112,7 +113,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   {

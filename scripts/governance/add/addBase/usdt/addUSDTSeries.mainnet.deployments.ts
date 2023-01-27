@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers'
 import {
   ACCUMULATOR,
+  YIELDMATH,
   SAFE_ERC20_NAMER,
   EULER,
   USDT,
@@ -101,7 +102,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   {
@@ -116,7 +117,7 @@ export const contractDeployments: ContractDeployment[] = [
       () => g1.toString(),
     ],
     libs: {
-      YieldMath: protocol().getOrThrow('yieldMath')!,
+      YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
   {
