@@ -3,7 +3,7 @@
  */
 
 import { id } from '@yield-protocol/utils-v2'
-import { Timelock, Ladle, AccessControl__factory, Strategy__factory, Pool__factory } from '../../../typechain'
+import { Timelock, Ladle, AccessControl__factory, Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
 import { removeDeployer } from '../core/removeDeployer'
 import { getName, indent } from '../../../shared/helpers'
@@ -40,15 +40,6 @@ export const orchestrateStrategy = async (
     ]),
   })
   console.log(indent(nesting, `strategy(${getName(strategy.assetId)}).grantRoles(gov, timelock)`))
-
-  if (strategy.seriesToInvest !== undefined) {
-    const pool = Pool__factory.connect(pools.get(strategy.seriesToInvest.seriesId)!, ownerAcc)
-    proposal.push({
-      target: pool.address,
-      data: pool.interface.encodeFunctionData('grantRoles', [[id(pool.interface, 'init(address)')], strategy.address]),
-    })
-    console.log(indent(nesting, `pool(${getName(strategy.seriesToInvest.seriesId)}).grantRoles(init, strategy)`))
-  }
 
   proposal.push({
     target: strategy.address,

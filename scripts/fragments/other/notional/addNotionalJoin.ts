@@ -20,7 +20,7 @@ export const addNotionalJoin = async (
   if (
     !(
       (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'join(address,uint128)'), join.address)) ||
-      (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address, nesting + 1))
+      (await underlyingJoin.hasRole(id(underlyingJoin.interface, 'exit(address,uint128)'), join.address))
     )
   ) {
     proposal.push({
