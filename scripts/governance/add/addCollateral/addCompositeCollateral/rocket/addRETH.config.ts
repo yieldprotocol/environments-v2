@@ -3,10 +3,13 @@ import {
   COMPOSITE,
   DAI,
   ETH,
+  FRAX,
   FYDAI2303,
   FYDAI2306,
   FYETH2303,
   FYETH2306,
+  FYFRAX2303,
+  FYFRAX2306,
   FYUSDC2303,
   FYUSDC2306,
   RETH,
@@ -56,7 +59,7 @@ export const ilkToETH: Ilk = {
   debtLimits: {
     baseId: ETH,
     ilkId: reth.assetId,
-    line: 100,
+    line: 150,
     dust: 1,
     dec: 18,
   },
@@ -124,7 +127,34 @@ export const ilkToUSDC: Ilk = {
   },
 }
 
-export const ilks: Ilk[] = [ilkToETH, ilkToDAI, ilkToUSDC]
+export const ilkToFRAX: Ilk = {
+  baseId: FRAX,
+  ilkId: reth.assetId,
+  asset: reth,
+  collateralization: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    oracle: protocol().getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
+  },
+  debtLimits: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    line: 250000,
+    dust: 1000,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    max: parseUnits('1000'),
+  },
+}
+
+export const ilks: Ilk[] = [ilkToETH, ilkToDAI, ilkToUSDC, ilkToFRAX]
 
 export const oracleSources: OracleSource[] = [
   {
@@ -145,6 +175,11 @@ export const oraclePaths: OraclePath[] = [
   {
     baseId: RETH,
     quoteId: USDC,
+    path: [ETH],
+  },
+  {
+    baseId: RETH,
+    quoteId: FRAX,
     path: [ETH],
   },
 ]
@@ -200,4 +235,21 @@ export const usdcSeries: Series[] = [
   },
 ]
 
-export const newSeries: Series[] = [...ethSeries, ...daiSeries, ...usdcSeries]
+export const fraxSeries: Series[] = [
+  {
+    seriesId: FYFRAX2303,
+    fyToken: { assetId: FYFRAX2303, address: fyTokens.getOrThrow(FYFRAX2303)! },
+    chiOracle: '',
+    pool: reth,
+    ilks: [ilkToFRAX],
+  },
+  {
+    seriesId: FYFRAX2306,
+    fyToken: { assetId: FYFRAX2306, address: fyTokens.getOrThrow(FYFRAX2306)! },
+    chiOracle: '',
+    pool: reth,
+    ilks: [ilkToFRAX],
+  },
+]
+
+export const newSeries: Series[] = [...ethSeries, ...daiSeries, ...usdcSeries, ...fraxSeries]
