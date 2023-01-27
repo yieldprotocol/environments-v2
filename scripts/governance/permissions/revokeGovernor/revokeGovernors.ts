@@ -1,12 +1,12 @@
 import { ethers } from 'hardhat'
 import { readAddressMappingIfExists, getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 
-import { grantGovernors } from '../../../fragments/permissions/grantGovernors'
+import { revokeGovernors } from '../../../fragments/permissions/revokeGovernors'
 import { Timelock, EmergencyBrake } from '../../../../typechain'
-const { newGovernors, developer } = require(process.env.CONF as string)
+const { governorsToRevoke, developer } = require(process.env.CONF as string)
 
 /**
- * @dev This script gives governor privileges to one or more accounts.
+ * @dev This script revokes governor privileges from one or more accounts.
  */
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
@@ -25,7 +25,7 @@ const { newGovernors, developer } = require(process.env.CONF as string)
     ownerAcc
   )) as unknown as EmergencyBrake
 
-  let proposal = await grantGovernors(timelock, cloak, newGovernors)
+  let proposal = await revokeGovernors(timelock, cloak, governorsToRevoke)
 
   await propose(timelock, proposal, developer)
 })()
