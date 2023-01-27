@@ -85,3 +85,9 @@ export interface Strategy extends Asset {
   initAmount?: BigNumber
   seriesToInvest?: Series
 }
+
+// Temporary interface for the v1 to v2 strategy migration
+export interface Strategy_V1 extends Asset {
+  base: Base
+  seriesToInvest: Strategy
+}

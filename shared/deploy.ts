@@ -7,13 +7,13 @@ import { Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
-const { deployer, governance, contractDeployments } = require(process.env.CONF as string)
+const { developer, governance, contractDeployments } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys contracts as defined in a proposal config file containing a contractDeployments:ContractDeployment[] export.
  */
 ;(async () => {
-  let deployerAcc = await getOwnerOrImpersonate(deployer as string)
+  let deployerAcc = await getOwnerOrImpersonate(developer as string)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), deployerAcc)
 
   for (let params_ of contractDeployments) {
