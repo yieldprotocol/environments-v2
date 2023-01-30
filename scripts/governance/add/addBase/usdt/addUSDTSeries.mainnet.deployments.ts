@@ -55,7 +55,7 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'joins.json',
     name: USDT,
-    contract: 'FlashJoin',
+    contract: 'TetherJoin',
     args: [() => assets.getOrThrow(USDT)!],
   },
   {
