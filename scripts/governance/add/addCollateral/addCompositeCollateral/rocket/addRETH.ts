@@ -7,7 +7,6 @@ import {
   EmergencyBrake__factory,
   Witch__factory,
   CompositeMultiOracle__factory,
-  AccessControl__factory,
   Join__factory,
 } from '../../../../../../typechain'
 import { addAsset } from '../../../../../fragments/assetsAndSeries/addAsset'
@@ -17,8 +16,18 @@ import { orchestrateJoin } from '../../../../../fragments/assetsAndSeries/orches
 import { updateCompositePaths } from '../../../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../../../fragments/oracles/updateCompositeSources'
 
-const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePaths, oracleSources } = require(process
-  .env.CONF!)
+const {
+  developer,
+  deployers,
+  ilks,
+  reth,
+  protocol,
+  governance,
+  joins,
+  newSeries,
+  oraclePaths,
+  oracleSources,
+} = require(process.env.CONF!)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
@@ -28,15 +37,20 @@ const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePat
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   let witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-  witch = Object.assign(witch, { ilksAdded: [] })
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   // Update oracles
   proposal = proposal.concat(await updateCompositeSources(compositeOracle, oracleSources))
   proposal = proposal.concat(await updateCompositePaths(compositeOracle, oraclePaths))
   // Permissions
+  const joinAddress = joins.getOrThrow(reth.assetId)!
   proposal = proposal.concat(
-    await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(reth.assetId), ownerAcc))
+    await orchestrateJoin(
+      deployers.getOrThrow(joinAddress)!,
+      timelock,
+      cloak,
+      Join__factory.connect(joinAddress, ownerAcc)
+    )
   )
   // Asset
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, reth, joins))
