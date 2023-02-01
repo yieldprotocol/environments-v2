@@ -193,15 +193,22 @@ export function jsonToMap(json: string): Map<any, any> {
   )
 }
 
+export function writeProposalTo(path: string, proposalHash: string, proposalExecute: string) {
+  writeFileSync(path, `${proposalHash} ${proposalExecute}`)
+}
+
 export function writeProposal(proposalHash: string, proposalExecute: string) {
   let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
-  writeFileSync(`${path}/proposal.txt`, `${proposalHash} ${proposalExecute}`)
+  writeProposalTo(`${path}/proposal.txt`, proposalHash, proposalExecute)
+}
+
+export function readProposalFrom(path: string): string[] {
+  return readFileSync(`${path}/proposal.txt`, 'utf8').split(' ')
 }
 
 export function readProposal(): string[] {
   let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
-  return readFileSync(`${path}/proposal.txt`, 'utf8').split(' ')
-}
+  return readProposalFrom(path)
 
 /// --------- ADDRESS FILES ---------
 
