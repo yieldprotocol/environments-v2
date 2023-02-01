@@ -24,10 +24,7 @@ export const addIlkToWitch = async (
   // If line and limit are set are already set, they will be updated
   proposal = proposal.concat(await setLineAndLimit(witch, ilk.auctionLineAndLimit!, nesting + 1))
 
-  if (
-    !(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address)) &&
-    witch['ilksAdded']?.find((i) => i === ilk.ilkId) === undefined
-  ) {
+  if (!(await join.hasRole(id(join.interface, 'exit(address,uint128)'), witch.address))) {
     // Allow Witch to exit ilk
     proposal.push({
       target: join.address,
@@ -50,9 +47,7 @@ export const addIlkToWitch = async (
         ],
       ]),
     })
-    // TODO: Maybe check the ilk.ilkId matches
     console.log(indent(nesting, `cloak.add(witch exit ${getName(ilk.ilkId)})`))
-    witch['ilksAdded']?.push(ilk.ilkId)
   } else {
     console.log(indent(nesting, `Witch already has an exit role on join(${getName(ilk.ilkId)})`))
   }
