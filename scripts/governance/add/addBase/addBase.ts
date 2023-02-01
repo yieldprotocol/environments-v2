@@ -73,12 +73,13 @@ const {
   let proposal: Array<{ target: string; data: string }> = []
 
   // Orchestrate new contracts
+  const usdtJoinAddress = joins.getOrThrow(newBase.assetId)!
   proposal = proposal.concat(
     await orchestrateFlashJoin(
-      deployers.getOrThrow(newBase.address)!,
+      deployers.getOrThrow(usdtJoinAddress)!,
       timelock,
       cloak,
-      FlashJoin__factory.connect(joins.getOrThrow(newBase.assetId)!, ownerAcc)
+      FlashJoin__factory.connect(usdtJoinAddress, ownerAcc)
     )
   )
   for (let series of newSeries) {
