@@ -2,29 +2,29 @@
  * @dev This script replaces one or more data sources in a NotionalMultiOracle.
  */
 
-import { ethers } from 'hardhat'
 import { NotionalMultiOracle } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { OracleSource } from '../../governance/confTypes'
+import { getName, indent } from '../../../shared/helpers'
 
 export const updateNotionalSources = async (
   oracle: NotionalMultiOracle,
-  sources: [string, string, string, string][], // fcash, notionalId, underlyingId, underlying
+  sources: OracleSource[],
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
   console.log(indent(nesting, `UPDATE_NOTIONAL_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [fcashAddress, notionalId, underlyingId, underlyingAddress] of sources) {
-    if ((await ethers.provider.getCode(fcashAddress)) === '0x') throw `Address ${fcashAddress} contains no code`
-    if ((await ethers.provider.getCode(underlyingAddress)) === '0x')
-      throw `Address ${underlyingAddress} contains no code`
-    console.log(
-      indent(nesting, `Setting up ${fcashAddress} as the source for ${notionalId}/${underlyingId} at ${oracle.address}`)
+  for (let source of sources) {
+    indent(
+      nesting,
+      `Setting up ${source.quoteAddress} as the source for ${getName(source.baseId)}/${getName(source.quoteId)} at ${
+        oracle.address
+      }`
     )
 
     proposal.push({
       target: oracle.address,
-      data: oracle.interface.encodeFunctionData('setSource', [notionalId, underlyingId, underlyingAddress]),
+      data: oracle.interface.encodeFunctionData('setSource', [source.quoteId, source.baseId, source.baseAddress]),
     })
   }
 

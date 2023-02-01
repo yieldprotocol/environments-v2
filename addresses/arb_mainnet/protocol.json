@@ -104,6 +104,14 @@
     [
       "onChainTest",
       "0xB5d97BFe6456008b9118bB5568d9379C5d6c8832"
+    ],
+    [
+      "assert",
+      "0xE1D7cD84c1e74FE06450899A8605f35D6F58fDc9"
+    ],
+    [
+      "limitedAssert",
+      "0x3201161c97E6B3c6e0e565d8Cd17ae5d0BEDb5F7"
     ]
   ]
 }

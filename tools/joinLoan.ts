@@ -1,4 +1,4 @@
-import { impersonate } from '../shared/helpers'
+import { impersonate, getName } from '../shared/helpers'
 import { WAD, LADLE } from '../shared/constants'
 import { ERC20__factory, Ladle__factory, Join__factory } from '../typechain'
 const { whales, joinLoans, protocol } = require(process.env.CONF as string)
@@ -18,6 +18,6 @@ const { whales, joinLoans, protocol } = require(process.env.CONF as string)
 
     await asset.transfer(join.address, loanAmount)
     await join.join(join.address, loanAmount)
-    console.log(`Loaned ${loanAmount} of ${assetId} to the join at ${join.address}`)
+    console.log(`Loaned ${loanAmount} of ${getName(assetId)} to the join at ${join.address}`)
   }
 })()

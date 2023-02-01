@@ -8,7 +8,7 @@
 
 import { ethers } from 'hardhat'
 
-import { ChainlinkMultiOracle, ChainlinkUSDMultiOracle } from '../../../typechain'
+import { ChainlinkMultiOracle } from '../../../typechain'
 import { OracleSource } from '../../governance/confTypes'
 import { getName, indent } from '../../../shared/helpers'
 

@@ -29,7 +29,7 @@
     "@typechain/hardhat": "^6.0.0",
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "2.0.0",
-    "@yield-protocol/utils-v2": "2.6.7",
+    "@yield-protocol/utils-v2": "2.6.9-rc.1",
     "@yield-protocol/vault-v2": "0.18.9",
     "@yield-protocol/yieldspace-tv": "0.1.9-rc.3",
     "chai": "4.2.0",
