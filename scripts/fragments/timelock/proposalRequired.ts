@@ -1,21 +1,22 @@
 import { Assert, Timelock } from '../../../typechain'
 import { indent } from '../../../shared/helpers'
 
-export const assertPrecondition = async (
+export const proposalRequired = async (
   assert: Assert,
   timelock: Timelock,
-  preconditionHash: string,
+  proposalHash: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
-  console.log(indent(nesting, `ASSERT_PRECONDITION ${preconditionHash}`))
+  console.log(indent(nesting, `PROPOSAL_REQUIRED ${proposalHash}`))
 
+  // Proposals are removed from the timelock once executed.
   return [
     {
       target: assert.address,
       data: assert.interface.encodeFunctionData('assertEq(address,bytes,uint256)', [
         timelock.address,
-        timelock.interface.encodeFunctionData('proposals', [preconditionHash]),
+        timelock.interface.encodeFunctionData('proposals', [proposalHash]),
         0,
       ]),
     },

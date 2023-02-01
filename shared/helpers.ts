@@ -46,7 +46,8 @@ export const propose = async (
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, proposalHash, requiredConfirmations)
 
-  if ((await timelock.proposals(proposalHash)).state === ProposalState.Unknown) {
+  const proposalState = (await timelock.proposals(proposalHash)).state
+  if (proposalState === ProposalState.Unknown) {
     console.log('Proposing')
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
@@ -55,6 +56,10 @@ export const propose = async (
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${proposalHash}`)
+  } else if (proposalState === ProposalState.Proposed) {
+    console.log(`Proposal already proposed: ${proposalHash}`)
+  } else if (proposalState === ProposalState.Approved) {
+    console.log(`Proposal already approved: ${proposalHash}`)
   }
 }
 
@@ -203,12 +208,13 @@ export function writeProposal(proposalHash: string, proposalExecute: string) {
 }
 
 export function readProposalFrom(path: string): string[] {
-  return readFileSync(`${path}/proposal.txt`, 'utf8').split(' ')
+  return readFileSync(path, 'utf8').split(' ')
 }
 
 export function readProposal(): string[] {
   let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
-  return readProposalFrom(path)
+  return readProposalFrom(`${path}/proposal.txt`)
+}
 
 /// --------- ADDRESS FILES ---------
 

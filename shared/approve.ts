@@ -29,5 +29,7 @@ const { governance } = require(process.env.CONF as string)
     console.log(`Approved: ${proposalHash}`)
     const delay = await timelock.delay()
     if (delay > 0 && isFork()) advanceTime(delay)
+  } else {
+    console.log(`Not proposed: ${proposalHash}`)
   }
 })()

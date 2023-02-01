@@ -1,10 +1,8 @@
 import { readProposalFrom } from '../../../../shared/helpers'
-import * as base_config from '../../base.arb_mainnet.config'
+import * as base_config from '../../base.mainnet.config'
 
 export const protocol: Map<string, string> = base_config.protocol
 export const governance: Map<string, string> = base_config.governance
-
-export const preconditionHash: string = readProposalFrom(process.env.HERE + '../addDevelopers/proposal.mainnet.txt')[0]
 
 export const executorsRevoked: string[] = [
   '0x05950b4e68f103d5aBEf20364dE219a247e59C23', // Bruno Bonnano
