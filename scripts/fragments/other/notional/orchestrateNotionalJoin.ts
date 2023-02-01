@@ -1,10 +1,11 @@
 import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, NotionalJoin } from '../../../../typechain'
-import { removeDeployer } from '../../core/removeDeployer'
+import { revokeRoot } from '../../permissions/revokeRoot'
 import { addAsHostToCloak } from '../../cloak/addAsHostToCloak'
 import { indent } from '../../../../shared/helpers'
 
 export const orchestrateNotionalJoin = async (
+  deployer: string,
   timelock: Timelock,
   cloak: EmergencyBrake,
   join: NotionalJoin,
@@ -15,7 +16,7 @@ export const orchestrateNotionalJoin = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   proposal = proposal.concat(
-    await removeDeployer(AccessControl__factory.connect(join.address, join.signer), nesting + 1)
+    await revokeRoot(AccessControl__factory.connect(join.address, join.signer), deployer, nesting + 1)
   )
   proposal = proposal.concat(
     await addAsHostToCloak(cloak, AccessControl__factory.connect(join.address, join.signer), nesting + 1)

@@ -1,10 +1,11 @@
 import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, FYToken, Join__factory } from '../../../typechain'
-import { removeDeployer } from '../core/removeDeployer'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
 import { getName, indent } from '../../../shared/helpers'
 
 export const orchestrateFYToken = async (
+  deployer: string,
   timelock: Timelock,
   cloak: EmergencyBrake,
   fyToken: FYToken,
@@ -15,7 +16,7 @@ export const orchestrateFYToken = async (
   let proposal: Array<{ target: string; data: string }> = []
 
   const fyTokenAsAccessControl = AccessControl__factory.connect(fyToken.address, fyToken.signer)
-  proposal = proposal.concat(await removeDeployer(fyTokenAsAccessControl, nesting + 1))
+  proposal = proposal.concat(await revokeRoot(fyTokenAsAccessControl, deployer, nesting + 1))
   proposal = proposal.concat(await addAsHostToCloak(cloak, fyTokenAsAccessControl, nesting + 1))
 
   // Give governance permissions to the Timelock
