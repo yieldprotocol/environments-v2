@@ -129,7 +129,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'strategies.json',
     name: YSUSDT6MMS,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy USDT 6M Mar Sep', () => 'YSUSDT6MJD', () => fyTokens().getOrThrow(FYUSDT2303)!],
+    args: [() => 'Yield Strategy USDT 6M Mar Sep', () => 'YSUSDT6MMS', () => fyTokens().getOrThrow(FYUSDT2303)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },
