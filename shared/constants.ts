@@ -194,6 +194,8 @@ export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
 export const YIELD_STETH_LEVER = 'yieldStETHLever'
 export const ONCHAINTEST = 'onChainTest'
 export const HEALER = 'healerModule'
+export const ASSERT = 'assert'
+export const LIMITED_ASSERT = 'limitedAssert'
 
 export const LIDO_PROVIDER = '10'
 export const YEARN_PROVIDER = '11'

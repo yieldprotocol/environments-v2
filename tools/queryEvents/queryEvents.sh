@@ -6,4 +6,4 @@ export CONF=$PWD/$HERE/queryEvents.mainnet.config
 RUN="npx hardhat run --network mainnet"
 
 
-$RUN $HERE/queryStrategyTransfersToPool.ts
+$RUN $HERE/queryAuctionedVaultsWitchV1.ts
