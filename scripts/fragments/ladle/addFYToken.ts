@@ -47,8 +47,8 @@ export const addFYToken = async (
   })
   console.log(indent(nesting, `cloak.add(ladle mint and burn ${getName(seriesId)})`))
 
-  // Register fyToken in Ladle
-  proposal = proposal.concat(await addToken(ladle, fyToken.address, nesting + 1))
+  // Registering fyToken in Ladle happens as part of the addPool call
+  // proposal = proposal.concat(await addToken(ladle, fyToken.address, nesting + 1))
 
   return proposal
 }
