@@ -1,3 +1,4 @@
+import { parseUnits } from 'ethers/lib/utils'
 import { readAddressMappingIfExists } from '../../shared/helpers'
 import {
   DAI,
@@ -53,7 +54,16 @@ import {
   YSFRAX6MMS,
   YSUSDT6MMS,
 } from '../../shared/constants'
-import { ACCUMULATOR, COMPOUND, CHAINLINK, COMPOSITE, YEARN, LIDO, STRATEGY_ORACLE } from '../../shared/constants'
+import {
+  ACCUMULATOR,
+  COMPOUND,
+  CHAINLINK,
+  COMPOSITE,
+  YEARN,
+  LIDO,
+  STRATEGY_ORACLE,
+  RETH_ORACLE,
+} from '../../shared/constants'
 import { WAD, ONEUSDC, ONEWBTC } from '../../shared/constants'
 
 export const external = readAddressMappingIfExists('external.json')
@@ -95,7 +105,7 @@ export const whales: Map<string, string> = new Map([
   [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
 ])
 
-import { Base, Ilk, Series, Strategy } from './confTypes'
+import { Asset, Base, Ilk, Series, Strategy } from './confTypes'
 
 export const ONEUSDT = ONEUSDC
 
@@ -128,6 +138,11 @@ const frax: Base = {
 //   address: assets.getOrThrow(USDT)!,
 //   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 // }
+
+const reth: Asset = {
+  assetId: RETH,
+  address: assets.getOrThrow(RETH)!,
+}
 
 export const bases: Map<string, Base> = new Map([
   [ETH, eth],
@@ -401,6 +416,32 @@ const ilkETHFRAX: Ilk = {
     max: WAD.mul(10000000),
   },
 }
+export const ilkETHRETH: Ilk = {
+  baseId: ETH,
+  ilkId: reth.assetId,
+  asset: reth,
+  collateralization: {
+    baseId: ETH,
+    ilkId: reth.assetId,
+    oracle: protocol.getOrThrow(RETH_ORACLE)!,
+    ratio: 1330000,
+  },
+  debtLimits: {
+    baseId: ETH,
+    ilkId: reth.assetId,
+    line: 150,
+    dust: 1,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: ETH,
+    ilkId: reth.assetId,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.78947368'), // 105 / 133
+    max: parseUnits('1000'),
+  },
+}
 
 /// ---------------------------- DAI ----------------------------
 
@@ -664,6 +705,33 @@ const ilkDAIFRAX: Ilk = {
     vaultProportion: WAD.div(2),
     collateralProportion: WAD.mul(1050000).div(1150000),
     max: WAD.mul(10000000),
+  },
+}
+
+export const ilkDAIRETH: Ilk = {
+  baseId: DAI,
+  ilkId: reth.assetId,
+  asset: reth,
+  collateralization: {
+    baseId: DAI,
+    ilkId: reth.assetId,
+    oracle: protocol.getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
+  },
+  debtLimits: {
+    baseId: DAI,
+    ilkId: reth.assetId,
+    line: 250000,
+    dust: 1000,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: DAI,
+    ilkId: reth.assetId,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    max: parseUnits('1000'),
   },
 }
 
@@ -962,6 +1030,33 @@ const ilkUSDCYVUSDC: Ilk = {
   },
 }
 
+export const ilkUSDCRETH: Ilk = {
+  baseId: USDC,
+  ilkId: reth.assetId,
+  asset: reth,
+  collateralization: {
+    baseId: USDC,
+    ilkId: reth.assetId,
+    oracle: protocol.getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
+  },
+  debtLimits: {
+    baseId: USDC,
+    ilkId: reth.assetId,
+    line: 250000,
+    dust: 1000,
+    dec: 6,
+  },
+  auctionLineAndLimit: {
+    baseId: USDC,
+    ilkId: reth.assetId,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    max: parseUnits('1000'),
+  },
+}
+
 /// ---------------------------- FRAX ----------------------------
 
 const ilkFRAXFRAX: Ilk = {
@@ -1224,6 +1319,33 @@ const ilkFRAXENS: Ilk = {
     vaultProportion: WAD.div(2),
     collateralProportion: WAD.mul(1050000).div(1670000),
     max: WAD.mul(10000),
+  },
+}
+
+export const ilkFRAXRETH: Ilk = {
+  baseId: FRAX,
+  ilkId: reth.assetId,
+  asset: reth,
+  collateralization: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    oracle: protocol.getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
+  },
+  debtLimits: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    line: 250000,
+    dust: 1000,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: FRAX,
+    ilkId: reth.assetId,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    max: parseUnits('1000'),
   },
 }
 
@@ -1532,6 +1654,7 @@ export const ethIlks: Ilk[] = [
   ilkETHUNI,
   ilkETHENS,
   ilkETHFRAX,
+  ilkETHRETH,
 ]
 export const daiIlks: Ilk[] = [
   ilkDAIETH,
@@ -1543,6 +1666,7 @@ export const daiIlks: Ilk[] = [
   ilkDAIUNI,
   ilkDAIENS,
   ilkDAIFRAX,
+  ilkDAIRETH,
 ]
 export const usdcIlks: Ilk[] = [
   ilkUSDCETH,
@@ -1555,6 +1679,7 @@ export const usdcIlks: Ilk[] = [
   ilkUSDCENS,
   ilkUSDCFRAX,
   ilkUSDCYVUSDC,
+  ilkUSDCRETH,
 ]
 export const fraxIlks: Ilk[] = [
   ilkFRAXETH,
@@ -1566,6 +1691,7 @@ export const fraxIlks: Ilk[] = [
   ilkFRAXUNI,
   ilkFRAXENS,
   ilkFRAXFRAX,
+  ilkFRAXRETH,
 ]
 // export const usdtIlks: Ilk[] = [
 //   ilkUSDTETH,
