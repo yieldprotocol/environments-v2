@@ -420,7 +420,7 @@ export const ilkUSDTRETH: Ilk = {
   debtLimits: {
     baseId: USDT,
     ilkId: RETH,
-    line: 250000,
+    line: 100000,
     dust: 1000,
     dec: 6,
   },
