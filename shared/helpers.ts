@@ -11,6 +11,11 @@ import { DISPLAY_NAMES } from './constants'
 
 /// --------- PROPOSAL EXECUTION ---------
 
+export interface ProposalFragment {
+  target: string // The contract to call (e.g 'witch')
+  data: string // The encoded function call (e.g '0x12345678')
+}
+
 /** @dev Check if address is a deployed contract */
 export const addressHasCode = async (address: string, label = 'unknown') => {
   const code = await ethers.provider.getCode(address)
@@ -39,10 +44,10 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
-  // Remove duplicate proposal if any
-  let duplicateData = []
-  proposal = proposal.reduce((accumulator, current) => {
-    if (!accumulator.some((item) => item.target === current.target && item.data === current.data)) {
+  // Remove duplicate proposals if any
+  let duplicateData: Array<ProposalFragment> = []
+  proposal = proposal.reduce((accumulator: Array<ProposalFragment>, current: ProposalFragment) => {
+    if (!accumulator.some((item: ProposalFragment) => item.target === current.target && item.data === current.data)) {
       accumulator.push(current)
     } else {
       duplicateData.push({ target: current.target, data: current.data })
