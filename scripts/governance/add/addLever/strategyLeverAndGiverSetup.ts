@@ -5,13 +5,12 @@ import {
   YieldStrategyLever__factory,
 } from '../../../../typechain'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateLeverProposal } from '../../../fragments/utils/orchestrateLever'
-import { orchestrateGiverProposal } from '../../../fragments/utils/orchestrateGiver'
-import { setFlashFeeOnJoinProposal } from '../../../fragments/setFlashFeeOnJoinProposal'
-import { setFlashFeeOnFytokenProposal } from '../../../fragments/flash/setFlashFeeOnFyToken'
+import { orchestrateLever } from '../../../fragments/utils/orchestrateLever'
+import { setFlashFeeOnFytoken } from '../../../fragments/flash/setFlashFeeOnFyToken'
 import { TIMELOCK, CAULDRON, GIVER, YIELD_STRATEGY_LEVER } from '../../../../shared/constants'
+import { setFlashFeeOnJoin } from '../../../fragments/flash/setFlashFeeOnJoin'
 
-const { developer, deployer } = require(process.env.CONF as string)
+const { developer } = require(process.env.CONF as string)
 const { protocol, governance, joinFlashFees, fyTokenFlashFees } = require(process.env.CONF as string)
 
 /**
@@ -24,9 +23,8 @@ const { protocol, governance, joinFlashFees, fyTokenFlashFees } = require(proces
   const yieldStrategyLever = YieldStrategyLever__factory.connect(protocol().getOrThrow(YIELD_STRATEGY_LEVER), ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON), ownerAcc)
 
-  let proposal: Array<{ target: string; data: string }> = await orchestrateLeverProposal(yieldStrategyLever, giver)
-  proposal = proposal.concat(await orchestrateGiverProposal(giver, cauldron, timelock, deployer))
-  proposal = proposal.concat(await setFlashFeeOnJoinProposal(joinFlashFees))
-  proposal = proposal.concat(await setFlashFeeOnFytokenProposal(fyTokenFlashFees))
+  let proposal: Array<{ target: string; data: string }> = await orchestrateLever(yieldStrategyLever, giver)
+  proposal = proposal.concat(await setFlashFeeOnJoin(joinFlashFees))
+  proposal = proposal.concat(await setFlashFeeOnFytoken(fyTokenFlashFees))
   await propose(timelock, proposal, developer)
 })()

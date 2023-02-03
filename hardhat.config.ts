@@ -118,7 +118,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/f6db0b3d-d68f-4290-ae91-a15efb2a62f7",
+      url: "https://rpc.tenderly.co/fork/f0d78231-3708-4770-9604-74b60f58576b",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
