@@ -6,7 +6,7 @@ import {
 } from '../../../../../../shared/helpers'
 
 import { Witch, Timelock } from '../../../../../../typechain'
-import { updateInitialOfferProposal } from '../../../../../fragments/liquidations/updateInitialOfferProposal'
+import { updateInitialOfferProposal } from '../../../../../fragments/witch/updateInitialOfferProposal'
 
 const { developer, deployer, assets } = require(process.env.CONF as string)
 const { initalOffers } = require(process.env.CONF as string)

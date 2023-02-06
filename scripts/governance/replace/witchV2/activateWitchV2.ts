@@ -1,8 +1,8 @@
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
-import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitchV2Fragment'
-import { protectFromLiquidationsFragment } from '../../../fragments/liquidations/protectFromLiquidationsFragment'
-import { orchestrateAuctionAssetsFragment } from '../../../fragments/liquidations/orchestrateAuctionAssetsFragment'
-import { setAuctionParametersFragment } from '../../../fragments/liquidations/setAuctionParametersFragment'
+import { orchestrateWitchV2Fragment } from '../../../fragments/core/orchestrateWitch'
+import { protectFromLiquidationsFragment } from '../../../fragments/witch/protectFromLiquidations'
+import { orchestrateAuctionAssetsFragment } from '../../../fragments/witch/orchestrateAuctionAssets'
+import { setAuctionParametersFragment } from '../../../fragments/witch/setAuctionParameters'
 import { AuctionLineAndLimit } from '../../confTypes'
 import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH_V1, WITCH } from '../../../../shared/constants'
 import {
@@ -24,9 +24,9 @@ const { protocol, governance, developer, v2Limits, seriesIds } = require(process
 
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
-  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON)!, ownerAcc)
-  const ladle = Ladle__factory.connect(protocol.get(LADLE)!, ownerAcc)
-  const witchV2 = Witch__factory.connect(protocol.get(WITCH)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON), ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(LADLE), ownerAcc)
+  const witchV2 = Witch__factory.connect(protocol().getOrThrow(WITCH), ownerAcc)
 
   const baseIds = [...new Set((v2Limits as AuctionLineAndLimit[]).map(({ baseId }) => baseId))] // Pass through a Set to remove duplicates
   const ilkIds = [...new Set((v2Limits as AuctionLineAndLimit[]).map(({ ilkId }) => ilkId))]
@@ -36,7 +36,7 @@ const { protocol, governance, developer, v2Limits, seriesIds } = require(process
     await orchestrateWitchV2Fragment(ownerAcc, timelock, cloak, cauldron, witchV2),
     await orchestrateAuctionAssetsFragment(ownerAcc, cloak, cauldron, ladle, witchV2, baseIds, ilkIds, seriesIds),
     await setAuctionParametersFragment(witchV2, v2Limits),
-    await protectFromLiquidationsFragment(witchV2, protocol.get(WITCH_V1)!),
+    await protectFromLiquidationsFragment(witchV2, protocol().getOrThrow(WITCH_V1)),
   ].flat(1)
 
   // Propose, Approve & execute

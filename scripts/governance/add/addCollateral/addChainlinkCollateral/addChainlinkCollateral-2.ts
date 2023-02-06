@@ -5,11 +5,11 @@ import {
   proposeApproveExecute,
   getOwnerOrImpersonate,
 } from '../../../../../shared/helpers'
-import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSourcesProposal'
-import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
-import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
+import { updateChainlinkSourcesProposal } from '../../../../fragments/oracles/updateChainlinkSources'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { IOracle } from '../../../../../typechain'
 import {
   developer,

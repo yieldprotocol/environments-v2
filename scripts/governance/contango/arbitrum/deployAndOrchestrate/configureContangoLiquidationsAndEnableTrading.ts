@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { CLOAK, CONTANGO_CAULDRON, CONTANGO_LADLE, CONTANGO_WITCH, TIMELOCK } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../shared/helpers'
 import { orchestrateContangoLadle } from '../../shared/orchestrateContangoLadle'
-import { orchestrateWitchV2 } from '../../../../fragments/core/orchestrateWitchV2Fragment'
+import { orchestrateWitchV2 } from '../../../../fragments/core/orchestrateWitch'
 
 const { protocol, governance, developer, auctionLineAndLimits, bases, fyTokens, contangoAddress } = require(process.env
   .CONF as string)

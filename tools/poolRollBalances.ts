@@ -1,23 +1,26 @@
 import { ethers } from 'hardhat'
 
-const { strategies, rollData } = require(process.env.CONF as string)
+import { getName } from '../shared/helpers'
+import { Strategy__factory, Pool__factory, ERC20__factory, FYToken__factory, Join__factory } from '../typechain';
+const { rollStrategies } = require(process.env.CONF as string)
 
 ;(async () => {
-  for (let [strategyId] of rollData) {
-    console.log(strategyId)
-    const strategy = await ethers.getContractAt('Strategy', strategies.get(strategyId) as string)
+  for (let strategy of rollStrategies) {
+
+    console.log(getName(strategy.assetId))
     console.log(`Strategy: ${strategy.address}`)
-    const pool = await ethers.getContractAt('Pool', await strategy.pool())
+    const strategyContract = Strategy__factory.connect(strategy.address, ethers.provider)
+    const pool = Pool__factory.connect(await strategyContract.pool(), ethers.provider)
     console.log(`Pool: ${pool.address}`)
-    const base = await ethers.getContractAt('ERC20', await pool.base())
+    const base = ERC20__factory.connect(await pool.base(), ethers.provider)
     console.log(`Base: ${base.address}`)
-    const fyToken = await ethers.getContractAt('FYToken', await pool.fyToken())
+    const fyToken = FYToken__factory.connect(await pool.fyToken(), ethers.provider)
     console.log(`FYToken: ${fyToken.address}`)
-    const join = await ethers.getContractAt('Join', await fyToken.join())
+    const join = Join__factory.connect(await fyToken.join(), ethers.provider)
     console.log(`Join: ${join.address}`)
 
     const poolRedeemableFYToken = await fyToken.balanceOf(pool.address)
-    const poolBaseReserves = await base.balanceOf(pool.address)
+    const poolBaseReserves = await pool.getBaseBalance()
     const joinReserves = await base.balanceOf(join.address)
     console.log(`${await base.symbol()} - ${await pool.maturity()}`)
     console.log(`Pool base:               ${poolBaseReserves.toString().padStart(30, ' ')}`)

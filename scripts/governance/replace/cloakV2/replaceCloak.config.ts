@@ -1,6 +1,17 @@
 import { ContractDeployment } from '../../confTypes'
 
-import { TIMELOCK, CLOAK, MULTISIG } from '../../../../shared/constants'
+import {
+  TIMELOCK,
+  CLOAK,
+  MULTISIG,
+  CAULDRON,
+  WITCH,
+  LADLE,
+  GIVER,
+  ROLLER,
+  YIELD_STRATEGY_LEVER,
+  WITCH_V1,
+} from '../../../../shared/constants'
 
 import * as base_config from '../../base.arb_mainnet.config'
 
@@ -22,16 +33,27 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'governance.json',
     name: CLOAK,
     contract: 'EmergencyBrake',
-    args: [governance.get(MULTISIG)!, governance.get(TIMELOCK)!, developer],
+    args: [() => governance.get(MULTISIG)!, () => governance.get(TIMELOCK)!, () => developer],
   },
 ]
 
 export const executors = [
   '0xC7aE076086623ecEA2450e364C838916a043F9a8', // Alberto Cuesta Cañada
   '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB', // Prafful Sahu
-  '0xfe90d993367bc93D171A5ED88ab460759DE2bED6', // Richie Humpfrey
   '0x9152F1f95b0819DA526BF6e0cB800559542b5b25', // James Thompson
   '0x05950b4e68f103d5aBEf20364dE219a247e59C23', // Bruno Bonnano
   '0x02f73B54ccfBA5c91bf432087D60e4b3a781E497', // Egill Hreinsson
   '0x1662BbbDdA3fb169f10C495AE27596Af7f8fD3E1', // Marco Mariscal
 ]
+
+export const levers: string[] = [protocol.get(YIELD_STRATEGY_LEVER)!]
+
+export const users: Array<string> = [protocol.getOrThrow(LADLE), protocol.getOrThrow(WITCH), protocol.getOrThrow(GIVER)]
+
+fyTokens.forEach((value: string) => {
+  users.push(value)
+})
+
+levers.forEach((element) => {
+  users.push(element)
+})

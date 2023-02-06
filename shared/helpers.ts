@@ -7,8 +7,14 @@ import { BigNumber, ContractTransaction, BaseContract } from 'ethers'
 import { BaseProvider } from '@ethersproject/providers'
 import { Timelock } from '../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { DISPLAY_NAMES } from './constants'
 
 /// --------- PROPOSAL EXECUTION ---------
+
+export interface ProposalFragment {
+  target: string // The contract to call (e.g 'witch')
+  data: string // The encoded function call (e.g '0x12345678')
+}
 
 /** @dev Check if address is a deployed contract */
 export const addressHasCode = async (address: string, label = 'unknown') => {
@@ -38,6 +44,20 @@ export const propose = async (
   proposal: Array<{ target: string; data: string }>,
   developer?: string
 ) => {
+  // Remove duplicate proposals if any
+  let duplicateData: Array<ProposalFragment> = []
+  proposal = proposal.reduce((accumulator: Array<ProposalFragment>, current: ProposalFragment) => {
+    if (!accumulator.some((item: ProposalFragment) => item.target === current.target && item.data === current.data)) {
+      accumulator.push(current)
+    } else {
+      duplicateData.push({ target: current.target, data: current.data })
+    }
+    return accumulator
+  }, [])
+  if (duplicateData.length > 0) {
+    console.log('Duplicate proposals')
+    console.table(duplicateData)
+  }
   const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
@@ -51,7 +71,6 @@ export const propose = async (
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
 
     writeProposal(proposalHash, timelock.interface.encodeFunctionData('execute', [proposal]))
-
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${proposalHash}`)
@@ -104,7 +123,9 @@ export const advanceTime = async (time: number) => {
         await network.provider.send('evm_increaseTime', [time])
         await network.provider.send('evm_mine', [])
       }
-      console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days)`)
+      const provider: BaseProvider = ethers.provider
+      const now = (await provider.getBlock(await provider.getBlockNumber())).timestamp
+      console.log(`advancing time by ${time} seconds (${time / (24 * 60 * 60)} days) to ${now + time}`)
     }
   }
 }
@@ -116,11 +137,21 @@ export const advanceTimeTo = async (time: number) => {
   await advanceTime(time - now)
 }
 
+/// --------- LOGGING ---------
+
+export const indent = (nesting: number, text: string) => {
+  return '\t'.repeat(nesting) + text
+}
 /// --------- DATA MANIPULATION ---------
 
-export function bytesToString(bytes: string): string {
-  return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+// Get name from identifier
+export const getName = (id: string) => {
+  return DISPLAY_NAMES.get(id) || id
 }
+
+// export function getName(bytes: string): string {
+//   return ethers.utils.parseBytes32String(bytes + '0'.repeat(66 - bytes.length))
+// }
 
 export function stringToBytes(str: string, bytes?: number) {
   if (bytes == undefined) bytes = str.length
@@ -136,7 +167,7 @@ export function stringToBytes32(x: string): string {
 }
 
 export function bytesToBytes32(bytes: string): string {
-  return stringToBytes32(bytesToString(bytes))
+  return stringToBytes32(getName(bytes))
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
@@ -255,5 +286,6 @@ export const tenderlyVerify = async (name: string, contract: BaseContract) => {
       name,
       address: contract.address,
     })
+    console.log(`${getName(name)} at ${contract.address} verified on tenderly`)
   }
 }

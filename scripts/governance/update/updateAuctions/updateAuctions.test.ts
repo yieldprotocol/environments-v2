@@ -7,7 +7,7 @@ import { ethers } from 'hardhat'
 import {
   getOwnerOrImpersonate,
   getOriginalChainId,
-  bytesToString,
+  getName,
   readAddressMappingIfExists,
 } from '../../../../shared/helpers'
 import { Witch } from '../../../../typechain/Witch'
@@ -27,14 +27,14 @@ import { newLimits, developer } from './updateAuctions.mainnet.config'
     const limits = await witch.limits(ilkId)
     const ilk = await witch.ilks(ilkId)
 
-    if (limits.line.toString() === line.toString()) console.log(`${bytesToString(ilkId)} line set: ${limits.line}`)
-    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.line}`)
-    if (limits.dust.toString() === dust.toString()) console.log(`${bytesToString(ilkId)} dust set: ${limits.dust}`)
-    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dust}`)
-    if (limits.dec.toString() === dec.toString()) console.log(`${bytesToString(ilkId)} dec set: ${limits.dec}`)
-    else console.log(`${bytesToString(ilkId)} not updated, still at ${limits.dec}`)
+    if (limits.line.toString() === line.toString()) console.log(`${getName(ilkId)} line set: ${limits.line}`)
+    else console.log(`${getName(ilkId)} not updated, still at ${limits.line}`)
+    if (limits.dust.toString() === dust.toString()) console.log(`${getName(ilkId)} dust set: ${limits.dust}`)
+    else console.log(`${getName(ilkId)} not updated, still at ${limits.dust}`)
+    if (limits.dec.toString() === dec.toString()) console.log(`${getName(ilkId)} dec set: ${limits.dec}`)
+    else console.log(`${getName(ilkId)} not updated, still at ${limits.dec}`)
     if (ilk.initialOffer.toString() === initialOffer.toString())
-      console.log(`${bytesToString(ilkId)} initialOffer set: ${ilk.initialOffer}`)
-    else console.log(`${bytesToString(ilkId)} not updated, still at ${ilk.initialOffer}`)
+      console.log(`${getName(ilkId)} initialOffer set: ${ilk.initialOffer}`)
+    else console.log(`${getName(ilkId)} not updated, still at ${ilk.initialOffer}`)
   }
 })()

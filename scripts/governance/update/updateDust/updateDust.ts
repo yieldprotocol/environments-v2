@@ -3,38 +3,39 @@
  *
  * It takes as inputs the governance and protocol address files.
  */
-
 import { ethers } from 'hardhat'
+import { updateDustProposal } from '../../../fragments/limits/updateDust'
 
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import {
-  getOwnerOrImpersonate,
-  getOriginalChainId,
-  proposeApproveExecute,
-  readAddressMappingIfExists,
-} from '../../../../shared/helpers'
-import { updateDustProposal } from '../../../fragments/limits/updateDustProposal'
-import { Cauldron, OldWitch, OldWitch__factory, Cauldron__factory, Timelock } from '../../../../typechain'
-import { updateWitchLimitsInitialOfferProposal } from '../../../fragments/liquidations/updateWitchLimitsInitialOfferProposal'
-import { CAULDRON, WITCH } from '../../../../shared/constants'
-const { governance, protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
-;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(1))
-  // Contract instantiation
-  const cauldron = Cauldron__factory.connect(protocol.get(CAULDRON) as string, ownerAcc) as unknown as Cauldron
-  const witch = OldWitch__factory.connect(protocol.get(WITCH) as string, ownerAcc) as unknown as OldWitch
+  IOracle,
+  CompositeMultiOracle__factory,
+  UniswapV3Oracle__factory,
+  Cauldron__factory,
+  Ladle__factory,
+  Timelock__factory,
+  Witch__factory,
+} from '../../../../typechain'
 
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+import { CAULDRON, TIMELOCK } from '../../../../shared/constants'
+
+const { developer, deployer } = require(process.env.CONF as string)
+const { governance, protocol } = require(process.env.CONF as string)
+const { newDebtMin, newAuctionMin } = require(process.env.CONF as string)
+
+;(async () => {
+  const ownerAcc = await getOwnerOrImpersonate(developer)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = await updateDustProposal(cauldron, newDebtMin)
 
-  //Update auction limits
-  proposal = proposal.concat(await updateWitchLimitsInitialOfferProposal(witch, newAuctionMin))
+  // //Update auction limits
+  // proposal = proposal.concat(await updateWitchLimitsInitialOfferProposal(witch, newAuctionMin))
 
-  // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer.get(1))
+  if (proposal.length > 0) {
+    // Propose, Approve & execute
+    await propose(timelock, proposal, developer)
+  }
 })()

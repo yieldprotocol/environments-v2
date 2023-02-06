@@ -11,8 +11,8 @@ import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 
 // uncomment this to verify Tenderly contracts
-import * as tdly from '@tenderly/hardhat-tenderly'
-tdly.setup({ automaticVerifications: true })
+// import * as tdly from "@tenderly/hardhat-tenderly";
+// tdly.setup();
 
 import './augmentations'
 
@@ -120,18 +120,18 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: 'https://rpc.tenderly.co/fork/da80c13a-bb3e-49ae-847c-9004a94020ae',
+      url: "https://rpc.tenderly.co/fork/f0d78231-3708-4770-9604-74b60f58576b",
       // update chainId if necessary
-      forkNetwork: '42161',
-      username: 'Yield',
-      project: 'v2',
+      forkNetwork: "1",
+      username: "Yield",
+      project: "v2",
       timeout: 60_000_000,
       gasPrice: 100_000_000,
     },
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 20_000_000_000,
+      gasPrice: 25_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet'),
@@ -139,7 +139,7 @@ module.exports = {
     arb_mainnet: {
       accounts,
       url: arbNodeUrl('mainnet'),
-      gasPrice: 300_000_000,
+      gasPrice: 100_000_000,
       chainId: 42161,
       timeout: 60000,
     },
@@ -148,10 +148,10 @@ module.exports = {
     },
   },
   tenderly: {
-    username: 'Yield',
-    project: 'v2',
-    forkNetwork: '42161',
-  },
+		username: "Yield",
+		project: "v2",
+    forkNetwork: "1",
+	},
   etherscan: {
     apiKey: {
       mainnet: etherscanKey,

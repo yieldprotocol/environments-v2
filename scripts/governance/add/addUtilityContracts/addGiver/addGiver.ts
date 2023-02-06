@@ -1,6 +1,6 @@
 import { Timelock__factory, Cauldron__factory, Giver__factory } from '../../../../../typechain'
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
-import { orchestrateGiverProposal } from '../../../../fragments/utils/orchestrateGiverProposal'
+import { orchestrateGiverProposal } from '../../../../fragments/utils/orchestrateGiver'
 import { TIMELOCK, CAULDRON, GIVER } from '../../../../../shared/constants'
 
 const { developer, deployer } = require(process.env.CONF as string)

@@ -2,18 +2,18 @@ import { ethers } from 'hardhat'
 import { Contract } from 'ethers'
 import { FactoryOptions } from 'hardhat/types'
 
-import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap, tenderlyVerify } from './helpers'
+import { verify, getOwnerOrImpersonate, readAddressMappingIfExists, writeAddressMap, getName } from './helpers'
 import { Timelock__factory } from '../typechain'
 import { TIMELOCK, ROOT } from './constants'
 import { ContractDeployment } from '../scripts/governance/confTypes'
 
-const { deployer, governance, contractDeployments } = require(process.env.CONF as string)
+const { developer, governance, contractDeployments } = require(process.env.CONF as string)
 
 /**
  * @dev This script deploys contracts as defined in a proposal config file containing a contractDeployments:ContractDeployment[] export.
  */
 ;(async () => {
-  let deployerAcc = await getOwnerOrImpersonate(deployer as string)
+  let deployerAcc = await getOwnerOrImpersonate(developer as string)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), deployerAcc)
 
   for (let params_ of contractDeployments) {
@@ -25,27 +25,30 @@ const { deployer, governance, contractDeployments } = require(process.env.CONF a
       const factoryOptions: FactoryOptions = { libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
 
-      deployed = await contractFactory.deploy(...params.args.map((f) => f()))
+      const expandedArgs = params.args.map((f) => f())
+      console.log(`Deploying ${getName(params.name)} ${params.contract} with ${expandedArgs}`)
+      deployed = await contractFactory.deploy(...expandedArgs)
 
       await deployed.deployed()
-      console.log(`${params.name} deployed at ${deployed.address}`)
+      console.log(`${getName(params.name)} ${params.contract} deployed at ${deployed.address}`)
 
       const addressMap = readAddressMappingIfExists(params.addressFile)
       addressMap.set(params.name, deployed.address)
       writeAddressMap(params.addressFile, addressMap)
 
-      verify(params.name, deployed, params.args, params.libs)
+      const deployerAddressMap = readAddressMappingIfExists('deployers.json')
+      deployerAddressMap.set(deployed.address, deployerAcc.address)
+      writeAddressMap('deployers.json', deployerAddressMap)
+
+      verify(params.name, deployed, expandedArgs, params.libs)
 
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
       if (deployed.interface.functions['ROOT()'] && !(await deployed.hasRole(ROOT, timelock.address))) {
         await (await deployed.grantRole(ROOT, timelock.address)).wait(1)
-        console.log(`${params.name}.grantRoles(ROOT, timelock)`)
+        console.log(`${getName(params.name)}.grantRoles(ROOT, timelock)`)
       }
     } else {
-      const factoryOptions: FactoryOptions = { libraries: params.libs }
-      const contractFactory = await ethers.getContractAt(params.contract, deployedAddress)
-      await tenderlyVerify(params.contract, contractFactory)
-      console.log(`Reusing ${params.name} at: ${deployedAddress}`)
+      console.log(`Reusing ${getName(params.name)} ${params.contract} at: ${deployedAddress}`)
     }
   }
 })()

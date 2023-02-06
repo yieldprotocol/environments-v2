@@ -1,5 +1,18 @@
 import { BigNumber } from 'ethers'
 
+export interface ContractDeployment {
+  addressFile: string // The json file to store the address in (e.g 'protocol.json')
+  name: string // The unique name to the contract (e.g 'witch')
+  contract: string // The contract name to deploy (e.g '@yield-protocol/vault-v2/contracts/Witch.sol/Witch')
+  args: (() => any)[] // The parameters to the constructor (e.g [cauldron.address, ladle.address])
+  libs?: { [libraryName: string]: string } // The external libraries to the contract (e.g { YieldMath: yieldMath.address })
+}
+
+export interface Asset {
+  assetId: string
+  address: string
+}
+
 export interface AuctionLineAndLimit {
   baseId: string
   ilkId: string
@@ -9,15 +22,72 @@ export interface AuctionLineAndLimit {
   max: BigNumber
 }
 
-export interface ContractDeployment {
-  addressFile: string // The json file to store the address in (e.g 'protocol.json')
-  name: string // The unique name to the contract (e.g 'witch')
-  contract: string // The contract name to deploy (e.g '@yield-protocol/vault-v2/contracts/Witch.sol/Witch')
-  args: (() => any)[] // The parameters to the constructor (e.g [cauldron.address, ladle.address])
-  libs?: { [libraryName: string]: string } // The external libraries to the contract (e.g { YieldMath: yieldMath.address })
+export interface DebtLimit {
+  baseId: string
+  ilkId: string
+  line: number
+  dust: number
+  dec: number
 }
 
-export interface SeriesToAdd {
+export interface Collateralization {
+  baseId: string
+  ilkId: string
+  oracle: string
+  ratio: number
+}
+
+export interface OracleSource {
+  baseId: string
+  baseAddress: string
+  quoteId: string
+  quoteAddress: string
+  sourceAddress: string
+}
+
+export interface OraclePath {
+  baseId: string
+  quoteId: string
+  path: string[]
+}
+
+export interface Accumulator {
+  baseId: string
+  kind: string
+  startRate: BigNumber
+  perSecondRate: BigNumber
+}
+
+export interface Base extends Asset {
+  rateOracle: string
+}
+
+export interface Ilk {
+  baseId: string
+  ilkId: string
+  asset: Asset
+  collateralization: Collateralization
+  debtLimits: DebtLimit
+  auctionLineAndLimit?: AuctionLineAndLimit // Optional, only for liquidable ilks
+}
+
+export interface Series {
   seriesId: string
-  fyToken: string
+  base?: Asset
+  fyToken: Asset
+  chiOracle: string
+  pool: Asset
+  ilks: Ilk[]
+}
+
+export interface Strategy extends Asset {
+  base: Base
+  initAmount?: BigNumber
+  seriesToInvest?: Series
+}
+
+// Temporary interface for the v1 to v2 strategy migration
+export interface Strategy_V1 extends Asset {
+  base: Base
+  seriesToInvest: Strategy
 }

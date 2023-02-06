@@ -3,15 +3,15 @@ import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../../sha
 import { CompositeMultiOracle, IOracle, StrategyOracle } from '../../../../../typechain'
 import { Cauldron, Ladle, OldWitch, Timelock, EmergencyBrake } from '../../../../../typechain'
 import { COMPOSITE } from '../../../../../shared/constants'
-import { orchestrateJoinProposal } from '../../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlkProposal'
+import { orchestrateJoinProposal } from '../../../../fragments/core/removeDeployer'
+import { addAssetProposal } from '../../../../fragments/assetsAndSeries/addAsset'
+import { addIlksToSeriesProposal } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
+import { makeIlkProposal } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateStrategyOracleProposal } from '../../../../fragments/oracles/orchestrateStrategyOracle'
-import { updatStrategyOracleSourcesProposal } from '../../../../fragments/oracles/updateStrategyOracleSourcesProposal'
-import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlkProposal'
-import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePathsProposal'
-import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSourcesProposal'
+import { updatStrategyOracleSourcesProposal } from '../../../../fragments/oracles/updateStrategyOracleSources'
+import { updateIlkProposal } from '../../../../fragments/assetsAndSeries/updateIlk'
+import { updateCompositePathsProposal } from '../../../../fragments/oracles/updateCompositePaths'
+import { updateCompositeSourcesProposal } from '../../../../fragments/oracles/updateCompositeSources'
 
 const { developer, deployer } = require(process.env.CONF as string)
 const { governance, protocol } = require(process.env.CONF as string)

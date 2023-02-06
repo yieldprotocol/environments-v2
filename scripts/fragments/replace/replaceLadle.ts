@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
 import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, bytesToString } from '../../../shared/helpers'
+import { jsonToMap, getName } from '../../../shared/helpers'
 
 import { Ladle } from '../../../typechain/Ladle'
 import { Wand } from '../../../typechain/Wand'
@@ -46,13 +46,13 @@ import { Strategy } from '../../../typechain/Strategy'
       wand.address,
     ]),
   })
-  console.log(`ladle.grantRoles(wand)`)
+  console.log(indent(nesting, `ladle.grantRoles(wand)`))
 
   proposal.push({
     target: wand.address,
     data: wand.interface.encodeFunctionData('point', [ethers.utils.formatBytes32String('ladle'), ladle.address]),
   })
-  console.log(`Wand reorchestration`)
+  console.log(indent(nesting, `Wand reorchestration`))
 
   for (let assetId of joins.keys()) {
     const joinAddress = joins.get(assetId) as string
@@ -83,7 +83,7 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(`cloak.plan(ladle, join(${bytesToString(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
+    console.log(`cloak.plan(ladle, join(${getName(assetId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   for (let seriesId of fyTokens.keys()) {
@@ -113,7 +113,7 @@ import { Strategy } from '../../../typechain/Strategy'
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('plan', [ladle.address, plan]),
     })
-    console.log(`cloak.plan(ladle, fyToken(${bytesToString(seriesId)})): ${await cloak.hash(ladle.address, plan)}`)
+    console.log(`cloak.plan(ladle, fyToken(${getName(seriesId)})): ${await cloak.hash(ladle.address, plan)}`)
   }
 
   for (let seriesId of pools.keys()) {
@@ -142,19 +142,19 @@ import { Strategy } from '../../../typechain/Strategy'
 
   // Propose, approve, execute
   const txHash = await timelock.hash(proposal)
-  console.log(`Proposal: ${txHash}`)
+  console.log(indent(nesting, `Proposal: ${txHash}`))
   if ((await timelock.proposals(txHash)).state === 0) {
     await timelock.propose(proposal)
-    console.log(`Proposed ${txHash}`)
+    console.log(indent(nesting, `Proposed ${txHash}`))
   }
   while ((await timelock.proposals(txHash)).state < 1) {}
   if ((await timelock.proposals(txHash)).state === 1) {
     await timelock.approve(txHash)
-    console.log(`Approved ${txHash}`)
+    console.log(indent(nesting, `Approved ${txHash}`))
   }
   while ((await timelock.proposals(txHash)).state < 2) {}
   if ((await timelock.proposals(txHash)).state === 2) {
     await timelock.execute(proposal)
-    console.log(`Executed ${txHash}`)
+    console.log(indent(nesting, `Executed ${txHash}`))
   }
 })()

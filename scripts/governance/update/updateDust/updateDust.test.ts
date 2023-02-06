@@ -4,22 +4,21 @@
  * It takes as inputs the protocol address files.
  */
 
+const { protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
+////////////////
 import { ethers } from 'hardhat'
 import { DISPLAY_NAMES } from '../../../../shared/constants'
+import { updateDustProposal } from '../../../fragments/limits/updateDust'
 
-import { getOwnerOrImpersonate, getOriginalChainId, getGovernanceProtocolAddresses } from '../../../../shared/helpers'
-import { OldWitch, Cauldron } from '../../../../typechain'
-const { protocol, developer, newDebtMin, newAuctionMin } = require(process.env.CONF as string)
+import { getOwnerOrImpersonate } from '../../../../shared/helpers'
+import { Cauldron__factory } from '../../../../typechain'
 
+import { CAULDRON } from '../../../../shared/constants'
 ;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer.get(1))
+  let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
   console.log()
   console.log('Post deployment state testing')
   console.log('=============================')
@@ -33,18 +32,18 @@ const { protocol, developer, newDebtMin, newAuctionMin } = require(process.env.C
   }
   console.log()
 
-  console.log('Auction Limits (dust)')
-  const witch = (await ethers.getContractAt(
-    'OldWitch',
-    protocol.get('witch') as string,
-    ownerAcc
-  )) as unknown as OldWitch
+  // console.log('Auction Limits (dust)')
+  // const witch = (await ethers.getContractAt(
+  //   'OldWitch',
+  //   protocol.get('witch') as string,
+  //   ownerAcc
+  // )) as unknown as OldWitch
 
-  for (let [ilkId, dust] of newAuctionMin) {
-    const ilk = await witch.ilks(ilkId)
-    const limits = await witch.limits(ilkId)
-    if (limits.dust.toString() === dust.toString())
-      console.log(`Success! ${DISPLAY_NAMES.get(ilkId)} set to: ${limits.dust}`)
-    else console.log(`${DISPLAY_NAMES.get(ilkId)} **NOT UPDATED** still at ${limits.dust}`)
-  }
+  // for (let [ilkId, dust] of newAuctionMin) {
+  //   const ilk = await witch.ilks(ilkId)
+  //   const limits = await witch.limits(ilkId)
+  //   if (limits.dust.toString() === dust.toString())
+  //     console.log(`Success! ${DISPLAY_NAMES.get(ilkId)} set to: ${limits.dust}`)
+  //   else console.log(`${DISPLAY_NAMES.get(ilkId)} **NOT UPDATED** still at ${limits.dust}`)
+  // }
 })()
