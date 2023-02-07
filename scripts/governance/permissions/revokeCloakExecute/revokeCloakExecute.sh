@@ -2,10 +2,10 @@
 
 set -eux
 export HERE=$(dirname $0)
-export CONF=$PWD/$HERE/addDevelopers.mainnet.config
+export CONF=$PWD/$HERE/revokeCloakExecute.mainnet.config
 # RUN="npx hardhat run --network mainnet"
 RUN="npx hardhat run --network tenderly"
 
-# $RUN $HERE/addDevelopers.ts
+# $RUN $HERE/revokeCloakExecute.ts
 $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

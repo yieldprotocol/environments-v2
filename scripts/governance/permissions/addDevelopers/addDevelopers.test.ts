@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat'
 import { id } from '@yield-protocol/utils-v2'
-import { newDevelopers, developerToImpersonate } from './addDevelopers.arb_mainnet.config'
+import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.config'
 import {
   readAddressMappingIfExists,
   getOwnerOrImpersonate,
