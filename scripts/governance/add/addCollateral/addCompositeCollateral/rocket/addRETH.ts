@@ -28,7 +28,6 @@ const { developer, ilks, reth, protocol, governance, joins, newSeries, oraclePat
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   let witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-  witch = Object.assign(witch, { ilksAdded: [] })
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   // Update oracles
