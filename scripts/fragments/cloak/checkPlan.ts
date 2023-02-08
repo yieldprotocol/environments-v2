@@ -1,9 +1,9 @@
-import { EmergencyBrake, OnChainTest } from '../../../typechain'
+import { EmergencyBrake, Assert } from '../../../typechain'
 import { indent } from '../../../shared/helpers'
 
 export const checkPlan = async (
   cloak: EmergencyBrake,
-  onChainTest: OnChainTest,
+  assert: Assert,
   users: Array<string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -13,14 +13,14 @@ export const checkPlan = async (
 
   for (let user of users) {
     proposal.push({
-      target: onChainTest.address,
-      data: onChainTest.interface.encodeFunctionData('valueAndCallEquator', [
+      target: assert.address,
+      data: assert.interface.encodeFunctionData('assertEq(address,bytes,uint256)', [
         cloak.address,
         cloak.interface.encodeFunctionData('check', [user]),
-        '0x0000000000000000000000000000000000000000000000000000000000000001',
+        1,
       ]),
     })
-    console.log(indent(nesting, `onChainTest.valueAndCallEquator(cloak.check(${user}))`))
+    console.log(indent(nesting, `assert.assertEq(cloak.check(${user}), true)`))
   }
   return proposal
 }

@@ -43,4 +43,3 @@ import "@yield-protocol/strategy-v2/contracts/Strategy.sol";
 // import "@yield-protocol/vault-v2/contracts/oracles/strategy/StrategyOracle.sol";
 import "@yield-protocol/vault-v2/contracts/other/contango/ContangoLadle.sol";
 import "@yield-protocol/vault-v2/contracts/other/contango/ContangoWitch.sol";
-import "@yield-protocol/yvarb/contracts/YieldStEthLever.sol";
