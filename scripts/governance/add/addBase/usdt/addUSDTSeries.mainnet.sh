@@ -10,6 +10,6 @@ $RUN $HERE/../../../../../shared/deploy.ts
 
 export CONF=$PWD/$HERE/addUSDTSeries.mainnet.config
 $RUN $HERE/../../../../../tools/loadTimelock.ts
-$RUN $HERE/../addBase.ts
+$RUN $HERE/../addBase.mainnet.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
