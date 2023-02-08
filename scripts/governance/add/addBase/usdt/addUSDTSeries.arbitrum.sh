@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network tenderly"
+RUN="npx hardhat run --network arb_mainnet"
 
 
 export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.deployments
