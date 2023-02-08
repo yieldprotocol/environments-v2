@@ -40,8 +40,8 @@ import { ContractDeployment } from '../../../confTypes'
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
 
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(35))],
+  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(35))],
 ]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
