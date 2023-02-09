@@ -2,14 +2,14 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network arb_mainnet"
+RUN="npx hardhat run --network tenderly"
 
 
-export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.deployments
-$RUN $HERE/../../../../../shared/deploy.ts
+# export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.deployments
+# $RUN $HERE/../../../../../shared/deploy.ts
 
-# export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.config
+export CONF=$PWD/$HERE/addUSDTSeries.arbitrum.config
 # $RUN $HERE/../addBase.arbitrum.ts
-# $RUN $HERE/../../../../../tools/loadTimelock.ts
+$RUN $HERE/../../../../../tools/loadTimelock.ts
 # $RUN $HERE/../../../../../shared/approve.ts
 # $RUN $HERE/../../../../../shared/execute.ts
