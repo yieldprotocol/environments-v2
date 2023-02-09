@@ -4,8 +4,8 @@
 
 import { ethers } from 'hardhat'
 
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { updateLimitsProposal } from '../../../fragments/limits/updateDebtLimits'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
+import { updateDebtLimits } from '../../../fragments/limits/updateDebtLimits'
 import { Cauldron, Timelock } from '../../../../typechain'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)
@@ -28,8 +28,8 @@ const { governance, protocol, developer, newLimits } = require(process.env.CONF 
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateLimitsProposal(cauldron, newLimits))
+  proposal = proposal.concat(await updateDebtLimits(cauldron, newLimits))
 
   // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await propose(timelock, proposal, governance.get('multisig') as string)
 })()
