@@ -290,12 +290,12 @@ export function verify(name: string, contract: BaseContract, args: any, libs?: F
 
 export const tenderlyVerify = async (name: string, contract: BaseContract) => {
   if (network.name === 'tenderly') {
-    await hre.tenderly.persistArtifacts({
+    await (hre as any).tenderly.persistArtifacts({
       name,
       address: contract.address,
     })
 
-    await hre.tenderly.verify({
+    await (hre as any).tenderly.verify({
       name,
       address: contract.address,
     })
