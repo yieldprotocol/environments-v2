@@ -11,7 +11,10 @@ export const updateDebtLimits = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
   console.log(indent(nesting, `UPDATE_DEBT_LIMITS`))
+
   const proposal: Array<{ target: string; data: string }> = []
+
+  console.log(ilk)
 
   proposal.push({
     target: cauldron.address,
