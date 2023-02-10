@@ -8,7 +8,6 @@ RUN="npx hardhat run --network tenderly"
 # Action: UPDATE the limits, poropose, apporve, execute and test
 $RUN $HERE/updateLimits.ts
 
-echo $HERE
 $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
 $RUN $HERE/updateLimits.test.ts 

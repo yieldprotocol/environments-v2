@@ -14,7 +14,7 @@ export const updateDebtLimits = async (
 
   const proposal: Array<{ target: string; data: string }> = []
 
-  console.log(ilk)
+  console.table(ilk.debtLimits)
 
   proposal.push({
     target: cauldron.address,
