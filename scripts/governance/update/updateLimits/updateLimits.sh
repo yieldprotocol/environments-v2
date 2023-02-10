@@ -5,11 +5,11 @@ HERE=$(dirname $0)
 export CONF=$PWD/$HERE/updateLimits.mainnet.config
 RUN="npx hardhat run --network tenderly"
 
-# UPDATE the limits
-# $RUN $HERE/updateLimits.ts
+# Action: UPDATE the limits
+$RUN $HERE/updateLimits.ts
 
-# Or DISPLAY the current limits
-$RUN $HERE/displayLimits.ts
+# Or :  DISPLAY the current limits
+# $RUN $HERE/displayLimits.ts
 
-# Or TEST :
+# Or :  TEST the update
 # $RUN $HERE/updateLimits.test.ts 
