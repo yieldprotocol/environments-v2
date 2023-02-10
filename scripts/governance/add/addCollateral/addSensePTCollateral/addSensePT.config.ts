@@ -1,26 +1,9 @@
 import { parseUnits } from 'ethers/lib/utils'
-import {
-  ACCUMULATOR,
-  COMPOSITE,
-  DAI,
-  ETH,
-  FYDAI2303,
-  FYDAI2306,
-  FYETH2303,
-  FYETH2306,
-  FYUSDC2303,
-  FYUSDC2306,
-  RATE,
-  RETH,
-  RETH_ORACLE,
-  SPCDAI2307,
-  USDC,
-} from '../../../../../shared/constants'
+import { DAI, ETH, FYDAI2303, FYETH2303, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { SPWSTETH2304 } from '../../../../../shared/constants'
 import * as base_config from '../../../base.mainnet.config'
-import { Accumulator, Asset, ContractDeployment, Ilk, OraclePath, OracleSource, Series } from '../../../confTypes'
-import { BigNumber } from 'ethers'
+import { Asset, ContractDeployment, Ilk, Series } from '../../../confTypes'
 
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const whales = base_config.whales
@@ -35,6 +18,12 @@ export const spwsteth2304: Asset = { assetId: SPWSTETH2304, address: assets.getO
 export const spcdai2307: Asset = { assetId: SPCDAI2307, address: assets.getOrThrow(SPCDAI2307)! }
 
 export const contractDeployments: ContractDeployment[] = [
+  {
+    addressFile: 'protocol.json',
+    name: IDENTITY_ORACLE,
+    contract: 'IdentityOracle',
+    args: [],
+  },
   {
     addressFile: 'joins.json',
     name: SPWSTETH2304,
@@ -56,13 +45,13 @@ export const ilkToETH: Ilk = {
   collateralization: {
     baseId: ETH,
     ilkId: spwsteth2304.assetId,
-    oracle: protocol().getOrThrow(ACCUMULATOR)!,
+    oracle: protocol().getOrThrow(IDENTITY_ORACLE)!,
     ratio: 1100000,
   },
   debtLimits: {
     baseId: ETH,
     ilkId: spwsteth2304.assetId,
-    line: 100,
+    line: 150,
     dust: 1,
     dec: 18,
   },
@@ -83,7 +72,7 @@ export const ilkToDAI: Ilk = {
   collateralization: {
     baseId: DAI,
     ilkId: spcdai2307.assetId,
-    oracle: protocol().getOrThrow(ACCUMULATOR)!,
+    oracle: protocol().getOrThrow(IDENTITY_ORACLE)!,
     ratio: 1100000,
   },
   debtLimits: {
@@ -104,33 +93,6 @@ export const ilkToDAI: Ilk = {
 }
 
 export const ilks: Ilk[] = [ilkToETH, ilkToDAI]
-
-export const oracleSources: Accumulator[] = [
-  {
-    baseId: SPWSTETH2304,
-    kind: ETH,
-    startRate: BigNumber.from('1000000000000000000'),
-    perSecondRate: BigNumber.from('1000000000000000000'),
-  },
-  {
-    baseId: ETH,
-    kind: SPWSTETH2304,
-    startRate: BigNumber.from('1000000000000000000'),
-    perSecondRate: BigNumber.from('1000000000000000000'),
-  },
-  {
-    baseId: SPCDAI2307,
-    kind: DAI,
-    startRate: BigNumber.from('1000000000000000000'),
-    perSecondRate: BigNumber.from('1000000000000000000'),
-  },
-  {
-    baseId: DAI,
-    kind: SPCDAI2307,
-    startRate: BigNumber.from('1000000000000000000'),
-    perSecondRate: BigNumber.from('1000000000000000000'),
-  },
-]
 
 export const ethSeries: Series[] = [
   {

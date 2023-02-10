@@ -6,27 +6,14 @@ import {
   Timelock__factory,
   EmergencyBrake__factory,
   Witch__factory,
-  CompositeMultiOracle__factory,
   Join__factory,
-  AccumulatorMultiOracle__factory,
 } from '../../../../../typechain'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addIlkToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateJoin } from '../../../../fragments/assetsAndSeries/orchestrateJoin'
-import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
 
-const {
-  developer,
-  ilks,
-  spwsteth2304,
-  spcdai2307,
-  protocol,
-  governance,
-  joins,
-  newSeries,
-  oracleSources,
-} = require(process.env.CONF!)
+const { developer, ilks, spwsteth2304, spcdai2307, protocol, governance, joins, newSeries } = require(process.env.CONF!)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
@@ -35,12 +22,9 @@ const {
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
   const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
-  const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
-  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol().getOrThrow(ACCUMULATOR)!, ownerAcc)
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, oracleSources))
   proposal = proposal.concat(
     await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(spwsteth2304.assetId), ownerAcc))
   )
