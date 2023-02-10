@@ -8,7 +8,6 @@ import { Asset, ContractDeployment, Ilk, Series } from '../../../confTypes'
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const whales = base_config.whales
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const deployer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const deployers = readAddressMappingIfExists('deployers.json')
 export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
