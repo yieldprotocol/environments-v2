@@ -13,6 +13,8 @@ import {
   FDAI2306,
   FETH2303,
   FETH2306,
+  FUSDC2303,
+  FUSDC2306,
 } from '../../../../shared/constants'
 
 import * as base_config from '../../base.mainnet.config'
@@ -34,6 +36,6 @@ export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const newLimits: Array<[string, string, number, number, number]> = [
   [DAI, FDAI2303, 1000000, 1000, 18],
   [DAI, FDAI2306, 1000000, 1000, 18],
-  [USDC, FDAI2303, 1000000, 1000, 6],
-  [USDC, FDAI2306, 1000000, 1000, 6],
+  [USDC, FUSDC2303, 1000000, 1000, 6],
+  [USDC, FUSDC2306, 1000000, 1000, 6],
 ]
