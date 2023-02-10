@@ -32,8 +32,6 @@ export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 /// @param Minimum vault debt allowed for this pair, modified by decimals
 /// @param Decimals to append to global and vault debt.
 export const newLimits: Array<[string, string, number, number, number]> = [
-  // [ETH, FETH2303, 400, 1, 18],
-  // [ETH, FETH2306, 400, 1, 18],
   [DAI, FDAI2303, 1000000, 1000, 18],
   [DAI, FDAI2306, 1000000, 1000, 18],
   [USDC, FDAI2303, 1000000, 1000, 6],
