@@ -6,8 +6,9 @@ import { ethers } from 'hardhat'
 
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { updateDebtLimits } from '../../../fragments/limits/updateDebtLimits'
-import { Cauldron, Timelock } from '../../../../typechain'
+import { Cauldron, Cauldron__factory, Timelock, Timelock__factory } from '../../../../typechain'
 import { Ilk } from '../../confTypes'
+import { CAULDRON, TIMELOCK } from '../../../../shared/constants'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)
 
@@ -15,17 +16,8 @@ const { governance, protocol, developer, newLimits } = require(process.env.CONF 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
 
   // Build the proposal
 
