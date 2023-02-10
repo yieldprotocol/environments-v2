@@ -8,7 +8,7 @@ import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { updateDebtLimits } from '../../../fragments/limits/updateDebtLimits'
 import { Cauldron, Cauldron__factory, Timelock, Timelock__factory } from '../../../../typechain'
 import { Ilk } from '../../confTypes'
-import { CAULDRON, TIMELOCK } from '../../../../shared/constants'
+import { CAULDRON, MULTISIG, TIMELOCK } from '../../../../shared/constants'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)
 
