@@ -15,6 +15,7 @@ export const joins = readAddressMappingIfExists('joins.json')
 export const assets: Map<string, string> = base_config.assets
 export const spwsteth2304: Asset = { assetId: SPWSTETH2304, address: assets.getOrThrow(SPWSTETH2304)! }
 export const spcdai2307: Asset = { assetId: SPCDAI2307, address: assets.getOrThrow(SPCDAI2307)! }
+export const nullAsset: Asset = { assetId: '', address: '' }
 export const assetsToAdd: Asset[] = [spwsteth2304, spcdai2307]
 export const contractDeployments: ContractDeployment[] = [
   {
@@ -82,7 +83,7 @@ export const ethSeries: Series[] = [
     seriesId: FYETH2303,
     fyToken: { assetId: FYETH2303, address: fyTokens.getOrThrow(FYETH2303)! },
     chiOracle: '',
-    pool: spwsteth2304,
+    pool: nullAsset,
     ilks: [ilkToETH],
   },
 ]
@@ -92,7 +93,7 @@ export const daiSeries: Series[] = [
     seriesId: FYDAI2306,
     fyToken: { assetId: FYDAI2306, address: fyTokens.getOrThrow(FYDAI2306)! },
     chiOracle: '',
-    pool: spcdai2307,
+    pool: nullAsset,
     ilks: [ilkToDAI],
   },
 ]
