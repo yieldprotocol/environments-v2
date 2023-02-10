@@ -471,9 +471,9 @@ export const ilkETHFETH2303: Ilk = {
     baseId: ETH,
     ilkId: FETH2303,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368'), // 105 / 133
-    max: parseUnits('1000'),
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 export const ilkETHFETH2306: Ilk = {
@@ -497,9 +497,9 @@ export const ilkETHFETH2306: Ilk = {
     baseId: ETH,
     ilkId: FETH2306,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.78947368'), // 105 / 133
-    max: parseUnits('1000'),
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 
@@ -819,9 +819,9 @@ export const ilkDAIFDAI2303: Ilk = {
     baseId: DAI,
     ilkId: FDAI2303,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
-    max: parseUnits('1000'),
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 export const ilkDAIFDAI2306: Ilk = {
@@ -848,9 +848,9 @@ export const ilkDAIFDAI2306: Ilk = {
     baseId: DAI,
     ilkId: FDAI2306,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
-    max: parseUnits('1000'),
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 
@@ -1200,8 +1200,8 @@ export const ilkUSDCFUSDC2303: Ilk = {
     baseId: USDC,
     ilkId: FUSDC2303,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
     max: WAD.mul(10000000),
   },
 }
@@ -1230,9 +1230,9 @@ export const ilkUSDCFUSDC2306: Ilk = {
     baseId: USDC,
     ilkId: FUSDC2306,
     duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.62874251'), // 105 / 167
-    max: parseUnits('1000'),
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 
