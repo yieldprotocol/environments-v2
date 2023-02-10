@@ -1,4 +1,4 @@
-import { ACCUMULATOR, CAULDRON, CLOAK, COMPOSITE, LADLE, TIMELOCK, WITCH } from '../../../../../shared/constants'
+import { CAULDRON, CLOAK, LADLE, TIMELOCK, WITCH } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 import {
   Cauldron__factory,
@@ -13,7 +13,7 @@ import { addIlkToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSe
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateJoin } from '../../../../fragments/assetsAndSeries/orchestrateJoin'
 
-const { developer, ilks, spwsteth2304, spcdai2307, protocol, governance, joins, newSeries } = require(process.env.CONF!)
+const { developer, ilks, assetsToAdd, protocol, governance, joins, newSeries } = require(process.env.CONF!)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
@@ -24,16 +24,13 @@ const { developer, ilks, spwsteth2304, spcdai2307, protocol, governance, joins, 
   const witch = Witch__factory.connect(protocol().getOrThrow(WITCH)!, ownerAcc)
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+  for (let asset of assetsToAdd) {
+    proposal = proposal.concat(
+      await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(asset.assetId), ownerAcc))
+    )
+    proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
+  }
 
-  proposal = proposal.concat(
-    await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(spwsteth2304.assetId), ownerAcc))
-  )
-  proposal = proposal.concat(
-    await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(spcdai2307.assetId), ownerAcc))
-  )
-  // Asset
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, spwsteth2304, joins))
-  proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, spcdai2307, joins))
   for (let ilk of ilks) {
     proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joins))
   }
