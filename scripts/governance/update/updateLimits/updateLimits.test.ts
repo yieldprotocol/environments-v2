@@ -18,13 +18,15 @@ const { protocol, developer, newLimits } = require('./updateLimits.mainnet.confi
     ownerAcc
   )) as unknown as Cauldron
 
-  console.log(`Limits:`)
-  for (let [baseId, ilkId, max, min, dec] of newLimits) {
+  for (let {
+    baseId,
+    ilkId,
+    debtLimits: { line, dust, dec },
+  } of newLimits) {
     const debt = await cauldron.debt(baseId, ilkId)
-
-    if (debt.max.toString() === max.toString()) console.log(`${getName(ilkId)} max set: ${debt.max}`)
+    if (debt.max.toString() === line.toString()) console.log(`${getName(ilkId)} max set: ${debt.max}`)
     else console.log(`${getName(ilkId)} not updated, still at ${debt.max}`)
-    if (debt.min.toString() === min.toString()) console.log(`${getName(ilkId)} min set: ${debt.min}`)
+    if (debt.min.toString() === dust.toString()) console.log(`${getName(ilkId)} min set: ${debt.min}`)
     else console.log(`${getName(ilkId)} not updated, still at ${debt.min}`)
     if (debt.dec.toString() === dec.toString()) console.log(`${getName(ilkId)} dec set: ${debt.dec}`)
     else console.log(`${getName(ilkId)} not updated, still at ${debt.dec}`)
