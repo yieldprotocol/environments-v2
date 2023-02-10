@@ -36,5 +36,5 @@ const { governance, protocol, developer, newLimits } = require(process.env.CONF 
   ).flat()
 
   // Propose, Approve & execute
-  await propose(timelock, proposal, governance.get('multisig') as string)
+  await propose(timelock, proposal, governance.get(MULTISIG) as string)
 })()
