@@ -458,7 +458,7 @@ export const ilkETHFETH2303: Ilk = {
     baseId: ETH,
     ilkId: FETH2303,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1330000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: ETH,
@@ -484,7 +484,7 @@ export const ilkETHFETH2306: Ilk = {
     baseId: ETH,
     ilkId: FETH2306,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1330000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: ETH,
@@ -806,7 +806,7 @@ export const ilkDAIFDAI2303: Ilk = {
     baseId: DAI,
     ilkId: FDAI2303,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1670000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: DAI,
@@ -835,7 +835,7 @@ export const ilkDAIFDAI2306: Ilk = {
     baseId: DAI,
     ilkId: FDAI2306,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1670000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: DAI,
@@ -1187,7 +1187,7 @@ export const ilkUSDCFUSDC2303: Ilk = {
     baseId: USDC,
     ilkId: FUSDC2303,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1670000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: USDC,
@@ -1217,7 +1217,7 @@ export const ilkUSDCFUSDC2306: Ilk = {
     baseId: USDC,
     ilkId: FUSDC2306,
     oracle: protocol.getOrThrow(NOTIONAL)!,
-    ratio: 1670000,
+    ratio: 1100000,
   },
   debtLimits: {
     baseId: USDC,
