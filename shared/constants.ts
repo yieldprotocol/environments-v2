@@ -153,8 +153,8 @@ export const OSQTH = stringToBytes6('39')
 export const USDT = '0x30A000000000'
 export const EUSDT = '0xE0A014000000'
 export const RETH = '0xE03016000000'
-export const SPWSTETH2304 = '0x403017000648' //sP-wstETH:01-04-2023:8 // Maturity: 1680307200
-export const SPCDAI2307 = '0x403117000651' //sP-cDAI:01-07-2023:8 // Maturity: 1688169600
+export const SPWSTETH2304 = '0x403017000289' //sP-wstETH:01-04-2023:8 // Maturity: 1680307200
+export const SPCDAI2307 = '0x40311700028C' //sP-cDAI:01-07-2023:8 // Maturity: 1688169600
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'

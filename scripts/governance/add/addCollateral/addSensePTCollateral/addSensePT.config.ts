@@ -1,5 +1,5 @@
 import { parseUnits } from 'ethers/lib/utils'
-import { DAI, ETH, FYDAI2303, FYETH2303, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shared/constants'
+import { DAI, ETH, FYDAI2306, FYETH2303, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { SPWSTETH2304 } from '../../../../../shared/constants'
 import * as base_config from '../../../base.mainnet.config'
@@ -54,14 +54,6 @@ export const ilkToETH: Ilk = {
     dust: 1,
     dec: 18,
   },
-  auctionLineAndLimit: {
-    baseId: ETH,
-    ilkId: spwsteth2304.assetId,
-    duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.95454545454'), // 105 / 110
-    max: parseUnits('1000'),
-  },
 }
 
 export const ilkToDAI: Ilk = {
@@ -81,14 +73,6 @@ export const ilkToDAI: Ilk = {
     dust: 1000,
     dec: 18,
   },
-  auctionLineAndLimit: {
-    baseId: DAI,
-    ilkId: spcdai2307.assetId,
-    duration: 3600,
-    vaultProportion: parseUnits('0.5'),
-    collateralProportion: parseUnits('0.95454545454'), // 105 / 110
-    max: parseUnits('1000'),
-  },
 }
 
 export const ilks: Ilk[] = [ilkToETH, ilkToDAI]
@@ -105,8 +89,8 @@ export const ethSeries: Series[] = [
 
 export const daiSeries: Series[] = [
   {
-    seriesId: FYDAI2303,
-    fyToken: { assetId: FYDAI2303, address: fyTokens.getOrThrow(FYDAI2303)! },
+    seriesId: FYDAI2306,
+    fyToken: { assetId: FYDAI2306, address: fyTokens.getOrThrow(FYDAI2306)! },
     chiOracle: '',
     pool: spcdai2307,
     ilks: [ilkToDAI],
