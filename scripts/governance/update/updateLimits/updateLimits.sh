@@ -3,7 +3,7 @@
 set -eux
 export HERE=$(dirname $0)
 export CONF=$PWD/$HERE/updateLimits.mainnet.config
-RUN="npx hardhat run --network tenderly"
+RUN="npx hardhat run --network mainnet"
 
 # Action: UPDATE the limits, poropose, apporve, execute and test
 $RUN $HERE/updateLimits.ts
