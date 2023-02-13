@@ -168,6 +168,10 @@
     [
       "limitedAssert",
       "0x41bf71A2109FbdF7e5064a7421EAEFeaBF7a12f7"
+    ],
+    [
+      "yieldNotionalLever",
+      "0x256dC66D616529BaFfd41172b67afe7821Bd5C06"
     ]
   ]
 }

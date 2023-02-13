@@ -13,9 +13,11 @@ const { protocol, governance } = require(process.env.CONF as string)
   let ownerAcc = await getOwnerOrImpersonate(developer as string)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), ownerAcc)
   const giver = Giver__factory.connect(protocol().getOrThrow(GIVER), ownerAcc)
-  const yieldNotionalLever = YieldNotionalLever__factory.connect(protocol().getOrThrow(YIELD_NOTIONAL_LEVER), ownerAcc)
 
-  let proposal: Array<{ target: string; data: string }> = await orchestrateLever(yieldNotionalLever.address, giver)
+  let proposal: Array<{ target: string; data: string }> = await orchestrateLever(
+    protocol().getOrThrow(YIELD_NOTIONAL_LEVER),
+    giver
+  )
 
   await propose(timelock, proposal, developer)
 })()
