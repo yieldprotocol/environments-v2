@@ -153,6 +153,8 @@ export const OSQTH = stringToBytes6('39')
 export const USDT = '0x30A000000000'
 export const EUSDT = '0xE0A014000000'
 export const RETH = '0xE03016000000'
+export const SPWSTETH2304 = '0x403017000289' //sP-wstETH:01-04-2023:8 // Maturity: 1680307200
+export const SPCDAI2307 = '0x40311700028C' //sP-cDAI:01-07-2023:8 // Maturity: 1688169600
 
 export const TIMELOCK = 'timelock'
 export const CLOAK = 'cloak'
@@ -182,6 +184,7 @@ export const POOL_ORACLE = 'poolOracle'
 export const YIELD_SPACE_MULTI_ORACLE = 'yieldSpaceMultiOracle'
 export const CRAB_ORACLE = 'crabOracle'
 export const RETH_ORACLE = 'rethOracle'
+export const IDENTITY_ORACLE = 'identityOracle'
 export const CONTANGO = 'contango'
 export const CONTANGO_WITCH = 'contangoWitch'
 export const CONTANGO_CAULDRON = 'contangoCauldron'
@@ -204,6 +207,7 @@ export const CONVEX_PROVIDER = '13'
 export const EULER_PROVIDER = '14'
 export const OPYN_PROVIDER = '15'
 export const ROCKET_PROVIDER = '16'
+export const SENSE_PROVIDER = '17'
 
 export const EODEC21 = 1640919600 // Friday, Dec 31, 2021 3:00:00 AM GMT+00:00
 export const EOMAR22 = 1648177200 // Friday, Mar 25, 2022 3:00:00 AM GMT+00:00
@@ -314,6 +318,8 @@ export const DISPLAY_NAMES = new Map([
   [EUSDC, 'EUSDC'],
   [EFRAX, 'EFRAX'],
   [RETH, 'RETH'],
+  [SPWSTETH2304, 'SPWSTETH2304'],
+  [SPCDAI2307, 'SPCDAI2307'],
   [FDAI2203, 'FDAI2203'],
   [FUSDC2203, 'FUSDC2203'],
   [FDAI2206, 'FDAI2206'],

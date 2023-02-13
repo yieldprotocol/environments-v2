@@ -31,6 +31,8 @@ import {
   FDAI2306,
   FUSDC2303,
   FUSDC2306,
+  SPWSTETH2304,
+  SPCDAI2307,
 } from '../../shared/constants'
 import {
   FYETH2303,
@@ -110,6 +112,8 @@ export const whales: Map<string, string> = new Map([
   [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
   [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
   [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
+  [SPWSTETH2304, '0xB6462B67fe692223DFFb61C8DC8Ad080CBa180Cc'],
+  [SPCDAI2307, '0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C'],
 ])
 
 import { Asset, Base, Ilk, Series, Strategy } from './confTypes'
