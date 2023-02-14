@@ -8,7 +8,7 @@ import { indent } from '../../../shared/helpers'
  */
 
 export const orchestrateLever = async (
-  Lever: any,
+  lever: string,
   giver: Giver,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -18,19 +18,13 @@ export const orchestrateLever = async (
 
   proposal.push({
     target: giver.address,
-    data: giver.interface.encodeFunctionData('grantRoles', [
-      [id(giver.interface, 'give(bytes12,address)')],
-      Lever.address,
-    ]),
+    data: giver.interface.encodeFunctionData('grantRoles', [[id(giver.interface, 'give(bytes12,address)')], lever]),
   })
   console.log(indent(nesting, `giver.grantRoles('give', Lever)`))
 
   proposal.push({
     target: giver.address,
-    data: giver.interface.encodeFunctionData('grantRoles', [
-      [id(giver.interface, 'seize(bytes12,address)')],
-      Lever.address,
-    ]),
+    data: giver.interface.encodeFunctionData('grantRoles', [[id(giver.interface, 'seize(bytes12,address)')], lever]),
   })
   console.log(indent(nesting, `giver.grantRoles('seize', Lever)`))
 
