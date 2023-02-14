@@ -25,7 +25,7 @@ export const strategies = () => readAddressMappingIfExists('strsategies.json')
 /// @notice Time stretch to be set in the PoolFactory prior to pool deployment
 /// @param series identifier (bytes6 tag)
 /// @param time stretch (64.64)
-export const timeStretch: Map<string, BigNumber> = new Map([[FYUSDT2309, ONE64.div(secondsInOneYear.mul(45))]])
+export const timeStretch: Map<string, BigNumber> = new Map([[FYUSDT2309, ONE64.div(secondsInOneYear.mul(35))]])
 
 /// @notice Sell base to the pool fee, as fp4
 export const g1: number = 9000

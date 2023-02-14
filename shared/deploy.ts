@@ -13,7 +13,7 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
  * @dev This script deploys contracts as defined in a proposal config file containing a contractDeployments:ContractDeployment[] export.
  */
 ;(async () => {
-  let deployerAcc = await getOwnerOrImpersonate(developer as string)
+  let deployerAcc = (await ethers.getSigners())[0] // We never impersonate when deploying
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), deployerAcc)
 
   for (let params_ of contractDeployments) {
