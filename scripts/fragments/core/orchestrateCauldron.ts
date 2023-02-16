@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Cauldron, OldEmergencyBrake, Timelock } from '../../../typechain'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -22,7 +23,7 @@ export const orchestrateCauldron = async (
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
   console.log(indent(nesting, `ORCHESTRATE_CAULDRON`))
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   proposal.push({
@@ -47,11 +48,7 @@ export const orchestrateCauldron = async (
   })
   console.log(indent(nesting, `cauldron.grantRole(ROOT, cloak)`))
 
-  proposal.push({
-    target: cauldron.address,
-    data: cauldron.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(indent(nesting, `cauldron.revokeRole(ROOT, deployer)`))
+  proposal = proposal.concat(await revokeRoot(cauldron, deployer, nesting + 1))
 
   return proposal
 }

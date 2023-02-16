@@ -1,7 +1,8 @@
 import { BigNumber } from 'ethers'
+import { parseUnits } from 'ethers/lib/utils'
 import { WAD, ONEUSDC, ONEWBTC, CHI, RATE } from '../../../../../shared/constants'
 import { ACCUMULATOR, CHAINLINK, COMPOSITE } from '../../../../../shared/constants'
-import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, ENS, UNI, USDT } from '../../../../../shared/constants'
+import { ETH, DAI, FRAX, USDC, WBTC, LINK, STETH, WSTETH, RETH, ENS, UNI, USDT } from '../../../../../shared/constants'
 import { FYUSDT2303, FYUSDT2306, YSUSDT6MMS, YSUSDT6MJD } from '../../../../../shared/constants'
 
 import * as base_config from '../../../base.mainnet.config'
@@ -92,6 +93,11 @@ export const compositePaths: OraclePath[] = [
     baseId: USDT,
     quoteId: WSTETH,
     path: [ETH, STETH],
+  },
+  {
+    baseId: USDT,
+    quoteId: RETH,
+    path: [ETH],
   },
 ]
 
@@ -398,6 +404,36 @@ const ilkUSDTFRAX: Ilk = {
   },
 }
 
+export const ilkUSDTRETH: Ilk = {
+  baseId: USDT,
+  ilkId: RETH,
+  asset: {
+    assetId: RETH,
+    address: assets.getOrThrow(RETH)!,
+  },
+  collateralization: {
+    baseId: USDT,
+    ilkId: RETH,
+    oracle: protocol().getOrThrow(COMPOSITE)!,
+    ratio: 1670000,
+  },
+  debtLimits: {
+    baseId: USDT,
+    ilkId: RETH,
+    line: 100000,
+    dust: 1000,
+    dec: 6,
+  },
+  auctionLineAndLimit: {
+    baseId: USDT,
+    ilkId: RETH,
+    duration: 3600,
+    vaultProportion: parseUnits('0.5'),
+    collateralProportion: parseUnits('0.62874251'), // 105 / 167
+    max: parseUnits('1000'),
+  },
+}
+
 export const newIlks: Ilk[] = [
   ilkUSDTUSDT,
   ilkUSDTETH,
@@ -405,6 +441,7 @@ export const newIlks: Ilk[] = [
   ilkUSDTUSDC,
   ilkUSDTWBTC,
   ilkUSDTWSTETH,
+  ilkUSDTRETH,
   ilkUSDTLINK,
   ilkUSDTUNI,
   ilkUSDTENS,

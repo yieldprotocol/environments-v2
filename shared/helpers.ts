@@ -65,7 +65,8 @@ export const propose = async (
   const requiredConfirmations = isFork() ? 1 : 2
   const requireProposalState = awaitAndRequireProposal(timelock, proposalHash, requiredConfirmations)
 
-  if ((await timelock.proposals(proposalHash)).state === ProposalState.Unknown) {
+  const proposalState = (await timelock.proposals(proposalHash)).state
+  if (proposalState === ProposalState.Unknown) {
     console.log('Proposing')
     console.log(`Developer: ${signerAcc.address}\n`)
     console.log(`Calldata:\n${timelock.interface.encodeFunctionData('propose', [proposal])}`)
@@ -74,6 +75,10 @@ export const propose = async (
     const tx = await timelock.connect(signerAcc).propose(proposal)
     await requireProposalState(tx, ProposalState.Proposed)
     console.log(`Proposed ${proposalHash}`)
+  } else if (proposalState === ProposalState.Proposed) {
+    console.log(`Proposal already proposed: ${proposalHash}`)
+  } else if (proposalState === ProposalState.Approved) {
+    console.log(`Proposal already approved: ${proposalHash}`)
   }
 }
 
@@ -107,9 +112,10 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (
   impersonatedAddress: string,
-  balance?: BigNumber
+  balance?: BigNumber,
+  signerIndex: number = 0
 ): Promise<SignerWithAddress> => {
-  return isFork() ? await impersonate(impersonatedAddress, balance) : (await ethers.getSigners())[0]
+  return isFork() ? await impersonate(impersonatedAddress, balance) : (await ethers.getSigners())[signerIndex]
 }
 
 /** @dev Advance time by a number of seconds */
@@ -212,14 +218,22 @@ export function jsonToMap(json: string): Map<any, any> {
   )
 }
 
+export function writeProposalTo(path: string, proposalHash: string, proposalExecute: string) {
+  writeFileSync(path, `${proposalHash} ${proposalExecute}`)
+}
+
 export function writeProposal(proposalHash: string, proposalExecute: string) {
   let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
-  writeFileSync(`${path}/proposal.txt`, `${proposalHash} ${proposalExecute}`)
+  writeProposalTo(`${path}/proposal.txt`, proposalHash, proposalExecute)
+}
+
+export function readProposalFrom(path: string): string[] {
+  return readFileSync(path, 'utf8').split(' ')
 }
 
 export function readProposal(): string[] {
   let path: string = process.env.HERE !== undefined ? process.env.HERE : './'
-  return readFileSync(`${path}/proposal.txt`, 'utf8').split(' ')
+  return readProposalFrom(`${path}/proposal.txt`)
 }
 
 /// --------- ADDRESS FILES ---------

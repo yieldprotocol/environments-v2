@@ -31,7 +31,7 @@ export const revokeDevelopers = async (
     proposal.push({
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('revokeRoles', [
-        [id(cloak.interface, 'execute(bytes32)')],
+        [id(cloak.interface, 'execute(address)')],
         revokedAccount,
       ]),
     })

@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { CompoundMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -21,7 +22,7 @@ export const orchestrateCompoundOracle = async (
   console.log(indent(nesting, `ORCHESTRATE_COMPOUND_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: compoundOracle.address,
@@ -38,11 +39,7 @@ export const orchestrateCompoundOracle = async (
   })
   console.log(indent(nesting, `compoundOracle.grantRole(ROOT, cloak)`))
 
-  proposal.push({
-    target: compoundOracle.address,
-    data: compoundOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(indent(nesting, `compoundOracle.revokeRole(ROOT, deployer)`))
+  proposal = proposal.concat(await revokeRoot(compoundOracle, deployer, nesting + 1))
 
   return proposal
 }

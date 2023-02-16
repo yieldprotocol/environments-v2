@@ -34,10 +34,10 @@ export const grantGovernors = async (
       data: cloak.interface.encodeFunctionData('grantRoles', [
         [
           id(cloak.interface, 'plan(address,(address,bytes4[])[])'),
-          id(cloak.interface, 'cancel(bytes32)'),
-          id(cloak.interface, 'execute(bytes32)'),
-          id(cloak.interface, 'restore(bytes32)'),
-          id(cloak.interface, 'terminate(bytes32)'),
+          id(cloak.interface, 'cancel(address)'),
+          id(cloak.interface, 'execute(address)'),
+          id(cloak.interface, 'restore(address)'),
+          id(cloak.interface, 'terminate(address)'),
         ],
         timelock.address,
       ]),

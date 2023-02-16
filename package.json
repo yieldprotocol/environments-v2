@@ -30,8 +30,8 @@
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "2.0.0",
     "@yield-protocol/utils-v2": "2.6.9-rc.1",
-    "@yield-protocol/vault-v2": "0.18.9",
-    "@yield-protocol/yieldspace-tv": "0.1.9-rc.3",
+    "@yield-protocol/vault-v2": "0.18.10-rc.1",
+    "@yield-protocol/yieldspace-tv": "0.1.9-rc.3",    
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
     "erc3156": "^0.4.8",
@@ -65,6 +65,7 @@
   "homepage": "https://github.com/yieldprotocol/environments-v2#readme",
   "dependencies": {
     "@tenderly/hardhat-tenderly": "^1.1.6",
+    "@yield-protocol/yvarb": "^1.0.1-rc2",
     "csv-parser": "^3.0.0",
     "latest": "^0.2.0"
   }

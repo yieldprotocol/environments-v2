@@ -42,8 +42,8 @@ import { ContractDeployment } from '../../../confTypes'
 export const assetsToAdd: Map<string, string> = new Map([[USDT, assets.get(USDT) as string]])
 
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(45))],
+  [FYUSDT2303, ONE64.div(secondsInOneYear.mul(35))],
+  [FYUSDT2306, ONE64.div(secondsInOneYear.mul(35))],
 ]) // todo: Allan
 
 // Sell base to the pool fee, as fp4
@@ -55,7 +55,7 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'joins.json',
     name: USDT,
-    contract: 'FlashJoin',
+    contract: 'TetherJoin',
     args: [() => assets.getOrThrow(USDT)!],
   },
   {
@@ -133,7 +133,7 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'strategies.json',
     name: YSUSDT6MMS,
     contract: 'Strategy',
-    args: [() => 'Yield Strategy USDT 6M Mar Sep', () => 'YSUSDT6MJD', () => fyTokens().getOrThrow(FYUSDT2303)!],
+    args: [() => 'Yield Strategy USDT 6M Mar Sep', () => 'YSUSDT6MMS', () => fyTokens().getOrThrow(FYUSDT2303)!],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
     },

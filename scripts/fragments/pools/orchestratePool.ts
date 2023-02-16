@@ -1,6 +1,6 @@
 import { id } from '@yield-protocol/utils-v2'
 import { Pool, Timelock, AccessControl__factory } from '../../../typechain'
-import { removeDeployer } from '../core/removeDeployer'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -10,6 +10,7 @@ import { indent } from '../../../shared/helpers'
  */
 
 export const orchestratePool = async (
+  deployer: string,
   timelock: Timelock,
   pool: Pool,
   nesting: number = 0
@@ -30,7 +31,7 @@ export const orchestratePool = async (
 
   // Revoke ROOT from the deployer
   proposal = proposal.concat(
-    await removeDeployer(AccessControl__factory.connect(pool.address, pool.signer), nesting + 1)
+    await revokeRoot(AccessControl__factory.connect(pool.address, pool.signer), deployer, nesting + 1)
   )
 
   return proposal

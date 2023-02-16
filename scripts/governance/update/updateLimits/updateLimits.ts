@@ -4,9 +4,11 @@
 
 import { ethers } from 'hardhat'
 
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { updateLimitsProposal } from '../../../fragments/limits/updateDebtLimits'
-import { Cauldron, Timelock } from '../../../../typechain'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
+import { updateDebtLimits } from '../../../fragments/limits/updateDebtLimits'
+import { Cauldron, Cauldron__factory, Timelock, Timelock__factory } from '../../../../typechain'
+import { Ilk } from '../../confTypes'
+import { CAULDRON, MULTISIG, TIMELOCK } from '../../../../shared/constants'
 
 const { governance, protocol, developer, newLimits } = require(process.env.CONF as string)
 
@@ -14,22 +16,17 @@ const { governance, protocol, developer, newLimits } = require(process.env.CONF 
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
   // Contract instantiation
-  const cauldron = (await ethers.getContractAt(
-    'Cauldron',
-    protocol.get('cauldron') as string,
-    ownerAcc
-  )) as unknown as Cauldron
-
-  const timelock = (await ethers.getContractAt(
-    'Timelock',
-    governance.get('timelock') as string,
-    ownerAcc
-  )) as unknown as Timelock
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
 
   // Build the proposal
-  let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await updateLimitsProposal(cauldron, newLimits))
+  /** This is the original code **/
+  // let proposal: Array<{ target: string; data: string }> = []
+  // proposal = proposal.concat(await updateDebtLimits(cauldron, newLimits))
+
+  /* New code to handle Ilk type as updateDebtLimits() function argument */
+  const proposal = await Promise.all(newLimits.map((ilk: Ilk) => updateDebtLimits(cauldron, ilk)))
 
   // Propose, Approve & execute
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string)
+  await propose(timelock, proposal.flat(), governance.get(MULTISIG) as string)
 })()

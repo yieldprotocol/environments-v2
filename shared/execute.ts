@@ -36,5 +36,7 @@ const { developer, governance } = require(process.env.CONF as string)
     await requireProposalState(tx, ProposalState.Unknown)
     console.log(`Executed ${proposalHash}`)
     console.log(`TxHash: ${tx.hash}`)
+  } else {
+    console.log(`Not approved: ${proposalHash}`)
   }
 })()

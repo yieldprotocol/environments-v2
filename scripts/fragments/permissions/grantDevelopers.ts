@@ -26,7 +26,7 @@ export const grantDevelopers = async (
     proposal.push({
       target: cloak.address,
       data: cloak.interface.encodeFunctionData('grantRoles', [
-        [id(cloak.interface, 'execute(bytes32)')],
+        [id(cloak.interface, 'execute(address)')],
         grantedAccount,
       ]),
     })

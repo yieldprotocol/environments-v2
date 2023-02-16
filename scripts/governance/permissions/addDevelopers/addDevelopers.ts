@@ -1,7 +1,7 @@
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { grantDevelopersProposal } from '../../../fragments/permissions/grantDevelopers'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
+import { grantDevelopers } from '../../../fragments/permissions/grantDevelopers'
 import { Timelock__factory, EmergencyBrake__factory } from '../../../../typechain'
-import { TIMELOCK, CLOAK, MULTISIG } from '../../../../shared/constants'
+import { TIMELOCK, CLOAK } from '../../../../shared/constants'
 
 const { governance, newDevelopers, developer } = require(process.env.CONF as string)
 
@@ -15,7 +15,7 @@ const { governance, newDevelopers, developer } = require(process.env.CONF as str
   const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
-  proposal = proposal.concat(await grantDevelopersProposal(timelock, cloak, newDevelopers))
+  proposal = proposal.concat(await grantDevelopers(timelock, cloak, newDevelopers))
 
-  await proposeApproveExecute(timelock, proposal, governance.get(MULTISIG) as string, developer)
+  await propose(timelock, proposal, developer)
 })()
