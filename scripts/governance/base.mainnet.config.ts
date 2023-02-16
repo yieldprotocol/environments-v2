@@ -24,6 +24,13 @@ import {
   YSETH6MJDASSET,
   YSFRAX6MMSASSET,
   YSFRAX6MJDASSET,
+  FETH2303,
+  NOTIONAL,
+  FETH2306,
+  FDAI2303,
+  FDAI2306,
+  FUSDC2303,
+  FUSDC2306,
   SPWSTETH2304,
   SPCDAI2307,
 } from '../../shared/constants'
@@ -447,6 +454,59 @@ export const ilkETHRETH: Ilk = {
   },
 }
 
+export const ilkETHFETH2303: Ilk = {
+  baseId: ETH,
+  ilkId: FETH2303,
+  asset: { assetId: FETH2303, address: assets.getOrThrow(FETH2303)! },
+  collateralization: {
+    baseId: ETH,
+    ilkId: FETH2303,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: ETH,
+    ilkId: FETH2303,
+    line: 400,
+    dust: 1,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: ETH,
+    ilkId: FETH2303,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
+  },
+}
+export const ilkETHFETH2306: Ilk = {
+  baseId: ETH,
+  ilkId: FETH2306,
+  asset: { assetId: FETH2306, address: assets.getOrThrow(FETH2306)! },
+  collateralization: {
+    baseId: ETH,
+    ilkId: FETH2306,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: ETH,
+    ilkId: FETH2306,
+    line: 400,
+    dust: 1,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: ETH,
+    ilkId: FETH2306,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
+  },
+}
+
 /// ---------------------------- DAI ----------------------------
 
 const ilkDAIDAI: Ilk = {
@@ -736,6 +796,65 @@ export const ilkDAIRETH: Ilk = {
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
+  },
+}
+
+export const ilkDAIFDAI2303: Ilk = {
+  baseId: DAI,
+  ilkId: FDAI2303,
+  asset: {
+    assetId: FDAI2303,
+    address: assets.getOrThrow(FDAI2303)!,
+  },
+  collateralization: {
+    baseId: DAI,
+    ilkId: FDAI2303,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: DAI,
+    ilkId: FDAI2303,
+    line: 1000000,
+    dust: 1000,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: DAI,
+    ilkId: FDAI2303,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
+  },
+}
+export const ilkDAIFDAI2306: Ilk = {
+  baseId: DAI,
+  ilkId: FDAI2306,
+  asset: {
+    assetId: FDAI2306,
+    address: assets.getOrThrow(FDAI2306)!,
+  },
+  collateralization: {
+    baseId: DAI,
+    ilkId: FDAI2306,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: DAI,
+    ilkId: FDAI2306,
+    line: 1000000,
+    dust: 1000,
+    dec: 18,
+  },
+  auctionLineAndLimit: {
+    baseId: DAI,
+    ilkId: FDAI2306,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 
@@ -1058,6 +1177,66 @@ export const ilkUSDCRETH: Ilk = {
     vaultProportion: parseUnits('0.5'),
     collateralProportion: parseUnits('0.62874251'), // 105 / 167
     max: parseUnits('1000'),
+  },
+}
+
+export const ilkUSDCFUSDC2303: Ilk = {
+  baseId: USDC,
+  ilkId: FUSDC2303,
+  asset: {
+    assetId: FUSDC2303,
+    address: assets.getOrThrow(FUSDC2303)!,
+  },
+  collateralization: {
+    baseId: USDC,
+    ilkId: FUSDC2303,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: USDC,
+    ilkId: FUSDC2303,
+    line: 1000000,
+    dust: 1000,
+    dec: 6,
+  },
+  auctionLineAndLimit: {
+    baseId: USDC,
+    ilkId: FUSDC2303,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
+  },
+}
+
+export const ilkUSDCFUSDC2306: Ilk = {
+  baseId: USDC,
+  ilkId: FUSDC2306,
+  asset: {
+    assetId: FUSDC2306,
+    address: assets.getOrThrow(FUSDC2306)!,
+  },
+  collateralization: {
+    baseId: USDC,
+    ilkId: FUSDC2306,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: USDC,
+    ilkId: FUSDC2306,
+    line: 1000000,
+    dust: 1000,
+    dec: 6,
+  },
+  auctionLineAndLimit: {
+    baseId: USDC,
+    ilkId: FUSDC2306,
+    duration: 3600,
+    vaultProportion: WAD.div(2),
+    collateralProportion: WAD.mul(1050000).div(1150000),
+    max: WAD.mul(10000000),
   },
 }
 
