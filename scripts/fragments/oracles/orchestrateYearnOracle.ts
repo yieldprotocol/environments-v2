@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { YearnVaultMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -22,7 +23,7 @@ export const orchestrateYearnOracle = async (
   console.log(indent(nesting, `ORCHESTRATE_YEARN_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: yearnOracle.address,
@@ -39,11 +40,7 @@ export const orchestrateYearnOracle = async (
   })
   console.log(indent(nesting, `yearnOracle.grantRole(ROOT, cloak)`))
 
-  proposal.push({
-    target: yearnOracle.address,
-    data: yearnOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(indent(nesting, `yearnOracle.revokeRole(ROOT, deployer)`))
+  proposal = proposal.concat(await revokeRoot(yearnOracle, deployer, nesting + 1))
 
   return proposal
 }

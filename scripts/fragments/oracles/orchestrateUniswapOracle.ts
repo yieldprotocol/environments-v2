@@ -1,6 +1,7 @@
 import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Timelock, EmergencyBrake, UniswapV3Oracle } from '../../../typechain'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -22,7 +23,7 @@ export const orchestrateUniswapOracle = async (
   console.log(indent(nesting, `ORCHESTRATE_UNISWAP_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: uniswapOracle.address,
@@ -39,11 +40,7 @@ export const orchestrateUniswapOracle = async (
   })
   console.log(indent(nesting, `uniswapOracle.grantRole(ROOT, cloak)`))
 
-  proposal.push({
-    target: uniswapOracle.address,
-    data: uniswapOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(indent(nesting, `uniswapOracle.revokeRole(ROOT, deployer)`))
+  proposal = proposal.concat(await revokeRoot(uniswapOracle, deployer, nesting + 1))
 
   return proposal
 }
