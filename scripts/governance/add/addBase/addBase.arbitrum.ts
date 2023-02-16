@@ -4,7 +4,7 @@ import { IOracle } from '../../../../typechain'
 import {
   Timelock__factory,
   EmergencyBrake__factory,
-  ChainlinkMultiOracle__factory,
+  ChainlinkUSDMultiOracle__factory,
   CompositeMultiOracle__factory,
   AccumulatorMultiOracle__factory,
   Cauldron__factory,
@@ -23,7 +23,7 @@ import {
   WITCH,
   LADLE,
   COMPOSITE,
-  CHAINLINK,
+  CHAINLINKUSD,
   ACCUMULATOR,
 } from '../../../../shared/constants'
 
@@ -32,7 +32,7 @@ import { orchestrateFYToken } from '../../../fragments/assetsAndSeries/orchestra
 import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { updateAccumulatorSources } from '../../../fragments/oracles/updateAccumulatorSources'
-import { updateChainlinkSources } from '../../../fragments/oracles/updateChainlinkSources'
+import { updateChainlinkUSDSources } from '../../../fragments/oracles/updateChainlinkUSDSources'
 import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
 import { addAsset } from '../../../fragments/assetsAndSeries/addAsset'
@@ -42,8 +42,7 @@ import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 
-const { developer } = require(process.env.CONF as string)
-const { governance, protocol, joins, pools } = require(process.env.CONF as string)
+const { developer, governance, protocol, deployers, joins, pools } = require(process.env.CONF as string)
 const {
   accumulators,
   chainlinkSources,
@@ -63,7 +62,7 @@ const {
 
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.get(CLOAK)!, ownerAcc)
-  const chainlinkOracle = ChainlinkMultiOracle__factory.connect(protocol().getOrThrow(CHAINLINK)!, ownerAcc)
+  const chainlinkOracle = ChainlinkUSDMultiOracle__factory.connect(protocol().getOrThrow(CHAINLINKUSD)!, ownerAcc)
   const compositeOracle = CompositeMultiOracle__factory.connect(protocol().getOrThrow(COMPOSITE)!, ownerAcc)
   const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol().getOrThrow(ACCUMULATOR)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol().getOrThrow(CAULDRON)!, ownerAcc)
@@ -74,28 +73,47 @@ const {
   let proposal: Array<{ target: string; data: string }> = []
 
   // Orchestrate new contracts
+  const usdtJoinAddress = joins.getOrThrow(newBase.assetId)!
   proposal = proposal.concat(
     await orchestrateFlashJoin(
+      deployers.getOrThrow(usdtJoinAddress)!,
       timelock,
       cloak,
-      FlashJoin__factory.connect(joins.getOrThrow(newBase.assetId)!, ownerAcc)
+      FlashJoin__factory.connect(usdtJoinAddress, ownerAcc)
     )
   )
   for (let series of newSeries) {
     proposal = proposal.concat(
-      await orchestrateFYToken(timelock, cloak, FYToken__factory.connect(series.fyToken.address, ownerAcc))
+      await orchestrateFYToken(
+        deployers.getOrThrow(series.fyToken.address)!,
+        timelock,
+        cloak,
+        FYToken__factory.connect(series.fyToken.address, ownerAcc)
+      )
     )
-    proposal = proposal.concat(await orchestratePool(timelock, Pool__factory.connect(series.pool.address, ownerAcc)))
+    proposal = proposal.concat(
+      await orchestratePool(
+        deployers.getOrThrow(series.pool.address)!,
+        timelock,
+        Pool__factory.connect(series.pool.address, ownerAcc)
+      )
+    )
   }
   for (let strategy of newStrategies) {
     proposal = proposal.concat(
-      await orchestrateStrategy(ownerAcc, governance.getOrThrow(MULTISIG)!, timelock, ladle, strategy, pools)
+      await orchestrateStrategy(
+        deployers.getOrThrow(strategy.address)!,
+        governance.getOrThrow(MULTISIG)!,
+        timelock,
+        ladle,
+        strategy
+      )
     )
   }
 
   // Oracles
   proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulators))
-  proposal = proposal.concat(await updateChainlinkSources(chainlinkOracle, chainlinkSources))
+  proposal = proposal.concat(await updateChainlinkUSDSources(chainlinkOracle, chainlinkSources))
   if (compositeSources !== undefined)
     proposal = proposal.concat(await updateCompositeSources(compositeOracle, compositeSources))
   if (compositePaths !== undefined)

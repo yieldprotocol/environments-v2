@@ -112,9 +112,10 @@ export const impersonate = async (account: string, balance?: BigNumber) => {
 /** @dev Get the first account or, if we are in a fork, impersonate the one at the address passed on as a parameter */
 export const getOwnerOrImpersonate = async (
   impersonatedAddress: string,
-  balance?: BigNumber
+  balance?: BigNumber,
+  signerIndex: number = 0
 ): Promise<SignerWithAddress> => {
-  return isFork() ? await impersonate(impersonatedAddress, balance) : (await ethers.getSigners())[0]
+  return isFork() ? await impersonate(impersonatedAddress, balance) : (await ethers.getSigners())[signerIndex]
 }
 
 /** @dev Advance time by a number of seconds */

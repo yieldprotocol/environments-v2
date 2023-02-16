@@ -5,24 +5,23 @@
 import { id } from '@yield-protocol/utils-v2'
 import { Timelock, Ladle, AccessControl__factory, Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
-import { removeDeployer } from '../core/removeDeployer'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { getName, indent } from '../../../shared/helpers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
 export const orchestrateStrategy = async (
-  ownerAcc: SignerWithAddress,
+  deployer: string,
   multisig: string,
   timelock: Timelock,
   ladle: Ladle,
   strategy: Strategy,
-  pools: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
   console.log(indent(nesting, `ORCHESTRATE_STRATEGY`))
   let proposal: Array<{ target: string; data: string }> = []
 
-  const strategyContract = Strategy__factory.connect(strategy.address, ownerAcc)
+  const strategyContract = Strategy__factory.connect(strategy.address, timelock.signer)
   const strategyInterface = strategyContract.interface
 
   proposal.push({
@@ -63,7 +62,7 @@ export const orchestrateStrategy = async (
 
   // Revoke ROOT from the deployer
   proposal = proposal.concat(
-    await removeDeployer(AccessControl__factory.connect(strategy.address, ladle.signer), nesting + 1)
+    await revokeRoot(AccessControl__factory.connect(strategy.address, ladle.signer), deployer, nesting + 1)
   )
 
   return proposal

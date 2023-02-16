@@ -18,6 +18,7 @@ import "@yield-protocol/vault-v2/contracts/oracles/yearn/IYvToken.sol";
 // import "@yield-protocol/vault-v2/contracts/oracles/crab/CrabOracle.sol";
 import "@yield-protocol/vault-v2/contracts/oracles/yieldspace/YieldSpaceMultiOracle.sol";
 // import "@yield-protocol/vault-v2/contracts/oracles/rocket/RETHOracle.sol";
+import "@yield-protocol/vault-v2/contracts/other/tether/TetherJoin.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/NotionalMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/other/notional/Transfer1155Module.sol";

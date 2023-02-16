@@ -1,10 +1,11 @@
 import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, FlashJoin } from '../../../typechain'
-import { removeDeployer } from '../core/removeDeployer'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
 import { indent } from '../../../shared/helpers'
 
 export const orchestrateFlashJoin = async (
+  deployer: string,
   timelock: Timelock,
   cloak: EmergencyBrake,
   join: FlashJoin,
@@ -16,7 +17,7 @@ export const orchestrateFlashJoin = async (
 
   console.log(indent(nesting, `join: ${join.address}`))
   const joinAsAccessControl = AccessControl__factory.connect(join.address, join.signer)
-  proposal = proposal.concat(await removeDeployer(joinAsAccessControl, nesting + 1))
+  proposal = proposal.concat(await revokeRoot(joinAsAccessControl, deployer, nesting + 1))
   proposal = proposal.concat(await addAsHostToCloak(cloak, joinAsAccessControl, nesting + 1))
 
   proposal.push({

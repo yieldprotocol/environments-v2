@@ -58,8 +58,8 @@ export const chainlinkSources: OracleSource[] = [
   {
     baseId: USDT,
     baseAddress: assets.getOrThrow(USDT)!,
-    quoteId: ETH,
-    quoteAddress: assets.getOrThrow(ETH)!,
+    quoteId: '', // Quote is always USD
+    quoteAddress: '',
     sourceAddress: '0x3f3f5dF88dC9F13eac63DF89EC16ef6e7E25DdE7',
   },
 ]

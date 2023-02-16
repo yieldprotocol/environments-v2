@@ -3,6 +3,7 @@ import { ROOT } from '../../../shared/constants'
 import { StrategyOracle } from '../../../typechain'
 import { EmergencyBrake } from '../../../typechain'
 import { Timelock } from '../../../typechain'
+import { revokeRoot } from '../permissions/revokeRoot'
 import { indent } from '../../../shared/helpers'
 
 /**
@@ -24,7 +25,7 @@ export const orchestrateStrategyOracle = async (
   console.log(indent(nesting, `ORCHESTRATE_STRATEGY_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  const proposal: Array<{ target: string; data: string }> = []
+  let proposal: Array<{ target: string; data: string }> = []
 
   proposal.push({
     target: strategyOracle.address,
@@ -41,11 +42,7 @@ export const orchestrateStrategyOracle = async (
   })
   console.log(indent(nesting, `strategyOracle.grantRole(ROOT, cloak)`))
 
-  proposal.push({
-    target: strategyOracle.address,
-    data: strategyOracle.interface.encodeFunctionData('revokeRole', [ROOT, deployer]),
-  })
-  console.log(indent(nesting, `strategyOracle.revokeRole(ROOT, deployer)`))
+  proposal = proposal.concat(await revokeRoot(strategyOracle, deployer, nesting + 1))
 
   return proposal
 }

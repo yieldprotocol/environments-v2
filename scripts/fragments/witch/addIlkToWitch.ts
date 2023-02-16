@@ -47,7 +47,6 @@ export const addIlkToWitch = async (
         ],
       ]),
     })
-    // TODO: Maybe check the ilk.ilkId matches
     console.log(indent(nesting, `cloak.add(witch exit ${getName(ilk.ilkId)})`))
   } else {
     console.log(indent(nesting, `Witch already has an exit role on join(${getName(ilk.ilkId)})`))
