@@ -6,7 +6,7 @@ import { ethers } from 'hardhat'
 
 import { getOwnerOrImpersonate, getName } from '../../../../shared/helpers'
 import { Cauldron } from '../../../../typechain'
-const { protocol, developer, newLimits } = require('./updateLimits.mainnet.config')
+const { protocol, developer, newLimits } = require('./updateLimits.arb_mainnet.config')
 
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
