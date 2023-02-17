@@ -117,7 +117,7 @@ const ilkETHDAI: Ilk = {
     baseId: ETH,
     ilkId: DAI,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -147,7 +147,7 @@ const ilkETHUSDC: Ilk = {
     baseId: ETH,
     ilkId: USDC,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -200,7 +200,7 @@ const ilkDAIETH: Ilk = {
     baseId: DAI,
     ilkId: ETH,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -230,7 +230,7 @@ const ilkDAIUSDC: Ilk = {
     baseId: DAI,
     ilkId: USDC,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 18,
   },
   auctionLineAndLimit: {
@@ -283,7 +283,7 @@ const ilkUSDCETH: Ilk = {
     baseId: USDC,
     ilkId: ETH,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {
@@ -313,7 +313,7 @@ const ilkUSDCDAI: Ilk = {
     baseId: USDC,
     ilkId: DAI,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {
@@ -365,7 +365,7 @@ const ilkUSDTETH: Ilk = {
     baseId: USDT,
     ilkId: ETH,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {
@@ -394,7 +394,7 @@ const ilkUSDTDAI: Ilk = {
     baseId: USDT,
     ilkId: DAI,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {
@@ -423,7 +423,7 @@ const ilkUSDTUSDC: Ilk = {
     baseId: USDT,
     ilkId: USDC,
     line: 100000,
-    dust: 1000,
+    dust: 100,
     dec: 6,
   },
   auctionLineAndLimit: {

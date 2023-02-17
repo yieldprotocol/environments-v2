@@ -2,11 +2,9 @@
  * @dev This script updates the debt limits in the Cauldron.
  */
 
-import { ethers } from 'hardhat'
-
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 import { updateDebtLimits } from '../../../fragments/limits/updateDebtLimits'
-import { Cauldron, Cauldron__factory, Timelock, Timelock__factory } from '../../../../typechain'
+import { Cauldron__factory, Timelock__factory } from '../../../../typechain'
 import { Ilk } from '../../confTypes'
 import { CAULDRON, MULTISIG, TIMELOCK } from '../../../../shared/constants'
 
