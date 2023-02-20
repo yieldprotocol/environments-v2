@@ -1,5 +1,5 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ContangoLadle, OldEmergencyBrake } from '../../../../typechain'
+import { id } from '../../../../shared/helpers'
 
 export const orchestrateContangoLadle = async (
   contangoAddress: string,

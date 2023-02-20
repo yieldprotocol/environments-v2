@@ -1,10 +1,9 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { StrategyOracle } from '../../../typechain'
 import { EmergencyBrake } from '../../../typechain'
 import { Timelock } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions the StrategyOracle

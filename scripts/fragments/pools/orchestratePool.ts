@@ -1,7 +1,6 @@
-import { id } from '@yield-protocol/utils-v2'
 import { Pool, Timelock, AccessControl__factory } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates new pools

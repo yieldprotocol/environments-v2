@@ -2,10 +2,9 @@
  * @dev This script removes one or more joins with the ladle.
  */
 
-import { id } from '@yield-protocol/utils-v2'
 import { ZERO_ADDRESS } from '../../../shared/constants'
 import { Ladle, EmergencyBrake, Join__factory } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const removeJoin = async (
   ownerAcc: any,

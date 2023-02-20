@@ -1,7 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, FYToken__factory, Join__factory, Witch } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const addWitchToCloak = async (
   signerAcc: SignerWithAddress,

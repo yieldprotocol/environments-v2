@@ -1,8 +1,7 @@
 import { ethers, waffle } from 'hardhat'
 import * as hre from 'hardhat'
 import * as fs from 'fs'
-import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap, getName } from '../../../shared/helpers'
+import { jsonToMap, getName, id } from '../../../shared/helpers'
 
 import { Ladle } from '../../../typechain/Ladle'
 import { Wand } from '../../../typechain/Wand'

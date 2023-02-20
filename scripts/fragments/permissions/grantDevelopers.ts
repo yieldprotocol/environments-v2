@@ -1,6 +1,5 @@
-import { id } from '@yield-protocol/utils-v2'
 import { Timelock, EmergencyBrake } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev Grants developer permissions to an account.

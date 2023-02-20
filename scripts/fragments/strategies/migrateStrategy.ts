@@ -1,12 +1,11 @@
 /**
  * @dev This script migrates strategies from v1 to v2.
  */
-import { id } from '@yield-protocol/utils-v2'
 import { ERC20__factory, Strategy__factory, StrategyV1__factory, Pool__factory } from '../../../typechain'
 import { MAX256 } from '../../../shared/constants'
 import { ethers } from 'hardhat'
 import { Strategy_V1 } from '../../governance/confTypes'
-import { indent, getName } from '../../../shared/helpers'
+import { indent, getName, id } from '../../../shared/helpers'
 
 export const migrateStrategy = async (
   ownerAcc: any,

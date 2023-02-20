@@ -1,7 +1,6 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { Timelock, EmergencyBrake, ConvexYieldWrapper } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions the ConvexYieldWrapper

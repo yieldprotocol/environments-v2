@@ -3,11 +3,10 @@
  */
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
 import { Cauldron, Ladle, Witch } from '../../../typechain'
 import { AuctionLineAndLimit } from '../../governance/confTypes'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const replaceWitch = async (
   ownerAcc: SignerWithAddress,

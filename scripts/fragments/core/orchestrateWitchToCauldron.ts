@@ -2,9 +2,8 @@
  * @dev This script orchestrates Witch V2
  */
 
-import { id } from '@yield-protocol/utils-v2'
-import { Cauldron, EmergencyBrake, Timelock, Witch } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { Cauldron, EmergencyBrake, Witch } from '../../../typechain'
+import { indent, id } from '../../../shared/helpers'
 
 export const orchestrateWitchToCauldron = async (
   cloak: EmergencyBrake,
