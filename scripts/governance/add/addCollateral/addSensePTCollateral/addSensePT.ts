@@ -13,7 +13,7 @@ import { addIlkToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSe
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateJoin } from '../../../../fragments/assetsAndSeries/orchestrateJoin'
 
-const { developer, ilks, assetsToAdd, protocol, governance, joins, newSeries } = require(process.env.CONF!)
+const { developer, deployers, ilks, assetsToAdd, protocol, governance, joins, newSeries } = require(process.env.CONF!)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
@@ -26,7 +26,12 @@ const { developer, ilks, assetsToAdd, protocol, governance, joins, newSeries } =
   let proposal: Array<{ target: string; data: string }> = []
   for (let asset of assetsToAdd) {
     proposal = proposal.concat(
-      await orchestrateJoin(timelock, cloak, Join__factory.connect(joins.getOrThrow(asset.assetId), ownerAcc))
+      await orchestrateJoin(
+        deployers.getOrThrow(joins.getOrThrow(asset.assetId)),
+        timelock,
+        cloak,
+        Join__factory.connect(joins.getOrThrow(asset.assetId), ownerAcc)
+      )
     )
     proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
   }
