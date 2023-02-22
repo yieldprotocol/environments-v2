@@ -1,0 +1,49 @@
+{
+  "dataType": "Map",
+  "value": [
+    [
+      "YSETH6MMS",
+      "0xD5B43b2550751d372025d048553352ac60f27151"
+    ],
+    [
+      "YSDAI6MMS",
+      "0xE779cd75E6c574d83D3FD6C92F3CBE31DD32B1E1"
+    ],
+    [
+      "YSUSDC6MMS",
+      "0x92A5B31310a3ED4546e0541197a32101fCfBD5c8"
+    ],
+    [
+      "YSDAI6MJD",
+      "0xa3cAF61FD23d374ce13c742E4E9fA9FAc23Ddae6"
+    ],
+    [
+      "YSUSDC6MJD",
+      "0x54F08092e3256131954dD57C04647De8b2E7A9a9"
+    ],
+    [
+      "YSETH6MJD",
+      "0x3353E1E2976DBbc191a739871faA8E6E9D2622c7"
+    ],
+    [
+      "0x1030FF000000",
+      "0xad1983745D6c739537fEaB5bed45795f47A940b3"
+    ],
+    [
+      "0x1031FF000000",
+      "0x4276BEaA49DE905eED06FCDc0aD438a19D3861DD"
+    ],
+    [
+      "0x1032FF000000",
+      "0x33e6B154efC7021dD55464c4e11a6AfE1f3D0635"
+    ],
+    [
+      "0x10A0FF000000",
+      "0x861509A3fA7d87FaA0154AAE2CB6C1f92639339A"
+    ],
+    [
+      "0x10A0FF000001",
+      "0xfe2Aba5ba890AF0ee8B6F2d488B1f85C9E7C5643"
+    ]
+  ]
+}
