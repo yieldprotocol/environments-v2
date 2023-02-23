@@ -1,5 +1,4 @@
-import { parseUnits } from 'ethers/lib/utils'
-import { DAI, ETH, FYDAI2306, FYETH2303, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shared/constants'
+import { DAI, FYDAI2306, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { SPWSTETH2304 } from '../../../../../shared/constants'
 import * as base_config from '../../../base.mainnet.config'
@@ -26,36 +25,11 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'joins.json',
-    name: SPWSTETH2304,
-    contract: 'Join',
-    args: [() => assets.getOrThrow(SPWSTETH2304)!],
-  },
-  {
-    addressFile: 'joins.json',
     name: SPCDAI2307,
     contract: 'Join',
     args: [() => assets.getOrThrow(SPCDAI2307)!],
   },
 ]
-
-export const ilkToETH: Ilk = {
-  baseId: ETH,
-  ilkId: spwsteth2304.assetId,
-  asset: spwsteth2304,
-  collateralization: {
-    baseId: ETH,
-    ilkId: spwsteth2304.assetId,
-    oracle: protocol().getOrThrow(IDENTITY_ORACLE)!,
-    ratio: 1100000,
-  },
-  debtLimits: {
-    baseId: ETH,
-    ilkId: spwsteth2304.assetId,
-    line: 150,
-    dust: 1,
-    dec: 18,
-  },
-}
 
 export const ilkToDAI: Ilk = {
   baseId: DAI,
@@ -76,17 +50,7 @@ export const ilkToDAI: Ilk = {
   },
 }
 
-export const ilks: Ilk[] = [ilkToETH, ilkToDAI]
-
-export const ethSeries: Series[] = [
-  {
-    seriesId: FYETH2303,
-    fyToken: { assetId: FYETH2303, address: fyTokens.getOrThrow(FYETH2303)! },
-    chiOracle: '',
-    pool: nullAsset,
-    ilks: [ilkToETH],
-  },
-]
+export const ilks: Ilk[] = [ilkToDAI]
 
 export const daiSeries: Series[] = [
   {
@@ -98,4 +62,4 @@ export const daiSeries: Series[] = [
   },
 ]
 
-export const newSeries: Series[] = [...ethSeries, ...daiSeries]
+export const newSeries: Series[] = [...daiSeries]
