@@ -3106,17 +3106,15 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-2.0.0.tgz"
-  integrity sha512-3kmIxsNhY/gVgnKo+33jcW2g4V9ij5dO7EGP1oY++fZYg3jNUiFpao8hoBpdSG0vOH4VcPfktwnA+Pr7MxNUZQ==
+"@yield-protocol/strategy-v2@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.1.tgz#f3651b7bd04653ea7d236ed9dc04427782b18a18"
+  integrity sha512-8riIdmOr+/YaG4tSpbKJR8VXPQUpSaja4tmEMPCFnxAyrv8X+cbbIBpOJAejzXrr8Ry30yByNXMNQmeNOC2N/g==
 
-"@yield-protocol/utils-v2@2.6.9-rc.1":
-  version "2.6.9-rc.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.9-rc.1.tgz"
-  integrity sha512-5DnMJOETEtZcGEVOjRXMD+ZSgc6andk/rCpqDVsimi5F76x/4+clZVfvV2kPTSe1+4liEhhXuq0YDrQTv8dMXg==
-  dependencies:
-    ethereumjs-util "^7.0.8"
+"@yield-protocol/utils-v2@2.6.11":
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.11.tgz#974c42779c89a5a57cbaeeef8f8fba390d63d116"
+  integrity sha512-0yPI/XaSQ1Y4g0nF3zG1QgumieM1lOGCur4NWf2Vs5BhbgA+6PMTOUsaaqWTYkkeAiK6heEY80C0YPj7kMx9ew==
 
 "@yield-protocol/utils-v2@^2.4.2":
   version "2.6.8"
@@ -3130,20 +3128,20 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.10-rc.1":
-  version "0.18.10-rc.1"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.10-rc.1.tgz#0dcd524ebbc2b132a42bf818cfd1f65ac8b1d0c7"
-  integrity sha512-pfRwpopK/w9ezsMFgmUV8KX5LPxz9BnIXHA++13wUu35lquEqRxWyOwjbycwTbabU8ynxnEZb5OSOOK0u/kLhw==
+"@yield-protocol/vault-v2@0.18.10":
+  version "0.18.10"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.10.tgz#395ec6d0e3086fe40d281e8ad1d9f7b196d2e78b"
+  integrity sha512-DcuABED8PM3K0pEL/hrK9wzd2GhwWVOL0M92rKABwtbuu3xgsroFNREYHrlYwrO9lqrHXWiaaCoj3q4VLiOYWg==
 
-"@yield-protocol/yieldspace-tv@0.1.9-rc.3":
-  version "0.1.9-rc.3"
-  resolved "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.3.tgz"
-  integrity sha512-Es9rf9oegKkHX0C/oIHv32mrWmyaTBbE7RAm5OL5HfNGmZqBY2lfEKbSod/XCdHmzee4Hacul5pgyQ53XUIvhA==
+"@yield-protocol/yieldspace-tv@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.10.tgz#59dfcce29779e52918260ef6c759fbbb83eca236"
+  integrity sha512-jlVqLkQn1FpX5vEWmnCm7D97mr5+PFR3R6GfPkIrsnlzaC6XDqkgM3iNhukG0tbuBd4Xk6vCwaJ5qPsyKwLL3w==
 
-"@yield-protocol/yvarb@^1.0.1-rc2":
-  version "1.0.1-rc2"
-  resolved "https://registry.npmjs.org/@yield-protocol/yvarb/-/yvarb-1.0.1-rc2.tgz"
-  integrity sha512-fVINH7KXE/bRlbNtZpseonUFntQl24EnZCdpIMW5Ny7/L5RA2AUboPlfJ6myMYGxE0Db/kJsXeuGXpS7Pj1Dvg==
+"@yield-protocol/yvarb@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yvarb/-/yvarb-1.0.2.tgz#4e1f13c5e9a087b461379f8272b639694bd782a8"
+  integrity sha512-+klZoFFWsdt6RLRr47JWtT1hzsn92ooSUvxMjO++vEf2m8rFns+Ly/xKpc4NCH1lmYiw0PUJc+N7JiXIcc01lg==
   dependencies:
     ethers "^5.6.1"
     ganache "^7.0.5"
@@ -6764,6 +6762,14 @@ eth-sig-util@3.0.0:
     tweetnacl "^1.0.0"
     tweetnacl-util "^0.15.0"
 
+eth-sig-util@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/eth-sig-util/-/eth-sig-util-1.4.2.tgz#8d958202c7edbaae839707fba6f09ff327606210"
+  integrity sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==
+  dependencies:
+    ethereumjs-abi "git+https://github.com/ethereumjs/ethereumjs-abi.git"
+    ethereumjs-util "^5.1.1"
+
 eth-sig-util@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/eth-sig-util/-/eth-sig-util-3.0.1.tgz"
@@ -6876,6 +6882,13 @@ ethereumjs-abi@0.6.8, ethereumjs-abi@^0.6.8:
   version "0.6.8"
   resolved "https://registry.npmjs.org/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz"
   integrity sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==
+  dependencies:
+    bn.js "^4.11.8"
+    ethereumjs-util "^6.0.0"
+
+"ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+  version "0.6.8"
+  resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
   dependencies:
     bn.js "^4.11.8"
     ethereumjs-util "^6.0.0"

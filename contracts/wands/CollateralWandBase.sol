@@ -5,9 +5,9 @@ import '@yield-protocol/vault-v2/contracts/interfaces/ICauldronGov.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/IOracle.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/IJoin.sol';
-import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-import '@yield-protocol/utils-v2/contracts/token/IERC20Metadata.sol';
-import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
+import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
+import '@yield-protocol/utils-v2/src/token/IERC20Metadata.sol';
+import {IEmergencyBrake} from '@yield-protocol/utils-v2/src/utils/EmergencyBrake.sol';
 
 interface IWitchCustom {
     //// @dev Function to set the auction limit on the witch

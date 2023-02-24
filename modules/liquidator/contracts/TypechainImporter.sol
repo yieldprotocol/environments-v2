@@ -7,4 +7,4 @@ import "@yield-protocol/vault-v2/contracts/oracles/compound/CompoundMultiOracle.
 import "@yield-protocol/vault-v2/contracts/oracles/chainlink/ChainlinkMultiOracle.sol";
 import "@yield-protocol/vault-v2/contracts/FYToken.sol";
 import "@yield-protocol/vault-v2/contracts/Witch.sol";
-import "@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol";
+import "@yield-protocol/utils-v2/src/interfaces/IWETH9.sol";

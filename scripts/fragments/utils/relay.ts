@@ -2,7 +2,7 @@ import { ethers, waffle } from 'hardhat'
 import * as fs from 'fs'
 import { verify, mapToJson, jsonToMap } from '../shared/helpers'
 
-import RelayArtifact from '../artifacts/@yield-protocol/utils-v2/contracts/utils/Relay.sol/Relay.json'
+import RelayArtifact from '../artifacts/@yield-protocol/utils-v2/src/utils/Relay.sol/Relay.json'
 import { Relay } from '../typechain/Relay'
 import { Timelock } from '../typechain/Timelock'
 

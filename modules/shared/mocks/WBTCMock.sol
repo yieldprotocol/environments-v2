@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 // import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
-import "@yield-protocol/utils-v2/contracts/token/ERC20.sol";
+import "@yield-protocol/utils-v2/src/token/ERC20.sol";
 
 contract WBTCMock is ERC20 {
 

@@ -4,8 +4,8 @@ import '@yield-protocol/vault-v2/contracts/interfaces/ICauldronGov.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/IJoin.sol';
 import '@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol';
-import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
+import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
+import {IEmergencyBrake} from '@yield-protocol/utils-v2/src/utils/EmergencyBrake.sol';
 
 /// @dev A wand to create new series.
 /// @author @iamsahu

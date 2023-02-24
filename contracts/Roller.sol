@@ -7,8 +7,8 @@ import "@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol";
 // import "@yield-protocol/vault-interfaces/src/ILadle.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
 // import "@yield-protocol/strategy-v2/contracts/IStrategy.sol";
-import "@yield-protocol/utils-v2/contracts/token/MinimalTransferHelper.sol";
-import "@yield-protocol/utils-v2/contracts/access/AccessControl.sol";
+import "@yield-protocol/utils-v2/src/token/MinimalTransferHelper.sol";
+import "@yield-protocol/utils-v2/src/access/AccessControl.sol";
 
 interface ILadle {
     function joins(bytes6) external view returns (address);
