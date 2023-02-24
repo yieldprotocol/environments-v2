@@ -15,7 +15,7 @@ export const assets: Map<string, string> = base_config.assets
 export const spwsteth2304: Asset = { assetId: SPWSTETH2304, address: assets.getOrThrow(SPWSTETH2304)! }
 export const spcdai2307: Asset = { assetId: SPCDAI2307, address: assets.getOrThrow(SPCDAI2307)! }
 export const nullAsset: Asset = { assetId: '', address: '' }
-export const assetsToAdd: Asset[] = [spwsteth2304, spcdai2307]
+export const assetsToAdd: Asset[] = [spcdai2307]
 export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'protocol.json',
