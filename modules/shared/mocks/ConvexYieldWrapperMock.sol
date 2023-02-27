@@ -3,10 +3,10 @@
 pragma solidity ^0.8.0;
 
 import '@yield-protocol/utils-v2/src/token/ERC20.sol';
-import '@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol';
+import '@yield-protocol/vault-v2/src/interfaces/DataTypes.sol';
 import '@yield-protocol/utils-v2/src/token/TransferHelper.sol';
 import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
-import '@yield-protocol/vault-v2/contracts/other/convex/interfaces/IRewardStaking.sol';
+import '@yield-protocol/vault-v2/src/other/convex/interfaces/IRewardStaking.sol';
 struct Balances {
     uint128 art; // Debt amount
     uint128 ink; // Collateral amount

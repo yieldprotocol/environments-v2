@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.15;
 
-import "@yield-protocol/vault-v2/contracts/interfaces/IOracle.sol";
+import "@yield-protocol/vault-v2/src/interfaces/IOracle.sol";
 
 contract IdentityOracle is IOracle {
     function peek(

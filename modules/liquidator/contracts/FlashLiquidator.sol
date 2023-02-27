@@ -2,7 +2,7 @@
 
 pragma solidity >=0.8.6;
 
-import '@yield-protocol/vault-v2/contracts/interfaces/ICauldron.sol';
+import '@yield-protocol/vault-v2/src/interfaces/ICauldron.sol';
 import "@yield-protocol/vault-interfaces/src/IWitch.sol";
 import "uniswapv3-oracle/contracts/uniswapv0.8/IUniswapV3Pool.sol";
 import "uniswapv3-oracle/contracts/uniswapv0.8/PoolAddress.sol";

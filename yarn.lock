@@ -3106,10 +3106,10 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.1.tgz#f3651b7bd04653ea7d236ed9dc04427782b18a18"
-  integrity sha512-8riIdmOr+/YaG4tSpbKJR8VXPQUpSaja4tmEMPCFnxAyrv8X+cbbIBpOJAejzXrr8Ry30yByNXMNQmeNOC2N/g==
+"@yield-protocol/strategy-v2@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.3.tgz#74f678812b04ea630784cbff30c26916d816cd54"
+  integrity sha512-P6HY8tqHVwnXUkF59SYB16F8YNYUbVeQ1wjA/ziRu/wlLbnf7MXDqP+XD1SU5HTSgC0BSReVfsq9aHliamnOLg==
 
 "@yield-protocol/utils-v2@2.6.11":
   version "2.6.11"
@@ -3128,20 +3128,20 @@
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.10":
-  version "0.18.10"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.10.tgz#395ec6d0e3086fe40d281e8ad1d9f7b196d2e78b"
-  integrity sha512-DcuABED8PM3K0pEL/hrK9wzd2GhwWVOL0M92rKABwtbuu3xgsroFNREYHrlYwrO9lqrHXWiaaCoj3q4VLiOYWg==
+"@yield-protocol/vault-v2@0.18.12":
+  version "0.18.12"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.12.tgz#9e0a353c2e5d349a45957cebaae9eb40d24795d7"
+  integrity sha512-YF6hfXEPYRZ3SFHb9I0+IsB2kSa8cthj65ju9pXuP0TQvB+WVfXLS9IaSXYH1iwEPTpGzmADzOHNxaqr5WKCCA==
 
 "@yield-protocol/yieldspace-tv@0.1.10":
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.10.tgz#59dfcce29779e52918260ef6c759fbbb83eca236"
   integrity sha512-jlVqLkQn1FpX5vEWmnCm7D97mr5+PFR3R6GfPkIrsnlzaC6XDqkgM3iNhukG0tbuBd4Xk6vCwaJ5qPsyKwLL3w==
 
-"@yield-protocol/yvarb@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/yvarb/-/yvarb-1.0.2.tgz#4e1f13c5e9a087b461379f8272b639694bd782a8"
-  integrity sha512-+klZoFFWsdt6RLRr47JWtT1hzsn92ooSUvxMjO++vEf2m8rFns+Ly/xKpc4NCH1lmYiw0PUJc+N7JiXIcc01lg==
+"@yield-protocol/yvarb@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yvarb/-/yvarb-1.0.3.tgz#d1c72f21ae87d425b807bee0f7fbea84ebc44ee6"
+  integrity sha512-9buu/fGisdgyN7PmgvO9EF8YltoAHgsuZWu6pZZ8A1dUhI7FlvofEAmlL/D4ZFxcSSlIwVFVWd947IQQw9bcow==
   dependencies:
     ethers "^5.6.1"
     ganache "^7.0.5"

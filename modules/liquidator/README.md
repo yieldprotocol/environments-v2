@@ -40,7 +40,7 @@ Your contracts' `--config` file should be in the following format where:
 
 `Flash` is a deployment of `PairFlash` contract (https://github.com/sblOWPCKCR/vault-v2/blob/liquidation/contracts/liquidator/Flash.sol). Easy way to compile/deploy it:
 ```
-solc --abi --overwrite --optimize --optimize-runs 5000 --bin -o /tmp/ external/vault-v2/contracts/liquidator/Flash.sol && ETH_GAS=3000000 seth send --create /tmp/PairFlash.bin "PairFlash(address,address,address,address,address) " $OWNER 0xE592427A0AEce92De3Edee1F18E0157C05861564 0x1F98431c8aD98523631AE4a59f267346ea31F984 0xd0a1e359811322d97991e03f863a0c30c2cf029c $WITCH_ADDRESS
+solc --abi --overwrite --optimize --optimize-runs 5000 --bin -o /tmp/ external/vault-v2/src/liquidator/Flash.sol && ETH_GAS=3000000 seth send --create /tmp/PairFlash.bin "PairFlash(address,address,address,address,address) " $OWNER 0xE592427A0AEce92De3Edee1F18E0157C05861564 0x1F98431c8aD98523631AE4a59f267346ea31F984 0xd0a1e359811322d97991e03f863a0c30c2cf029c $WITCH_ADDRESS
 ```
 
 The `--private-key` _must not_ have a `0x` prefix. Set the `interval` to 15s for mainnet.
