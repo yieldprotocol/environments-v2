@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.13;
 
-import '@yield-protocol/vault-v2/contracts/interfaces/ICauldronGov.sol';
-import '@yield-protocol/vault-v2/contracts/interfaces/IOracle.sol';
-import '@yield-protocol/vault-v2/contracts/interfaces/ILadleGov.sol';
-import '@yield-protocol/vault-v2/contracts/interfaces/IJoin.sol';
-import '@yield-protocol/utils-v2/contracts/access/AccessControl.sol';
-import '@yield-protocol/utils-v2/contracts/token/IERC20Metadata.sol';
-import {IEmergencyBrake} from '@yield-protocol/utils-v2/contracts/utils/EmergencyBrake.sol';
+import '@yield-protocol/vault-v2/src/interfaces/ICauldronGov.sol';
+import '@yield-protocol/vault-v2/src/interfaces/IOracle.sol';
+import '@yield-protocol/vault-v2/src/interfaces/ILadleGov.sol';
+import '@yield-protocol/vault-v2/src/interfaces/IJoin.sol';
+import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
+import '@yield-protocol/utils-v2/src/token/IERC20Metadata.sol';
+import {IEmergencyBrake} from '@yield-protocol/utils-v2/src/utils/EmergencyBrake.sol';
 
 interface IWitchCustom {
     //// @dev Function to set the auction limit on the witch

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.13;
 import './CollateralWandBase.sol';
-import '@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol';
-import '@yield-protocol/vault-v2/contracts/other/notional/NotionalJoin.sol';
+import '@yield-protocol/vault-v2/src/interfaces/DataTypes.sol';
+import '@yield-protocol/vault-v2/src/other/notional/NotionalJoin.sol';
 
 interface INotionalMultiOracle{
     function setSource(

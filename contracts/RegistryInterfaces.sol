@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.0;
-import "@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol";
+import "@yield-protocol/vault-v2/src/interfaces/DataTypes.sol";
 import "@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol";
 
 

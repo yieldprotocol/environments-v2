@@ -2,7 +2,7 @@
 
 pragma solidity >=0.8.6;
 
-import '@yield-protocol/utils-v2/contracts/interfaces/IWETH9.sol';
+import '@yield-protocol/utils-v2/src/interfaces/IWETH9.sol';
 
 // File @uniswap/v3-periphery/contracts/libraries/TransferHelper.sol@v1.1.1
 //
