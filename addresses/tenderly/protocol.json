@@ -2,180 +2,116 @@
   "dataType": "Map",
   "value": [
     [
-      "safeERC20Namer",
-      "0x39bb9cBe0221D769E30bD08d185842065BcE1706"
-    ],
-    [
-      "compoundOracle",
-      "0x53FBa816BD69a7f2a096f58687f87dd3020d0d5c"
-    ],
-    [
-      "chainlinkOracle",
-      "0xcDCe5C87f691058B61f3A65913f1a3cBCbAd9F52"
-    ],
-    [
-      "cauldron",
-      "0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867"
-    ],
-    [
-      "ladle",
-      "0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A"
-    ],
-    [
-      "router",
-      "0x1bF78bE42cD72bbFCCEEf67dCC0a0E2a0EB5da57"
-    ],
-    [
-      "witchV1",
-      "0x53C3760670f6091E1eC76B4dd27f73ba4CAd5061"
-    ],
-    [
-      "lidoOracle",
-      "0x84066CAeA6186a02ED74EBF32BF008A47CbE26AD"
-    ],
-    [
-      "compositeOracle",
-      "0xA81414a544D0bd8a28257F4038D3D24B08Dd9Bb4"
-    ],
-    [
       "yieldMathExtensions",
-      "0xdC3758330939A0253F30083a23e8843778348991"
+      "0xC445D7e3Cdc96840439560675Ca9023204Ea9aCD"
     ],
     [
       "poolView",
-      "0x23cc87FBEBDD67ccE167Fa9Ec6Ad3b7fE3892E30"
+      "0x3e9D89A883c00608d932f92bbD8bd948Bf1A9Cf6"
     ],
     [
-      "uniswapOracle",
-      "0x358538ea4F52Ac15C551f88C701696f6d9b38F3C"
-    ],
-    [
-      "yearnOracle",
-      "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
-    ],
-    [
-      "wrapEtherModule",
-      "0x22768FCaFe7BB9F03e31cb49823d1Ece30C0b8eA"
-    ],
-    [
-      "notionalOracle",
-      "0x660bB2F1De01AacA46FCD8004e852234Cf65F3fb"
-    ],
-    [
-      "transfer1155Module",
-      "0x97f1d43A217aDD678bB6Dcd3C5D51F40b6729d06"
+      "safeERC20Namer",
+      "0xbD6BEe8D3B9D1Ee6b8105bED11A61FDCaE4Bff8B"
     ],
     [
       "accumulatorOracle",
-      "0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC"
+      "0x0ad9Ef93673B6081c0c3b753CcaaBDdd8d2e7848"
     ],
     [
-      "onChainTest",
-      "0xCDcEa3eBC084f24a25AD6f18fD678B0c6b33843d"
+      "cauldron",
+      "0x23cc87FBEBDD67ccE167Fa9Ec6Ad3b7fE3892E30"
     ],
     [
-      "convexLadleModule",
-      "0xD5B43b2550751d372025d048553352ac60f27151"
+      "ladle",
+      "0x16E25cf364CeCC305590128335B8f327975d0560"
     ],
     [
-      "cvx3CrvOracle",
-      "0x52e860327bCc464014259A7cD16DaA5763d7Dc99"
+      "router",
+      "0x83c4Cb8b9Eb49a8DB87455A5E6bb8f6bb24D42d9"
     ],
     [
-      "stEthConverter",
-      "0x93D232213cCA6e5e7105199ABD8590293C3eb106"
+      "flashLiquidator",
+      "0xC597E9cA52Afc13F7F5EDdaC9e53DEF569236016"
+    ],
+    [
+      "witchV1",
+      "0x08173D0885B00BDD640aaE57D05AbB74cd00d669"
+    ],
+    [
+      "chainlinkUSDOracle",
+      "0x8E9696345632796e7D80fB341fF4a2A60aa39C89"
     ],
     [
       "roller",
-      "0xb061818D4807249710A587B18728036Bf7947465"
+      "0xED84bDfba3629C232953d34033545a38f0e57BD2"
     ],
     [
-      "oldYieldMath",
-      "0x4031057e802Da9A7De7eD1da6401be1aff531f12"
-    ],
-    [
-      "solvency",
-      "0x892Fa63aF42585BBE8a578278c95705391cA15E1"
-    ],
-    [
-      "trader",
-      "0xCfdC01EaF336133EF4dc646816E8e845aaD76Ca3"
-    ],
-    [
-      "notionalJoinFactory",
-      "0x7CDce89594DDD8C7278fE58e2cD8FA97453fed1D"
-    ],
-    [
-      "strategyOracle",
-      "0x3EA4618cE652eaB330F00935FD075F5Cb614e689"
-    ],
-    [
-      "giver",
-      "0xa98F3211997FDB072B6a8E2C2A26C34BC447f873"
-    ],
-    [
-      "yieldStrategyLever",
-      "0x5582b8398FB586F1b79edd1a6e83f1c5aa558955"
-    ],
-    [
-      "healerModule",
-      "0x8a9262C7C6eC9bb143Eb68798AdB377c95F47138"
-    ],
-    [
-      "repayFromLadleModule",
-      "0xd47a7473C83a1cC145407e82Def5Ae15F8b338c2"
-    ],
-    [
-      "witch",
-      "0x08d2F5c96bB1F6BE04B49bcD869d5Af01db4c400"
-    ],
-    [
-      "yieldMath",
-      "0xE7A9771c692c428df17EcAD6cD58d4938C010a2e"
-    ],
-    [
-      "crabOracle",
-      "0x35d753A30a750C0291CD86baEDef7d27d55879F9"
+      "wrapEtherModule",
+      "0x4cD01eD221d6d198e2656c16c32803BF78134568"
     ],
     [
       "contangoCauldron",
-      "0xf2F7c33234160387e5Dc82B1412b522AB44876C7"
+      "0x44386ddB4C44E7CB8981f97AF89E928Ddd4258DD"
     ],
     [
       "contangoLadle",
-      "0x30E7348163016B3b6E1621A3Cb40e8CF33CE97db"
+      "0x93343C08e2055b7793a3336d659Be348FC1B08f9"
+    ],
+    [
+      "contangoLadleRouter",
+      "0x9ea9971D9e032D08C2118c97Fa63c7618b46c104"
+    ],
+    [
+      "compositeOracle",
+      "0x750B3a18115fe090Bc621F9E4B90bd442bcd02F2"
+    ],
+    [
+      "identityOracle",
+      "0xce3d36e19De6A7b66e851c5B7e468E35Dc83d29d"
     ],
     [
       "contangoWitch",
-      "0xB132C10acabCB8966Fa38e5AE9745039b7c8008b"
+      "0x89343a24a217172A569A0bD68763Bf0671A3efd8"
+    ],
+    [
+      "oldYieldMath",
+      "0x9D34dF69958675450ab8E53c8Df5531203398Dc9"
+    ],
+    [
+      "solvency",
+      "0x5A65529Ed3313a5dd3ed2d0BC196FCA1acEC10e9"
     ],
     [
       "poolOracle",
-      "0x96bF9aB0E421a3da31D4506c967A825312455767"
-    ],
-    [
-      "yieldSpaceMultiOracle",
       "0x210F4e1942bEEc4038743A8f885B870E0c27b414"
     ],
     [
-      "rethOracle",
-      "0x318d5257d91BB6E73398Af71A6DE5b373D9b5340"
+      "yieldSpaceMultiOracle",
+      "0xb958bA862D70C0a4bD0ea976f9a1907686dd41e2"
+    ],
+    [
+      "witch",
+      "0x07C2C74811cB14a5003C3ccff7EC436d504ffFb6"
+    ],
+    [
+      "repayFromLadleModule",
+      "0xB8B238bBa16a3f773fb7fE61213bb94371fc6b01"
+    ],
+    [
+      "yieldMath",
+      "0x3A717F3a896Cbb979b4eFf347649508F5f5C4cDe"
+    ],
+    [
+      "onChainTest",
+      "0xB5d97BFe6456008b9118bB5568d9379C5d6c8832"
     ],
     [
       "assert",
-      "0xef2CD7a05FEa92fbD2ce262FDA43aEEe56B669E7"
+      "0xE1D7cD84c1e74FE06450899A8605f35D6F58fDc9"
     ],
     [
       "limitedAssert",
-      "0x41bf71A2109FbdF7e5064a7421EAEFeaBF7a12f7"
-    ],
-    [
-      "yieldStETHLever",
-      "0x3d80583C830af6f2a2628318BEE3720Ce5421bC4"
-    ],
-    [
-      "yieldNotionalLever",
-      "0x256dC66D616529BaFfd41172b67afe7821Bd5C06"
+      "0x3201161c97E6B3c6e0e565d8Cd17ae5d0BEDb5F7"
     ]
   ]
 }
