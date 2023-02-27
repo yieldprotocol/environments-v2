@@ -8,6 +8,15 @@ import { BaseProvider } from '@ethersproject/providers'
 import { Timelock } from '../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { DISPLAY_NAMES } from './constants'
+import { keccak256, toUtf8Bytes } from 'ethers/lib/utils'
+import { Interface } from '@ethersproject/abi'
+
+// --------- FUNCTION ENCODING ---------
+
+export const id = (abi: Interface, signature: string) => {
+  if (abi.functions[signature] === undefined) throw Error(`${signature} doesn't exist`)
+  return keccak256(toUtf8Bytes(signature)).slice(0, 10)
+}
 
 /// --------- PROPOSAL EXECUTION ---------
 

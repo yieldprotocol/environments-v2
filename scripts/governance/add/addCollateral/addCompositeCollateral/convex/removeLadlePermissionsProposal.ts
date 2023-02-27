@@ -1,6 +1,5 @@
-import { id } from '@yield-protocol/utils-v2'
-
 import { Cauldron, Ladle } from '../../../../../../typechain'
+import { id } from '../../../../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Ladle

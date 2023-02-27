@@ -1,8 +1,7 @@
-import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, NotionalJoin } from '../../../../typechain'
 import { revokeRoot } from '../../permissions/revokeRoot'
 import { addAsHostToCloak } from '../../cloak/addAsHostToCloak'
-import { indent } from '../../../../shared/helpers'
+import { indent, id } from '../../../../shared/helpers'
 
 export const orchestrateNotionalJoin = async (
   deployer: string,

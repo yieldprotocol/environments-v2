@@ -24,7 +24,7 @@ import ERC20MockArtifact from '../../../../../artifacts/contracts/::mocks/ERC20M
 import JoinArtifact from '../../../../../artifacts/@yield-protocol/vault-v2/contracts/Join.sol/Join.json'
 import ChainlinkAggregatorV3MockArtifact from '../../../../../artifacts/contracts/::mocks/ChainlinkAggregatorV3Mock.sol/ChainlinkAggregatorV3Mock.json'
 import { ChainlinkAggregatorV3Mock } from '../../../../../typechain'
-import { id } from '@yield-protocol/utils-v2'
+import { id } from '../../../../../shared/helpers'
 import { BigNumber } from 'ethers'
 
 describe('CollateralWand', function () {

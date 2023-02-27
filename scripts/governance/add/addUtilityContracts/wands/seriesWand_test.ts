@@ -22,7 +22,7 @@ const { developer, whales } = require(process.env.CONF as string)
 const { protocol, governance } = require(process.env.CONF as string)
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
-import { id } from '@yield-protocol/utils-v2'
+import { id } from '../../../../../shared/helpers'
 import { BigNumber } from 'ethers'
 
 describe('Series Wand', function () {

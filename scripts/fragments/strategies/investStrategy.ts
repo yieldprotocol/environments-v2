@@ -3,10 +3,9 @@
  * @notice Make sure you define seriesToInvest in the strategy config.
  */
 
-import { id } from '@yield-protocol/utils-v2'
 import { Pool__factory, Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, id } from '../../../shared/helpers'
 
 export const investStrategy = async (
   ownerAcc: any,

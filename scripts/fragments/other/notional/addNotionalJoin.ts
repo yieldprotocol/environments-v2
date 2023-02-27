@@ -1,7 +1,6 @@
-import { id } from '@yield-protocol/utils-v2'
-import { getName, indent } from '../../../../shared/helpers'
 import { addJoin } from '../../ladle/addJoin'
 import { EmergencyBrake, Join__factory, Ladle, NotionalJoin } from '../../../../typechain'
+import { getName, indent, id } from '../../../../shared/helpers'
 
 export const addNotionalJoin = async (
   ownerAcc: any,

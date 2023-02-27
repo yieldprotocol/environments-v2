@@ -1,11 +1,11 @@
 import { ethers } from 'hardhat'
-import { id } from '@yield-protocol/utils-v2'
 import { newDevelopers, developerToImpersonate } from './addDevelopers.mainnet.config'
 import {
   readAddressMappingIfExists,
   getOwnerOrImpersonate,
   getOriginalChainId,
   impersonate,
+  id,
 } from '../../../../shared/helpers'
 import { WAD } from '../../../../shared/constants'
 import { Timelock, EmergencyBrake, PoolFactory, Wand } from '../../../../typechain'

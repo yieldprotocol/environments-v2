@@ -1,8 +1,7 @@
-import { id } from '@yield-protocol/utils-v2'
 import { EmergencyBrake, Timelock, AccessControl__factory, FYToken, Join__factory } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
 import { addAsHostToCloak } from '../cloak/addAsHostToCloak'
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, id } from '../../../shared/helpers'
 
 export const orchestrateFYToken = async (
   deployer: string,

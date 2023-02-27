@@ -1,6 +1,5 @@
-import { id } from '@yield-protocol/utils-v2'
 import { Cauldron, EmergencyBrake, Giver } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const addGiverToCloak = async (
   cloak: EmergencyBrake,

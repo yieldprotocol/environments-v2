@@ -3,10 +3,9 @@
  */
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { id } from '@yield-protocol/utils-v2'
 import { ethers } from 'hardhat'
-import { getName, indent } from '../../../shared/helpers'
 import { Cauldron, Ladle, OldEmergencyBrake, Witch, Join__factory } from '../../../typechain'
+import { getName, indent, id } from '../../../shared/helpers'
 
 export const orchestrateAuctionAssets = async (
   ownerAcc: SignerWithAddress,

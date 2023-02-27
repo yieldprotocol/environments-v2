@@ -6,8 +6,8 @@
 
 import { ethers } from 'hardhat'
 import * as fs from 'fs'
-import { id } from '@yield-protocol/utils-v2'
-import { jsonToMap } from '../../shared/helpers'
+
+import { jsonToMap, id } from '../../shared/helpers'
 
 import { Cauldron } from '../../typechain/Cauldron'
 import { Timelock } from '../../typechain/Timelock'

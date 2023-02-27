@@ -2,11 +2,10 @@
  * @dev This script orchestrates Witch V2
  */
 
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { EmergencyBrake, Timelock, Witch } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const orchestrateWitch = async (
   deployer: string,

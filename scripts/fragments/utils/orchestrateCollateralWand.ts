@@ -1,9 +1,9 @@
 import { ethers } from 'hardhat'
-import { id } from '@yield-protocol/utils-v2'
+
 import { ROOT } from '../../../shared/constants'
 import { Cauldron, ChainlinkMultiOracle, EmergencyBrake, Join, Ladle, Timelock, Witch } from '../../../typechain'
 import { CollateralWand } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 const { protocol, governance } = require(process.env.CONF as string)
 export const orchestrateCollateralWand = async (

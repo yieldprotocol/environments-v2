@@ -1,8 +1,7 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { NotionalMultiOracle, EmergencyBrake, Timelock } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script permissions a NotionalMultiOracle

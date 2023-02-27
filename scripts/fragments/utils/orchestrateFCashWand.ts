@@ -1,5 +1,4 @@
 import { ethers } from 'hardhat'
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../shared/helpers'
 import { Cauldron, NotionalMultiOracle, EmergencyBrake, Ladle, Timelock, OldWitch } from '../../../typechain'
@@ -8,7 +7,7 @@ import { developer } from '../../governance/base.arb_mainnet.config'
 const { protocol, governance } = require(process.env.CONF as string)
 const joins = readAddressMappingIfExists('joins.json')
 import { FDAI2212, FUSDC2212 } from '../../../shared/constants'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const orchestrateFCashWand = async (
   ownerAcc: any,

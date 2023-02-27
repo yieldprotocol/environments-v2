@@ -1,6 +1,5 @@
-import { id } from '@yield-protocol/utils-v2'
-import { Timelock, EmergencyBrake } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { EmergencyBrake } from '../../../typechain'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev Revokes execute permissions on the cloak from an account.

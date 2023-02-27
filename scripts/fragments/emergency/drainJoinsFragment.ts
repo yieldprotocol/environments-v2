@@ -1,10 +1,9 @@
 /**
  * @dev This script transfers all tokens from a join to another
  */
-import { id } from '@yield-protocol/utils-v2'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { Join__factory, Timelock, Ladle } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const drainJoinsFragment = async (
   ownerAcc: SignerWithAddress,

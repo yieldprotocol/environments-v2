@@ -2,12 +2,10 @@
  * @dev This script orchestrates one or more strategies in the protocol.
  */
 
-import { id } from '@yield-protocol/utils-v2'
 import { Timelock, Ladle, AccessControl__factory, Strategy__factory } from '../../../typechain'
 import { Strategy } from '../../governance/confTypes'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { getName, indent } from '../../../shared/helpers'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
+import { getName, indent, id } from '../../../shared/helpers'
 
 export const orchestrateStrategy = async (
   deployer: string,
