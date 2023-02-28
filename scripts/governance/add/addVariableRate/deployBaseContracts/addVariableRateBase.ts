@@ -13,6 +13,7 @@ import {
   Witch,
 } from '../../../../../typechain'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
+import { addVRIlk } from '../../../../fragments/assetsAndSeries/addVRIlk'
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { makeVRBase } from '../../../../fragments/assetsAndSeries/makeVRBase'
 import { orchestrateVRCauldron } from '../../../../fragments/core/orchestrateVRCauldron'
@@ -70,6 +71,7 @@ const {
   //makeIlk
   for (const ilk of ilks) {
     proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch as unknown as Witch, ilk, joins))
+    proposal = proposal.concat(await addVRIlk(vrCauldron, ilk))
   }
 
   if (proposal.length > 0) await propose(timelock, proposal, developer)

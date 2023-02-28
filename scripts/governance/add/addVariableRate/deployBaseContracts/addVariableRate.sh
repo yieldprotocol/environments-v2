@@ -9,4 +9,4 @@ $RUN $HERE/../../../../../shared/deploy.ts
 $RUN $HERE/addVariableRateBase.ts
 $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
-# $RUN $HERE/../../../../../shared/standardBorrowingTest.ts
+$RUN $HERE/../../../../../shared/vrStandardBorrowingTest.ts

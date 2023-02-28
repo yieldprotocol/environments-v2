@@ -1,7 +1,6 @@
 import {
   ACCUMULATOR,
   CHAINLINK,
-  CHI,
   DAI,
   ETH,
   FRAX,
@@ -15,7 +14,6 @@ import {
 import { Accumulator, Asset, Base, ContractDeployment, Ilk } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { ASSETS_MAINNET } from '../../../../../shared/typed-constants'
 import { parseUnits } from 'ethers/lib/utils'
 
 export const assets: Map<string, string> = base_config.assets
@@ -80,11 +78,6 @@ export const basesToAdd: Base[] = [
   },
 ]
 
-export const rateChiSources = ASSETS_MAINNET.map(({ bytes: base }) => [
-  [base, RATE, WAD.toString(), WAD.toString()] as const,
-  [base, CHI, WAD.toString(), WAD.toString()] as const,
-]).flat()
-
 export const accumulatorSources: Accumulator[] = [
   {
     baseId: ETH,
@@ -94,6 +87,18 @@ export const accumulatorSources: Accumulator[] = [
   },
   {
     baseId: DAI,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: FRAX,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: USDC,
     kind: RATE,
     startRate: WAD,
     perSecondRate: WAD,
@@ -108,8 +113,8 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: ETH,
       ilkId: ETH,
-      oracle: protocol().getOrThrow(ACCUMULATOR)! as string,
-      ratio: 1100000,
+      oracle: protocol().getOrThrow(CHAINLINK)! as string,
+      ratio: 1000000,
     },
     debtLimits: {
       baseId: ETH,
