@@ -39,7 +39,6 @@ export const orchestrateVRLadle = async (
     data: ladle.interface.encodeFunctionData('grantRoles', [
       [
         id(ladle.interface, 'addJoin(bytes6,address)'),
-        id(ladle.interface, 'addPool(bytes6,address)'),
         id(ladle.interface, 'addToken(address,bool)'),
         id(ladle.interface, 'addIntegration(address,bool)'),
         id(ladle.interface, 'addModule(address,bool)'),
@@ -90,10 +89,6 @@ export const orchestrateVRLadle = async (
         {
           host: cauldron.address,
           signature: id(cauldron.interface, 'stir(bytes12,bytes12,uint128,uint128)'),
-        },
-        {
-          host: cauldron.address,
-          signature: id(cauldron.interface, 'roll(bytes12,bytes6,int128)'),
         },
       ],
     ]),

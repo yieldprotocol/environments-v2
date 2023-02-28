@@ -1,5 +1,5 @@
 import { VR_CAULDRON, VR_LADLE, VR_WITCH, TIMELOCK, ACCUMULATOR, CLOAK } from '../../../../../shared/constants'
-import { getOwnerOrImpersonate } from '../../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 import {
   VRCauldron__factory,
   VRLadle__factory,
@@ -7,17 +7,37 @@ import {
   Timelock__factory,
   AccumulatorMultiOracle__factory,
   EmergencyBrake__factory,
+  Cauldron__factory,
+  Ladle__factory,
+  IOracle,
+  Witch,
 } from '../../../../../typechain'
+import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
+import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
+import { makeVRBase } from '../../../../fragments/assetsAndSeries/makeVRBase'
 import { orchestrateVRCauldron } from '../../../../fragments/core/orchestrateVRCauldron'
 import { orchestrateVRLadle } from '../../../../fragments/core/orchestrateVRLadle'
 import { orchestrateVRWitch } from '../../../../fragments/core/orchestrateVRWitch'
+import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
 
-const { developer, deployers, protocol, governance } = require(process.env.CONF!)
+const {
+  developer,
+  deployers,
+  protocol,
+  governance,
+  accumulatorSources,
+  assetsToAdd,
+  basesToAdd,
+  joins,
+  ilks,
+} = require(process.env.CONF!)
 
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
-  const cauldron = VRCauldron__factory.connect(protocol().getOrThrow(VR_CAULDRON)!, ownerAcc)
-  const ladle = VRLadle__factory.connect(protocol().getOrThrow(VR_LADLE)!, ownerAcc)
+  const vrCauldron = VRCauldron__factory.connect(protocol().getOrThrow(VR_CAULDRON)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol().getOrThrow(VR_CAULDRON)!, ownerAcc)
+  const vrLadle = VRLadle__factory.connect(protocol().getOrThrow(VR_LADLE)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(VR_LADLE)!, ownerAcc)
   const witch = VRWitch__factory.connect(protocol().getOrThrow(VR_WITCH)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
@@ -26,14 +46,31 @@ const { developer, deployers, protocol, governance } = require(process.env.CONF!
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
+  proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulatorSources))
+
   proposal = proposal.concat(
-    await orchestrateVRCauldron(deployers.getOrThrow(VR_CAULDRON)!, cauldron, timelock, cloak, 0)
+    await orchestrateVRCauldron(protocol().getOrThrow(VR_CAULDRON)!, vrCauldron, timelock, cloak, 0)
   )
   proposal = proposal.concat(
-    await orchestrateVRLadle(deployers.getOrThrow(VR_LADLE)!, cauldron, ladle, timelock, cloak, 0)
+    await orchestrateVRLadle(protocol().getOrThrow(VR_LADLE)!, vrCauldron, vrLadle, timelock, cloak, 0)
   )
-  proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(VR_WITCH)!, witch, timelock, cloak, 0))
-  //addAsset
+  console.log('here')
+  proposal = proposal.concat(await orchestrateVRWitch(protocol().getOrThrow(VR_WITCH)!, witch, timelock, cloak, 0))
+
+  for (const asset of assetsToAdd) {
+    proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
+  }
+
   //makeBase
+  for (const base of basesToAdd) {
+    proposal = proposal.concat(
+      await makeVRBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, vrCauldron, witch, base, joins)
+    )
+  }
   //makeIlk
+  for (const ilk of ilks) {
+    proposal = proposal.concat(await makeIlk(ownerAcc, cloak, cauldron, witch as unknown as Witch, ilk, joins))
+  }
+
+  if (proposal.length > 0) await propose(timelock, proposal, developer)
 })()

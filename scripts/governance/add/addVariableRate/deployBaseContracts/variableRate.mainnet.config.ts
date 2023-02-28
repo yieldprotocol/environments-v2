@@ -1,7 +1,22 @@
-import { VR_CAULDRON, VR_LADLE, VR_WITCH } from '../../../../../shared/constants'
-import { ContractDeployment } from '../../../confTypes'
+import {
+  ACCUMULATOR,
+  CHAINLINK,
+  CHI,
+  DAI,
+  ETH,
+  FRAX,
+  RATE,
+  USDC,
+  VR_CAULDRON,
+  VR_LADLE,
+  VR_WITCH,
+  WAD,
+} from '../../../../../shared/constants'
+import { Accumulator, Asset, Base, ContractDeployment, Ilk } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
+import { ASSETS_MAINNET } from '../../../../../shared/typed-constants'
+import { parseUnits } from 'ethers/lib/utils'
 
 export const assets: Map<string, string> = base_config.assets
 export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
@@ -23,12 +38,111 @@ export const contractDeployments: ContractDeployment[] = [
     addressFile: 'protocol.json',
     name: VR_LADLE,
     contract: 'VRLadle',
-    args: [() => protocol().getOrThrow(VR_CAULDRON)!],
+    args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => assets.getOrThrow(ETH)!],
   },
   {
     addressFile: 'protocol.json',
     name: VR_WITCH,
-    contract: 'VRWITCH',
+    contract: 'VRWitch',
     args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => protocol().getOrThrow(VR_LADLE)!],
+  },
+]
+
+export const assetsToAdd: Asset[] = [
+  {
+    assetId: ETH,
+    address: assets.getOrThrow(ETH),
+  },
+  {
+    assetId: DAI,
+    address: assets.getOrThrow(DAI),
+  },
+  {
+    assetId: USDC,
+    address: assets.getOrThrow(USDC),
+  },
+  {
+    assetId: FRAX,
+    address: assets.getOrThrow(FRAX),
+  },
+]
+
+export const basesToAdd: Base[] = [
+  {
+    assetId: ETH,
+    address: assets.getOrThrow(ETH),
+    rateOracle: protocol().getOrThrow(ACCUMULATOR)! as string,
+  },
+  {
+    assetId: DAI,
+    address: assets.getOrThrow(DAI),
+    rateOracle: protocol().getOrThrow(ACCUMULATOR)! as string,
+  },
+]
+
+export const rateChiSources = ASSETS_MAINNET.map(({ bytes: base }) => [
+  [base, RATE, WAD.toString(), WAD.toString()] as const,
+  [base, CHI, WAD.toString(), WAD.toString()] as const,
+]).flat()
+
+export const accumulatorSources: Accumulator[] = [
+  {
+    baseId: ETH,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: DAI,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+]
+
+export const ilks: Ilk[] = [
+  {
+    baseId: ETH,
+    ilkId: ETH,
+    asset: assetsToAdd[0],
+    collateralization: {
+      baseId: ETH,
+      ilkId: ETH,
+      oracle: protocol().getOrThrow(ACCUMULATOR)! as string,
+      ratio: 1100000,
+    },
+    debtLimits: {
+      baseId: ETH,
+      ilkId: ETH,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+  },
+  {
+    baseId: ETH,
+    ilkId: DAI,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: ETH,
+      ilkId: DAI,
+      oracle: protocol().getOrThrow(CHAINLINK)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: ETH,
+      ilkId: DAI,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: ETH,
+      ilkId: DAI,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
   },
 ]
