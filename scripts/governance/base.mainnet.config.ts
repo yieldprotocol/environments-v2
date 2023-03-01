@@ -160,7 +160,7 @@ export const bases: Map<string, Base> = new Map([
   [DAI, dai],
   [USDC, usdc],
   [FRAX, frax],
-  //  [USDT, usdt],
+  [USDT, usdt],
 ])
 
 /// -------------------------------- ETH --------------------------------
@@ -1878,6 +1878,8 @@ export const usdtIlks: Ilk[] = [
   ilkUSDTUNI,
   ilkUSDTENS,
   ilkUSDTFRAX,
+  ilkUSDTUSDT,
+  // ilkUSDTRETH?
 ]
 
 export const ilks: Map<string, Ilk[]> = new Map([
