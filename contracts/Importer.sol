@@ -49,3 +49,4 @@ import "@yield-protocol/yvarb/contracts/YieldNotionalLever.sol";
 import "@yield-protocol/vault-v2/contracts/variable/VRCauldron.sol";
 import "@yield-protocol/vault-v2/contracts/variable/VRLadle.sol";
 import "@yield-protocol/vault-v2/contracts/variable/VRWitch.sol";
+import "@yield-protocol/vault-v2/contracts/variable/VYToken.sol";

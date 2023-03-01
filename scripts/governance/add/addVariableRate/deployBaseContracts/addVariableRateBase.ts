@@ -11,6 +11,7 @@ import {
   Ladle__factory,
   IOracle,
   Witch,
+  VYToken__factory,
 } from '../../../../../typechain'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addVRIlk } from '../../../../fragments/assetsAndSeries/addVRIlk'
@@ -19,7 +20,9 @@ import { makeVRBase } from '../../../../fragments/assetsAndSeries/makeVRBase'
 import { orchestrateVRCauldron } from '../../../../fragments/core/orchestrateVRCauldron'
 import { orchestrateVRLadle } from '../../../../fragments/core/orchestrateVRLadle'
 import { orchestrateVRWitch } from '../../../../fragments/core/orchestrateVRWitch'
+import { addIntegration } from '../../../../fragments/ladle/addIntegration'
 import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
+import { orchestrateVYToken } from '../../../../fragments/other/orchestrateVYToken'
 
 const {
   developer,
@@ -31,6 +34,8 @@ const {
   basesToAdd,
   joins,
   ilks,
+  vyTokens,
+  vyTokensToAdd,
 } = require(process.env.CONF!)
 
 ;(async () => {
@@ -50,13 +55,13 @@ const {
   proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulatorSources))
 
   proposal = proposal.concat(
-    await orchestrateVRCauldron(protocol().getOrThrow(VR_CAULDRON)!, vrCauldron, timelock, cloak, 0)
+    await orchestrateVRCauldron(deployers.getOrThrow(cauldron.address)!, vrCauldron, timelock, cloak, 0)
   )
   proposal = proposal.concat(
-    await orchestrateVRLadle(protocol().getOrThrow(VR_LADLE)!, vrCauldron, vrLadle, timelock, cloak, 0)
+    await orchestrateVRLadle(deployers.getOrThrow(ladle.address)!, vrCauldron, vrLadle, timelock, cloak, 0)
   )
   console.log('here')
-  proposal = proposal.concat(await orchestrateVRWitch(protocol().getOrThrow(VR_WITCH)!, witch, timelock, cloak, 0))
+  proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(witch.address)!, witch, timelock, cloak, 0))
 
   for (const asset of assetsToAdd) {
     proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
@@ -74,5 +79,13 @@ const {
     proposal = proposal.concat(await addVRIlk(vrCauldron, ilk))
   }
 
+  // OrchestrateVYToken
+  for (const vyToken of vyTokensToAdd) {
+    const vyTokenContract = VYToken__factory.connect(vyTokens.getOrThrow(vyToken)!, ownerAcc)
+    proposal = proposal.concat(
+      await orchestrateVYToken(deployers.getOrThrow(vyTokenContract.address)!, vyTokenContract, timelock, cloak, 0)
+    )
+    proposal = proposal.concat(await addIntegration(ladle, vyTokenContract.address))
+  }
   if (proposal.length > 0) await propose(timelock, proposal, developer)
 })()

@@ -81,6 +81,7 @@ export const protocol = readAddressMappingIfExists('protocol.json')
 export const governance = readAddressMappingIfExists('governance.json')
 export const deployers = readAddressMappingIfExists('deployers.json')
 export const fyTokens = readAddressMappingIfExists('fyTokens.json')
+export const vyTokens = readAddressMappingIfExists('vyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
 export const joins = readAddressMappingIfExists('joins.json')
 export const strategyAddresses = readAddressMappingIfExists('strategies.json') // TODO: Name clash :(
@@ -89,7 +90,7 @@ export const chainId = 1
 
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = new Map([
-  [ETH, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
+  [ETH, '0xF04a5cC80B1E94C69B48f5ee68a08CD2F09A7c3E'],
   [DAI, '0x16b34ce9a6a6f7fc2dd25ba59bf7308e7b38e186'],
   [USDC, '0xcffad3200574698b78f32232aa9d63eabd290703'],
   [WBTC, '0xd51a44d3fae010294c616388b506acda1bfaae46'],

@@ -9,6 +9,10 @@ import {
   VR_CAULDRON,
   VR_LADLE,
   VR_WITCH,
+  VYDAI,
+  VYETH,
+  VYFRAX,
+  VYUSDC,
   WAD,
 } from '../../../../../shared/constants'
 import { Accumulator, Asset, Base, ContractDeployment, Ilk } from '../../../confTypes'
@@ -24,6 +28,7 @@ export const protocol = () => readAddressMappingIfExists('protocol.json')
 export const joins: Map<string, string> = base_config.joins
 export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
+export const vyTokens: Map<string, string> = base_config.vyTokens
 
 export const contractDeployments: ContractDeployment[] = [
   {
@@ -43,6 +48,66 @@ export const contractDeployments: ContractDeployment[] = [
     name: VR_WITCH,
     contract: 'VRWitch',
     args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => protocol().getOrThrow(VR_LADLE)!],
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYETH,
+    contract: 'VYToken',
+    args: [
+      () => ETH,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins.getOrThrow(ETH),
+      () => 'Variable Yield ETH',
+      () => 'vyETH',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYDAI,
+    contract: 'VYToken',
+    args: [
+      () => DAI,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins.getOrThrow(DAI),
+      () => 'Variable Yield DAI',
+      () => 'vyDAI',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYUSDC,
+    contract: 'VYToken',
+    args: [
+      () => USDC,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins.getOrThrow(USDC),
+      () => 'Variable Yield USDC',
+      () => 'vyUSDC',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYFRAX,
+    contract: 'VYToken',
+    args: [
+      () => FRAX,
+      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => joins.getOrThrow(FRAX),
+      () => 'Variable Yield FRAX',
+      () => 'vyFRAX',
+    ],
+    libs: {
+      SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
+    },
   },
 ]
 
@@ -151,3 +216,5 @@ export const ilks: Ilk[] = [
     },
   },
 ]
+
+export const vyTokensToAdd = [VYETH, VYDAI, VYUSDC, VYFRAX]

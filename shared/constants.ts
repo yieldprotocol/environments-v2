@@ -299,6 +299,11 @@ export const FYFRAX2209 = stringToBytes6('0307') // Incorrectly labelled
 export const FYFRAX2212 = stringToBytes6('1808')
 export const FYFRAX2303 = stringToBytes6('1809')
 
+export const VYETH = stringToBytes6('VY1' + ETH)
+export const VYDAI = stringToBytes6('VY2' + DAI)
+export const VYUSDC = stringToBytes6('VY3' + USDC)
+export const VYFRAX = stringToBytes6('VY4' + FRAX)
+
 export const DISPLAY_NAMES = new Map([
   [CHI, 'CHI'],
   [RATE, 'RATE'],
