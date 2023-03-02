@@ -975,8 +975,8 @@ const ilkUSDCETH: Ilk = {
 }
 
 const ilkUSDCDAI: Ilk = {
-  baseId: DAI,
-  ilkId: USDC,
+  baseId: USDC,
+  ilkId: DAI,
   asset: {
     assetId: DAI,
     address: assets.getOrThrow(DAI)!,
