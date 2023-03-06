@@ -1853,7 +1853,6 @@ export const usdcIlks: Ilk[] = [
   ilkUSDCUNI,
   ilkUSDCENS,
   ilkUSDCFRAX,
-  ilkUSDCYVUSDC,
   ilkUSDCRETH,
 ]
 export const fraxIlks: Ilk[] = [
