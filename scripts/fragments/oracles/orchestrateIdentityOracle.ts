@@ -18,7 +18,7 @@ export const orchestrateIdentityOracle = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
-  console.log(indent(nesting, `ORCHESTRATE_COMPOUND_ORACLE`))
+  console.log(indent(nesting, `ORCHESTRATE_IDENTITY_ORACLE`))
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
   let proposal: Array<{ target: string; data: string }> = []
