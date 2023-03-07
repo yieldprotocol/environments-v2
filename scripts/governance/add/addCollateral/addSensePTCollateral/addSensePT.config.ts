@@ -2,7 +2,7 @@ import { DAI, FYDAI2306, IDENTITY_ORACLE, SPCDAI2307 } from '../../../../../shar
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { SPWSTETH2304 } from '../../../../../shared/constants'
 import * as base_config from '../../../base.mainnet.config'
-import { Asset, ContractDeployment, Ilk, Series } from '../../../confTypes'
+import { Asset, ContractDeployment, Ilk, OracleSource, Series } from '../../../confTypes'
 
 const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const whales = base_config.whales
@@ -28,6 +28,16 @@ export const contractDeployments: ContractDeployment[] = [
     name: SPCDAI2307,
     contract: 'Join',
     args: [() => assets.getOrThrow(SPCDAI2307)!],
+  },
+]
+
+export const identityOracleSources: OracleSource[] = [
+  {
+    baseId: DAI,
+    quoteId: SPCDAI2307,
+    baseAddress: assets.getOrThrow(DAI)!,
+    quoteAddress: assets.getOrThrow(SPCDAI2307)!,
+    sourceAddress: '',
   },
 ]
 
