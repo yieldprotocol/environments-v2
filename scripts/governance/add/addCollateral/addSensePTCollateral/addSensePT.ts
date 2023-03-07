@@ -39,7 +39,12 @@ const {
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
   proposal = proposal.concat(
-    await orchestrateIdentityOracle(deployers.getOrThrow(IDENTITY_ORACLE), identityOracle, timelock, cloak)
+    await orchestrateIdentityOracle(
+      deployers.getOrThrow(protocol().getOrThrow(IDENTITY_ORACLE)!),
+      identityOracle,
+      timelock,
+      cloak
+    )
   )
   proposal = proposal.concat(await updateIdentityOracleSources(identityOracle, identityOracleSources))
 
