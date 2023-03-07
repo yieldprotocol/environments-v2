@@ -12,7 +12,7 @@ export const updateIdentityOracleSources = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
-  console.log(indent(nesting, `UPDATE_Identity_SOURCES`))
+  console.log(indent(nesting, `UPDATE_IDENTITY_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
   for (let source of sources) {
     indent(
