@@ -22,6 +22,7 @@ import "@yield-protocol/vault-v2/src/oracles/lido/LidoOracle.sol";
 import "@yield-protocol/vault-v2/src/oracles/lido/IWstETH.sol";
 import "@yield-protocol/vault-v2/src/oracles/yearn/YearnVaultMultiOracle.sol";
 import "@yield-protocol/vault-v2/src/oracles/yearn/IYvToken.sol";
+import "@yield-protocol/vault-v2/src/oracles/IdentityOracle.sol";
 import "@yield-protocol/vault-v2/src/oracles/yieldspace/YieldSpaceMultiOracle.sol";
 // import "@yield-protocol/vault-v2/src/oracles/crab/CrabOracle.sol";
 // import "@yield-protocol/vault-v2/src/oracles/rocket/RETHOracle.sol";
