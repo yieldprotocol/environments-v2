@@ -25,7 +25,7 @@ export const makeIlk = async (
   let proposal: Array<{ target: string; data: string }> = []
   const join = Join__factory.connect(joins.get(ilk.ilkId)!, ownerAcc)
 
-  proposal = proposal.concat(await updateCollateralization(cauldron, ilk, nesting + 1))
+  proposal = proposal.concat(await updateCollateralization(cauldron, ilk.collateralization, nesting + 1))
   proposal = proposal.concat(await updateDebtLimits(cauldron, ilk, nesting + 1))
 
   // Some ilks are not liquidable
