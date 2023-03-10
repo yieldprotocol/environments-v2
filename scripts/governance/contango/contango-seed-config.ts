@@ -1,5 +1,5 @@
-import { stringToBytes6 } from './helpers'
-import { EOJUN23, EOMAR23, getSeriesId } from './constants'
+import { stringToBytes6 } from '../../../shared/helpers'
+import { EOJUN23, EOMAR23, getSeriesId } from '../../../shared/constants'
 
 export class Asset {
   public bytes: string

@@ -1,7 +1,7 @@
 import { parseUnits } from 'ethers/lib/utils'
 import { YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
 import { getName, readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
+import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../contango-seed-config'
 import * as base_config from '../../../base.arb_mainnet.config'
 import { Ilk } from '../../../confTypes'
 
