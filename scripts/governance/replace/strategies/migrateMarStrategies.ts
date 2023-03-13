@@ -19,8 +19,8 @@ import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateSt
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { migrateStrategy } from '../../../fragments/strategies/migrateStrategy'
 
-const { developer, governance, protocol, newSeries, pools, oldStrategies, newStrategies } = require(process.env
-  .CONF as string)
+const { developer, deployers, governance, protocol, newSeries, pools, oldStrategies, newStrategies } = require(process
+  .env.CONF as string)
 
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies
@@ -40,15 +40,33 @@ const { developer, governance, protocol, newSeries, pools, oldStrategies, newStr
   // Orchestrate new series contracts
   for (let series of newSeries) {
     proposal = proposal.concat(
-      await orchestrateFYToken(timelock, cloak, FYToken__factory.connect(series.fyToken.address, ownerAcc))
+      await orchestrateFYToken(
+        deployers.getOrThrow(series.fyToken.address),
+        timelock,
+        cloak,
+        FYToken__factory.connect(series.fyToken.address, ownerAcc)
+      )
     )
-    proposal = proposal.concat(await orchestratePool(timelock, Pool__factory.connect(series.pool.address, ownerAcc)))
+    proposal = proposal.concat(
+      await orchestratePool(
+        deployers.getOrThrow(series.pool.address),
+        timelock,
+        Pool__factory.connect(series.pool.address, ownerAcc)
+      )
+    )
   }
 
   // Orchestrate new strategies
   for (let strategy of newStrategies) {
     proposal = proposal.concat(
-      await orchestrateStrategy(ownerAcc, governance.getOrThrow(MULTISIG)!, timelock, ladle, strategy, pools)
+      await orchestrateStrategy(
+        deployers.getOrThrow(strategy.address),
+        governance.getOrThrow(MULTISIG)!,
+        timelock,
+        ladle,
+        strategy,
+        pools
+      )
     )
   }
 

@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/../scripts/governance/base.mainnet.config
-RUN="npx hardhat run --network mainnet"
+export CONF=$PWD/$HERE/exec.config
+RUN="npx hardhat run --network tenderly"
 
-$RUN $HERE/joinRollDrain.ts
+$RUN $HERE/sellFYToken.ts

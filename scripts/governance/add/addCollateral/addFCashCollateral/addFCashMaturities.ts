@@ -18,7 +18,8 @@ import {
   Witch__factory,
 } from '../../../../../typechain'
 
-const { developer, protocol, governance, joins, newJoins, newSources, newIlks } = require(process.env.CONF as string)
+const { developer, deployers, protocol, governance, joins, newJoins, newSources, newIlks } = require(process.env
+  .CONF as string)
 
 /**
  * @dev This script configures the Yield Protocol to use fCash as collateral.
@@ -41,7 +42,7 @@ const { developer, protocol, governance, joins, newJoins, newSources, newIlks } 
   // Orchestrate NotionalJoins
   for (let joinAddress of newJoins) {
     const join = NotionalJoin__factory.connect(joinAddress, ownerAcc)
-    proposal = proposal.concat(await orchestrateNotionalJoin(timelock, cloak, join))
+    proposal = proposal.concat(await orchestrateNotionalJoin(deployers.getOrThrow(joinAddress), timelock, cloak, join))
   }
 
   // Make fCash into assets, then ilks and add them to series
