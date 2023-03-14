@@ -64,10 +64,9 @@ export const contractDeployments: ContractDeployment[] = [
   {
     addressFile: 'pools.json',
     name: FYUSDT2309,
-    contract: 'PoolEuler',
+    contract: 'PoolNonTv',
     args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.get(EUSDT)!,
+      () => assets.get(USDT)!,
       () => fyTokens().getOrThrow(FYUSDT2309)!,
       () => timeStretch.get(FYUSDT2309)!.toString(),
       () => g1.toString(),

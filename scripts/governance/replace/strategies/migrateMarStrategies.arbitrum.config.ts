@@ -46,8 +46,8 @@ const fyETH2309: Series = {
   },
   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
   pool: {
-    assetId: FYETH2309LP,
-    address: pools.getOrThrow(FYETH2309LP)!,
+    assetId: FYETH2309,
+    address: pools.getOrThrow(FYETH2309)!,
   },
   ilks: ethIlks,
 }
@@ -61,8 +61,8 @@ const fyDAI2309: Series = {
   },
   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
   pool: {
-    assetId: FYDAI2309LP,
-    address: pools.getOrThrow(FYDAI2309LP)!,
+    assetId: FYDAI2309,
+    address: pools.getOrThrow(FYDAI2309)!,
   },
   ilks: daiIlks,
 }
@@ -76,8 +76,8 @@ const fyUSDC2309: Series = {
   },
   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
   pool: {
-    assetId: FYUSDC2309LP,
-    address: pools.getOrThrow(FYUSDC2309LP)!,
+    assetId: FYUSDC2309,
+    address: pools.getOrThrow(FYUSDC2309)!,
   },
   ilks: usdcIlks,
 }
@@ -128,3 +128,4 @@ const ysUSDC6MMSV1: Strategy_V1 = {
 
 export const oldStrategies: Strategy_V1[] = [ysETH6MMSV1, ysDAI6MMSV1, ysUSDC6MMSV1]
 export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS, ysUSDC6MMS]
+export const rollStrategies = oldStrategies
