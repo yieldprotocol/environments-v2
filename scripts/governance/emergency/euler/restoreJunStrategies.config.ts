@@ -45,7 +45,7 @@ const fyETH2306B: Series = {
     assetId: FYETH2306B,
     address: pools.getOrThrow(FYETH2306B)!,
   },
-  ilks: ethIlks,
+  ilks: [...ethIlks, base_config.ilkETHFETH2306],
 }
 
 const fyDAI2306B: Series = {
@@ -60,7 +60,7 @@ const fyDAI2306B: Series = {
     assetId: FYDAI2306B,
     address: pools.getOrThrow(FYDAI2306B)!,
   },
-  ilks: daiIlks,
+  ilks: [...daiIlks, base_config.ilkDAIFDAI2306],
 }
 
 const fyUSDC2306B: Series = {
@@ -75,7 +75,7 @@ const fyUSDC2306B: Series = {
     assetId: FYUSDC2306B,
     address: pools.getOrThrow(FYUSDC2306B)!,
   },
-  ilks: usdcIlks,
+  ilks: [...usdcIlks, base_config.ilkUSDCFUSDC2306],
 }
 
 const fyUSDT2306B: Series = {
