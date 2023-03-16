@@ -20,18 +20,15 @@ contract Shifter is AccessControl {
         cauldron = cauldron_;
     }
 
-    /// @dev Shift vaults from one series to another
-    /// @param vaultIds The vaults to shift
+    /// @dev Shift a vault from one series to another
+    /// @param vaultId The vault to shift
     /// @param seriesId The new series
-    function shift(bytes12[] calldata vaultIds, bytes6 seriesId) external auth {
-        for (uint256 i = 0; i < vaultIds.length; i++) {
-            bytes12 vaultId = vaultIds[i];
-            DataTypes.Vault memory vault = cauldron.vaults(vaultId);
-            DataTypes.Balances memory balances = cauldron.balances(vaultId);
-            cauldron.pour(vaultId, 0, -(balances.art.i128()));
-            cauldron.tweak(vaultId, seriesId, vault.ilkId);
-            cauldron.pour(vaultId, 0, balances.art.i128());
-            emit Shifted(vaultId, vault.seriesId, seriesId);
-        }
+    function shift(bytes12 vaultId, bytes6 seriesId) external auth {
+        DataTypes.Vault memory vault = cauldron.vaults(vaultId);
+        DataTypes.Balances memory balances = cauldron.balances(vaultId);
+        cauldron.pour(vaultId, 0, -(balances.art.i128()));
+        cauldron.tweak(vaultId, seriesId, vault.ilkId);
+        cauldron.pour(vaultId, 0, balances.art.i128());
+        emit Shifted(vaultId, vault.seriesId, seriesId);
     }
 }

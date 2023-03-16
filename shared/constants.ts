@@ -193,6 +193,7 @@ export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
 export const EULER = 'euler'
 export const FCASH = 'fCash'
 export const GIVER = 'giver'
+export const SHIFTER = 'shifter'
 export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
 export const YIELD_STETH_LEVER = 'yieldStETHLever'
 export const YIELD_NOTIONAL_LEVER = 'yieldNotionalLever'
@@ -373,6 +374,11 @@ export const DISPLAY_NAMES = new Map([
   [FYUSDC2306, 'FYUSDC2306'],
   [FYFRAX2306, 'FYFRAX2306'],
   [FYUSDT2306, 'FYUSDT2306'],
+  [FYETH2306B, 'FYETH2306B'],
+  [FYDAI2306B, 'FYDAI2306B'],
+  [FYUSDC2306B, 'FYUSDC2306B'],
+  [FYFRAX2306B, 'FYFRAX2306B'],
+  [FYUSDT2306B, 'FYUSDT2306B'],
   [FYETH2309, 'FYETH2309'],
   [FYDAI2309, 'FYDAI2309'],
   [FYUSDC2309, 'FYUSDC2309'],
