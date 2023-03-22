@@ -13,7 +13,7 @@ export const removeFYToken = async (
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
-  console.log(indent(nesting, `ADD_FYTOKEN_TO_LADLE`))
+  console.log(indent(nesting, `REMOVE_FYTOKEN_FROM_LADLE`))
   let proposal: Array<{ target: string; data: string }> = []
 
   // Disallow the ladle to issue and cancel fyToken
