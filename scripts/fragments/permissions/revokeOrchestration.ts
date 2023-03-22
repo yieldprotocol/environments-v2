@@ -1,7 +1,8 @@
-import { AccessControl } from '../../../typechain'
-import { id, indent } from '../../../shared/helpers'
+import { AccessControl, EmergencyBrake } from '../../../typechain'
+import { indent } from '../../../shared/helpers'
 
-export const revokePermission = async (
+export const revokeOrchestration = async (
+  cloak: EmergencyBrake,
   host: AccessControl,
   userAddress: string,
   role: string, // Make sure this is a valid role by using id(host.interface, functionName) in the calling function
@@ -16,6 +17,21 @@ export const revokePermission = async (
     data: host.interface.encodeFunctionData('revokeRole', [role, userAddress]),
   })
   console.log(indent(nesting, `${host.address} revokeRole(${role} ${userAddress})`))
+
+  // Remove  orchestration from cloak
+  proposal.push({
+    target: cloak.address,
+    data: cloak.interface.encodeFunctionData('remove', [
+      userAddress,
+      [
+        {
+          host: host.address,
+          signature: role,
+        },
+      ],
+    ]),
+  })
+  console.log(indent(nesting, `cloak.remove(${role} ${userAddress})`))
 
   return proposal
 }
