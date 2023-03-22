@@ -200,7 +200,6 @@ export const ONCHAINTEST = 'onChainTest'
 export const HEALER = 'healerModule'
 export const ASSERT = 'assert'
 export const LIMITED_ASSERT = 'limitedAssert'
-export const ASSERT_V2 = 'assertV2'
 
 export const LIDO_PROVIDER = '10'
 export const YEARN_PROVIDER = '11'
