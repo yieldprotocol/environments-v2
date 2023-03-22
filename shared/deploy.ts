@@ -16,6 +16,9 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
   let deployerAcc = (await ethers.getSigners())[0] // We never impersonate when deploying
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK), deployerAcc)
 
+  console.log('Deployer Account:', deployerAcc.address)
+  console.log('Deployer Balance:', await deployerAcc.getBalance())
+
   for (let params_ of contractDeployments) {
     const params: ContractDeployment = params_ // Only way I know to cast this
 
