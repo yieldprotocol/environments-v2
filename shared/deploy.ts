@@ -30,7 +30,7 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
       deployed = await contractFactory.deploy(...expandedArgs)
 
       await deployed.deployed()
-      console.log(`${getName(params.name)} ${params.contract} deployed at ${deployed.address}`)
+      console.log(`${getName(params.name)} as ${params.contract}.sol deployed at ${deployed.address}`)
 
       const addressMap = readAddressMappingIfExists(params.addressFile)
       addressMap.set(params.name, deployed.address)
@@ -40,7 +40,7 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
       deployerAddressMap.set(deployed.address, deployerAcc.address)
       writeAddressMap('deployers.json', deployerAddressMap)
 
-      verify(params.name, deployed, expandedArgs, params.libs)
+      verify(params.contract, deployed, expandedArgs, params.libs)
 
       // Give ROOT to the Timelock only if we haven't done so yet, and only if the contract inherits AccessControl
       if (deployed.interface.functions['ROOT()'] && !(await deployed.hasRole(ROOT, timelock.address))) {
@@ -48,7 +48,7 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
         console.log(`${getName(params.name)}.grantRoles(ROOT, timelock)`)
       }
     } else {
-      console.log(`Reusing ${getName(params.name)} ${params.contract} at: ${deployedAddress}`)
+      console.log(`Reusing ${getName(params.name)} as ${params.contract}.sol at: ${deployedAddress}`)
     }
   }
 })()
