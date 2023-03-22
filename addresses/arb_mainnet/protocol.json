@@ -112,6 +112,10 @@
     [
       "limitedAssert",
       "0x3201161c97E6B3c6e0e565d8Cd17ae5d0BEDb5F7"
+    ],
+    [
+      "limitedAssertV2",
+      "0x40f0b18C7A41C04F848C033eD7F9178D9c5A80d8"
     ]
   ]
 }

@@ -180,6 +180,10 @@
     [
       "identityOracle",
       "0x15D5667115c988dDD96FeCEE67A0A75207d58BFc"
+    ],
+    [
+      "limitedAssertV2",
+      "0x40f0b18C7A41C04F848C033eD7F9178D9c5A80d8"
     ]
   ]
 }
