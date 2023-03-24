@@ -100,7 +100,7 @@ const ysETH6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
   base: eth,
   seriesToInvest: fyETH2309,
-  initAmount: ethers.utils.parseUnits('1000', 18),
+  initAmount: ethers.utils.parseUnits('0.1', 100),
 }
 
 const ysDAI6MMS: Strategy = {
@@ -108,7 +108,7 @@ const ysDAI6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
   base: dai,
   seriesToInvest: fyDAI2309,
-  initAmount: ethers.utils.parseUnits('1000000', 18),
+  initAmount: ethers.utils.parseUnits('100', 18),
 }
 
 const ysUSDC6MMS: Strategy = {
@@ -116,7 +116,7 @@ const ysUSDC6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
   base: usdc,
   seriesToInvest: fyUSDC2309,
-  initAmount: ethers.utils.parseUnits('1000000', 6),
+  initAmount: ethers.utils.parseUnits('100', 6),
 }
 
 const ysUSDT6MMS: Strategy = {
@@ -124,7 +124,31 @@ const ysUSDT6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
   base: frax,
   seriesToInvest: fyUSDT2309,
-  initAmount: ethers.utils.parseUnits('1000000', 6),
+  initAmount: ethers.utils.parseUnits('100', 6),
 }
 
 export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS, ysUSDC6MMS, ysUSDT6MMS]
+
+interface Trade {
+  seriesId: string,
+  amount: string,
+  minReceived: string,
+}
+
+export const trades: Array<Trade> = [
+  {
+    seriesId: FYETH2309,
+    amount: ethers.utils.parseUnits('0.388801300026', 18).toString(),
+    minReceived: '0',
+  },
+  {
+    seriesId: FYDAI2309,
+    amount: ethers.utils.parseUnits('30.6276193019', 6).toString(),
+    minReceived: '0',
+  },
+  {
+    seriesId: FYUSDC2309,
+    amount: ethers.utils.parseUnits('52.5410458951', 6).toString(),
+    minReceived: '0',
+  }
+]

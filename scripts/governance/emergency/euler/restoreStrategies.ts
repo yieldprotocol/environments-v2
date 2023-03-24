@@ -18,8 +18,10 @@ import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
+import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
+import { sellFYToken } from '../../../fragments/emergency/sellFYToken'
 
-const { developer, deployers, governance, protocol, newSeries, pools, newStrategies } = require(process.env
+const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades } = require(process.env
   .CONF as string)
 
 /**
@@ -83,6 +85,12 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
   // Invest new strategies
   for (let strategy of newStrategies) {
     proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
+  }
+
+  // Return to previous ratio
+  for (let trade of trades) {
+    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, timelock.address, trade.amount))
+    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
   }
 
   await propose(timelock, proposal, developer)
