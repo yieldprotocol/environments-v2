@@ -3,12 +3,10 @@
  */
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { getName, indent, id } from '../../../shared/helpers'
-import { Timelock, Ladle, Pool__factory } from '../../../typechain'
-import { FYToken__factory } from '../../../typechain/factories/@yield-protocol/vault-v2/contracts'
+import { getName, indent } from '../../../shared/helpers'
+import { Ladle, Pool__factory } from '../../../typechain'
 
 export const sellFYToken = async (
-  timelock: Timelock,
   ladle: Ladle,
   seriesId: string,
   receiver: string,
@@ -27,6 +25,7 @@ export const sellFYToken = async (
     target: pool.address,
     data: pool.interface.encodeFunctionData('sellFYToken', [receiver, minReceived]),
   })
+  console.log(indent(nesting, `Sold ${getName(seriesId)}`))
 
   return proposal
 }

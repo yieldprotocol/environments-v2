@@ -1,5 +1,5 @@
 /**
- * @dev This script mints fyToken without backing it with collateral and sells it for the underlying asset.
+ * @dev This script mints fyToken without backing it with collateral.
  */
 import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
@@ -37,7 +37,7 @@ export const mintFYToken = async (
     target: fyToken.address,
     data: fyToken.interface.encodeFunctionData('mint', [receiver, amount]),
   })
-  console.log(indent(nesting, `Minted ${amount} of ${getName(seriesId)} to ${receiver}`);
+  console.log(indent(nesting, `Minted ${amount} of ${getName(seriesId)} to ${receiver}`));
 
   // Revoke the timelock's minting rights
   proposal.push({
