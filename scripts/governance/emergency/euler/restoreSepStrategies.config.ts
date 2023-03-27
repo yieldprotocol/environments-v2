@@ -100,7 +100,7 @@ const ysETH6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
   base: eth,
   seriesToInvest: fyETH2309,
-  initAmount: ethers.utils.parseUnits('0.1', 100),
+  initAmount: ethers.utils.parseUnits('0.1', 18),
 }
 
 const ysDAI6MMS: Strategy = {
@@ -135,20 +135,57 @@ interface Trade {
   minReceived: string,
 }
 
+// The trades are calculated to drive the pools to close to the existing ratios in the march pools. Here we assume 1:1 and no slippage, so the ratios end a bit high
 export const trades: Array<Trade> = [
   {
     seriesId: FYETH2309,
-    amount: ethers.utils.parseUnits('0.388801300026', 18).toString(),
+    amount: ethers.utils.parseUnits('0.038880', 18).toString(),
     minReceived: '0',
   },
   {
     seriesId: FYDAI2309,
-    amount: ethers.utils.parseUnits('30.6276193019', 6).toString(),
+    amount: ethers.utils.parseUnits('30.627619', 18).toString(),
     minReceived: '0',
   },
   {
     seriesId: FYUSDC2309,
-    amount: ethers.utils.parseUnits('52.5410458951', 6).toString(),
+    amount: ethers.utils.parseUnits('52.541045', 6).toString(),
     minReceived: '0',
+  }
+]
+
+interface Mint {
+  seriesId: string,
+  receiver: string,
+  baseAmount: string,
+  fyTokenAmount: string,
+}
+
+// For minting, we are sending to the pools roughly the balances in the March pools, with the base increased by 1% because ratios obtained are slightly high
+// If we achieve the perfect ratios, these should be the exact balances in the March pools
+export const mints: Array<Mint> = [
+  {
+    seriesId: FYETH2309,
+    receiver: strategyAddresses.getOrThrow(YSETH6MMS)!,
+    baseAmount: '77700000000000000000',
+    fyTokenAmount: '49006807052994229991',
+  },
+  {
+    seriesId: FYDAI2309,
+    receiver: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+    baseAmount: '355000000000000000000000',
+    fyTokenAmount: '155742829126709002996692',
+  },
+  {
+    seriesId: FYUSDC2309,
+    receiver: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+    baseAmount: '438000000000',
+    fyTokenAmount: '480444924178',
+  },
+  {
+    seriesId: FYUSDT2309,
+    receiver: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+    baseAmount: '195000000',
+    fyTokenAmount: '0',
   }
 ]

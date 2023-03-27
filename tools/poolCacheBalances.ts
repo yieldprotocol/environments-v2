@@ -11,10 +11,14 @@ const { pools } = require(process.env.CONF as string)
 
     const poolTotalSupply = await pool.totalSupply()
     const poolCache = await pool.getCache()
+    const poolBase = poolCache[0]
+    const poolFYToken = poolCache[1].sub(poolTotalSupply)
+    const ratio = poolFYToken.isZero() ? 0 :  poolBase.mul(1000000).div(poolFYToken)
 
     console.log(`Series: ${getName(seriesId)}`)
-    console.log(`Pool base:               ${poolCache[0]}`)
-    console.log(`Pool fyToken:            ${poolCache[1].sub(poolTotalSupply)}`)
+    console.log(`Pool base:               ${poolBase}`)
+    console.log(`Pool fyToken:            ${poolFYToken}`)
+    console.log(`Pool ratio:              ${ratio}`)
     console.log(`\n`)
   }
 })()
