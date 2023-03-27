@@ -6,8 +6,10 @@ import {
   Cauldron__factory,
   Ladle__factory,
   Witch__factory,
+  IERC20Metadata__factory,
   FYToken__factory,
   Pool__factory,
+  Strategy__factory,
 } from '../../../../typechain'
 
 import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../../shared/constants'
@@ -20,8 +22,11 @@ import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
 import { sellFYToken } from '../../../fragments/emergency/sellFYToken'
+import { sendTokens } from '../../../fragments/emergency/sendTokens'
+import { mintPool } from '../../../fragments/emergency/mintPool'
+import { mintStrategy } from '../../../fragments/emergency/mintStrategy'
 
-const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades } = require(process.env
+const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades, mints } = require(process.env
   .CONF as string)
 
 /**
@@ -72,6 +77,8 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
     )
   }
 
+// If it reverts, try executing the the proposal above this line first, and below this line second
+
   // Add June 2023 series
   for (let series of newSeries) {
     proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
@@ -89,8 +96,19 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
 
   // Return to previous ratio
   for (let trade of trades) {
-    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, timelock.address, trade.amount))
+    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
     proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
+  }
+
+  // Mint to the previous amount
+  for (let mint of mints) {
+    const pool = Pool__factory.connect(pools.getOrThrow(mint.seriesId)!, ownerAcc)
+    const strategy = Strategy__factory.connect(mint.receiver, ownerAcc)
+    const base = IERC20Metadata__factory.connect(await pool.baseToken(), ownerAcc)
+    proposal = proposal.concat(await mintFYToken(timelock, cauldron, mint.seriesId, pools.getOrThrow(mint.seriesId)!, mint.fyTokenAmount))
+    proposal = proposal.concat(await sendTokens(base, pools.getOrThrow(mint.seriesId)!, mint.baseAmount))
+    proposal = proposal.concat(await mintPool(pool, strategy.address, timelock.address))
+    proposal = proposal.concat(await mintStrategy(strategy, timelock.address))
   }
 
   await propose(timelock, proposal, developer)
