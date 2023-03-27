@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 
 import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
-import { sendTokensProposal } from '../../../fragments/emergency/sendTokensProposal'
+import { sendTokensProposal } from '../../../fragments/utils/sendTokens'
 
 const { governance, developer, sendData } = require(process.env.CONF as string)
 
