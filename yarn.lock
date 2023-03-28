@@ -3111,10 +3111,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.3.tgz#74f678812b04ea630784cbff30c26916d816cd54"
   integrity sha512-P6HY8tqHVwnXUkF59SYB16F8YNYUbVeQ1wjA/ziRu/wlLbnf7MXDqP+XD1SU5HTSgC0BSReVfsq9aHliamnOLg==
 
-"@yield-protocol/utils-v2@2.6.11":
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.11.tgz#974c42779c89a5a57cbaeeef8f8fba390d63d116"
-  integrity sha512-0yPI/XaSQ1Y4g0nF3zG1QgumieM1lOGCur4NWf2Vs5BhbgA+6PMTOUsaaqWTYkkeAiK6heEY80C0YPj7kMx9ew==
+"@yield-protocol/utils-v2@2.6.16":
+  version "2.6.16"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.16.tgz#ba5a8a0a3f52407ea84a17c8c8b7a2cf3397c7da"
+  integrity sha512-Y0zSzog0k1pPamyY8YDxs1z0qr+CLJV52Bs3NNBcfKSxNxW/8xcFdyEDKZeRTP+DS4phdQ4fP8XjRATGW2YCDw==
 
 "@yield-protocol/utils-v2@^2.4.2":
   version "2.6.8"
