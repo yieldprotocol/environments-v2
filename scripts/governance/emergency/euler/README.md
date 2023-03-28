@@ -1,8 +1,10 @@
 1. restoreLadle.sh
 2. restoreMarchFYToken.sh
 3. restoreSepStrategies.sh
-4. restoreJunStrategies.sh
-5. migrateJunDebt.sh
+4. sepStrategyTokenSwap.sh
+5. restoreJunStrategies.sh
+6. migrateJunDebt.sh
+7. junStrategyTokenSwap.sh
 
 Timelock balances before:
 ETH: 999 999999 999997

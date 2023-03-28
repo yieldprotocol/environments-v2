@@ -77,7 +77,7 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
     )
   }
 
-// If it reverts, try executing the the proposal above this line first, and below this line second
+// If it reverts, try executing the the proposal above this line first, and below this line second. I think Tenderly struggles with this much data.
 
   // Add June 2023 series
   for (let series of newSeries) {
