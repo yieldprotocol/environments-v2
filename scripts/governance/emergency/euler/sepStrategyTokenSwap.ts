@@ -40,11 +40,13 @@ const { developer, deployers, governance, protocol, strategies, swaps } = requir
 
   // Register strategy token swaps
   for (let swap of swaps) {
-    const tokenOut = ERC20__factory.connect(swap.tokenOut, ownerAcc)
+    const tokenOutAddress = strategies.getOrThrow(swap.tokenOut)
+    const tokenOut = ERC20__factory.connect(tokenOutAddress, ownerAcc)
+    const tokenInAddress = strategies.getOrThrow(swap.tokenIn)
 
     const transferAsset: Asset = {
       assetId: swap.tokenOut,
-      address: strategies.getOrThrow(swap.tokenOut),
+      address: tokenOutAddress,
     }
 
     const transferAmount = await tokenOut.balanceOf(timelock.address)
@@ -65,8 +67,8 @@ const { developer, deployers, governance, protocol, strategies, swaps } = requir
     proposal = proposal.concat(
       await registerSwap(
         tokenSwap,
-        swap.tokenIn,
-        swap.tokenOut,
+        tokenInAddress,
+        tokenOutAddress,
       )
     )
   }

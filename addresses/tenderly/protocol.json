@@ -180,6 +180,10 @@
     [
       "identityOracle",
       "0x15D5667115c988dDD96FeCEE67A0A75207d58BFc"
+    ],
+    [
+      "tokenSwap",
+      "0x1C8AeE3e6e419128Fb671cF96aE80287279e73B4"
     ]
   ]
 }
