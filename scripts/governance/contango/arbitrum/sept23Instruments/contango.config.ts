@@ -1,10 +1,19 @@
 import { parseUnits } from 'ethers/lib/utils'
-import { ACCUMULATOR, COMPOSITE, IDENTITY_ORACLE, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
+import {
+  ACCUMULATOR,
+  CHAINLINKUSD,
+  COMPOSITE,
+  EOMAR23,
+  IDENTITY_ORACLE,
+  USDT,
+  YIELD_SPACE_MULTI_ORACLE,
+} from '../../../../../shared/constants'
 import { getName, readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.arb_mainnet.config'
 import { Asset, Ilk, OraclePath, OracleSource, Series } from '../../../confTypes'
 import {
   ASSETS_ARBITRUM,
+  ASSETS_ARBITRUM_MAP,
   JUNE_SERIES_ARBITRUM,
   NEW_SERIES_ARBITRUM,
   Series as SeriesSeed,
@@ -25,21 +34,31 @@ export const external: Map<string, string> = base_config.external
 
 export const newJoins: string[] = NEW_SERIES_ARBITRUM.map(({ bytes: seriesId }) => joins.getOrThrow(seriesId))
 
-export const assetsToAdd: Asset[] = NEW_SERIES_ARBITRUM.map(({ bytes: base }) => ({
-  assetId: base,
-  address: fyTokens.getOrThrow(base),
-}))
+export const assetsToAdd: Asset[] = NEW_SERIES_ARBITRUM.filter(({ timestamp }) => timestamp > EOMAR23).map(
+  ({ bytes: base }) => ({
+    assetId: base,
+    address: fyTokens.getOrThrow(base),
+  })
+)
 
 export const compositeSources: OracleSource[] = SERIES_ARBITRUM.map((series) => ({
   baseId: series.bytes,
   baseAddress: fyTokens.getOrThrow(series.bytes),
   quoteId: series.asset.bytes,
   quoteAddress: assets.getOrThrow(series.asset.bytes),
-  sourceAddress: protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE),
-})) // All fyTokens as collateral use the same oracle
+  sourceAddress: protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE), // All fyTokens as collateral use the same oracle
+})).concat(
+  ASSETS_ARBITRUM.map((asset) => ({
+    baseId: ASSETS_ARBITRUM_MAP.getOrThrow(USDT).bytes,
+    baseAddress: assets.getOrThrow(USDT),
+    quoteId: asset.bytes,
+    quoteAddress: assets.getOrThrow(asset.bytes),
+    sourceAddress: protocol.getOrThrow(CHAINLINKUSD),
+  }))
+)
 
 export const compositePaths: OraclePath[] = ASSETS_ARBITRUM.map((asset) =>
-  NEW_SERIES_ARBITRUM.filter((series) => series.asset.bytes !== asset.bytes).map((series) => ({
+  SERIES_ARBITRUM.filter((series) => series.asset.bytes !== asset.bytes).map((series) => ({
     baseId: asset.bytes,
     quoteId: series.bytes,
     path: [series.asset.bytes],
@@ -113,7 +132,7 @@ function createSelfIlks(series: SeriesSeed[]): Ilk[] {
   return series
     .filter((series) => series.asset.collateral)
     .map((series) => {
-      console.log(`Generating config for ${getName(series.bytes)}/${getName(series.asset.bytes)}`)
+      console.log(`Generating self config for ${getName(series.bytes)}/${getName(series.asset.bytes)}`)
 
       const ilk: Ilk = {
         baseId: series.asset.bytes,

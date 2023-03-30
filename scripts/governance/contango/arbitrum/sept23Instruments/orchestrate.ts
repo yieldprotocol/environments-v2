@@ -19,6 +19,7 @@ import {
   YieldSpaceMultiOracle__factory,
 } from '../../../../../typechain'
 import { updateDebtLimits } from '../../../../fragments/limits/updateDebtLimits'
+import { orchestrateYieldSpaceMultiOracle } from '../../../../fragments/oracles/orchestrateYieldSpaceMultiOracle'
 import { updateCollateralization } from '../../../../fragments/oracles/updateCollateralization'
 import { setLineAndLimit } from '../../../../fragments/witch/setLineAndLimit'
 import { Ilk } from '../../../confTypes'
@@ -47,6 +48,16 @@ const {
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
   const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CONTANGO_CAULDRON), ownerAcc)
   const witch = ContangoWitch__factory.connect(protocol.getOrThrow(CONTANGO_WITCH), ownerAcc)
+  const yieldSpaceMultiOracle = YieldSpaceMultiOracle__factory.connect(
+    protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE),
+    ownerAcc
+  )
+
+  const yieldSpaceMultiOracleProposal = await orchestrateYieldSpaceMultiOracle(
+    ownerAcc.address,
+    yieldSpaceMultiOracle,
+    timelock
+  )
 
   const newInstrumentsProposal = await orchestrateNewInstruments(
     ownerAcc,
@@ -55,7 +66,7 @@ const {
     witch,
     EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK), ownerAcc),
     CompositeMultiOracle__factory.connect(protocol.getOrThrow(COMPOSITE), ownerAcc),
-    YieldSpaceMultiOracle__factory.connect(protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE), ownerAcc),
+    yieldSpaceMultiOracle,
     timelock,
     newJoins.map((j: string) => Join__factory.connect(j, ownerAcc)),
     assets,
@@ -67,13 +78,22 @@ const {
     newIlks
   )
 
-  const juneInstrumentsProposal = juneIlks.map((ilk: Ilk) => {
-    ;[
-      updateDebtLimits(cauldron, ilk),
-      updateCollateralization(cauldron, ilk.collateralization),
-      setLineAndLimit(witch, ilk.auctionLineAndLimit!),
-    ]
-  })
+  // const juneInstrumentsProposal = await juneIlks.map(async (ilk: Ilk) => {
+  //   const proposals = [
+  //     await updateDebtLimits(cauldron, ilk),
+  //     await updateCollateralization(cauldron, ilk.collateralization),
+  //   ]
+  //   if (ilk.auctionLineAndLimit) proposals.push(await setLineAndLimit(witch, ilk.auctionLineAndLimit))
+  //   return proposals
+  // })
 
-  await propose(timelock, [...newInstrumentsProposal, ...juneInstrumentsProposal], ownerAcc.address)
+  await propose(
+    timelock,
+    [
+      ...yieldSpaceMultiOracleProposal,
+      ...newInstrumentsProposal,
+      // ...juneInstrumentsProposal
+    ],
+    ownerAcc.address
+  )
 })()
