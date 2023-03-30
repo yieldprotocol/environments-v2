@@ -13,7 +13,7 @@ import { AuctionLineAndLimit } from '../../governance/confTypes'
 
 export const setLineAndLimit = async (
   witch: Witch,
-  auctionLineAndLimits: AuctionLineAndLimit,
+  { baseId, ilkId, duration, vaultProportion, collateralProportion, max }: AuctionLineAndLimit,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
@@ -21,24 +21,22 @@ export const setLineAndLimit = async (
   const proposal: Array<{ target: string; data: string }> = []
 
   console.log(indent(nesting, `Witch#setLineAndLimit`))
-  console.log(indent(nesting + 1, `ilkId: ${getName(auctionLineAndLimits.ilkId)}`))
-  console.log(indent(nesting + 1, `baseId: ${getName(auctionLineAndLimits.baseId)}`))
-  console.log(indent(nesting + 1, `duration: ${auctionLineAndLimits.duration} seconds`))
-  console.log(indent(nesting + 1, `vaultProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.vaultProportion)}`))
-  console.log(
-    indent(nesting + 1, `collateralProportion: ${ethers.utils.formatUnits(auctionLineAndLimits.collateralProportion)}`)
-  )
-  console.log(indent(nesting + 1, `max: ${ethers.utils.formatUnits(auctionLineAndLimits.max)}`))
+  console.log(indent(nesting + 1, `ilkId: ${getName(ilkId)}`))
+  console.log(indent(nesting + 1, `baseId: ${getName(baseId)}`))
+  console.log(indent(nesting + 1, `duration: ${duration} seconds`))
+  console.log(indent(nesting + 1, `vaultProportion: ${ethers.utils.formatUnits(vaultProportion)}`))
+  console.log(indent(nesting + 1, `collateralProportion: ${ethers.utils.formatUnits(collateralProportion)}`))
+  console.log(indent(nesting + 1, `max: ${ethers.utils.formatUnits(max)}`))
 
   proposal.push({
     target: witch.address,
     data: witch.interface.encodeFunctionData('setLineAndLimit', [
-      auctionLineAndLimits.ilkId,
-      auctionLineAndLimits.baseId,
-      auctionLineAndLimits.duration,
-      auctionLineAndLimits.vaultProportion,
-      auctionLineAndLimits.collateralProportion,
-      auctionLineAndLimits.max,
+      ilkId,
+      baseId,
+      duration,
+      vaultProportion,
+      collateralProportion,
+      max,
     ]),
   })
 
