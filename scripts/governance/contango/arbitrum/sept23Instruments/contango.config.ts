@@ -1,5 +1,5 @@
 import { parseUnits } from 'ethers/lib/utils'
-import { ACCUMULATOR, COMPOSITE, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
+import { ACCUMULATOR, COMPOSITE, IDENTITY_ORACLE, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
 import { getName, readAddressMappingIfExists } from '../../../../../shared/helpers'
 import * as base_config from '../../../base.arb_mainnet.config'
 import { Asset, Ilk, OraclePath, OracleSource, Series } from '../../../confTypes'
@@ -55,8 +55,8 @@ export const series: Series[] = NEW_SERIES_ARBITRUM.map(({ bytes: seriesId, asse
   ilks: [],
 }))
 
-export const newIlks: Ilk[] = createIlks(NEW_SERIES_ARBITRUM)
-export const juneIlks: Ilk[] = createIlks(JUNE_SERIES_ARBITRUM)
+export const newIlks: Ilk[] = [...createIlks(NEW_SERIES_ARBITRUM), ...createSelfIlks(NEW_SERIES_ARBITRUM)]
+export const juneIlks: Ilk[] = [...createIlks(JUNE_SERIES_ARBITRUM), ...createSelfIlks(JUNE_SERIES_ARBITRUM)]
 
 function createIlks(series: SeriesSeed[]): Ilk[] {
   return ASSETS_ARBITRUM.map((asset) =>
@@ -107,4 +107,38 @@ function createIlks(series: SeriesSeed[]): Ilk[] {
         return ilk
       })
   ).flat()
+}
+
+function createSelfIlks(series: SeriesSeed[]): Ilk[] {
+  return series
+    .filter((series) => series.asset.collateral)
+    .map((series) => {
+      console.log(`Generating config for ${getName(series.bytes)}/${getName(series.asset.bytes)}`)
+
+      const ilk: Ilk = {
+        baseId: series.asset.bytes,
+        ilkId: series.asset.bytes,
+        asset: {
+          assetId: series.asset.bytes,
+          address: assets.getOrThrow(series.asset.bytes),
+        },
+        collateralization: {
+          baseId: series.asset.bytes,
+          ilkId: series.asset.bytes,
+          oracle: protocol.getOrThrow(IDENTITY_ORACLE),
+          ratio: 1e6,
+        },
+        debtLimits: {
+          baseId: series.asset.bytes,
+          ilkId: series.asset.bytes,
+          line: series.asset.maxDebt * 10,
+          dust: 0,
+          dec: series.asset.decimals,
+        },
+      }
+
+      // console.log(ilk)
+
+      return ilk
+    })
 }
