@@ -1,5 +1,15 @@
-import { stringToBytes6 } from '../../../shared/helpers'
-import { DAI, EOJUN23, EOMAR23, EOSEP23, ETH, FRAX, getSeriesId, USDC, USDT } from '../../../shared/constants'
+import {
+  DAI,
+  EODEC22,
+  EOJUN23,
+  EOMAR23,
+  EOSEP22,
+  EOSEP23,
+  ETH,
+  getSeriesId,
+  USDC,
+  USDT,
+} from '../../../shared/constants'
 
 export class Asset {
   constructor(
@@ -9,7 +19,8 @@ export class Asset {
     public maxDebt: number,
     public minDebt: number,
     public decimals: number,
-    public cr: number
+    public cr: number,
+    public collateral: boolean = true
   ) {}
 }
 
@@ -21,26 +32,29 @@ export interface Expiry {
 export class Series {
   public bytes: string
 
-  constructor(public asset: Asset, public expiry: Expiry) {
-    this.bytes = getSeriesId(asset.bytes, expiry.timestamp)
+  constructor(public asset: Asset, public timestamp: number) {
+    this.bytes = getSeriesId(asset.bytes, timestamp)
   }
 }
 
-export const ASSETS_ARBITRUM: Array<Asset> = [
-  new Asset(ETH, 'ETH', false, 50000000, 25000, 12, 1.21e6),
-  new Asset(DAI, 'DAI', true, 50_000, 40, 18, 1.25e6),
-  new Asset(USDC, 'USDC', true, 50_000, 40, 6, 1.176e6),
-  new Asset(USDT, 'USDT', true, 50_000, 40, 6, 1.176e6),
+export const ASSETS_ARBITRUM: Asset[] = [
+  new Asset(ETH, 'ETH', false, 1_000e6, 0.025e6, 12, 1.21e6),
+  new Asset(DAI, 'DAI', true, 1_000_000, 40, 18, 1.25e6),
+  new Asset(USDC, 'USDC', true, 1_000_000, 40, 6, 1.176e6),
+  new Asset(USDT, 'USDT', true, 1_000_000, 40, 6, 1.176e6, false),
 ]
 
-export const EXPIRIES: Array<Expiry> = [
-  { timestamp: EOMAR23, display: '2303' },
-  { timestamp: EOJUN23, display: '2306' },
-  { timestamp: EOSEP23, display: '2309' },
+export const ASSETS_ARBITRUM_MAP: Map<string, Asset> = new Map(ASSETS_ARBITRUM.map((asset) => [asset.bytes, asset]))
+
+export const EXPIRIES: number[] = [EOSEP22, EODEC22, EOMAR23, EOJUN23, EOSEP23]
+
+export const JUNE_SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) => new Series(asset, EOJUN23))
+
+export const NEW_SERIES_ARBITRUM: Array<Series> = [
+  ...ASSETS_ARBITRUM.map((asset) => new Series(asset, EOSEP23)),
+  new Series(ASSETS_ARBITRUM_MAP.getOrThrow(USDT), EOJUN23),
 ]
 
-export const EXISITING_SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) => new Series(asset, EXPIRIES[1]))
-
-export const NEW_SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) => new Series(asset, EXPIRIES[2]))
-
-export const SERIES_ARBITRUM: Array<Series> = NEW_SERIES_ARBITRUM.concat(EXISITING_SERIES_ARBITRUM)
+export const SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) =>
+  EXPIRIES.map((expiry) => new Series(asset, expiry))
+).flat()

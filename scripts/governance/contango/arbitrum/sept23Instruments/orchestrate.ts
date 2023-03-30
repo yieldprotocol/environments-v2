@@ -18,6 +18,10 @@ import {
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
 } from '../../../../../typechain'
+import { updateDebtLimits } from '../../../../fragments/limits/updateDebtLimits'
+import { updateCollateralization } from '../../../../fragments/oracles/updateCollateralization'
+import { setLineAndLimit } from '../../../../fragments/witch/setLineAndLimit'
+import { Ilk } from '../../../confTypes'
 import { orchestrateNewInstruments } from '../../shared/orchestrateNewInstrumentsFragment'
 
 const {
@@ -31,7 +35,8 @@ const {
   pools,
   joins,
   series,
-  ilks,
+  newIlks,
+  juneIlks,
 } = require(process.env.CONF!)
 
 /**
@@ -40,12 +45,14 @@ const {
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
   const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CONTANGO_CAULDRON), ownerAcc)
+  const witch = ContangoWitch__factory.connect(protocol.getOrThrow(CONTANGO_WITCH), ownerAcc)
 
-  const proposal = await orchestrateNewInstruments(
+  const newInstrumentsProposal = await orchestrateNewInstruments(
     ownerAcc,
-    Cauldron__factory.connect(protocol.getOrThrow(CONTANGO_CAULDRON), ownerAcc),
+    cauldron,
     ContangoLadle__factory.connect(protocol.getOrThrow(CONTANGO_LADLE), ownerAcc),
-    ContangoWitch__factory.connect(protocol.getOrThrow(CONTANGO_WITCH), ownerAcc),
+    witch,
     EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK), ownerAcc),
     CompositeMultiOracle__factory.connect(protocol.getOrThrow(COMPOSITE), ownerAcc),
     YieldSpaceMultiOracle__factory.connect(protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE), ownerAcc),
@@ -57,20 +64,16 @@ const {
     pools,
     joins,
     series,
-    ilks
+    newIlks
   )
 
-  // Increase the debt ceiling for existing instruments
-  // proposal.push(
-  //   ...(await updateCeilingProposal(cauldron, [
-  //     [DAI, FYUSDC2303, 50_000], // dai collateralised with fyUsdc
-  //     [DAI, FYETH2303, 50_000], // dai collateralised with fyEth
-  //     [USDC, FYDAI2303, 50_000], // usdc collateralised with fyDai
-  //     [USDC, FYETH2303, 50_000], // usdc collateralised with fyETH
-  //     [ETH, FYUSDC2303, 50_000000], // eth collateralised with fyUsdc
-  //     [ETH, FYDAI2303, 50_000000], // eth collateralised with fyDai
-  //   ]))
-  // )
+  const juneInstrumentsProposal = juneIlks.map((ilk: Ilk) => {
+    ;[
+      updateDebtLimits(cauldron, ilk),
+      updateCollateralization(cauldron, ilk.collateralization),
+      setLineAndLimit(witch, ilk.auctionLineAndLimit!),
+    ]
+  })
 
-  await propose(timelock, proposal, ownerAcc.address)
+  await propose(timelock, [...newInstrumentsProposal, ...juneInstrumentsProposal], ownerAcc.address)
 })()

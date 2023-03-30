@@ -40,7 +40,7 @@ export async function orchestrateNewInstruments(
   const promises = [
     joins.map((join) => orchestrateJoin(ownerAcc.address, timelock, cloak, join)),
     updateYieldSpaceMultiOracleSources(yieldSpaceMultiOracle, compositeSources, pools),
-    updateCompositeSources(compositeMultiOracle, compositeSources),
+    updateCompositeSources(compositeMultiOracle, compositeSources, true),
     updateCompositePaths(compositeMultiOracle, compositePaths),
     assets.map((asset) => addAsset(ownerAcc, cloak, cauldron, ladle, asset, joinsMap)),
     series.map((series) => [
