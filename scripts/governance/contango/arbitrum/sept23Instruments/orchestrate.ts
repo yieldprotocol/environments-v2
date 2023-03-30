@@ -6,8 +6,8 @@ import {
   CONTANGO_WITCH,
   TIMELOCK,
   YIELD_SPACE_MULTI_ORACLE,
-} from '../../../../shared/constants'
-import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
+} from '../../../../../shared/constants'
+import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 import {
   Cauldron__factory,
   CompositeMultiOracle__factory,
@@ -17,8 +17,8 @@ import {
   Join__factory,
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
-} from '../../../../typechain'
-import { orchestrateNewInstruments } from './orchestrateNewInstrumentsFragment'
+} from '../../../../../typechain'
+import { orchestrateNewInstruments } from '../../shared/orchestrateNewInstrumentsFragment'
 
 const {
   developer,
@@ -59,6 +59,18 @@ const {
     series,
     ilks
   )
+
+  // Increase the debt ceiling for existing instruments
+  // proposal.push(
+  //   ...(await updateCeilingProposal(cauldron, [
+  //     [DAI, FYUSDC2303, 50_000], // dai collateralised with fyUsdc
+  //     [DAI, FYETH2303, 50_000], // dai collateralised with fyEth
+  //     [USDC, FYDAI2303, 50_000], // usdc collateralised with fyDai
+  //     [USDC, FYETH2303, 50_000], // usdc collateralised with fyETH
+  //     [ETH, FYUSDC2303, 50_000000], // eth collateralised with fyUsdc
+  //     [ETH, FYDAI2303, 50_000000], // eth collateralised with fyDai
+  //   ]))
+  // )
 
   await propose(timelock, proposal, ownerAcc.address)
 })()
