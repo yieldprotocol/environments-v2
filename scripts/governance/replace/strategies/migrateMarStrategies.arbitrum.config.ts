@@ -1,14 +1,7 @@
 import { ETH, DAI, USDC } from '../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../shared/constants'
 import { FYETH2309, FYDAI2309, FYUSDC2309, FYETH2309LP, FYDAI2309LP, FYUSDC2309LP } from '../../../../shared/constants'
-import {
-  YSETH6MMS,
-  YSDAI6MMS,
-  YSUSDC6MMS,
-  YSETH6MMS_V1,
-  YSDAI6MMS_V1,
-  YSUSDC6MMS_V1,
-} from '../../../../shared/constants'
+import { YSETH6MMS, YSDAI6MMS, YSETH6MMS_V1, YSDAI6MMS_V1 } from '../../../../shared/constants'
 
 import * as base_config from '../../base.arb_mainnet.config'
 
@@ -98,13 +91,6 @@ const ysDAI6MMS: Strategy = {
   seriesToInvest: fyDAI2309,
 }
 
-const ysUSDC6MMS: Strategy = {
-  assetId: YSUSDC6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-  base: usdc,
-  seriesToInvest: fyUSDC2309,
-}
-
 const ysETH6MMSV1: Strategy_V1 = {
   assetId: YSETH6MMS_V1,
   address: strategyAddresses.getOrThrow(YSETH6MMS_V1)!,
@@ -119,13 +105,6 @@ const ysDAI6MMSV1: Strategy_V1 = {
   seriesToInvest: ysDAI6MMS,
 }
 
-const ysUSDC6MMSV1: Strategy_V1 = {
-  assetId: YSUSDC6MMS_V1,
-  address: strategyAddresses.getOrThrow(YSUSDC6MMS_V1)!,
-  base: usdc,
-  seriesToInvest: ysUSDC6MMS,
-}
-
-export const oldStrategies: Strategy_V1[] = [ysETH6MMSV1, ysDAI6MMSV1, ysUSDC6MMSV1]
-export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS, ysUSDC6MMS]
+export const oldStrategies: Strategy_V1[] = [ysETH6MMSV1, ysDAI6MMSV1]
+export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS]
 export const rollStrategies = oldStrategies
