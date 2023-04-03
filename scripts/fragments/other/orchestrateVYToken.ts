@@ -1,8 +1,7 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { EmergencyBrake, Timelock, VYToken, Join__factory } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the VYToken
@@ -23,8 +22,8 @@ export const orchestrateVYToken = async (
   // Give ROOT to the cloak, revoke ROOT from the deployer
   proposal.push({
     target: vyToken.address,
-    data: vyToken.interface.encodeFunctionData('grantRoles', [
-      [id(vyToken.interface, 'point(bytes32,address)'), id(vyToken.interface, 'setFlashFeeFactor(uint256)')],
+    data: vyToken.interface.encodeFunctionData('grantRole', [
+      id(vyToken.interface, 'setFlashFeeFactor(uint256)'),
       timelock.address,
     ]),
   })

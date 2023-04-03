@@ -2,8 +2,7 @@
  * @dev This script registers one fyToken with the ladle.
  */
 
-import { id } from '@yield-protocol/utils-v2'
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, id } from '../../../shared/helpers'
 import { Witch, Join, EmergencyBrake } from '../../../typechain'
 
 export const addBaseToWitch = async (

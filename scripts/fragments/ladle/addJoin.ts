@@ -2,9 +2,9 @@
  * @dev This script registers one join with the ladle.
  */
 
-import { id } from '@yield-protocol/utils-v2'
+// import { id } from "../../../"
 import { Ladle, Join, EmergencyBrake } from '../../../typechain'
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, id } from '../../../shared/helpers'
 
 export const addJoin = async (
   cloak: EmergencyBrake,

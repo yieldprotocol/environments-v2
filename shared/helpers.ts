@@ -8,6 +8,7 @@ import { BaseProvider } from '@ethersproject/providers'
 import { Timelock } from '../typechain'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { DISPLAY_NAMES } from './constants'
+import { Interface } from 'ethers/lib/utils'
 
 /// --------- PROPOSAL EXECUTION ---------
 
@@ -302,4 +303,8 @@ export const tenderlyVerify = async (name: string, contract: BaseContract) => {
     })
     console.log(`${getName(name)} at ${contract.address} verified on tenderly`)
   }
+}
+
+export const id = (interfaces: Interface, func: string) => {
+  return interfaces.getSighash(func)
 }

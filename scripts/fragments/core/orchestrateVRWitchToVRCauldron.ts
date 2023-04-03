@@ -2,9 +2,8 @@
  * @dev This script orchestrates VRWitch
  */
 
-import { id } from '@yield-protocol/utils-v2'
 import { VRCauldron, EmergencyBrake, VRWitch } from '../../../typechain'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 export const orchestrateVRWitchToVRCauldron = async (
   cloak: EmergencyBrake,

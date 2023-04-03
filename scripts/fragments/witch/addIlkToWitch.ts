@@ -3,8 +3,7 @@
  * @notice Make sure you define auctionLineAndLimit in the ilk config.
  */
 
-import { id } from '@yield-protocol/utils-v2'
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, id } from '../../../shared/helpers'
 import { Witch, Join, EmergencyBrake } from '../../../typechain'
 import { setLineAndLimit } from '../witch/setLineAndLimit'
 import { Ilk } from '../../governance/confTypes'

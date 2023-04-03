@@ -12,11 +12,13 @@ import {
   IOracle,
   Witch,
   VYToken__factory,
+  Join__factory,
 } from '../../../../../typechain'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addVRIlk } from '../../../../fragments/assetsAndSeries/addVRIlk'
 import { makeIlk } from '../../../../fragments/assetsAndSeries/makeIlk'
 import { makeVRBase } from '../../../../fragments/assetsAndSeries/makeVRBase'
+import { orchestrateJoin } from '../../../../fragments/assetsAndSeries/orchestrateJoin'
 import { orchestrateVRCauldron } from '../../../../fragments/core/orchestrateVRCauldron'
 import { orchestrateVRLadle } from '../../../../fragments/core/orchestrateVRLadle'
 import { orchestrateVRWitch } from '../../../../fragments/core/orchestrateVRWitch'
@@ -64,6 +66,14 @@ const {
   proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(witch.address)!, witch, timelock, cloak, 0))
 
   for (const asset of assetsToAdd) {
+    proposal = proposal.concat(
+      await orchestrateJoin(
+        deployers.getOrThrow(joins.getOrThrow(asset.assetId)!)!,
+        timelock,
+        cloak,
+        Join__factory.connect(joins.getOrThrow(asset.assetId)!, ownerAcc)
+      )
+    )
     proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
   }
 

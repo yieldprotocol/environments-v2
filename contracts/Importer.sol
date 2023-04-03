@@ -50,4 +50,6 @@ import "@yield-protocol/vault-v2/src/variable/VRCauldron.sol";
 import "@yield-protocol/vault-v2/src/variable/VRLadle.sol";
 import "@yield-protocol/vault-v2/src/variable/VRWitch.sol";
 import "@yield-protocol/vault-v2/src/variable/VYToken.sol";
+import "@yield-protocol/vault-v2/src/variable/VRRouter.sol";
+import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";

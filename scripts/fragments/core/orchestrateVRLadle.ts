@@ -1,8 +1,7 @@
-import { id } from '@yield-protocol/utils-v2'
 import { ROOT } from '../../../shared/constants'
 import { VRCauldron, VRLadle, EmergencyBrake, Timelock } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
-import { indent } from '../../../shared/helpers'
+import { indent, id } from '../../../shared/helpers'
 
 /**
  * @dev This script orchestrates the Ladle
@@ -41,7 +40,6 @@ export const orchestrateVRLadle = async (
         id(ladle.interface, 'addJoin(bytes6,address)'),
         id(ladle.interface, 'addToken(address,bool)'),
         id(ladle.interface, 'addIntegration(address,bool)'),
-        id(ladle.interface, 'addModule(address,bool)'),
         id(ladle.interface, 'setFee(uint256)'),
       ],
       timelock.address,

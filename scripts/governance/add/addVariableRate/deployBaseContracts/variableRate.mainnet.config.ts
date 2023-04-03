@@ -5,58 +5,133 @@ import {
   ETH,
   FRAX,
   RATE,
+  TIMELOCK,
   USDC,
   VR_CAULDRON,
+  VR_CAULDRON_IMPLEMENTATION,
   VR_LADLE,
+  VR_LADLE_IMPLEMENTATION,
+  VR_ROUTER,
   VR_WITCH,
+  VR_WITCH_IMPLEMENTATION,
   VYDAI,
+  VYDAI_IMPLEMENTATION,
   VYETH,
+  VYETH_IMPLEMENTATION,
   VYFRAX,
+  VYFRAX_IMPLEMENTATION,
   VYUSDC,
+  VYUSDC_IMPLEMENTATION,
   WAD,
 } from '../../../../../shared/constants'
 import { Accumulator, Asset, Base, ContractDeployment, Ilk } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { parseUnits } from 'ethers/lib/utils'
+import { VRCauldron__factory, VRLadle__factory, VRWitch__factory, VYToken__factory } from '../../../../../typechain'
 
 export const assets: Map<string, string> = base_config.assets
 export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const deployer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
 export const governance: Map<string, string> = base_config.governance
 export const protocol = () => readAddressMappingIfExists('protocol.json')
-export const joins: Map<string, string> = base_config.joins
+export const joins = readAddressMappingIfExists('vyJoins.json')
 export const deployers: Map<string, string> = base_config.deployers
 export const whales: Map<string, string> = base_config.whales
 export const vyTokens: Map<string, string> = base_config.vyTokens
 
 export const contractDeployments: ContractDeployment[] = [
   {
+    addressFile: 'vyJoins.json',
+    name: ETH,
+    contract: 'Join',
+    args: [() => assets.getOrThrow(ETH)!],
+  },
+  {
+    addressFile: 'vyJoins.json',
+    name: DAI,
+    contract: 'Join',
+    args: [() => assets.getOrThrow(DAI)!],
+  },
+  {
+    addressFile: 'vyJoins.json',
+    name: USDC,
+    contract: 'Join',
+    args: [() => assets.getOrThrow(USDC)!],
+  },
+  {
+    addressFile: 'vyJoins.json',
+    name: FRAX,
+    contract: 'Join',
+    args: [() => assets.getOrThrow(FRAX)!],
+  },
+  {
     addressFile: 'protocol.json',
-    name: VR_CAULDRON,
+    name: VR_CAULDRON_IMPLEMENTATION,
     contract: 'VRCauldron',
     args: [],
   },
   {
     addressFile: 'protocol.json',
-    name: VR_LADLE,
-    contract: 'VRLadle',
-    args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => assets.getOrThrow(ETH)!],
+    name: VR_CAULDRON,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => protocol().getOrThrow(VR_CAULDRON_IMPLEMENTATION)!,
+      () => VRCauldron__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
   },
   {
     addressFile: 'protocol.json',
-    name: VR_WITCH,
+    name: VR_ROUTER,
+    contract: 'VRRouter',
+    args: [],
+  },
+  {
+    addressFile: 'protocol.json',
+    name: VR_LADLE_IMPLEMENTATION,
+    contract: 'VRLadle',
+    args: [
+      () => protocol().getOrThrow(VR_CAULDRON)!,
+      () => protocol().getOrThrow(VR_ROUTER)!,
+      () => assets.getOrThrow(ETH)!,
+    ],
+  },
+  {
+    addressFile: 'protocol.json',
+    name: VR_LADLE,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => protocol().getOrThrow(VR_LADLE_IMPLEMENTATION)!,
+      () => VRLadle__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
+  },
+  {
+    addressFile: 'protocol.json',
+    name: VR_WITCH_IMPLEMENTATION,
     contract: 'VRWitch',
     args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => protocol().getOrThrow(VR_LADLE)!],
   },
   {
+    addressFile: 'protocol.json',
+    name: VR_WITCH,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => protocol().getOrThrow(VR_WITCH_IMPLEMENTATION)!,
+      () =>
+        VRWitch__factory.createInterface().encodeFunctionData('initialize', [
+          protocol().getOrThrow(VR_LADLE),
+          governance.getOrThrow(TIMELOCK)!,
+        ]),
+    ],
+  },
+  {
     addressFile: 'vyTokens.json',
-    name: VYETH,
+    name: VYETH_IMPLEMENTATION,
     contract: 'VYToken',
     args: [
       () => ETH,
       () => protocol().getOrThrow(ACCUMULATOR)!,
-      () => joins.getOrThrow(ETH),
+      () => joins.getOrThrow(ETH)!,
       () => 'Variable Yield ETH',
       () => 'vyETH',
     ],
@@ -66,7 +141,16 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'vyTokens.json',
-    name: VYDAI,
+    name: VYETH,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => vyTokens.getOrThrow(VYETH_IMPLEMENTATION)!,
+      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYDAI_IMPLEMENTATION,
     contract: 'VYToken',
     args: [
       () => DAI,
@@ -81,7 +165,16 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'vyTokens.json',
-    name: VYUSDC,
+    name: VYDAI,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => vyTokens.getOrThrow(VYDAI_IMPLEMENTATION)!,
+      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYUSDC_IMPLEMENTATION,
     contract: 'VYToken',
     args: [
       () => USDC,
@@ -96,7 +189,16 @@ export const contractDeployments: ContractDeployment[] = [
   },
   {
     addressFile: 'vyTokens.json',
-    name: VYFRAX,
+    name: VYUSDC,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => vyTokens.getOrThrow(VYUSDC_IMPLEMENTATION)!,
+      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYFRAX_IMPLEMENTATION,
     contract: 'VYToken',
     args: [
       () => FRAX,
@@ -108,6 +210,15 @@ export const contractDeployments: ContractDeployment[] = [
     libs: {
       SafeERC20Namer: protocol().getOrThrow('safeERC20Namer')!,
     },
+  },
+  {
+    addressFile: 'vyTokens.json',
+    name: VYFRAX,
+    contract: 'ERC1967Proxy',
+    args: [
+      () => vyTokens.getOrThrow(VYFRAX_IMPLEMENTATION)!,
+      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+    ],
   },
 ]
 
