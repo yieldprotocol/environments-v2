@@ -10,7 +10,7 @@ import {
   YIELD_SPACE_MULTI_ORACLE,
 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
+import { SERIES_ARBITRUM } from '../../contango-seed-config'
 import * as base_config from '../../../base.mainnet.config'
 import { ContractDeployment } from '../../../confTypes' // Note we use the series id as the asset id
 

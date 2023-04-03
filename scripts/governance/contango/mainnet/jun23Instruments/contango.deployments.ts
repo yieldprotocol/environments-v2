@@ -1,5 +1,5 @@
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { SERIES_MAINNET } from '../../../../../shared/typed-constants'
+import { SERIES_MAINNET } from '../../contango-seed-config'
 import { ContractDeployment } from '../../../confTypes'
 
 export const deployer: string = '0x05950b4e68f103d5aBEf20364dE219a247e59C23'

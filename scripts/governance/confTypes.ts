@@ -8,6 +8,12 @@ export interface ContractDeployment {
   libs?: { [libraryName: string]: string } // The external libraries to the contract (e.g { YieldMath: yieldMath.address })
 }
 
+export interface Permission {
+  functionName: string
+  host: string
+  user: string
+}
+
 export interface Asset {
   assetId: string
   address: string
