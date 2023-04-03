@@ -7,6 +7,7 @@ import {
   RATE,
   TIMELOCK,
   USDC,
+  VARIABLE_RATE_ORACLE,
   VR_CAULDRON,
   VR_CAULDRON_IMPLEMENTATION,
   VR_LADLE,
@@ -24,11 +25,12 @@ import {
   VYUSDC_IMPLEMENTATION,
   WAD,
 } from '../../../../../shared/constants'
-import { Accumulator, Asset, Base, ContractDeployment, Ilk } from '../../../confTypes'
+import { Accumulator, Asset, Base, ContractDeployment, Ilk, VariableInterestRateOracleSource } from '../../../confTypes'
 import * as base_config from '../../../base.mainnet.config'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 import { parseUnits } from 'ethers/lib/utils'
 import { VRCauldron__factory, VRLadle__factory, VRWitch__factory, VYToken__factory } from '../../../../../typechain'
+import { BigNumber } from 'ethers/lib/ethers'
 
 export const assets: Map<string, string> = base_config.assets
 export const developer: string = '0x06FB6f89eAA936d4Cfe58FfA071cf8EAe17ac9AB'
@@ -125,12 +127,18 @@ export const contractDeployments: ContractDeployment[] = [
     ],
   },
   {
+    addressFile: 'protocol.json',
+    name: VARIABLE_RATE_ORACLE,
+    contract: 'VariableInterestRateOracle',
+    args: [() => protocol().getOrThrow(VR_CAULDRON)!, () => protocol().getOrThrow(VR_LADLE)!],
+  },
+  {
     addressFile: 'vyTokens.json',
     name: VYETH_IMPLEMENTATION,
     contract: 'VYToken',
     args: [
       () => ETH,
-      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => protocol().getOrThrow(VARIABLE_RATE_ORACLE)!,
       () => joins.getOrThrow(ETH)!,
       () => 'Variable Yield ETH',
       () => 'vyETH',
@@ -154,7 +162,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'VYToken',
     args: [
       () => DAI,
-      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => protocol().getOrThrow(VARIABLE_RATE_ORACLE)!,
       () => joins.getOrThrow(DAI),
       () => 'Variable Yield DAI',
       () => 'vyDAI',
@@ -178,7 +186,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'VYToken',
     args: [
       () => USDC,
-      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => protocol().getOrThrow(VARIABLE_RATE_ORACLE)!,
       () => joins.getOrThrow(USDC),
       () => 'Variable Yield USDC',
       () => 'vyUSDC',
@@ -202,7 +210,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'VYToken',
     args: [
       () => FRAX,
-      () => protocol().getOrThrow(ACCUMULATOR)!,
+      () => protocol().getOrThrow(VARIABLE_RATE_ORACLE)!,
       () => joins.getOrThrow(FRAX),
       () => 'Variable Yield FRAX',
       () => 'vyFRAX',
@@ -245,12 +253,12 @@ export const basesToAdd: Base[] = [
   {
     assetId: ETH,
     address: assets.getOrThrow(ETH),
-    rateOracle: protocol().getOrThrow(ACCUMULATOR)! as string,
+    rateOracle: protocol().getOrThrow(VARIABLE_RATE_ORACLE)! as string,
   },
   {
     assetId: DAI,
     address: assets.getOrThrow(DAI),
-    rateOracle: protocol().getOrThrow(ACCUMULATOR)! as string,
+    rateOracle: protocol().getOrThrow(VARIABLE_RATE_ORACLE)! as string,
   },
 ]
 
@@ -278,6 +286,29 @@ export const accumulatorSources: Accumulator[] = [
     kind: RATE,
     startRate: WAD,
     perSecondRate: WAD,
+  },
+]
+
+export const variableInterestRateOracleSources: VariableInterestRateOracleSource[] = [
+  {
+    baseId: ETH,
+    kind: RATE,
+    optimalUsageRate: BigNumber.from('450000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('3000000'),
+    ilks: [ETH, DAI],
+  },
+  {
+    baseId: DAI,
+    kind: RATE,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, DAI],
   },
 ]
 

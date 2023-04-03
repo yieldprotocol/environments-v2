@@ -58,6 +58,17 @@ export interface Accumulator {
   perSecondRate: BigNumber
 }
 
+export interface VariableInterestRateOracleSource {
+  baseId: string
+  kind: string
+  accumulated: BigNumber
+  optimalUsageRate: BigNumber
+  baseVariableBorrowRate: BigNumber
+  slope1: BigNumber
+  slope2: BigNumber
+  ilks: string[]
+}
+
 export interface Base extends Asset {
   rateOracle: string
 }
