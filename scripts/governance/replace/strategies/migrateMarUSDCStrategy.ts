@@ -6,6 +6,8 @@ import {
   ERC20__factory,
   StrategyV1__factory,
   Strategy__factory,
+  Timelock,
+  Ladle,
 } from '../../../../typechain'
 
 import { MULTISIG, TIMELOCK, LADLE, MAX256 } from '../../../../shared/constants'
@@ -13,24 +15,23 @@ import { MULTISIG, TIMELOCK, LADLE, MAX256 } from '../../../../shared/constants'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { ethers } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 
-const { developer, deployers, governance, protocol, pools, oldStrategies, newStrategies } = require(process.env
-  .CONF as string)
+const { deployers, governance, pools, oldUSDCStrategies, newUSDCStrategies } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies
  */
-;(async () => {
-  let ownerAcc = await getOwnerOrImpersonate(developer)
-
-  const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
-  const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE)!, ownerAcc)
-
+export const migrateUSDCStrategy = async (
+  timelock: Timelock,
+  ladle: Ladle,
+  ownerAcc: SignerWithAddress
+): Promise<Array<{ target: string; data: string }>> => {
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
   // Orchestrate new strategies
-  for (let strategy of newStrategies) {
+  for (let strategy of newUSDCStrategies) {
     proposal = proposal.concat(
       await orchestrateStrategy(
         deployers.getOrThrow(strategy.address),
@@ -46,7 +47,7 @@ const { developer, deployers, governance, protocol, pools, oldStrategies, newStr
   // Migrate funds from old strategies to new ones
   // @notice: This is a special case where we had to remove the `endPool` call from migrateStrategy fragment
   // because a user executed endPool before rolling could happen
-  for (let strategy of oldStrategies) {
+  for (let strategy of oldUSDCStrategies) {
     console.log(indent(nesting, `MIGRATE_STRATEGY ${getName(strategy.assetId)}`))
     // Build the proposal
 
@@ -106,9 +107,8 @@ const { developer, deployers, governance, protocol, pools, oldStrategies, newStr
   }
 
   // Invest new strategies
-  for (let strategy of newStrategies) {
+  for (let strategy of newUSDCStrategies) {
     proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
   }
-
-  await propose(timelock, proposal, developer)
-})()
+  return proposal
+}

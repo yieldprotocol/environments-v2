@@ -16,10 +16,3 @@ export CONF=$PWD/$HERE/migrateMarStrategies.arbitrum.config
 $RUN $HERE/migrateMarStrategies.ts
 $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
-
-# # Phase 3: Proposal USDC
-export CONF=$PWD/$HERE/migrateMarUSDCStrategies.arbitrum.config
-
-$RUN $HERE/migrateMarUSDCStrategy.ts
-$RUN $HERE/../../../../shared/approve.ts
-$RUN $HERE/../../../../shared/execute.ts
