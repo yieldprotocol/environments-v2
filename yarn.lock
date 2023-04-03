@@ -3106,17 +3106,10 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@yield-protocol/strategy-v2@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@yield-protocol/strategy-v2/-/strategy-v2-2.0.0.tgz"
-  integrity sha512-3kmIxsNhY/gVgnKo+33jcW2g4V9ij5dO7EGP1oY++fZYg3jNUiFpao8hoBpdSG0vOH4VcPfktwnA+Pr7MxNUZQ==
-
-"@yield-protocol/utils-v2@2.6.9-rc.1":
-  version "2.6.9-rc.1"
-  resolved "https://registry.npmjs.org/@yield-protocol/utils-v2/-/utils-v2-2.6.9-rc.1.tgz"
-  integrity sha512-5DnMJOETEtZcGEVOjRXMD+ZSgc6andk/rCpqDVsimi5F76x/4+clZVfvV2kPTSe1+4liEhhXuq0YDrQTv8dMXg==
-  dependencies:
-    ethereumjs-util "^7.0.8"
+"@yield-protocol/strategy-v2@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.0.3.tgz#74f678812b04ea630784cbff30c26916d816cd54"
+  integrity sha512-P6HY8tqHVwnXUkF59SYB16F8YNYUbVeQ1wjA/ziRu/wlLbnf7MXDqP+XD1SU5HTSgC0BSReVfsq9aHliamnOLg==
 
 "@yield-protocol/utils-v2@^2.4.2":
   version "2.6.8"
@@ -3125,20 +3118,24 @@
   dependencies:
     ethereumjs-util "^7.0.8"
 
+"@yield-protocol/utils-v2@^2.6.16":
+  version "2.6.16"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.16.tgz#ba5a8a0a3f52407ea84a17c8c8b7a2cf3397c7da"
+  integrity sha512-Y0zSzog0k1pPamyY8YDxs1z0qr+CLJV52Bs3NNBcfKSxNxW/8xcFdyEDKZeRTP+DS4phdQ4fP8XjRATGW2YCDw==
+
 "@yield-protocol/vault-interfaces@^2.3.0-rc4":
   version "2.5.0"
   resolved "https://registry.npmjs.org/@yield-protocol/vault-interfaces/-/vault-interfaces-2.5.0.tgz"
   integrity sha512-aoIn1tTADJaIiNPHoy7EswvFZZXZFUhJfYPEJdakLvfGruhfoPXm/Wl2aq/A1qmuniov5RDuvpWENZsBNaEgRw==
 
-"@yield-protocol/vault-v2@0.18.10-rc.1":
-  version "0.18.10-rc.1"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/vault-v2/-/vault-v2-0.18.10-rc.1.tgz#0dcd524ebbc2b132a42bf818cfd1f65ac8b1d0c7"
-  integrity sha512-pfRwpopK/w9ezsMFgmUV8KX5LPxz9BnIXHA++13wUu35lquEqRxWyOwjbycwTbabU8ynxnEZb5OSOOK0u/kLhw==
+"@yield-protocol/vault-v2@../vault-v2/yield-protocol-vault-v2-0.18.13.tgz":
+  version "0.18.13"
+  resolved "../vault-v2/yield-protocol-vault-v2-0.18.13.tgz#801ea6903b35166d4ae037f29f79a266d2d8b54e"
 
-"@yield-protocol/yieldspace-tv@0.1.9-rc.3":
-  version "0.1.9-rc.3"
-  resolved "https://registry.npmjs.org/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.9-rc.3.tgz"
-  integrity sha512-Es9rf9oegKkHX0C/oIHv32mrWmyaTBbE7RAm5OL5HfNGmZqBY2lfEKbSod/XCdHmzee4Hacul5pgyQ53XUIvhA==
+"@yield-protocol/yieldspace-tv@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/yieldspace-tv/-/yieldspace-tv-0.1.11.tgz#099a610b56c129068ec9917ca5a62e7ef6ef10ac"
+  integrity sha512-EvhfHEXlVk+Sg/z7GgBhXRUdMZUk+VxgeLpuL+CyHRBCgo2XTZWczrnkUGoUmCnSXz2RjoLoyjTIAXL2cvoLVg==
 
 "@yield-protocol/yvarb@^1.0.1-rc2":
   version "1.0.1-rc2"
@@ -6764,6 +6761,14 @@ eth-sig-util@3.0.0:
     tweetnacl "^1.0.0"
     tweetnacl-util "^0.15.0"
 
+eth-sig-util@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/eth-sig-util/-/eth-sig-util-1.4.2.tgz#8d958202c7edbaae839707fba6f09ff327606210"
+  integrity sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==
+  dependencies:
+    ethereumjs-abi "git+https://github.com/ethereumjs/ethereumjs-abi.git"
+    ethereumjs-util "^5.1.1"
+
 eth-sig-util@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/eth-sig-util/-/eth-sig-util-3.0.1.tgz"
@@ -6876,6 +6881,13 @@ ethereumjs-abi@0.6.8, ethereumjs-abi@^0.6.8:
   version "0.6.8"
   resolved "https://registry.npmjs.org/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz"
   integrity sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==
+  dependencies:
+    bn.js "^4.11.8"
+    ethereumjs-util "^6.0.0"
+
+"ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+  version "0.6.8"
+  resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
   dependencies:
     bn.js "^4.11.8"
     ethereumjs-util "^6.0.0"

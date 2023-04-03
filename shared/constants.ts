@@ -165,10 +165,14 @@ export const YIELDMATH = 'yieldMath'
 export const CAULDRON = 'cauldron'
 export const LADLE = 'ladle'
 export const VR_CAULDRON = 'vrCauldron'
+export const VR_CAULDRON_IMPLEMENTATION = 'vrCauldronImplementation'
 export const VR_LADLE = 'vrLadle'
+export const VR_LADLE_IMPLEMENTATION = 'vrLadleImplementation'
 export const REPAY_FROM_LADLE_MODULE = 'repayFromLadleModule'
 export const WITCH = 'witch'
 export const VR_WITCH = 'vrWitch'
+export const VR_WITCH_IMPLEMENTATION = 'vrWitchImplementation'
+export const VR_ROUTER = 'vrRouter'
 export const ROLLER = 'roller'
 export const WITCH_V1 = 'witchV1'
 export const CHAINLINK = 'chainlinkOracle'
@@ -299,10 +303,15 @@ export const FYFRAX2209 = stringToBytes6('0307') // Incorrectly labelled
 export const FYFRAX2212 = stringToBytes6('1808')
 export const FYFRAX2303 = stringToBytes6('1809')
 
+// Variable Rate Tokens
 export const VYETH = stringToBytes6('VY1' + ETH)
+export const VYETH_IMPLEMENTATION = 'vyETHimplementation'
 export const VYDAI = stringToBytes6('VY2' + DAI)
+export const VYDAI_IMPLEMENTATION = 'vyDAIimplementation'
 export const VYUSDC = stringToBytes6('VY3' + USDC)
+export const VYUSDC_IMPLEMENTATION = 'vyUSDCimplementation'
 export const VYFRAX = stringToBytes6('VY4' + FRAX)
+export const VYFRAX_IMPLEMENTATION = 'vyFRAXimplementation'
 
 export const DISPLAY_NAMES = new Map([
   [CHI, 'CHI'],

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.15;
-import "@yield-protocol/vault-v2/contracts/interfaces/DataTypes.sol";
-import "@yield-protocol/vault-v2/contracts/interfaces/IFYToken.sol";
-import "@yield-protocol/utils-v2/contracts/math/WDiv.sol";
-import "@yield-protocol/utils-v2/contracts/cast/CastU256I256.sol";
+import "@yield-protocol/vault-v2/src/interfaces/DataTypes.sol";
+import "@yield-protocol/vault-v2/src/interfaces/IFYToken.sol";
+import "@yield-protocol/utils-v2/src/utils/Math.sol";
+import "@yield-protocol/utils-v2/src/utils/Cast.sol";
 import "./RegistryInterfaces.sol";
 
 interface INotionalJoin {
@@ -14,8 +14,8 @@ interface INotionalJoin {
 /// aggregated ETH value of fyToken in circulation against the aggregated ETH value
 /// of all assets in the Joins
 contract Solvency {
-    using CastU256I256 for uint256;
-    using WDiv for uint256;
+    using Cast for uint256;
+    using Math for uint256;
 
     bytes6 constant public ETH = 0x303000000000;
     address constant public FCASH = 0x1344A36A1B56144C3Bc62E7757377D288fDE0369;
