@@ -1,7 +1,7 @@
 import { LIMITED_ASSERT_V2 } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
 
-import * as base_config from '../../../base.mainnet.config'
+import * as base_config from '../../../base.arb_mainnet.config'
 
 import { ContractDeployment } from '../../../confTypes'
 
