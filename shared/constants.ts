@@ -259,8 +259,8 @@ export const YSUSDC6MMS = getStrategyId(USDC, 'MMS') // 1 032 FF 000 001 - Yield
 export const YSUSDC6MJD = getStrategyId(USDC, 'MJD') // 1 032 FF 000 000 - Yield Strategy USDC 6M Jun Dec - YSUSDC6MJD
 export const YSFRAX6MMS = getStrategyId(FRAX, 'MMS') // 1 138 FF 000 001 - Yield Strategy FRAX 6M Mar Sep - YSFRAX6MMS
 export const YSFRAX6MJD = getStrategyId(FRAX, 'MJD') // 1 138 FF 000 000 - Yield Strategy FRAX 6M Jun Dec - YSFRAX6MJD
-export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSFRAX6MMS
-export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSFRAX6MJD
+export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSUSDT6MMS
+export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSUSDT6MJD
 
 // LEGACY IDENTIFIERS
 
