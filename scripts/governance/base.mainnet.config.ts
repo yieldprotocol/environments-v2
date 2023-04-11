@@ -45,11 +45,11 @@ import {
   FYUSDC2306,
   FYFRAX2306,
   FYUSDT2306,
-  FYETH2309,
-  FYDAI2309,
-  FYUSDC2309,
-  FYFRAX2309,
-  FYUSDT2309,
+  //  FYETH2309,
+  //  FYDAI2309,
+  //  FYUSDC2309,
+  //  FYFRAX2309,
+  //  FYUSDT2309,
 } from '../../shared/constants'
 import {
   YSETH6MJD,
@@ -57,10 +57,14 @@ import {
   YSUSDC6MJD,
   YSFRAX6MJD,
   YSUSDT6MJD,
-  YSETH6MMS,
-  YSDAI6MMS,
-  YSUSDC6MMS,
-  YSFRAX6MMS,
+  YSETH6MMS_V1,
+  YSDAI6MMS_V1,
+  YSUSDC6MMS_V1,
+  YSFRAX6MMS_V1,
+  //  YSETH6MMS,
+  //  YSDAI6MMS,
+  //  YSUSDC6MMS,
+  //  YSFRAX6MMS,
   YSUSDT6MMS,
 } from '../../shared/constants'
 import {
@@ -2245,11 +2249,11 @@ export const series: Map<string, Series> = new Map([
   [FYUSDC2306, fyUSDC2306],
   [FYFRAX2306, fyFRAX2306],
   [FYUSDT2306, fyUSDT2306],
-  // [FYETH2309, fyETH2309],
-  // [FYDAI2309, fyDAI2309],
-  // [FYUSDC2309, fyUSDC2309],
-  // [FYFRAX2309, fyFRAX2309],
-  // [FYUSDT2309, fyUSDT2309],
+  //  [FYETH2309, fyETH2309],
+  //  [FYDAI2309, fyDAI2309],
+  //  [FYUSDC2309, fyUSDC2309],
+  //  [FYFRAX2309, fyFRAX2309],
+  //  [FYUSDT2309, fyUSDT2309],
 ])
 
 /// ----- STRATEGIES -----
@@ -2260,11 +2264,11 @@ export const series: Map<string, Series> = new Map([
 //   base: eth,
 // }
 
-// const ysETH6MJD: Strategy = {
-//   assetId: YSETH6MJD,
-//   address: strategyAddresses.getOrThrow(YSETH6MJD)!,
-//   base: eth,
-// }
+const ysETH6MJD: Strategy = {
+  assetId: YSETH6MJD,
+  address: strategyAddresses.getOrThrow(YSETH6MJD)!,
+  base: eth,
+}
 
 // const ysDAI6MMS: Strategy = {
 //   assetId: YSDAI6MMS,
@@ -2272,11 +2276,11 @@ export const series: Map<string, Series> = new Map([
 //   base: dai,
 // }
 
-// const ysDAI6MJD: Strategy = {
-//   assetId: YSDAI6MJD,
-//   address: strategyAddresses.getOrThrow(YSDAI6MJD)!,
-//   base: dai,
-// }
+const ysDAI6MJD: Strategy = {
+  assetId: YSDAI6MJD,
+  address: strategyAddresses.getOrThrow(YSDAI6MJD)!,
+  base: dai,
+}
 
 // const ysUSDC6MMS: Strategy = {
 //   assetId: YSUSDC6MMS,
@@ -2284,11 +2288,11 @@ export const series: Map<string, Series> = new Map([
 //   base: usdc,
 // }
 
-// const ysUSDC6MJD: Strategy = {
-//   assetId: YSUSDC6MJD,
-//   address: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
-//   base: usdc,
-// }
+const ysUSDC6MJD: Strategy = {
+  assetId: YSUSDC6MJD,
+  address: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
+  base: usdc,
+}
 
 // const ysFRAX6MMS: Strategy = {
 //   assetId: YSFRAX6MMS,
@@ -2296,33 +2300,35 @@ export const series: Map<string, Series> = new Map([
 //   base: frax,
 // }
 
-// const ysFRAX6MJD: Strategy = {
-//   assetId: YSFRAX6MJD,
-//   address: strategyAddresses.getOrThrow(YSFRAX6MJD)!,
-//   base: frax,
-// }
 
-// const ysUSDT6MMS: Strategy = {
-//   assetId: YSUSDT6MMS,
-//   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-//   base: usdt,
-// }
+const ysFRAX6MJD: Strategy = {
+  assetId: YSFRAX6MJD,
+  address: strategyAddresses.getOrThrow(YSFRAX6MJD)!,
+  base: frax,
+}
 
-// const ysUSDT6MJD: Strategy = {
-//   assetId: YSUSDT6MJD,
-//   address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
-//   base: usdt,
-// }
+const ysUSDT6MMS: Strategy = {
+  assetId: YSUSDT6MMS,
+  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+  base: usdt,
+}
+
+const ysUSDT6MJD: Strategy = {
+  assetId: YSUSDT6MJD,
+  address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
+  base: usdt,
+}
 
 export const strategies: Map<string, Strategy> = new Map([
-  // [YSETH6MMS, ysETH6MMS],
-  // [YSETH6MJD, ysETH6MJD],
-  // [YSDAI6MMS, ysDAI6MMS],
-  // [YSDAI6MJD, ysDAI6MJD],
-  // [YSUSDC6MMS, ysUSDC6MMS],
-  // [YSUSDC6MJD, ysUSDC6MJD],
-  // [YSFRAX6MMS, ysFRAX6MMS],
-  // [YSFRAX6MJD, ysFRAX6MJD],
-  // [YSUSDT6MMS, ysUSDT6MMS],
-  // [YSUSDT6MJD, ysUSDT6MJD],
+  //  [YSETH6MMS, ysETH6MMS],
+  [YSETH6MJD, ysETH6MJD],
+  //  [YSDAI6MMS, ysDAI6MMS],
+  [YSDAI6MJD, ysDAI6MJD],
+  //  [YSUSDC6MMS, ysUSDC6MMS],
+  [YSUSDC6MJD, ysUSDC6MJD],
+  //  [YSFRAX6MMS, ysFRAX6MMS],
+  [YSFRAX6MJD, ysFRAX6MJD],
+  [YSUSDT6MMS, ysUSDT6MMS],
+  [YSUSDT6MJD, ysUSDT6MJD],
+
 ])
