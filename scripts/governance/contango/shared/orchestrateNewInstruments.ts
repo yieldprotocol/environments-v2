@@ -32,6 +32,7 @@ const {
   joins,
   series,
   ilks,
+  basesToAdd,
 } = require(process.env.CONF!)
 
 /**
@@ -57,7 +58,8 @@ const {
     pools,
     joins,
     series,
-    ilks
+    ilks,
+    basesToAdd
   )
 
   await propose(timelock, proposal, ownerAcc.address)

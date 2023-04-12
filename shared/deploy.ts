@@ -22,11 +22,19 @@ const { developer, governance, contractDeployments } = require(process.env.CONF 
     const deployedAddress = readAddressMappingIfExists(params.addressFile).get(params.name)
     let deployed: Contract
     if (deployedAddress === undefined) {
-      const factoryOptions: FactoryOptions = { libraries: params.libs }
+      const factoryOptions: FactoryOptions = { signer: deployerAcc, libraries: params.libs }
       const contractFactory = await ethers.getContractFactory(params.contract, factoryOptions)
+
+      console.log(`Deployer: ${deployerAcc.address} - ${deployerAcc._isSigner ? 'Signer' : 'Impersonator'}`)
+      console.log(`ETH Balance: ${ethers.utils.formatEther(await deployerAcc.getBalance())}`)
+      console.log(`Gas Price: ${ethers.utils.formatUnits(await ethers.provider.getGasPrice(), 'gwei')} gwei`)
 
       const expandedArgs = params.args.map((f) => f())
       console.log(`Deploying ${getName(params.name)} ${params.contract} with ${expandedArgs}`)
+
+      const gasEstimate = await deployerAcc.estimateGas(contractFactory.getDeployTransaction(...expandedArgs))
+      console.log(`Estimated gas: ${gasEstimate}`)
+
       deployed = await contractFactory.deploy(...expandedArgs)
 
       await deployed.deployed()

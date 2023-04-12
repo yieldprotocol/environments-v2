@@ -30,7 +30,7 @@ const { developer, governance } = require(process.env.CONF as string)
     // console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${utils.formatEther(ethBalance)}`)
 
     // executeRequest.gasLimit = Math.ceil(gasEstimate.toNumber() * 1.2)
-    executeRequest.gasLimit = 10_000_000
+    executeRequest.gasLimit = 100_000_000
 
     const tx = await signerAcc.sendTransaction(executeRequest)
     await requireProposalState(tx, ProposalState.Unknown)

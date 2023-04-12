@@ -18,11 +18,12 @@ import {
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
 } from '../../../../../typechain'
+import { addIlkToSeries } from '../../../../fragments/assetsAndSeries/addIlkToSeries'
 import { updateDebtLimits } from '../../../../fragments/limits/updateDebtLimits'
 import { orchestrateYieldSpaceMultiOracle } from '../../../../fragments/oracles/orchestrateYieldSpaceMultiOracle'
 import { updateCollateralization } from '../../../../fragments/oracles/updateCollateralization'
 import { setLineAndLimit } from '../../../../fragments/witch/setLineAndLimit'
-import { Ilk } from '../../../confTypes'
+import { Ilk, Series } from '../../../confTypes'
 import { orchestrateNewInstruments } from '../../shared/orchestrateNewInstrumentsFragment'
 
 const {
@@ -35,9 +36,9 @@ const {
   compositePaths,
   pools,
   joins,
-  series,
-  newIlks,
-  juneIlks,
+  newSeries,
+  juneSeries,
+  basesToAdd,
 } = require(process.env.CONF!)
 
 /**
@@ -74,26 +75,28 @@ const {
     compositePaths,
     pools,
     joins,
-    series,
-    newIlks
+    newSeries,
+    basesToAdd
   )
 
-  // const juneInstrumentsProposal = await juneIlks.map(async (ilk: Ilk) => {
-  //   const proposals = [
-  //     await updateDebtLimits(cauldron, ilk),
-  //     await updateCollateralization(cauldron, ilk.collateralization),
-  //   ]
-  //   if (ilk.auctionLineAndLimit) proposals.push(await setLineAndLimit(witch, ilk.auctionLineAndLimit))
-  //   return proposals
-  // })
+  console.log('Updating June instruments')
+  const juneIlks: Ilk[] = Array.from(new Set<Ilk>(juneSeries.map((s: Series) => s.ilks).flat()))
+  const juneInstrumentsProposal = await Promise.all(
+    [
+      juneIlks.map((ilk) => updateDebtLimits(cauldron, ilk, 3)),
+      juneIlks.map((ilk) => updateCollateralization(cauldron, ilk.collateralization, 3)),
+      juneIlks
+        .filter((ilk) => ilk.auctionLineAndLimit)
+        .map((ilk) => setLineAndLimit(witch, ilk.auctionLineAndLimit!, 3)),
+      juneSeries.map((s: Series) =>
+        s.ilks.filter((ilk) => ilk.baseId === ilk.ilkId).map((ilk) => addIlkToSeries(cauldron, s, ilk, 3))
+      ),
+    ].flat(4)
+  ).then((x) => x.flat())
 
   await propose(
     timelock,
-    [
-      ...yieldSpaceMultiOracleProposal,
-      ...newInstrumentsProposal,
-      // ...juneInstrumentsProposal
-    ],
+    [...yieldSpaceMultiOracleProposal, ...newInstrumentsProposal, ...juneInstrumentsProposal],
     ownerAcc.address
   )
 })()

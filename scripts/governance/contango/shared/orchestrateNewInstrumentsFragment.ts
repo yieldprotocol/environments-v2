@@ -10,14 +10,14 @@ import {
   YieldSpaceMultiOracle,
 } from '../../../../typechain'
 import { addAsset } from '../../../fragments/assetsAndSeries/addAsset'
-import { addIlkToSeries } from '../../../fragments/assetsAndSeries/addIlkToSeries'
 import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
+import { makeBase } from '../../../fragments/assetsAndSeries/makeBase'
 import { makeIlk } from '../../../fragments/assetsAndSeries/makeIlk'
 import { orchestrateJoin } from '../../../fragments/assetsAndSeries/orchestrateJoin'
 import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
 import { updateYieldSpaceMultiOracleSources } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSources'
-import { Asset, Ilk, OraclePath, OracleSource, Series } from '../../confTypes'
+import { Asset, Base, OraclePath, OracleSource, Series } from '../../confTypes'
 
 export async function orchestrateNewInstruments(
   ownerAcc: SignerWithAddress,
@@ -35,7 +35,7 @@ export async function orchestrateNewInstruments(
   pools: Map<string, string>,
   joinsMap: Map<string, string>,
   series: Series[],
-  ilks: Ilk[]
+  basesToAdd: Base[]
 ) {
   const promises = [
     joins.map((join) => orchestrateJoin(ownerAcc.address, timelock, cloak, join)),
@@ -43,14 +43,13 @@ export async function orchestrateNewInstruments(
     updateCompositeSources(compositeMultiOracle, compositeSources, true),
     updateCompositePaths(compositeMultiOracle, compositePaths),
     assets.map((asset) => addAsset(ownerAcc, cloak, cauldron, ladle, asset, joinsMap)),
-    series.map((series) => [
-      addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools),
-      ilks.map((ilk) => [
-        makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joinsMap),
-        addIlkToSeries(cauldron, series, ilk),
-      ]),
-    ]),
+    basesToAdd.map((base) => makeBase(ownerAcc, cloak, cauldron, witch, base, joinsMap)),
+    series
+      .map((series) => series.ilks)
+      .flat()
+      .map((ilk) => makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joinsMap)),
+    series.map((series) => addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools)),
   ].flat(4)
 
-  return Promise.all(promises).then((x) => x.flat(1))
+  return Promise.all(promises).then((x) => x.flat())
 }
