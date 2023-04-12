@@ -2306,11 +2306,11 @@ const ysFRAX6MJD: Strategy = {
   base: frax,
 }
 
-const ysUSDT6MMS: Strategy = {
-  assetId: YSUSDT6MMS,
-  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-  base: usdt,
-}
+// const ysUSDT6MMS: Strategy = {
+//   assetId: YSUSDT6MMS,
+//   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+//   base: usdt,
+// }
 
 const ysUSDT6MJD: Strategy = {
   assetId: YSUSDT6MJD,
@@ -2327,6 +2327,6 @@ export const strategies: Map<string, Strategy> = new Map([
   [YSUSDC6MJD, ysUSDC6MJD],
   //  [YSFRAX6MMS, ysFRAX6MMS],
   [YSFRAX6MJD, ysFRAX6MJD],
-  [YSUSDT6MMS, ysUSDT6MMS],
+  // [YSUSDT6MMS, ysUSDT6MMS],
   [YSUSDT6MJD, ysUSDT6MJD],
 ])
