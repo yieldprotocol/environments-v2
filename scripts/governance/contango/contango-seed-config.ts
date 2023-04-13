@@ -52,10 +52,10 @@ export class Series {
 }
 
 export const ASSETS_ARBITRUM: Asset[] = [
-  new Asset(ETH, 'ETH', false, 1_000e6, 0.025e6, 12, 1.21e6),
-  new Asset(DAI, 'DAI', true, 1_000_000, 40, 18, 1.25e6),
-  new Asset(USDC, 'USDC', true, 1_000_000, 40, 6, 1.176e6),
-  new Asset(USDT, 'USDT', true, 1_000_000, 40, 6, 1.176e6, false),
+  new Asset(ETH, 'ETH', false, 1_000e6, 0.025e6, 12, 1.176e6), // 85% ltv -> 1/.85 = 1.1764705882
+  new Asset(DAI, 'DAI', true, 1_000_000, 40, 18, 1.22e6), // 82% ltv -> 1/.82 = 1.2195121951
+  new Asset(USDC, 'USDC', true, 1_000_000, 40, 6, 1.163e6), // 86% ltv -> 1/.86 = 1.1627906977
+  new Asset(USDT, 'USDT', true, 1_000_000, 40, 6, 1.25e6, false), // 80% ltv -> 1/.8 = 1.25
 ]
 
 export const ASSETS_ARBITRUM_MAP: Map<string, Asset> = new Map(ASSETS_ARBITRUM.map((asset) => [asset.bytes, asset]))

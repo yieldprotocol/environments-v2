@@ -97,7 +97,7 @@ function createIlks(baseSeries: SeriesSeed): Ilk[] {
     .map((ilkSeries) => {
       const stablePair = ilkSeries.asset.stable && baseSeries.asset.stable
       const vaultProportion = stablePair ? parseUnits('1') : parseUnits('0.5')
-      const collateralisationRatio = stablePair ? 1.026e6 : baseSeries.asset.cr
+      const collateralisationRatio = stablePair ? 1.026e6 : ilkSeries.asset.cr
       const initialDiscount = stablePair ? 1.01e6 : 1.05e6
       const duration = stablePair ? 30 : 300
       const collateralProportion = parseUnits((initialDiscount / collateralisationRatio).toString())
