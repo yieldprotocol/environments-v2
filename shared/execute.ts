@@ -25,12 +25,11 @@ const { developer, governance } = require(process.env.CONF as string)
       to: timelock.address,
       data: executeCall,
     }
-    // const gasEstimate = await signerAcc.estimateGas(executeRequest)
-    // const ethBalance = await signerAcc.getBalance()
-    // console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${utils.formatEther(ethBalance)}`)
+    const gasEstimate = await signerAcc.estimateGas(executeRequest)
+    const ethBalance = await signerAcc.getBalance()
+    console.log(`Estimated gas: ${gasEstimate} - ETH Balance: ${utils.formatEther(ethBalance)}`)
 
-    // executeRequest.gasLimit = Math.ceil(gasEstimate.toNumber() * 1.2)
-    executeRequest.gasLimit = 100_000_000
+    executeRequest.gasLimit = Math.ceil(gasEstimate.toNumber() * 1.2)
 
     const tx = await signerAcc.sendTransaction(executeRequest)
     await requireProposalState(tx, ProposalState.Unknown)

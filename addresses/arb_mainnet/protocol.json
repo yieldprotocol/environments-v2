@@ -104,6 +104,14 @@
     [
       "limitedAssert",
       "0x3201161c97E6B3c6e0e565d8Cd17ae5d0BEDb5F7"
+    ],
+    [
+      "poolOracle",
+      "0xedc965dcD634B0A9843569577654669225955E8A"
+    ],
+    [
+      "yieldSpaceMultiOracle",
+      "0xEAA886daba2B26D962EfD7f98bEd0E47e9455560"
     ]
   ]
 }
