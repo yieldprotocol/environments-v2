@@ -23,7 +23,7 @@ export const setVariableInterestRateOracleParams = async (
     if (source.lastUpdated.isZero()) {
       proposal.push({
         target: variableInterestRateOracle.address,
-        data: variableInterestRateOracle.interface.encodeFunctionData('setSource', [
+        data: variableInterestRateOracle.interface.encodeFunctionData('setInterestRateParameters', [
           item.baseId,
           item.kind,
           item.optimalUsageRate,

@@ -29,7 +29,7 @@ export const orchestrateVariableInterestRateOracle = async (
       [
         id(
           variableInterestRateOracle.interface,
-          'setSource(bytes6,bytes6,uint256,uint256,uint256,uint256,uint256,bytes6[])'
+          'setInterestRateParameters(bytes6,bytes6,uint256,uint256,uint256,uint256,uint256,bytes6[])'
         ),
         id(variableInterestRateOracle.interface, 'updateParameters(bytes6,bytes6,uint256,uint256,uint256,uint256)'),
       ],

@@ -69,6 +69,7 @@ const {
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+
   proposal = proposal.concat(
     await orchestrateVariableInterestRateOracle(
       deployers.getOrThrow(variableInterestRateOracle.address)!,
@@ -87,6 +88,7 @@ const {
   proposal = proposal.concat(
     await orchestrateVRLadle(deployers.getOrThrow(ladle.address)!, vrCauldron, vrLadle, timelock, cloak, 0)
   )
+  proposal = proposal.concat(await addIntegration(ladle, protocol().getOrThrow('wrapEtherModule')!))
   console.log('here')
   proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(witch.address)!, witch, timelock, cloak, 0))
 
