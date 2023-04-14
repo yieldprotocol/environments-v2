@@ -36,6 +36,7 @@ import { orchestrateVariableInterestRateOracle } from '../../../../fragments/ora
 import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAccumulatorSources'
 import { setVariableInterestRateOracleParams } from '../../../../fragments/oracles/setVariableInterestRateOracleParams'
 import { orchestrateVYToken } from '../../../../fragments/other/orchestrateVYToken'
+import { addToken } from '../../../../fragments/ladle/addToken'
 
 const {
   developer,
@@ -80,7 +81,7 @@ const {
     )
   )
 
-  proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulatorSources))
+  // proposal = proposal.concat(await updateAccumulatorSources(accumulatorOracle, accumulatorSources))
 
   proposal = proposal.concat(
     await orchestrateVRCauldron(deployers.getOrThrow(cauldron.address)!, vrCauldron, timelock, cloak, 0)
@@ -89,7 +90,7 @@ const {
     await orchestrateVRLadle(deployers.getOrThrow(ladle.address)!, vrCauldron, vrLadle, timelock, cloak, 0)
   )
   proposal = proposal.concat(await addIntegration(ladle, protocol().getOrThrow('wrapEtherModule')!))
-  console.log('here')
+
   proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(witch.address)!, witch, timelock, cloak, 0))
 
   for (const asset of assetsToAdd) {
@@ -102,6 +103,7 @@ const {
       )
     )
     proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, asset, joins))
+    proposal = proposal.concat(await addToken(ladle, asset.address))
   }
 
   proposal = proposal.concat(
@@ -132,9 +134,17 @@ const {
   for (const vyToken of vyTokensToAdd) {
     const vyTokenContract = VYToken__factory.connect(vyTokens.getOrThrow(vyToken)!, ownerAcc)
     proposal = proposal.concat(
-      await orchestrateVYToken(deployers.getOrThrow(vyTokenContract.address)!, vyTokenContract, timelock, cloak, 0)
+      await orchestrateVYToken(
+        deployers.getOrThrow(vyTokenContract.address)!,
+        vyTokenContract,
+        timelock,
+        ladle,
+        cloak,
+        0
+      )
     )
     proposal = proposal.concat(await addIntegration(ladle, vyTokenContract.address))
+    proposal = proposal.concat(await addToken(ladle, vyTokenContract.address))
   }
   if (proposal.length > 0) await propose(timelock, proposal, developer)
 })()

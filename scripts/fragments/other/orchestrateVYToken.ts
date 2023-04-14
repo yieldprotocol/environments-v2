@@ -1,5 +1,5 @@
 import { ROOT } from '../../../shared/constants'
-import { EmergencyBrake, Timelock, VYToken, Join__factory } from '../../../typechain'
+import { EmergencyBrake, Timelock, VYToken, Join__factory, Ladle } from '../../../typechain'
 import { revokeRoot } from '../permissions/revokeRoot'
 import { indent, id } from '../../../shared/helpers'
 
@@ -12,6 +12,7 @@ export const orchestrateVYToken = async (
   deployer: string,
   vyToken: VYToken,
   timelock: Timelock,
+  ladle: Ladle,
   cloak: EmergencyBrake,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
@@ -28,6 +29,15 @@ export const orchestrateVYToken = async (
     ]),
   })
   console.log(indent(nesting, `vyToken.grantRoles(gov, timelock)`))
+
+  proposal.push({
+    target: vyToken.address,
+    data: vyToken.interface.encodeFunctionData('grantRoles', [
+      [id(vyToken.interface, 'deposit(address,uint256)'), id(vyToken.interface, 'mint(address,uint256)')],
+      ladle.address,
+    ]),
+  })
+  console.log(indent(nesting, `vyToken.grantRoles(gov, ladle)`))
 
   const join = Join__factory.connect(await vyToken.join(), vyToken.signer)
 

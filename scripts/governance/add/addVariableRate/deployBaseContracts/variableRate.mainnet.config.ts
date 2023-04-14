@@ -1,6 +1,7 @@
 import {
   ACCUMULATOR,
   CHAINLINK,
+  CHI,
   DAI,
   ETH,
   FRAX,
@@ -260,34 +261,44 @@ export const basesToAdd: Base[] = [
     address: assets.getOrThrow(DAI),
     rateOracle: protocol().getOrThrow(VARIABLE_RATE_ORACLE)! as string,
   },
+  {
+    assetId: USDC,
+    address: assets.getOrThrow(USDC),
+    rateOracle: protocol().getOrThrow(VARIABLE_RATE_ORACLE)! as string,
+  },
+  {
+    assetId: FRAX,
+    address: assets.getOrThrow(FRAX),
+    rateOracle: protocol().getOrThrow(VARIABLE_RATE_ORACLE)! as string,
+  },
 ]
 
-export const accumulatorSources: Accumulator[] = [
-  {
-    baseId: ETH,
-    kind: RATE,
-    startRate: WAD,
-    perSecondRate: WAD,
-  },
-  {
-    baseId: DAI,
-    kind: RATE,
-    startRate: WAD,
-    perSecondRate: WAD,
-  },
-  {
-    baseId: FRAX,
-    kind: RATE,
-    startRate: WAD,
-    perSecondRate: WAD,
-  },
-  {
-    baseId: USDC,
-    kind: RATE,
-    startRate: WAD,
-    perSecondRate: WAD,
-  },
-]
+// export const accumulatorSources: Accumulator[] = [
+//   {
+//     baseId: ETH,
+//     kind: RATE,
+//     startRate: WAD,
+//     perSecondRate: WAD,
+//   },
+//   {
+//     baseId: DAI,
+//     kind: RATE,
+//     startRate: WAD,
+//     perSecondRate: WAD,
+//   },
+//   {
+//     baseId: FRAX,
+//     kind: RATE,
+//     startRate: WAD,
+//     perSecondRate: WAD,
+//   },
+//   {
+//     baseId: USDC,
+//     kind: RATE,
+//     startRate: WAD,
+//     perSecondRate: WAD,
+//   },
+// ]
 
 export const variableInterestRateOracleSources: VariableInterestRateOracleSource[] = [
   {
@@ -298,7 +309,17 @@ export const variableInterestRateOracleSources: VariableInterestRateOracleSource
     baseVariableBorrowRate: BigNumber.from('0'),
     slope1: BigNumber.from('40000'),
     slope2: BigNumber.from('3000000'),
-    ilks: [ETH, DAI],
+    ilks: [DAI, USDC, FRAX],
+  },
+  {
+    baseId: ETH,
+    kind: CHI,
+    optimalUsageRate: BigNumber.from('450000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('3000000'),
+    ilks: [DAI, USDC, FRAX],
   },
   {
     baseId: DAI,
@@ -308,29 +329,61 @@ export const variableInterestRateOracleSources: VariableInterestRateOracleSource
     baseVariableBorrowRate: BigNumber.from('0'),
     slope1: BigNumber.from('40000'),
     slope2: BigNumber.from('600000'),
-    ilks: [ETH, DAI],
+    ilks: [ETH, FRAX, USDC],
+  },
+  {
+    baseId: DAI,
+    kind: CHI,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, FRAX, USDC],
+  },
+  {
+    baseId: USDC,
+    kind: RATE,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, DAI, FRAX],
+  },
+  {
+    baseId: USDC,
+    kind: CHI,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, DAI, FRAX],
+  },
+  {
+    baseId: FRAX,
+    kind: RATE,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, DAI, USDC],
+  },
+  {
+    baseId: FRAX,
+    kind: CHI,
+    optimalUsageRate: BigNumber.from('900000'),
+    accumulated: BigNumber.from('1000000000000000000'),
+    baseVariableBorrowRate: BigNumber.from('0'),
+    slope1: BigNumber.from('40000'),
+    slope2: BigNumber.from('600000'),
+    ilks: [ETH, DAI, USDC],
   },
 ]
 
 export const ilks: Ilk[] = [
-  {
-    baseId: ETH,
-    ilkId: ETH,
-    asset: assetsToAdd[0],
-    collateralization: {
-      baseId: ETH,
-      ilkId: ETH,
-      oracle: protocol().getOrThrow(CHAINLINK)! as string,
-      ratio: 1000000,
-    },
-    debtLimits: {
-      baseId: ETH,
-      ilkId: ETH,
-      line: 150,
-      dust: 1,
-      dec: 18,
-    },
-  },
   {
     baseId: ETH,
     ilkId: DAI,
@@ -351,6 +404,84 @@ export const ilks: Ilk[] = [
     auctionLineAndLimit: {
       baseId: ETH,
       ilkId: DAI,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: ETH,
+    ilkId: USDC,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: ETH,
+      ilkId: USDC,
+      oracle: protocol().getOrThrow(CHAINLINK)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: ETH,
+      ilkId: USDC,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: ETH,
+      ilkId: USDC,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: ETH,
+    ilkId: FRAX,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: ETH,
+      ilkId: FRAX,
+      oracle: protocol().getOrThrow(CHAINLINK)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: ETH,
+      ilkId: FRAX,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: ETH,
+      ilkId: FRAX,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: DAI,
+    ilkId: USDC,
+    asset: assetsToAdd[2],
+    collateralization: {
+      baseId: DAI,
+      ilkId: USDC,
+      oracle: protocol().getOrThrow(CHAINLINK)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: DAI,
+      ilkId: USDC,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: DAI,
+      ilkId: USDC,
       duration: 3600,
       vaultProportion: parseUnits('0.5'),
       collateralProportion: parseUnits('0.78947368'), // 105 / 133
