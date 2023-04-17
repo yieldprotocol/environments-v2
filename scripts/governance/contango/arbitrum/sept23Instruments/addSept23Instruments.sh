@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network tenderly"
+RUN="npx hardhat run --network arb_mainnet"
 
 # Phase 1: Deploy Joins
 # export CONF=$PWD/$HERE/contango.deployments
@@ -11,6 +11,6 @@ RUN="npx hardhat run --network tenderly"
 # Phase 2: Orchestrate
 export CONF=$PWD/$HERE/contango.config
 # $RUN $HERE/orchestrate.ts
-$RUN $HERE/../../../../../shared/approve.ts
+# $RUN $HERE/../../../../../shared/approve.ts
 $RUN $HERE/../../../../../shared/execute.ts
 
