@@ -13,7 +13,8 @@ import {
   CompositeMultiOracle__factory,
   ContangoLadle__factory,
   ContangoWitch__factory,
-  OldEmergencyBrake__factory,
+  EmergencyBrake__factory,
+  Join__factory,
   Timelock__factory,
   YieldSpaceMultiOracle__factory,
 } from '../../../../typechain'
@@ -23,15 +24,15 @@ const {
   developer,
   protocol,
   governance,
-  assetsToAdd,
-  seriesToAdd,
-  fyTokenDebtLimits,
-  seriesIlks,
+  newJoins,
+  assetsToAdd: assets,
   compositeSources,
   compositePaths,
   pools,
   joins,
-  auctionLineAndLimits,
+  series,
+  ilks,
+  basesToAdd,
 } = require(process.env.CONF!)
 
 /**
@@ -39,25 +40,27 @@ const {
  */
 ;(async () => {
   const ownerAcc = await getOwnerOrImpersonate(developer)
+  const timelock = Timelock__factory.connect(governance.get(TIMELOCK)!, ownerAcc)
 
   const proposal = await orchestrateNewInstruments(
     ownerAcc,
     Cauldron__factory.connect(protocol.getOrThrow(CONTANGO_CAULDRON), ownerAcc),
     ContangoLadle__factory.connect(protocol.getOrThrow(CONTANGO_LADLE), ownerAcc),
     ContangoWitch__factory.connect(protocol.getOrThrow(CONTANGO_WITCH), ownerAcc),
-    OldEmergencyBrake__factory.connect(governance.getOrThrow(CLOAK), ownerAcc),
+    EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK), ownerAcc),
     CompositeMultiOracle__factory.connect(protocol.getOrThrow(COMPOSITE), ownerAcc),
     YieldSpaceMultiOracle__factory.connect(protocol.getOrThrow(YIELD_SPACE_MULTI_ORACLE), ownerAcc),
-    assetsToAdd,
+    timelock,
+    newJoins.map((j: string) => Join__factory.connect(j, ownerAcc)),
+    assets,
     compositeSources,
     compositePaths,
     pools,
-    seriesToAdd,
-    fyTokenDebtLimits,
-    auctionLineAndLimits,
     joins,
-    seriesIlks
+    series,
+    ilks,
+    basesToAdd
   )
 
-  await propose(Timelock__factory.connect(governance.getOrThrow(TIMELOCK), ownerAcc), proposal, ownerAcc.address)
+  await propose(timelock, proposal, ownerAcc.address)
 })()

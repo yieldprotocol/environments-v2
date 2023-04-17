@@ -123,9 +123,7 @@ const {
   proposal = proposal.concat(await addAsset(ownerAcc, cloak, cauldron, ladle, newBase, joins))
 
   // Add Underlying
-  proposal = proposal.concat(
-    await makeBase(ownerAcc, cloak, accumulatorOracle as unknown as IOracle, cauldron, witch, newBase, joins)
-  )
+  proposal = proposal.concat(await makeBase(ownerAcc, cloak, cauldron, witch, newBase, joins))
 
   // Add Ilks
   for (let ilk of newIlks) {
