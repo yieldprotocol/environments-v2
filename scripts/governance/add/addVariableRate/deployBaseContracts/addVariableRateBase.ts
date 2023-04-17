@@ -6,6 +6,7 @@ import {
   ACCUMULATOR,
   CLOAK,
   VARIABLE_RATE_ORACLE,
+  VR_ROUTER,
 } from '../../../../../shared/constants'
 import { getOwnerOrImpersonate, propose } from '../../../../../shared/helpers'
 import {
@@ -22,6 +23,7 @@ import {
   VYToken__factory,
   Join__factory,
   VariableInterestRateOracle__factory,
+  VRRouter__factory,
 } from '../../../../../typechain'
 import { addAsset } from '../../../../fragments/assetsAndSeries/addAsset'
 import { addVRIlk } from '../../../../fragments/assetsAndSeries/addVRIlk'
@@ -37,6 +39,7 @@ import { updateAccumulatorSources } from '../../../../fragments/oracles/updateAc
 import { setVariableInterestRateOracleParams } from '../../../../fragments/oracles/setVariableInterestRateOracleParams'
 import { orchestrateVYToken } from '../../../../fragments/other/orchestrateVYToken'
 import { addToken } from '../../../../fragments/ladle/addToken'
+import { orchestrateVRRouter } from '../../../../fragments/other/orchestrateVRRouter'
 
 const {
   developer,
@@ -62,7 +65,7 @@ const {
   const witch = VRWitch__factory.connect(protocol().getOrThrow(VR_WITCH)!, ownerAcc)
   const timelock = Timelock__factory.connect(governance.getOrThrow(TIMELOCK)!, ownerAcc)
   const cloak = EmergencyBrake__factory.connect(governance.getOrThrow(CLOAK)!, ownerAcc)
-  const accumulatorOracle = AccumulatorMultiOracle__factory.connect(protocol().getOrThrow(ACCUMULATOR)!, ownerAcc)
+  const vrRouter = VRRouter__factory.connect(protocol().getOrThrow(VR_ROUTER)!, ownerAcc)
   const variableInterestRateOracle = VariableInterestRateOracle__factory.connect(
     protocol().getOrThrow(VARIABLE_RATE_ORACLE)!,
     ownerAcc
@@ -92,6 +95,7 @@ const {
   proposal = proposal.concat(await addIntegration(ladle, protocol().getOrThrow('wrapEtherModule')!))
 
   proposal = proposal.concat(await orchestrateVRWitch(deployers.getOrThrow(witch.address)!, witch, timelock, cloak, 0))
+  proposal = proposal.concat(await orchestrateVRRouter(vrRouter, ladle))
 
   for (const asset of assetsToAdd) {
     proposal = proposal.concat(
@@ -138,7 +142,7 @@ const {
         deployers.getOrThrow(vyTokenContract.address)!,
         vyTokenContract,
         timelock,
-        ladle,
+        vrRouter,
         cloak,
         0
       )

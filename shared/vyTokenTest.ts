@@ -1,7 +1,14 @@
 import { BigNumber } from 'ethers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { impersonate, getOwnerOrImpersonate } from './helpers'
-import { ERC20__factory, IOracle__factory, VRCauldron__factory, VRLadle__factory, VYToken__factory } from '../typechain'
+import {
+  ERC20__factory,
+  IOracle__factory,
+  Ladle__factory,
+  VRCauldron__factory,
+  VRLadle__factory,
+  VYToken__factory,
+} from '../typechain'
 import { VR_CAULDRON, VR_LADLE, WAD } from './constants'
 const { developer, ilks, assets, whales, protocol, vyTokensToAdd, vyTokens } = require(process.env.CONF as string)
 
@@ -14,7 +21,7 @@ const { developer, ilks, assets, whales, protocol, vyTokensToAdd, vyTokens } = r
   let ladleAcc: SignerWithAddress
 
   const cauldron = VRCauldron__factory.connect(protocol().getOrThrow(VR_CAULDRON)!, ownerAcc)
-  const ladle = VRLadle__factory.connect(protocol().getOrThrow(VR_LADLE)!, ownerAcc)
+  const ladle = Ladle__factory.connect(protocol().getOrThrow(VR_LADLE)!, ownerAcc)
 
   let oracle
   ladleAcc = await impersonate(ladle.address, WAD.mul(10))
@@ -29,7 +36,17 @@ const { developer, ilks, assets, whales, protocol, vyTokensToAdd, vyTokens } = r
       .mul(100)
     whaleAcc = await impersonate(whales.get(underlyingId) as string, WAD.mul(10))
 
-    await underlying.connect(whaleAcc).transfer(underlyingJoinAddress, amount)
-    await vyTokenContract.connect(ladleAcc).deposit(whaleAcc.address, amount)
+    await underlying.connect(whaleAcc).approve(ladle.address, amount)
+    await ladle
+      .connect(whaleAcc)
+      .batch([
+        ladle.interface.encodeFunctionData('transfer', [underlyingAddress, underlyingJoinAddress, amount]),
+        ladle.interface.encodeFunctionData('route', [
+          vyTokenContract.address,
+          vyTokenContract.interface.encodeFunctionData('deposit', [whaleAcc.address, amount]),
+        ]),
+      ])
+
+    // await vyTokenContract.connect(ladleAcc).deposit(whaleAcc.address, amount)
   }
 })()
