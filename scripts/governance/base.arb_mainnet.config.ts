@@ -32,7 +32,7 @@ export const fyTokens = readAddressMappingIfExists('fyTokens.json')
 export const pools = readAddressMappingIfExists('pools.json')
 export const joins = readAddressMappingIfExists('joins.json')
 export const strategyAddresses = readAddressMappingIfExists('strategies.json') // TODO: Name clash :(
-
+export const vyTokens = readAddressMappingIfExists('vyTokens.json')
 export const chainId = 42161
 export const developer: string = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
 export const whales: Map<string, string> = new Map([

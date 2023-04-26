@@ -313,6 +313,8 @@ export const VYUSDC = stringToBytes6('VY3' + USDC)
 export const VYUSDC_IMPLEMENTATION = 'vyUSDCimplementation'
 export const VYFRAX = stringToBytes6('VY4' + FRAX)
 export const VYFRAX_IMPLEMENTATION = 'vyFRAXimplementation'
+export const VYUSDT = stringToBytes6('VY4' + USDT)
+export const VYUSDT_IMPLEMENTATION = 'vyUSDTimplementation'
 
 export const DISPLAY_NAMES = new Map([
   [CHI, 'CHI'],
