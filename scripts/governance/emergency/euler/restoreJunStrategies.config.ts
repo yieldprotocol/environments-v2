@@ -27,11 +27,11 @@ import { Series, Strategy, Strategy_V1 } from '../../confTypes'
 const eth = base_config.bases.getOrThrow(ETH)!
 const dai = base_config.bases.getOrThrow(DAI)!
 const usdc = base_config.bases.getOrThrow(USDC)!
-const frax = base_config.bases.getOrThrow(USDT)!
+const usdt = base_config.bases.getOrThrow(USDT)!
 const ethIlks = base_config.ilks.getOrThrow(ETH)!
 const daiIlks = base_config.ilks.getOrThrow(DAI)!
 const usdcIlks = base_config.ilks.getOrThrow(USDC)!
-const fraxIlks = base_config.ilks.getOrThrow(USDT)!
+const usdtIlks = base_config.ilks.getOrThrow(USDT)!
 
 const fyETH2306B: Series = {
   seriesId: FYETH2306B,
@@ -80,7 +80,7 @@ const fyUSDC2306B: Series = {
 
 const fyUSDT2306B: Series = {
   seriesId: FYUSDT2306B,
-  base: frax,
+  base: usdt,
   fyToken: {
     assetId: FYUSDT2306B,
     address: fyTokens.getOrThrow(FYUSDT2306B)!,
@@ -90,7 +90,7 @@ const fyUSDT2306B: Series = {
     assetId: FYUSDT2306B,
     address: pools.getOrThrow(FYUSDT2306B)!,
   },
-  ilks: fraxIlks,
+  ilks: usdtIlks,
 }
 
 export const newSeries: Series[] = [fyETH2306B, fyDAI2306B, fyUSDC2306B, fyUSDT2306B]
@@ -122,7 +122,7 @@ const ysUSDC6MJD: Strategy = {
 const ysUSDT6MJD: Strategy = {
   assetId: YSUSDT6MJD,
   address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
-  base: frax,
+  base: usdt,
   seriesToInvest: fyUSDT2306B,
   initAmount: ethers.utils.parseUnits('96708056', 0),
 }

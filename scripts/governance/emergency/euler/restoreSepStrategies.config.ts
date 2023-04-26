@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import { ETH, DAI, USDC, USDT } from '../../../../shared/constants'
+import { ETH, DAI, USDC, USDT, FRAX } from '../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../shared/constants'
 import { FYETH2309, FYDAI2309, FYUSDC2309, FYUSDT2309 } from '../../../../shared/constants'
 import { YSETH6MMS, YSDAI6MMS, YSUSDC6MMS, YSUSDT6MMS } from '../../../../shared/constants'
@@ -27,11 +27,11 @@ import { Series, Strategy, Strategy_V1 } from '../../confTypes'
 const eth = base_config.bases.getOrThrow(ETH)!
 const dai = base_config.bases.getOrThrow(DAI)!
 const usdc = base_config.bases.getOrThrow(USDC)!
-const frax = base_config.bases.getOrThrow(USDT)!
+const usdt = base_config.bases.getOrThrow(USDT)!
 const ethIlks = base_config.ilks.getOrThrow(ETH)!
 const daiIlks = base_config.ilks.getOrThrow(DAI)!
 const usdcIlks = base_config.ilks.getOrThrow(USDC)!
-const fraxIlks = base_config.ilks.getOrThrow(USDT)!
+const usdtIlks = base_config.ilks.getOrThrow(USDT)!
 
 const fyETH2309: Series = {
   seriesId: FYETH2309,
@@ -80,7 +80,7 @@ const fyUSDC2309: Series = {
 
 const fyUSDT2309: Series = {
   seriesId: FYUSDT2309,
-  base: frax,
+  base: usdt,
   fyToken: {
     assetId: FYUSDT2309,
     address: fyTokens.getOrThrow(FYUSDT2309)!,
@@ -90,7 +90,7 @@ const fyUSDT2309: Series = {
     assetId: FYUSDT2309,
     address: pools.getOrThrow(FYUSDT2309)!,
   },
-  ilks: fraxIlks,
+  ilks: usdtIlks,
 }
 
 export const newSeries: Series[] = [fyETH2309, fyDAI2309, fyUSDC2309, fyUSDT2309]
@@ -122,7 +122,7 @@ const ysUSDC6MMS: Strategy = {
 const ysUSDT6MMS: Strategy = {
   assetId: YSUSDT6MMS,
   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-  base: frax,
+  base: usdt,
   seriesToInvest: fyUSDT2309,
   initAmount: ethers.utils.parseUnits('100', 6),
 }
