@@ -6,7 +6,7 @@ import '@yield-protocol/vault-v2/src/interfaces/IFYToken.sol';
 import '@yield-protocol/vault-v2/src/FlashJoin.sol';
 import '@yield-protocol/yieldspace-tv/src/interfaces/IPool.sol';
 import '@yield-protocol/yieldspace-tv/src/interfaces/IMaturingToken.sol';
-import 'ERC3156/interfaces/IERC3156FlashBorrower.sol';
+import 'erc3156/contracts/interfaces/IERC3156FlashBorrower.sol';
 import '@yield-protocol/utils-v2/src/token/TransferHelper.sol';
 error FlashLoanFailure();
 

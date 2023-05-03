@@ -22,11 +22,11 @@ import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
 import { sellFYToken } from '../../../fragments/emergency/sellFYToken'
-import { sendTokens } from '../../../fragments/emergency/sendTokens'
+import { sendTokens } from '../../../fragments/utils/sendTokens'
 import { mintPool } from '../../../fragments/emergency/mintPool'
 import { mintStrategy } from '../../../fragments/emergency/mintStrategy'
 
-const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades, mints } = require(process.env
+const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades, transfers, mints } = require(process.env
   .CONF as string)
 
 /**
@@ -44,69 +44,72 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-  // Orchestrate new series contracts
-  for (let series of newSeries) {
-    proposal = proposal.concat(
-      await orchestrateFYToken(
-        deployers.getOrThrow(series.fyToken.address),
-        timelock,
-        cloak,
-        FYToken__factory.connect(series.fyToken.address, ownerAcc)
-      )
-    )
-    proposal = proposal.concat(
-      await orchestratePool(
-        deployers.getOrThrow(series.pool.address),
-        timelock,
-        Pool__factory.connect(series.pool.address, ownerAcc)
-      )
-    )
-  }
-
-  // Orchestrate new strategies
-  for (let strategy of newStrategies) {
-    proposal = proposal.concat(
-      await orchestrateStrategy(
-        deployers.getOrThrow(strategy.address),
-        governance.getOrThrow(MULTISIG)!,
-        timelock,
-        ladle,
-        strategy,
-        pools
-      )
-    )
-  }
+//  // Orchestrate new series contracts
+//  for (let series of newSeries) {
+//    proposal = proposal.concat(
+//      await orchestrateFYToken(
+//        deployers.getOrThrow(series.fyToken.address),
+//        timelock,
+//        cloak,
+//        FYToken__factory.connect(series.fyToken.address, ownerAcc)
+//      )
+//    )
+//    proposal = proposal.concat(
+//      await orchestratePool(
+//        deployers.getOrThrow(series.pool.address),
+//        timelock,
+//        Pool__factory.connect(series.pool.address, ownerAcc)
+//      )
+//    )
+//  }
+//
+//  // Orchestrate new strategies
+//  for (let strategy of newStrategies) {
+//    proposal = proposal.concat(
+//      await orchestrateStrategy(
+//        deployers.getOrThrow(strategy.address),
+//        governance.getOrThrow(MULTISIG)!,
+//        timelock,
+//        ladle,
+//        strategy,
+//        pools
+//      )
+//    )
+//  }
 
 // If it reverts, try executing the the proposal above this line first, and below this line second. I think Tenderly struggles with this much data.
 
-  // Add June 2023 series
-  for (let series of newSeries) {
-    proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
-  }
-
-  // Init new strategies
-  for (let strategy of newStrategies) {
-    proposal = proposal.concat(await initStrategy(ownerAcc, strategy))
-  }
-
-  // Invest new strategies
-  for (let strategy of newStrategies) {
-    proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
-  }
-
-  // Return to previous ratio
-  for (let trade of trades) {
-    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
-    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
-  }
-
-  // Mint to the previous amount
+//  // Add June 2023 series
+//  for (let series of newSeries) {
+//    proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
+//  }
+//
+//  // Init new strategies
+//  for (let strategy of newStrategies) {
+//    proposal = proposal.concat(await initStrategy(ownerAcc, strategy))
+//  }
+//
+//  // Invest new strategies
+//  for (let strategy of newStrategies) {
+//    proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
+//  }
+//
+//  // Return to previous ratio
+//  for (let trade of trades) {
+//    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
+//    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
+//  }
+//
+//  // Transfer the base to the pools, including the euler bonus
+//  for (let transfer of transfers) {
+//    proposal = proposal.concat(await sendTokens(timelock, transfer))
+//  }
+//
+  // Mint fyToken, pool and strategy tokens
   for (let mint of mints) {
     const pool = Pool__factory.connect(pools.getOrThrow(mint.seriesId)!, ownerAcc)
     const strategy = Strategy__factory.connect(mint.receiver, ownerAcc)
-    const base = IERC20Metadata__factory.connect(await pool.baseToken(), ownerAcc)
-    proposal = proposal.concat(await mintFYToken(timelock, cauldron, mint.seriesId, pools.getOrThrow(mint.seriesId)!, mint.fyTokenAmount))
-    proposal = proposal.concat(await sendTokens(base, pools.getOrThrow(mint.seriesId)!, mint.baseAmount))
+    proposal = proposal.concat(await mintFYToken(timelock, cauldron, mint.seriesId, pools.getOrThrow(mint.seriesId)!, mint.amount))
     proposal = proposal.concat(await mintPool(pool, strategy.address, timelock.address))
     proposal = proposal.concat(await mintStrategy(strategy, timelock.address))
   }

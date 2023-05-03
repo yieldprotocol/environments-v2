@@ -9,10 +9,8 @@ export CONF=$PWD/$HERE/restoreJunStrategies.deployments
 $RUN $HERE/../../../../shared/deploy.ts
 
 # Phase 2: Proposal
-export CONF=$PWD/$HERE/restoreJunStrategies.config
-$RUN $HERE/../../../../tools/loadTimelock.ts
+export CONF=$PWD/$HERE/restoreJunStrategies.mint.config
 
-# $RUN $HERE/../../../../tools/advanceTimeToMaturity.ts
-$RUN $HERE/restoreStrategies.ts
+$RUN $HERE/restoreJunStrategies.ts
 $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
