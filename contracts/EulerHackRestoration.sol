@@ -49,8 +49,8 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
             data,
             (address, address, address, address)
         );
-
-        if (initiator != address(this) || msg.sender != join) revert FlashLoanFailure();
+        if (join != address(ladle.joins(underlyingId))|| initiator != address(this)) revert FlashLoanFailure();
+        
         // Now that we trust the lender, we approve the flash loan repayment
         IERC20(token).safeApprove(msg.sender, amount + fee);
 
