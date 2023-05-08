@@ -140,17 +140,17 @@ interface Trade {
 export const trades: Array<Trade> = [
   {
     seriesId: FYETH2306B,
-    amount: ethers.utils.parseUnits('0.0299439', 18).toString(),
+    amount: ethers.utils.parseUnits('0.029393239489811000000', 18).toString(),
     minReceived: '0',
   },
   {
     seriesId: FYDAI2306B,
-    amount: ethers.utils.parseUnits('37.3735', 18).toString(),
+    amount: ethers.utils.parseUnits('36.863944130937500000', 18).toString(),
     minReceived: '0',
   },
   {
     seriesId: FYUSDC2306B,
-    amount: ethers.utils.parseUnits('75.0269', 6).toString(),
+    amount: ethers.utils.parseUnits('74.497345', 6).toString(),
     minReceived: '0',
   }
 ]
@@ -185,16 +185,16 @@ export const mints: Array<Mint> = [
   {
     seriesId: FYETH2306B,
     receiver: strategyAddresses.getOrThrow(YSETH6MJD)!,
-    amount: '52450104449749416515',
+    amount: '51088867752368200000',
   },
   {
     seriesId: FYDAI2306B,
     receiver: strategyAddresses.getOrThrow(YSDAI6MJD)!,
-    amount: '68860904358620611521816',
+    amount: '67379612122936600000000',
   },
   {
     seriesId: FYUSDC2306B,
     receiver: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
-    amount: '494766985297',
+    amount: '481447213730',
   }
 ]

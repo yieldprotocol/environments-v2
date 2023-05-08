@@ -44,67 +44,68 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
 
-//  // Orchestrate new series contracts
-//  for (let series of newSeries) {
-//    proposal = proposal.concat(
-//      await orchestrateFYToken(
-//        deployers.getOrThrow(series.fyToken.address),
-//        timelock,
-//        cloak,
-//        FYToken__factory.connect(series.fyToken.address, ownerAcc)
-//      )
-//    )
-//    proposal = proposal.concat(
-//      await orchestratePool(
-//        deployers.getOrThrow(series.pool.address),
-//        timelock,
-//        Pool__factory.connect(series.pool.address, ownerAcc)
-//      )
-//    )
-//  }
-//
-//  // Orchestrate new strategies
-//  for (let strategy of newStrategies) {
-//    proposal = proposal.concat(
-//      await orchestrateStrategy(
-//        deployers.getOrThrow(strategy.address),
-//        governance.getOrThrow(MULTISIG)!,
-//        timelock,
-//        ladle,
-//        strategy,
-//        pools
-//      )
-//    )
-//  }
+  // Orchestrate new series contracts
+  for (let series of newSeries) {
+    proposal = proposal.concat(
+      await orchestrateFYToken(
+        deployers.getOrThrow(series.fyToken.address),
+        timelock,
+        cloak,
+        FYToken__factory.connect(series.fyToken.address, ownerAcc)
+      )
+    )
+    proposal = proposal.concat(
+      await orchestratePool(
+        deployers.getOrThrow(series.pool.address),
+        timelock,
+        Pool__factory.connect(series.pool.address, ownerAcc)
+      )
+    )
+  }
 
-// If it reverts, try executing the the proposal above this line first, and below this line second. I think Tenderly struggles with this much data.
+  // Orchestrate new strategies
+  for (let strategy of newStrategies) {
+    proposal = proposal.concat(
+      await orchestrateStrategy(
+        deployers.getOrThrow(strategy.address),
+        governance.getOrThrow(MULTISIG)!,
+        timelock,
+        ladle,
+        strategy,
+        pools
+      )
+    )
+  }
 
-//  // Add June 2023 series
-//  for (let series of newSeries) {
-//    proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
-//  }
-//
-//  // Init new strategies
-//  for (let strategy of newStrategies) {
-//    proposal = proposal.concat(await initStrategy(ownerAcc, strategy))
-//  }
-//
-//  // Invest new strategies
-//  for (let strategy of newStrategies) {
-//    proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
-//  }
-//
-//  // Return to previous ratio
-//  for (let trade of trades) {
-//    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
-//    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
-//  }
-//
-//  // Transfer the base to the pools, including the euler bonus
-//  for (let transfer of transfers) {
-//    proposal = proposal.concat(await sendTokens(timelock, transfer))
-//  }
-//
+  // Add June 2023 series
+  for (let series of newSeries) {
+    proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
+  }
+
+  // Init new strategies
+  for (let strategy of newStrategies) {
+    proposal = proposal.concat(await initStrategy(ownerAcc, strategy))
+  }
+  
+  // If it reverts, try executing the the proposal above this line first, and below this line second. I think Tenderly struggles with this much data.
+
+  // Invest new strategies
+
+  for (let strategy of newStrategies) {
+    proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
+  }
+
+  // Return to previous ratio
+  for (let trade of trades) {
+    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
+    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
+  }
+
+  // Transfer the base to the pools, including the euler bonus
+  for (let transfer of transfers) {
+    proposal = proposal.concat(await sendTokens(timelock, transfer))
+  }
+
   // Mint fyToken, pool and strategy tokens
   for (let mint of mints) {
     const pool = Pool__factory.connect(pools.getOrThrow(mint.seriesId)!, ownerAcc)

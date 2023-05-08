@@ -40,77 +40,77 @@ export const g1: number = 9000
 
 // ----- deployment parameters -----
 export const contractDeployments: ContractDeployment[] = [
-  /// @notice Deploy fyToken series
-  /// @param underlying identifier (bytes6 tag)
-  /// @param Address for the chi oracle
-  /// @param Address for the related Join
-  /// @param Maturity in unix time (seconds since Jan 1, 1970)
-  /// @param Name for the series
-  /// @param Symbol for the series
-  {
-    addressFile: 'fyTokens.json',
-    name: FYETH2306B,
-    contract: 'FYToken',
-    args: [
-      () => ETH,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(ETH),
-      () => EOJUN23,
-      () => 'FYETH2306B',
-      () => 'FYETH2306B',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYDAI2306B,
-    contract: 'FYToken',
-    args: [
-      () => DAI,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(DAI),
-      () => EOJUN23,
-      () => 'FYDAI2306B',
-      () => 'FYDAI2306B',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYUSDC2306B,
-    contract: 'FYToken',
-    args: [
-      () => USDC,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(USDC),
-      () => EOJUN23,
-      () => 'FYUSDC2306B',
-      () => 'FYUSDC2306B',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYUSDT2306B,
-    contract: 'FYToken',
-    args: [
-      () => USDT,
-      () => protocol.getOrThrow(ACCUMULATOR),
-      () => joins.getOrThrow(USDT),
-      () => EOJUN23,
-      () => 'FYUSDT2306B',
-      () => 'FYUSDT2306B',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
+//  /// @notice Deploy fyToken series
+//  /// @param underlying identifier (bytes6 tag)
+//  /// @param Address for the chi oracle
+//  /// @param Address for the related Join
+//  /// @param Maturity in unix time (seconds since Jan 1, 1970)
+//  /// @param Name for the series
+//  /// @param Symbol for the series
+//  {
+//    addressFile: 'fyTokens.json',
+//    name: FYETH2306B,
+//    contract: 'FYToken',
+//    args: [
+//      () => ETH,
+//      () => protocol.getOrThrow(COMPOUND),
+//      () => joins.getOrThrow(ETH),
+//      () => EOJUN23,
+//      () => 'FYETH2306B',
+//      () => 'FYETH2306B',
+//    ],
+//    libs: {
+//      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
+//    },
+//  },
+//  {
+//    addressFile: 'fyTokens.json',
+//    name: FYDAI2306B,
+//    contract: 'FYToken',
+//    args: [
+//      () => DAI,
+//      () => protocol.getOrThrow(COMPOUND),
+//      () => joins.getOrThrow(DAI),
+//      () => EOJUN23,
+//      () => 'FYDAI2306B',
+//      () => 'FYDAI2306B',
+//    ],
+//    libs: {
+//      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
+//    },
+//  },
+//  {
+//    addressFile: 'fyTokens.json',
+//    name: FYUSDC2306B,
+//    contract: 'FYToken',
+//    args: [
+//      () => USDC,
+//      () => protocol.getOrThrow(COMPOUND),
+//      () => joins.getOrThrow(USDC),
+//      () => EOJUN23,
+//      () => 'FYUSDC2306B',
+//      () => 'FYUSDC2306B',
+//    ],
+//    libs: {
+//      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
+//    },
+//  },
+//  {
+//    addressFile: 'fyTokens.json',
+//    name: FYUSDT2306B,
+//    contract: 'FYToken',
+//    args: [
+//      () => USDT,
+//      () => protocol.getOrThrow(ACCUMULATOR),
+//      () => joins.getOrThrow(USDT),
+//      () => EOJUN23,
+//      () => 'FYUSDT2306B',
+//      () => 'FYUSDT2306B',
+//    ],
+//    libs: {
+//      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
+//    },
+//  },
   /// @notice Deploy plain YieldSpace pools
   /// @param pool identifier, usually matching the series (bytes6 tag)
   /// @param base address
