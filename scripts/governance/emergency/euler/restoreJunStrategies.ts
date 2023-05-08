@@ -6,7 +6,6 @@ import {
   Cauldron__factory,
   Ladle__factory,
   Witch__factory,
-  IERC20Metadata__factory,
   FYToken__factory,
   Pool__factory,
   Strategy__factory,
@@ -26,7 +25,7 @@ import { sendTokens } from '../../../fragments/utils/sendTokens'
 import { mintPool } from '../../../fragments/emergency/mintPool'
 import { mintStrategy } from '../../../fragments/emergency/mintStrategy'
 
-const { developer, deployers, governance, protocol, newSeries, pools, newStrategies, trades, transfers, mints } = require(process.env
+const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, newStrategies, trades, transfers, mints } = require(process.env
   .CONF as string)
 
 /**
@@ -97,8 +96,11 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
 
   // Return to previous ratio
   for (let trade of trades) {
-    proposal = proposal.concat(await mintFYToken(timelock, cauldron, trade.seriesId, pools.getOrThrow(trade.seriesId)!, trade.amount))
-    proposal = proposal.concat(await sellFYToken(ladle, trade.seriesId, timelock.address, trade.minReceived))
+    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(trade.seriesId)!, ownerAcc)
+    proposal = proposal.concat(await mintFYToken(timelock, fyToken, pools.getOrThrow(trade.seriesId)!, trade.amount))
+
+    const pool = Pool__factory.connect(pools.getOrThrow(trade.seriesId)!, ownerAcc)
+    proposal = proposal.concat(await sellFYToken(pool, timelock.address, trade.minReceived))
   }
 
   // Transfer the base to the pools, including the euler bonus
@@ -108,9 +110,10 @@ const { developer, deployers, governance, protocol, newSeries, pools, newStrateg
 
   // Mint fyToken, pool and strategy tokens
   for (let mint of mints) {
+    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(mint.seriesId)!, ownerAcc)
     const pool = Pool__factory.connect(pools.getOrThrow(mint.seriesId)!, ownerAcc)
     const strategy = Strategy__factory.connect(mint.receiver, ownerAcc)
-    proposal = proposal.concat(await mintFYToken(timelock, cauldron, mint.seriesId, pools.getOrThrow(mint.seriesId)!, mint.amount))
+    proposal = proposal.concat(await mintFYToken(timelock, fyToken, pools.getOrThrow(mint.seriesId)!, mint.amount))
     proposal = proposal.concat(await mintPool(pool, strategy.address, timelock.address))
     proposal = proposal.concat(await mintStrategy(strategy, timelock.address))
   }

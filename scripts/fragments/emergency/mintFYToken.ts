@@ -1,16 +1,13 @@
 /**
  * @dev This script mints fyToken without backing it with collateral.
  */
-import { ethers } from 'hardhat'
 import { BigNumber } from 'ethers'
-import { getName, indent, id } from '../../../shared/helpers'
-import { Timelock, Cauldron } from '../../../typechain'
-import { FYToken__factory } from '../../../typechain/factories/@yield-protocol/vault-v2/contracts'
+import { indent, id } from '../../../shared/helpers'
+import { Timelock, FYToken } from '../../../typechain'
 
 export const mintFYToken = async (
   timelock: Timelock,
-  cauldron: Cauldron,
-  seriesId: string,
+  fyToken: FYToken,
   receiver: string,
   amount: BigNumber,
   nesting: number = 0
@@ -19,8 +16,6 @@ export const mintFYToken = async (
   console.log(indent(nesting, `MINT__FYTOKEN`))
   // Build the proposal
   const proposal: Array<{ target: string; data: string }> = []
-
-  const fyToken = FYToken__factory.connect((await cauldron.series(seriesId)).fyToken, ethers.provider)
 
   // Allow the timelock to mint fyToken
   proposal.push({
@@ -37,7 +32,7 @@ export const mintFYToken = async (
     target: fyToken.address,
     data: fyToken.interface.encodeFunctionData('mint', [receiver, amount]),
   })
-  console.log(indent(nesting, `Minted ${amount} of ${getName(seriesId)} to ${receiver}`));
+  console.log(indent(nesting, `Minted ${amount} of ${await fyToken.name()} to ${receiver}`));
 
   // Revoke the timelock's minting rights
   proposal.push({
