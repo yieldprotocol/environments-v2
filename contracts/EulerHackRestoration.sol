@@ -24,7 +24,7 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
         ladle = _ladle;
     }
 
-    function restore(bytes6 seriesId, uint amount) external auth {
+    function restore(bytes6 seriesId, address receiver, uint amount) external auth {
         IPool pool = IPool(ladle.pools(seriesId));
         IFYToken fyToken = IFYToken(address(pool.fyToken()));
         FlashJoin join = FlashJoin(address(ladle.joins(fyToken.underlyingId())));
@@ -32,7 +32,7 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
             abi.encode(address(pool)),
             abi.encode(address(fyToken)),
             abi.encode(address(join)),
-            abi.encode(msg.sender)
+            abi.encode(receiver)
         );
 
         join.flashLoan(this, join.asset(), amount, data);
@@ -45,7 +45,7 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
         uint256 fee,
         bytes calldata data
     ) external returns (bytes32) {
-        (address pool, address fyToken, address join, address timelock) = abi.decode(
+        (address pool, address fyToken, address join, address receiver) = abi.decode(
             data,
             (address, address, address, address)
         );
@@ -56,7 +56,7 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
 
         // Transfer the tokens to the pool, mint fyTokens, and buyBase
         IERC20(token).safeTransfer(pool, amount);
-        IPool(pool).mint(timelock, address(this), 0, type(uint256).max);
+        IPool(pool).mint(receiver, address(this), 0, type(uint256).max);
         uint128 fyTokenAmount = IPool(pool).buyBasePreview(amount.u128());
         IFYToken(fyToken).mint(pool, fyTokenAmount);
         IPool(pool).buyBase(address(this), amount.u128(), fyTokenAmount);
