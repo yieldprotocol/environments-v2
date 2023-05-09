@@ -1,4 +1,5 @@
 import { ethers } from 'hardhat'
+import { BigNumber } from 'ethers'
 import { ETH, DAI, USDC, USDT, FRAX } from '../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../shared/constants'
 import { FYETH2309, FYDAI2309, FYUSDC2309, FYUSDT2309 } from '../../../../shared/constants'
@@ -22,7 +23,7 @@ export const strategyAddresses: Map<string, string> = base_config.strategyAddres
 export const series: Map<string, Series> = base_config.series
 export const strategies: Map<string, Strategy> = base_config.strategies
 
-import { Series, Strategy, Strategy_V1 } from '../../confTypes'
+import { Series, Strategy, Transfer, PoolRestoration } from '../../confTypes'
 
 const eth = base_config.bases.getOrThrow(ETH)!
 const dai = base_config.bases.getOrThrow(DAI)!
@@ -129,63 +130,61 @@ const ysUSDT6MMS: Strategy = {
 
 export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS, ysUSDC6MMS, ysUSDT6MMS]
 
-interface Trade {
-  seriesId: string,
-  amount: string,
-  minReceived: string,
-}
-
-// The trades are calculated to drive the pools to close to the existing ratios in the march pools. Here we assume 1:1 and no slippage, so the ratios end a bit high
-export const trades: Array<Trade> = [
+// We transfer to the pools the base they contained before, plus the euler bonus according to pool base to fyToken ratio
+export const transfers: Array<Transfer> = [
   {
-    seriesId: FYETH2309,
-    amount: ethers.utils.parseUnits('0.038880', 18).toString(),
-    minReceived: '0',
+    token: eth,
+    receiver: pools.getOrThrow(FYETH2309)!,
+    amount: BigNumber.from('79099208301878100000'),
   },
   {
-    seriesId: FYDAI2309,
-    amount: ethers.utils.parseUnits('30.627619', 18).toString(),
-    minReceived: '0',
+    token: dai,
+    receiver: pools.getOrThrow(FYDAI2309)!,
+    amount: BigNumber.from('360547178067904000000000'),
   },
   {
-    seriesId: FYUSDC2309,
-    amount: ethers.utils.parseUnits('52.541045', 6).toString(),
-    minReceived: '0',
+    token: usdc,
+    receiver: pools.getOrThrow(FYUSDC2309)!,
+    amount: BigNumber.from('446324161144'),
   }
 ]
 
 interface Mint {
   seriesId: string,
   receiver: string,
-  baseAmount: string,
-  fyTokenAmount: string,
 }
 
-// For minting, we are sending to the pools roughly the balances in the March pools, with the base increased by 1% because ratios obtained are slightly high
-// If we achieve the perfect ratios, these should be the exact balances in the March pools
+// From the base transfer, we mint the first batch of pool tokens to the strategies
 export const mints: Array<Mint> = [
   {
     seriesId: FYETH2309,
     receiver: strategyAddresses.getOrThrow(YSETH6MMS)!,
-    baseAmount: '77700000000000000000',
-    fyTokenAmount: '49006807052994229991',
   },
   {
     seriesId: FYDAI2309,
     receiver: strategyAddresses.getOrThrow(YSDAI6MMS)!,
-    baseAmount: '355000000000000000000000',
-    fyTokenAmount: '155742829126709002996692',
   },
   {
     seriesId: FYUSDC2309,
     receiver: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-    baseAmount: '438000000000',
-    fyTokenAmount: '480444924178',
+  }
+]
+
+// For the second batch of pool tokens, we are flash borrowing underlying equal to the fyToken balances in the March pools. We mint pool tokens with that, and then buy the underlying back by minting fyToken.
+export const poolRestorations: Array<PoolRestoration> = [
+  {
+    seriesId: FYETH2309,
+    receiver: strategyAddresses.getOrThrow(YSETH6MMS)!,
+    amount: BigNumber.from('49006807052994200000'),
   },
   {
-    seriesId: FYUSDT2309,
-    receiver: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-    baseAmount: '195000000',
-    fyTokenAmount: '0',
+    seriesId: FYDAI2309,
+    receiver: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+    amount: BigNumber.from('155742829126709000000000'),
+  },
+  {
+    seriesId: FYUSDC2309,
+    receiver: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+    amount: BigNumber.from('480444924178'),
   }
 ]

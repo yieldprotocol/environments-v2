@@ -30,6 +30,22 @@ const { governance, protocol } = require(process.env.CONF as string)
     [
       "0x10A0FF000000",
       "0xD93A4d4B7051ff7A02C200DCC1b2168b0D31a34E"
+    ],
+    [
+      "0x1030FF000001",
+      "0xeeCF71B297B04E63615dc0E2BB31Aa45c7BAC559"
+    ],
+    [
+      "0x1031FF000001",
+      "0x3F84Cf9b39C2a2B10b2a8c16e913340a2029AD20"
+    ],
+    [
+      "0x1032FF000001",
+      "0xc442bf47D142941eeA0C50D7ca0D3C5a0Af469Ba"
+    ],
+    [
+      "0x10A0FF000001",
+      "0x16982D3301c398348Ec536004E7Ada6EA9C6C8f9"
     ]
   ]
 

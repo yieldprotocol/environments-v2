@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
+// This contract is a one-off and it is excluded from any bug bounty paid by the Yield Protocol
 pragma solidity >=0.8.15;
 import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
 import '@yield-protocol/vault-v2/src/interfaces/ILadle.sol';
@@ -10,7 +11,7 @@ import 'erc3156/contracts/interfaces/IERC3156FlashBorrower.sol';
 import '@yield-protocol/utils-v2/src/token/TransferHelper.sol';
 error FlashLoanFailure();
 
-contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
+contract PoolRestorer is AccessControl, IERC3156FlashBorrower {
     using TransferHelper for IERC20;
     using TransferHelper for IFYToken;
     using Cast for uint;
@@ -24,7 +25,8 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
         ladle = _ladle;
     }
 
-    function restore(bytes6 seriesId, address receiver, uint amount) external auth {
+    // Permissioned entry point to `restore`
+    function restore(bytes6 seriesId, address receiver, uint256 amount) external auth {
         IPool pool = IPool(ladle.pools(seriesId));
         IFYToken fyToken = IFYToken(address(pool.fyToken()));
         bytes6 underlyingId = fyToken.underlyingId();
@@ -39,6 +41,8 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
         join.flashLoan(this, join.asset(), amount, data);
     }
 
+    // This function can mint fyToken out of thin air, so we need to trust that it can only be called by authorized accounts.
+    // For safety, make sure all permissions are removed after use.
     function onFlashLoan(
         address initiator,
         address token,

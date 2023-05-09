@@ -6,12 +6,18 @@ import {
   Cauldron__factory,
   Ladle__factory,
   Witch__factory,
+  AccessControl__factory,
   FYToken__factory,
   Pool__factory,
   Strategy__factory,
+  PoolRestorer__factory,
 } from '../../../../typechain'
 
-import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../../shared/constants'
+import { id } from '../../../../shared/helpers'
+
+import { Permission } from '../../../governance/confTypes'
+
+import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, POOL_RESTORER } from '../../../../shared/constants'
 
 import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
 import { orchestrateFYToken } from '../../../fragments/assetsAndSeries/orchestrateFYToken'
@@ -19,13 +25,16 @@ import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
-import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
-import { sellFYToken } from '../../../fragments/emergency/sellFYToken'
+import { orchestratePoolRestorer } from '../../../fragments/emergency/orchestratePoolRestorer'
+import { isolatePoolRestorer } from '../../../fragments/emergency/isolatePoolRestorer'
+import { restorePool } from '../../../fragments/emergency/restorePool'
+import { grantPermission } from '../../../fragments/permissions/grantPermission'
+import { revokePermission } from '../../../fragments/permissions/revokePermission'
 import { sendTokens } from '../../../fragments/utils/sendTokens'
 import { mintPool } from '../../../fragments/emergency/mintPool'
 import { mintStrategy } from '../../../fragments/emergency/mintStrategy'
 
-const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, newStrategies, trades, transfers, mints } = require(process.env
+const { developer, deployers, governance, protocol, fyTokens, pools, newSeries, newStrategies, poolRestorations, transfers, mints } = require(process.env
   .CONF as string)
 
 /**
@@ -75,11 +84,12 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
       )
     )
   }
-
-  // Add June 2023 series
+  
+  // Add September 2023 series
   for (let series of newSeries) {
     proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
   }
+    
 
   // Init new strategies
   for (let strategy of newStrategies) {
@@ -92,29 +102,42 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
     proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
   }
 
-  // Return to previous ratio
-  for (let trade of trades) {
-    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(trade.seriesId)!, ownerAcc)
-    proposal = proposal.concat(await mintFYToken(timelock, fyToken, pools.getOrThrow(trade.seriesId)!, trade.amount))
-
-    const pool = Pool__factory.connect(pools.getOrThrow(trade.seriesId)!, ownerAcc)
-    proposal = proposal.concat(await sellFYToken(pool, timelock.address, trade.minReceived))
-  }
-
-  // Transfer the base to the pools, including the euler bonus
+  // Transfer the base to the pools
   for (let transfer of transfers) {
     proposal = proposal.concat(await sendTokens(timelock, transfer))
   }
-
-  // Mint fyToken, pool and strategy tokens
+  
+  // Use the base to mint the first batch of pool tokens
   for (let mint of mints) {
-    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(mint.seriesId)!, ownerAcc)
     const pool = Pool__factory.connect(pools.getOrThrow(mint.seriesId)!, ownerAcc)
     const strategy = Strategy__factory.connect(mint.receiver, ownerAcc)
-    proposal = proposal.concat(await mintFYToken(timelock, fyToken, pools.getOrThrow(mint.seriesId)!, mint.amount))
     proposal = proposal.concat(await mintPool(pool, strategy.address, timelock.address))
     proposal = proposal.concat(await mintStrategy(strategy, timelock.address))
   }
+  
+    // Orchestrate the poolRestorer
+    const poolRestorer = PoolRestorer__factory.connect(protocol.getOrThrow(POOL_RESTORER)!, ownerAcc)
+    proposal = proposal.concat(
+      await orchestratePoolRestorer(deployers.getOrThrow(poolRestorer.address), timelock, poolRestorer)
+    )
+
+  // Restore pools to their ratio and value:
+  // - A flash loan from the join to mint pool tokens restores the value
+  // - A mint of fyToken that buys the underlying back restores the ratio
+  // Then, use the pool tokens from both batches to mint strategy tokens
+  for (let poolRestoration of poolRestorations) {
+    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(poolRestoration.seriesId)!, ownerAcc)
+    const strategy = Strategy__factory.connect(poolRestoration.receiver, ownerAcc)
+    const mintFYTokenPermission: Permission = {functionName: id(fyToken.interface, 'mint(address,uint256)'), host: fyToken.address, user: poolRestorer.address}
+    proposal = proposal.concat(await grantPermission(mintFYTokenPermission))
+    proposal = proposal.concat(await restorePool(poolRestorer, poolRestoration))
+    proposal = proposal.concat(await mintStrategy(strategy, timelock.address))
+    proposal = proposal.concat(await revokePermission(mintFYTokenPermission))
+  }
+
+  // Isolate the poolRestorer
+  proposal = proposal.concat(await isolatePoolRestorer(timelock, poolRestorer))
+
 
   await propose(timelock, proposal, developer)
 })()

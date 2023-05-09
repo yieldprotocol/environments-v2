@@ -6,19 +6,23 @@
 6. migrateJunDebt.sh
 7. junStrategyTokenSwap.sh
 
-Timelock balances before:
+Timelock balances before hack:
 ETH: 999 999999 999997
 DAI: 5166 409160 352125 558200
 USDC: 999998
 USDT: 0
 FRAX: 999999 999999 999999
 
-Timelock balances after:
-ETH: 285069 930756 730337
-DAI: 6860 848605 838982 647442
-USDC: 1511 661174
-USDT: 0
-FRAX: 999999 999999 999999
+Timelock balances after June restoration:
+ETH: 64767428590159368672
+DAI: 380225828616263569792700
+USDC: 467094699541
+USDT: 229827777
+FRAX: 999999999999999998
+YSETH6MJD: 175161233004883854524
+YSDAI6MJD: 184250617037795795207342
+YSUSDC6MJD: 659452789995
+YSUSDT6MJD: 0
 
 Pool balances at the time of the hack:
 Pool: 0x1b2145139516cB97568B76a2FdbE37D2BCD61e63
@@ -112,3 +116,47 @@ Series: FYUSDT2309
 Pool base:               295000000
 Pool fyToken:            0
 Pool ratio:              0
+
+Pool balances after June restoration:
+Pool: 0x199C679De40E4381F7269ce809B90bC1CA2B36fB
+Series: FYETH2306B
+Pool cached base:        122874709980408644424
+Pool available base:     0
+Pool cached fyToken:     52480048349749416515
+Pool available fyToken:  0
+Pool maximum fyToken:    0
+Pool ratio:              2341360
+Pool mint ratio:         0
+
+
+Pool: 0xA7A72EAec55cf3A32daE258724F3993403481dfC
+Series: FYDAI2306B
+Pool cached base:        115538294275268390125089
+Pool available base:     0
+Pool cached fyToken:     68898277858620611521816
+Pool available fyToken:  0
+Pool maximum fyToken:    0
+Pool ratio:              1676940
+Pool mint ratio:         0
+
+
+Pool: 0x5EDc7A3994C57574Bb1eC5Fb12980c4028a9fd28
+Series: FYUSDC2306B
+Pool cached base:        165822064889
+Pool available base:     0
+Pool cached fyToken:     494842012197
+Pool available fyToken:  0
+Pool maximum fyToken:    0
+Pool ratio:              335101
+Pool mint ratio:         0
+
+
+Pool: 0x0b3E573D2c665014d2c74539012847daf2c611D0
+Series: FYUSDT2306B
+Pool cached base:        100000000
+Pool available base:     0
+Pool cached fyToken:     0
+Pool available fyToken:  0
+Pool maximum fyToken:    0
+Pool ratio:              0
+Pool mint ratio:         0

@@ -180,10 +180,6 @@
     [
       "identityOracle",
       "0x15D5667115c988dDD96FeCEE67A0A75207d58BFc"
-    ],
-    [
-      "poolRestorer",
-      "0x7A4ecB1b378bE6BFB0e4E84D7DeeC7E8ec5971d5"
     ]
   ]
 }

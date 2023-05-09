@@ -4,7 +4,7 @@ import { ETH, DAI, USDC, USDT } from '../../../../shared/constants'
 import { EOSEP23 } from '../../../../shared/constants'
 import { FYETH2309, FYDAI2309, FYUSDC2309, FYUSDT2309 } from '../../../../shared/constants'
 import { YSETH6MMS, YSDAI6MMS, YSUSDC6MMS, YSUSDT6MMS } from '../../../../shared/constants'
-import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR, COMPOUND } from '../../../../shared/constants'
+import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR, COMPOUND, POOL_RESTORER, LADLE } from '../../../../shared/constants'
 
 import { ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
 
@@ -215,5 +215,11 @@ export const contractDeployments: ContractDeployment[] = [
     libs: {
       SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
     },
+  },
+  {
+    addressFile: 'protocol.json',
+    name: POOL_RESTORER,
+    contract: 'PoolRestorer',
+    args: [() => protocol.getOrThrow(LADLE)!],
   },
 ]

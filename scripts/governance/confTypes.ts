@@ -114,3 +114,10 @@ export interface Strategy_V1 extends Asset {
   base: Base
   seriesToInvest: Strategy
 }
+
+// Temporary interface to restore September 2023 pools
+export interface PoolRestoration {
+  seriesId: string
+  receiver: string
+  amount: BigNumber
+}
