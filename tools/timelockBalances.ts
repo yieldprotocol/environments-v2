@@ -17,19 +17,19 @@ const { governance, protocol } = require(process.env.CONF as string)
   const addresses = [
     [
       "0x1030FF000000",
-      "0x24F5043810f7641773eFFa1B6038A93C9d36E603"
+      "0x5659f298A39E85cC9b384Afc0fd8FFB5e1CC3f0e"
     ],
     [
       "0x1031FF000000",
-      "0xa316B9c8de61af945450407b849bbd60DD16Dc90"
+      "0xF441c801331be910f9a60BCa778eB3a36D6858F3"
     ],
     [
       "0x1032FF000000",
-      "0x3D1CC35b9A5C579BEd234fa3aA683c6922ebcC89"
+      "0xfD4cd937752fcaF8Bac3A594c44A2abC069b617B"
     ],
     [
       "0x10A0FF000000",
-      "0xDDF9F056cb829Ec347054F7544c7252dd3bEf23E"
+      "0xD93A4d4B7051ff7A02C200DCC1b2168b0D31a34E"
     ]
   ]
 

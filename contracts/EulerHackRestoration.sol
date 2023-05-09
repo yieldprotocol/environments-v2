@@ -27,11 +27,12 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
     function restore(bytes6 seriesId, address receiver, uint amount) external auth {
         IPool pool = IPool(ladle.pools(seriesId));
         IFYToken fyToken = IFYToken(address(pool.fyToken()));
-        FlashJoin join = FlashJoin(address(ladle.joins(fyToken.underlyingId())));
+        bytes6 underlyingId = fyToken.underlyingId();
+        FlashJoin join = FlashJoin(address(ladle.joins(underlyingId)));
         bytes memory data = bytes.concat(
             abi.encode(address(pool)),
             abi.encode(address(fyToken)),
-            abi.encode(address(join)),
+            abi.encode(underlyingId),
             abi.encode(receiver)
         );
 
@@ -45,11 +46,13 @@ contract EulerHackRestoration is AccessControl, IERC3156FlashBorrower {
         uint256 fee,
         bytes calldata data
     ) external returns (bytes32) {
-        (address pool, address fyToken, address join, address receiver) = abi.decode(
+        (address pool, address fyToken, bytes6 underlyingId, address receiver) = abi.decode(
             data,
-            (address, address, address, address)
+            (address, address, bytes6, address)
         );
-        if (join != address(ladle.joins(underlyingId))|| initiator != address(this)) revert FlashLoanFailure();
+
+        // Verify that the lender is a trusted contract, and that the flash loan was initiated by this contract
+        if (msg.sender != address(ladle.joins(underlyingId)) || initiator != address(this)) revert FlashLoanFailure();
         
         // Now that we trust the lender, we approve the flash loan repayment
         IERC20(token).safeApprove(msg.sender, amount + fee);

@@ -160,17 +160,17 @@ export const transfers: Array<Transfer> = [
   {
     token: eth,
     receiver: pools.getOrThrow(FYETH2306B)!,
-    amount: BigNumber.from('122813755322744000000'),
+    amount: BigNumber.from('122861800457770000000'),
   },
   {
     token: dai,
     receiver: pools.getOrThrow(FYDAI2306B)!,
-    amount: BigNumber.from('115484005985477000000000'),
+    amount: BigNumber.from('115009544797928000000000'),
   },
   {
     token: usdc,
     receiver: pools.getOrThrow(FYUSDC2306B)!,
-    amount: BigNumber.from('165905265510'),
+    amount: BigNumber.from('166200245031'),
   }
 ]
 
@@ -185,16 +185,16 @@ export const mints: Array<Mint> = [
   {
     seriesId: FYETH2306B,
     receiver: strategyAddresses.getOrThrow(YSETH6MJD)!,
-    amount: '51088867752368200000',
+    amount: '51108832620722500000',
   },
   {
     seriesId: FYDAI2306B,
     receiver: strategyAddresses.getOrThrow(YSDAI6MJD)!,
-    amount: '67379612122936600000000',
+    amount: '67102785816889800000000',
   },
   {
     seriesId: FYUSDC2306B,
     receiver: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
-    amount: '481447213730',
+    amount: '482301827147',
   }
 ]

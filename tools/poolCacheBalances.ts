@@ -10,15 +10,15 @@ const pools: Map<string, string> = new Map([
   ],
   [
     "0x0031FF00028C",
-    "0x910f4b26EC52E71faE8944021E385FDBfC4Fa8C3"
+    "0x7b1d4f8362ea754A844b99A2984728b7AD344C16"
   ],
   [
     "0x0032FF00028C",
-    "0x0bdF152f6d899F4B63b9554ED98D9b9d22FFdee4"
+    "0xE82d98a8448A658408B5cD016eE482E3dAdf2738"
   ],
   [
     "0x00A0FF00028C",
-    "0xaCd0523Aca72CC58EC2f3d4C14F5473FC11c5C2D"
+    "0x6C6B64D6c56A3811776408Fb4Cb320A81abC35B4"
   ]
 ])
 
@@ -34,21 +34,21 @@ const pools: Map<string, string> = new Map([
     const poolTotalSupply = await pool.totalSupply()
     const poolCache = await pool.getCache()
     const poolBase = poolCache[0]
-    const poolAvailableBase = (await base.balanceOf(poolAddress)).sub(poolBase)
+//    const poolAvailableBase = (await base.balanceOf(poolAddress)).sub(poolBase)
     const poolFYToken = poolCache[1].sub(poolTotalSupply)
-    const poolAvailableFYToken = (await fyToken.balanceOf(poolAddress)).sub(poolFYToken)
+//    const poolAvailableFYToken = (await fyToken.balanceOf(poolAddress)).sub(poolFYToken)
     const ratio = poolFYToken.isZero() ? 0 : poolBase.mul(1000000).div(poolFYToken)
-    const mintRatio = poolAvailableFYToken.isZero() ? 0 : poolAvailableBase.mul(1000000).div(poolAvailableFYToken)
-    const poolMaximumFYToken = ratio === 0 ? 0 : poolAvailableBase.mul(1000000).div(ratio)
+//    const mintRatio = poolAvailableFYToken.isZero() ? 0 : poolAvailableBase.mul(1000000).div(poolAvailableFYToken)
+//    const poolMaximumFYToken = ratio === 0 ? 0 : poolAvailableBase.mul(1000000).div(ratio)
 
     console.log(`Series: ${getName(seriesId)}`)
     console.log(`Pool cached base:        ${poolBase}`)
-    console.log(`Pool available base:     ${poolAvailableBase}`)
+//    console.log(`Pool available base:     ${poolAvailableBase}`)
     console.log(`Pool cached fyToken:     ${poolFYToken}`)
-    console.log(`Pool available fyToken:  ${poolAvailableFYToken}`)
-    console.log(`Pool maximum fyToken:    ${poolMaximumFYToken}`)
+//    console.log(`Pool available fyToken:  ${poolAvailableFYToken}`)
+//    console.log(`Pool maximum fyToken:    ${poolMaximumFYToken}`)
     console.log(`Pool ratio:              ${ratio}`)
-    console.log(`Pool mint ratio:         ${mintRatio}`)
+//    console.log(`Pool mint ratio:         ${mintRatio}`)
     console.log(`\n`)
   }
 })()
