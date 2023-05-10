@@ -185,16 +185,16 @@ export const mints: Array<Mint> = [
   {
     seriesId: FYETH2306B,
     receiver: strategyAddresses.getOrThrow(YSETH6MJD)!,
-    amount: '51108832620722500000',
+    amount: '51108000000000000000',
   },
   {
     seriesId: FYDAI2306B,
     receiver: strategyAddresses.getOrThrow(YSDAI6MJD)!,
-    amount: '67102785816889800000000',
+    amount: '67102000000000000000000',
   },
   {
     seriesId: FYUSDC2306B,
     receiver: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
-    amount: '482301827147',
+    amount: '482300000000',
   }
 ]

@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { getName } from '../shared/helpers'
 import { Pool__factory } from '../typechain';
-import { ERC20__factory } from '../typechain/factories/@yield-protocol/utils-v2/contracts/token';
+import { ERC20__factory } from '../typechain';
 
 const pools: Map<string, string> = new Map([
   [
@@ -10,15 +10,31 @@ const pools: Map<string, string> = new Map([
   ],
   [
     "0x0031FF00028C",
-    "0x7b1d4f8362ea754A844b99A2984728b7AD344C16"
+    "0x1488646B72A188C82e0B35E0c28A3183E663e93f"
   ],
   [
     "0x0032FF00028C",
-    "0xE82d98a8448A658408B5cD016eE482E3dAdf2738"
+    "0x9d9DcF0035dB75F822A90a1d411aeB49F3ffc384"
   ],
   [
     "0x00A0FF00028C",
-    "0x6C6B64D6c56A3811776408Fb4Cb320A81abC35B4"
+    "0x8b5875837679DF564CAf260266a466Cce12F350f"
+  ],
+  [
+    "0x0030FF00028E",
+    "0xd06b8a687eB30cb6EE6410655d361cfB87F6b6da"
+  ],
+  [
+    "0x0031FF00028E",
+    "0x4BDD8761e730C6523562a011FD799b019BD46dfb"
+  ],
+  [
+    "0x0032FF00028E",
+    "0xBB5d1466bb671BE9b8Ff0f10Bcb761C386694600"
+  ],
+  [
+    "0x00A0FF00028E",
+    "0x34Cce6324576b9d31E01c36303CFb9438dc0AB76"
   ]
 ])
 
