@@ -13,17 +13,6 @@ USDC: 999998
 USDT: 0
 FRAX: 999999 999999 999999
 
-Timelock balances after June restoration:
-ETH: 64767428590159368672
-DAI: 380225828616263569792700
-USDC: 467094699541
-USDT: 229827777
-FRAX: 999999999999999998
-YSETH6MJD: 175161233004883854524
-YSDAI6MJD: 184250617037795795207342
-YSUSDC6MJD: 659452789995
-YSUSDT6MJD: 0
-
 Pool balances at the time of the hack:
 Pool: 0x1b2145139516cB97568B76a2FdbE37D2BCD61e63
 Series: FYETH2303
@@ -89,74 +78,76 @@ Combined:                96708056
 Ratio:                   -
 fyTokenIn:               0
 
+
+Timelock balances after restoration:
+ETH: 516146845877006550
+DAI: 20048939004992741978308
+USDC: 20311373131
+USDT: 129827777
+FRAX: 999999999999999998
+YSETH6MJD: 173876717527907390911
+YSDAI6MJD: 182026100521581669692081
+YSUSDC6MJD: 647405622307
+YSUSDT6MJD: 0
+YSETH6MMS: 128106015354872300000
+YSDAI6MMS: 516290007194613000000000
+YSUSDC6MMS: 926769085322
+YSUSDT6MMS: 0
+
 Pool balances after restoration:
-Pool: 0x294F9F0961e1fC4C76833E9F97d9CD32de44a5dA
+
+Pool: 0xd06b8a687eB30cb6EE6410655d361cfB87F6b6da
 Series: FYETH2309
-Pool base:               77515930069243269660
-Pool fyToken:            49045687052994229991
-Pool ratio:              1580484
+Pool cached base:        79199208301878100000
+Pool cached fyToken:     49322501621831715568
+Pool ratio:              1605741
 
 
-Pool: 0xff7aE7Ac1D4BC90B668ed78020bec094849a63B6
+Pool: 0x4BDD8761e730C6523562a011FD799b019BD46dfb
 Series: FYDAI2309
-Pool base:               353405560554513142910758
-Pool fyToken:            155773456745709002996692
-Pool ratio:              2268714
+Pool cached base:        360647178067904000000000
+Pool cached fyToken:     156176800546684895317810
+Pool ratio:              2309223
 
 
-Pool: 0x66e4CFF9844e3aa9f1b7aCcf8eAf3C36972f1B94
+Pool: 0xBB5d1466bb671BE9b8Ff0f10Bcb761C386694600
 Series: FYUSDC2309
-Pool base:               436589338824
-Pool fyToken:            480497465223
-Pool ratio:              908619
+Pool cached base:        446424161144
+Pool cached fyToken:     482393804036
+Pool ratio:              925435
 
 
-Pool: 0x0d0f76f786b55ba0a22fb2798E6638C142123B35
+Pool: 0x34Cce6324576b9d31E01c36303CFb9438dc0AB76
 Series: FYUSDT2309
-Pool base:               295000000
-Pool fyToken:            0
+Pool cached base:        100000000
+Pool cached fyToken:     0
 Pool ratio:              0
 
-Pool balances after June restoration:
-Pool: 0x199C679De40E4381F7269ce809B90bC1CA2B36fB
+Pool: 0x60995D90B45169eB04F1ea9463443a62B83ab1c1
 Series: FYETH2306B
-Pool cached base:        122874709980408644424
-Pool available base:     0
-Pool cached fyToken:     52480048349749416515
-Pool available fyToken:  0
-Pool maximum fyToken:    0
-Pool ratio:              2341360
-Pool mint ratio:         0
+Pool cached base:        122926791632155720855
+Pool cached fyToken:     51137393239489811000
+Pool ratio:              2403853
 
 
-Pool: 0xA7A72EAec55cf3A32daE258724F3993403481dfC
+Pool: 0x1488646B72A188C82e0B35E0c28A3183E663e93f
 Series: FYDAI2306B
-Pool cached base:        115538294275268390125089
-Pool available base:     0
-Pool cached fyToken:     68898277858620611521816
-Pool available fyToken:  0
-Pool maximum fyToken:    0
-Pool ratio:              1676940
-Pool mint ratio:         0
+Pool cached base:        115068005818635217939481
+Pool cached fyToken:     67138863944130937500000
+Pool ratio:              1713880
 
 
-Pool: 0x5EDc7A3994C57574Bb1eC5Fb12980c4028a9fd28
+Pool: 0x9d9DcF0035dB75F822A90a1d411aeB49F3ffc384
 Series: FYUSDC2306B
-Pool cached base:        165822064889
-Pool available base:     0
-Pool cached fyToken:     494842012197
-Pool available fyToken:  0
-Pool maximum fyToken:    0
-Pool ratio:              335101
-Pool mint ratio:         0
+Pool cached base:        166181230155
+Pool cached fyToken:     482374497345
+Pool ratio:              344506
 
 
-Pool: 0x0b3E573D2c665014d2c74539012847daf2c611D0
+Pool: 0x8b5875837679DF564CAf260266a466Cce12F350f
 Series: FYUSDT2306B
 Pool cached base:        100000000
-Pool available base:     0
 Pool cached fyToken:     0
-Pool available fyToken:  0
-Pool maximum fyToken:    0
 Pool ratio:              0
-Pool mint ratio:         0
+
+alcueca@localhost environments-v2 %    
