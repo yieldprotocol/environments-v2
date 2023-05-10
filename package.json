@@ -30,7 +30,7 @@
     "@types/mocha": "^8.0.0",
     "@yield-protocol/strategy-v2": "2.0.3",
     "@yield-protocol/utils-v2": "2.6.16",
-    "@yield-protocol/vault-v2": "0.18.12",
+    "@yield-protocol/vault-v2": "0.18.14",
     "@yield-protocol/yieldspace-tv": "0.1.10",    
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
