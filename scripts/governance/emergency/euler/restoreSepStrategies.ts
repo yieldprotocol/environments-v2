@@ -11,18 +11,21 @@ import {
   Pool__factory,
   Strategy__factory,
   PoolRestorer__factory,
+  AccumulatorMultiOracle__factory,
 } from '../../../../typechain'
 
 import { id } from '../../../../shared/helpers'
 
 import { Permission } from '../../../governance/confTypes'
 
-import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, POOL_RESTORER } from '../../../../shared/constants'
+import { ZERO, RATE } from '../../../../shared/constants'
+import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, POOL_RESTORER, ACCUMULATOR } from '../../../../shared/constants'
 
 import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
 import { orchestrateFYToken } from '../../../fragments/assetsAndSeries/orchestrateFYToken'
 import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
+import { updateAccumulatorPerSecondRate } from '../../../fragments/oracles/updateAccumulatorPerSecondRate'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { orchestratePoolRestorer } from '../../../fragments/emergency/orchestratePoolRestorer'
@@ -33,6 +36,7 @@ import { revokePermission } from '../../../fragments/permissions/revokePermissio
 import { sendTokens } from '../../../fragments/utils/sendTokens'
 import { mintPool } from '../../../fragments/emergency/mintPool'
 import { mintStrategy } from '../../../fragments/emergency/mintStrategy'
+import { BigNumber } from 'ethers'
 
 const { developer, deployers, governance, protocol, fyTokens, pools, newSeries, newStrategies, poolRestorations, transfers, mints } = require(process.env
   .CONF as string)
@@ -84,12 +88,22 @@ const { developer, deployers, governance, protocol, fyTokens, pools, newSeries, 
       )
     )
   }
+
+  // Update the per second rate on accumulators
+  const accumulator = AccumulatorMultiOracle__factory.connect(protocol.getOrThrow(ACCUMULATOR)!, ownerAcc)
+  for (let series of newSeries) {
+    proposal = proposal.concat(await updateAccumulatorPerSecondRate(accumulator, {
+      baseId: series.base.assetId,
+      kind: RATE,
+      startRate: ZERO, // Ignored
+      perSecondRate: BigNumber.from('1000000001546067000') // 5%
+    }))
+  } 
   
   // Add September 2023 series
   for (let series of newSeries) {
     proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
   }
-    
 
   // Init new strategies
   for (let strategy of newStrategies) {

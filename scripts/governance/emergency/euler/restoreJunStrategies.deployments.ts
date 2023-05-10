@@ -53,7 +53,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => ETH,
-      () => protocol.getOrThrow(COMPOUND),
+      () => protocol.getOrThrow(ACCUMULATOR),
       () => joins.getOrThrow(ETH),
       () => EOJUN23,
       () => 'FYETH2306B',
@@ -69,7 +69,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => DAI,
-      () => protocol.getOrThrow(COMPOUND),
+      () => protocol.getOrThrow(ACCUMULATOR),
       () => joins.getOrThrow(DAI),
       () => EOJUN23,
       () => 'FYDAI2306B',
@@ -85,7 +85,7 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'FYToken',
     args: [
       () => USDC,
-      () => protocol.getOrThrow(COMPOUND),
+      () => protocol.getOrThrow(ACCUMULATOR),
       () => joins.getOrThrow(USDC),
       () => EOJUN23,
       () => 'FYUSDC2306B',
