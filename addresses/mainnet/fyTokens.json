@@ -96,6 +96,22 @@
     [
       "0x00A0FF00028C",
       "0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74"
+    ],
+    [
+      "0x0030FF00028E",
+      "0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB"
+    ],
+    [
+      "0x0031FF00028E",
+      "0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa"
+    ],
+    [
+      "0x0032FF00028E",
+      "0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2"
+    ],
+    [
+      "0x00A0FF00028E",
+      "0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0"
     ]
   ]
 }
