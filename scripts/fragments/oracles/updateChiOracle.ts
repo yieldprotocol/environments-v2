@@ -3,13 +3,13 @@ import { ORACLE_PARAM } from '../../../shared/constants'
 
 import { FYToken } from '../../../typechain'
 
-export const updateFYTokenOracle = async (
+export const updateChiOracle = async (
   fyToken: FYToken,
   oracle: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
-  console.log(indent(nesting, `UPDATE_FYTOKEN_ORACLE`))
+  console.log(indent(nesting, `UPDATE_CHI_ORACLE`))
 
   const proposal: Array<{ target: string; data: string }> = []
 

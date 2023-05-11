@@ -22,7 +22,8 @@ import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { orchestrateAccumulatorOracle } from '../../../fragments/oracles/orchestrateAccumulatorOracle'
 import { updateAccumulatorPerSecondRate } from '../../../fragments/oracles/updateAccumulatorPerSecondRate'
-import { updateFYTokenOracle } from '../../../fragments/oracles/updateFYTokenOracle'
+import { updateChiOracle } from '../../../fragments/oracles/updateChiOracle'
+import { updateRateOracle } from '../../../fragments/oracles/updateRateOracle'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
@@ -86,8 +87,8 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
     )
   }
 
-  // Update the per second rate on accumulators
   for (let series of newSeries) {
+    // Update the per second rate on accumulators
     proposal = proposal.concat(await updateAccumulatorPerSecondRate(accumulator, {
       baseId: series.base.assetId,
       kind: RATE,
@@ -95,14 +96,13 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
       perSecondRate: FIVE_PC
     }))
 
-    // Also update the fyToken oracles to point to the accumulator
+    // Update the fyToken oracles to point to the accumulator
     const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(series.seriesId)!, ownerAcc)
-    proposal = proposal.concat(await updateFYTokenOracle(fyToken, accumulator.address))
+    proposal = proposal.concat(await updateChiOracle(fyToken, accumulator.address))
+
+    // Update the cauldron to use the accumulator as a rate oracle
+    proposal = proposal.concat(await updateRateOracle(cauldron, series.base.assetId, accumulator.address))
   }
-
-  
-
-  
 
   // Add June 2023 series
   for (let series of newSeries) {
