@@ -2,7 +2,7 @@
  * @dev This script replaces one or more chi data sources in the AccumulatorMultiOracle.
  */
 
-import { getName, indent } from '../../../shared/helpers'
+import { getName, indent, bytes6ToBytes32 } from '../../../shared/helpers'
 import { AccumulatorMultiOracle } from '../../../typechain'
 import { Accumulator } from '../../governance/confTypes'
 
@@ -17,6 +17,16 @@ export const updateAccumulatorPerSecondRate = async (
 
   // Build proposal
   const proposal: Array<{ target: string; data: string }> = []
+
+  // The accumulator needs to be updated in the same block as its per second rate
+  proposal.push({
+    target: accumulatorOracle.address,
+    data: accumulatorOracle.interface.encodeFunctionData('get', [
+      bytes6ToBytes32(accumulator.baseId),
+      bytes6ToBytes32(accumulator.kind),
+      0,
+    ]),
+  })
 
   proposal.push({
     target: accumulatorOracle.address,

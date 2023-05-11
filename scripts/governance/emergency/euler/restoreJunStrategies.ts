@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers'
 import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 
 import {
@@ -9,14 +10,19 @@ import {
   FYToken__factory,
   Pool__factory,
   Strategy__factory,
+  AccumulatorMultiOracle__factory,
 } from '../../../../typechain'
 
-import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../../shared/constants'
+import { ZERO, RATE, FIVE_PC } from '../../../../shared/constants'
+import { MULTISIG, TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, ACCUMULATOR } from '../../../../shared/constants'
 
 import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
 import { orchestrateFYToken } from '../../../fragments/assetsAndSeries/orchestrateFYToken'
 import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
+import { orchestrateAccumulatorOracle } from '../../../fragments/oracles/orchestrateAccumulatorOracle'
+import { updateAccumulatorPerSecondRate } from '../../../fragments/oracles/updateAccumulatorPerSecondRate'
+import { updateFYTokenOracle } from '../../../fragments/oracles/updateFYTokenOracle'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { initStrategy } from '../../../fragments/strategies/initStrategy'
 import { mintFYToken } from '../../../fragments/emergency/mintFYToken'
@@ -39,9 +45,13 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
   const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE)!, ownerAcc)
   const witch = Witch__factory.connect(protocol.getOrThrow(WITCH)!, ownerAcc)
+  const accumulator = AccumulatorMultiOracle__factory.connect(protocol.getOrThrow(ACCUMULATOR)!, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
+
+  // Re-orchestrate the accumulator oracle
+  proposal = proposal.concat(await orchestrateAccumulatorOracle('', accumulator, timelock, cloak))
 
   // Orchestrate new series contracts
   for (let series of newSeries) {
@@ -75,6 +85,24 @@ const { developer, deployers, governance, protocol, newSeries, fyTokens, pools, 
       )
     )
   }
+
+  // Update the per second rate on accumulators
+  for (let series of newSeries) {
+    proposal = proposal.concat(await updateAccumulatorPerSecondRate(accumulator, {
+      baseId: series.base.assetId,
+      kind: RATE,
+      startRate: ZERO, // Ignored
+      perSecondRate: FIVE_PC
+    }))
+
+    // Also update the fyToken oracles to point to the accumulator
+    const fyToken = FYToken__factory.connect(fyTokens.getOrThrow(series.seriesId)!, ownerAcc)
+    proposal = proposal.concat(await updateFYTokenOracle(fyToken, accumulator.address))
+  }
+
+  
+
+  
 
   // Add June 2023 series
   for (let series of newSeries) {

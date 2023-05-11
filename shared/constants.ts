@@ -10,6 +10,7 @@ export const ONEWBTC = BigNumber.from(10).pow(8)
 export const RAY = BigNumber.from(10).pow(27)
 export const MAX128 = BigNumber.from(2).pow(128).sub(1)
 export const MAX256 = BigNumber.from(2).pow(256).sub(1)
+export const FIVE_PC = BigNumber.from('1000000001546067000') // Per second rate
 export const THREE_MONTHS: number = 3 * 30 * 24 * 60 * 60
 export const ROOT = '0x00000000'
 
@@ -32,6 +33,7 @@ export const RATE = stringToBytes6('RATE')
 export const G1 = stringToBytes6('g1')
 export const G2 = stringToBytes6('g2')
 export const TS = stringToBytes6('ts')
+export const ORACLE_PARAM = ethers.utils.formatBytes32String('oracle')
 
 // Return the timestamp of the next Yield maturity from a given timestamp
 function nextYieldMaturity(timestamp: number): number {
