@@ -21,14 +21,6 @@ export const orchestrateVYToken = async (
   let proposal: Array<{ target: string; data: string }> = []
   // Give access to each of the governance functions to the timelock, through a proposal to bundle them
   // Give ROOT to the cloak, revoke ROOT from the deployer
-  proposal.push({
-    target: vyToken.address,
-    data: vyToken.interface.encodeFunctionData('grantRole', [
-      id(vyToken.interface, 'setFlashFeeFactor(uint256)'),
-      timelock.address,
-    ]),
-  })
-  console.log(indent(nesting, `vyToken.grantRoles(gov, timelock)`))
 
   proposal.push({
     target: vyToken.address,

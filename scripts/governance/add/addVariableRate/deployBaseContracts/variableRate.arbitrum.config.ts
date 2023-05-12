@@ -154,7 +154,13 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'ERC1967Proxy',
     args: [
       () => vyTokens.getOrThrow(VYETH_IMPLEMENTATION)!,
-      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+      () =>
+        VYToken__factory.createInterface().encodeFunctionData('initialize', [
+          governance.getOrThrow(TIMELOCK)!,
+          'VYETH',
+          'VYETH',
+          18,
+        ]),
     ],
   },
   {
@@ -178,7 +184,13 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'ERC1967Proxy',
     args: [
       () => vyTokens.getOrThrow(VYDAI_IMPLEMENTATION)!,
-      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+      () =>
+        VYToken__factory.createInterface().encodeFunctionData('initialize', [
+          governance.getOrThrow(TIMELOCK)!,
+          'VYDAI',
+          'VYDAI',
+          18,
+        ]),
     ],
   },
   {
@@ -202,7 +214,13 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'ERC1967Proxy',
     args: [
       () => vyTokens.getOrThrow(VYUSDC_IMPLEMENTATION)!,
-      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+      () =>
+        VYToken__factory.createInterface().encodeFunctionData('initialize', [
+          governance.getOrThrow(TIMELOCK)!,
+          'VYUSDC',
+          'VYUSDC',
+          6,
+        ]),
     ],
   },
   {
@@ -226,7 +244,13 @@ export const contractDeployments: ContractDeployment[] = [
     contract: 'ERC1967Proxy',
     args: [
       () => vyTokens.getOrThrow(VYUSDT_IMPLEMENTATION)!,
-      () => VYToken__factory.createInterface().encodeFunctionData('initialize', [governance.getOrThrow(TIMELOCK)!]),
+      () =>
+        VYToken__factory.createInterface().encodeFunctionData('initialize', [
+          governance.getOrThrow(TIMELOCK)!,
+          'YVUSDT',
+          'VYUSDT',
+          18,
+        ]),
     ],
   },
 ]
@@ -273,32 +297,32 @@ export const basesToAdd: Base[] = [
   },
 ]
 
-// export const accumulatorSources: Accumulator[] = [
-//   {
-//     baseId: ETH,
-//     kind: RATE,
-//     startRate: WAD,
-//     perSecondRate: WAD,
-//   },
-//   {
-//     baseId: DAI,
-//     kind: RATE,
-//     startRate: WAD,
-//     perSecondRate: WAD,
-//   },
-//   {
-//     baseId: USDT,
-//     kind: RATE,
-//     startRate: WAD,
-//     perSecondRate: WAD,
-//   },
-//   {
-//     baseId: USDC,
-//     kind: RATE,
-//     startRate: WAD,
-//     perSecondRate: WAD,
-//   },
-// ]
+export const accumulatorSources: Accumulator[] = [
+  {
+    baseId: ETH,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: DAI,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: USDT,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+  {
+    baseId: USDC,
+    kind: RATE,
+    startRate: WAD,
+    perSecondRate: WAD,
+  },
+]
 
 export const variableInterestRateOracleSources: VariableInterestRateOracleSource[] = [
   {
@@ -482,6 +506,214 @@ export const ilks: Ilk[] = [
     auctionLineAndLimit: {
       baseId: DAI,
       ilkId: USDC,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: DAI,
+    ilkId: USDT,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: DAI,
+      ilkId: USDT,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: DAI,
+      ilkId: USDT,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: DAI,
+      ilkId: USDT,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: DAI,
+    ilkId: ETH,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: DAI,
+      ilkId: ETH,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: DAI,
+      ilkId: ETH,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: DAI,
+      ilkId: ETH,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDC,
+    ilkId: DAI,
+    asset: assetsToAdd[2],
+    collateralization: {
+      baseId: USDC,
+      ilkId: DAI,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDC,
+      ilkId: DAI,
+      line: 150,
+      dust: 1,
+      dec: 6,
+    },
+    auctionLineAndLimit: {
+      baseId: USDC,
+      ilkId: DAI,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDC,
+    ilkId: USDT,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: USDC,
+      ilkId: USDT,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDC,
+      ilkId: USDT,
+      line: 150,
+      dust: 1,
+      dec: 6,
+    },
+    auctionLineAndLimit: {
+      baseId: USDC,
+      ilkId: USDT,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDC,
+    ilkId: ETH,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: USDC,
+      ilkId: ETH,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDC,
+      ilkId: ETH,
+      line: 150,
+      dust: 1,
+      dec: 6,
+    },
+    auctionLineAndLimit: {
+      baseId: USDC,
+      ilkId: ETH,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDT,
+    ilkId: USDC,
+    asset: assetsToAdd[2],
+    collateralization: {
+      baseId: USDT,
+      ilkId: USDC,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDT,
+      ilkId: USDC,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: USDT,
+      ilkId: USDC,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDT,
+    ilkId: DAI,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: USDT,
+      ilkId: USDT,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDT,
+      ilkId: DAI,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: USDT,
+      ilkId: DAI,
+      duration: 3600,
+      vaultProportion: parseUnits('0.5'),
+      collateralProportion: parseUnits('0.78947368'), // 105 / 133
+      max: parseUnits('1000'),
+    },
+  },
+  {
+    baseId: USDT,
+    ilkId: ETH,
+    asset: assetsToAdd[1],
+    collateralization: {
+      baseId: USDT,
+      ilkId: ETH,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      ratio: 1330000,
+    },
+    debtLimits: {
+      baseId: USDT,
+      ilkId: ETH,
+      line: 150,
+      dust: 1,
+      dec: 18,
+    },
+    auctionLineAndLimit: {
+      baseId: USDT,
+      ilkId: ETH,
       duration: 3600,
       vaultProportion: parseUnits('0.5'),
       collateralProportion: parseUnits('0.78947368'), // 105 / 133
