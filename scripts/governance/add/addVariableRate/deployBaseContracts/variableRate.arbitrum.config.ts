@@ -25,6 +25,7 @@ import {
   VYUSDC,
   VYUSDC_IMPLEMENTATION,
   WAD,
+  ONEUSDC,
 } from '../../../../../shared/constants'
 import { Accumulator, Asset, Base, ContractDeployment, Ilk, VariableInterestRateOracleSource } from '../../../confTypes'
 import * as base_config from '../../../base.arb_mainnet.config'
@@ -415,23 +416,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: ETH,
       ilkId: DAI,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1400000,
     },
     debtLimits: {
       baseId: ETH,
       ilkId: DAI,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 18,
     },
     auctionLineAndLimit: {
       baseId: ETH,
       ilkId: DAI,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100000), // $100k
     },
   },
   {
@@ -441,25 +442,26 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: ETH,
       ilkId: USDC,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1400000,
     },
     debtLimits: {
       baseId: ETH,
       ilkId: USDC,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 18,
     },
     auctionLineAndLimit: {
       baseId: ETH,
       ilkId: USDC,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100000), // $100k
     },
   },
+  //TODO: update this
   {
     baseId: ETH,
     ilkId: USDT,
@@ -467,7 +469,7 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: ETH,
       ilkId: USDT,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
       ratio: 1330000,
     },
     debtLimits: {
@@ -493,25 +495,26 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: DAI,
       ilkId: USDC,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1100000,
     },
     debtLimits: {
       baseId: DAI,
       ilkId: USDC,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 18,
     },
     auctionLineAndLimit: {
       baseId: DAI,
       ilkId: USDC,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD,
+      collateralProportion: WAD.mul(1050000).div(1100000),
+      max: ONEUSDC.mul(100000),
     },
   },
+  //TODO: update this
   {
     baseId: DAI,
     ilkId: USDT,
@@ -519,7 +522,7 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: DAI,
       ilkId: USDT,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
       ratio: 1330000,
     },
     debtLimits: {
@@ -545,23 +548,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: DAI,
       ilkId: ETH,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1400000,
     },
     debtLimits: {
       baseId: DAI,
       ilkId: ETH,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 18,
     },
     auctionLineAndLimit: {
       baseId: DAI,
       ilkId: ETH,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100000), // $100k
     },
   },
   {
@@ -571,25 +574,26 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDC,
       ilkId: DAI,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1100000,
     },
     debtLimits: {
       baseId: USDC,
       ilkId: DAI,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 6,
     },
     auctionLineAndLimit: {
       baseId: USDC,
       ilkId: DAI,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100), // $100k
     },
   },
+  //TODO: update this
   {
     baseId: USDC,
     ilkId: USDT,
@@ -597,7 +601,7 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDC,
       ilkId: USDT,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
       ratio: 1330000,
     },
     debtLimits: {
@@ -623,23 +627,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDC,
       ilkId: ETH,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1400000,
     },
     debtLimits: {
       baseId: USDC,
       ilkId: ETH,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 6,
     },
     auctionLineAndLimit: {
       baseId: USDC,
       ilkId: ETH,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100), // $100k
     },
   },
   {
@@ -649,23 +653,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDT,
       ilkId: USDC,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1100000,
     },
     debtLimits: {
       baseId: USDT,
       ilkId: USDC,
-      line: 150,
-      dust: 1,
-      dec: 18,
+      line: 100000,
+      dust: 100,
+      dec: 6,
     },
     auctionLineAndLimit: {
       baseId: USDT,
       ilkId: USDC,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD,
+      collateralProportion: WAD.mul(1050000).div(1100000),
+      max: base_config.ONEUSDT.mul(10000000),
     },
   },
   {
@@ -675,23 +679,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDT,
       ilkId: USDT,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1100000,
     },
     debtLimits: {
       baseId: USDT,
       ilkId: DAI,
-      line: 150,
-      dust: 1,
-      dec: 18,
+      line: 100000,
+      dust: 100,
+      dec: 6,
     },
     auctionLineAndLimit: {
       baseId: USDT,
       ilkId: DAI,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD,
+      collateralProportion: WAD.mul(1050000).div(1100000),
+      max: WAD.mul(10000000),
     },
   },
   {
@@ -701,23 +705,23 @@ export const ilks: Ilk[] = [
     collateralization: {
       baseId: USDT,
       ilkId: ETH,
-      oracle: protocol().getOrThrow(CHAINLINKUSD)! as string,
-      ratio: 1330000,
+      oracle: protocol().getOrThrow(CHAINLINKUSD)!,
+      ratio: 1400000,
     },
     debtLimits: {
       baseId: USDT,
       ilkId: ETH,
-      line: 150,
-      dust: 1,
-      dec: 18,
+      line: 100000,
+      dust: 100,
+      dec: 6,
     },
     auctionLineAndLimit: {
       baseId: USDT,
       ilkId: ETH,
       duration: 3600,
-      vaultProportion: parseUnits('0.5'),
-      collateralProportion: parseUnits('0.78947368'), // 105 / 133
-      max: parseUnits('1000'),
+      vaultProportion: WAD.div(2),
+      collateralProportion: WAD.mul(1050000).div(1400000),
+      max: WAD.mul(100), // $100k
     },
   },
 ]
