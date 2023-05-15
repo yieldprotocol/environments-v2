@@ -408,7 +408,7 @@ export const variableInterestRateOracleSources: VariableInterestRateOracleSource
   },
 ]
 
-export const ilks: Ilk[] = [
+const ilksETH: Ilk[] = [
   {
     baseId: ETH,
     ilkId: DAI,
@@ -422,8 +422,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: DAI,
-      line: 100000,
-      dust: 100,
+      line: 50,
+      dust: 1,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -448,8 +448,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: USDC,
-      line: 100000,
-      dust: 100,
+      line: 50,
+      dust: 1,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -461,7 +461,6 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100000), // $100k
     },
   },
-  //TODO: update this
   {
     baseId: ETH,
     ilkId: USDT,
@@ -475,7 +474,7 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: USDT,
-      line: 150,
+      line: 50,
       dust: 1,
       dec: 18,
     },
@@ -488,6 +487,9 @@ export const ilks: Ilk[] = [
       max: parseUnits('1000'),
     },
   },
+]
+
+const ilksDAI: Ilk[] = [
   {
     baseId: DAI,
     ilkId: USDC,
@@ -514,7 +516,6 @@ export const ilks: Ilk[] = [
       max: ONEUSDC.mul(100000),
     },
   },
-  //TODO: update this
   {
     baseId: DAI,
     ilkId: USDT,
@@ -528,8 +529,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: DAI,
       ilkId: USDT,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -567,6 +568,9 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100000), // $100k
     },
   },
+]
+
+const ilksUSDC: Ilk[] = [
   {
     baseId: USDC,
     ilkId: DAI,
@@ -593,7 +597,6 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100), // $100k
     },
   },
-  //TODO: update this
   {
     baseId: USDC,
     ilkId: USDT,
@@ -607,8 +610,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: USDC,
       ilkId: USDT,
-      line: 150,
-      dust: 1,
+      line: 100000,
+      dust: 100,
       dec: 6,
     },
     auctionLineAndLimit: {
@@ -646,6 +649,9 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100), // $100k
     },
   },
+]
+
+const ilksUSDT: Ilk[] = [
   {
     baseId: USDT,
     ilkId: USDC,
@@ -725,5 +731,7 @@ export const ilks: Ilk[] = [
     },
   },
 ]
+
+export const ilks = [ilksETH, ilksDAI, ilksUSDC, ilksUSDT]
 
 export const vyTokensToAdd = [VYETH, VYDAI, VYUSDC, VYUSDT]

@@ -384,7 +384,7 @@ export const variableInterestRateOracleSources: VariableInterestRateOracleSource
   },
 ]
 
-export const ilks: Ilk[] = [
+const ilksETH: Ilk[] = [
   {
     baseId: ETH,
     ilkId: DAI,
@@ -398,8 +398,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: DAI,
-      line: 100000,
-      dust: 1000,
+      line: 50,
+      dust: 1,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -424,8 +424,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: USDC,
-      line: 100000,
-      dust: 1000,
+      line: 50,
+      dust: 1,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -450,8 +450,8 @@ export const ilks: Ilk[] = [
     debtLimits: {
       baseId: ETH,
       ilkId: FRAX,
-      line: 100000,
-      dust: 1000,
+      line: 50,
+      dust: 1,
       dec: 18,
     },
     auctionLineAndLimit: {
@@ -463,6 +463,9 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100000),
     },
   },
+]
+
+const ilksDAI: Ilk[] = [
   {
     baseId: DAI,
     ilkId: USDC,
@@ -547,6 +550,9 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100000),
     },
   },
+]
+
+const ilksUSDC: Ilk[] = [
   {
     baseId: USDC,
     ilkId: ETH,
@@ -634,6 +640,9 @@ export const ilks: Ilk[] = [
       max: WAD.mul(100000),
     },
   },
+]
+
+const ilksFRAX: Ilk[] = [
   {
     baseId: FRAX,
     ilkId: USDC,
@@ -722,5 +731,7 @@ export const ilks: Ilk[] = [
     },
   },
 ]
+
+export const ilks = [ilksETH, ilksDAI, ilksUSDC, ilksFRAX]
 
 export const vyTokensToAdd = [VYETH, VYDAI, VYUSDC, VYFRAX]
