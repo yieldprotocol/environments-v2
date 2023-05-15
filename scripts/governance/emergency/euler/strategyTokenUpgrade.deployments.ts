@@ -1,4 +1,4 @@
-import { TOKEN_SWAP } from '../../../../shared/constants'
+import { TOKEN_UPGRADE } from '../../../../shared/constants'
 
 import { ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
 
@@ -21,11 +21,11 @@ export const strategies = () => readAddressMappingIfExists('strategies.json')
 
 // ----- deployment parameters -----
 export const contractDeployments: ContractDeployment[] = [
-  /// @notice Deploy TokenSwap
+  /// @notice Deploy TokenUpgrade
   {
     addressFile: 'protocol.json',
-    name: TOKEN_SWAP,
-    contract: 'TokenSwap',
+    name: TOKEN_UPGRADE,
+    contract: 'TokenUpgrade',
     args: [],
   },
 ]

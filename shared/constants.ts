@@ -203,7 +203,7 @@ export const ONCHAINTEST = 'onChainTest'
 export const HEALER = 'healerModule'
 export const ASSERT = 'assert'
 export const LIMITED_ASSERT = 'limitedAssert'
-export const TOKEN_SWAP = 'tokenSwap'
+export const TOKEN_UPGRADE = 'tokenUpgrade'
 export const POOL_RESTORER = 'poolRestorer'
 
 export const LIDO_PROVIDER = '10'

@@ -1,13 +1,14 @@
 /**
- * @dev This script registers a swap between two tokens in the tokenSwap.
+ * @dev This script registers a swap between two tokens in the tokenUpgrade.
  */
 import { indent } from '../../../shared/helpers'
-import { TokenSwap } from '../../../typechain'
+import { TokenUpgrade } from '../../../typechain'
 
-export const registerSwap = async (
-  tokenSwap: TokenSwap,
+export const registerTokenUpgrade = async (
+  tokenUpgrade: TokenUpgrade,
   tokenIn: string,
   tokenOut: string,
+  merkleRoot: string,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
@@ -17,8 +18,8 @@ export const registerSwap = async (
 
   // Mint pool tokens
   proposal.push({
-    target: tokenSwap.address,
-    data: tokenSwap.interface.encodeFunctionData('register', [tokenIn, tokenOut]),
+    target: tokenUpgrade.address,
+    data: tokenUpgrade.interface.encodeFunctionData('register', [tokenIn, tokenOut, merkleRoot]),
   })
   console.log(indent(nesting, `Registered ${tokenIn} to ${tokenOut} swap`));
 
