@@ -9,6 +9,6 @@ export CONF=$PWD/$HERE/migrateJunDebt.config
 # $RUN $HERE/../../../../shared/deploy.ts
 
 # Phase 2: Proposal
-$RUN $HERE/migrateJunDebt.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/migrateJunDebt.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

@@ -11,6 +11,6 @@ RUN="npx hardhat run --network tenderly"
 # Phase 2: Proposal
 export CONF=$PWD/$HERE/restoreJunStrategies.mint.config
 
-$RUN $HERE/restoreJunStrategies.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/restoreJunStrategies.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
