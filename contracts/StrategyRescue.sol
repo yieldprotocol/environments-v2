@@ -8,10 +8,12 @@ import '@yield-protocol/utils-v2/src/access/AccessControl.sol';
 import '@yield-protocol/vault-v2/src/interfaces/ILadle.sol';
 import '@yield-protocol/utils-v2/src/token/IERC20.sol';
 import "@yield-protocol/utils-v2/src/token/TransferHelper.sol";
+
 error FlashLoanFailure();
 
 contract StrategyRescue is IERC3156FlashBorrower, AccessControl {
     using TransferHelper for IERC20;
+    using TransferHelper for Strategy;
     /// @notice By IERC3156, the flash loan should return this constant.
     bytes32 public constant FLASH_LOAN_RETURN = keccak256('ERC3156FlashBorrower.onFlashLoan');
 
@@ -24,12 +26,13 @@ contract StrategyRescue is IERC3156FlashBorrower, AccessControl {
     function startRescue(bytes6 underlyingId, Strategy strategy) external auth {
         IERC20 base = strategy.base();
         IJoin join = ladle.joins(underlyingId);
-        IERC20(address(strategy)).safeTransferFrom(msg.sender, address(strategy), strategy.balanceOf(msg.sender));
+
+        strategy.safeTransferFrom(msg.sender, address(strategy), strategy.balanceOf(msg.sender));
 
         bytes memory data = bytes.concat(
-            abi.encode(address(strategy)), // 20 bytes
-            abi.encode(address(base)), // 20 bytes
-            underlyingId // 20 bytes
+            bytes20(address(strategy)), // 20 bytes
+            bytes20(address(base)), // 20 bytes
+            underlyingId //6 bytes
         );
 
         bool success = IERC3156FlashLender(address(join)).flashLoan(
@@ -56,8 +59,10 @@ contract StrategyRescue is IERC3156FlashBorrower, AccessControl {
         bytes calldata data
     ) external returns (bytes32) {
         // Decode data
-        (address strategy, address base, bytes6 underlyingId) = abi.decode(data, (address, address, bytes6));
-
+        address strategy = address(bytes20(data[0:20]));
+        address base = address(bytes20(data[20:40]));
+        bytes6 underlyingId = bytes6(data[40:46]);
+        
         // Verify that the lender is a trusted contract, and that the flash loan was initiated by this contract
         if (initiator != address(this) || msg.sender != address(ladle.joins(underlyingId))) revert FlashLoanFailure();
 
