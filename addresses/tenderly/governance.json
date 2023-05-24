@@ -3,19 +3,19 @@
   "value": [
     [
       "multisig",
-      "0xd659565b84bcfcb23b02ee13e46cb51429f4558a"
+      "0x7237963EED1809976A0928A42f5d6f529E0Df584"
     ],
     [
       "timelock",
-      "0x3b870db67a45611CF4723d44487EAF398fAc51E3"
+      "0xd0a22827Aed2eF5198EbEc0093EA33A4CD641b6c"
     ],
     [
       "cloakV1",
-      "0xaa7B33685e9730B4D700b8F3F190EcA5EC4cf106"
+      "0x84066CAeA6186a02ED74EBF32BF008A47CbE26AD"
     ],
     [
       "cloak",
-      "0x82375994C79e902286D347C9eDE644eA12659FCC"
+      "0x667f185407C4CAb52aeb681f0006e4642d8091DF"
     ]
   ]
 }

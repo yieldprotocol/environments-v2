@@ -1,4 +1,4 @@
-import * as base_config from '../scripts/governance/base.mainnet.config'
+import * as base_config from '../scripts/governance/base.arb_mainnet.config'
 
 export const chainId: number = base_config.chainId
 export const assets: Map<string, string> = base_config.assets

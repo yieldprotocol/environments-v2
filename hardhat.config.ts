@@ -113,12 +113,12 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
+      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/0fb955fc-6552-43b9-8d2a-3924c0385ca2",
+      url: "https://rpc.tenderly.co/fork/55b1a40f-14c2-40f6-9922-3c2dbfc9ff2c",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
