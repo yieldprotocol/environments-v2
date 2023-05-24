@@ -14,14 +14,6 @@ export const rescueStrategiesProposal = async (
 
   for (let index = 0; index < strategiesToRecover.length; index++) {
     const element = strategiesToRecover[index]
-    const strategy = Strategy__factory.connect(element['strategy'], ownerAcc)
-    proposal.push({
-      target: strategy.address,
-      data: strategy.interface.encodeFunctionData('approve', [
-        strategyRescue.address,
-        await strategy.balanceOf(timelock.address),
-      ]),
-    })
     proposal.push({
       target: strategyRescue.address,
       data: strategyRescue.interface.encodeFunctionData('startRescue', [element['underlyingId'], element['strategy']]),

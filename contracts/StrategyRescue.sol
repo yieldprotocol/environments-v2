@@ -31,7 +31,7 @@ contract StrategyRescue is IERC3156FlashBorrower {
         bool success = IERC3156FlashLender(address(join)).flashLoan(
             this, // Loan Receiver
             address(base), // Loan Token
-            strategy.fyTokenCached() + 1, // Loan Amount
+            strategy.fyTokenCached(), // Loan Amount
             data
         );
 
