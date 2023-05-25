@@ -10,6 +10,13 @@ import '@yield-protocol/utils-v2/src/token/TransferHelper.sol';
 
 error FlashLoanFailure();
 
+/// @title StrategyRescue
+/// @notice This contract rescues the base tokens from strategies
+/// 1. Flash loan an amount of underlying equal to the fyToken balance of the strategy
+/// 2. Buy fyToken with the underlying from the strategy
+/// 3. Burn the strategy tokens to get base & payback the flash loan
+/// 4. Send the remainder base to the timelock
+/// @author @iamsahu
 contract StrategyRescue is IERC3156FlashBorrower {
     using TransferHelper for IERC20;
     using TransferHelper for Strategy;

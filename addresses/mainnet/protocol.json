@@ -188,6 +188,10 @@
     [
       "poolRestorer",
       "0x7AF5D9E7C4D07252E77658B413F9c6DEF97921d9"
+    ],
+    [
+      "strategyRescue",
+      "0x0702290D4da74A2004C7E77F66C4Bbd91FcA62bb"
     ]
   ]
 }
