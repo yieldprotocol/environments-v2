@@ -125,7 +125,7 @@ const ysUSDT6MMS: Strategy = {
   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
   base: usdt,
   seriesToInvest: fyUSDT2309,
-  initAmount: ethers.utils.parseUnits('100', 6),
+  initAmount: ethers.utils.parseUnits('50', 6),
 }
 
 export const newStrategies: Strategy[] = [ysETH6MMS, ysDAI6MMS, ysUSDC6MMS, ysUSDT6MMS]

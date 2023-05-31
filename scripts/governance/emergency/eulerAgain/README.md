@@ -3,11 +3,10 @@
 3. restoreJunStrategies.sh
 4. junStrategyTokenUpgrade.sh
 
-Timelock balances before hack:
-ETH: 999 999999 999997
-DAI: 5166 409160 352125 558200
-USDC: 999998
-USDT: 0
+Timelock balances before restoration:
+DAI: 495563 995150 232745 049407
+USDC: 632716 395776
+USDT: 129 827777
 FRAX: 999999 999999 999999
 
 Pool balances at the time of the hack:
