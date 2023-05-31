@@ -5,7 +5,7 @@ import { FYETH2306, FYETH2309, FYDAI2306, FYDAI2309, FYUSDC2306, FYUSDC2309, FYU
 import { YSETH6MJD, YSETH6MMS, YSDAI6MJD, YSDAI6MMS, YSUSDC6MJD, YSUSDC6MMS, YSUSDT6MJD, YSUSDT6MMS } from '../../../../shared/constants'
 import { SAFE_ERC20_NAMER, YIELDMATH } from '../../../../shared/constants'
 
-import { ContractDeployment } from '../../confTypes' // Note we use the series id as the asset id
+import { ContractDeployment } from '../../confTypes'
 
 import { readAddressMappingIfExists } from '../../../../shared/helpers'
 
