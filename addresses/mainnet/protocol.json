@@ -188,6 +188,10 @@
     [
       "poolRestorer",
       "0x7AF5D9E7C4D07252E77658B413F9c6DEF97921d9"
+    ],
+    [
+      "tokenUpgrade",
+      "0xb862b371Dc7944c3323b3029c908ED22c257d108"
     ]
   ]
 }
