@@ -40,6 +40,7 @@ const { developer, deployers, governance, protocol, strategies, upgrades } = req
 
   // Register strategy token upgrades
   for (let upgrade of upgrades) {
+    const tokenInAddress = strategies.getOrThrow(upgrade.tokenIn)
     const tokenOutAddress = strategies.getOrThrow(upgrade.tokenOut)
     const tokenOut = ERC20__factory.connect(tokenOutAddress, ownerAcc)
 
@@ -66,8 +67,8 @@ const { developer, deployers, governance, protocol, strategies, upgrades } = req
     proposal = proposal.concat(
       await registerTokenUpgrade(
         tokenUpgradeContract,
-        upgrade.tokenIn,
-        upgrade.tokenOut,
+        tokenInAddress,
+        tokenOutAddress,
         upgrade.merkleRoot,
       )
     )
