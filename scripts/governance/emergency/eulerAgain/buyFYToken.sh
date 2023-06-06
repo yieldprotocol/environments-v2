@@ -11,6 +11,8 @@ RUN="npx hardhat run --network tenderly"
 # Phase 2: Proposal
 export CONF=$PWD/$HERE/restoreJunStrategies.config
 
+$RUN $HERE/../../../../tools/advanceTimeThreeDays.ts
+
 # $RUN $HERE/restoreJunStrategies.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

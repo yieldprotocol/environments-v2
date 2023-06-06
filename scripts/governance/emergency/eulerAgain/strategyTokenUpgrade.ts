@@ -49,12 +49,10 @@ const { developer, deployers, governance, protocol, strategies, upgrades } = req
       address: tokenOutAddress,
     }
 
-    const transferAmount = await tokenOut.balanceOf(timelock.address)
-
     const transfer: Transfer = {
       token: transferAsset,
       receiver: tokenUpgradeContract.address,
-      amount: transferAmount
+      amount: upgrade.amount
     }
 
     proposal = proposal.concat(
