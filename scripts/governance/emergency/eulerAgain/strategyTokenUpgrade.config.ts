@@ -30,37 +30,37 @@ export const upgrades: Array<Upgrade> = [
   {
     tokenIn: YSETH6MJD_EH,
     tokenOut: YSETH6MJD,
-    merkleRoot: '0xadf98f1f116bd6d1ef767d39b87f12b2ba4bd19ac5c8fe6735bdf454742fd583',
+    merkleRoot: '0x6ce935906bdced382850661959ebcfd130b14eab2c29c37050bea4c90114c9f3',
     amount: BigNumber.from('173876717527907390911'),
   },
   {
     tokenIn: YSDAI6MJD_EH,
     tokenOut: YSDAI6MJD,
-    merkleRoot: '0xaff482953e64490bfdb8acd391c5371e48b55d707d3a7e75aa0665888f0313b1',
+    merkleRoot: '0x962aa7adb55b84308711284a70dc4506886ae19dfd69d54fdca02142b35acca6',
     amount: BigNumber.from('182026100521581669692081'),
   },
   {
     tokenIn: YSUSDC6MJD_EH,
     tokenOut: YSUSDC6MJD,
-    merkleRoot: '0x99fe5bdc377ce98b7176bfa55cd979c6c959a303bf614d756ba5ac34410f4e3f',
+    merkleRoot: '0x343455cdbc57a3c999c7ce527e9ababdef7adcfab03b6825409f559476557adc',
     amount: BigNumber.from('647405622307'),
   },
   {
     tokenIn: YSETH6MMS_EH,
     tokenOut: YSETH6MMS,
-    merkleRoot: '0x35059d74c81a0b5e4a5eeb48428611efb1595c2e3cc48304efbe9f62ab80f369',
+    merkleRoot: '0xbfc1751b6fe5d3bd9ce8d1c415c537923807288cee388536d19bca8ee04e8cde',
     amount: BigNumber.from('128106015354872300000'),
   },
   {
     tokenIn: YSDAI6MMS_EH,
     tokenOut: YSDAI6MMS,
-    merkleRoot: '0x0bb4892bd80fc7308e92f088a6c3fa38ed97577ac1326b8d64367d8e5cf39245',
+    merkleRoot: '0xd1bf5bb277cc07ba1e49c076b1daa78c01898e643dcda902e869b817dc35ebb3',
     amount: BigNumber.from('516290007194613000000000'),
   },
   {
     tokenIn: YSUSDC6MMS_EH,
     tokenOut: YSUSDC6MMS,
-    merkleRoot: '0x59d791bfc87acd0f45f7c0279f9532b65405b21eebfed0f08cc003d6ee267cff',
+    merkleRoot: '0x57073b24614c005347d0a44d046ae96a82d5ae5df60ac16ff696c5bd49d8e5f5',
     amount: BigNumber.from('926769085322'),
   },
 ]
