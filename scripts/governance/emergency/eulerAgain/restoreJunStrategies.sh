@@ -12,5 +12,5 @@ RUN="npx hardhat run --network tenderly"
 export CONF=$PWD/$HERE/restoreJunStrategies.config
 
 # $RUN $HERE/restoreJunStrategies.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

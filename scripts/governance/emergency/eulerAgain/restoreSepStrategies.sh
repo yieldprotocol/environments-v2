@@ -12,5 +12,5 @@ RUN="npx hardhat run --network tenderly"
 export CONF=$PWD/$HERE/restoreSepStrategies.config
 
 # $RUN $HERE/restoreSepStrategies.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

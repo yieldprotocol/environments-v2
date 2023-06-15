@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
-import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSUSDT6MJD, YSETH6MMS, YSDAI6MMS, YSUSDC6MMS, YSUSDT6MMS } from '../../../../shared/constants'
-import { YSETH6MJD_EH, YSDAI6MJD_EH, YSUSDC6MJD_EH, YSUSDT6MJD_EH, YSETH6MMS_EH, YSDAI6MMS_EH, YSUSDC6MMS_EH, YSUSDT6MMS_EH } from '../../../../shared/constants'
+import { YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSETH6MMS, YSDAI6MMS, YSUSDC6MMS } from '../../../../shared/constants'
+import { YSETH6MJD_EH, YSDAI6MJD_EH, YSUSDC6MJD_EH, YSETH6MMS_V1, YSDAI6MMS_V1, YSUSDC6MMS_V1 } from '../../../../shared/constants'
 
 import * as base_config from '../../base.mainnet.config'
 
@@ -46,19 +46,19 @@ export const upgrades: Array<Upgrade> = [
     amount: BigNumber.from('647405622307'),
   },
   {
-    tokenIn: YSETH6MMS_EH,
+    tokenIn: YSETH6MMS_V1,
     tokenOut: YSETH6MMS,
     merkleRoot: '0xbfc1751b6fe5d3bd9ce8d1c415c537923807288cee388536d19bca8ee04e8cde',
     amount: BigNumber.from('128106015354872300000'),
   },
   {
-    tokenIn: YSDAI6MMS_EH,
+    tokenIn: YSDAI6MMS_V1,
     tokenOut: YSDAI6MMS,
     merkleRoot: '0xd1bf5bb277cc07ba1e49c076b1daa78c01898e643dcda902e869b817dc35ebb3',
     amount: BigNumber.from('516290007194613000000000'),
   },
   {
-    tokenIn: YSUSDC6MMS_EH,
+    tokenIn: YSUSDC6MMS_V1,
     tokenOut: YSUSDC6MMS,
     merkleRoot: '0x57073b24614c005347d0a44d046ae96a82d5ae5df60ac16ff696c5bd49d8e5f5',
     amount: BigNumber.from('926769085322'),
