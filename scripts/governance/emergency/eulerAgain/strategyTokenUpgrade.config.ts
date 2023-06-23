@@ -48,7 +48,7 @@ export const upgrades: Array<Upgrade> = [
   {
     tokenIn: YSETH6MJD_EH,
     tokenOut: YSETH6MJD,
-    merkleRoot: '0xb572f6fb577446fec6a4edc7b9091cefbe03bfc7c0a0b220cef9c632366c7420',
+    merkleRoot: '0xcbda0b2309a4b0268a4c5fc1eccc5d81578ef5b99abbfdf9912ae91022c72910',
     amount: BigNumber.from('173876717527907390911'),
   },
   {
