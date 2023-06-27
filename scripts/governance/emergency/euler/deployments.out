@@ -1,0 +1,143 @@
+Reusing FYETH2306B FYToken at: 0xc8110b03629211b946c2783637ABC9402b50EcDf
+Reusing FYDAI2306B FYToken at: 0xc7f12Ea237bE7BE6028285052CF3727EaF0e597B
+Reusing FYUSDC2306B FYToken at: 0x9912ED921832A8F6fc4a07E0892E5974A252043C
+Reusing FYUSDT2306B FYToken at: 0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74
+Reusing FYETH2306B PoolNonTv at: 0x60995D90B45169eB04F1ea9463443a62B83ab1c1
+Deploying FYDAI2306B PoolNonTv with 0x6B175474E89094C44Da98b954EedeAC495271d0F,0xc7f12Ea237bE7BE6028285052CF3727EaF0e597B,12989823246,9000
+Smart Contracts successfully verified
+  Contract 0x0bdf152f6d899f4b63b9554ed98d9b9d22ffdee4 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x0bdf152f6d899f4b63b9554ed98d9b9d22ffdee4
+FYDAI2306B PoolNonTv deployed at 0x0bdF152f6d899F4B63b9554ED98D9b9d22FFdee4
+npx hardhat verify --network mainnet 0x0bdF152f6d899F4B63b9554ED98D9b9d22FFdee4 0x6B175474E89094C44Da98b954EedeAC495271d0F 0xc7f12Ea237bE7BE6028285052CF3727EaF0e597B 12989823246 9000 --libraries undefined
+FYDAI2306B.grantRoles(ROOT, timelock)
+Deploying FYUSDC2306B PoolNonTv with 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,0x9912ED921832A8F6fc4a07E0892E5974A252043C,10628037201,9000
+Smart Contracts successfully verified
+  Contract 0xacd0523aca72cc58ec2f3d4c14f5473fc11c5c2d verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xacd0523aca72cc58ec2f3d4c14f5473fc11c5c2d
+FYUSDC2306B PoolNonTv deployed at 0xaCd0523Aca72CC58EC2f3d4C14F5473FC11c5C2D
+npx hardhat verify --network mainnet 0xaCd0523Aca72CC58EC2f3d4C14F5473FC11c5C2D 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x9912ED921832A8F6fc4a07E0892E5974A252043C 10628037201 9000 --libraries undefined
+FYUSDC2306B.grantRoles(ROOT, timelock)
+Deploying FYUSDT2306B PoolNonTv with 0xdAC17F958D2ee523a2206206994597C13D831ec7,0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74,12989823246,9000
+Smart Contracts successfully verified
+  Contract 0x6e38b8d9dedd967961508708183678b4ec1b1e33 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x6e38b8d9dedd967961508708183678b4ec1b1e33
+FYUSDT2306B PoolNonTv deployed at 0x6E38B8d9dedd967961508708183678b4EC1B1E33
+npx hardhat verify --network mainnet 0x6E38B8d9dedd967961508708183678b4EC1B1E33 0xdAC17F958D2ee523a2206206994597C13D831ec7 0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74 12989823246 9000 --libraries undefined
+FYUSDT2306B.grantRoles(ROOT, timelock)
+Deploying YSETH6MJD Strategy with Yield Strategy ETH 6M Jun Dec,YSETH6MJD,0xc8110b03629211b946c2783637ABC9402b50EcDf
+Smart Contracts successfully verified
+  Contract 0xfcfc74fa508450c8ff681e6894ab2c9852bd32a7 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xfcfc74fa508450c8ff681e6894ab2c9852bd32a7
+YSETH6MJD Strategy deployed at 0xFcFc74fA508450C8Ff681E6894Ab2C9852bD32a7
+npx hardhat verify --network mainnet 0xFcFc74fA508450C8Ff681E6894Ab2C9852bD32a7 Yield Strategy ETH 6M Jun Dec YSETH6MJD 0xc8110b03629211b946c2783637ABC9402b50EcDf --libraries undefined
+YSETH6MJD.grantRoles(ROOT, timelock)
+Deploying YSDAI6MJD Strategy with Yield Strategy DAI 6M Jun Dec,YSDAI6MJD,0xc7f12Ea237bE7BE6028285052CF3727EaF0e597B
+Smart Contracts successfully verified
+  Contract 0x742b05a7af59c31576e4f31b092caff580b162c3 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x742b05a7af59c31576e4f31b092caff580b162c3
+YSDAI6MJD Strategy deployed at 0x742b05A7AF59C31576E4f31B092Caff580B162C3
+npx hardhat verify --network mainnet 0x742b05A7AF59C31576E4f31B092Caff580B162C3 Yield Strategy DAI 6M Jun Dec YSDAI6MJD 0xc7f12Ea237bE7BE6028285052CF3727EaF0e597B --libraries undefined
+YSDAI6MJD.grantRoles(ROOT, timelock)
+Deploying YSUSDC6MJD Strategy with Yield Strategy USDC 6M Jun Dec,YSUSDC6MJD,0x9912ED921832A8F6fc4a07E0892E5974A252043C
+Smart Contracts successfully verified
+  Contract 0x3e63834310d771d6157706c37778fb1b53eaf6f2 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x3e63834310d771d6157706c37778fb1b53eaf6f2
+YSUSDC6MJD Strategy deployed at 0x3e63834310D771d6157706c37778FB1B53eAf6F2
+npx hardhat verify --network mainnet 0x3e63834310D771d6157706c37778FB1B53eAf6F2 Yield Strategy USDC 6M Jun Dec YSUSDC6MJD 0x9912ED921832A8F6fc4a07E0892E5974A252043C --libraries undefined
+YSUSDC6MJD.grantRoles(ROOT, timelock)
+Deploying YSUSDT6MJD Strategy with Yield Strategy USDT 6M Jun Dec,YSUSDT6MJD,0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74
+Smart Contracts successfully verified
+  Contract 0x45eb9e5c68a078bfc92f3d46592e0e35a732f7ac verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x45eb9e5c68a078bfc92f3d46592e0e35a732f7ac
+YSUSDT6MJD Strategy deployed at 0x45eB9E5c68A078BfC92F3d46592E0E35a732F7aC
+npx hardhat verify --network mainnet 0x45eB9E5c68A078BfC92F3d46592E0E35a732F7aC Yield Strategy USDT 6M Jun Dec YSUSDT6MJD 0xD28380De0e7093AC62bCb88610b9f4f4Fb58Be74 --libraries undefined
+YSUSDT6MJD.grantRoles(ROOT, timelock)
+Deploying shifter Shifter with 0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867
+Smart Contracts successfully verified
+  Contract 0xc1361a14b67622f549db8dacb476bc6ff23c7e99 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xc1361a14b67622f549db8dacb476bc6ff23c7e99
+shifter Shifter deployed at 0xc1361A14B67622F549Db8dacb476Bc6fF23c7E99
+npx hardhat verify --network mainnet 0xc1361A14B67622F549Db8dacb476Bc6fF23c7E99 0xc88191F8cb8e6D4a668B047c1C8503432c3Ca867 
+shifter.grantRoles(ROOT, timelock)
+Deploying FYETH2309 FYToken with 0x303000000000,0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC,0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0,1695999600,FYETH2309,FYETH2309
+Smart Contracts successfully verified
+  Contract 0xd842a9f77e142f420bcdbcd6cfac3548a68906db verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xd842a9f77e142f420bcdbcd6cfac3548a68906db
+FYETH2309 FYToken deployed at 0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB
+npx hardhat verify --network mainnet 0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB 0x303000000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x3bDb887Dc46ec0E964Df89fFE2980db0121f0fD0 1695999600 FYETH2309 FYETH2309 --libraries undefined
+FYETH2309.grantRoles(ROOT, timelock)
+Deploying FYDAI2309 FYToken with 0x303100000000,0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC,0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc,1695999600,FYDAI2309,FYDAI2309
+Smart Contracts successfully verified
+  Contract 0xb917a6cd3f811a84c1c5b972e2c715a6d93f40aa verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xb917a6cd3f811a84c1c5b972e2c715a6d93f40aa
+FYDAI2309 FYToken deployed at 0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa
+npx hardhat verify --network mainnet 0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa 0x303100000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x4fE92119CDf873Cf8826F4E6EcfD4E578E3D44Dc 1695999600 FYDAI2309 FYDAI2309 --libraries undefined
+FYDAI2309.grantRoles(ROOT, timelock)
+Deploying FYUSDC2309 FYToken with 0x303200000000,0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC,0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4,1695999600,FYUSDC2309,FYUSDC2309
+Smart Contracts successfully verified
+  Contract 0x74c4cea80c1afeada2907b55fdd9c958da4a53f2 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x74c4cea80c1afeada2907b55fdd9c958da4a53f2
+FYUSDC2309 FYToken deployed at 0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2
+npx hardhat verify --network mainnet 0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2 0x303200000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x0d9A1A773be5a83eEbda23bf98efB8585C3ae4f4 1695999600 FYUSDC2309 FYUSDC2309 --libraries undefined
+FYUSDC2309.grantRoles(ROOT, timelock)
+Deploying FYUSDT2309 FYToken with 0x30A000000000,0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC,0x62E53931a07d8679Fb73e543459D1D9f4159F244,1695999600,FYUSDT2309,FYUSDT2309
+Smart Contracts successfully verified
+  Contract 0x299c9e28d2c5efa09aa147abb4f1cb4a8dc7abe0 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x299c9e28d2c5efa09aa147abb4f1cb4a8dc7abe0
+FYUSDT2309 FYToken deployed at 0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0
+npx hardhat verify --network mainnet 0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0 0x30A000000000 0x95750d6F5fba4ed1cc4Dc42D2c01dFD3DB9a11eC 0x62E53931a07d8679Fb73e543459D1D9f4159F244 1695999600 FYUSDT2309 FYUSDT2309 --libraries undefined
+FYUSDT2309.grantRoles(ROOT, timelock)
+Deploying FYETH2309 PoolNonTv with 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB,23381681843,9000
+Smart Contracts successfully verified
+  Contract 0xe56c9c47b271a58e5856004952c5f4d34a78b99b verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xe56c9c47b271a58e5856004952c5f4d34a78b99b
+FYETH2309 PoolNonTv deployed at 0xE56c9c47b271A58e5856004952c5F4D34a78B99B
+npx hardhat verify --network mainnet 0xE56c9c47b271A58e5856004952c5F4D34a78B99B 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB 23381681843 9000 --libraries undefined
+FYETH2309.grantRoles(ROOT, timelock)
+Deploying FYDAI2309 PoolNonTv with 0x6B175474E89094C44Da98b954EedeAC495271d0F,0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa,12989823246,9000
+Smart Contracts successfully verified
+  Contract 0x9ce9c9f9ff417ffc215a4e5c6b4e44bb76cf8c79 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x9ce9c9f9ff417ffc215a4e5c6b4e44bb76cf8c79
+FYDAI2309 PoolNonTv deployed at 0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79
+npx hardhat verify --network mainnet 0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79 0x6B175474E89094C44Da98b954EedeAC495271d0F 0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa 12989823246 9000 --libraries undefined
+FYDAI2309.grantRoles(ROOT, timelock)
+Deploying FYUSDC2309 PoolNonTv with 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2,10628037201,9000
+Smart Contracts successfully verified
+  Contract 0xfcd1c61139f8af13c5090cfbb2dd674a2ff4fe35 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xfcd1c61139f8af13c5090cfbb2dd674a2ff4fe35
+FYUSDC2309 PoolNonTv deployed at 0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35
+npx hardhat verify --network mainnet 0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2 10628037201 9000 --libraries undefined
+FYUSDC2309.grantRoles(ROOT, timelock)
+Deploying FYUSDT2309 PoolNonTv with 0xdAC17F958D2ee523a2206206994597C13D831ec7,0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0,12989823246,9000
+Smart Contracts successfully verified
+  Contract 0x0ecc79fe01b02548853c87466ccd57710bf9d11a verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x0ecc79fe01b02548853c87466ccd57710bf9d11a
+FYUSDT2309 PoolNonTv deployed at 0x0ECc79FE01b02548853c87466cCd57710bf9d11A
+npx hardhat verify --network mainnet 0x0ECc79FE01b02548853c87466cCd57710bf9d11A 0xdAC17F958D2ee523a2206206994597C13D831ec7 0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0 12989823246 9000 --libraries undefined
+FYUSDT2309.grantRoles(ROOT, timelock)
+Deploying YSETH6MMS Strategy with Yield Strategy ETH 6M Mar Sep,YSETH6MMS,0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB
+Smart Contracts successfully verified
+  Contract 0x51d2fcccc9003f0743bfaa4e495cda5bba749283 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x51d2fcccc9003f0743bfaa4e495cda5bba749283
+YSETH6MMS Strategy deployed at 0x51D2fCCcC9003f0743bfAa4E495cda5BBA749283
+npx hardhat verify --network mainnet 0x51D2fCCcC9003f0743bfAa4E495cda5BBA749283 Yield Strategy ETH 6M Mar Sep YSETH6MMS 0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB --libraries undefined
+YSETH6MMS.grantRoles(ROOT, timelock)
+Deploying YSDAI6MMS Strategy with Yield Strategy DAI 6M Mar Sep,YSDAI6MMS,0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa
+Smart Contracts successfully verified
+  Contract 0x2008e463c4d0364763569dfe16cdf4e6f29bce8e verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x2008e463c4d0364763569dfe16cdf4e6f29bce8e
+YSDAI6MMS Strategy deployed at 0x2008E463c4d0364763569dFE16cdF4E6F29bCe8E
+npx hardhat verify --network mainnet 0x2008E463c4d0364763569dFE16cdF4E6F29bCe8E Yield Strategy DAI 6M Mar Sep YSDAI6MMS 0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa --libraries undefined
+YSDAI6MMS.grantRoles(ROOT, timelock)
+Deploying YSUSDC6MMS Strategy with Yield Strategy USDC 6M Mar Sep,YSUSDC6MMS,0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2
+Smart Contracts successfully verified
+  Contract 0x85fa3071ad36d12603176c12118d25602d2229ab verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x85fa3071ad36d12603176c12118d25602d2229ab
+YSUSDC6MMS Strategy deployed at 0x85fA3071AD36d12603176C12118d25602D2229aB
+npx hardhat verify --network mainnet 0x85fA3071AD36d12603176C12118d25602D2229aB Yield Strategy USDC 6M Mar Sep YSUSDC6MMS 0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2 --libraries undefined
+YSUSDC6MMS.grantRoles(ROOT, timelock)
+Deploying YSUSDT6MMS Strategy with Yield Strategy USDT 6M Mar Sep,YSUSDT6MMS,0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0
+Reusing FYETH2309 FYToken at: 0xD842A9f77e142f420BcdBCd6cFAC3548a68906dB
+Reusing FYDAI2309 FYToken at: 0xB917a6CD3f811A84c1c5B972E2c715a6d93f40aa
+Reusing FYUSDC2309 FYToken at: 0x74c4cEa80c1afEAda2907B55FDD9C958Da4a53F2
+Reusing FYUSDT2309 FYToken at: 0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0
+Reusing FYETH2309 PoolNonTv at: 0xE56c9c47b271A58e5856004952c5F4D34a78B99B
+Reusing FYDAI2309 PoolNonTv at: 0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79
+Reusing FYUSDC2309 PoolNonTv at: 0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35
+Reusing FYUSDT2309 PoolNonTv at: 0x0ECc79FE01b02548853c87466cCd57710bf9d11A
+Reusing YSETH6MMS Strategy at: 0x51D2fCCcC9003f0743bfAa4E495cda5BBA749283
+Reusing YSDAI6MMS Strategy at: 0x2008E463c4d0364763569dFE16cdF4E6F29bCe8E
+Reusing YSUSDC6MMS Strategy at: 0x85fA3071AD36d12603176C12118d25602D2229aB
+Deploying YSUSDT6MMS Strategy with Yield Strategy USDT 6M Mar Sep,YSUSDT6MMS,0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0
+Smart Contracts successfully verified
+  Contract 0xb3e47e689d21d75303e28884187a5681cefaf40b verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0xb3e47e689d21d75303e28884187a5681cefaf40b
+YSUSDT6MMS Strategy deployed at 0xB3E47e689D21d75303E28884187a5681cEfaf40B
+npx hardhat verify --network mainnet 0xB3E47e689D21d75303E28884187a5681cEfaf40B Yield Strategy USDT 6M Mar Sep YSUSDT6MMS 0x299c9e28D2c5efa09aa147abB4f1CB4a8dc7AbE0 --libraries undefined
+YSUSDT6MMS.grantRoles(ROOT, timelock)
+Deploying poolRestorer PoolRestorer with 0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A
+Smart Contracts successfully verified
+  Contract 0x7af5d9e7c4d07252e77658b413f9c6def97921d9 verified. You can view the contract at https://dashboard.tenderly.co/contract/main/0x7af5d9e7c4d07252e77658b413f9c6def97921d9
+poolRestorer PoolRestorer deployed at 0x7AF5D9E7C4D07252E77658B413F9c6DEF97921d9
+npx hardhat verify --network mainnet 0x7AF5D9E7C4D07252E77658B413F9c6DEF97921d9 0x6cB18fF2A33e981D1e38A663Ca056c0a5265066A 
+poolRestorer.grantRoles(ROOT, timelock)

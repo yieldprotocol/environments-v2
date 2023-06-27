@@ -14,6 +14,12 @@ export interface Permission {
   user: string
 }
 
+export interface Transfer {
+  token: Asset
+  receiver: string
+  amount: BigNumber
+}
+
 export interface Asset {
   assetId: string
   address: string
@@ -86,14 +92,32 @@ export interface Series {
   ilks: Ilk[]
 }
 
+export interface RewardsWrapper extends Asset {
+  underlying: Asset
+}
+
+export interface RewardsPlan {
+  start: number
+  stop: number
+  rate: number
+}
+
 export interface Strategy extends Asset {
   base: Base
   initAmount?: BigNumber
   seriesToInvest?: Series
+  rewards?: RewardsWrapper
 }
 
 // Temporary interface for the v1 to v2 strategy migration
 export interface Strategy_V1 extends Asset {
   base: Base
   seriesToInvest: Strategy
+}
+
+// Temporary interface to restore September 2023 pools
+export interface PoolRestoration {
+  seriesId: string
+  receiver: string
+  amount: BigNumber
 }

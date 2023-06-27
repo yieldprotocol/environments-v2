@@ -43,6 +43,8 @@ import "@yield-protocol/yieldspace-tv/src/oracle/PoolOracle.sol";
 import "@yield-protocol/utils-v2/src/utils/Timelock.sol";
 import "@yield-protocol/utils-v2/src/utils/EmergencyBrake.sol";
 import "@yield-protocol/utils-v2/src/utils/Assert.sol";
+import "@yield-protocol/utils-v2/src/token/ERC20RewardsWrapper.sol";
+import "@yield-protocol/utils-v2/src/token/TokenUpgrade.sol";
 import "@yield-protocol/strategy-v2/src/Strategy.sol";
 import "@yield-protocol/yvarb/contracts/YieldStEthLever.sol";
 import "@yield-protocol/yvarb/contracts/YieldNotionalLever.sol";

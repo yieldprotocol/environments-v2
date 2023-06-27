@@ -10,6 +10,7 @@ export const ONEWBTC = BigNumber.from(10).pow(8)
 export const RAY = BigNumber.from(10).pow(27)
 export const MAX128 = BigNumber.from(2).pow(128).sub(1)
 export const MAX256 = BigNumber.from(2).pow(256).sub(1)
+export const FIVE_PC = BigNumber.from('1000000001546067000') // Per second rate
 export const THREE_MONTHS: number = 3 * 30 * 24 * 60 * 60
 export const ROOT = '0x00000000'
 
@@ -32,6 +33,7 @@ export const RATE = stringToBytes6('RATE')
 export const G1 = stringToBytes6('g1')
 export const G2 = stringToBytes6('g2')
 export const TS = stringToBytes6('ts')
+export const ORACLE_PARAM = ethers.utils.formatBytes32String('oracle')
 
 // Return the timestamp of the next Yield maturity from a given timestamp
 function nextYieldMaturity(timestamp: number): number {
@@ -193,6 +195,7 @@ export const CONTANGO_LADLE_ROUTER = 'contangoLadleRouter'
 export const EULER = 'euler'
 export const FCASH = 'fCash'
 export const GIVER = 'giver'
+export const SHIFTER = 'shifter'
 export const YIELD_STRATEGY_LEVER = 'yieldStrategyLever'
 export const YIELD_STETH_LEVER = 'yieldStETHLever'
 export const YIELD_NOTIONAL_LEVER = 'yieldNotionalLever'
@@ -200,6 +203,8 @@ export const ONCHAINTEST = 'onChainTest'
 export const HEALER = 'healerModule'
 export const ASSERT = 'assert'
 export const LIMITED_ASSERT = 'limitedAssert'
+export const TOKEN_UPGRADE = 'tokenUpgrade'
+export const POOL_RESTORER = 'poolRestorer'
 
 export const LIDO_PROVIDER = '10'
 export const YEARN_PROVIDER = '11'
@@ -230,6 +235,11 @@ export const FYDAI2306 = getSeriesId(DAI, EOJUN23) // 0x0 031 FF 000 28B
 export const FYUSDC2306 = getSeriesId(USDC, EOJUN23) // 0x0 032 FF 000 28B
 export const FYFRAX2306 = getSeriesId(FRAX, EOJUN23) // 0x0 138 FF 000 28B
 export const FYUSDT2306 = getSeriesId(USDT, EOJUN23) // 0x0 0A0 FF 000 28B
+export const FYETH2306B = '0x0030FF00028C' // Hardcoded as 2306 replacement
+export const FYDAI2306B = '0x0031FF00028C' // Hardcoded as 2306 replacement
+export const FYUSDC2306B = '0x0032FF00028C' // Hardcoded as 2306 replacement
+export const FYFRAX2306B = '0x0138FF00028C' // Hardcoded as 2306 replacement
+export const FYUSDT2306B = '0x00A0FF00028C' // Hardcoded as 2306 replacement
 export const FYETH2309 = getSeriesId(ETH, EOSEP23) // 0x0 030 FF 000 28F
 export const FYDAI2309 = getSeriesId(DAI, EOSEP23) // 0x0 031 FF 000 28F
 export const FYUSDC2309 = getSeriesId(USDC, EOSEP23) // 0x0 032 FF 000 28F
@@ -238,6 +248,11 @@ export const FYUSDT2309 = getSeriesId(USDT, EOSEP23) // 0x0 0A0 FF 000 28F
 
 export const FYUSDT2303LP = getPoolId(USDT, EOMAR23) // 0x2 0A0 FF 000 288
 export const FYUSDT2306LP = getPoolId(USDT, EOJUN23) // 0x2 0A0 FF 000 28B
+export const FYETH2306BLP = '0x2030FF00028C' // Hardcoded as 2306 replacement
+export const FYDAI2306BLP = '0x2031FF00028C' // Hardcoded as 2306 replacement
+export const FYUSDC2306BLP = '0x2032FF00028C' // Hardcoded as 2306 replacement
+export const FYFRAX2306BLP = '0x2138FF00028C' // Hardcoded as 2306 replacement
+export const FYUSDT2306BLP = '0x20A0FF00028C' // Hardcoded as 2306 replacement
 export const FYETH2309LP = getPoolId(ETH, EOSEP23) // 0x2 030 FF 000 28F
 export const FYDAI2309LP = getPoolId(DAI, EOSEP23) // 0x2 031 FF 000 28F
 export const FYUSDC2309LP = getPoolId(USDC, EOSEP23) // 0x2 032 FF 000 28F
@@ -261,6 +276,16 @@ export const YSFRAX6MMS = getStrategyId(FRAX, 'MMS') // 1 138 FF 000 001 - Yield
 export const YSFRAX6MJD = getStrategyId(FRAX, 'MJD') // 1 138 FF 000 000 - Yield Strategy FRAX 6M Jun Dec - YSFRAX6MJD
 export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSUSDT6MMS
 export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSUSDT6MJD
+
+// Euler hack strategies
+export const YSETH6MMS_EH = '0x1030FF000FFF'
+export const YSETH6MJD_EH = '0x1030FF000FFE'
+export const YSDAI6MMS_EH = '0x1031FF000FFF'
+export const YSDAI6MJD_EH = '0x1031FF000FFE'
+export const YSUSDC6MMS_EH = '0x1032FF000FFF'
+export const YSUSDC6MJD_EH = '0x1032FF000FFE'
+export const YSUSDT6MMS_EH = '0x10A0FF000FFF'
+export const YSUSDT6MJD_EH = '0x10A0FF000FFE'
 
 // LEGACY IDENTIFIERS
 
@@ -363,6 +388,11 @@ export const DISPLAY_NAMES = new Map([
   [FYUSDC2306, 'FYUSDC2306'],
   [FYFRAX2306, 'FYFRAX2306'],
   [FYUSDT2306, 'FYUSDT2306'],
+  [FYETH2306B, 'FYETH2306B'],
+  [FYDAI2306B, 'FYDAI2306B'],
+  [FYUSDC2306B, 'FYUSDC2306B'],
+  [FYFRAX2306B, 'FYFRAX2306B'],
+  [FYUSDT2306B, 'FYUSDT2306B'],
   [FYETH2309, 'FYETH2309'],
   [FYDAI2309, 'FYDAI2309'],
   [FYUSDC2309, 'FYUSDC2309'],

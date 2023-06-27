@@ -54,19 +54,19 @@ export const propose = async (
   developer?: string
 ) => {
   // Remove duplicate proposals if any
-  let duplicateData: Array<ProposalFragment> = []
-  proposal = proposal.reduce((accumulator: Array<ProposalFragment>, current: ProposalFragment) => {
-    if (!accumulator.some((item: ProposalFragment) => item.target === current.target && item.data === current.data)) {
-      accumulator.push(current)
-    } else {
-      duplicateData.push({ target: current.target, data: current.data })
-    }
-    return accumulator
-  }, [])
-  if (duplicateData.length > 0) {
-    console.log('Duplicate proposals')
-    console.table(duplicateData)
-  }
+//  let duplicateData: Array<ProposalFragment> = []
+//  proposal = proposal.reduce((accumulator: Array<ProposalFragment>, current: ProposalFragment) => {
+//    if (!accumulator.some((item: ProposalFragment) => item.target === current.target && item.data === current.data)) {
+//      accumulator.push(current)
+//    } else {
+//      duplicateData.push({ target: current.target, data: current.data })
+//    }
+//    return accumulator
+//  }, [])
+//  if (duplicateData.length > 0) {
+//    console.log('Duplicate proposals')
+//    console.table(duplicateData)
+//  }
   const signerAcc = await getOwnerOrImpersonate(developer as string, ethers.utils.parseEther('1'))
   const proposalHash = await timelock.hash(proposal)
   console.log(`Proposal: ${proposalHash}`)
@@ -183,6 +183,10 @@ export function stringToBytes32(x: string): string {
 
 export function bytesToBytes32(bytes: string): string {
   return stringToBytes32(getName(bytes))
+}
+
+export function bytes6ToBytes32(bytes6: string): string {
+  return bytes6.concat('0'.repeat(52))
 }
 
 export function flattenContractMap(map: Map<string, any>): Map<string, string> {
