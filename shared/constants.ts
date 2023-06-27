@@ -205,6 +205,7 @@ export const ASSERT = 'assert'
 export const LIMITED_ASSERT = 'limitedAssert'
 export const TOKEN_UPGRADE = 'tokenUpgrade'
 export const POOL_RESTORER = 'poolRestorer'
+export const STRATEGY_RESCUE = 'strategyRescue'
 
 export const LIDO_PROVIDER = '10'
 export const YEARN_PROVIDER = '11'
