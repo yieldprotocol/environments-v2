@@ -2746,6 +2746,7 @@
   version "2.6.17"
   resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.17.tgz#fda3305b1da6a69ec5631dc76c3fe25e3826d930"
   integrity sha512-5Xp/av4BAQLa/HRO1njUViXCQzi+2d+qLNfmrSCPaD1AM3Te6GhrskrQglp1Akibw0odLCDzcEbXTxqfnKrwSA==
+
   dependencies:
     ethers "^5.5.2"
     keccak256 "^1.0.6"

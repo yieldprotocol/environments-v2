@@ -13,4 +13,3 @@ export const eth = base_config.eth
 export const dai = base_config.dai
 export const usdc = base_config.usdc
 export const usdt = base_config.usdt
-

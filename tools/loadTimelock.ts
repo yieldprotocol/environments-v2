@@ -4,7 +4,6 @@ import { WAD, TIMELOCK } from '../shared/constants'
 import { IERC20Metadata__factory } from '../typechain'
 const { governance, transfers, whales } = require(process.env.CONF as string)
 
-
 /**
  * @dev This script loads the Timelock with assets to initialize strategies. Only usable on testnets.
  */
