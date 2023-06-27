@@ -18,6 +18,7 @@ import { orchestratePool } from '../../../fragments/pools/orchestratePool'
 import { orchestrateStrategy } from '../../../fragments/strategies/orchestrateStrategy'
 import { investStrategy } from '../../../fragments/strategies/investStrategy'
 import { migrateStrategy } from '../../../fragments/strategies/migrateStrategy'
+import { migrateUSDCStrategy } from './migrateMarUSDCStrategy'
 
 const { developer, deployers, governance, protocol, newSeries, pools, oldStrategies, newStrategies } = require(process
   .env.CONF as string)
@@ -84,6 +85,8 @@ const { developer, deployers, governance, protocol, newSeries, pools, oldStrateg
   for (let strategy of newStrategies) {
     proposal = proposal.concat(await investStrategy(ownerAcc, strategy))
   }
+
+  proposal = proposal.concat(await migrateUSDCStrategy(timelock, ladle, ownerAcc))
 
   await propose(timelock, proposal, developer)
 })()

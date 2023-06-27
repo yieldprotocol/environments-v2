@@ -1,7 +1,7 @@
 import { parseUnits } from 'ethers/lib/utils'
 import { CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
 import { readAddressMappingIfExists } from '../../../../../shared/helpers'
-import { ASSETS_MAINNET, SERIES_MAINNET } from '../../../../../shared/typed-constants'
+import { ASSETS_MAINNET, SERIES_MAINNET } from '../../contango-seed-config'
 import * as base_config from '../../../base.arb_mainnet.config'
 import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes'
 

@@ -1,4 +1,4 @@
-import * as base_config from '../../base.mainnet.config'
+import * as base_config from '../../base.arb_mainnet.config'
 
 export const governance: Map<string, string> = base_config.governance
 

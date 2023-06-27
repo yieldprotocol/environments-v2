@@ -23,8 +23,8 @@ export const orchestrateYieldSpaceMultiOracle = async (
 
   proposal.push({
     target: yieldSpaceMultiOracle.address,
-    data: yieldSpaceMultiOracle.interface.encodeFunctionData('grantRoles', [
-      [id(yieldSpaceMultiOracle.interface, 'setSource(bytes6,bytes6,address)')],
+    data: yieldSpaceMultiOracle.interface.encodeFunctionData('grantRole', [
+      id(yieldSpaceMultiOracle.interface, 'setSource(bytes6,bytes6,address)'),
       timelock.address,
     ]),
   })

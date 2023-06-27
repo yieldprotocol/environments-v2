@@ -6,18 +6,19 @@
 import { ethers } from 'hardhat'
 import { getName, indent } from '../../../shared/helpers'
 import { YieldSpaceMultiOracle } from '../../../typechain'
+import { OracleSource } from '../../governance/confTypes'
 
 export const updateYieldSpaceMultiOracleSources = async (
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
-  compositeSources: Array<[string, string, string]>,
+  compositeSources: OracleSource[],
   pools: Map<string, string>,
   nesting: number = 0
 ): Promise<Array<{ target: string; data: string }>> => {
   console.log()
   console.log(indent(nesting, `UPDATE_YIELD_SPACE_MULTI_ORACLE_SOURCES`))
   const proposal: Array<{ target: string; data: string }> = []
-  for (let [baseId, quoteId, oracle] of compositeSources) {
-    if (oracle !== yieldSpaceMultiOracle.address) {
+  for (let { baseId, quoteId, sourceAddress } of compositeSources) {
+    if (sourceAddress !== yieldSpaceMultiOracle.address) {
       // Not all compositeSources are necessarily YieldSpaceMultiOracle sources
       continue
     }
