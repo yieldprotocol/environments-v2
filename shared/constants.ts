@@ -275,8 +275,8 @@ export const YSUSDC6MMS = getStrategyId(USDC, 'MMS') // 1 032 FF 000 001 - Yield
 export const YSUSDC6MJD = getStrategyId(USDC, 'MJD') // 1 032 FF 000 000 - Yield Strategy USDC 6M Jun Dec - YSUSDC6MJD
 export const YSFRAX6MMS = getStrategyId(FRAX, 'MMS') // 1 138 FF 000 001 - Yield Strategy FRAX 6M Mar Sep - YSFRAX6MMS
 export const YSFRAX6MJD = getStrategyId(FRAX, 'MJD') // 1 138 FF 000 000 - Yield Strategy FRAX 6M Jun Dec - YSFRAX6MJD
-export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSFRAX6MMS
-export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSFRAX6MJD
+export const YSUSDT6MMS = getStrategyId(USDT, 'MMS') // 1 0A0 FF 000 001 - Yield Strategy USDT 6M Mar Sep - YSUSDT6MMS
+export const YSUSDT6MJD = getStrategyId(USDT, 'MJD') // 1 0A0 FF 000 000 - Yield Strategy USDT 6M Jun Dec - YSUSDT6MJD
 
 // Euler hack strategies
 export const YSETH6MMS_EH = '0x1030FF000FFF'
@@ -298,6 +298,15 @@ export const YSETH6MMS_V1 = 'YSETH6MMS'
 export const YSETH6MJD_V1 = 'YSETH6MJD'
 export const YSFRAX6MMS_V1 = 'YSFRAX6MMS'
 export const YSFRAX6MJD_V1 = 'YSFRAX6MJD'
+export const YSETH6MMS_V2 = '0x1030FF000FFF'
+export const YSETH6MJD_V2 = '0x1030FF000FFE'
+export const YSDAI6MMS_V2 = '0x1031FF000FFF'
+export const YSDAI6MJD_V2 = '0x1031FF000FFE'
+export const YSUSDC6MMS_V2 = '0x1032FF000FFF'
+export const YSUSDC6MJD_V2 = '0x1032FF000FFE'
+export const YSUSDT6MMS_V2 = '0x10A0FF000FFF'
+export const YSUSDT6MJD_V2 = '0x10A0FF000FFE'
+
 
 // Note: The first two digits are the borrowable asset, the second two are the quarters since Q1 2021
 export const FYETH2203 = stringToBytes6('0005') // End of 5th quarter from 1st January 2021
@@ -420,8 +429,12 @@ export const DISPLAY_NAMES = new Map([
   [YSDAI6MJD_V1, 'YSDAI6MJD_V1'],
   [YSUSDC6MMS_V1, 'YSUSDC6MMS_V1'],
   [YSUSDC6MJD_V1, 'YSUSDC6MJD_V1'],
-  [YSETH6MMS_V1, 'YSETH6MMS_V1'],
-  [YSETH6MJD_V1, 'YSETH6MJD_V1'],
-  [YSFRAX6MMS_V1, 'YSFRAX6MMS_V1'],
-  [YSFRAX6MJD_V1, 'YSFRAX6MJD_V1'],
+  [YSETH6MMS_V2, 'YSETH6MMS_V2'],
+  [YSETH6MJD_V2, 'YSETH6MJD_V2'],
+  [YSDAI6MMS_V2, 'YSDAI6MMS_V2'],
+  [YSDAI6MJD_V2, 'YSDAI6MJD_V2'],
+  [YSUSDC6MMS_V2, 'YSUSDC6MMS_V2'],
+  [YSUSDC6MJD_V2, 'YSUSDC6MJD_V2'],
+  [YSETH6MMS_V2, 'YSETH6MMS_V2'],
+  [YSETH6MJD_V2, 'YSETH6MJD_V2'],
 ])

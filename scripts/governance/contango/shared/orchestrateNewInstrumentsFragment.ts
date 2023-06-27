@@ -4,58 +4,52 @@ import {
   CompositeMultiOracle,
   ContangoLadle,
   ContangoWitch,
-  IOracle,
-  OldEmergencyBrake,
+  EmergencyBrake,
+  Join,
   Timelock,
   YieldSpaceMultiOracle,
 } from '../../../../typechain'
-import { addAssetProposal } from '../../../fragments/assetsAndSeries/addAssetProposal'
-import { addIlksToSeriesProposal } from '../../../fragments/assetsAndSeries/addIlksToSeriesProposal'
-import { orchestrateJoinProposal } from '../../../fragments/assetsAndSeries/orchestrateJoinProposal'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePathsProposal'
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSourcesProposal'
-import { updateYieldSpaceMultiOracleSourcesProposal } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSourcesProposal'
-import { addSeriesProposal } from '../../../fragments/witchV2/addSeriesProposal'
-import { makeIlkProposal } from '../../../fragments/witchV2/makeIlkProposal'
-import { AuctionLineAndLimit, SeriesToAdd } from '../../confTypes'
+import { addAsset } from '../../../fragments/assetsAndSeries/addAsset'
+import { addSeries } from '../../../fragments/assetsAndSeries/addSeries'
+import { makeBase } from '../../../fragments/assetsAndSeries/makeBase'
+import { makeIlk } from '../../../fragments/assetsAndSeries/makeIlk'
+import { orchestrateJoin } from '../../../fragments/assetsAndSeries/orchestrateJoin'
+import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
+import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
+import { updateYieldSpaceMultiOracleSources } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSources'
+import { Asset, Base, OraclePath, OracleSource, Series } from '../../confTypes'
 
 export async function orchestrateNewInstruments(
   ownerAcc: SignerWithAddress,
   cauldron: Cauldron,
   ladle: ContangoLadle,
   witch: ContangoWitch,
-  cloak: OldEmergencyBrake,
+  cloak: EmergencyBrake,
   compositeMultiOracle: CompositeMultiOracle,
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
-  assetsToAdd: [string, string, string][],
-  compositeSources: Array<[string, string, string]>,
-  compositePaths: [string, string, string[]][],
+  timelock: Timelock,
+  joins: Join[],
+  assets: Asset[],
+  compositeSources: OracleSource[],
+  compositePaths: OraclePath[],
   pools: Map<string, string>,
-  seriesToAdd: SeriesToAdd[],
-  fyTokenDebtLimits: Array<[string, string, number, number, number, number]>,
-  auctionLineAndLimits: AuctionLineAndLimit[],
-  joins: Map<string, string>,
-  seriesIlks: Array<[string, string[]]>
+  joinsMap: Map<string, string>,
+  series: Series[],
+  basesToAdd: Base[]
 ) {
   const promises = [
-    orchestrateJoinProposal(ownerAcc, cloak, assetsToAdd),
-    updateYieldSpaceMultiOracleSourcesProposal(yieldSpaceMultiOracle, compositeSources, pools),
-    updateCompositeSourcesProposal(compositeMultiOracle, compositeSources),
-    updateCompositePathsProposal(compositeMultiOracle, compositePaths),
-    addAssetProposal(ownerAcc, cloak, cauldron, ladle, assetsToAdd),
-    addSeriesProposal(ownerAcc, cauldron, ladle, witch, cloak, seriesToAdd, pools),
-    makeIlkProposal(
-      ownerAcc,
-      cloak,
-      compositeMultiOracle as unknown as IOracle,
-      cauldron,
-      witch,
-      fyTokenDebtLimits,
-      auctionLineAndLimits,
-      joins
-    ),
-    addIlksToSeriesProposal(cauldron, seriesIlks),
-  ]
+    joins.map((join) => orchestrateJoin(ownerAcc.address, timelock, cloak, join)),
+    updateYieldSpaceMultiOracleSources(yieldSpaceMultiOracle, compositeSources, pools),
+    updateCompositeSources(compositeMultiOracle, compositeSources, true),
+    updateCompositePaths(compositeMultiOracle, compositePaths),
+    assets.map((asset) => addAsset(ownerAcc, cloak, cauldron, ladle, asset, joinsMap)),
+    basesToAdd.map((base) => makeBase(ownerAcc, cloak, cauldron, witch, base, joinsMap)),
+    series
+      .map((series) => series.ilks)
+      .flat()
+      .map((ilk) => makeIlk(ownerAcc, cloak, cauldron, witch, ilk, joinsMap)),
+    series.map((series) => addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools)),
+  ].flat(4)
 
-  return Promise.all(promises).then((x) => x.flat(1))
+  return Promise.all(promises).then((x) => x.flat())
 }

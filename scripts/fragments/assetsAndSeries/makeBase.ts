@@ -3,14 +3,13 @@
 // - The asset is added to the Witch.
 
 import { getName, indent } from '../../../shared/helpers'
-import { Cauldron, IOracle, Join__factory, EmergencyBrake, Witch } from '../../../typechain'
-import { addBaseToWitch } from '../witch/addBaseToWitch'
+import { Cauldron, EmergencyBrake, IOracle__factory, Join__factory, Witch } from '../../../typechain'
 import { Base } from '../../governance/confTypes'
+import { addBaseToWitch } from '../witch/addBaseToWitch'
 
 export const makeBase = async (
   ownerAcc: any,
   cloak: EmergencyBrake,
-  lendingOracle: IOracle,
   cauldron: Cauldron,
   witch: Witch,
   base: Base,
@@ -21,6 +20,7 @@ export const makeBase = async (
   console.log(indent(nesting, `MAKE_BASE`))
   let proposal: Array<{ target: string; data: string }> = []
   const join = Join__factory.connect(joins.getOrThrow(base.assetId)!, ownerAcc)
+  const lendingOracle = IOracle__factory.connect(base.rateOracle, ownerAcc)
 
   proposal = proposal.concat(await addBaseToWitch(cloak, witch, base.assetId, join, nesting + 1))
 

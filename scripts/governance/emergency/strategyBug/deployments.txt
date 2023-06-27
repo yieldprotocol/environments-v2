@@ -1,0 +1,8 @@
+npx hardhat verify --network arb_mainnet 0xC7D2E96Ca94E1870605c286268313785886D2257 "Yield Strategy ETH 6M Jun Dec" YSETH6MJD 0x523803c57a497c3AD0E850766c8276D4864edEA5 --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x0A4B2e37BFEF8e54DeA997A87749A403353134e8 "Yield Strategy ETH 6M Mar Sep" YSETH6MMS 0xd947360575E6F01Ce7A210C12F2EE37F5ab12d11 --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x9847D09cb0eEA77f7875A6904BFA22AE06b34CCE "Yield Strategy DAI 6M Jun Dec" YSDAI6MJD 0x60a6A7fabe11ff36cbE917a17666848f0FF3A60a --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x4771522accAC6fEcf89A6365cEaF05667ed95886 "Yield Strategy DAI 6M Mar Sep" YSDAI6MMS 0xEE508c827a8990c04798B242fa801C5351012B23 --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0xCeAf1CBf0CFDD1f7Ea4C1C850c0bC032a60431DB "Yield Strategy USDC 6M Jun Dec" YSUSDC6MJD 0xCbB7Eba13F9E1d97B2138F588f5CA2F5167F06cc --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x7012aF43F8a3c1141Ee4e955CC568Ad2af59C3fa "Yield Strategy USDC 6M Mar Sep" YSUSDC6MMS 0x5Bb78E530D9365aeF75664c5093e40B0001F7CCd --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x8b814aD71e611e7a38eE64Ec16ce421A477956e1 "Yield Strategy USDT 6M Jun Dec" YSUSDT6MJD 0x035072cb2912DAaB7B578F468Bd6F0d32a269E32 --libraries addresses/arb_mainnet/safeERC20Namer.js
+npx hardhat verify --network arb_mainnet 0x2C918C4db3843F715556c65646f9E4a04C4BfBa6 "Yield Strategy USDT 6M Mar Sep" YSUSDT6MMS 0x9B19889794A30056A1E5Be118ee0a6647B184c5f --libraries addresses/arb_mainnet/safeERC20Namer.js

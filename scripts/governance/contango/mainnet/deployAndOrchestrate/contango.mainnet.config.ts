@@ -15,7 +15,7 @@ export const pools: Map<string, string> = base_config.pools
 export const external: Map<string, string> = base_config.external
 
 import { CHAINLINK, CHI, RATE, WAD, YIELD_SPACE_MULTI_ORACLE } from '../../../../../shared/constants'
-import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../../../../shared/typed-constants'
+import { ASSETS_ARBITRUM, SERIES_ARBITRUM } from '../../contango-seed-config'
 import { AuctionLineAndLimit, SeriesToAdd } from '../../../confTypes' // Note we use the series id as the asset id
 
 export const rateChiSources = ASSETS_ARBITRUM.map(({ bytes: base }) => [

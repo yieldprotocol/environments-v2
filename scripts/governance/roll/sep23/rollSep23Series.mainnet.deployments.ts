@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { ONE64, secondsInOneYear } from '../../../../shared/constants'
+import { FRAX, FYFRAX2309, ONE64, secondsInOneYear } from '../../../../shared/constants'
 import { EULER, USDT, EUSDT, EOSEP23, FYUSDT2309 } from '../../../../shared/constants'
 import { SAFE_ERC20_NAMER, YIELDMATH, ACCUMULATOR } from '../../../../shared/constants'
 
@@ -25,7 +25,7 @@ export const strategies = () => readAddressMappingIfExists('strsategies.json')
 /// @notice Time stretch to be set in the PoolFactory prior to pool deployment
 /// @param series identifier (bytes6 tag)
 /// @param time stretch (64.64)
-export const timeStretch: Map<string, BigNumber> = new Map([[FYUSDT2309, ONE64.div(secondsInOneYear.mul(35))]])
+export const timeStretch: Map<string, BigNumber> = new Map([[FYFRAX2309, ONE64.div(secondsInOneYear.mul(35))]])
 
 /// @notice Sell base to the pool fee, as fp4
 export const g1: number = 9000
@@ -41,15 +41,15 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Symbol for the series
   {
     addressFile: 'fyTokens.json',
-    name: FYUSDT2309,
+    name: FYFRAX2309,
     contract: 'FYToken',
     args: [
-      () => USDT,
+      () => FRAX,
       () => protocol().getOrThrow(ACCUMULATOR)!,
-      () => joins().getOrThrow(USDT)!,
+      () => joins().getOrThrow(FRAX)!,
       () => EOSEP23,
-      () => 'FYUSDT2309',
-      () => 'FYUSDT2309',
+      () => 'FYFRAX2309',
+      () => 'FYFRAX2309',
     ],
     libs: {
       SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
@@ -63,13 +63,12 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param g1, in 64.64
   {
     addressFile: 'pools.json',
-    name: FYUSDT2309,
-    contract: 'PoolEuler',
+    name: FYFRAX2309,
+    contract: 'PoolNonTv',
     args: [
-      () => external.getOrThrow(EULER)!,
-      () => assets.get(EUSDT)!,
-      () => fyTokens().getOrThrow(FYUSDT2309)!,
-      () => timeStretch.get(FYUSDT2309)!.toString(),
+      () => assets.get(FRAX)!,
+      () => fyTokens().getOrThrow(FYFRAX2309)!,
+      () => timeStretch.get(FYFRAX2309)!.toString(),
       () => g1.toString(),
     ],
     libs: {

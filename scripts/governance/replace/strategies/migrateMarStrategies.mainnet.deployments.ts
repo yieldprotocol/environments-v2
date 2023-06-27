@@ -28,12 +28,7 @@ export const strategies = () => readAddressMappingIfExists('strategies.json')
 /// @notice Time stretch to be set in the PoolFactory prior to pool deployment
 /// @param series identifier (bytes6 tag)
 /// @param time stretch (64.64)
-export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYETH2309, ONE64.div(secondsInOneYear.mul(25))],
-  [FYDAI2309, ONE64.div(secondsInOneYear.mul(45))],
-  [FYUSDC2309, ONE64.div(secondsInOneYear.mul(55))],
-  [FYFRAX2309, ONE64.div(secondsInOneYear.mul(45))],
-])
+export const timeStretch: Map<string, BigNumber> = new Map([[FYFRAX2309, ONE64.div(secondsInOneYear.mul(45))]])
 
 /// @notice Sell base to the pool fee, as fp4
 export const g1: number = 9000
@@ -47,54 +42,6 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Maturity in unix time (seconds since Jan 1, 1970)
   /// @param Name for the series
   /// @param Symbol for the series
-  {
-    addressFile: 'fyTokens.json',
-    name: FYETH2309,
-    contract: 'FYToken',
-    args: [
-      () => ETH,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(ETH),
-      () => EOSEP23,
-      () => 'FYETH2309',
-      () => 'FYETH2309',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYDAI2309,
-    contract: 'FYToken',
-    args: [
-      () => DAI,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(DAI),
-      () => EOSEP23,
-      () => 'FYDAI2309',
-      () => 'FYDAI2309',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'fyTokens.json',
-    name: FYUSDC2309,
-    contract: 'FYToken',
-    args: [
-      () => USDC,
-      () => protocol.getOrThrow(COMPOUND),
-      () => joins.getOrThrow(USDC),
-      () => EOSEP23,
-      () => 'FYUSDC2309',
-      () => 'FYUSDC2309',
-    ],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
   {
     addressFile: 'fyTokens.json',
     name: FYFRAX2309,
@@ -119,51 +66,6 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param g1, in 64.64
   {
     addressFile: 'pools.json',
-    name: FYETH2309,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER),
-      () => assets.getOrThrow(EWETH)!,
-      () => fyTokens().getOrThrow(FYETH2309)!,
-      () => timeStretch.get(FYETH2309)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol.getOrThrow(YIELDMATH)!,
-    },
-  },
-  {
-    addressFile: 'pools.json',
-    name: FYDAI2309,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER),
-      () => assets.getOrThrow(EDAI)!,
-      () => fyTokens().getOrThrow(FYDAI2309)!,
-      () => timeStretch.get(FYDAI2309)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol.getOrThrow(YIELDMATH)!,
-    },
-  },
-  {
-    addressFile: 'pools.json',
-    name: FYUSDC2309,
-    contract: 'PoolEuler',
-    args: [
-      () => external.getOrThrow(EULER),
-      () => assets.getOrThrow(EUSDC)!,
-      () => fyTokens().getOrThrow(FYUSDC2309)!,
-      () => timeStretch.get(FYUSDC2309)!.toString(),
-      () => g1.toString(),
-    ],
-    libs: {
-      YieldMath: protocol.getOrThrow(YIELDMATH)!,
-    },
-  },
-  {
-    addressFile: 'pools.json',
     name: FYFRAX2309,
     contract: 'PoolNonTv',
     args: [
@@ -183,33 +85,6 @@ export const contractDeployments: ContractDeployment[] = [
   /// @param Address for the underlying asset
   /// @param Underlying asset identifier (bytes6 tag)
   /// @param Address for the underlying asset join
-  {
-    addressFile: 'strategies.json',
-    name: YSETH6MMS,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy ETH 6M Mar Sep', () => 'YSETH6MMS', () => fyTokens().getOrThrow(FYETH2309)!],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'strategies.json',
-    name: YSDAI6MMS,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy DAI 6M Mar Sep', () => 'YSDAI6MMS', () => fyTokens().getOrThrow(FYDAI2309)!],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
-  {
-    addressFile: 'strategies.json',
-    name: YSUSDC6MMS,
-    contract: 'Strategy',
-    args: [() => 'Yield Strategy USDC 6M Mar Sep', () => 'YSUSDC6MMS', () => fyTokens().getOrThrow(FYUSDC2309)!],
-    libs: {
-      SafeERC20Namer: protocol.getOrThrow(SAFE_ERC20_NAMER)!,
-    },
-  },
   {
     addressFile: 'strategies.json',
     name: YSFRAX6MMS,
