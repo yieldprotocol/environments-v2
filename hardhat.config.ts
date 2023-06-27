@@ -113,12 +113,12 @@ module.exports = {
     },
     localhost: {
       timeout: 600000,
-      chainId: 31337,  // hardhat node used 31337 for local host but anvil uses the actual chainid
+      chainId: 42161,  // hardhat node used 31337 for local host but anvil uses the actual chainid
       loggingEnabled: true,
     },
     tenderly: {
       // update url of fork
-      url: "https://rpc.tenderly.co/fork/0fb955fc-6552-43b9-8d2a-3924c0385ca2",
+      url: "https://rpc.tenderly.co/fork/179ea06c-a717-4eac-ba77-568f8bd8de0b",
       // update chainId if necessary
       forkNetwork: "1",
       username: "Yield",
@@ -129,7 +129,7 @@ module.exports = {
     mainnet: {
       accounts,
       blockGasLimit: 300_000_000_000,
-      gasPrice: 50_000_000_000,
+      gasPrice: 30_000_000_000,
       timeout: 60_000_000,
       gasMultiplier: 1.2,
       url: infuraNodeUrl('mainnet')
