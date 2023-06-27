@@ -6,6 +6,7 @@
 import { ethers } from 'hardhat'
 import { getName, indent } from '../../../shared/helpers'
 import { YieldSpaceMultiOracle } from '../../../typechain'
+import { OracleSource } from '../../governance/confTypes'
 
 export const updateYieldSpaceMultiOracleSource = async (
   yieldSpaceMultiOracle: YieldSpaceMultiOracle,
@@ -17,7 +18,6 @@ export const updateYieldSpaceMultiOracleSource = async (
   console.log()
   console.log(indent(nesting, `UPDATE_YIELD_SPACE_MULTI_ORACLE_SOURCE`))
   const proposal: Array<{ target: string; data: string }> = []
-
   const pair = `${getName(baseId)}/${getName(quoteId)}`
 
   proposal.push({
