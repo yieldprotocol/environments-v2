@@ -121,42 +121,42 @@ import { Asset, Base, Ilk, Series, Strategy } from './confTypes'
 
 export const ONEUSDT = ONEUSDC
 
-const eth: Base = {
+export const eth: Base = {
   assetId: ETH,
   address: assets.getOrThrow(ETH)!,
   rateOracle: protocol.getOrThrow(COMPOUND)!,
 }
 
-const dai: Base = {
+export const dai: Base = {
   assetId: DAI,
   address: assets.getOrThrow(DAI)!,
   rateOracle: protocol.getOrThrow(COMPOUND)!,
 }
 
-const usdc: Base = {
+export const usdc: Base = {
   assetId: USDC,
   address: assets.getOrThrow(USDC)!,
   rateOracle: protocol.getOrThrow(COMPOUND)!,
 }
 
-const frax: Base = {
+export const frax: Base = {
   assetId: FRAX,
   address: assets.getOrThrow(FRAX)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const usdt: Base = {
+export const usdt: Base = {
   assetId: USDT,
   address: assets.getOrThrow(USDT)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const reth: Asset = {
+export const reth: Asset = {
   assetId: RETH,
   address: assets.getOrThrow(RETH)!,
 }
 
-const crab: Asset = {
+export const crab: Asset = {
   assetId: CRAB,
   address: assets.getOrThrow(CRAB)!,
 }

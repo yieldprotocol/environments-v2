@@ -10,33 +10,34 @@ const pools: Map<string, string> = new Map([
   ],
   [
     "0x0031FF00028C",
-    "0x1488646B72A188C82e0B35E0c28A3183E663e93f"
+    "0x0bdF152f6d899F4B63b9554ED98D9b9d22FFdee4"
   ],
   [
     "0x0032FF00028C",
-    "0x9d9DcF0035dB75F822A90a1d411aeB49F3ffc384"
+    "0xaCd0523Aca72CC58EC2f3d4C14F5473FC11c5C2D"
   ],
   [
     "0x00A0FF00028C",
-    "0x8b5875837679DF564CAf260266a466Cce12F350f"
+    "0x6E38B8d9dedd967961508708183678b4EC1B1E33"
   ],
   [
     "0x0030FF00028E",
-    "0xd06b8a687eB30cb6EE6410655d361cfB87F6b6da"
+    "0xE56c9c47b271A58e5856004952c5F4D34a78B99B"
   ],
   [
     "0x0031FF00028E",
-    "0x4BDD8761e730C6523562a011FD799b019BD46dfb"
+    "0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79"
   ],
   [
     "0x0032FF00028E",
-    "0xBB5d1466bb671BE9b8Ff0f10Bcb761C386694600"
+    "0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35"
   ],
   [
     "0x00A0FF00028E",
-    "0x34Cce6324576b9d31E01c36303CFb9438dc0AB76"
+    "0x0ECc79FE01b02548853c87466cCd57710bf9d11A"
   ]
 ])
+
 
 ;(async () => {
   for (let [seriesId, poolAddress] of pools) {
@@ -58,6 +59,7 @@ const pools: Map<string, string> = new Map([
 //    const poolMaximumFYToken = ratio === 0 ? 0 : poolAvailableBase.mul(1000000).div(ratio)
 
     console.log(`Series: ${getName(seriesId)}`)
+    console.log(`Pool total supply:       ${poolTotalSupply}`)
     console.log(`Pool cached base:        ${poolBase}`)
 //    console.log(`Pool available base:     ${poolAvailableBase}`)
     console.log(`Pool cached fyToken:     ${poolFYToken}`)
