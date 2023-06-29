@@ -18,3 +18,4 @@ export const FCASH_DEC22 = fCashTenor(215) // 1671840000
 export const FCASH_MAR23 = fCashTenor(216) // 1679616000
 export const FCASH_JUN23 = fCashTenor(217) // 1687392000
 export const FCASH_SEP23 = fCashTenor(218) // 1695168000
+export const FCASH_DEC23 = fCashTenor(219) // 1702944000

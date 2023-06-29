@@ -1,5 +1,5 @@
 import { ethers, BigNumber } from 'ethers'
-import { FCASH_JUN23, FCASH_SEP23 } from './notional'
+import { FCASH_JUN23, FCASH_SEP23, FCASH_DEC23 } from './notional'
 
 export const ZERO = BigNumber.from(0)
 export const ZERO_ADDRESS = '0x' + '00'.repeat(20)
@@ -245,6 +245,11 @@ export const FYDAI2309 = getSeriesId(DAI, EOSEP23) // 0x0 031 FF 000 28F
 export const FYUSDC2309 = getSeriesId(USDC, EOSEP23) // 0x0 032 FF 000 28F
 export const FYFRAX2309 = getSeriesId(FRAX, EOSEP23) // 0x0 138 FF 000 28F
 export const FYUSDT2309 = getSeriesId(USDT, EOSEP23) // 0x0 0A0 FF 000 28F
+export const FYETH2312 = getSeriesId(ETH, EODEC23) // 0x0 030 FF 000 291
+export const FYDAI2312 = getSeriesId(DAI, EODEC23) // 0x0 031 FF 000 291
+export const FYUSDC2312 = getSeriesId(USDC, EODEC23) // 0x0 032 FF 000 291
+export const FYFRAX2312 = getSeriesId(FRAX, EODEC23) // 0x0 138 FF 000 291
+export const FYUSDT2312 = getSeriesId(USDT, EODEC23) // 0x0 0A0 FF 000 291
 
 export const FYUSDT2303LP = getPoolId(USDT, EOMAR23) // 0x2 0A0 FF 000 288
 export const FYUSDT2306LP = getPoolId(USDT, EOJUN23) // 0x2 0A0 FF 000 28B
@@ -258,6 +263,11 @@ export const FYDAI2309LP = getPoolId(DAI, EOSEP23) // 0x2 031 FF 000 28F
 export const FYUSDC2309LP = getPoolId(USDC, EOSEP23) // 0x2 032 FF 000 28F
 export const FYFRAX2309LP = getPoolId(FRAX, EOSEP23) // 0x2 138 FF 000 28F
 export const FYUSDT2309LP = getPoolId(USDT, EOSEP23) // 0x2 0A0 FF 000 28F
+export const FYETH2312LP = getPoolId(ETH, EODEC23) // 0x2 030 FF 000 291
+export const FYDAI2312LP = getPoolId(DAI, EODEC23) // 0x2 031 FF 000 291
+export const FYUSDC2312LP = getPoolId(USDC, EODEC23) // 0x2 032 FF 000 291
+export const FYFRAX2312LP = getPoolId(FRAX, EODEC23) // 0x2 138 FF 000 291
+export const FYUSDT2312LP = getPoolId(USDT, EODEC23) // 0x2 0A0 FF 000 291
 
 export const FETH2306 = getFCashAssetId(ETH, FCASH_JUN23) // 0x4 030 12 000 28B
 export const FDAI2306 = getFCashAssetId(DAI, FCASH_JUN23) // 0x4 031 12 000 28B
@@ -265,6 +275,9 @@ export const FUSDC2306 = getFCashAssetId(USDC, FCASH_JUN23) // 0x4 032 12 000 28
 export const FETH2309 = getFCashAssetId(ETH, FCASH_SEP23) // 0x4 030 12 000 28F
 export const FDAI2309 = getFCashAssetId(DAI, FCASH_SEP23) // 0x4 031 12 000 28F
 export const FUSDC2309 = getFCashAssetId(USDC, FCASH_SEP23) // 0x4 032 12 000 28F
+export const FETH2312 = getFCashAssetId(ETH, FCASH_DEC23) // 0x4 030 12 000 291
+export const FDAI2312 = getFCashAssetId(DAI, FCASH_DEC23) // 0x4 031 12 000 291
+export const FUSDC2312 = getFCashAssetId(USDC, FCASH_DEC23) // 0x4 032 12 000 291
 
 export const YSETH6MMS = getStrategyId(ETH, 'MMS') // 1 030 FF 000 001 - Yield Strategy ETH 6M Mar Sep - YSETH6MMS
 export const YSETH6MJD = getStrategyId(ETH, 'MJD') // 1 030 FF 000 000 - Yield Strategy ETH 6M Jun Dec - YSETH6MJD
@@ -407,6 +420,11 @@ export const DISPLAY_NAMES = new Map([
   [FYUSDC2309, 'FYUSDC2309'],
   [FYFRAX2309, 'FYFRAX2309'],
   [FYUSDT2309, 'FYUSDT2309'],
+  [FYETH2312, 'FYETH2312'],
+  [FYDAI2312, 'FYDAI2312'],
+  [FYUSDC2312, 'FYUSDC2312'],
+  [FYFRAX2312, 'FYFRAX2312'],
+  [FYUSDT2312, 'FYUSDT2312'],
   [FYUSDT2303LP, 'FYUSDT2303LP'],
   [FYUSDT2306LP, 'FYUSDT2306LP'],
   [FYETH2309LP, 'FYETH2309LP'],
@@ -414,6 +432,11 @@ export const DISPLAY_NAMES = new Map([
   [FYUSDC2309LP, 'FYUSDC2309LP'],
   [FYFRAX2309LP, 'FYFRAX2309LP'],
   [FYUSDT2309LP, 'FYUSDT2309LP'],
+  [FYETH2312LP, 'FYETH2312LP'],
+  [FYDAI2312LP, 'FYDAI2312LP'],
+  [FYUSDC2312LP, 'FYUSDC2312LP'],
+  [FYFRAX2312LP, 'FYFRAX2312LP'],
+  [FYUSDT2312LP, 'FYUSDT2312LP'],
   [YSETH6MMS, 'YSETH6MMS'],
   [YSETH6MJD, 'YSETH6MJD'],
   [YSDAI6MMS, 'YSDAI6MMS'],
