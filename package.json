@@ -34,6 +34,7 @@
     "@yield-protocol/yieldspace-tv": "0.1.11",    
     "chai": "4.2.0",
     "dss-interfaces": "0.1.1",
+    "erc3156-wrappers": "^0.0.1",
     "erc3156": "^0.4.8",
     "ethereum-waffle": "^3.2.2",
     "hardhat": "^2.9.1",

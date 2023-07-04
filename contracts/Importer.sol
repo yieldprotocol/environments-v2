@@ -48,3 +48,4 @@ import "@yield-protocol/utils-v2/src/token/TokenUpgrade.sol";
 import "@yield-protocol/strategy-v2/src/Strategy.sol";
 import "@yield-protocol/yvarb/contracts/YieldStEthLever.sol";
 import "@yield-protocol/yvarb/contracts/YieldNotionalLever.sol";
+import "erc3156-wrappers/contracts/uniswap/UniswapERC3156.sol";

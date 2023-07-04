@@ -20,22 +20,6 @@ const pools: Map<string, string> = new Map([
     "0x00A0FF00028C",
     "0x6E38B8d9dedd967961508708183678b4EC1B1E33"
   ],
-  [
-    "0x0030FF00028E",
-    "0xE56c9c47b271A58e5856004952c5F4D34a78B99B"
-  ],
-  [
-    "0x0031FF00028E",
-    "0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79"
-  ],
-  [
-    "0x0032FF00028E",
-    "0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35"
-  ],
-  [
-    "0x00A0FF00028E",
-    "0x0ECc79FE01b02548853c87466cCd57710bf9d11A"
-  ]
 ])
 
 
