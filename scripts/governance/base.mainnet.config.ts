@@ -1,38 +1,33 @@
+import { ethers } from 'hardhat'
 import { parseUnits } from 'ethers/lib/utils'
-import { readAddressMappingIfExists } from '../../shared/helpers'
 import {
   DAI,
   ENS,
   ETH,
   FRAX,
   LINK,
-  STETH,
   UNI,
   USDC,
   WBTC,
   WSTETH,
   CRAB,
-  YVDAI,
   YVUSDC,
   USDT,
   RETH,
-  YSDAI6MMSASSET,
-  YSDAI6MJDASSET,
-  YSUSDC6MMSASSET,
-  YSUSDC6MJDASSET,
-  YSETH6MMSASSET,
-  YSETH6MJDASSET,
-  YSFRAX6MMSASSET,
-  YSFRAX6MJDASSET,
-  FETH2303,
   NOTIONAL,
-  FETH2306,
+  FCASH,
+  FETH2303,
   FDAI2303,
-  FDAI2306,
   FUSDC2303,
+  FETH2306,
+  FDAI2306,
   FUSDC2306,
-  SPWSTETH2304,
-  SPCDAI2307,
+  FETH2309,
+  FDAI2309,
+  FUSDC2309,
+  FETH2312,
+  FDAI2312,
+  FUSDC2312,
 } from '../../shared/constants'
 import {
   FYETH2303,
@@ -45,11 +40,18 @@ import {
   FYUSDC2306,
   FYFRAX2306,
   FYUSDT2306,
-  //  FYETH2309,
-  //  FYDAI2309,
-  //  FYUSDC2309,
-  //  FYFRAX2309,
-  //  FYUSDT2309,
+  FYETH2306B,
+  FYDAI2306B,
+  FYUSDC2306B,
+  FYUSDT2306B,
+  FYETH2309,
+  FYDAI2309,
+  FYUSDC2309,
+  FYUSDT2309,
+  FYETH2312,
+  FYDAI2312,
+  FYUSDC2312,
+  FYUSDT2312,
 } from '../../shared/constants'
 import {
   YSETH6MJD,
@@ -60,7 +62,7 @@ import {
   YSETH6MMS,
   YSDAI6MMS,
   YSUSDC6MMS,
-  YSFRAX6MMS_V1,
+  YSFRAX6MMS,
   YSUSDT6MMS,
 } from '../../shared/constants'
 import {
@@ -70,52 +72,27 @@ import {
   COMPOSITE,
   YEARN,
   LIDO,
-  STRATEGY_ORACLE,
   RETH_ORACLE,
   CRAB_ORACLE,
 } from '../../shared/constants'
 import { WAD, ONEUSDC, ONEWBTC } from '../../shared/constants'
 
-export const external = readAddressMappingIfExists('external.json')
-export const assets = readAddressMappingIfExists('assets.json')
-export const protocol = readAddressMappingIfExists('protocol.json')
-export const governance = readAddressMappingIfExists('governance.json')
-export const deployers = readAddressMappingIfExists('deployers.json')
-export const fyTokens = readAddressMappingIfExists('fyTokens.json')
-export const pools = readAddressMappingIfExists('pools.json')
-export const joins = readAddressMappingIfExists('joins.json')
-export const strategyAddresses = readAddressMappingIfExists('strategies.json') // TODO: Name clash :(
+import * as addresses from './addresses.mainnet.config'
+export const external = addresses.external
+export const assets = addresses.assets
+export const protocol = addresses.protocol
+export const governance = addresses.governance
+export const deployers = addresses.deployers
+export const fyTokens = addresses.fyTokens
+export const pools = addresses.pools
+export const joins = addresses.joins
+export const strategyAddresses = addresses.strategies
 
 export const chainId = 1
 
 export const developer = '0xC7aE076086623ecEA2450e364C838916a043F9a8'
-export const whales: Map<string, string> = new Map([
-  [ETH, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
-  [DAI, '0x16b34ce9a6a6f7fc2dd25ba59bf7308e7b38e186'],
-  [USDC, '0xcffad3200574698b78f32232aa9d63eabd290703'],
-  [WBTC, '0xd51a44d3fae010294c616388b506acda1bfaae46'],
-  [WSTETH, '0x10cd5fbe1b404b7e19ef964b63939907bdaf42e2'],
-  [STETH, '0x1982b2f5814301d4e9a8b0201555376e62f82428'],
-  [LINK, '0x0d4f1ff895d12c34994d6b65fabbeefdc1a9fb39'],
-  [ENS, '0xd7a029db2585553978190db5e85ec724aa4df23f'],
-  [YVUSDC, '0x5934807cc0654d46755ebd2848840b616256c6ef'],
-  [YVDAI, '0x50da1e9c57c334bb3a7bc10ddb6860331ec3c62a'],
-  [UNI, '0x47173b170c64d16393a52e6c480b3ad8c302ba1e'],
-  [FRAX, '0xc63b0708e2f7e69cb8a1df0e1389a98c35a76d52'],
-  [USDT, '0x5041ed759dd4afc3a72b8192c143f72f4724081a'],
-  [YSDAI6MMSASSET, '0x232c412d3613d5915fc1ebf6eb8d14f11b6a260d'],
-  [YSDAI6MJDASSET, '0x9185df15078547055604f5c0b02fc1c8d93594a5'],
-  [YSUSDC6MMSASSET, '0x3250e201c2eb06d086138f181e0fb6d1fe33f7d1'],
-  [YSUSDC6MJDASSET, '0x64d226daf361f4f2cc5ad48b7501a7ea2598859f'],
-  [YSETH6MMSASSET, '0xbe6cce2753c0e99bc9e1b1bea946d35921aabd49'],
-  [YSETH6MJDASSET, '0x3336581a28870d343e085beae4cec23f47838899'],
-  [YSFRAX6MMSASSET, '0x430e076e5292e0028a0a17a00a65c43e6ee7fb91'],
-  [YSFRAX6MJDASSET, '0x3b870db67a45611cf4723d44487eaf398fac51e3'],
-  [CRAB, '0xa1cab67a4383312718a5799eaa127906e9d4b19e'],
-  [RETH, '0x7c5aaa2a20b01df027ad032f7a768ac015e77b86'],
-  [SPWSTETH2304, '0xB6462B67fe692223DFFb61C8DC8Ad080CBa180Cc'],
-  [SPCDAI2307, '0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C'],
-])
+
+export const fCashAddress = external.getOrThrow(FCASH)!
 
 import { Asset, Base, Ilk, Series, Strategy } from './confTypes'
 
@@ -161,6 +138,36 @@ export const crab: Asset = {
   address: assets.getOrThrow(CRAB)!,
 }
 
+export const fETH2309: Asset = {
+  assetId: FETH2309,
+  address: fCashAddress,
+}
+
+export const fDAI2309: Asset = {
+  assetId: FDAI2309,
+  address: fCashAddress,
+}
+
+export const fUSDC2309: Asset = {
+  assetId: FUSDC2309,
+  address: fCashAddress,
+}
+
+export const fETH2312: Asset = {
+  assetId: FETH2312,
+  address: fCashAddress,
+}
+
+export const fDAI2312: Asset = {
+  assetId: FDAI2312,
+  address: fCashAddress,
+}
+
+export const fUSDC2312: Asset = {
+  assetId: FUSDC2312,
+  address: fCashAddress,
+}
+
 export const bases: Map<string, Base> = new Map([
   [ETH, eth],
   [DAI, dai],
@@ -171,7 +178,7 @@ export const bases: Map<string, Base> = new Map([
 
 /// -------------------------------- ETH --------------------------------
 
-const ilkETHETH: Ilk = {
+export const ilkETHETH: Ilk = {
   baseId: ETH,
   ilkId: ETH,
   asset: {
@@ -194,7 +201,7 @@ const ilkETHETH: Ilk = {
   // No auction line and limit for ETH/ETH
 }
 
-const ilkETHDAI: Ilk = {
+export const ilkETHDAI: Ilk = {
   baseId: ETH,
   ilkId: DAI,
   asset: {
@@ -224,7 +231,7 @@ const ilkETHDAI: Ilk = {
   },
 }
 
-const ilkETHUSDC: Ilk = {
+export const ilkETHUSDC: Ilk = {
   baseId: ETH,
   ilkId: USDC,
   asset: {
@@ -254,7 +261,7 @@ const ilkETHUSDC: Ilk = {
   },
 }
 
-const ilkETHWBTC: Ilk = {
+export const ilkETHWBTC: Ilk = {
   baseId: ETH,
   ilkId: WBTC,
   asset: {
@@ -284,7 +291,7 @@ const ilkETHWBTC: Ilk = {
   },
 }
 
-const ilkETHWSTETH: Ilk = {
+export const ilkETHWSTETH: Ilk = {
   baseId: ETH,
   ilkId: WSTETH,
   asset: {
@@ -314,7 +321,7 @@ const ilkETHWSTETH: Ilk = {
   },
 }
 
-const ilkETHLINK: Ilk = {
+export const ilkETHLINK: Ilk = {
   baseId: ETH,
   ilkId: LINK,
   asset: {
@@ -344,7 +351,7 @@ const ilkETHLINK: Ilk = {
   },
 }
 
-const ilkETHUNI: Ilk = {
+export const ilkETHUNI: Ilk = {
   baseId: ETH,
   ilkId: UNI,
   asset: {
@@ -374,7 +381,7 @@ const ilkETHUNI: Ilk = {
   },
 }
 
-const ilkETHENS: Ilk = {
+export const ilkETHENS: Ilk = {
   baseId: ETH,
   ilkId: ENS,
   asset: {
@@ -404,7 +411,7 @@ const ilkETHENS: Ilk = {
   },
 }
 
-const ilkETHFRAX: Ilk = {
+export const ilkETHFRAX: Ilk = {
   baseId: ETH,
   ilkId: FRAX,
   asset: {
@@ -514,6 +521,7 @@ export const ilkETHFETH2303: Ilk = {
     max: WAD.mul(10000000),
   },
 }
+
 export const ilkETHFETH2306: Ilk = {
   baseId: ETH,
   ilkId: FETH2306,
@@ -541,9 +549,53 @@ export const ilkETHFETH2306: Ilk = {
   },
 }
 
+export const ilkETHFETH2309: Ilk = {
+  baseId: ETH,
+  ilkId: FETH2309,
+  asset: {
+    assetId: FETH2309,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: ETH,
+    ilkId: FETH2309,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: ETH,
+    ilkId: FETH2309,
+    line: 400,
+    dust: 1,
+    dec: 18,
+  },
+}
+
+export const ilkETHFETH2312: Ilk = {
+  baseId: ETH,
+  ilkId: FETH2312,
+  asset: {
+    assetId: FETH2312,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: ETH,
+    ilkId: FETH2312,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: ETH,
+    ilkId: FETH2312,
+    line: 400,
+    dust: 1,
+    dec: 18,
+  },
+}
+
 /// ---------------------------- DAI ----------------------------
 
-const ilkDAIDAI: Ilk = {
+export const ilkDAIDAI: Ilk = {
   baseId: DAI,
   ilkId: DAI,
   asset: {
@@ -566,7 +618,7 @@ const ilkDAIDAI: Ilk = {
   // No auction line and limit for DAI/DAI
 }
 
-const ilkDAIETH: Ilk = {
+export const ilkDAIETH: Ilk = {
   baseId: DAI,
   ilkId: ETH,
   asset: {
@@ -596,7 +648,7 @@ const ilkDAIETH: Ilk = {
   },
 }
 
-const ilkDAIUSDC: Ilk = {
+export const ilkDAIUSDC: Ilk = {
   baseId: DAI,
   ilkId: USDC,
   asset: {
@@ -626,7 +678,7 @@ const ilkDAIUSDC: Ilk = {
   },
 }
 
-const ilkDAIWBTC: Ilk = {
+export const ilkDAIWBTC: Ilk = {
   baseId: DAI,
   ilkId: WBTC,
   asset: {
@@ -656,7 +708,7 @@ const ilkDAIWBTC: Ilk = {
   },
 }
 
-const ilkDAIWSTETH: Ilk = {
+export const ilkDAIWSTETH: Ilk = {
   baseId: DAI,
   ilkId: WSTETH,
   asset: {
@@ -686,7 +738,7 @@ const ilkDAIWSTETH: Ilk = {
   },
 }
 
-const ilkDAILINK: Ilk = {
+export const ilkDAILINK: Ilk = {
   baseId: DAI,
   ilkId: LINK,
   asset: {
@@ -716,7 +768,7 @@ const ilkDAILINK: Ilk = {
   },
 }
 
-const ilkDAIUNI: Ilk = {
+export const ilkDAIUNI: Ilk = {
   baseId: DAI,
   ilkId: UNI,
   asset: {
@@ -746,7 +798,7 @@ const ilkDAIUNI: Ilk = {
   },
 }
 
-const ilkDAIENS: Ilk = {
+export const ilkDAIENS: Ilk = {
   baseId: DAI,
   ilkId: ENS,
   asset: {
@@ -776,7 +828,7 @@ const ilkDAIENS: Ilk = {
   },
 }
 
-const ilkDAIFRAX: Ilk = {
+export const ilkDAIFRAX: Ilk = {
   baseId: DAI,
   ilkId: FRAX,
   asset: {
@@ -919,9 +971,53 @@ export const ilkDAIFDAI2306: Ilk = {
   },
 }
 
+export const ilkDAIFDAI2309: Ilk = {
+  baseId: DAI,
+  ilkId: FDAI2309,
+  asset: {
+    assetId: FDAI2309,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: DAI,
+    ilkId: FDAI2309,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: DAI,
+    ilkId: FDAI2309,
+    line: 500000,
+    dust: 5000,
+    dec: 18,
+  },
+}
+
+export const ilkDAIFDAI2312: Ilk = {
+  baseId: DAI,
+  ilkId: FDAI2312,
+  asset: {
+    assetId: FDAI2312,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: DAI,
+    ilkId: FDAI2312,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: DAI,
+    ilkId: FDAI2312,
+    line: 500000,
+    dust: 5000,
+    dec: 18,
+  },
+}
+
 /// ---------------------------- USDC ----------------------------
 
-const ilkUSDCUSDC: Ilk = {
+export const ilkUSDCUSDC: Ilk = {
   baseId: USDC,
   ilkId: USDC,
   asset: {
@@ -944,7 +1040,7 @@ const ilkUSDCUSDC: Ilk = {
   // No auction line and limit for USDC/USDC
 }
 
-const ilkUSDCETH: Ilk = {
+export const ilkUSDCETH: Ilk = {
   baseId: USDC,
   ilkId: ETH,
   asset: {
@@ -974,7 +1070,7 @@ const ilkUSDCETH: Ilk = {
   },
 }
 
-const ilkUSDCDAI: Ilk = {
+export const ilkUSDCDAI: Ilk = {
   baseId: USDC,
   ilkId: DAI,
   asset: {
@@ -1004,7 +1100,7 @@ const ilkUSDCDAI: Ilk = {
   },
 }
 
-const ilkUSDCWBTC: Ilk = {
+export const ilkUSDCWBTC: Ilk = {
   baseId: USDC,
   ilkId: WBTC,
   asset: {
@@ -1034,7 +1130,7 @@ const ilkUSDCWBTC: Ilk = {
   },
 }
 
-const ilkUSDCWSTETH: Ilk = {
+export const ilkUSDCWSTETH: Ilk = {
   baseId: USDC,
   ilkId: WSTETH,
   asset: {
@@ -1064,7 +1160,7 @@ const ilkUSDCWSTETH: Ilk = {
   },
 }
 
-const ilkUSDCLINK: Ilk = {
+export const ilkUSDCLINK: Ilk = {
   baseId: USDC,
   ilkId: LINK,
   asset: {
@@ -1094,7 +1190,7 @@ const ilkUSDCLINK: Ilk = {
   },
 }
 
-const ilkUSDCUNI: Ilk = {
+export const ilkUSDCUNI: Ilk = {
   baseId: USDC,
   ilkId: UNI,
   asset: {
@@ -1124,7 +1220,7 @@ const ilkUSDCUNI: Ilk = {
   },
 }
 
-const ilkUSDCENS: Ilk = {
+export const ilkUSDCENS: Ilk = {
   baseId: USDC,
   ilkId: ENS,
   asset: {
@@ -1154,7 +1250,7 @@ const ilkUSDCENS: Ilk = {
   },
 }
 
-const ilkUSDCFRAX: Ilk = {
+export const ilkUSDCFRAX: Ilk = {
   baseId: USDC,
   ilkId: FRAX,
   asset: {
@@ -1184,7 +1280,7 @@ const ilkUSDCFRAX: Ilk = {
   },
 }
 
-const ilkUSDCYVUSDC: Ilk = {
+export const ilkUSDCYVUSDC: Ilk = {
   baseId: USDC,
   ilkId: YVUSDC,
   asset: {
@@ -1328,9 +1424,52 @@ export const ilkUSDCFUSDC2306: Ilk = {
   },
 }
 
+export const ilkUSDCFUSDC2309: Ilk = {
+  baseId: USDC,
+  ilkId: FUSDC2309,
+  asset: {
+    assetId: FUSDC2309,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: USDC,
+    ilkId: FUSDC2309,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: USDC,
+    ilkId: FUSDC2309,
+    line: 500000,
+    dust: 5000,
+    dec: 6,
+  },
+}
+
+export const ilkUSDCFUSDC2312: Ilk = {
+  baseId: USDC,
+  ilkId: FUSDC2312,
+  asset: {
+    assetId: FUSDC2312,
+    address: fCashAddress,
+  },
+  collateralization: {
+    baseId: USDC,
+    ilkId: FUSDC2312,
+    oracle: protocol.getOrThrow(NOTIONAL)!,
+    ratio: 1100000,
+  },
+  debtLimits: {
+    baseId: USDC,
+    ilkId: FUSDC2312,
+    line: 500000,
+    dust: 5000,
+    dec: 6,
+  },
+}
 /// ---------------------------- FRAX ----------------------------
 
-const ilkFRAXFRAX: Ilk = {
+export const ilkFRAXFRAX: Ilk = {
   baseId: FRAX,
   ilkId: FRAX,
   asset: {
@@ -1353,7 +1492,7 @@ const ilkFRAXFRAX: Ilk = {
   // No auction line and limit for FRAX/FRAX
 }
 
-const ilkFRAXETH: Ilk = {
+export const ilkFRAXETH: Ilk = {
   baseId: FRAX,
   ilkId: ETH,
   asset: {
@@ -1383,7 +1522,7 @@ const ilkFRAXETH: Ilk = {
   },
 }
 
-const ilkFRAXDAI: Ilk = {
+export const ilkFRAXDAI: Ilk = {
   baseId: FRAX,
   ilkId: DAI,
   asset: {
@@ -1413,7 +1552,7 @@ const ilkFRAXDAI: Ilk = {
   },
 }
 
-const ilkFRAXUSDC: Ilk = {
+export const ilkFRAXUSDC: Ilk = {
   baseId: FRAX,
   ilkId: USDC,
   asset: {
@@ -1443,7 +1582,7 @@ const ilkFRAXUSDC: Ilk = {
   },
 }
 
-const ilkFRAXWBTC: Ilk = {
+export const ilkFRAXWBTC: Ilk = {
   baseId: FRAX,
   ilkId: WBTC,
   asset: {
@@ -1473,7 +1612,7 @@ const ilkFRAXWBTC: Ilk = {
   },
 }
 
-const ilkFRAXWSTETH: Ilk = {
+export const ilkFRAXWSTETH: Ilk = {
   baseId: FRAX,
   ilkId: WSTETH,
   asset: {
@@ -1503,7 +1642,7 @@ const ilkFRAXWSTETH: Ilk = {
   },
 }
 
-const ilkFRAXLINK: Ilk = {
+export const ilkFRAXLINK: Ilk = {
   baseId: FRAX,
   ilkId: LINK,
   asset: {
@@ -1533,7 +1672,7 @@ const ilkFRAXLINK: Ilk = {
   },
 }
 
-const ilkFRAXUNI: Ilk = {
+export const ilkFRAXUNI: Ilk = {
   baseId: FRAX,
   ilkId: UNI,
   asset: {
@@ -1563,7 +1702,7 @@ const ilkFRAXUNI: Ilk = {
   },
 }
 
-const ilkFRAXENS: Ilk = {
+export const ilkFRAXENS: Ilk = {
   baseId: FRAX,
   ilkId: ENS,
   asset: {
@@ -1622,7 +1761,7 @@ export const ilkFRAXRETH: Ilk = {
 
 /// ---------------------------- USDT ----------------------------
 
-const ilkUSDTUSDT: Ilk = {
+export const ilkUSDTUSDT: Ilk = {
   baseId: USDT,
   ilkId: USDT,
   asset: {
@@ -1645,7 +1784,7 @@ const ilkUSDTUSDT: Ilk = {
   // No auction line and limit for USDT/USDT
 }
 
-const ilkUSDTETH: Ilk = {
+export const ilkUSDTETH: Ilk = {
   baseId: USDT,
   ilkId: ETH,
   asset: {
@@ -1674,7 +1813,8 @@ const ilkUSDTETH: Ilk = {
     max: WAD.mul(1000), // $10M
   },
 }
-const ilkUSDTDAI: Ilk = {
+
+export const ilkUSDTDAI: Ilk = {
   baseId: USDT,
   ilkId: DAI,
   asset: {
@@ -1703,7 +1843,7 @@ const ilkUSDTDAI: Ilk = {
     max: WAD.mul(10000000),
   },
 }
-const ilkUSDTUSDC: Ilk = {
+export const ilkUSDTUSDC: Ilk = {
   baseId: USDT,
   ilkId: USDC,
   asset: {
@@ -1732,7 +1872,7 @@ const ilkUSDTUSDC: Ilk = {
     max: ONEUSDT.mul(10000000),
   },
 }
-const ilkUSDTWBTC: Ilk = {
+export const ilkUSDTWBTC: Ilk = {
   baseId: USDT,
   ilkId: WBTC,
   asset: {
@@ -1761,7 +1901,7 @@ const ilkUSDTWBTC: Ilk = {
     max: ONEWBTC.mul(1000),
   },
 }
-const ilkUSDTWSTETH: Ilk = {
+export const ilkUSDTWSTETH: Ilk = {
   baseId: USDT,
   ilkId: WSTETH,
   asset: {
@@ -1790,7 +1930,7 @@ const ilkUSDTWSTETH: Ilk = {
     max: WAD.mul(10000),
   },
 }
-const ilkUSDTLINK: Ilk = {
+export const ilkUSDTLINK: Ilk = {
   baseId: USDT,
   ilkId: LINK,
   asset: {
@@ -1819,7 +1959,7 @@ const ilkUSDTLINK: Ilk = {
     max: WAD.mul(100000),
   },
 }
-const ilkUSDTUNI: Ilk = {
+export const ilkUSDTUNI: Ilk = {
   baseId: USDT,
   ilkId: UNI,
   asset: {
@@ -1848,7 +1988,7 @@ const ilkUSDTUNI: Ilk = {
     max: WAD.mul(100000),
   },
 }
-const ilkUSDTENS: Ilk = {
+export const ilkUSDTENS: Ilk = {
   baseId: USDT,
   ilkId: ENS,
   asset: {
@@ -1877,7 +2017,7 @@ const ilkUSDTENS: Ilk = {
     max: WAD.mul(10000),
   },
 }
-const ilkUSDTFRAX: Ilk = {
+export const ilkUSDTFRAX: Ilk = {
   baseId: USDT,
   ilkId: FRAX,
   asset: {
@@ -1947,6 +2087,11 @@ export const ethIlks: Ilk[] = [
   ilkETHRETH,
   ilkETHCRAB,
 ]
+
+export const ethIlks2306: Ilk[] = [...ethIlks, ilkETHFETH2306]
+export const ethIlks2309: Ilk[] = [...ethIlks, ilkETHFETH2309]
+export const ethIlks2312: Ilk[] = [...ethIlks, ilkETHFETH2312]
+
 export const daiIlks: Ilk[] = [
   ilkDAIETH,
   ilkDAIDAI,
@@ -1960,6 +2105,11 @@ export const daiIlks: Ilk[] = [
   ilkDAIRETH,
   ilkDAICRAB,
 ]
+
+export const daiIlks2306: Ilk[] = [...daiIlks, ilkDAIFDAI2306]
+export const daiIlks2309: Ilk[] = [...daiIlks, ilkDAIFDAI2309]
+export const daiIlks2312: Ilk[] = [...daiIlks, ilkDAIFDAI2312]
+
 export const usdcIlks: Ilk[] = [
   ilkUSDCETH,
   ilkUSDCDAI,
@@ -1972,7 +2122,13 @@ export const usdcIlks: Ilk[] = [
   ilkUSDCFRAX,
   ilkUSDCRETH,
   ilkUSDCCRAB,
+  ilkUSDCFUSDC2306,
 ]
+
+export const usdcIlks2306: Ilk[] = [...usdcIlks, ilkUSDCFUSDC2306]
+export const usdcIlks2309: Ilk[] = [...usdcIlks, ilkUSDCFUSDC2309]
+export const usdcIlks2312: Ilk[] = [...usdcIlks, ilkUSDCFUSDC2312]
+
 export const fraxIlks: Ilk[] = [
   ilkFRAXETH,
   ilkFRAXDAI,
@@ -2009,7 +2165,7 @@ export const ilks: Map<string, Ilk[]> = new Map([
 
 /// ----- SERIES -----
 
-const fyETH2303: Series = {
+export const fyETH2303: Series = {
   seriesId: FYETH2303,
   base: eth,
   fyToken: {
@@ -2024,37 +2180,7 @@ const fyETH2303: Series = {
   ilks: ethIlks,
 }
 
-const fyETH2306: Series = {
-  seriesId: FYETH2306,
-  base: eth,
-  fyToken: {
-    assetId: FYETH2306,
-    address: fyTokens.getOrThrow(FYETH2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYETH2306,
-    address: pools.getOrThrow(FYETH2306)!,
-  },
-  ilks: ethIlks,
-}
-
-// const fyETH2309: Series = {
-//   seriesId: FYETH2309,
-//   base: eth,
-//   fyToken: {
-//     assetId: FYETH2309,
-//     address: fyTokens.getOrThrow(FYETH2309)!,
-//   },
-//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-//   pool: {
-//     assetId: FYETH2309,
-//     address: pools.getOrThrow(FYETH2306)!,
-//   },
-//   ilks: ethIlks,
-// }
-
-const fyDAI2303: Series = {
+export const fyDAI2303: Series = {
   seriesId: FYDAI2303,
   base: dai,
   fyToken: {
@@ -2069,37 +2195,7 @@ const fyDAI2303: Series = {
   ilks: daiIlks,
 }
 
-const fyDAI2306: Series = {
-  seriesId: FYDAI2306,
-  base: dai,
-  fyToken: {
-    assetId: FYDAI2306,
-    address: fyTokens.getOrThrow(FYDAI2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYDAI2306,
-    address: pools.getOrThrow(FYDAI2306)!,
-  },
-  ilks: daiIlks,
-}
-
-// const fyDAI2309: Series = {
-//   seriesId: FYDAI2309,
-//   base: dai,
-//   fyToken: {
-//     assetId: FYDAI2306,
-//     address: fyTokens.getOrThrow(FYDAI2309)!,
-//   },
-//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-//   pool: {
-//     assetId: FYDAI2309,
-//     address: pools.getOrThrow(FYDAI2309)!,
-//   },
-//   ilks: daiIlks,
-// }
-
-const fyUSDC2303: Series = {
+export const fyUSDC2303: Series = {
   seriesId: FYUSDC2303,
   base: usdc,
   fyToken: {
@@ -2114,37 +2210,7 @@ const fyUSDC2303: Series = {
   ilks: usdcIlks,
 }
 
-const fyUSDC2306: Series = {
-  seriesId: FYUSDC2306,
-  base: usdc,
-  fyToken: {
-    assetId: FYUSDC2306,
-    address: fyTokens.getOrThrow(FYUSDC2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYUSDC2306,
-    address: pools.getOrThrow(FYUSDC2306)!,
-  },
-  ilks: usdcIlks,
-}
-
-// const fyUSDC2309: Series = {
-//   seriesId: FYUSDC2309,
-//   base: usdc,
-//   fyToken: {
-//     assetId: FYUSDC2309,
-//     address: fyTokens.getOrThrow(FYUSDC2309)!,
-//   },
-//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-//   pool: {
-//     assetId: FYUSDC2309,
-//     address: pools.getOrThrow(FYUSDC2306)!,
-//   },
-//   ilks: usdcIlks,
-// }
-
-const fyFRAX2303: Series = {
+export const fyFRAX2303: Series = {
   seriesId: FYFRAX2303,
   base: frax,
   fyToken: {
@@ -2159,37 +2225,7 @@ const fyFRAX2303: Series = {
   ilks: ethIlks,
 }
 
-const fyFRAX2306: Series = {
-  seriesId: FYFRAX2306,
-  base: frax,
-  fyToken: {
-    assetId: FYFRAX2306,
-    address: fyTokens.getOrThrow(FYFRAX2306)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYFRAX2306,
-    address: pools.getOrThrow(FYFRAX2306)!,
-  },
-  ilks: ethIlks,
-}
-
-// const fyFRAX2309: Series = {
-//   seriesId: FYFRAX2309,
-//   base: frax,
-//   fyToken: {
-//     assetId: FYFRAX2309,
-//     address: fyTokens.getOrThrow(FYFRAX2309)!,
-//   },
-//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-//   pool: {
-//     assetId: FYFRAX2309,
-//     address: pools.getOrThrow(FYFRAX2309)!,
-//   },
-//   ilks: ethIlks,
-// }
-
-const fyUSDT2303: Series = {
+export const fyUSDT2303: Series = {
   seriesId: FYUSDT2303,
   base: usdt,
   fyToken: {
@@ -2204,7 +2240,68 @@ const fyUSDT2303: Series = {
   ilks: usdtIlks,
 }
 
-const fyUSDT2306: Series = {
+export const fyETH2306: Series = {
+  seriesId: FYETH2306,
+  base: eth,
+  fyToken: {
+    assetId: FYETH2306,
+    address: fyTokens.getOrThrow(FYETH2306)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYETH2306,
+    address: pools.getOrThrow(FYETH2306)!,
+  },
+  ilks: ethIlks2306,
+}
+
+
+export const fyDAI2306: Series = {
+  seriesId: FYDAI2306,
+  base: dai,
+  fyToken: {
+    assetId: FYDAI2306,
+    address: fyTokens.getOrThrow(FYDAI2306)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYDAI2306,
+    address: pools.getOrThrow(FYDAI2306)!,
+  },
+  ilks: daiIlks2306,
+}
+
+export const fyUSDC2306: Series = {
+  seriesId: FYUSDC2306,
+  base: usdc,
+  fyToken: {
+    assetId: FYUSDC2306,
+    address: fyTokens.getOrThrow(FYUSDC2306)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDC2306,
+    address: pools.getOrThrow(FYUSDC2306)!,
+  },
+  ilks: usdcIlks2306,
+}
+
+export const fyFRAX2306: Series = {
+  seriesId: FYFRAX2306,
+  base: frax,
+  fyToken: {
+    assetId: FYFRAX2306,
+    address: fyTokens.getOrThrow(FYFRAX2306)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYFRAX2306,
+    address: pools.getOrThrow(FYFRAX2306)!,
+  },
+  ilks: ethIlks,
+}
+
+export const fyUSDT2306: Series = {
   seriesId: FYUSDT2306,
   base: usdt,
   fyToken: {
@@ -2219,20 +2316,185 @@ const fyUSDT2306: Series = {
   ilks: usdtIlks,
 }
 
-// const fyUSDT2309: Series = {
-//   seriesId: FYUSDT2309,
-//   base: usdt,
-//   fyToken: {
-//     assetId: FYUSDT2309,
-//     address: fyTokens.getOrThrow(FYUSDT2309)!,
-//   },
-//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-//   pool: {
-//     assetId: FYUSDT2309,
-//     address: pools.getOrThrow(FYUSDT2309)!,
-//   },
-//   ilks: usdtIlks,
-// }
+export const fyETH2306B: Series = {
+  seriesId: FYETH2306B,
+  base: eth,
+  fyToken: {
+    assetId: FYETH2306B,
+    address: fyTokens.getOrThrow(FYETH2306B)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYETH2306B,
+    address: pools.getOrThrow(FYETH2306B)!,
+  },
+  ilks: ethIlks2306,
+}
+
+export const fyDAI2306B: Series = {
+  seriesId: FYDAI2306B,
+  base: dai,
+  fyToken: {
+    assetId: FYDAI2306B,
+    address: fyTokens.getOrThrow(FYDAI2306B)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYDAI2306B,
+    address: pools.getOrThrow(FYDAI2306B)!,
+  },
+  ilks: daiIlks2306,
+}
+
+export const fyUSDC2306B: Series = {
+  seriesId: FYUSDC2306B,
+  base: usdc,
+  fyToken: {
+    assetId: FYUSDC2306B,
+    address: fyTokens.getOrThrow(FYUSDC2306B)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDC2306B,
+    address: pools.getOrThrow(FYUSDC2306B)!,
+  },
+  ilks: usdcIlks2306,
+}
+
+export const fyUSDT2306B: Series = {
+  seriesId: FYUSDT2306B,
+  base: usdt,
+  fyToken: {
+    assetId: FYUSDT2306B,
+    address: fyTokens.getOrThrow(FYUSDT2306B)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDT2306B,
+    address: pools.getOrThrow(FYUSDT2306B)!,
+  },
+  ilks: usdtIlks,
+}
+
+export const fyETH2309: Series = {
+  seriesId: FYETH2309,
+  base: eth,
+  fyToken: {
+    assetId: FYETH2309,
+    address: fyTokens.getOrThrow(FYETH2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYETH2309,
+    address: pools.getOrThrow(FYETH2309)!,
+  },
+  ilks: ethIlks,
+}
+
+export const fyDAI2309: Series = {
+  seriesId: FYDAI2309,
+  base: dai,
+  fyToken: {
+    assetId: FYDAI2309,
+    address: fyTokens.getOrThrow(FYDAI2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYDAI2309,
+    address: pools.getOrThrow(FYDAI2309)!,
+  },
+  ilks: daiIlks,
+}
+
+export const fyUSDC2309: Series = {
+  seriesId: FYUSDC2309,
+  base: usdc,
+  fyToken: {
+    assetId: FYUSDC2309,
+    address: fyTokens.getOrThrow(FYUSDC2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDC2309,
+    address: pools.getOrThrow(FYUSDC2309)!,
+  },
+  ilks: usdcIlks,
+}
+
+export const fyUSDT2309: Series = {
+  seriesId: FYUSDT2309,
+  base: usdt,
+  fyToken: {
+    assetId: FYUSDT2309,
+    address: fyTokens.getOrThrow(FYUSDT2309)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDT2309,
+    address: pools.getOrThrow(FYUSDT2309)!,
+  },
+  ilks: usdtIlks,
+}
+
+export const fyETH2312: Series = {
+  seriesId: FYETH2312,
+  base: eth,
+  fyToken: {
+    assetId: FYETH2312,
+    address: fyTokens.getOrThrow(FYETH2312)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYETH2312,
+    address: pools.getOrThrow(FYETH2312)!,
+  },
+  ilks: ethIlks,
+}
+
+export const fyDAI2312: Series = {
+  seriesId: FYDAI2312,
+  base: dai,
+  fyToken: {
+    assetId: FYDAI2312,
+    address: fyTokens.getOrThrow(FYDAI2312)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYDAI2312,
+    address: pools.getOrThrow(FYDAI2312)!,
+  },
+  ilks: daiIlks,
+}
+
+export const fyUSDC2312: Series = {
+  seriesId: FYUSDC2312,
+  base: usdc,
+  fyToken: {
+    assetId: FYUSDC2312,
+    address: fyTokens.getOrThrow(FYUSDC2312)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDC2312,
+    address: pools.getOrThrow(FYUSDC2312)!,
+  },
+  ilks: usdcIlks,
+}
+
+export const fyUSDT2312: Series = {
+  seriesId: FYUSDT2312,
+  base: usdt,
+  fyToken: {
+    assetId: FYUSDT2312,
+    address: fyTokens.getOrThrow(FYUSDT2312)!,
+  },
+  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+  pool: {
+    assetId: FYUSDT2312,
+    address: pools.getOrThrow(FYUSDT2312)!,
+  },
+  ilks: usdtIlks,
+}
 
 export const series: Map<string, Series> = new Map([
   [FYETH2303, fyETH2303],
@@ -2240,89 +2502,108 @@ export const series: Map<string, Series> = new Map([
   [FYUSDC2303, fyUSDC2303],
   [FYFRAX2303, fyFRAX2303],
   [FYUSDT2303, fyUSDT2303],
-  [FYETH2306, fyETH2306],
-  [FYDAI2306, fyDAI2306],
-  [FYUSDC2306, fyUSDC2306],
+  [FYETH2306B, fyETH2306B],
+  [FYDAI2306B, fyDAI2306B],
+  [FYUSDC2306B, fyUSDC2306B],
   [FYFRAX2306, fyFRAX2306],
-  [FYUSDT2306, fyUSDT2306],
-  //  [FYETH2309, fyETH2309],
-  //  [FYDAI2309, fyDAI2309],
-  //  [FYUSDC2309, fyUSDC2309],
-  //  [FYFRAX2309, fyFRAX2309],
-  //  [FYUSDT2309, fyUSDT2309],
+  [FYUSDT2306B, fyUSDT2306B],
+  [FYETH2309, fyETH2309],
+  [FYDAI2309, fyDAI2309],
+  [FYUSDC2309, fyUSDC2309],
+  [FYUSDT2309, fyUSDT2309],
+  [FYETH2312, fyETH2312],
+  [FYDAI2312, fyDAI2312],
+  [FYUSDC2312, fyUSDC2312],
+  [FYUSDT2312, fyUSDT2312],
 ])
 
 /// ----- STRATEGIES -----
 
-// const ysETH6MMS: Strategy = {
-//   assetId: YSETH6MMS,
-//   address: strategyAddresses.getOrThrow(YSETH6MMS)!,
-//   base: eth,
-// }
-
-// const ysETH6MJD: Strategy = {
-//   assetId: YSETH6MJD,
-//   address: strategyAddresses.getOrThrow(YSETH6MJD)!,
-//   base: eth,
-// }
-
-// const ysDAI6MMS: Strategy = {
-//   assetId: YSDAI6MMS,
-//   address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
-//   base: dai,
-// }
-
-// const ysDAI6MJD: Strategy = {
-//   assetId: YSDAI6MJD,
-//   address: strategyAddresses.getOrThrow(YSDAI6MJD)!,
-//   base: dai,
-// }
-
-// const ysUSDC6MMS: Strategy = {
-//   assetId: YSUSDC6MMS,
-//   address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
-//   base: usdc,
-// }
-
-// const ysUSDC6MJD: Strategy = {
-//   assetId: YSUSDC6MJD,
-//   address: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
-//   base: usdc,
-// }
-
-const ysFRAX6MMS: Strategy = {
-  assetId: YSFRAX6MMS_V1,
-  address: strategyAddresses.getOrThrow(YSFRAX6MMS_V1)!,
-  base: frax,
+export const ysETH6MJD: Strategy = {
+  assetId: YSETH6MJD,
+  address: strategyAddresses.getOrThrow(YSETH6MJD)!,
+  base: eth,
+  seriesToInvest: fyETH2312,
+  initAmount: ethers.utils.parseUnits('0.1', 18),
 }
 
-const ysFRAX6MJD: Strategy = {
+export const ysDAI6MJD: Strategy = {
+  assetId: YSDAI6MJD,
+  address: strategyAddresses.getOrThrow(YSDAI6MJD)!,
+  base: dai,
+  seriesToInvest: fyDAI2312,
+  initAmount: ethers.utils.parseUnits('100', 18),
+}
+
+export const ysUSDC6MJD: Strategy = {
+  assetId: YSUSDC6MJD,
+  address: strategyAddresses.getOrThrow(YSUSDC6MJD)!,
+  base: usdc,
+  seriesToInvest: fyUSDC2312,
+  initAmount: ethers.utils.parseUnits('100', 6),
+}
+
+export const ysUSDT6MJD: Strategy = {
+  assetId: YSUSDT6MJD,
+  address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
+  base: usdt,
+  seriesToInvest: fyUSDT2312,
+  initAmount: ethers.utils.parseUnits('50', 6),
+}
+
+export const ysFRAX6MJD: Strategy = {
   assetId: YSFRAX6MJD,
   address: strategyAddresses.getOrThrow(YSFRAX6MJD)!,
   base: frax,
 }
 
-// const ysUSDT6MMS: Strategy = {
-//   assetId: YSUSDT6MMS,
-//   address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
-//   base: usdt,
-// }
+export const ysFRAX6MMS: Strategy = {
+  assetId: YSFRAX6MMS,
+  address: strategyAddresses.getOrThrow(YSFRAX6MMS)!,
+  base: frax,
+}
 
-// const ysUSDT6MJD: Strategy = {
-//   assetId: YSUSDT6MJD,
-//   address: strategyAddresses.getOrThrow(YSUSDT6MJD)!,
-//   base: usdt,
-// }
+export const ysETH6MMS: Strategy = {
+  assetId: YSETH6MMS,
+  address: strategyAddresses.getOrThrow(YSETH6MMS)!,
+  base: eth,
+  seriesToInvest: fyETH2309,
+  initAmount: ethers.utils.parseUnits('0.1', 18),
+}
+
+export const ysDAI6MMS: Strategy = {
+  assetId: YSDAI6MMS,
+  address: strategyAddresses.getOrThrow(YSDAI6MMS)!,
+  base: dai,
+  seriesToInvest: fyDAI2309,
+  initAmount: ethers.utils.parseUnits('100', 18),
+}
+
+export const ysUSDC6MMS: Strategy = {
+  assetId: YSUSDC6MMS,
+  address: strategyAddresses.getOrThrow(YSUSDC6MMS)!,
+  base: usdc,
+  seriesToInvest: fyUSDC2309,
+  initAmount: ethers.utils.parseUnits('100', 6),
+}
+
+export const ysUSDT6MMS: Strategy = {
+  assetId: YSUSDT6MMS,
+  address: strategyAddresses.getOrThrow(YSUSDT6MMS)!,
+  base: usdt,
+  seriesToInvest: fyUSDT2309,
+  initAmount: ethers.utils.parseUnits('50', 6),
+}
 
 export const strategies: Map<string, Strategy> = new Map([
-  //  [YSETH6MMS, ysETH6MMS],
-  //  [YSETH6MJD, ysETH6MJD],
-  //  [YSDAI6MMS, ysDAI6MMS],
-  //  [YSDAI6MJD, ysDAI6MJD],
-  //  [YSUSDC6MMS, ysUSDC6MMS],
-  //  [YSUSDC6MJD, ysUSDC6MJD],
-  [YSFRAX6MMS_V1, ysFRAX6MMS],
+  [YSETH6MMS, ysETH6MMS],
+  [YSETH6MJD, ysETH6MJD],
+  [YSDAI6MMS, ysDAI6MMS],
+  [YSDAI6MJD, ysDAI6MJD],
+  [YSUSDC6MMS, ysUSDC6MMS],
+  [YSUSDC6MJD, ysUSDC6MJD],
+  [YSFRAX6MMS, ysFRAX6MMS],
   [YSFRAX6MJD, ysFRAX6MJD],
-  //  [YSUSDT6MMS, ysUSDT6MMS],
-  //  [YSUSDT6MJD, ysUSDT6MJD],
+  [YSUSDT6MMS, ysUSDT6MMS],
+  [YSUSDT6MJD, ysUSDT6MJD],
 ])
