@@ -1,4 +1,5 @@
-import { ETH, DAI, USDC, USDT, FRAX } from '../../../../shared/constants'
+import { BigNumber } from 'ethers'
+import { ETH, DAI, USDC, USDT, FRAX, TRADER_DXDY } from '../../../../shared/constants'
 import { ACCUMULATOR } from '../../../../shared/constants'
 import { ONEUSDC } from '../../../../shared/constants'
 import { FYETH2312, FYDAI2312, FYUSDC2312, FYUSDT2312, FYFRAX2312, YSETH6MJD, YSDAI6MJD, YSUSDC6MJD, YSUSDT6MJD, YSFRAX6MJD } from '../../../../shared/constants'
@@ -21,7 +22,7 @@ export const strategyAddresses: Map<string, string> = base_config.strategyAddres
 export const series: Map<string, Series> = base_config.series
 export const strategies: Map<string, Strategy> = base_config.strategies
 
-import { Series, Strategy } from '../../confTypes'
+import { Series, Strategy, Transfer } from '../../confTypes'
 
 export const ONEUSDT = ONEUSDC
 
@@ -96,20 +97,20 @@ const fyUSDT2312: Series = {
   ilks: usdtIlks,
 }
 
-const fyFRAX2312: Series = {
-  seriesId: FYFRAX2312,
-  base: frax,
-  fyToken: {
-    assetId: FYFRAX2312,
-    address: fyTokens.getOrThrow(FYFRAX2312)!,
-  },
-  chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
-  pool: {
-    assetId: FYFRAX2312,
-    address: pools.getOrThrow(FYFRAX2312)!,
-  },
-  ilks: fraxIlks,
-}
+// const fyFRAX2312: Series = {
+//   seriesId: FYFRAX2312,
+//   base: frax,
+//   fyToken: {
+//     assetId: FYFRAX2312,
+//     address: fyTokens.getOrThrow(FYFRAX2312)!,
+//   },
+//   chiOracle: protocol.getOrThrow(ACCUMULATOR)!,
+//   pool: {
+//     assetId: FYFRAX2312,
+//     address: pools.getOrThrow(FYFRAX2312)!,
+//   },
+//   ilks: fraxIlks,
+// }
 
 export const newSeries: Series[] = [fyETH2312, fyDAI2312, fyUSDC2312, fyUSDT2312/*, fyFRAX2312*/]
 
@@ -141,11 +142,51 @@ const ysUSDT6MJD: Strategy = {
   seriesToInvest: fyUSDT2312,
 }
 
-const ysFRAX6MJD: Strategy = {
-  assetId: YSFRAX6MJD,
-  address: strategyAddresses.getOrThrow(YSFRAX6MJD)!,
-  base: frax,
-  seriesToInvest: fyFRAX2312,
-}
+// const ysFRAX6MJD: Strategy = {
+//   assetId: YSFRAX6MJD,
+//   address: strategyAddresses.getOrThrow(YSFRAX6MJD)!,
+//   base: frax,
+//   seriesToInvest: fyFRAX2312,
+// }
 
 export const rollStrategies: Strategy[] = [ysETH6MJD, ysDAI6MJD, ysUSDC6MJD, ysUSDT6MJD/*, ysFRAX6MJD*/]
+
+/// @dev Fund the Trader contract for expected costs of moving underlying from pools to joins
+export const traderFunding: Transfer[] = [
+  {
+    token: eth,
+    amount: BigNumber.from('1000000000000000000'),
+    receiver: protocol.getOrThrow(TRADER_DXDY)!,
+  },
+  {
+    token: dai,
+    amount: BigNumber.from('1000000000000000000000'),
+    receiver: protocol.getOrThrow(TRADER_DXDY)!,
+  },
+  {
+    token: usdc,
+    amount: BigNumber.from('10000000000'),
+    receiver: protocol.getOrThrow(TRADER_DXDY)!,
+  },
+]
+
+/// @dev Move underlying from pools to joins by selling fyToken. Sell to the new pools as much fyToken as the outgoing pools have in the cache.
+export const fyTokenSelling: Transfer[] = [
+  {
+    token: eth,
+    amount: BigNumber.from('45005109457847530879'),
+    receiver: pools.getOrThrow(FYETH2312)!,
+  },
+  {
+    token: dai,
+    amount: BigNumber.from('62980679860265824054193'),
+    receiver: pools.getOrThrow(FYDAI2312)!,
+  },
+  {
+    token: usdc,
+    amount: BigNumber.from('377990123050'),
+    receiver: pools.getOrThrow(FYUSDC2312)!,
+  },
+]
+
+export const timelockFunding = traderFunding

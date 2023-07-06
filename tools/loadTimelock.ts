@@ -2,7 +2,7 @@ import { ethers } from 'hardhat'
 import { impersonate, getName } from '../shared/helpers'
 import { WAD, TIMELOCK } from '../shared/constants'
 import { IERC20Metadata__factory } from '../typechain'
-const { governance, transfers, whales } = require(process.env.CONF as string)
+const { governance, timelockFunding, whales } = require(process.env.CONF as string)
 
 /**
  * @dev This script loads the Timelock with assets to initialize strategies. Only usable on testnets.
@@ -10,7 +10,7 @@ const { governance, transfers, whales } = require(process.env.CONF as string)
 ;(async () => {
   const [ownerAcc] = await ethers.getSigners()
 
-  for (let transfer of transfers) {
+  for (let transfer of timelockFunding) {
     const asset = IERC20Metadata__factory.connect(transfer.token.address, ownerAcc)
 
     console.log(transfer.token.assetId)

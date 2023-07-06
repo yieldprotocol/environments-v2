@@ -8,16 +8,19 @@ import {
   Witch__factory,
   FYToken__factory,
   Pool__factory,
+  Trader__factory,
 } from '../../../typechain'
 
-import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../shared/constants'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, TRADER_DXDY } from '../../../shared/constants'
 
 import { addSeries } from '../../fragments/assetsAndSeries/addSeries'
 import { orchestrateFYToken } from '../../fragments/assetsAndSeries/orchestrateFYToken'
 import { orchestratePool } from '../../fragments/pools/orchestratePool'
 import { rollStrategy } from '../../fragments/strategies/rollStrategy'
+import { sendTokens } from '../../fragments/utils/sendTokens'
+import { sellFYTokens } from '../../fragments/utils/sellFYTokens'
 
-const { developer, deployers, governance, protocol, newSeries, pools, rollStrategies } = require(process.env
+const { developer, deployers, governance, protocol, newSeries, pools, rollStrategies, traderFunding, fyTokenSelling } = require(process.env
   .CONF as string)
 
 /**
@@ -31,6 +34,7 @@ const { developer, deployers, governance, protocol, newSeries, pools, rollStrate
   const cauldron = Cauldron__factory.connect(protocol.getOrThrow(CAULDRON)!, ownerAcc)
   const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE)!, ownerAcc)
   const witch = Witch__factory.connect(protocol.getOrThrow(WITCH)!, ownerAcc)
+  const trader = Trader__factory.connect(protocol.getOrThrow(TRADER_DXDY)!, ownerAcc)
 
   // Build the proposal
   let proposal: Array<{ target: string; data: string }> = []
@@ -59,6 +63,14 @@ const { developer, deployers, governance, protocol, newSeries, pools, rollStrate
 
   for (let strategy of rollStrategies) {
     proposal = proposal.concat(await rollStrategy(ownerAcc, strategy))
+  }
+
+  for (let transfer of traderFunding) {
+    proposal = proposal.concat(await sendTokens(timelock, transfer))
+  }
+
+  for (let sale of fyTokenSelling) {
+    proposal = proposal.concat(await sellFYTokens(trader, sale))
   }
 
   await propose(timelock, proposal, developer)
