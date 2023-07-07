@@ -28,7 +28,7 @@ export const timeStretch: Map<string, BigNumber> = new Map([
   [FYDAI2312, ONE64.div(secondsInOneYear.mul(35))],
   [FYUSDC2312, ONE64.div(secondsInOneYear.mul(35))],
   [FYUSDT2312, ONE64.div(secondsInOneYear.mul(35))],
-  [FYFRAX2312, ONE64.div(secondsInOneYear.mul(35))],
+//  [FYFRAX2312, ONE64.div(secondsInOneYear.mul(35))],
 ])
 
 /// @notice Sell base to the pool fee, as fp4
@@ -111,22 +111,6 @@ export const contractDeployments: ContractDeployment[] = [
     },
   },
 
-//  {
-//    addressFile: 'fyTokens.json',
-//    name: FYFRAX2312,
-//    contract: 'FYToken',
-//    args: [
-//      () => FRAX,
-//      () => protocol().getOrThrow(ACCUMULATOR)!,
-//      () => joins().getOrThrow(FRAX)!,
-//      () => EODEC23,
-//      () => 'FYFRAX2312',
-//      () => 'FYFRAX2312',
-//    ],
-//    libs: {
-//      SafeERC20Namer: protocol().getOrThrow(SAFE_ERC20_NAMER)!,
-//    },
-//  },
   /// @notice Deploy plain YieldSpace pools
   /// @param pool identifier, usually matching the series (bytes6 tag)
   /// @param base address
@@ -192,19 +176,4 @@ export const contractDeployments: ContractDeployment[] = [
       YieldMath: protocol().getOrThrow(YIELDMATH)!,
     },
   },
-
-//  {
-//    addressFile: 'pools.json',
-//    name: FYFRAX2312,
-//    contract: 'PoolNonTv',
-//    args: [
-//      () => assets.get(FRAX)!,
-//      () => fyTokens().getOrThrow(FYFRAX2312)!,
-//      () => timeStretch.get(FYFRAX2312)!.toString(),
-//      () => g1.toString(),
-//    ],
-//    libs: {
-//      YieldMath: protocol().getOrThrow(YIELDMATH)!,
-//    },
-//  },
 ]
