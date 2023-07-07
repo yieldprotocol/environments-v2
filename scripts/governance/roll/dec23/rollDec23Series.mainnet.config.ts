@@ -36,17 +36,17 @@ export const rollStrategies: Strategy[] = [base_config.ysETH6MJD, base_config.ys
 export const traderFunding: Transfer[] = [
   {
     token: eth,
-    amount: BigNumber.from('1000000000000000000'),
+    amount: BigNumber.from('700000000000000000'),
     receiver: protocol.getOrThrow(TRADER_DXDY)!,
   },
   {
     token: dai,
-    amount: BigNumber.from('1000000000000000000000'),
+    amount: BigNumber.from('600000000000000000000'),
     receiver: protocol.getOrThrow(TRADER_DXDY)!,
   },
   {
     token: usdc,
-    amount: BigNumber.from('10000000000'),
+    amount: BigNumber.from('8000000000'),
     receiver: protocol.getOrThrow(TRADER_DXDY)!,
   },
 ]

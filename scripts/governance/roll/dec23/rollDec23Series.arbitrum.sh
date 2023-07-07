@@ -2,7 +2,7 @@
 
 set -eux
 export HERE=$(dirname $0)
-RUN="npx hardhat run --network arb_mainnet"
+RUN="npx hardhat run --network tenderly"
 
 # Phase 1: Deploy Contracts
 # export CONF=$PWD/$HERE/rollDec23Series.arbitrum.deployments
@@ -14,6 +14,6 @@ export CONF=$PWD/$HERE/rollDec23Series.arbitrum.config
 # $RUN $HERE/../../../../tools/joinLoan.ts
 
 # $RUN $HERE/../../../../tools/advanceTimeToMaturity.ts
-$RUN $HERE/../rollSeries.ts
-# $RUN $HERE/../../../../shared/approve.ts
-# $RUN $HERE/../../../../shared/execute.ts
+# $RUN $HERE/../rollSeries.ts
+$RUN $HERE/../../../../shared/approve.ts
+$RUN $HERE/../../../../shared/execute.ts
