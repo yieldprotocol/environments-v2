@@ -7,21 +7,23 @@ import { LADLE, SOLVENCY, STRATEGY_RESCUE, ZERO_ADDRESS } from '../shared/consta
 const { protocol, fyTokens, joins } = require(process.env.CONF as string)
 
 const seriesIds: Array<string> = new Array(
-//    "0x303030390000",
-//    "0x303130390000",
-//    "0x303230390000",
-//    "0x313830390000",
-//    "0x00A0FF000288",
-//    "0x0030FF00028B",
-//    "0x0031FF00028B",
-//    "0x0032FF00028B",
-//    "0x0138FF00028B",
-//    "0x00A0FF00028B",
+//  "0x303030390000",
+//  "0x303130390000",
+//  "0x303230390000",
+//  "0x313830390000",
+//  "0x00A0FF000288",
 
-  "0x0030FF00028C",
-  "0x0031FF00028C",
-  "0x0032FF00028C",
-  "0x00A0FF00028C",
+  "0x0030FF00028B",
+  "0x0031FF00028B",
+  "0x0032FF00028B",
+  "0x0138FF00028B",
+  "0x00A0FF00028B",
+
+//  "0x0030FF00028C",
+//  "0x0031FF00028C",
+//  "0x0032FF00028C",
+//  "0x00A0FF00028C",
+
   "0x0030FF00028E",
   "0x0031FF00028E",
   "0x0032FF00028E",
@@ -83,50 +85,34 @@ const assetIds: Array<string> = new Array(
 
 
 ;(async () => {
-  const solvency = Solvency__factory.connect(protocol.getOrThrow(SOLVENCY), ethers.provider)
-  const ladle = Ladle__factory.connect(protocol.getOrThrow(LADLE), ethers.provider)
-
-  let assets: BigNumber = BigNumber.from(0)
   console.log(`ASSETS`)
   for (let assetId of assetIds) {
     let amount: string
-    try {
-      amount = (await solvency.available([assetId])).toString()
-      assets = assets.add(amount)
-    } catch (e) {
-      const joinAddress = await ladle.joins(assetId)
-      if (joinAddress !== ZERO_ADDRESS) {
-        const join = Join__factory.connect(joinAddress, ethers.provider)
-        const storedBalance = (await join.storedBalance()).toString()
-        if (storedBalance === '0')
-          amount = storedBalance
-        else
-          amount = 'NoOracle'
-      }
-      else {
-        amount = '0'
-      }
-    }
+
+    const joinAddress = joins.get(assetId)
+    if (joinAddress === undefined || joinAddress === ZERO_ADDRESS) continue
+
+    const join = Join__factory.connect(joinAddress, ethers.provider)
+    amount = (await join.storedBalance()).toString()
     if (amount !== '0') console.log(`${getName(assetId)} ${amount}`)
   }
-  console.log(`Total Assets: ${assets.toString()}`)
+
   console.log(`\n`)
 
-  let liabilities: BigNumber = BigNumber.from(0)
   console.log(`LIABILITIES`)
   for (let seriesId of seriesIds) {
+    const fyTokenAddress = fyTokens.get(seriesId)
+    if (fyTokenAddress === undefined || fyTokenAddress === ZERO_ADDRESS) continue
+
     const fyToken = ERC20__factory.connect(fyTokens.getOrThrow(seriesId), ethers.provider)
     let amount: string
     try {
-      amount = (await solvency.redeemable([seriesId])).toString()
-      liabilities = liabilities.add(amount)
+      // We accidentally minted more 2306B and 2309 FYTokens than we should have, locked in the StrategyRescue contract, so we need to subtract them from the total supply
+      // Until the total supply of 2309 fyToken is reduced, we need to calculate the value of those liabilities manually
+      amount = (await fyToken.totalSupply()).sub(await fyToken.balanceOf(protocol.getOrThrow(STRATEGY_RESCUE))).toString()
     } catch (e) {
-      amount = 'NoOracle'
+      amount = (await fyToken.totalSupply()).toString()
     }
-    // We accidentally minted more 2306B and 2309 FYTokens than we should have, locked in the StrategyRescue contract, so we need to subtract them from the total supply
-    // Until the total supply of 2309 fyToken is reduced, we need to calculate the value of those liabilities manually
-    if (amount !== '0') console.log(`${getName(seriesId)} ${fyTokens.getOrThrow(seriesId)} ${(await fyToken.totalSupply()).sub(await fyToken.balanceOf(protocol.getOrThrow(STRATEGY_RESCUE)))} ${amount}`)
+    if (amount !== '0') console.log(`${getName(seriesId)} ${fyTokens.getOrThrow(seriesId)} ${amount}`)
   }
-  console.log(`Total Liabilities: ${liabilities.toString()}`)
-  console.log(`Position: ${assets.sub(liabilities).toString()}`)
 })()
