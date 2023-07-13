@@ -9,6 +9,6 @@ RUN="npx hardhat run --network tenderly"
 # $RUN $HERE/../../../../../../shared/deploy.ts
 
 export CONF=$PWD/$HERE/addFCashDec23.mainnet.config
-$RUN $HERE/../addFCashMaturities.ts
-$RUN $HERE/../../../../../../shared/approve.ts
+# $RUN $HERE/../addFCashMaturities.ts
+# $RUN $HERE/../../../../../../shared/approve.ts
 $RUN $HERE/../../../../../../shared/execute.ts
