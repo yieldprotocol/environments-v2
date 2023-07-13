@@ -2,7 +2,7 @@
 
 set -eux
 HERE=$(dirname $0)
-export CONF=$PWD/$HERE/exec.arb_mainnet.config
-RUN="npx hardhat run --network arb_mainnet"
+export CONF=$PWD/$HERE/exec.mainnet.config
+RUN="npx hardhat run --network mainnet"
 
-$RUN $HERE/checkSolvencyRaw.ts
+$RUN $HERE/poolCacheBalances.ts

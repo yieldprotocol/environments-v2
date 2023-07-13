@@ -8,20 +8,16 @@ import {
   Witch__factory,
   FYToken__factory,
   Pool__factory,
-  Trader__factory,
 } from '../../../typechain'
 
-import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH, TRADER_DXDY } from '../../../shared/constants'
+import { TIMELOCK, CLOAK, CAULDRON, LADLE, WITCH } from '../../../shared/constants'
 
 import { addSeries } from '../../fragments/assetsAndSeries/addSeries'
 import { orchestrateFYToken } from '../../fragments/assetsAndSeries/orchestrateFYToken'
 import { orchestratePool } from '../../fragments/pools/orchestratePool'
 import { rollStrategy } from '../../fragments/strategies/rollStrategy'
-import { sendTokens } from '../../fragments/utils/sendTokens'
-import { sellFYTokens } from '../../fragments/utils/sellFYTokens'
 
-const { chainId, developer, deployers, governance, protocol, pools, newSeries, rollStrategies, traderFunding, fyTokenSelling } = require(process.env
-  .CONF as string)
+const { developer, deployers, governance, protocol, pools, newSeries, rollStrategies } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies
@@ -63,18 +59,6 @@ const { chainId, developer, deployers, governance, protocol, pools, newSeries, r
   for (let strategy of rollStrategies) {
     proposal = proposal.concat(await rollStrategy(ownerAcc, strategy))
   }
-  
-//  if (chainId === 1) {
-//    const trader = Trader__factory.connect(protocol.getOrThrow(TRADER_DXDY)!, ownerAcc)
-//  
-//    for (let transfer of traderFunding) {
-//      proposal = proposal.concat(await sendTokens(timelock, transfer))
-//    }
-//  
-//    for (let sale of fyTokenSelling) {
-//      proposal = proposal.concat(await sellFYTokens(trader, sale))
-//    }
-//  }
 
   await propose(timelock, proposal, developer)
 })()
