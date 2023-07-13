@@ -51,25 +51,25 @@ import { Base, Ilk, Series, Strategy } from './confTypes'
 
 export const ONEUSDT = ONEUSDC
 
-const eth: Base = {
+export const eth: Base = {
   assetId: ETH,
   address: assets.getOrThrow(ETH)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const dai: Base = {
+export const dai: Base = {
   assetId: DAI,
   address: assets.getOrThrow(DAI)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const usdc: Base = {
+export const usdc: Base = {
   assetId: USDC,
   address: assets.getOrThrow(USDC)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
 }
 
-const usdt: Base = {
+export const usdt: Base = {
   assetId: USDT,
   address: assets.getOrThrow(USDT)!,
   rateOracle: protocol.getOrThrow(ACCUMULATOR)!,
@@ -82,7 +82,7 @@ export const bases: Map<string, Base> = new Map([
   [USDT, usdt],
 ])
 
-const ilkETHETH: Ilk = {
+export const ilkETHETH: Ilk = {
   baseId: ETH,
   ilkId: ETH,
   asset: {
@@ -105,7 +105,7 @@ const ilkETHETH: Ilk = {
   // No auction line and limit for ETH/ETH
 }
 
-const ilkETHDAI: Ilk = {
+export const ilkETHDAI: Ilk = {
   baseId: ETH,
   ilkId: DAI,
   asset: {
@@ -135,7 +135,7 @@ const ilkETHDAI: Ilk = {
   },
 }
 
-const ilkETHUSDC: Ilk = {
+export const ilkETHUSDC: Ilk = {
   baseId: ETH,
   ilkId: USDC,
   asset: {
@@ -165,7 +165,7 @@ const ilkETHUSDC: Ilk = {
   },
 }
 
-const ilkDAIDAI: Ilk = {
+export const ilkDAIDAI: Ilk = {
   baseId: DAI,
   ilkId: DAI,
   asset: {
@@ -188,7 +188,7 @@ const ilkDAIDAI: Ilk = {
   // No auction line and limit for DAI/DAI
 }
 
-const ilkDAIETH: Ilk = {
+export const ilkDAIETH: Ilk = {
   baseId: DAI,
   ilkId: ETH,
   asset: {
@@ -218,7 +218,7 @@ const ilkDAIETH: Ilk = {
   },
 }
 
-const ilkDAIUSDC: Ilk = {
+export const ilkDAIUSDC: Ilk = {
   baseId: DAI,
   ilkId: USDC,
   asset: {
@@ -248,7 +248,7 @@ const ilkDAIUSDC: Ilk = {
   },
 }
 
-const ilkUSDCUSDC: Ilk = {
+export const ilkUSDCUSDC: Ilk = {
   baseId: USDC,
   ilkId: USDC,
   asset: {
@@ -271,7 +271,7 @@ const ilkUSDCUSDC: Ilk = {
   // No auction line and limit for USDC/USDC
 }
 
-const ilkUSDCETH: Ilk = {
+export const ilkUSDCETH: Ilk = {
   baseId: USDC,
   ilkId: ETH,
   asset: {
@@ -301,7 +301,7 @@ const ilkUSDCETH: Ilk = {
   },
 }
 
-const ilkUSDCDAI: Ilk = {
+export const ilkUSDCDAI: Ilk = {
   baseId: DAI,
   ilkId: USDC,
   asset: {
@@ -331,7 +331,7 @@ const ilkUSDCDAI: Ilk = {
   },
 }
 
-const ilkUSDTUSDT: Ilk = {
+export const ilkUSDTUSDT: Ilk = {
   baseId: USDT,
   ilkId: USDT,
   asset: {
@@ -353,7 +353,7 @@ const ilkUSDTUSDT: Ilk = {
   },
   // No auction line and limit for USDT/USDT
 }
-const ilkUSDTETH: Ilk = {
+export const ilkUSDTETH: Ilk = {
   baseId: USDT,
   ilkId: ETH,
   asset: {
@@ -382,7 +382,7 @@ const ilkUSDTETH: Ilk = {
     max: WAD.mul(1000), // $10M
   },
 }
-const ilkUSDTDAI: Ilk = {
+export const ilkUSDTDAI: Ilk = {
   baseId: USDT,
   ilkId: DAI,
   asset: {
@@ -411,7 +411,7 @@ const ilkUSDTDAI: Ilk = {
     max: WAD.mul(10000000),
   },
 }
-const ilkUSDTUSDC: Ilk = {
+export const ilkUSDTUSDC: Ilk = {
   baseId: USDT,
   ilkId: USDC,
   asset: {

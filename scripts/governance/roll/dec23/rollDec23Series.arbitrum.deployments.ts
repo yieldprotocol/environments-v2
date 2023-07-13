@@ -22,13 +22,18 @@ export const pools = () => readAddressMappingIfExists('pools.json')
 export const strategies = () => readAddressMappingIfExists('strsategies.json')
 
 /// @notice Time stretch to be set in the PoolFactory prior to pool deployment
+/// @dev Calculate as ln(3)/ln(1 + r * 0.85)↓, where:
+//    r is the target APY, obtained from the Notional borrowing rate
+//    0.85 is a factor to target a lower borrowing rate, closer to the average rate
+//    we round down (↓) because when in doubt we err towards having less fyToken in the pools
+/// i.e. 4% APY -> 0.04 * 0.85 = 0.034, ln(3)/ln(1 + 0.034) = 32
 /// @param series identifier (bytes6 tag)
 /// @param time stretch (64.64)
 export const timeStretch: Map<string, BigNumber> = new Map([
-  [FYETH2312, ONE64.div(secondsInOneYear.mul(35))],
-  [FYDAI2312, ONE64.div(secondsInOneYear.mul(35))],
-  [FYUSDC2312, ONE64.div(secondsInOneYear.mul(35))],
-  [FYUSDT2312, ONE64.div(secondsInOneYear.mul(35))],
+  [FYETH2312, ONE64.div(secondsInOneYear.mul(30))],  // ln(3)/ln(1+ 0.0439 * 0.85) = 30
+  [FYDAI2312, ONE64.div(secondsInOneYear.mul(26))],  // ln(3)/ln(1+ 0.0511 * 0.85) = 26
+  [FYUSDC2312, ONE64.div(secondsInOneYear.mul(24))], // ln(3)/ln(1+ 0.0563 * 0.85) = 24
+  [FYUSDT2312, ONE64.div(secondsInOneYear.mul(19))], // (25% higher than USDC in Aave) = ln(3)/ln(1+ 0.0563 * 1.25 * 0.85) = 19
 ])
 
 /// @notice Sell base to the pool fee, as fp4

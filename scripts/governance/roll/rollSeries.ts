@@ -64,17 +64,17 @@ const { chainId, developer, deployers, governance, protocol, pools, newSeries, r
     proposal = proposal.concat(await rollStrategy(ownerAcc, strategy))
   }
   
-  if (chainId === 1) {
-    const trader = Trader__factory.connect(protocol.getOrThrow(TRADER_DXDY)!, ownerAcc)
-  
-    for (let transfer of traderFunding) {
-      proposal = proposal.concat(await sendTokens(timelock, transfer))
-    }
-  
-    for (let sale of fyTokenSelling) {
-      proposal = proposal.concat(await sellFYTokens(trader, sale))
-    }
-  }
+//  if (chainId === 1) {
+//    const trader = Trader__factory.connect(protocol.getOrThrow(TRADER_DXDY)!, ownerAcc)
+//  
+//    for (let transfer of traderFunding) {
+//      proposal = proposal.concat(await sendTokens(timelock, transfer))
+//    }
+//  
+//    for (let sale of fyTokenSelling) {
+//      proposal = proposal.concat(await sellFYTokens(trader, sale))
+//    }
+//  }
 
   await propose(timelock, proposal, developer)
 })()
