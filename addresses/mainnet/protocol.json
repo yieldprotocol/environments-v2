@@ -208,6 +208,10 @@
     [
       "traderDXDY",
       "0x0B202757aCBbDf4c65aB262C4485d1e4b54e1ab6"
+    ],
+    [
+      "strategyRescue",
+      "0x0702290D4da74A2004C7E77F66C4Bbd91FcA62bb"
     ]
   ]
 }

@@ -16,5 +16,5 @@ export CONF=$PWD/$HERE/rollDec23Series.mainnet.config
 
 # $RUN $HERE/../../../../tools/advanceTimeToMaturity.ts
 # $RUN $HERE/../rollSeries.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts

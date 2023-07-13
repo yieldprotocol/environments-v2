@@ -1,0 +1,74 @@
++ npx hardhat run --network mainnet ./tools/poolCacheBalances.ts
+Pool: 0x60995D90B45169eB04F1ea9463443a62B83ab1c1
+Series: FYETH2306B
+Pool total supply:       43940947897119422765
+Pool cached base:        6662771776410008427
+Pool cached fyToken:     37297846383822840594
+Pool ratio:              178636
+
+
+Pool: 0x0bdF152f6d899F4B63b9554ED98D9b9d22FFdee4
+Series: FYDAI2306B
+Pool total supply:       60576078560912785531933
+Pool cached base:        29848247028599536564535
+Pool cached fyToken:     30734783404262682867638
+Pool ratio:              971155
+
+
+Pool: 0xaCd0523Aca72CC58EC2f3d4C14F5473FC11c5C2D
+Series: FYUSDC2306B
+Pool total supply:       173300902562
+Pool cached base:        24235643
+Pool cached fyToken:     173347007751
+Pool ratio:              139
+
+
+Pool: 0x6E38B8d9dedd967961508708183678b4EC1B1E33
+Series: FYUSDT2306B
+Pool total supply:       50000000
+Pool cached base:        50000000
+Pool cached fyToken:     0
+Pool ratio:              0
+
+
+Pool: 0xE56c9c47b271A58e5856004952c5F4D34a78B99B
+Series: FYETH2309
+Pool total supply:       80069202370813196513
+Pool cached base:        31208359197469775186
+Pool cached fyToken:     49241964192501026687
+Pool ratio:              633775
+
+
+Pool: 0x9ce9c9f9fF417Ffc215A4e5c6b4e44BB76Cf8C79
+Series: FYDAI2309
+Pool total supply:       54655823824926108734136
+Pool cached base:        25923587534224840887113
+Pool cached fyToken:     28837546806371211354440
+Pool ratio:              898952
+
+
+Pool: 0xFCd1C61139F8Af13c5090CfBb2dD674a2Ff4fe35
+Series: FYUSDC2309
+Pool total supply:       594934081105
+Pool cached base:        169724019
+Pool cached fyToken:     598916852868
+Pool ratio:              283
+
+
+Pool: 0x0ECc79FE01b02548853c87466cCd57710bf9d11A
+Series: FYUSDT2309
+Pool total supply:       50000000
+Pool cached base:        50000000
+Pool cached fyToken:     0
+Pool ratio:              0
+
+
+Pool: 0xe2F6f40192F3E4568a62577E0541AC823b6f0D9e
+Series: FYFRAX2309
+Pool total supply:       0
+Pool cached base:        0
+Pool cached fyToken:     0
+Pool ratio:              0
+
+
+alcueca@localhost environments-v2 % 

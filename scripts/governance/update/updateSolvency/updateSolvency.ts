@@ -1,36 +1,30 @@
-import { ethers } from 'hardhat'
-import { getOwnerOrImpersonate, proposeApproveExecute } from '../../../../shared/helpers'
+import { getOwnerOrImpersonate, propose } from '../../../../shared/helpers'
 
-import { updateCompositeSourcesProposal } from '../../../fragments/oracles/updateCompositeSources'
-import { updateCompositePathsProposal } from '../../../fragments/oracles/updateCompositePaths'
-import { updateSpotOraclesProposal } from '../../../fragments/oracles/updateCollateralization'
+import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
+import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
+import { updateCollateralization } from '../../../fragments/oracles/updateCollateralization'
 
 import { COMPOSITE } from '../../../../shared/constants'
+import { Timelock__factory, Cauldron__factory, CompositeMultiOracle__factory } from '../../../../typechain'
 
 const { developer } = require(process.env.CONF as string)
 const { protocol, governance, newCompositeSources, newCompositePaths, newSpotOracles } = require(process.env
   .CONF as string)
 /**
- * @dev This script orchestrates and updates the Solvency contract
+ * @dev This script updates the oracles to enable the Solvency contract
  */
 ;(async () => {
   let ownerAcc = await getOwnerOrImpersonate(developer)
 
-  const timelock = await ethers.getContractAt('Timelock', governance.get('timelock') as string, ownerAcc)
-  const cauldron = await ethers.getContractAt('Cauldron', protocol.get('cauldron') as string, ownerAcc)
-
-  const compositeOracle = await ethers.getContractAt(
-    'CompositeMultiOracle',
-    protocol.get(COMPOSITE) as string,
-    ownerAcc
-  )
-  const solvency = await ethers.getContractAt('Solvency', protocol.get('solvency') as string, ownerAcc)
+  const timelock = Timelock__factory.connect(governance.getOrThrow('timelock') as string, ownerAcc)
+  const cauldron = Cauldron__factory.connect(protocol.getOrThrow('cauldron') as string, ownerAcc)
+  const compositeOracle = CompositeMultiOracle__factory.connect(protocol.getOrThrow(COMPOSITE) as string, ownerAcc)
 
   let proposal: Array<{ target: string; data: string }> = []
 
-  proposal = proposal.concat(await updateCompositeSourcesProposal(ownerAcc, compositeOracle, newCompositeSources))
-  proposal = proposal.concat(await updateCompositePathsProposal(compositeOracle, newCompositePaths))
-  proposal = proposal.concat(await updateSpotOraclesProposal(cauldron, newSpotOracles))
+  proposal = proposal.concat(await updateCompositeSources(compositeOracle, newCompositeSources))
+  proposal = proposal.concat(await updateCompositePaths(compositeOracle, newCompositePaths))
+  proposal = proposal.concat(await updateCollateralization(cauldron, newSpotOracles))
 
-  await proposeApproveExecute(timelock, proposal, governance.get('multisig') as string, developer)
+  await propose(timelock, proposal, developer)
 })()
