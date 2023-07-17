@@ -17,8 +17,7 @@ import { orchestrateFYToken } from '../../fragments/assetsAndSeries/orchestrateF
 import { orchestratePool } from '../../fragments/pools/orchestratePool'
 import { rollStrategy } from '../../fragments/strategies/rollStrategy'
 
-const { developer, deployers, governance, protocol, newSeries, pools, rollStrategies } = require(process.env
-  .CONF as string)
+const { developer, deployers, governance, protocol, pools, newSeries, rollStrategies } = require(process.env.CONF as string)
 
 /**
  * @dev This script orchestrates a new series and rolls liquidity in the related strategies
@@ -56,7 +55,7 @@ const { developer, deployers, governance, protocol, newSeries, pools, rollStrate
     // Add series
     proposal = proposal.concat(await addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools))
   }
-
+  
   for (let strategy of rollStrategies) {
     proposal = proposal.concat(await rollStrategy(ownerAcc, strategy))
   }

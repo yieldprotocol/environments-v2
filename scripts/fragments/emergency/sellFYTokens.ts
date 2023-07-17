@@ -5,7 +5,7 @@ import { BigNumber } from 'ethers'
 import { indent } from '../../../shared/helpers'
 import { Pool } from '../../../typechain'
 
-export const sellFYToken = async (
+export const sellFYTokens = async (
   pool: Pool,
   receiver: string,
   minReceived: BigNumber,
