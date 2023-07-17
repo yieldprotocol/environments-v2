@@ -8,5 +8,5 @@ RUN="npx hardhat run --network tenderly"
 export CONF=$PWD/$HERE/sellFYToken.mainnet.config
 
 # $RUN $HERE/sellFYToken.ts
-$RUN $HERE/../../../../shared/approve.ts
+# $RUN $HERE/../../../../shared/approve.ts
 $RUN $HERE/../../../../shared/execute.ts
