@@ -2731,10 +2731,10 @@
   resolved "https://registry.yarnpkg.com/@yield-protocol/strategy-v2/-/strategy-v2-2.1.0-rc.1.tgz#0e82f3349f4d1e8b1ee46575e343a6399d45f202"
   integrity sha512-7kqFQtXqUtSwDo1+itMePntVF+XeAI5sLrMGd8CH/JB+1hAbtYa3MP76YD9qZdQrMu2xPQmgdFzyOxdUJAs/gg==
 
-"@yield-protocol/utils-v2@2.6.17":
-  version "2.6.17"
-  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.17.tgz#fda3305b1da6a69ec5631dc76c3fe25e3826d930"
-  integrity sha512-5Xp/av4BAQLa/HRO1njUViXCQzi+2d+qLNfmrSCPaD1AM3Te6GhrskrQglp1Akibw0odLCDzcEbXTxqfnKrwSA==
+"@yield-protocol/utils-v2@2.6.18":
+  version "2.6.18"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils-v2/-/utils-v2-2.6.18.tgz#0747c3584b000242996b0fe93a5d0f4824243ee4"
+  integrity sha512-M+6WfNWJ9JYPw7gwOeNRuXqaX5r5mOoLUHZxENvC+xtAaLXYPRxwc3Kqix++DgQlFVAPAoCznU/tGWRsMd/gQQ==
   dependencies:
     ethers "^5.5.2"
     keccak256 "^1.0.6"
