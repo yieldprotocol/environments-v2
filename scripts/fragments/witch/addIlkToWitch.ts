@@ -34,19 +34,28 @@ export const addIlkToWitch = async (
     })
     console.log(indent(nesting, `join(${getName(ilk.ilkId)}).grantRole(exit, witch)`))
 
-    proposal.push({
-      target: cloak.address,
-      data: cloak.interface.encodeFunctionData('add', [
-        witch.address,
-        [
-          {
-            host: join.address,
-            signature: id(join.interface, 'exit(address,uint128)'),
-          },
-        ],
-      ]),
+    const hasPermissions = await cloak.contains(witch.address, {
+      host: join.address,
+      signature: id(join.interface, 'exit(address,uint128)'),
     })
-    console.log(indent(nesting, `cloak.add(witch exit ${getName(ilk.ilkId)})`))
+
+    if (!hasPermissions) {
+      proposal.push({
+        target: cloak.address,
+        data: cloak.interface.encodeFunctionData('add', [
+          witch.address,
+          [
+            {
+              host: join.address,
+              signature: id(join.interface, 'exit(address,uint128)'),
+            },
+          ],
+        ]),
+      })
+      console.log(indent(nesting, `cloak.add(witch exit ${getName(ilk.ilkId)})`))
+    } else {
+      console.log(indent(nesting, `Cloak already has permissions on the witch exit (${getName(ilk.ilkId)})`))
+    }
   } else {
     console.log(indent(nesting, `Witch already has an exit role on join(${getName(ilk.ilkId)})`))
   }

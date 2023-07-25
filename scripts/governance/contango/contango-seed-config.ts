@@ -2,6 +2,7 @@ import { ethers } from 'hardhat'
 import {
   DAI,
   EODEC22,
+  EODEC23,
   EOJUN23,
   EOMAR23,
   EOSEP23,
@@ -60,16 +61,11 @@ export const ASSETS_ARBITRUM: Asset[] = [
 
 export const ASSETS_ARBITRUM_MAP: Map<string, Asset> = new Map(ASSETS_ARBITRUM.map((asset) => [asset.bytes, asset]))
 
-export const EXPIRIES: number[] = [EODEC22, EOMAR23, EOJUN23, EOSEP23]
+export const EXPIRIES: number[] = [EODEC22, EOMAR23, EOJUN23, EOSEP23, EODEC23]
 
-export const JUNE_SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) => new Series(asset, EOJUN23))
+export const NEW_SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.map((asset) => new Series(asset, EODEC23))
 
-export const NEW_SERIES_ARBITRUM: Array<Series> = [
-  ...ASSETS_ARBITRUM.map((asset) => new Series(asset, EOSEP23)),
-  new Series(ASSETS_ARBITRUM_MAP.getOrThrow(USDT), EOJUN23),
-]
-
-export const SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.filter((asset) => asset.bytes !== USDT)
-  .map((asset) => EXPIRIES.map((expiry) => new Series(asset, expiry)))
-  .flat()
-  .concat([EOJUN23, EOSEP23].map((expiry) => new Series(ASSETS_ARBITRUM_MAP.getOrThrow(USDT), expiry)))
+// export const SERIES_ARBITRUM: Array<Series> = ASSETS_ARBITRUM.filter((asset) => asset.bytes !== USDT)
+//   .map((asset) => EXPIRIES.map((expiry) => new Series(asset, expiry)))
+//   .flat()
+//   .concat([EOJUN23, EOSEP23].map((expiry) => new Series(ASSETS_ARBITRUM_MAP.getOrThrow(USDT), expiry)))

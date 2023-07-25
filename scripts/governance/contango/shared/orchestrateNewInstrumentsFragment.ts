@@ -17,6 +17,7 @@ import { orchestrateJoin } from '../../../fragments/assetsAndSeries/orchestrateJ
 import { updateCompositePaths } from '../../../fragments/oracles/updateCompositePaths'
 import { updateCompositeSources } from '../../../fragments/oracles/updateCompositeSources'
 import { updateYieldSpaceMultiOracleSources } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSources'
+import { updateYieldSpaceMultiOracleSource } from '../../../fragments/oracles/updateYieldSpaceMultiOracleSources'
 import { Asset, Base, OraclePath, OracleSource, Series } from '../../confTypes'
 
 export async function orchestrateNewInstruments(
@@ -43,7 +44,6 @@ export async function orchestrateNewInstruments(
     updateCompositeSources(compositeMultiOracle, compositeSources, true),
     updateCompositePaths(compositeMultiOracle, compositePaths),
     assets.map((asset) => addAsset(ownerAcc, cloak, cauldron, ladle, asset, joinsMap)),
-    basesToAdd.map((base) => makeBase(ownerAcc, cloak, cauldron, witch, base, joinsMap)),
     series
       .map((series) => series.ilks)
       .flat()
@@ -51,5 +51,22 @@ export async function orchestrateNewInstruments(
     series.map((series) => addSeries(ownerAcc, cauldron, ladle, witch, cloak, series, pools)),
   ].flat(4)
 
-  return Promise.all(promises).then((x) => x.flat())
+  const result = await Promise.all(promises).then((x) => x.flat())
+  const uniqueArray = removeDuplicates(result)
+  return uniqueArray
+}
+
+function removeDuplicates<T>(array: T[]): T[] {
+  const uniqueMap: { [key: string]: T } = {}
+  const uniqueArray: T[] = []
+
+  for (const item of array) {
+    const key = JSON.stringify(item)
+    if (!uniqueMap[key]) {
+      uniqueMap[key] = item
+      uniqueArray.push(item)
+    }
+  }
+
+  return uniqueArray
 }
