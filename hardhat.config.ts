@@ -120,7 +120,7 @@ module.exports = {
     },
     tenderly: {
       // update url of fork
-      url: 'https://rpc.tenderly.co/fork/9f27e882-c804-4c49-84e9-fce479b1f6d7',
+      url: 'https://rpc.tenderly.co/fork/1f7ebecb-407d-422e-a2d9-86c0f59011e0',
       blockGasLimit: 300_000_000_000,
       // update chainId if necessary
       // forkNetwork: '',

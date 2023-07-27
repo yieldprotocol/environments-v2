@@ -28,11 +28,14 @@ export const makeIlk = async (
 
   proposal = proposal.concat(await updateCollateralization(cauldron, ilk.collateralization, nesting + 1))
   proposal = proposal.concat(await updateDebtLimits(cauldron, ilk, nesting + 1))
-  
-  // We add ETH as a collateral type for all ilks, with a fixed collateralization of 200%, just so that all assets can be priced in ETH terms
-  let priceInEth = { baseId: ilk.collateralization.ilkId, ilkId: ETH, oracle: ilk.collateralization.oracle, ratio: 2000000 }
-  proposal = proposal.concat(await updateCollateralization(cauldron, priceInEth, nesting + 1))
-  
+
+  // Doing this for ETH ilks would override the legit values
+  if (ilk.collateralization.ilkId !== ETH) {
+    // We add ETH as a collateral type for all ilks, with a fixed collateralization of 200%, just so that all assets can be priced in ETH terms
+    let priceInEth = { baseId: ilk.collateralization.ilkId, ilkId: ETH, oracle: ilk.collateralization.oracle, ratio: 2000000 }
+    proposal = proposal.concat(await updateCollateralization(cauldron, priceInEth, nesting + 1))
+  }
+
   // Some ilks are not liquidable
   if (ilk.auctionLineAndLimit !== undefined) {
     proposal = proposal.concat(await addIlkToWitch(cloak, witch, ilk, join, nesting + 1))
