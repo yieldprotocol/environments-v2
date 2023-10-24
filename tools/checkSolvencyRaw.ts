@@ -140,6 +140,12 @@ const assetIds: Array<string> = new Array(
     const asset = ERC20__factory.connect(await fyToken.underlying(), ethers.provider)
     let amount: string
     try {
+      // FYETH2303 = 0x303030390000 - Ignore the fyToken in pools with the same id
+      // FYETH2306 = 0x0030FF00028B - Ignore all
+      // FYETH2306B = 0x0030FF00028C - Ignore if owned by StrategyRescue
+      // FYETH2309 = 0x0030FF00028E - Add all
+      // FYETH2312 = 0x0030FF000291 - Add all
+
       // We accidentally minted more 2306B and 2309 FYTokens than we should have, locked in the StrategyRescue contract, so we need to subtract them from the total supply
       // Until the total supply of 2309 fyToken is reduced, we need to calculate the value of those liabilities manually
       amount = (await fyToken.totalSupply()).sub(await fyToken.balanceOf(protocol.getOrThrow(STRATEGY_RESCUE))).toString()
